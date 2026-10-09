@@ -200,7 +200,7 @@ export function MilestoneReels() {
         <Label>Milestone reels</Label>
         <Headline id="reels-h" className="mt-4" inscription="Ten seconds" voice="that prove it." />
       </div>
-      <ol className="no-scrollbar mt-12 flex snap-x gap-0 overflow-x-auto bg-ember/60 py-5 pl-[max(16px,4vw)]">
+      <ol className="no-scrollbar mt-12 flex snap-x scroll-pl-[max(16px,4vw)] gap-0 overflow-x-auto bg-ember/60 py-5 pl-[max(16px,4vw)]">
         {reels.map((rl, i) => (
           <li key={rl.title} className="relative w-[80vw] shrink-0 snap-start border-x-8 border-ember/80 sm:w-[46vw] lg:w-[30vw]">
             <div className="relative aspect-[9/12] overflow-hidden">

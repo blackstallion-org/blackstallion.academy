@@ -197,7 +197,7 @@ export function ThreeStamps() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
   return (
-    <section aria-labelledby="graded-h" className="gutter relative py-[clamp(6rem,14vh,12rem)] text-center">
+    <section aria-labelledby="graded-h" className="gutter relative overflow-hidden py-[clamp(6rem,14vh,12rem)] text-center">
       <Label className="justify-center">Graded three ways</Label>
       <Headline id="graded-h" className="mx-auto mt-4" inscription="Every session," voice="sealed the same day." />
       <div ref={ref} className="mt-14 grid gap-10 sm:grid-cols-3">

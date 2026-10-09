@@ -9,6 +9,7 @@ import { Arrow, Label, ReelMark } from "@/components/film/Marks";
 import { CountUp } from "@/components/motion/CountUp";
 import { champions, standings, tournaments } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
+import { cn } from "@/lib/utils";
 
 /** Title card · T13 charge. Signature: speed streaks rake across the frame as the title lands. */
 export function CircuitTitle() {
@@ -48,7 +49,7 @@ export function StandingsLanes() {
     <section aria-labelledby="standings-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>Season 2026–27 · sample</Label>
       <Headline id="standings-h" className="mt-4" inscription="STPCI" voice="standings." />
-      <div ref={ref} className="mt-12 overflow-x-auto">
+      <div ref={ref} className="relative mt-12 overflow-x-auto">
         <table className="w-full min-w-[720px] border-collapse text-left">
           <caption className="sr-only">STPCI league standings (sample, from the client brief)</caption>
           <thead>
@@ -131,7 +132,7 @@ export function FixtureBoard() {
           </li>
           {tournaments.map((t, i) => (
             <li key={t.slug}>
-              <Link href={`/tournaments/${t.slug}`} className="group grid gap-2 border-b border-brass/10 px-5 py-5 uppercase tracking-[0.08em] transition-colors hover:bg-umber/70 md:grid-cols-[9rem_1fr_1fr_8rem] md:gap-4">
+              <Link href={`/tournaments/${t.slug}`} className="group grid gap-2 border-b border-brass/10 px-5 py-5 uppercase tracking-[0.08em] transition-colors hover:bg-umber/70 md:grid-cols-[9rem_minmax(0,1fr)_minmax(0,1fr)_10rem] md:gap-4">
                 <span className="text-gold">
                   <Flip text={t.dateLabel} delay={i * 200} />
                 </span>
@@ -139,7 +140,7 @@ export function FixtureBoard() {
                   <Flip text={t.name.toUpperCase()} delay={i * 200 + 100} />
                 </span>
                 <span className="text-sand">{t.venue.toUpperCase()}</span>
-                <span className={t.status === "open" ? "text-[#8fb98a]" : "text-dust"}>
+                <span className={cn("whitespace-nowrap", t.status === "open" ? "text-[#8fb98a]" : "text-dust")}>
                   {t.status === "open" ? "ENTRIES OPEN" : "SOON"} <Arrow className="ml-1 inline h-2 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </Link>
@@ -211,8 +212,14 @@ export function Podium() {
   return (
     <section aria-labelledby="podium-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
-        <div className="relative aspect-[16/10] overflow-hidden">
-          <FilmImage name="tournPodium" sizes="(min-width: 1024px) 60vw, 100vw" />
+        <div className="relative">
+          <div className="relative aspect-[16/10] overflow-hidden">
+            <FilmImage name="tournPodium" sizes="(min-width: 1024px) 60vw, 100vw" />
+          </div>
+          {/* The cup, as a detail plate pinned to the corner of the scene. */}
+          <div className="absolute -bottom-8 right-4 h-44 w-32 overflow-hidden border border-brass/40 shadow-[0_24px_60px_rgb(0_0_0/0.7)] md:-bottom-10 md:right-8 md:h-56 md:w-40">
+            <FilmImage name="tournCup" sizes="10rem" />
+          </div>
         </div>
         <div>
           <Label>Hall of champions · 2025–26 · sample</Label>
@@ -228,9 +235,6 @@ export function Podium() {
               </li>
             ))}
           </ol>
-          <div className="relative mt-10 h-56 w-40 overflow-hidden">
-            <FilmImage name="tournCup" sizes="10rem" />
-          </div>
         </div>
       </div>
     </section>

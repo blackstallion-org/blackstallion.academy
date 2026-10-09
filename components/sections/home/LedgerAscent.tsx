@@ -11,9 +11,10 @@ import { cn } from "@/lib/utils";
 
 const W = 1000;
 const H = 560;
-const colX = [130, 380, 630, 880];
+/* Columns sit left of centre so the last rank's labels (which read rightwards) stay inside the frame. */
+const colX = [80, 300, 520, 740];
 const baseY = [480, 390, 300, 210];
-const jitter = [0, 46, -22];
+const jitter = [0, 40, -20];
 
 const nodes = ranks.flatMap((rank, ri) =>
   rank.pillars.map((n, k) => ({ n, ri, x: colX[ri] + jitter[k], y: baseY[ri] - k * 74 })),
@@ -58,7 +59,7 @@ export function LedgerAscent() {
           <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 h-full w-full" aria-hidden>
             {/* Rank floors */}
             {ranks.map((_, ri) => (
-              <line key={ri} x1={colX[ri] - 90} x2={colX[ri] + 110} y1={baseY[ri] + 34} y2={baseY[ri] + 34} stroke="rgb(197 160 89 / 0.25)" strokeWidth="1" />
+              <line key={ri} x1={Math.max(0, colX[ri] - 60)} x2={colX[ri] + 180} y1={baseY[ri] + 34} y2={baseY[ri] + 34} stroke="rgb(197 160 89 / 0.25)" strokeWidth="1" />
             ))}
             {/* Ascent path between ranks */}
             {ranks.slice(0, -1).map((_, ri) => {

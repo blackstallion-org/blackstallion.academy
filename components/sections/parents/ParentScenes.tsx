@@ -22,11 +22,12 @@ export function ParentsTitle() {
     <section ref={ref} aria-labelledby="parents-h" className="relative min-h-[100svh] overflow-hidden">
       <FilmImage name="parentsRail" priority />
       <div aria-hidden className="absolute inset-0 shade-b" />
-      <motion.div aria-hidden className="absolute inset-x-0 bottom-[14%] flex flex-col gap-6" style={{ y: railY }}>
+      {/* The rail runs along the foot of the frame, under the copy, and drops away as you scroll. */}
+      <motion.div aria-hidden className="absolute inset-x-0 bottom-[3vh] flex flex-col gap-5" style={{ y: railY }}>
         <span className="h-5 w-full bg-gradient-to-b from-[#3a2614] to-[#1a1009] shadow-[0_10px_30px_rgb(0_0_0/0.6)]" />
         <span className="h-4 w-full bg-gradient-to-b from-[#33210f] to-[#160e07]" />
       </motion.div>
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
+      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[calc(3vh+5.5rem)]">
         <ReelMark n={8} act="citadel" />
         <Headline id="parents-h" as="h1" size="1" animate="mount" className="mt-6" inscription="The guardian" voice="sees every stride." />
         <p className="t-story mt-6 max-w-xl text-sand">You can&rsquo;t be in the arena every day. You can see everything that happens there.</p>

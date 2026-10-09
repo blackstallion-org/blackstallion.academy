@@ -123,15 +123,15 @@ export function HomeShield() {
     <section aria-labelledby="shield-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label reel={9}>The Shield</Label>
       <Headline id="shield-h" className="mt-4" inscription={shield.inscription} voice={shield.voice} />
-      <div ref={ref} className="mt-14 grid md:grid-cols-3">
+      <div ref={ref} className="mt-14 grid lg:grid-cols-3">
         {shield.columns.map((c, i) => (
-          <div key={c.big} className="relative py-8 md:px-10 md:py-4 md:first:pl-0">
+          <div key={c.big} className="relative py-8 lg:px-10 lg:py-4 lg:first:pl-0">
             {i > 0 && (
               <motion.svg
                 aria-hidden
                 viewBox="0 0 10 400"
                 preserveAspectRatio="none"
-                className="absolute left-0 top-0 hidden h-full w-2.5 text-brass md:block"
+                className="absolute left-0 top-0 hidden h-full w-2.5 text-brass lg:block"
               >
                 <motion.path
                   d="M5 0 L8 18 L5.5 22 L5.5 400 L4.5 400 L4.5 22 L2 18 Z"
@@ -142,15 +142,18 @@ export function HomeShield() {
                 />
               </motion.svg>
             )}
-            {i > 0 && <div aria-hidden className="hairline mb-8 md:hidden" />}
-            <motion.p
-              className="t-voice text-[clamp(2.6rem,6vw,5.5rem)] leading-none text-gold"
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, ease: ease.citadel, delay: 0.2 + i * 0.2 }}
-            >
-              {c.big}
-            </motion.p>
+            {i > 0 && <div aria-hidden className="hairline mb-8 lg:hidden" />}
+            {/* The figure rises out of a mask so it never crosses the line beneath it. */}
+            <p className="overflow-hidden pb-[0.12em]">
+              <motion.span
+                className="t-voice block whitespace-nowrap text-[clamp(2.6rem,11vw,5.5rem)] leading-none text-gold lg:text-[clamp(2.6rem,4.6vw,5.5rem)]"
+                initial={{ y: "110%" }}
+                animate={inView ? { y: "0%" } : {}}
+                transition={{ duration: 1.1, ease: ease.citadel, delay: 0.2 + i * 0.2 }}
+              >
+                {c.big}
+              </motion.span>
+            </p>
             <p className="mt-4 max-w-xs text-sand">{c.line}</p>
           </div>
         ))}

@@ -48,7 +48,7 @@ export function MouGenerator() {
 
   return (
     <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-      <form action={action} className="no-print flex flex-col gap-6">
+      <form action={action} className="no-print flex min-w-0 flex-col gap-6">
         <input type="hidden" name="gate" value="mou" />
         <input type="hidden" name="name" value={d.trustee} />
         <input type="hidden" name="organisation" value={d.school} />
@@ -93,7 +93,7 @@ export function MouGenerator() {
         )}
       </form>
 
-      <article aria-label="Draft memorandum of understanding" className="parchment print-doc px-8 py-10 text-[0.95rem] leading-relaxed md:px-12 md:py-14">
+      <article aria-label="Draft memorandum of understanding" className="parchment print-doc min-w-0 break-words px-6 py-10 text-[0.95rem] leading-relaxed md:px-12 md:py-14">
         <p className="label text-center text-blood">Draft for discussion · not a binding document</p>
         <h2 className="t-inscribe mt-4 text-center text-2xl text-ink">Memorandum of Understanding</h2>
         <p className="mt-1 text-center text-sm text-[#5a4526]">{today}</p>

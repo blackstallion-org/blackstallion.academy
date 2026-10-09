@@ -55,7 +55,7 @@ export function Registry() {
         </div>
       </div>
 
-      <div className="mt-10 overflow-x-auto">
+      <div className="relative mt-10 overflow-x-auto">
         <table className="w-full min-w-[760px] border-collapse text-left">
           <caption className="sr-only">Stallion registry (sample records)</caption>
           <thead>

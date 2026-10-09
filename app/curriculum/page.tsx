@@ -29,7 +29,7 @@ export default function CurriculumPage() {
         <div className="gutter -mt-16 relative">
           <Label>Batches</Label>
           <Headline id="batches-h" className="mt-4" inscription="Before school." voice="After school. Weekends." />
-          <div className="mt-10 overflow-x-auto">
+          <div className="relative mt-10 overflow-x-auto">
             <table className="w-full min-w-[640px] border-collapse text-left">
               <caption className="sr-only">Batch timetable (sample, confirm per hub)</caption>
               <thead>

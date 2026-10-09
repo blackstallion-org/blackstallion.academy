@@ -22,7 +22,7 @@ export default function JournalPage() {
         <ReelMark n={14} act="ledger" />
         <div className="mt-8 border-y-2 border-double border-brass/40 py-6 text-center">
           <p className="label text-dust">Hyderabad · Vol. I · Stories from the stable</p>
-          <h1 className="t-inscribe mt-3 text-[clamp(2.6rem,9vw,8.5rem)] leading-none text-bone">The Chronicle</h1>
+          <h1 className="t-inscribe mt-3 text-[clamp(1.9rem,8vw,8.5rem)] leading-none text-bone">The Chronicle</h1>
           <p className="label mt-3 text-brass">Legend · Academy · Circuit</p>
         </div>
       </header>

@@ -164,7 +164,7 @@ export default function LegendPage() {
           <ChapterHead id="honour" />
           <Headline id="honour-h" className="mt-4" inscription="The roll" voice="of honour." />
         </div>
-        <ol className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto px-[max(16px,4vw)] pb-4" aria-label="Horses remembered">
+        <ol className="no-scrollbar mt-12 flex snap-x snap-mandatory scroll-px-[max(16px,4vw)] gap-6 overflow-x-auto px-[max(16px,4vw)] pb-4" aria-label="Horses remembered">
           {honour.map((h) => (
             <li key={h.name} className="w-[78vw] shrink-0 snap-start sm:w-[46vw] lg:w-[30vw]">
               <div className="relative aspect-[3/4] overflow-hidden">

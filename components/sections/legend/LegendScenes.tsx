@@ -54,30 +54,64 @@ function IrisFrame({ progress, open = false }: { progress?: MotionValue<number>;
 
 /* ------------------------------------------------------------------ S16 · Chapter rail */
 
-/** Sticky chapter index. Highlights the chapter in view. */
+/**
+ * Sticky chapter index: ticks only, so it never sits on the copy. The chapter name appears as a chip on
+ * hover or focus. The rail shows only while a chapter fills the middle of the screen (hidden on the title
+ * card and the end card).
+ */
 export function ChapterRail() {
   const [active, setActive] = useState<string>(chapters[0].id);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     const els = chapters.map((c) => document.getElementById(c.id)).filter(Boolean) as HTMLElement[];
-    const io = new IntersectionObserver(
+    const current = new IntersectionObserver(
       (entries) => {
         const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (vis[0]) setActive(vis[0].target.id);
       },
       { rootMargin: "-40% 0px -50% 0px" },
     );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    const inside = new Set<Element>();
+    const shown = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => (e.isIntersecting ? inside.add(e.target) : inside.delete(e.target)));
+        setVisible(inside.size > 0);
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    els.forEach((el) => {
+      current.observe(el);
+      shown.observe(el);
+    });
+    return () => {
+      current.disconnect();
+      shown.disconnect();
+    };
   }, []);
 
   return (
-    <nav aria-label="Chapters" className="no-print pointer-events-none fixed left-0 top-1/2 z-40 hidden -translate-y-1/2 pl-[max(16px,1.6vw)] xl:block">
-      <ol className="pointer-events-auto flex flex-col gap-2">
+    <nav
+      aria-label="Chapters"
+      inert={!visible}
+      className={cn(
+        "no-print fixed left-0 top-1/2 z-40 hidden -translate-y-1/2 pl-[max(16px,1.6vw)] transition-opacity duration-700 xl:block",
+        visible ? "opacity-100" : "pointer-events-none opacity-0",
+      )}
+    >
+      <ol className="flex flex-col gap-1">
         {chapters.map((c) => (
           <li key={c.id}>
-            <a href={`#${c.id}`} className="group flex items-center gap-3" aria-current={active === c.id ? "location" : undefined}>
-              <span className={cn("h-px transition-all duration-500", active === c.id ? "w-8 bg-gold" : "w-3 bg-brass/40 group-hover:w-5")} />
-              <span className={cn("label text-[0.6rem] transition-opacity duration-500", active === c.id ? "text-gold opacity-100" : "text-dust opacity-0 group-hover:opacity-100")}>
+            <a
+              href={`#${c.id}`}
+              className="group relative flex h-3.5 items-center"
+              aria-current={active === c.id ? "location" : undefined}
+              aria-label={`Chapter ${c.numeral}: ${c.name}`}
+            >
+              <span className={cn("h-px transition-all duration-500", active === c.id ? "w-6 bg-gold" : "w-3 bg-brass/40 group-hover:w-5 group-hover:bg-brass")} />
+              <span
+                aria-hidden
+                className="label pointer-events-none absolute left-9 whitespace-nowrap bg-night/90 px-2 py-1 text-[0.6rem] text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+              >
                 {c.numeral} · {c.name}
               </span>
             </a>
@@ -109,10 +143,11 @@ export function RouteMap() {
   const draw = useTransform(scrollYProgress, r(0.2, 0.6), [0, 1]);
   return (
     <section id="marwar" ref={ref} aria-labelledby="marwar-h" className="relative overflow-hidden">
-      <div className="relative h-[90svh] min-h-[560px]">
+      {/* The map. On phones the copy follows below it; from md up the copy sits over the foot of the map. */}
+      <div className="relative h-[58svh] min-h-[360px] md:h-[90svh] md:min-h-[560px]">
         <FilmImage name="legendExodus" grade="deep" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/30 to-night" />
-        <svg viewBox="0 0 1000 400" preserveAspectRatio="none" className="absolute inset-x-0 top-[38%] h-[30%] w-full" aria-hidden>
+        <svg viewBox="0 0 1000 400" preserveAspectRatio="none" className="absolute inset-x-0 top-[34%] h-[30%] w-full md:top-[38%]" aria-hidden>
           <motion.path
             d="M940 220 C 820 160, 760 260, 640 210 S 440 120, 330 200 S 140 250, 60 180"
             fill="none"
@@ -122,20 +157,20 @@ export function RouteMap() {
             style={{ pathLength: draw }}
           />
           <circle cx="940" cy="220" r="6" fill="var(--color-gold)" />
-          <motion.circle cx="60" cy="180" r="7" fill="var(--color-blood)" style={{ opacity: draw }} />
+          <motion.circle cx="60" cy="180" r="7" fill="var(--color-gold)" style={{ opacity: draw }} />
         </svg>
-        <span className="label absolute right-[4vw] top-[34%] text-gold">Kannauj · 1193</span>
-        <span className="label absolute left-[44%] top-[33%] text-sand/80">The Thar</span>
-        <motion.span className="label absolute left-[4vw] top-[30%] text-blood" style={{ opacity: draw }}>
+        <span className="label absolute right-[4vw] top-[30%] text-gold md:top-[34%]">Kannauj · 1193</span>
+        <span className="label absolute left-[44%] top-[29%] text-sand/80 md:top-[33%]">The Thar</span>
+        <motion.span className="label absolute left-[4vw] top-[26%] text-gold md:top-[30%]" style={{ opacity: draw }}>
           Marwar
         </motion.span>
-        <div className="gutter absolute inset-x-0 bottom-0 grid gap-6 pb-[8vh] md:grid-cols-[1fr_minmax(0,32rem)] md:items-end">
-          <div>
-            <ChapterHead id="marwar" />
-            <Headline id="marwar-h" className="mt-4" inscription={marwar.inscription} voice={marwar.voice} />
-          </div>
-          <p className="text-sand">{marwar.body}</p>
+      </div>
+      <div className="gutter relative grid gap-6 pb-16 md:absolute md:inset-x-0 md:bottom-0 md:grid-cols-[1fr_minmax(0,32rem)] md:items-end md:pb-[8vh]">
+        <div>
+          <ChapterHead id="marwar" />
+          <Headline id="marwar-h" className="mt-4" inscription={marwar.inscription} voice={marwar.voice} />
         </div>
+        <p className="text-sand">{marwar.body}</p>
       </div>
     </section>
   );
@@ -227,8 +262,8 @@ export function ThreeWords() {
               <motion.span
                 className={cn(
                   "block leading-[0.95]",
-                  i === 2 ? "t-voice text-display-2 text-gold" : "t-inscribe text-poster",
-                  i === 1 && "text-blood",
+                  i === 2 ? "t-voice text-display-2 text-gold" : "t-inscribe text-[clamp(2.2rem,10vw,12.5rem)]",
+                  i === 1 && "text-dust",
                 )}
                 initial={{ y: "110%" }}
                 animate={inView ? { y: "0%" } : {}}
@@ -300,7 +335,7 @@ export function Ascent() {
         {pts.map(([x, y], i) => (
           <motion.div
             key={i}
-            className="absolute w-[15%] -translate-x-1/2"
+            className="absolute w-[15%] -translate-x-1/2 text-center"
             style={{ left: `${x / 10}%`, top: `${(y / 340) * 100}%` }}
             initial={{ opacity: 0, y: 10 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}

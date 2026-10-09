@@ -10,37 +10,61 @@ import { earLeft } from "@/components/brand/paths";
 import { ease } from "@/lib/motion/tokens";
 
 /** Title card · T3 specimen plate. Signature: catalogue lines rule in around the horse like a museum mount. */
+const catalogue: [string, string][] = [
+  ["Plate", "02 · Marwari"],
+  ["Species", "Equus ferus caballus"],
+  ["Subject", "Stallion · 15.2 hh"],
+  ["Coat", "Dark bay"],
+  ["Catalogue", "BSAH-0912"],
+];
+
+/**
+ * Title card · T3 specimen plate, laid out like a museum catalogue page: the title runs the full width,
+ * the plate hangs beneath it (sized so title and plate share one screen) with its label card to the left.
+ */
 export function AnatomyTitle() {
   return (
-    <section aria-labelledby="anatomy-h" className="relative min-h-[100svh] overflow-hidden bg-night pt-24">
-      <div className="gutter grid h-full gap-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.6fr)] lg:items-center">
-        <div className="lg:pb-24">
-          <ReelMark n={2} act="legend" />
-          <Headline id="anatomy-h" as="h1" size="poster" animate="mount" className="mt-6" inscription="The" voice="instrument." />
-          <p className="t-story mt-6 max-w-md text-sand">Five hundred kilograms of muscle and nerve that notices your breathing before you do.</p>
+    <section aria-labelledby="anatomy-h" className="relative min-h-[100svh] overflow-hidden bg-night pb-8 pt-24">
+      <div className="gutter">
+        <ReelMark n={2} act="legend" />
+        <Headline id="anatomy-h" as="h1" size="1" animate="mount" className="mt-6" inscription="The" voice="instrument." />
+      </div>
+      <div className="gutter mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="max-w-sm">
+          <p className="t-story text-sand">Five hundred kilograms of muscle and nerve that notices your breathing before you do.</p>
+          <dl className="font-mono mt-8 hidden border-t border-brass/25 text-xs lg:block">
+            {catalogue.map(([k, v]) => (
+              <div key={k} className="grid grid-cols-[6.5rem_1fr] gap-3 border-b border-brass/15 py-2">
+                <dt className="uppercase tracking-[0.12em] text-dust">{k}</dt>
+                <dd className="text-sand">{v}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
         <motion.figure
-          className="relative aspect-[16/9] w-full"
+          className="w-full lg:w-[min(64vw,calc((100svh-25rem)*16/9))]"
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: ease.citadel, delay: 0.3 }}
         >
-          <FilmImage name="anatomyProfile" priority sizes="(min-width: 1024px) 65vw, 100vw" grade="none" />
-          {/* Museum mount rulings */}
-          {["top-0 inset-x-0 h-px", "bottom-0 inset-x-0 h-px", "left-0 inset-y-0 w-px", "right-0 inset-y-0 w-px"].map((c, i) => (
-            <motion.span
-              key={c}
-              aria-hidden
-              className={`absolute bg-brass/40 ${c}`}
-              initial={{ scaleX: i < 2 ? 0 : 1, scaleY: i >= 2 ? 0 : 1 }}
-              animate={{ scaleX: 1, scaleY: 1 }}
-              transition={{ duration: 1.4, ease: ease.citadel, delay: 0.8 + i * 0.12 }}
-              style={{ originX: 0, originY: 0 }}
-            />
-          ))}
-          <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-3">
+          <div className="relative aspect-[16/9] w-full">
+            <FilmImage name="anatomyProfile" priority sizes="(min-width: 1024px) 64vw, 100vw" grade="none" />
+            {/* Museum mount rulings */}
+            {["top-0 inset-x-0 h-px", "bottom-0 inset-x-0 h-px", "left-0 inset-y-0 w-px", "right-0 inset-y-0 w-px"].map((c, i) => (
+              <motion.span
+                key={c}
+                aria-hidden
+                className={`absolute bg-brass/40 ${c}`}
+                initial={{ scaleX: i < 2 ? 0 : 1, scaleY: i >= 2 ? 0 : 1 }}
+                animate={{ scaleX: 1, scaleY: 1 }}
+                transition={{ duration: 1.4, ease: ease.citadel, delay: 0.8 + i * 0.12 }}
+                style={{ originX: 0, originY: 0 }}
+              />
+            ))}
+          </div>
+          <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-3">
             <span className="font-mono text-xs tracking-[0.12em] text-gold">PLATE 02 · EQUUS FERUS CABALLUS · MARWARI</span>
-            <span className="font-mono text-xs text-dust">STALLION · 15.2 HH · DARK BAY · CAT. BSAH-0912</span>
+            <span className="font-mono text-xs text-dust lg:hidden">STALLION · 15.2 HH · DARK BAY · CAT. BSAH-0912</span>
           </figcaption>
         </motion.figure>
       </div>

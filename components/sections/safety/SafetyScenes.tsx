@@ -48,11 +48,11 @@ export function ShieldColumns() {
     <section aria-labelledby="shields-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>The three shields</Label>
       <Headline id="shields-h" className="mt-4" inscription="People, horses," voice="and cover." />
-      <div ref={ref} className="mt-14 grid gap-10 md:grid-cols-3 md:gap-0">
+      <div ref={ref} className="mt-14 grid gap-10 lg:grid-cols-3 lg:gap-0">
         {shields.map((s, i) => (
           <motion.div
             key={s.title}
-            className="relative md:px-10 md:first:pl-0 md:[&:not(:first-child)]:border-l md:[&:not(:first-child)]:border-brass/30"
+            className="relative lg:px-10 lg:first:pl-0 lg:[&:not(:first-child)]:border-l lg:[&:not(:first-child)]:border-brass/30"
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, ease: ease.citadel, delay: i * 0.2 }}
@@ -61,7 +61,7 @@ export function ShieldColumns() {
               <path d="M20 2 L37 8 V22 C37 34 29 42 20 46 C11 42 3 34 3 22 V8 Z" />
               <path d="M20 10 V38 M12 22 H28" strokeWidth="0.8" />
             </svg>
-            <p className="t-voice mt-6 text-[clamp(2.4rem,5vw,4.5rem)] leading-none text-gold">{s.big}</p>
+            <p className="t-voice mt-6 whitespace-nowrap text-[clamp(2.4rem,10vw,4.5rem)] leading-none text-gold lg:text-[clamp(2.4rem,4.3vw,4.5rem)]">{s.big}</p>
             <p className="label mt-4 text-bone">{s.title}</p>
             <p className="mt-2 max-w-xs text-sand">{s.line}</p>
           </motion.div>
@@ -111,7 +111,7 @@ export function NumberWall() {
       <dl className="mt-14 grid grid-cols-2 gap-x-6 gap-y-14 lg:grid-cols-4">
         {record.map((n) => (
           <div key={n.label}>
-            <dd className="t-inscribe text-[clamp(3rem,8vw,7.5rem)] leading-none text-gold">
+            <dd className="t-inscribe whitespace-nowrap text-[clamp(2.2rem,10vw,5.5rem)] leading-none text-gold lg:text-[clamp(2.2rem,5.1vw,5.5rem)]">
               <CountUp value={n.value} prefix={n.prefix ?? ""} suffix={n.suffix} />
             </dd>
             <dt className="label mt-4 text-sand">

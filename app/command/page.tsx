@@ -18,7 +18,7 @@ export default function CommandPage() {
         <ReelMark n={13} act="ledger" />
         <CommandBoot />
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.7fr)]">
-          <Terminal tall chips={knowledge.map((k) => k.ask)} />
+          <Terminal tall opening="Payback for 150 cadets" chips={knowledge.map((k) => k.ask)} />
           <aside aria-label="Dossier" className="flex flex-col gap-6">
             <div className="border-t border-brass/30 pt-4">
               <p className="label text-brass">Dossier · fees</p>

@@ -94,7 +94,7 @@ export function HomeChronicle() {
 /** §15 Finale · S15 credits roll. Signature: credits roll up past the three held calls to action. */
 export function Finale() {
   return (
-    <PinnedScene length={2.4} label="The arena is open" reducedFallback={<FinaleFrame />}>
+    <PinnedScene length={3} label="The arena is open" reducedFallback={<FinaleFrame />}>
       {(p) => <FinaleRolling progress={p} />}
     </PinnedScene>
   );
@@ -110,13 +110,15 @@ const credits: [string, string][] = [
 ];
 
 function FinaleRolling({ progress }: { progress: import("motion/react").MotionValue<number> }) {
-  const y = useTransform(progress, r(0, 1), ["60%", "-120%"]);
-  const ctaOpacity = useTransform(progress, r(0.25, 0.45), [0, 1]);
+  const y = useTransform(progress, r(0, 0.62), ["75%", "-110%"]);
+  const creditsOpacity = useTransform(progress, r(0, 0.05, 0.5, 0.6), [0, 1, 1, 0]);
+  const ctaOpacity = useTransform(progress, r(0.58, 0.74), [0, 1]);
+  const ctaY = useTransform(progress, r(0.58, 0.74), [30, 0]);
   return (
     <div className="relative h-full">
       <FilmImage name="duneSilhouette" grade="deep" className="opacity-70" />
       <div aria-hidden className="absolute inset-0 bg-night/50" />
-      <motion.ul className="absolute inset-x-0 top-0 flex flex-col items-center gap-10 text-center" style={{ y }} aria-hidden>
+      <motion.ul className="gutter absolute inset-x-0 top-0 flex flex-col items-center gap-10 text-center" style={{ y, opacity: creditsOpacity }} aria-hidden>
         {credits.map(([k, v]) => (
           <li key={k}>
             <p className="label text-dust">{k}</p>
@@ -124,7 +126,7 @@ function FinaleRolling({ progress }: { progress: import("motion/react").MotionVa
           </li>
         ))}
       </motion.ul>
-      <motion.div className="relative flex h-full items-center" style={{ opacity: ctaOpacity }}>
+      <motion.div className="relative flex h-full items-center" style={{ opacity: ctaOpacity, y: ctaY }}>
         <FinaleFrame inline />
       </motion.div>
     </div>
@@ -135,7 +137,7 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
   return (
     <div className={cn("gutter w-full text-center", !inline && "relative py-32")}>
       {!inline && <FilmImage name="duneSilhouette" grade="deep" className="opacity-60" />}
-      <div className="relative mx-auto max-w-5xl rounded-[1px] bg-night/40 py-10 backdrop-blur-[2px]">
+      <div className="relative mx-auto max-w-5xl py-10">
         <Headline as="h2" size="1" inscription={finale.inscription} voice={finale.voice} className="mx-auto" />
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           {finale.ctas.map((c, i) => (

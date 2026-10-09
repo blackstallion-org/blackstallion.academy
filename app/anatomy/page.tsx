@@ -35,11 +35,12 @@ export default function AnatomyPage() {
 
       {/* §4 · S27 spec sheet */}
       <section aria-labelledby="spec-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
-          <div>
-            <Label>Breed standard</Label>
-            <Headline id="spec-h" className="mt-4" inscription="The" voice="specification." />
-          </div>
+        <Label>Breed standard</Label>
+        <Headline id="spec-h" className="mt-4" inscription="The" voice="specification." />
+        <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1.45fr)]">
+          <p className="font-mono max-w-[16rem] text-xs leading-relaxed text-dust">
+            Compiled from breed-society standards and Marwar horse literature. Individual horses and lines vary.
+          </p>
           <dl className="border-t border-brass/25">
             {breedStandard.map((row, i) => (
               <Reveal key={row.k} delay={i * 0.04} className="grid gap-2 border-b border-brass/15 py-6 sm:grid-cols-[12rem_1fr] sm:gap-8">

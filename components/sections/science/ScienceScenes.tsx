@@ -22,30 +22,36 @@ export function ScienceTitle() {
         <FilmImage name="scienceRider" priority grade="deep" />
       </motion.div>
       <div aria-hidden className="absolute inset-0 shade-l" />
-      <svg viewBox="0 0 100 56.25" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
+      {/*
+        Motion-capture overlay, registered to science-rider.png (rider's spine at x≈54.6 of 100, seat at y≈23.6 of 56.25).
+        The SVG slices exactly as the photo covers, so the marks stay on the rider at any desktop size. Hidden on phones,
+        where the portrait crop puts the rider behind the headline.
+      */}
+      <svg viewBox="0 0 100 56.25" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 hidden h-full w-full md:block" aria-hidden>
         <g fill="none" stroke="var(--color-gold)" strokeWidth="0.12">
-          <motion.line x1="58.5" y1="6" x2="58.5" y2="36" strokeDasharray="0.6 0.6" {...draw} transition={t(0.2)} />
-          <motion.circle cx="58.5" cy="9.5" r="1.6" {...draw} transition={t(0.35)} />
-          <motion.path d="M58.5 14 L58.3 22 L57.6 28" {...draw} transition={t(0.5)} />
-          <motion.path d="M57.6 28 L61.5 33 L60.4 39" {...draw} transition={t(0.65)} />
-          <motion.path d="M30 31 C 42 28.5, 52 28.5, 66 30.5" strokeDasharray="0.4 0.8" {...draw} transition={t(0.8)} />
-          <motion.path d="M57.6 28 m-3 0 a3 3 0 0 1 6 0" {...draw} transition={t(1)} />
+          <motion.line x1="54.6" y1="3.2" x2="54.6" y2="34" strokeDasharray="0.6 0.6" {...draw} transition={t(0.2)} />
+          <motion.circle cx="54.8" cy="5.8" r="2" {...draw} transition={t(0.35)} />
+          <motion.path d="M54.8 8.6 L54.6 15.5 L54.1 23.6" {...draw} transition={t(0.5)} />
+          <motion.path d="M54.1 23.6 L53 27.6 L55.2 35.5" {...draw} transition={t(0.65)} />
+          <motion.path d="M54.1 23.6 m-3 0 a3 3 0 0 1 6 0" {...draw} transition={t(0.8)} />
+          <motion.path d="M57.1 22.4 L60.6 19.8" strokeWidth="0.08" {...draw} transition={t(0.95)} />
+          <motion.path d="M46.5 53.2 H68 M46.5 52.4 V54 M68 52.4 V54" {...draw} transition={t(1)} />
         </g>
         <g className="font-mono" fontSize="1.05" fill="rgb(230 202 101)">
-          <motion.text x="59.6" y="7" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(1.2)}>
+          <motion.text x="57.4" y="6.2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(1.2)}>
             AXIS 0.0°
           </motion.text>
-          <motion.text x="62" y="27.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(1.35)}>
+          <motion.text x="61" y="19.6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(1.35)}>
             PELVIS ≈100/MIN
           </motion.text>
-          <motion.text x="31" y="29.6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(1.5)}>
+          <motion.text x="69.2" y="53.6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(1.5)}>
             STRIDE
           </motion.text>
         </g>
       </svg>
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={3} act="citadel" />
-        <Headline id="science-h" as="h1" size="poster" animate="mount" className="mt-6 max-w-[14ch]" inscription="What the saddle" voice="does to a child." />
+        <Headline id="science-h" as="h1" size="poster" animate="mount" className="mt-6 max-w-[4.7em]" inscription="What the saddle" voice="does to a child." />
         <p className="t-story mt-6 max-w-xl text-sand">Four systems, one twenty-minute session. Here is what we can show, and how sure we are.</p>
       </div>
     </section>
@@ -140,7 +146,7 @@ export function PulseLine() {
           <p className="t-story mt-6 text-sand">
             At a walk, a horse&rsquo;s back moves the rider&rsquo;s pelvis forward, sideways and up and down about a hundred times a minute: the same pattern the body makes when it walks. Therapists have used it for decades.
           </p>
-          <p className="font-mono mt-8 text-3xl text-gold">≈100 movements / min</p>
+          <p className="font-mono mt-8 whitespace-nowrap text-2xl text-gold md:text-3xl">≈100 movements / min</p>
           <p className="label mt-2 text-dust">Source · American Hippotherapy Association</p>
         </div>
         <div ref={ref} className="relative h-56 overflow-hidden border-y border-brass/15">
