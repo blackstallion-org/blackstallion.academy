@@ -2,70 +2,67 @@
 
 @AGENTS.md
 
+## Start here
+
+1. Read **`docs/BLUEPRINT.md`** (the single source of truth: first principles, story pattern, design system, layout vocabulary, every page → section → copy, media manifest, claims ledger). Part 13 is the master prompt.
+2. Invoke the project skill **`bsah-film-direction`** (`.claude/skills/bsah-film-direction/SKILL.md`) before building or editing UI.
+3. Read the Next.js 16 docs in `node_modules/next/dist/docs/` for any API you touch (see AGENTS.md).
+
 ## Project
 
 - **Entities:** Vicarius Infinitum Holdings Pvt Ltd (parent) → The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH, operator) → School Tent Pegging Council of India (STPCI, governing council).
 - **Domain:** blackstallion.academy
-- **Stack:** Next.js 16 (App Router, `cacheComponents` on), React 19, TypeScript strict, Tailwind CSS 4 (tokens in `app/globals.css`), `motion` (import from `motion/react`), Lenis, React Three Fiber (3D stallion later), Supabase (not set up yet).
-- **Specs:** start at `docs/INDEX.md`. Read the doc for a route before building it. The design brief is `docs/design-brief.md`.
-- **Big idea:** "An 800-year lineage, handed to your child." The site runs in three acts: **Legend** (Marwari heritage) → **Citadel** (discipline, faculty, ranks) → **Ledger** (passport, seal, verifiable proof).
+- **Stack:** Next.js 16 (App Router, `cacheComponents` + `partialPrefetching`), React 19, TypeScript strict, Tailwind CSS 4 (tokens in `app/globals.css`), `motion` (import from `motion/react`), Lenis, zod. React Three Fiber is installed for the optional 3D stallion. Supabase not set up yet.
+- **Big idea:** "An 800-year lineage, handed to your child." Three acts: **Legend** (hook) → **Citadel** (proof) → **Ledger** (convert).
 
-## Direction: "The Marwari" (film-poster site)
+## Direction: a film in fifteen reels
 
-The home page (`app/page.tsx`) is ONE long cinematic scroll told in chapters, each pinned and scroll-scrubbed (`components/film/Chapter.tsx`): Prologue, I Legend, II Crucible, III Ranks, IV Fleet, V Campus, VI Ledger (verify), VII Circuit (tournaments), VIII Gate (contact + end credits). Separate routes come later and reuse these chapters. A fixed chapter rail (`ChapterRail`) tracks progress.
+- The home page `/` is the **trailer**: 15 sections in three zones (Hook / Proof / Convert), each teasing one page.
+- Every other page is a **reel** (`lib/content/site.ts` → `reels`), with the same grammar: **title card** (unique opening move) → **scenes** (each a different layout archetype, one signature moment) → **end card** (`components/film/EndCard.tsx`, hands off to the next reel).
+- Two-voice headlines via `components/film/Headline.tsx`: INSCRIPTION (Kalnia wide hairline caps) + war voice (Kalnia heavy lowercase, gold).
+- Archetypes may appear once per page and at most twice across the site (Blueprint Part 4).
 
-Reference mood: a dark sepia horse emerging from a huge cloud of dust, warm gold haze, black vignette, heavy film grain, full-bleed. Copy lives in `lib/content/film.ts`.
+### Colour (tokens in `app/globals.css`)
 
-### Colour
+night #0A0806 canvas · umber #16100B · ember #2A1D12 · bone #EDE3D1 headlines · sand #C8B08A body on images · dust #8A7660 captions · brass #C5A059 accents · gold #E6CA65 the one word that matters · blood #B13A24 the war beat (once per page max) · frost #9FB3C8 only for the "digital crisis".
 
-| Token | Hex | Use |
-| --- | --- | --- |
-| night | #0A0806 | Canvas. Black-brown, never #000 |
-| umber / ember | #16100B / #2A1D12 | Rare surfaces, warm shadows in gradients |
-| bone | #EDE3D1 | Headlines, primary text |
-| sand | #C8B08A | Body text on images |
-| dust | #8A7660 | Captions |
-| brass | #C5A059 | Accent only: hairlines, labels, active |
-| gold | #E6CA65 | The one number or word that matters; glints |
-| blood | #B13A24 | The war beat, large type only |
+No cards on photographs; gradients (`shade-b`, `shade-l`, `shade-r`) hold the text. The only surface is `.plate`; documents use `.parchment`.
 
-No flat cards or boxes on the film page. Text sits directly on photographs, held by gradients.
-
-### Type
+### Type (self-hosted, `lib/fonts.ts`)
 
 | Role | Font | Class |
 | --- | --- | --- |
-| Headlines and story | Bodoni Moda (didone, opsz 6–96) | `font-display text-poster opsz-display` (10–14vw), `text-display-1/2/3`; body inherits Bodoni at text size |
-| Labels, nav, buttons | Barlow Condensed, uppercase, tracked | `.label` |
-| Numbers, codes | JetBrains Mono | `font-mono` |
+| Headline line 1 | Kalnia 200, wdth 125, caps | `.t-inscribe` |
+| Headline line 2 | Kalnia 600, wdth 100 | `.t-voice` |
+| Story / body | Newsreader (italic = documentary voice) | default, `.t-story` |
+| Labels, nav, buttons | Mona Sans 600, wdth 75, caps, tracked | `.label` |
+| UI text | Mona Sans 450 | `.t-ui` |
+| Numbers, codes | Martian Mono | `font-mono` |
 
-Italic Bodoni is the "second voice" of every headline (second line, sand or gold).
+Never use Cinzel, Cormorant, Playfair, Inter, Bodoni or Space Grotesk.
 
 ### Motion
 
-Slow, weighted, film-like. Tokens in `lib/motion/tokens.ts`; film curve `[0.7, 0, 0.2, 1]`. Every scroll-linked `useTransform` input range goes through `r()` from `components/film/range.ts` (native scroll animations reject offsets outside 0–1). Each chapter has exactly one signature moment (see the comment at the top of each chapter file). Reduced motion: no zoom/parallax/letterbox; text fades only; Lenis off.
+Slow, weighted. Tokens in `lib/motion/tokens.ts` (house curve `[0.16, 1, 0.3, 1]`). Every scroll-linked `useTransform` input range goes through `r()` from `components/film/range.ts`. Pinned scenes use `components/film/PinnedScene.tsx` and must pass a `reducedFallback`. Reduced motion: no pinning, zoom, parallax or horizontal travel; text fades only; Lenis off.
 
 ### Media
 
-`public/media/*` are Higgsfield placeholders (fetch with `sh scripts/fetch-media.sh`; list in `public/media/PLACEHOLDERS.md`). `FilmImage` shows a graded gradient until a file loads, so missing files never break a frame. Never use the Amigos images or the film clip in `blackstallion images/`.
+All imagery is Higgsfield placeholder art keyed in `lib/content/media.ts` (prompts in Blueprint Part 8). Run `sh scripts/fetch-media.sh` on the Mac to download into `public/media/`, then set `NEXT_PUBLIC_LOCAL_MEDIA=1` in `.env.local`. `FilmImage` grades every still (`grade` prop) and shows a gradient until the file loads. Never use the Amigos images or the clip in `blackstallion images/`.
 
-### Skills and tools for this repo
+### Claims
 
-Project settings enable the `frontend-design` and `supabase` plugins (`.claude/settings.json`) and the Playwright, Context7 and Figma MCP servers (`.mcp.json`). Use Playwright to screenshot every chapter at 390 and 1440 px before calling a visual change done.
+Never publish the "No" rows of the claims ledger (Blueprint Part 9): no "40% cortisol", "300+ muscles", "permanently reverses tech-neck", "zero joint impact". Flag sample data as SAMPLE in code and on the page.
 
 ## Code conventions
 
-- Server Components by default; add `"use client"` only to components that need state, effects or motion.
-- Components live in `components/{ui,motion,brand,sections,three}`; each accepts `className` and merges it with `cn()` from `lib/utils.ts`.
-- Content (nav, copy, hotspot data) lives in `lib/content/`, not inside components.
-- Don't add dependencies without asking.
-- Secrets only in `.env.local`, server-side. Never commit them.
+- Server Components by default; `"use client"` only for state, effects or motion. Never import non-component values from a `"use client"` file into a Server Component; shared data lives in `lib/content/`.
+- Page sections live in `components/sections/<page>/`; shared primitives in `components/{film,site,motion,brand}`; forms use `components/sections/shared/LeadForm.tsx` + `app/actions.ts`.
+- Content (copy, data) lives in `lib/content/`, not inside components.
+- Don't add dependencies without asking. Secrets only in `.env.local`.
 - Don't `git push`. Commit locally on a branch per session.
 
 ## Definition of done
 
 1. `npm run lint`, `npm run typecheck` and `npm run build` all pass.
-2. Screenshots at 390 px and 1440 px reviewed (Playwright).
-3. Reduced-motion checked.
-4. Keyboard focus visible on every interactive element.
-5. `PROGRESS.md` updated.
+2. Every touched route screenshotted at 390 px and 1440 px (Playwright) and reviewed.
+3. Reduced motion checked. 4. Keyboard focus visible on every interactive element. 5. `PROGRESS.md` updated.

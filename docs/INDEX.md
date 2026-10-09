@@ -4,6 +4,7 @@ Markdown copies of every spec in `instructions/` and the root architecture guide
 
 | File | What it covers | Source |
 | --- | --- | --- |
+| **[BLUEPRINT.md](BLUEPRINT.md)** | **Start here.** First principles, story pattern, design system, layout vocabulary, every page → section → copy, media prompts, claims ledger, master prompt | Session 9 Oct 2026 (supersedes the one-page film direction) |
 | [design-brief.md](design-brief.md) | Design brief: big idea, three acts, mood, horse theme, signature moves | Plan doc (Claude Docs) |
 | [3d/model-sourcing.md](3d/model-sourcing.md) | 3D Model Sourcing Instructions | `instructions/03_3D_Models/3d_model_sourcing_instructions.txt.docx` |
 | [3d/threejs-lighting-and-viewport-spec.md](3d/threejs-lighting-and-viewport-spec.md) | Three.js Lighting & Viewport Spec | `instructions/03_3D_Models/threejs_lighting_and_viewport_spec.docx` |

@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import "lenis/dist/lenis.css";
 import "./globals.css";
+import { Atmosphere } from "@/components/film/Atmosphere";
 import { Loader, loaderBootScript } from "@/components/motion/Loader";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { Footer } from "@/components/site/Footer";
+import { SiteNav } from "@/components/site/SiteNav";
 import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
@@ -13,7 +16,12 @@ export const metadata: Metadata = {
     template: "%s · Black Stallion Academy",
   },
   description:
-    "The interscholastic equestrian leadership academy and national tent pegging circuit for India's premier schools.",
+    "The interscholastic equestrian leadership academy and national tent pegging circuit for India's schools. Indigenous Marwari stallions, ex-cavalry instructors, a verifiable ledger of every hour.",
+  openGraph: {
+    siteName: "Black Stallion Academy",
+    locale: "en_IN",
+    type: "website",
+  },
 };
 
 export const viewport: Viewport = {
@@ -38,7 +46,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Skip to content
             </a>
             <Loader />
-            {children}
+            <SiteNav />
+            <Atmosphere />
+            <main id="main">{children}</main>
+            <Footer />
           </SmoothScroll>
         </MotionProvider>
       </body>

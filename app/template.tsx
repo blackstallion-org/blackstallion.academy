@@ -26,7 +26,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
       {!isFirst && !reduced && (
         <motion.div
           aria-hidden
-          className="pointer-events-none fixed inset-0 z-[90] grid place-items-center bg-obsidian"
+          className="pointer-events-none fixed inset-0 z-[90] grid place-items-center bg-night"
           variants={curtain}
           initial="covered"
           animate="lifted"

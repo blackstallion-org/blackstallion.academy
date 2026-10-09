@@ -34,9 +34,9 @@ export function Atmosphere() {
   }, [x, y]);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-[55]">
+    <div aria-hidden className="no-print pointer-events-none fixed inset-0 z-[55]">
       <div className="absolute inset-0 opacity-70">
-        <GoldDust density={0.35} />
+        <GoldDust density={0.22} />
       </div>
       {finePointer && !reduced && (
         <motion.div

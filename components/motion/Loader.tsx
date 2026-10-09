@@ -79,7 +79,7 @@ export function Loader() {
 
   return (
     <motion.div
-      className="bsah-loader fixed inset-0 z-[100] grid place-items-center bg-obsidian"
+      className="bsah-loader fixed inset-0 z-[100] grid place-items-center bg-night"
       initial={{ opacity: 1 }}
       animate={{ opacity: state === "leaving" ? 0 : 1 }}
       transition={{ duration: 0.35, ease: ease.citadel }}
@@ -89,7 +89,7 @@ export function Loader() {
       <div className="flex flex-col items-center gap-6">
         <LoaderMark className="h-16 w-16 sm:h-20 sm:w-20" />
         <motion.p
-          className="font-display text-xs tracking-[0.36em] text-brass/80"
+          className="t-inscribe text-xs tracking-[0.2em] text-brass/80"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.55, ease: ease.citadel }}

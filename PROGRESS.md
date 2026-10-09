@@ -1,25 +1,25 @@
 # Build progress
 
-Plan: *BSAH Website — Design Brief & Build Plan* (Claude Docs). Sessions run in order; each ends with build, lint and typecheck passing.
+Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typecheck and build passing.
 
-- [x] **Session 0: repo setup.** Docs converted to `docs/`; upgraded to Next.js 16.4, React 19.3, Tailwind 4; dependencies installed; folders created; `CLAUDE.md` written.
-- [x] **Design system.** Tokens, fonts, motion tokens, core components, placeholder brand marks, `/styleguide`.
-- [x] **Direction reset: "The Marwari" one-page film.** 9 pinned chapters, Bodoni Moda / Barlow Condensed, grain, vignette, dust, cursor lamp, chapter rail.
-- [x] **Placeholder imagery (Higgsfield).** 14 stills + 10 s loop generated (about 43 credits). Run `sh scripts/fetch-media.sh` on the Mac to pull them into public/media.
-- [ ] **After the images land:** tune Crucible reticle positions, image focal points and text contrast per chapter; re-screenshot 390/1440.
-- [ ] **3D stallion** (Sting Master Directive): GLB with idle micro-movements, gaze tracking, hotspots, eye-glide into the passport.
-- [ ] **Supabase foundation.** 11 tables + schema fixes, RLS, seed data, generated types.
-- [ ] **Session 3:** `/hub/[schoolSlug]` and `/verify`
-- [ ] **Session 4:** Home
-- [ ] **Session 5:** `/legend`
-- [ ] **Session 6:** `/curriculum`, `/fleet`, `/about`
-- [ ] **Session 7:** `/hubs`, `/mou-request`, `/contact`
-- [ ] **Session 8:** Login and `/pay`
-- [ ] **Session 9:** `/tournaments`, `/command-ai`
-- [ ] **Session 10:** `/admin`
-- [ ] **Session 11:** Polish and launch
+- [x] **Session 0: repo setup.** Docs converted to `docs/`; Next.js 16.4, React 19.3, Tailwind 4; `CLAUDE.md`.
+- [x] **Design system v1** and the one-page "film" (superseded).
+- [x] **Session 9 Oct 2026 · Blueprint + multi-page build.**
+  - `docs/BLUEPRINT.md`: first principles (six truths), the reel grammar, design system, 62 layout archetypes, full copy for every page, Higgsfield prompts, claims ledger, client conflicts, master prompt.
+  - New type system (Kalnia / Newsreader / Mona Sans / Martian Mono), self-hosted from Fontsource tarballs; Bodoni/Barlow/JetBrains removed.
+  - 43 new Higgsfield stills (86 credits) + the 14 from the first set, keyed in `lib/content/media.ts`; `scripts/fetch-media.sh` regenerated.
+  - Home rebuilt as the 15-section trailer (Hook → Proof → Convert, two intermissions).
+  - Pages: `/legend` (11 chapters from the Marwari documentary research), `/anatomy`, `/science`, `/why`, `/curriculum`, `/fleet`, `/cadets`, `/parents`, `/safety`, `/schools` (+ 3 hub pages, `/schools/mou`), `/verify` (+ 3 records with printable diploma), `/tournaments` (+ 3 events), `/command`, `/journal` (+ 6 articles), `/contact`, `/about`, 404. Redirects from the PDF routes.
+  - Forms: `LeadForm` + server action (`app/actions.ts`, zod), brass-seal confirmation. Not persisted until Supabase.
+  - Project skill `.claude/skills/bsah-film-direction`.
+- [ ] **Run `sh scripts/fetch-media.sh` on the Mac**, set `NEXT_PUBLIC_LOCAL_MEDIA=1`, then re-screenshot every page at 390/1440 and tune focal points, hotspot positions and the science overlay against the real stills.
+- [ ] **Client answers** (Blueprint Part 10): who funds the arena, revenue-share base, payback model, confirmed partner schools, minimum age, Chairman's letter.
+- [ ] **3D stallion** (optional): GLB in `public/models/marwari.glb` + `components/three/StallionViewer.tsx`, falls back to the specimen plate.
+- [ ] **Supabase**: 11 tables + `leads`, RLS, seed from `lib/content/*`, wire `LeadForm`, `/verify`, standings, Command AI.
+- [ ] **Payments** (`/pay`, Razorpay) and the parent app.
+- [ ] **Commissioned photography** replaces every placeholder one-for-one.
 
 ## Notes for the next session
 
-- Run `npm install` on the Mac after pulling these changes (the lockfile now targets Next 16.4).
-- Components still to build when their pages arrive: `ScrollScene`, `AudioToggle`, `CommandTicker`, `ScrambleText`, `PostureSlider`, `Diploma`.
+- Run `npm install` on the Mac if dependencies changed (none were added this session).
+- Images in the cloud build sandbox render as graded gradients (the CDN is blocked there); judge final visuals on the Mac after fetching media.

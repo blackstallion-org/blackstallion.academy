@@ -3,14 +3,12 @@
 import Image from "next/image";
 import { motion, type MotionValue } from "motion/react";
 import { useState } from "react";
-import { media, type MediaKey } from "@/lib/content/film";
+import { LOCAL_MEDIA, media, mediaSrc, type MediaKey } from "@/lib/content/media";
 import { cn } from "@/lib/utils";
-
-export const LOCAL_MEDIA = process.env.NEXT_PUBLIC_LOCAL_MEDIA === "1";
 
 type FilmImageProps = {
   name: MediaKey;
-  /** Scroll-driven transforms from the chapter. */
+  /** Scroll-driven transforms. */
   scale?: MotionValue<number> | number;
   y?: MotionValue<string> | string;
   x?: MotionValue<string> | string;
@@ -20,13 +18,28 @@ type FilmImageProps = {
   priority?: boolean;
   /** "screen" for dust layers shot on black. */
   blend?: "normal" | "screen";
+  /** Overrides the manifest focus (CSS object-position). */
   position?: string;
+  /** Extra bleed so parallax never shows an edge. */
+  bleed?: boolean;
+  sizes?: string;
+  /** Unifies the AI stills into one graded look. "film" darkens and warms; "cold" is for the crisis frame. */
+  grade?: "film" | "deep" | "cold" | "mono" | "none";
   className?: string;
+  imgClassName?: string;
 };
 
+const grades = {
+  film: "[filter:sepia(0.22)_saturate(0.82)_brightness(0.8)_contrast(1.06)]",
+  deep: "[filter:sepia(0.3)_saturate(0.75)_brightness(0.6)_contrast(1.12)]",
+  cold: "[filter:saturate(0.7)_brightness(0.82)_contrast(1.05)_hue-rotate(-6deg)]",
+  mono: "[filter:grayscale(1)_sepia(0.25)_brightness(0.8)_contrast(1.1)]",
+  none: "",
+} as const;
+
 /**
- * A full-bleed photograph. A graded gradient sits underneath, so the frame
- * still reads as a film still before the file exists or while it loads.
+ * A photograph that fills its (positioned) parent. A graded gradient sits
+ * underneath, so the frame still reads as a film still before the file exists.
  */
 export function FilmImage({
   name,
@@ -38,14 +51,16 @@ export function FilmImage({
   clipPath,
   priority = false,
   blend = "normal",
-  position = "50% 50%",
+  position,
+  bleed = false,
+  sizes = "100vw",
+  grade = "film",
   className,
+  imgClassName,
 }: FilmImageProps) {
   const [state, setState] = useState<"loading" | "ok" | "missing">("loading");
-  // Until the files are fetched into public/media (sh scripts/fetch-media.sh, then set
-  // NEXT_PUBLIC_LOCAL_MEDIA=1 in .env.local), the browser loads Higgsfield's CDN copy directly.
-  const useRemote = !LOCAL_MEDIA;
   const item = media[name];
+  const src = mediaSrc(name);
   const isLayer = blend === "screen";
 
   return (
@@ -54,23 +69,28 @@ export function FilmImage({
       className={cn("absolute inset-0 overflow-hidden", !isLayer && "film-placeholder", className)}
       style={{ opacity, clipPath, mixBlendMode: isLayer ? "screen" : undefined }}
     >
-      {state !== "missing" && (
-        <motion.div className="absolute -inset-[6%] will-change-transform" style={{ scale, y, x, filter }}>
+      {src && state !== "missing" && (
+        <motion.div
+          className={cn("absolute will-change-transform", bleed ? "-inset-[7%]" : "inset-0")}
+          style={{ scale, y, x, filter }}
+        >
           <Image
-            src={useRemote ? item.remote : item.src}
-            unoptimized={useRemote}
+            src={src}
+            unoptimized={!LOCAL_MEDIA}
             alt={isLayer ? "" : item.alt}
             fill
-            sizes="100vw"
-            quality={80}
+            sizes={sizes}
+            quality={75}
             priority={priority}
             onLoad={() => setState("ok")}
             onError={() => setState("missing")}
             className={cn(
               "object-cover transition-opacity duration-[1400ms] ease-[var(--ease-film)]",
               state === "ok" ? "opacity-100" : "opacity-0",
+              !isLayer && grades[grade],
+              imgClassName,
             )}
-            style={{ objectPosition: position }}
+            style={{ objectPosition: position ?? item.focus ?? "50% 50%" }}
           />
         </motion.div>
       )}

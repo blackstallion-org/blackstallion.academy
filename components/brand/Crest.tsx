@@ -31,7 +31,7 @@ export function Crest({ className, title = "Black Stallion Academy crest", simpl
       <circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" strokeWidth="1" />
 
       {!simple && (
-        <g fill="currentColor" className="font-display" fontSize="11.5" letterSpacing="2.6">
+        <g fill="currentColor" className="t-inscribe" fontSize="9.5" letterSpacing="2.6">
           <text textAnchor="middle">
             <textPath href="#crest-arc-top" startOffset="50%">
               DOMINUS SUI · DOMINUS EQUI
@@ -60,7 +60,7 @@ export function Crest({ className, title = "Black Stallion Academy crest", simpl
       </g>
 
       {/* Ear monogram on a carbon disc so it reads over the lances */}
-      <circle cx="100" cy="100" r="34" fill="var(--color-carbon)" stroke="currentColor" strokeWidth="1" />
+      <circle cx="100" cy="100" r="34" fill="var(--color-umber)" stroke="currentColor" strokeWidth="1" />
       <g transform="translate(76 74) scale(0.75)" fill="currentColor">
         <path d={earLeft} />
         <path d={earRight} />

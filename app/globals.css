@@ -1,65 +1,51 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   BSAH — "The Marwari" film look.
-   Black-brown night, dust sand, brass gold as accent only.
-   Rules for using these live in CLAUDE.md.
+   BSAH — "The Marwari" film look. Rules: docs/BLUEPRINT.md Part 3.
+   Black-brown night, sand and bone type, brass as accent only.
    ------------------------------------------------------------------ */
 @theme {
   /* Colour */
-  --color-night: #0a0806;      /* page canvas: black-brown, never #000 */
-  --color-umber: #16100b;      /* raised surfaces, rare */
-  --color-ember: #2a1d12;      /* warm shadow tone in gradients */
-  --color-dust: #8a7660;       /* secondary text, captions */
-  --color-sand: #c8b08a;       /* body text on images, map lines */
-  --color-bone: #ede3d1;       /* headlines, primary text */
-  --color-brass: #c5a059;      /* accent: hairlines, active, key numbers */
-  --color-gold: #e6ca65;       /* the one number that matters, glints */
-  --color-crimson: #8b0000;    /* alerts only (backgrounds) */
-  --color-blood: #b13a24;      /* the war beat, as large type only */
+  --color-night: #0a0806;
+  --color-umber: #16100b;
+  --color-ember: #2a1d12;
+  --color-dust: #8a7660;
+  --color-sand: #c8b08a;
+  --color-bone: #ede3d1;
+  --color-brass: #c5a059;
+  --color-gold: #e6ca65;
+  --color-blood: #b13a24;
+  --color-frost: #9fb3c8;
+  --color-parchment: #e9dcc0;
+  --color-ink: #1d150d;
 
-  /* Legacy aliases so older components keep compiling */
-  --color-obsidian: #0a0806;
-  --color-carbon: #16100b;
-  --color-parchment-gold: #e6ca65;
-  --color-thar-sand: #c8b08a;
-  --color-ink: #ede3d1;
-  --color-muted: #8a7660;
-
-  /* Guardrails */
+  /* Guardrails: no pure black or white anywhere */
   --color-black: #0a0806;
   --color-white: #ede3d1;
 
   /* Poster scale */
-  --text-poster: clamp(3.5rem, 12vw, 14rem);
-  --text-poster--line-height: 0.86;
-  --text-display-1: clamp(3rem, 9vw, 10rem);
-  --text-display-1--line-height: 0.9;
-  --text-display-2: clamp(2.25rem, 5.5vw, 5.75rem);
-  --text-display-2--line-height: 0.95;
-  --text-display-3: clamp(1.5rem, 2.6vw, 2.75rem);
+  --text-poster: clamp(3.1rem, 10.5vw, 12.5rem);
+  --text-poster--line-height: 0.88;
+  --text-display-1: clamp(2.6rem, 7.5vw, 8.5rem);
+  --text-display-1--line-height: 0.92;
+  --text-display-2: clamp(2rem, 4.8vw, 4.9rem);
+  --text-display-2--line-height: 0.96;
+  --text-display-3: clamp(1.4rem, 2.4vw, 2.5rem);
   --text-display-3--line-height: 1.05;
-  --text-lede: clamp(1.15rem, 1rem + 0.6vw, 1.6rem);
+  --text-lede: clamp(1.12rem, 1rem + 0.45vw, 1.45rem);
   --text-lede--line-height: 1.5;
 
-  --tracking-display: -0.01em;
-  --tracking-plate: 0.32em;
-  --tracking-label: 0.28em;
-
-  --radius-plate: 1px;
-  --shadow-brass: 0 0 24px rgb(197 160 89 / 0.12);
-  --shadow-brass-strong: 0 0 36px rgb(197 160 89 / 0.25);
+  --tracking-label: 0.22em;
 
   --ease-citadel: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-film: cubic-bezier(0.7, 0, 0.2, 1);
 }
 
 @theme inline {
-  --font-display: var(--font-rupee), var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
-  --font-editorial: var(--font-rupee), var(--font-bodoni), Georgia, serif;
-  --font-label: var(--font-rupee), var(--font-barlow), "Arial Narrow", sans-serif;
-  --font-sans: var(--font-rupee), var(--font-barlow), "Arial Narrow", sans-serif;
-  --font-mono: var(--font-rupee), var(--font-jetbrains), ui-monospace, monospace;
+  --font-display: var(--font-kalnia), "Iowan Old Style", Georgia, serif;
+  --font-serif: var(--font-rupee), var(--font-newsreader), Georgia, serif;
+  --font-sans: var(--font-rupee), var(--font-mona), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-rupee), var(--font-martian), ui-monospace, monospace;
 }
 
 @layer base {
@@ -72,9 +58,9 @@
 
   body {
     min-height: 100dvh;
-    font-family: var(--font-editorial);
-    font-optical-sizing: auto;
+    font-family: var(--font-serif);
     font-size: 1.0625rem;
+    font-weight: 380;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -92,27 +78,70 @@
   }
 
   .font-mono {
+    font-stretch: 87.5%;
     font-variant-numeric: tabular-nums slashed-zero;
+  }
+
+  button {
+    cursor: pointer;
   }
 }
 
 @layer components {
-  /* Film-credit label: condensed, uppercase, wide tracking */
-  .label {
-    font-family: var(--font-label);
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: var(--tracking-label);
+  /* Headline voice 1: wide hairline capitals, like a carved inscription */
+  .t-inscribe {
+    font-family: var(--font-display);
+    font-weight: 200;
+    font-stretch: 125%;
     text-transform: uppercase;
-    line-height: 1.3;
+    letter-spacing: 0.015em;
   }
 
-  /* Legacy card used by /styleguide */
-  .bsah-card {
-    background-color: var(--color-umber);
+  /* Headline voice 2: heavy lowercase, the line that lands */
+  .t-voice {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-stretch: 100%;
+    letter-spacing: -0.012em;
+  }
+
+  /* Film-credit label: condensed, uppercase, tracked */
+  .label {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-stretch: 75%;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    line-height: 1.35;
+  }
+
+  .t-ui {
+    font-family: var(--font-sans);
+    font-weight: 450;
+    font-stretch: 100%;
+    letter-spacing: 0;
+  }
+
+  .t-story {
+    font-family: var(--font-serif);
+    font-size: var(--text-lede);
+    line-height: var(--text-lede--line-height);
+    font-weight: 360;
+    text-wrap: pretty;
+  }
+
+  /* Brass hairline rule */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(197 160 89 / 0.55) 12%, rgb(197 160 89 / 0.55) 88%, transparent);
+  }
+
+  /* The only allowed surface: umber with a faint brass edge */
+  .plate {
+    background-color: rgb(22 16 11 / 0.92);
     border: 1px solid rgb(197 160 89 / 0.22);
-    box-shadow: var(--shadow-brass);
-    border-radius: var(--radius-plate);
+    border-radius: 1px;
   }
 
   .cinematic-vignette {
@@ -130,7 +159,7 @@
     inset: -50%;
     z-index: 70;
     pointer-events: none;
-    opacity: 0.11;
+    opacity: 0.1;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.92 0 0 0 0 0.8 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     animation: grain 0.9s steps(6) infinite;
@@ -139,9 +168,77 @@
   /* Graded placeholder used under every photograph until the file exists */
   .film-placeholder {
     background:
-      radial-gradient(ellipse 60% 45% at 62% 58%, rgb(230 202 101 / 0.28), transparent 70%),
-      radial-gradient(ellipse 80% 60% at 40% 70%, rgb(138 102 60 / 0.35), transparent 75%),
+      radial-gradient(ellipse 60% 45% at 62% 58%, rgb(230 202 101 / 0.22), transparent 70%),
+      radial-gradient(ellipse 80% 60% at 40% 70%, rgb(138 102 60 / 0.32), transparent 75%),
       linear-gradient(180deg, #0a0806 0%, #21160d 55%, #0a0806 100%);
+  }
+
+  /* Parchment surface for documents (MOU, diploma, letter) */
+  .parchment {
+    color: var(--color-ink);
+    background:
+      radial-gradient(ellipse 120% 80% at 50% 0%, rgb(255 248 230 / 0.55), transparent 60%),
+      radial-gradient(ellipse 90% 70% at 100% 100%, rgb(150 110 60 / 0.25), transparent 70%),
+      linear-gradient(180deg, #ecdfc3, #dfcda8);
+    box-shadow: 0 30px 80px rgb(0 0 0 / 0.55), inset 0 0 120px rgb(120 80 30 / 0.22);
+  }
+
+  /* Text held on photographs */
+  .shade-b {
+    background: linear-gradient(180deg, rgb(10 8 6 / 0) 0%, rgb(10 8 6 / 0.55) 55%, rgb(10 8 6 / 0.95) 100%);
+  }
+  .shade-l {
+    background: linear-gradient(90deg, rgb(10 8 6 / 0.92) 0%, rgb(10 8 6 / 0.6) 40%, rgb(10 8 6 / 0) 75%);
+  }
+  .shade-r {
+    background: linear-gradient(270deg, rgb(10 8 6 / 0.92) 0%, rgb(10 8 6 / 0.6) 40%, rgb(10 8 6 / 0) 75%);
+  }
+
+  /* Range input in brass */
+  .range-brass {
+    appearance: none;
+    height: 2px;
+    background: rgb(197 160 89 / 0.3);
+    outline-offset: 8px;
+  }
+  .range-brass::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--color-gold);
+    border: 3px solid var(--color-night);
+    box-shadow: 0 0 0 1px var(--color-brass);
+  }
+  .range-brass::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--color-gold);
+    border: 3px solid var(--color-night);
+  }
+
+  /* Form field on dark: an underline, not a box */
+  .field {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgb(197 160 89 / 0.35);
+    padding: 0.7rem 0;
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    border-radius: 0;
+  }
+  .field::placeholder {
+    color: rgb(138 118 96 / 0.8);
+  }
+  .field:focus-visible {
+    outline: none;
+    border-bottom-color: var(--color-gold);
+  }
+  select.field option {
+    background: var(--color-umber);
   }
 }
 
@@ -154,15 +251,38 @@
   100% { transform: translate(0, 0); }
 }
 
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.94; }
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
 }
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
   .text-pretty { text-wrap: pretty; }
-  .opsz-display { font-variation-settings: "opsz" 96; }
+  .animate-pulse-ring { animation: pulse-ring 1.6s var(--ease-citadel) infinite; }
+  .animate-marquee { animation: marquee 60s linear infinite; }
+  .animate-blink { animation: blink 1s steps(1) infinite; }
+  .gutter { padding-inline: max(16px, 4vw); }
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+@media print {
+  body { background: #fff !important; color: #000 !important; }
+  .grain::after, .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .print-doc { box-shadow: none !important; background: #fff !important; width: 100% !important; max-width: none !important; }
+  .print-doc * { color: #111 !important; }
+  @page { margin: 16mm; }
 }
 
 @media (prefers-reduced-motion: reduce) {

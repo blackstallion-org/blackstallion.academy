@@ -68,7 +68,7 @@ export function SealStamp({
       {/* Ring pulse on contact */}
       <motion.span
         aria-hidden
-        className="absolute inset-0 rounded-full border border-parchment-gold"
+        className="absolute inset-0 rounded-full border border-gold"
         variants={{
           hidden: { opacity: 0, scale: 1 },
           visible: {
@@ -113,7 +113,7 @@ export function SealStamp({
           <circle cx="60" cy="60" r="49" strokeWidth="1.2" />
           <circle cx="60" cy="60" r="33" strokeWidth="0.9" />
         </g>
-        <g fill="#0A0B0E" fillOpacity="0.62" className="font-display">
+        <g fill="#0A0B0E" fillOpacity="0.62" className="t-inscribe">
           <text fontSize="10" letterSpacing="3" textAnchor="middle">
             <textPath href={`#seal-top-${uid}`} startOffset="50%">
               {label}

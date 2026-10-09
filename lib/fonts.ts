@@ -1,37 +1,50 @@
 import localFont from "next/font/local";
 
 /**
- * Self-hosted fonts (SIL Open Font License 1.1, from Fontsource). See app/fonts/LICENSES.md.
+ * Self-hosted fonts (SIL OFL 1.1, from Fontsource). See app/fonts/LICENSES.md.
  *
- * Display + story: Bodoni Moda, a high-contrast didone with an optical-size axis.
- *   At 10–14vw it becomes hairline-thin and theatrical; at 18px its opsz makes it readable.
- * Labels: Barlow Condensed, uppercase and widely tracked, like film-poster credits.
- * Numbers: JetBrains Mono.
+ * The system is built to avoid the usual "luxury template" faces
+ * (Cinzel, Cormorant, Playfair, Inter):
+ *
+ * Kalnia      Display. Two voices from one family:
+ *             - INSCRIPTION: wide (wdth 125), hairline (wght 200), capitals. Reads like a fort inscription.
+ *             - WAR VOICE: normal width, heavy (wght 600), lowercase. The line that lands.
+ * Newsreader  Story and body. Italic is the quiet, documentary voice.
+ * Mona Sans   Labels, nav, buttons: condensed (wdth 75), uppercase, tracked. Also small UI text.
+ * Martian Mono Numbers, passport codes, microchips, the terminal.
  */
-export const bodoni = localFont({
+export const kalnia = localFont({
+  src: "../app/fonts/kalnia-latin-standard-normal.woff2",
+  weight: "100 700",
+  variable: "--font-kalnia",
+  display: "swap",
+  declarations: [{ prop: "font-stretch", value: "100% 125%" }],
+});
+
+export const newsreader = localFont({
   src: [
-    { path: "../app/fonts/bodoni-moda-latin-standard-normal.woff2", weight: "400 900", style: "normal" },
-    { path: "../app/fonts/bodoni-moda-latin-standard-italic.woff2", weight: "400 900", style: "italic" },
+    { path: "../app/fonts/newsreader-latin-wght-normal.woff2", weight: "200 800", style: "normal" },
+    { path: "../app/fonts/newsreader-latin-wght-italic.woff2", weight: "200 800", style: "italic" },
   ],
-  variable: "--font-bodoni",
+  variable: "--font-newsreader",
   display: "swap",
 });
 
-export const barlow = localFont({
-  src: [
-    { path: "../app/fonts/barlow-condensed-latin-400-normal.woff2", weight: "400", style: "normal" },
-    { path: "../app/fonts/barlow-condensed-latin-500-normal.woff2", weight: "500", style: "normal" },
-    { path: "../app/fonts/barlow-condensed-latin-600-normal.woff2", weight: "600", style: "normal" },
-  ],
-  variable: "--font-barlow",
+export const mona = localFont({
+  src: "../app/fonts/mona-sans-latin-standard-normal.woff2",
+  weight: "200 900",
+  variable: "--font-mona",
   display: "swap",
+  declarations: [{ prop: "font-stretch", value: "75% 125%" }],
 });
 
-export const jetbrains = localFont({
-  src: "../app/fonts/jetbrains-mono-latin-wght-normal.woff2",
+export const martian = localFont({
+  src: "../app/fonts/martian-mono-latin-standard-normal.woff2",
   weight: "100 800",
-  variable: "--font-jetbrains",
+  variable: "--font-martian",
   display: "swap",
+  preload: false,
+  declarations: [{ prop: "font-stretch", value: "75% 112.5%" }],
 });
 
 /** ₹ only, cut from Inter: none of the fonts above include it. */
@@ -45,4 +58,4 @@ export const rupee = localFont({
   declarations: [{ prop: "unicode-range", value: "U+20B9" }],
 });
 
-export const fontVariables = [bodoni, barlow, jetbrains, rupee].map((f) => f.variable).join(" ");
+export const fontVariables = [kalnia, newsreader, mona, martian, rupee].map((f) => f.variable).join(" ");
