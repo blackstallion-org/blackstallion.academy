@@ -22,7 +22,7 @@ const fill = {
 /**
  * The loader mark on its own: the ears draw in brass line, fill, then turn
  * inward as if listening (signature move 4). About 1.2 s.
- * Used by <Loader> and in the styleguide.
+ * Used by <Loader>.
  */
 export function LoaderMark({ className, onDone }: { className?: string; onDone?: () => void }) {
   const part = { hidden: { pathLength: 0, fillOpacity: 0 }, visible: { pathLength: 1, fillOpacity: 1, transition: fill } };

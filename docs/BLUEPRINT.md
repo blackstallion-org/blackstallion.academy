@@ -785,7 +785,7 @@ Content: `lib/content/cadets.ts`.
 - 17:00 Ten-second milestone reel sent home
 - 21:00 Lights out. The stallion's night feed, on camera
 
-**§4 The creed** · S46 creed card (from `docs/legal/cadet-creed.md`, verbatim)
+**§4 The creed** · S46 creed card (from `docs/reference/legal/cadet-creed.md`, verbatim)
 
 1. I do not ride to conquer the horse; I command to master myself.
 2. My posture reflects my internal state: unshakable, calm and erect.
@@ -1094,7 +1094,7 @@ Content: `lib/content/about.ts`.
 ---
 ## 7. Data models
 
-All content is typed in `lib/content/*.ts` today and maps 1:1 to the Supabase tables in `docs/architecture-guide.md` later. Keep field names identical so the swap is a data-source change, not a rewrite.
+All content is typed in `lib/content/*.ts` today and maps 1:1 to the Supabase tables in `docs/reference/architecture-guide.md` later. Keep field names identical so the swap is a data-source change, not a rewrite.
 
 ```ts
 type Act = "legend" | "citadel" | "ledger";
@@ -1247,7 +1247,7 @@ Higgsfield's CDN is not reachable from the build sandbox. Run `sh scripts/fetch-
 
 ### 11.3 Optional 3D
 
-`components/three/StallionViewer.tsx` loads `public/models/marwari.glb` (rigged, < 4 MB, Draco) when present; otherwise `/anatomy` and home §3 use the specimen photo. Lighting per `docs/3d/threejs-lighting-and-viewport-spec.md`.
+`components/three/StallionViewer.tsx` loads `public/models/marwari.glb` (rigged, < 4 MB, Draco) when present; otherwise `/anatomy` and home §3 use the specimen photo. Lighting per `docs/reference/3d/threejs-lighting-and-viewport-spec.md`.
 
 ### 11.4 Before launch
 

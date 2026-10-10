@@ -1,0 +1,9 @@
+docs
+scripts
+PROGRESS.md
+AGENTS.md
+CLAUDE.md
+.claude
+.mcp.json
+.next
+node_modules

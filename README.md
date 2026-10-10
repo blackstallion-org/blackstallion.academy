@@ -5,17 +5,31 @@ Website for The Black Stallion Academy of Horsemanship (BSAH). Next.js 16 · Rea
 ## Run it
 
 ```bash
-npm install        # first time, and after pulling dependency changes
-npm run dev        # http://localhost:3000  (design system at /styleguide)
-npm run lint
-npm run typecheck
-npm run build
+npm install
+npm run dev          # http://localhost:3000
+npm run lint && npm run typecheck && npm run build
 ```
 
-## Where things are
+## Folder map
 
-- `CLAUDE.md`: brand rules, motion tokens, conventions and definition of done (read first).
-- `PROGRESS.md`: build sessions and what's next.
-- `docs/`: every spec converted to Markdown; start at `docs/INDEX.md`.
-- `app/styleguide`: live reference for tokens and components.
-- `public/brand`: placeholder crest, monogram and wordmark (replace with the final vector logo, same filenames).
+| Path | What lives there |
+| --- | --- |
+| `app/` | Routes (one folder per page), `layout.tsx`, `actions.ts` (lead-form server action), self-hosted fonts in `app/fonts/` |
+| `components/film/` | Reel grammar: Headline, PinnedScene, FilmImage, EndCard, Intermission |
+| `components/motion/` | Smooth scroll, loader, count-up, dust, seal stamp |
+| `components/sections/<page>/` | The scenes for each page |
+| `components/site/` | Nav and footer |
+| `components/brand/` | Crest, monogram, wordmark |
+| `lib/content/` | All copy and data, typed (one file per area) |
+| `public/` | `brand/` SVGs and `media/` (local images, optional) |
+| `scripts/fetch-media.sh` | Downloads the placeholder stills into `public/media` |
+| `docs/BLUEPRINT.md` | Source of truth for design, copy and layout |
+| `docs/reference/` | Client specs (PRDs, brand, legal, 3D), not shipped |
+
+## Images
+
+By default images load from the Higgsfield CDN, so the site works on Vercel with no extra step. To self-host them: `sh scripts/fetch-media.sh`, set `NEXT_PUBLIC_LOCAL_MEDIA=1`, restart.
+
+## Deploy (Vercel)
+
+Import the repo (or run `npx vercel`). Framework preset: Next.js. No environment variables are required yet.
