@@ -1,14 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion, useInView, useScroll, useTransform } from "motion/react";
-import { useRef, useState } from "react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
-import { assessment, classSegments, disciplines, pillars, ranks } from "@/lib/content/curriculum";
+import { assessment, classSegments, disciplines, ranks } from "@/lib/content/curriculum";
 import { ease } from "@/lib/motion/tokens";
-import { cn } from "@/lib/utils";
 
 /** Title card · T6 ledger page. Signature: ruled lines draw across the ledger like a clerk's pen. */
 export function CurriculumTitle() {
@@ -52,67 +51,10 @@ export function Staircase() {
             <span className="t-inscribe text-3xl text-gold">{rk.numeral}</span>
             <p className="t-voice mt-3 text-2xl text-bone md:text-3xl">{rk.name}</p>
             <p className="mt-3 text-sm text-sand">{rk.detail}</p>
-            <p className="font-mono mt-auto pt-6 text-xs text-dust">PILLARS {rk.pillars[0]}–{rk.pillars[2]}</p>
+            <p className="t-ui mt-4 text-xs text-dust">{rk.insignia}</p>
+            <p className="font-mono mt-auto pt-6 text-xs text-dust">PILLARS {String(rk.pillars[0]).padStart(2, "0")}–{String(rk.pillars[rk.pillars.length - 1]).padStart(2, "0")}</p>
           </motion.div>
         ))}
-      </div>
-    </section>
-  );
-}
-
-/** §2 · S35 pillar grid + detail pane. Signature: choosing a numeral fills the detail pane like a ledger entry. */
-export function PillarGrid() {
-  const [n, setN] = useState(1);
-  const p = pillars[n - 1];
-  const rank = ranks.find((rk) => rk.pillars.includes(n))!;
-  return (
-    <section aria-labelledby="pillars-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
-      <div className="gutter">
-        <Label>Twelve pillars</Label>
-        <Headline id="pillars-h" className="mt-4" inscription="Every drill," voice="a trait for life." />
-        <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-          <div className="grid grid-cols-4 gap-px self-start bg-brass/15 sm:grid-cols-6 lg:grid-cols-4" role="group" aria-label="Pillars">
-            {pillars.map((x) => (
-              <button
-                key={x.n}
-                type="button"
-                onClick={() => setN(x.n)}
-                onMouseEnter={() => setN(x.n)}
-                aria-pressed={n === x.n}
-                aria-label={`Pillar ${x.n}: ${x.name}`}
-                className={cn("group aspect-square bg-night p-3 text-left transition-colors", n === x.n ? "bg-ember" : "hover:bg-umber")}
-              >
-                <span className={cn("t-inscribe block text-[clamp(1.4rem,3vw,2.6rem)] leading-none", n === x.n ? "text-gold" : "text-sand/60 group-hover:text-bone")}>
-                  {String(x.n).padStart(2, "0")}
-                </span>
-                <span className="label mt-2 hidden text-[0.58rem] text-dust sm:block">{x.name}</span>
-              </button>
-            ))}
-          </div>
-          <div aria-live="polite">
-            <AnimatePresence mode="wait">
-              <motion.div key={n} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.4, ease: ease.citadel }}>
-                <p className="label text-brass">
-                  Pillar {String(n).padStart(2, "0")} · {rank.name}
-                </p>
-                <h3 className="t-voice mt-3 text-display-3 text-bone">{p.name}</h3>
-                <dl className="mt-8 divide-y divide-brass/15 border-y border-brass/15">
-                  {[
-                    ["In the saddle", p.drill],
-                    ["The trait", p.trait],
-                    ["In leadership", p.lead],
-                    ["In the body", p.body],
-                  ].map(([k, v]) => (
-                    <div key={k} className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
-                      <dt className="label pt-1 text-dust">{k}</dt>
-                      <dd className={k === "The trait" ? "t-voice text-xl text-gold" : "text-lg text-sand"}>{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
       </div>
     </section>
   );

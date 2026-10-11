@@ -17,8 +17,8 @@ type Props = {
 };
 
 const BOOT: Line[] = [
-  { who: "sys", text: "SOVEREIGN COMMAND TERMINAL v2.4" },
-  { who: "sys", text: "System initialised. Ask about ROI, insurance, safety or curriculum." },
+  { who: "sys", text: "SOVEREIGN COMMAND TERMINAL v2.4 | LATENCY: 12ms | STPCI ENCRYPTED NODE" },
+  { who: "sys", text: "System initialised. Connected to BSAH National Registry." },
 ];
 
 /**
@@ -35,7 +35,7 @@ export function Terminal({ chips, opening, tall = false, className }: Props) {
   const [busy, setBusy] = useState(false);
   const [input, setInput] = useState("");
   const asked = useRef(false);
-  const chipList = chips ?? knowledge.slice(0, 3).map((k) => k.ask);
+  const chipList = chips ?? knowledge.slice(0, 4).map((k) => k.ask);
 
   const ask = async (q: string) => {
     if (busy || !q.trim()) return;

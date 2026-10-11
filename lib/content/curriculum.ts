@@ -1,45 +1,125 @@
 import type { MediaKey } from "./media";
 
-/** Reel 05 · The Ledger. Blueprint Part 6, R05. */
+/** Reel 05 · The Ledger. Blueprint Part 6, R05; pillars and ranks revised per Directive 04 (the 13-Pillar Sovereign Ledger). */
 
 export type RankId = "squire" | "rider" | "knight" | "lancer";
 
-export const ranks: { id: RankId; numeral: string; name: string; short: string; detail: string; pillars: number[] }[] = [
-  { id: "squire", numeral: "I", name: "Cadet Squire", short: "Ground care and trot", detail: "Ground care, grooming, leading, mounting, walk and trot.", pillars: [1, 2, 3] },
-  { id: "rider", numeral: "II", name: "Cadet Rider", short: "Independent canter", detail: "Independent canter, terrain transitions, first jumps, settling a spooked horse.", pillars: [4, 5, 6] },
-  { id: "knight", numeral: "III", name: "Cadet Knight", short: "Cavalry drills", detail: "Formation riding, riding without reins, recovering after a fall.", pillars: [7, 8, 9] },
-  { id: "lancer", numeral: "IV", name: "Sovereign Lancer", short: "National competition", detail: "Tent pegging at speed, composure at the gallop, the STPCI national circuit.", pillars: [10, 11, 12] },
+export const ranks: { id: RankId; numeral: string; name: string; short: string; detail: string; insignia: string; pillars: number[] }[] = [
+  {
+    id: "squire", numeral: "I", name: "Cadet Squire", short: "Ground care and trot",
+    detail: "Stable care, grooming, tack assembly, equine psychology, basic walk and trot.",
+    insignia: "Bronze rank pin · soft-bound blue passport logbook",
+    pillars: [1, 2, 3],
+  },
+  {
+    id: "rider", numeral: "II", name: "Cadet Rider", short: "Independent canter",
+    detail: "Independent canter transitions, 3D pelvic alignment, obstacle trotting.",
+    insignia: "Silver rank pin · leather passport sleeve",
+    pillars: [4, 5, 6],
+  },
+  {
+    id: "knight", numeral: "III", name: "Cadet Knight", short: "Lance and bow",
+    detail: "Advanced equestrian drills, introductory lance grip, mounted archery posture, jump courses.",
+    insignia: "Gold rank pin · brass belt buckle · official STPCI registration",
+    pillars: [7, 8, 9],
+  },
+  {
+    id: "lancer", numeral: "IV", name: "Sovereign Lancer", short: "National competition",
+    detail: "Full-speed tent pegging, mounted archery runs, barrel racing, the national Governor's Cup circuit.",
+    insignia: "Sovereign brass epaulettes · sealed brass Sovereign Passport",
+    pillars: [10, 11, 12, 13],
+  },
 ];
 
-export const pillars = [
-  { n: 1, name: "Grooming & feeding", drill: "Hands-on stall care, hoof picking, feed prep", trait: "Radical humility & duty", lead: "Serving the team before oneself", body: "Calm, non-verbal empathy" },
-  { n: 2, name: "Posture", drill: "Cervical stacking, core holds", trait: "Regal carriage & poise", lead: "Presence in any room", body: "An upright, stacked spine" },
-  { n: 3, name: "Breath & calm", drill: "Breath synced to the stride", trait: "Emotional self-governance", lead: "Composure in a crisis", body: "Slower breathing and heart rate" },
-  { n: 4, name: "Terrain transitions", drill: "Walk-to-trot, trot-to-canter", trait: "Adaptive agility", lead: "Balance when conditions shift", body: "Balance and spatial sense" },
-  { n: 5, name: "Obstacle jumping", drill: "Timing and forward seat", trait: "Calculated risk", lead: "Deciding under pressure", body: "Cardio with low joint impact" },
-  { n: 6, name: "De-escalation", drill: "Settling a spooked horse without force", trait: "Diplomatic command", lead: "Resolving conflict with calm intent", body: "Staying calm under adrenaline" },
-  { n: 7, name: "Cavalry drills", drill: "Synchronised formation riding", trait: "Collective coordination", lead: "Executing as one team", body: "Rhythm and spatial awareness" },
-  { n: 8, name: "Unspoken trust", drill: "Riding without reins, seat cues only", trait: "Deep mutual trust", lead: "Leading by delegation", body: "Coordination of both sides of the body" },
-  { n: 9, name: "Setback recovery", drill: "Remounting after a fall, supervised", trait: "Resilience", lead: "Recovering from failure without drama", body: "Confidence after fear" },
-  { n: 10, name: "Lance precision", drill: "Piercing 6 cm pegs at speed", trait: "Focal precision", lead: "Focus amid distraction", body: "Hand-eye timing" },
-  { n: 11, name: "Composure at speed", drill: "Steady breath at the gallop", trait: "High-pressure serenity", lead: "Calm in high-stakes moments", body: "Breath control under load" },
-  { n: 12, name: "Sovereign governance", drill: "Quiet command of a 500 kg stallion", trait: "Unforced authority", lead: "Leading with integrity and clarity", body: "Whole-body poise" },
+export type Phase = { numeral: string; name: string; line: string; pillars: number[] };
+
+export const phases: Phase[] = [
+  { numeral: "I", name: "The Foundation", line: "Authority is earned on the ground.", pillars: [1, 2, 3] },
+  { numeral: "II", name: "The Crucible", line: "Poise is proven in motion.", pillars: [4, 5, 6, 7, 8, 9] },
+  { numeral: "III", name: "Sovereign Command", line: "Mastery becomes a discipline.", pillars: [10, 11, 12, 13] },
 ];
 
+export type Pillar = {
+  n: number;
+  name: string;
+  skill: string;
+  trait: string;
+  sub: string;
+  discipline?: boolean;
+};
+
+/** The 13-Pillar Sovereign Ledger (Directive 04 §1). Pillars 10–13 are the BSAH tactical disciplines. */
+export const pillars: Pillar[] = [
+  {
+    n: 1, name: "Grooming & feeding", skill: "Responsibility, attention to detail", trait: "Reliability, conscientiousness",
+    sub: "Before a leader commands, they must serve. Cadets learn that authority is earned on the ground through meticulous care and zero ego.",
+  },
+  {
+    n: 2, name: "Mounting & initial handling", skill: "Patience, focus", trait: "Self-control, persistence",
+    sub: "Cultivating emotional calm and steady presence during initial engagement with a 500 kg partner.",
+  },
+  {
+    n: 3, name: "Learning commands & cues", skill: "Communication, clarity", trait: "Empathy, emotional awareness",
+    sub: "Translating internal intent into clean, readable physical cues that bridge human and equine understanding.",
+  },
+  {
+    n: 4, name: "Riding at speed, over terrain", skill: "Courage, adaptability", trait: "Confidence, resilience",
+    sub: "Maintaining poise and dynamic balance as the environment shifts without warning beneath the saddle.",
+  },
+  {
+    n: 5, name: "Jumping & challenging obstacles", skill: "Risk assessment, problem-solving", trait: "Bravery, critical thinking",
+    sub: "Committing eyes and intent beyond obstacles, teaching the mind to execute decisive action under momentum.",
+  },
+  {
+    n: 6, name: "Working with a stubborn horse", skill: "Flexibility, negotiation", trait: "Emotional intelligence, diplomacy",
+    sub: "Converting opposition into voluntary cooperation through soft pressure and immediate release.",
+  },
+  {
+    n: 7, name: "Regular practice & training", skill: "Discipline, consistency", trait: "Work ethic, perseverance",
+    sub: "Mastering the fundamentals daily to build unshakeable structural and mental competence.",
+  },
+  {
+    n: 8, name: "Building trust with the horse", skill: "Leadership, gentle authority", trait: "Integrity, trustworthiness",
+    sub: "Developing non-verbal command and mutual loyalty that earns respect without coercion.",
+  },
+  {
+    n: 9, name: "Dealing with mistakes & falls", skill: "Acceptance, recovery", trait: "Resilience, humility",
+    sub: "Analysing errors without panic and getting back in the saddle immediately with renewed focus.",
+  },
+  {
+    n: 10, name: "Skill-at-arms & tent pegging runs", skill: "High-speed spatial convergence, absolute kinetic focus", trait: "Precision under velocity, target execution", discipline: true,
+    sub: "Striking a four-inch peg at full gallop permits zero internal chatter: distraction is eliminated to achieve absolute target convergence.",
+  },
+  {
+    n: 11, name: "Mounted archery & bow release", skill: "Dual-task coordination, breath-hold stillness", trait: "Poise under dynamic motion, split-second timing", discipline: true,
+    sub: "Maintaining core stability and upper-body stillness while the lower body navigates a moving animal at speed.",
+  },
+  {
+    n: 12, name: "High-velocity barrel racing", skill: "Centrifugal balance, split-second geometric agility", trait: "Calculated risk-taking, razor-sharp reflexes", discipline: true,
+    sub: "Executing tight turns at maximum velocity with absolute spatial awareness and dynamic weight distribution.",
+  },
+  {
+    n: 13, name: "Cavalry squad formation & parade command", skill: "Strategic synchronisation, collective discipline", trait: "Institutional loyalty, executive leadership presence", discipline: true,
+    sub: "Individual mastery unified into squadron discipline: responsibility for the tactical precision and honour of the entire unit.",
+  },
+];
+
+export const phaseOf = (n: number): Phase => phases.find((p) => p.pillars.includes(n))!;
+
+/** The 45-minute military session protocol (Master Refinement §9.2). */
 export const classSegments = [
-  { from: 0, to: 15, title: "Ground stable care", detail: "Hoof inspection, tack check, grooming, feeding check, settling the heart rate.", mounted: false },
-  { from: 15, to: 20, title: "Mounted breath alignment", detail: "Breathing with the stride until horse and rider settle.", mounted: true },
-  { from: 20, to: 30, title: "Trot and canter posture drills", detail: "Stacked spine, quiet hands, heels down.", mounted: true },
-  { from: 30, to: 40, title: "Lance, archery or barrel runs", detail: "The discipline of the day, at the cadet's rank.", mounted: true },
-  { from: 40, to: 45, title: "Cool-down and debrief", detail: "Walk out, untack, grades enter the ledger.", mounted: false },
+  { from: 0, to: 10, title: "Ground protocol & tack inspection", detail: "The cadet arrives in uniform, inspects hooves, adjusts the girth, checks reins and settles the heart rate alongside the assigned stallion.", mounted: false },
+  { from: 10, to: 25, title: "Core riding & biomechanical alignment", detail: "Mount up. Five minutes of breath alignment at the walk, then trot and canter posture drills on pelvic kinematics and core engagement.", mounted: true },
+  { from: 25, to: 35, title: "Tactical skill-at-arms module", detail: "Progressive rotation: ground targets and vaulting-buck drills for Ranks I–II; mounted lance runs, archery releases or barrel patterns for Ranks III–IV.", mounted: true },
+  { from: 35, to: 45, title: "Dismount, care & digital logging", detail: "Wash down and reward the stallion, log the session grades, scan the QR seal into the Sovereign Passport.", mounted: false },
 ];
 
-/** SAMPLE timings; confirm per hub. */
+/** Campus operating schedule (Master Refinement §9.1). SAMPLE timings; confirm per hub. */
 export const batches = [
-  { name: "Dawn", time: "06:00–06:45", days: "Mon · Wed · Fri", who: "Juniors 8–11" },
-  { name: "After school", time: "16:00–16:45", days: "Tue · Thu", who: "Intermediates 12–14" },
-  { name: "Weekend", time: "07:00–07:45", days: "Sat · Sun", who: "All ranks" },
-  { name: "Lancer squad", time: "15:00–17:00", days: "Sat", who: "Knights & Lancers, competition" },
+  { name: "Dawn Patrol", time: "06:15–07:00", days: "Mon · Wed · Fri", who: "High school & senior squad", focus: "High-intensity drills, zero class conflict" },
+  { name: "Twilight Batch", time: "15:45–16:30", days: "Tue · Thu · Fri", who: "Primary & middle school", focus: "Post-school transition before bus departures" },
+  { name: "Sunset Command", time: "16:45–17:30", days: "Mon–Thu", who: "Advanced lancer squad", focus: "Skill-at-arms, lance runs, barrel racing" },
+  { name: "Weekend Circuit", time: "07:00–07:45 · 08:00–08:45", days: "Sat & Sun", who: "Open & parent–cadet batches", focus: "Skill-at-arms, family attendance, monthly trials" },
 ];
 
 export const assessment = [

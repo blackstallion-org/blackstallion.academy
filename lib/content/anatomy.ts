@@ -9,6 +9,8 @@ export type Hotspot = {
   title: string;
   short: string;
   trains: string;
+  /** HUD telemetry metric (Directive 04 §2). */
+  metric: string;
   x: number;
   y: number;
   layers: { equine: string; rider: string; builds: string; legend: string };
@@ -16,27 +18,27 @@ export type Hotspot = {
 
 export const hotspots: Hotspot[] = [
   {
-    id: "ears", name: "Ears", title: "180° of attention", x: 71, y: 10,
-    short: "They swivel to track your breathing. Tense up and they flick back.", trains: "Composure",
+    id: "ears", name: "Ears", title: "180° of attention", x: 71, y: 10, metric: "180° INDEPENDENT ACOUSTIC SWIVEL",
+    short: "The lyre-shaped ears swivel independently to track the rider's breathing and ambient shifts. Tense up and they flick back instantly.", trains: "Composure & active environmental reading",
     layers: {
       equine: "Lyre-shaped ears turn through 180° and track sound independently.",
-      rider: "Your breathing and tension are audible to the horse; calm breath settles it.",
+      rider: "Your breathing and tension are audible to the horse; they force the cadet into total physical stillness and emotional composure.",
       builds: "Emotional self-governance",
       legend: "Riders trusted the ears to point toward danger in the dark.",
     },
   },
   {
-    id: "neck", name: "Neck", title: "The crest", x: 62, y: 19,
-    short: "A level neck asks for a level rider: chin up, shoulders stacked.", trains: "Carriage",
+    id: "neck", name: "Neck", title: "The balancer", x: 62, y: 19, metric: "CERVICAL BIOMECHANICAL LEVER",
+    short: "High-carried and muscularly dense, the neck is a dynamic counterweight across shifting sand, teaching subtle balance shifts over brute force.", trains: "Poise & dynamic weight distribution",
     layers: {
-      equine: "A strong ligament along the crest carries the head.",
+      equine: "High-carried, arching and muscularly dense: a dynamic counterweight engineered for rapid weight shifts across shifting dunes.",
       rider: "A level, soft neck asks for a level rider: head stacked over spine.",
       builds: "Carriage and presence",
       legend: "Stablemen judged a horse's readiness by how it carried its neck.",
     },
   },
   {
-    id: "saddle", name: "Saddle", title: "The moving floor", x: 47, y: 29,
+    id: "saddle", name: "Saddle", title: "The moving floor", x: 47, y: 29, metric: "PELVIC KINEMATICS · 3D CORE REALIGNMENT",
     short: "At a walk the horse moves your pelvis in three dimensions, close to the pattern of human walking.", trains: "Core and balance",
     layers: {
       equine: "The back carries the stride straight into the rider's seat.",
@@ -46,7 +48,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "flank", name: "Flank", title: "Legs that steer", x: 39, y: 46,
+    id: "flank", name: "Flank", title: "Legs that steer", x: 39, y: 46, metric: "MICRO-PRESSURE STEERING INTERFACE",
     short: "The lightest leg pressure turns the horse. Hands stay free for the lance.", trains: "Precision without force",
     layers: {
       equine: "Sensitive skin and muscle answer the lightest leg pressure.",
@@ -56,7 +58,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "reins", name: "Reins", title: "Ten grams", x: 74, y: 30,
+    id: "reins", name: "Reins", title: "Ten grams", x: 74, y: 30, metric: "10-GRAM CONTACT INTERFACE",
     short: "A few grams of pressure turns half a tonne. Shouting does nothing.", trains: "Precise communication",
     layers: {
       equine: "A mouth that answers a few grams of contact.",
@@ -66,7 +68,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "hoof", name: "Hoof", title: "Desert feet", x: 58, y: 89,
+    id: "hoof", name: "Hoof", title: "Desert feet", x: 58, y: 89, metric: "DESERT-BRED SUSPENSION & CADENCE",
     short: "Hard, upright hooves bred to lift clean out of sand.", trains: "Rhythm and timing",
     layers: {
       equine: "The fetlock flexes like a spring; desert hooves are hard and upright.",

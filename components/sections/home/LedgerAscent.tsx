@@ -103,7 +103,7 @@ export function LedgerAscent() {
               const done = nd.ri < active;
               return (
                 <g key={nd.n}>
-                  {on && <circle cx={nd.x} cy={nd.y} r="16" fill="rgb(230 202 101 / 0.12)" />}
+                  {on && <circle cx={nd.x} cy={nd.y} r="16" fill="rgb(212 175 55 / 0.12)" />}
                   <circle cx={nd.x} cy={nd.y} r={on ? 5 : 3.5} fill={on ? "var(--color-gold)" : done ? "var(--color-brass)" : "rgb(197 160 89 / 0.35)"} />
                 </g>
               );

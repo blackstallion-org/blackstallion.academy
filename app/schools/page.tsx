@@ -3,12 +3,12 @@ import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { ConfiguratorAndSimulator, HubMap, ModelFlow, SchoolsTitle } from "@/components/sections/schools/SchoolScenes";
+import { ConfiguratorAndSimulator, HubMap, ModelFlow, PanIndiaNetwork, SchoolsTitle } from "@/components/sections/schools/SchoolScenes";
 import { seals } from "@/lib/content/schools";
 
 export const metadata: Metadata = {
   title: "The Citadel · For school boards",
-  description: "A turnkey equestrian hub on your campus: three tiers, a return simulator, live hubs and a draft MOU.",
+  description: "A zero-CapEx equestrian hub on your campus: BSAH funds, builds and operates; your school earns 25–30% of tuition. Three tiers, the Pan-India network and a draft MOU.",
 };
 
 export default function SchoolsPage() {
@@ -18,6 +18,7 @@ export default function SchoolsPage() {
       <ModelFlow />
       <ConfiguratorAndSimulator />
       <HubMap />
+      <PanIndiaNetwork />
 
       {/* §5 · S56 seal row */}
       <section aria-labelledby="seals-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">

@@ -10,7 +10,7 @@ import { Arrow, Label, ReelMark } from "@/components/film/Marks";
 import { PinnedScene } from "@/components/film/PinnedScene";
 import { r } from "@/components/film/range";
 import { Reveal } from "@/components/film/Reveal";
-import { creed, day, passport, reels, spotlights } from "@/lib/content/academy";
+import { creed, day, passport, reels, spotlights, uniform } from "@/lib/content/academy";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
@@ -125,7 +125,7 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
               <div className="parchment absolute inset-0 p-4 [backface-visibility:hidden] [transform:rotateY(180deg)] sm:p-6">
                 <p className="label text-[#6b5130]">Identity</p>
                 <p className="t-voice mt-3 text-lg text-ink sm:text-2xl">Zayd Saif Khan</p>
-                <p className="t-ui mt-1 text-xs text-[#5a4526]">DPS Hyderabad Campus Hub</p>
+                <p className="t-ui mt-1 text-xs text-[#5a4526]">Zone 01A · Financial District Hub</p>
                 <p className="font-mono mt-6 text-[0.55rem] text-[#3b2a12] sm:text-xs">BSAH-2026-HYD-042</p>
                 <p className="t-ui mt-1 text-[0.6rem] text-[#5a4526]">Sample record</p>
               </div>
@@ -238,6 +238,38 @@ export function MilestoneReels() {
           </li>
         ))}
       </ol>
+    </section>
+  );
+}
+
+
+/** §2b · S45 the uniform. The cadet uniform specification as a tailor's docket (Master Refinement §7). */
+export function UniformSpec() {
+  return (
+    <section aria-labelledby="uniform-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+      <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
+        <div className="relative aspect-[3/4] w-full max-w-md overflow-hidden lg:order-2">
+          <FilmImage name="cadetZayd" sizes="(min-width: 1024px) 40vw, 90vw" grade="deep" />
+          <div aria-hidden className="absolute inset-0 shade-b" />
+          <p className="font-mono absolute bottom-4 left-5 text-[0.6rem] tracking-[0.14em] text-dust">BSAH CADET UNIFORM · SPEC 2026</p>
+        </div>
+        <div className="lg:order-1">
+          <Label>The uniform</Label>
+          <Headline id="uniform-h" className="mt-4" inscription="Midnight wool," voice="copper and brass." />
+          <dl className="mt-10 border-t border-brass/20">
+            {uniform.map((u, i) => (
+              <div key={u.item} className="grid gap-1 border-b border-brass/20 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                <dt className="pt-1">
+                  <span className="font-mono mr-3 text-xs text-gold">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="label text-dust">{u.item}</span>
+                </dt>
+                <dd className="text-sand">{u.spec}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="t-ui mt-6 text-xs text-dust">Issued with the onboarding kit; sizing at the assessment ride.</p>
+        </div>
+      </div>
     </section>
   );
 }

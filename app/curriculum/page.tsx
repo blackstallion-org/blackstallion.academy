@@ -4,12 +4,13 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { ClockRing, CurriculumTitle, DisciplinePanels, PillarGrid, Staircase, ThreeStamps } from "@/components/sections/curriculum/CurriculumScenes";
+import { CodexVault } from "@/components/sections/curriculum/CodexVault";
+import { ClockRing, CurriculumTitle, DisciplinePanels, Staircase, ThreeStamps } from "@/components/sections/curriculum/CurriculumScenes";
 import { batches } from "@/lib/content/curriculum";
 
 export const metadata: Metadata = {
   title: "The Ledger",
-  description: "Four ranks, twelve pillars, a 45-minute class and batches on your child's own campus: the BSAH curriculum.",
+  description: "Four ranks, thirteen pillars, a 45-minute military session protocol and batches on your child's own campus: the BSAH curriculum.",
 };
 
 export default function CurriculumPage() {
@@ -17,7 +18,7 @@ export default function CurriculumPage() {
     <>
       <CurriculumTitle />
       <Staircase />
-      <PillarGrid />
+      <CodexVault />
       <ClockRing />
 
       {/* §4 · S37 timetable board */}
@@ -30,11 +31,11 @@ export default function CurriculumPage() {
           <Label>Batches</Label>
           <Headline id="batches-h" className="mt-4" inscription="Before school." voice="After school. Weekends." />
           <div className="relative mt-10 overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse text-left">
+            <table className="w-full min-w-[760px] border-collapse text-left">
               <caption className="sr-only">Batch timetable (sample, confirm per hub)</caption>
               <thead>
                 <tr className="border-b border-brass/40">
-                  {["Batch", "Time", "Days", "Cadets"].map((h) => (
+                  {["Batch", "Time", "Days", "Cadets", "Focus"].map((h) => (
                     <th key={h} scope="col" className="label py-3 pr-6 font-semibold text-dust">
                       {h}
                     </th>
@@ -49,7 +50,8 @@ export default function CurriculumPage() {
                     </th>
                     <td className="font-mono py-5 pr-6 text-gold">{b.time}</td>
                     <td className="t-ui py-5 pr-6 text-sand">{b.days}</td>
-                    <td className="t-ui py-5 text-sand">{b.who}</td>
+                    <td className="t-ui py-5 pr-6 text-sand">{b.who}</td>
+                    <td className="t-ui py-5 text-sand">{b.focus}</td>
                   </tr>
                 ))}
               </tbody>

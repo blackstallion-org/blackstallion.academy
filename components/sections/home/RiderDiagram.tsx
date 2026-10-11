@@ -32,8 +32,8 @@ export function RiderDiagram({ active, className }: { active: SystemId; classNam
           </feMerge>
         </filter>
         <radialGradient id="halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="rgb(230 202 101 / 0.35)" />
-          <stop offset="100%" stopColor="rgb(230 202 101 / 0)" />
+          <stop offset="0%" stopColor="rgb(212 175 55 / 0.35)" />
+          <stop offset="100%" stopColor="rgb(212 175 55 / 0)" />
         </radialGradient>
       </defs>
 
@@ -68,7 +68,7 @@ export function RiderDiagram({ active, className }: { active: SystemId; classNam
             width={v.w}
             height={6.5}
             rx={2}
-            fill={on("spine") ? "rgb(230 202 101 / 0.25)" : "none"}
+            fill={on("spine") ? "rgb(212 175 55 / 0.25)" : "none"}
             stroke={stroke("spine")}
             strokeWidth="0.9"
             initial={false}
@@ -99,7 +99,7 @@ export function RiderDiagram({ active, className }: { active: SystemId; classNam
 
       {/* Muscle: core band + seat + thigh */}
       <g filter={on("muscle") ? "url(#glow)" : undefined}>
-        <ellipse cx="150" cy="258" rx="30" ry="26" fill={on("muscle") ? "rgb(230 202 101 / 0.16)" : "none"} stroke={stroke("muscle")} strokeWidth="0.9" strokeDasharray={on("muscle") ? "0" : "3 3"} />
+        <ellipse cx="150" cy="258" rx="30" ry="26" fill={on("muscle") ? "rgb(212 175 55 / 0.16)" : "none"} stroke={stroke("muscle")} strokeWidth="0.9" strokeDasharray={on("muscle") ? "0" : "3 3"} />
         <path d="M128 288 C134 302 166 302 172 288" fill="none" stroke={stroke("muscle")} strokeWidth="1.1" />
         <path d="M156 296 L204 344 L196 400" fill="none" stroke={stroke("muscle")} strokeWidth={on("muscle") ? 2.4 : 1.2} strokeLinecap="round" />
         <path d="M196 400 L214 404" stroke={stroke("muscle")} strokeWidth="1.2" strokeLinecap="round" />
@@ -111,7 +111,7 @@ export function RiderDiagram({ active, className }: { active: SystemId; classNam
       <circle cx="206" cy="214" r="2" fill="var(--color-brass)" />
 
       {/* Axis line: head over shoulders over hips */}
-      <line x1="150" y1="40" x2="150" y2="300" stroke={on("spine") ? "rgb(230 202 101 / 0.6)" : "rgb(197 160 89 / 0.15)"} strokeWidth="0.6" strokeDasharray="4 4" />
+      <line x1="150" y1="40" x2="150" y2="300" stroke={on("spine") ? "rgb(212 175 55 / 0.6)" : "rgb(197 160 89 / 0.15)"} strokeWidth="0.6" strokeDasharray="4 4" />
       <text x="158" y="38" className="font-mono" fontSize="7" fill="rgb(138 118 96)">
         AXIS 0.0°
       </text>

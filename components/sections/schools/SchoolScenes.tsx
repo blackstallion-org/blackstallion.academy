@@ -7,7 +7,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Cta, Label, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
-import { formatINR, hubs, model, simulate, tierById, tiers, type TierId } from "@/lib/content/schools";
+import { benchmark, formatINR, hubs, model, network, simulate, tierById, tiers, TUITION_PER_MONTH, type TierId } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { BlueprintPlan } from "./BlueprintPlan";
@@ -28,7 +28,7 @@ export function SchoolsTitle() {
         <ReelMark n={10} act="ledger" />
         <Headline id="schools-title" as="h1" size="1" animate="mount" className="mt-6" inscription="Your campus" voice="becomes a citadel." />
         <p className="t-story mt-6 max-w-2xl text-sand">
-          A turnkey equestrian hub, designed, built and run by BSAH, that returns a share of every rupee of tuition to your school.
+          A turnkey equestrian hub, funded, built and run by BSAH at zero capital expenditure to the school board, returning 25–30% of tuition to your institution.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Cta href="/schools/mou" variant="solid">
@@ -48,7 +48,7 @@ export function ModelFlow() {
   return (
     <section aria-labelledby="model-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>The model</Label>
-      <Headline id="model-h" className="mt-4" inscription="You build." voice="We run. You share." />
+      <Headline id="model-h" className="mt-4" inscription="Zero CapEx." voice="We build. You earn." />
       <div ref={ref} className="relative mt-16 grid gap-12 md:grid-cols-3 md:gap-0">
         <svg aria-hidden viewBox="0 0 1000 20" preserveAspectRatio="none" className="absolute left-[16%] right-[16%] top-8 hidden h-5 w-[68%] md:block">
           <motion.path d="M0 10 H1000" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="6 8" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 1.8, ease: ease.citadel, delay: 0.3 }} />
@@ -71,9 +71,9 @@ export function ConfiguratorAndSimulator() {
   const [cadets, setCadets] = useState(150);
   const [share, setShare] = useState(25);
   const tier = tierById(tierId);
-  const sim = simulate(cadets, share, tier.capexLakh);
-  const months = sim.paybackMonths;
-  const gauge = Math.min(1, months / 24);
+  const sim = simulate(cadets, share);
+  const maxShare = simulate(500, 30).schoolYear;
+  const gauge = Math.min(1, sim.schoolYear / maxShare);
 
   return (
     <>
@@ -91,7 +91,7 @@ export function ConfiguratorAndSimulator() {
                 onClick={() => setTierId(t.id)}
                 className={cn("bg-night p-6 text-left transition-colors md:p-8", tierId === t.id ? "bg-ember/80" : "hover:bg-umber")}
               >
-                <span className={cn("font-mono text-sm", tierId === t.id ? "text-gold" : "text-dust")}>{t.capexLabel}</span>
+                <span className={cn("font-mono text-sm", tierId === t.id ? "text-gold" : "text-dust")}>BSAH funds · {t.capexLabel}</span>
                 <span className={cn("t-voice mt-2 block text-3xl", tierId === t.id ? "text-gold" : "text-bone")}>{t.name}</span>
                 <span className="t-ui mt-2 block text-sm text-sand">
                   {t.acres} · {t.cadets} cadets
@@ -115,7 +115,7 @@ export function ConfiguratorAndSimulator() {
 
       <section id="simulator" aria-labelledby="sim-h" className="gutter relative scroll-mt-20 py-[clamp(6rem,14vh,12rem)]">
         <Label>Return simulator</Label>
-        <Headline id="sim-h" className="mt-4" inscription="The arena" voice="pays for itself." />
+        <Headline id="sim-h" className="mt-4" inscription="The arena pays you" voice="from month one." />
         <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
           <div className="flex flex-col gap-10">
             <div>
@@ -136,7 +136,7 @@ export function ConfiguratorAndSimulator() {
               </div>
             </div>
             <p className="t-ui text-sm text-dust">
-              Tier: <span className="text-sand">{tier.name}</span> ({tier.capexLabel}) · change it above.
+              Tier: <span className="text-sand">{tier.name}</span> (BSAH invests {tier.capexLabel}) · change it above.
             </p>
             <dl className="grid grid-cols-2 gap-6 border-t border-brass/25 pt-8">
               <div>
@@ -152,8 +152,8 @@ export function ConfiguratorAndSimulator() {
                 <dd className="font-mono mt-2 text-xl text-sand">{formatINR(sim.schoolMonth)}</dd>
               </div>
               <div>
-                <dt className="label text-dust">Capital</dt>
-                <dd className="font-mono mt-2 text-xl text-sand">{tier.capexLabel}</dd>
+                <dt className="label text-dust">Your capital</dt>
+                <dd className="font-mono mt-2 text-xl text-sand">₹0 · BSAH-funded</dd>
               </div>
             </dl>
           </div>
@@ -162,23 +162,23 @@ export function ConfiguratorAndSimulator() {
             <svg viewBox="0 0 400 250" className="h-full w-full" aria-hidden>
               <path d="M40 210 A160 160 0 0 1 360 210" fill="none" stroke="rgb(197 160 89 / 0.2)" strokeWidth="14" />
               <motion.path d="M40 210 A160 160 0 0 1 360 210" fill="none" stroke="var(--color-gold)" strokeWidth="14" initial={false} animate={{ pathLength: Math.max(0.02, gauge) }} transition={{ duration: 0.8, ease: ease.citadel }} />
-              {[0, 6, 12, 18, 24].map((m) => {
-                const a = Math.PI - (m / 24) * Math.PI;
+              {[0, 25, 50, 75, 100].map((m) => {
+                const a = Math.PI - (m / 100) * Math.PI;
                 return (
                   <text key={m} x={200 + Math.cos(a) * 185} y={214 - Math.sin(a) * 185} textAnchor="middle" className="font-mono" fontSize="11" fill="rgb(138 118 96)">
-                    {m}
+                    {m === 0 ? "0" : ""}
                   </text>
                 );
               })}
             </svg>
             <div className="absolute inset-x-0 bottom-[8%] text-center">
-              <p className="font-mono text-5xl text-gold">{months.toFixed(1)}</p>
-              <p className="label mt-1 text-sand">months to pay back</p>
+              <p className="font-mono text-5xl text-gold">{formatINR(sim.schoolYear)}</p>
+              <p className="label mt-1 text-sand">to the school, per year</p>
             </div>
           </div>
         </div>
         <p className="t-ui mt-10 max-w-3xl text-xs leading-relaxed text-dust">
-          Estimate at ₹8,000 monthly tuition per cadet before GST, at full enrolment. Enrolment ramps up over the first terms; final terms are set in the MOU.
+          Estimate at ₹{TUITION_PER_MONTH.toLocaleString("en-IN")} monthly Core tuition per cadet before GST, at full enrolment. The school carries no construction capital; enrolment ramps up over the first terms and final terms are set in the MOU.
         </p>
         <div className="mt-8">
           <Cta href="/schools/mou" variant="solid">
@@ -226,7 +226,7 @@ export function HubMap() {
         </div>
         <div>
           <Label>Hubs</Label>
-          <Headline id="hubs-h" className="mt-4" inscription="Live" voice="in Hyderabad." />
+          <Headline id="hubs-h" className="mt-4" inscription="Zone 01," voice="live in Hyderabad." />
           <ul className="mt-10 border-t border-brass/20">
             {hubs.map((h) => (
               <li key={h.slug}>
@@ -242,8 +242,44 @@ export function HubMap() {
               </li>
             ))}
           </ul>
-          <p className="t-ui mt-6 text-sm text-dust">Next: Bengaluru · Pune · Delhi NCR, 2027 (sample).</p>
+          <p className="t-ui mt-6 text-sm text-dust">Zones 02–06 — NCR, Mumbai–Pune, Bengaluru, the northern boarding corridor and the east — open for campus surveys (sample status).</p>
         </div>
+      </div>
+    </section>
+  );
+}
+
+
+/** §4b · S57 the Pan-India network. Six sovereign circuits; target corridors, not signed partners. */
+export function PanIndiaNetwork() {
+  return (
+    <section aria-labelledby="network-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+      <div className="gutter">
+        <Label>The Sovereign Pan-India Regional Hub Network</Label>
+        <Headline id="network-h" className="mt-4" inscription="Six circuits," voice="one national standard." />
+        <div className="mt-8 max-w-3xl">
+          <p className="t-story text-sand">{benchmark.lines[0]}</p>
+          <p className="t-story mt-4 text-sand">{benchmark.lines[1]}</p>
+        </div>
+        <div className="mt-14 grid gap-px bg-brass/15 md:grid-cols-2 xl:grid-cols-3">
+          {network.map((z) => (
+            <div key={z.code} className="bg-night p-6 md:p-8">
+              <p className="font-mono text-sm text-copper">ZONE {z.code}</p>
+              <h3 className="t-voice mt-2 text-2xl text-bone">{z.name}</h3>
+              <ul className="mt-6 flex flex-col gap-4 border-t border-brass/15 pt-5">
+                {z.subzones.map((sz) => (
+                  <li key={sz.code}>
+                    <p className="label text-gold">
+                      {sz.code} <span className="ml-1 text-sand">{sz.name}</span>
+                    </p>
+                    <p className="t-ui mt-1 text-sm text-dust">{sz.demographic}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p className="t-ui mt-6 text-xs text-dust">Target educational corridors for the national rollout. Hub statuses are published only for operating zones; no partnership is implied for any institution within a corridor.</p>
       </div>
     </section>
   );

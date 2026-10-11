@@ -23,7 +23,7 @@ export type Credential = {
 export const credentials: Credential[] = [
   {
     code: "BSAH-2026-HYD-042", name: "Zayd Saif Khan", rank: "knight", rankName: "Cadet Knight", hours: 48,
-    hub: "dps-hyderabad", hubName: "DPS Hyderabad Campus Hub", efi: "EFI-JR-99823", issued: "2026-09-28",
+    hub: "zone-01a-financial-district", hubName: "Zone 01A · Financial District Hub", efi: "EFI-JR-99823", issued: "2026-09-28",
     seals: ["squire", "rider", "knight"],
     milestones: [
       { date: "2026-03-14", text: "Seal I · Cadet Squire" },
@@ -35,7 +35,7 @@ export const credentials: Credential[] = [
   },
   {
     code: "BSAH-2026-HYD-017", name: "Ananya Reddy", rank: "knight", rankName: "Cadet Knight", hours: 36,
-    hub: "oakridge-gachibowli", hubName: "Oakridge International Hub", efi: "EFI-JR-99741", issued: "2026-09-12",
+    hub: "zone-01c-gachibowli", hubName: "Zone 01C · Gachibowli Academic Axis", efi: "EFI-JR-99741", issued: "2026-09-12",
     seals: ["squire", "rider", "knight"],
     milestones: [
       { date: "2026-04-02", text: "Seal I · Cadet Squire" },
@@ -46,7 +46,7 @@ export const credentials: Credential[] = [
   },
   {
     code: "BSAH-2026-HYD-088", name: "Rohan Verma", rank: "rider", rankName: "Cadet Rider", hours: 24,
-    hub: "hyderabad-public-school", hubName: "The Hyderabad Public School Hub", efi: null, issued: "2026-09-05",
+    hub: "zone-01b-begumpet", hubName: "Zone 01B · Begumpet Heritage Belt", efi: null, issued: "2026-09-05",
     seals: ["squire", "rider"],
     milestones: [
       { date: "2026-06-01", text: "Seal I · Cadet Squire" },
@@ -59,10 +59,11 @@ export const credentials: Credential[] = [
 export const credentialByCode = (code: string) =>
   credentials.find((c) => c.code.toLowerCase() === decodeURIComponent(code).trim().toLowerCase());
 
+/** Circuit standings by zone codename (Pan-India Directive: no school names under live hub statuses). */
 export const standings = [
-  { pos: 1, hub: "DPS Hyderabad Campus Hub", short: "DPS Hyderabad", points: 1420, gold: 12, cup: "Qualified for national finals" },
-  { pos: 2, hub: "Oakridge International Hub", short: "Oakridge", points: 1280, gold: 9, cup: "Semi-finals qualified" },
-  { pos: 3, hub: "The Hyderabad Public School", short: "HPS", points: 1150, gold: 7, cup: "Regional contender" },
+  { pos: 1, hub: "01 · Financial District Hub", short: "Zone 01A", points: 1420, gold: 12, cup: "Qualified for national finals" },
+  { pos: 2, hub: "02 · Golf Course Road Belt", short: "Zone 02A", points: 1280, gold: 9, cup: "Semi-finals qualified" },
+  { pos: 3, hub: "03 · BKC & South Mumbai Circuit", short: "Zone 03A", points: 1150, gold: 7, cup: "Regional contender" },
 ];
 
 export type Tournament = {
@@ -82,7 +83,7 @@ export type Tournament = {
 export const tournaments: Tournament[] = [
   {
     slug: "governors-cup-2026", name: "Sovereign Governor's Cup", date: "2026-11-14", dateLabel: "14 NOV 2026",
-    venue: "DPS Hyderabad Campus Hub", format: "National qualifier", ages: "Under-14 · Under-18", status: "open", image: "tournCrowd",
+    venue: "Zone 01A Arena · Financial District", format: "National qualifier", ages: "Under-14 · Under-18", status: "open", image: "tournCrowd",
     events: ["Tent pegging, individual", "Tent pegging, team of four", "Barrel racing", "Mounted archery exhibition"],
     schedule: [
       { time: "07:00", item: "Vet inspection and horse draw" },
@@ -95,7 +96,7 @@ export const tournaments: Tournament[] = [
   },
   {
     slug: "hyderabad-interschool-2026", name: "Hyderabad Interschool Tent Pegging", date: "2026-12-12", dateLabel: "12 DEC 2026",
-    venue: "Oakridge International Hub", format: "League round", ages: "Under-16", status: "open", image: "schoolArenaNight",
+    venue: "Zone 01C Arena · Gachibowli", format: "League round", ages: "Under-16", status: "open", image: "schoolArenaNight",
     events: ["Tent pegging, lance", "Mounted target (pellet)", "Ring tilting"],
     schedule: [
       { time: "15:30", item: "Vet inspection" },
@@ -106,7 +107,7 @@ export const tournaments: Tournament[] = [
   },
   {
     slug: "junior-lancers-2027", name: "Junior Lancers Invitational", date: "2027-01-23", dateLabel: "23 JAN 2027",
-    venue: "The Hyderabad Public School", format: "Invitational", ages: "Under-14", status: "soon", image: "tournCup",
+    venue: "Zone 01B Pavilion · Begumpet", format: "Invitational", ages: "Under-14", status: "soon", image: "tournCup",
     events: ["Walk-trot tent pegging", "Pole bending", "Mounted archery demonstration"],
     schedule: [
       { time: "08:00", item: "Horse draw and warm-up" },
@@ -120,7 +121,7 @@ export const tournaments: Tournament[] = [
 export const tournamentBySlug = (slug: string) => tournaments.find((t) => t.slug === slug);
 
 export const champions = [
-  { title: "Governor's Cup 2025–26", who: "DPS Hyderabad Campus Hub" },
-  { title: "Mounted archery", who: "Ananya Reddy · Oakridge" },
-  { title: "Best young rider", who: "Rohan Verma · HPS" },
+  { title: "Governor's Cup 2025–26", who: "Zone 01A · Financial District Hub" },
+  { title: "Mounted archery", who: "Ananya Reddy · Zone 01C" },
+  { title: "Best young rider", who: "Rohan Verma · Zone 01B" },
 ];

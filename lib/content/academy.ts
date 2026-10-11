@@ -6,9 +6,9 @@ import type { MediaKey } from "./media";
 
 /** SAMPLE spotlights, names from the client docs. */
 export const spotlights: { name: string; rank: string; hub: string; hours: number; honour: string; image: MediaKey; code: string }[] = [
-  { name: "Zayd Saif Khan", rank: "Cadet Knight", hub: "DPS Hyderabad Campus Hub", hours: 48, honour: "National STPCI qualifier", image: "cadetZayd", code: "BSAH-2026-HYD-042" },
-  { name: "Ananya Reddy", rank: "Cadet Knight", hub: "Oakridge International Hub", hours: 36, honour: "Mounted archery champion", image: "cadetAnanya", code: "BSAH-2026-HYD-017" },
-  { name: "Rohan Verma", rank: "Cadet Rider", hub: "The Hyderabad Public School Hub", hours: 24, honour: "Perfect canter score", image: "cadetRohan", code: "BSAH-2026-HYD-088" },
+  { name: "Zayd Saif Khan", rank: "Cadet Knight", hub: "Zone 01A · Financial District Hub", hours: 48, honour: "National STPCI qualifier", image: "cadetZayd", code: "BSAH-2026-HYD-042" },
+  { name: "Ananya Reddy", rank: "Cadet Knight", hub: "Zone 01C · Gachibowli Academic Axis", hours: 36, honour: "Mounted archery champion", image: "cadetAnanya", code: "BSAH-2026-HYD-017" },
+  { name: "Rohan Verma", rank: "Cadet Rider", hub: "Zone 01B · Begumpet Heritage Belt", hours: 24, honour: "Perfect canter score", image: "cadetRohan", code: "BSAH-2026-HYD-088" },
 ];
 
 export const passport = {
@@ -38,6 +38,15 @@ export const creed = [
   "I wear the Sovereign Passport with pride, serving my team, my academy and my nation.",
 ];
 
+/** BSAH cadet uniform specification (Master Refinement §7). */
+export const uniform = [
+  { item: "Bandhgala tunic", spec: "High-collared, tailor-fitted midnight-black or dark navy wool blend, secured with burnished antique-copper buttons embossed with the BSAH horse crest." },
+  { item: "Breeches", spec: "Crisp ivory or cream high-stretch performance breeches, a sharp visual contrast under the tunic." },
+  { item: "Footwear", spec: "Tall dark leather riding boots, or structured leather gaiters over paddock boots for younger squires." },
+  { item: "Headwear", spec: "Matte-black velvet-finish safety helmet with a subtle metallic copper trim along the front rim." },
+  { item: "Insignia & accents", spec: "Right lapel: metal rank bar (Squire, Rider, Knight, Lancer). Left sleeve: embroidered BSAH institutional patch. Formal parades: brass-tipped sash or leather cross-belt." },
+];
+
 export const reels: { title: string; who: string; image: MediaKey }[] = [
   { title: "First canter", who: "Rohan, 13", image: "cadetRohan" },
   { title: "First peg carried", who: "Zayd, 15", image: "currTentpeg" },
@@ -49,7 +58,7 @@ export const reels: { title: string; who: string; image: MediaKey }[] = [
 
 export const phoneSteps = [
   { id: "cam", label: "Stall-cam", title: "Watch Chetak IX at night feed, live.", text: "Every stall has a camera. Open the app and see your child's stallion rest, eat and sleep." },
-  { id: "gate", label: "Gate alert", title: "Ananya checked in at 15:52 · DPS Hub.", text: "The moment the passport is scanned at the stable gate, you know your child has arrived." },
+  { id: "gate", label: "Gate alert", title: "Ananya checked in at 15:52 · Zone 01A Hub.", text: "The moment the passport is scanned at the stable gate, you know your child has arrived." },
   { id: "reel", label: "Milestone reel", title: "Today: first canter without stirrups · 0:10.", text: "After each milestone, a ten-second reel lands on your phone, with a posture overlay." },
   { id: "passport", label: "Passport", title: "Cadet Rider · 24 hrs · next seal at 30 hrs.", text: "Rank, hours and the next seal, the same record a university can verify." },
 ];
@@ -62,10 +71,11 @@ export const admissions = [
   { title: "First session", text: "Passport scanned at the gate; you get the first alert." },
 ];
 
+/** Institutional pricing (Master Refinement §9.1). GST added at billing. */
 export const fees = [
-  { item: "Onboarding (one-time)", detail: "Handcrafted Sovereign Passport, brass seal stamping, uniform badges, welcome box", amount: 2000 },
-  { item: "Monthly tuition", detail: "₹8,000 + 18% GST (₹1,440), by UPI Autopay on the 1st", amount: 9440 },
-  { item: "Riding safety kit (optional)", detail: "Certified helmet, riding gloves, protective chaps", amount: 3000 },
+  { item: "Core Cadets (monthly)", detail: "Two sessions a week · ₹8,500 + 18% GST, by UPI Autopay on the 1st", amount: 8500 },
+  { item: "Sovereign Elite (monthly)", detail: "Three sessions a week + skill-at-arms + STPCI registration + 24/7 stall-cam · ₹12,500 + 18% GST", amount: 12500 },
+  { item: "Onboarding kit (one-time)", detail: "Bandhgala tunic, helmet, boots, handcrafted Sovereign Passport · ₹5,000 + GST", amount: 5000 },
 ];
 
 export const faq = [
@@ -89,7 +99,7 @@ export const kitLabels = [
 ];
 
 export const shields = [
-  { big: "Ex-military", title: "Instructors", line: "Sourced from Indian Army RVC and NCC cavalry units." },
+  { big: "Ex-military", title: "Instructors", line: "Recruited from retired Indian Army RVC, 61st Cavalry JCOs/NCOs and NCC Equestrian Wings." },
   { big: "Daily", title: "Veterinary & livestock care", line: "On-campus equine vet protocols; strict hydration and feeding logs." },
   { big: "₹10 L", title: "Comprehensive insurance", line: "Group accident cover for every active cadet." },
 ];
@@ -107,7 +117,7 @@ export const orders = [
 
 /** SAMPLE until live data. */
 export const record = [
-  { value: 1480, suffix: "", label: "horsemanship hours logged", sample: true },
+  { value: 14800, suffix: "", label: "training hours logged nationally", sample: true },
   { value: 0, suffix: "", label: "major injuries", sample: true },
   { value: 21, suffix: "", label: "stallions vet-checked daily", sample: false },
   { value: 10, prefix: "₹", suffix: " L", label: "accident cover per cadet", sample: false },

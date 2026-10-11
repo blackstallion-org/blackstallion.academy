@@ -7,3 +7,8 @@ CLAUDE.md
 .mcp.json
 .next
 node_modules
+*.mp4
+*.pdf
+Claude outputs
+blackstallion images
+instructions

@@ -23,7 +23,7 @@ function Sprockets() {
       className="h-4 w-full"
       style={{
         backgroundColor: "rgb(42 29 18 / 0.85)",
-        backgroundImage: "linear-gradient(90deg, transparent 0 7px, rgb(10 8 6) 7px 17px, transparent 17px 24px)",
+        backgroundImage: "linear-gradient(90deg, transparent 0 7px, rgb(15 14 13) 7px 17px, transparent 17px 24px)",
         backgroundSize: "24px 7px",
         backgroundRepeat: "repeat-x",
         backgroundPosition: "0 50%",

@@ -71,7 +71,7 @@ function Screen({ id }: { id: string }) {
         <div className="rounded-2xl bg-umber p-4">
           <p className="label text-brass">BSAH · Gate</p>
           <p className="t-ui mt-1 text-sm text-bone">Ananya checked in at 15:52</p>
-          <p className="t-ui text-xs text-dust">DPS Hub · passport scanned</p>
+          <p className="t-ui text-xs text-dust">Zone 01A Hub · passport scanned</p>
         </div>
         <div className="rounded-2xl bg-umber/60 p-4 opacity-60">
           <p className="label text-brass">BSAH · Session</p>
@@ -192,14 +192,15 @@ export function HoofPath() {
 export function Receipt() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
-  const firstMonth = fees.reduce((s, f) => s + f.amount, 0);
+  const GST = 1.18;
+  const firstMonthCore = Math.round((8500 + 5000) * GST);
   return (
     <section id="fees" aria-labelledby="fees-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-center">
         <div>
           <Label>Fees</Label>
           <Headline id="fees-h" className="mt-4" inscription="Fees," voice="plainly." />
-          <p className="mt-6 max-w-sm text-sand">No hidden costs. Tuition is billed monthly by UPI Autopay; onboarding and the optional kit are paid once.</p>
+          <p className="mt-6 max-w-sm text-sand">No hidden costs. Choose Core Cadets or Sovereign Elite; tuition is billed monthly by UPI Autopay and the onboarding kit is paid once.</p>
         </div>
         <div ref={ref} className="overflow-hidden">
           <motion.div
@@ -224,12 +225,16 @@ export function Receipt() {
             </ul>
             <div className="my-5 border-t border-dashed border-[#8a6a2c]/60" />
             <p className="font-mono flex justify-between text-sm font-semibold text-ink">
-              <span>First month with kit</span>
-              <span>{inr(firstMonth)}</span>
+              <span>First month · Core, with kit & GST</span>
+              <span>{inr(firstMonthCore)}</span>
             </p>
             <p className="font-mono mt-2 flex justify-between text-sm text-ink">
-              <span>Each month after</span>
-              <span>{inr(9440)}</span>
+              <span>Each month after · Core</span>
+              <span>{inr(Math.round(8500 * GST))}</span>
+            </p>
+            <p className="font-mono mt-2 flex justify-between text-sm text-ink">
+              <span>Each month after · Sovereign Elite</span>
+              <span>{inr(Math.round(12500 * GST))}</span>
             </p>
             <p className="font-mono mt-6 text-center text-[0.6rem] text-[#6b5130]">PAYMENTS VIA RAZORPAY · UPI AUTOPAY ON THE 1ST</p>
           </motion.div>

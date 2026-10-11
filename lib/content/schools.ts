@@ -1,7 +1,12 @@
 import type { HubSlug } from "./fleet";
 import type { MediaKey } from "./media";
 
-/** Reel 10 · The Citadel (school boards). Blueprint R10. */
+/**
+ * Reel 10 · The Citadel (school boards). Blueprint R10, revised per the
+ * Pan-India Regional Architecture Directive and Directive 04 (Zero-CapEx model):
+ * BSAH funds, builds and operates; the school provides land and earns 25–30%.
+ * No claims of signed contracts with named schools anywhere in this file.
+ */
 
 export type TierId = "standard" | "signature" | "royal";
 
@@ -16,21 +21,21 @@ export type Tier = {
   includes: string[];
 };
 
+/** Capital figures are BSAH's investment in the campus arena, not the school's. */
 export const tiers: Tier[] = [
   { id: "standard", name: "Standard Hub", stables: 4, acres: "0.5 acre", cadets: "100–150", capexLakh: 8.2, capexLabel: "₹8.20 L", includes: ["4 stables", "Sand arena", "Fencing", "Tack room"] },
   { id: "signature", name: "Signature Hub", stables: 8, acres: "1 acre", cadets: "200–300", capexLakh: 15, capexLabel: "₹15.00 L", includes: ["8 stables", "Full arena", "AC lounge", "Floodlights"] },
   { id: "royal", name: "Royal Pavilion", stables: 12, acres: "1.5+ acres", cadets: "300+", capexLakh: 25, capexLabel: "₹25.00 L+", includes: ["12 stables", "Cavalry arena", "VIP deck", "STPCI host venue"] },
 ];
 
-export const TUITION_PER_MONTH = 8000; // ₹ per cadet, before GST
+export const TUITION_PER_MONTH = 8500; // ₹ per cadet (Core tier), before GST
 
-/** Blueprint R10 §3. Payback at full enrolment; the footnote on the page explains the ramp. */
-export function simulate(cadets: number, sharePct: number, capexLakh: number) {
+/** School income at a given enrolment and revenue share. The school carries no capital. */
+export function simulate(cadets: number, sharePct: number) {
   const annualTuition = cadets * TUITION_PER_MONTH * 12;
   const schoolYear = annualTuition * (sharePct / 100);
   const schoolMonth = schoolYear / 12;
-  const paybackMonths = schoolMonth > 0 ? (capexLakh * 100000) / schoolMonth : 0;
-  return { annualTuition, schoolYear, schoolMonth, paybackMonths };
+  return { annualTuition, schoolYear, schoolMonth };
 }
 
 /** ₹1,44,00,000 → "₹1.44 Cr"; ₹36,00,000 → "₹36.0 L" */
@@ -41,9 +46,9 @@ export function formatINR(n: number) {
 }
 
 export const model = [
-  { n: "01", title: "The school funds the arena", line: "Construction is a campus asset that stays yours." },
-  { n: "02", title: "BSAH designs, builds and operates", line: "Horses, faculty, vets, insurance, admissions and billing are ours." },
-  { n: "03", title: "The school earns 25–30%", line: "Of gross tuition, every month, as enrolment grows." },
+  { n: "01", title: "BSAH funds and builds the arena", line: "Zero capital expenditure to the school board. The school provides land, access and utilities." },
+  { n: "02", title: "BSAH operates everything", line: "Horses, ex-cavalry faculty, vets, insurance, admissions and billing are ours." },
+  { n: "03", title: "The school earns 25–30%", line: "Of gross cadet tuition, returned directly to the institution, settled quarterly." },
 ];
 
 export const seals = [
@@ -52,6 +57,74 @@ export const seals = [
   { title: "Press & national coverage", line: "Tournament days bring the cameras." },
   { title: "Governor's Cup venue", line: "Royal Pavilion hubs host the finals." },
 ];
+
+/* ------------------------------------------------------- Pan-India network */
+
+export type Zone = {
+  code: string;
+  name: string;
+  circuit: string;
+  subzones: { code: string; name: string; demographic: string }[];
+};
+
+/** The Sovereign Pan-India Regional Hub Network (Pan-India Directive §1–2). Target corridors, not signed partners. */
+export const network: Zone[] = [
+  {
+    code: "01", name: "Telangana & Andhra Pradesh Circuit", circuit: "Hyderabad hub network",
+    subzones: [
+      { code: "01A", name: "Financial District & Narsingi Corridor", demographic: "Premium IB & Cambridge international hubs" },
+      { code: "01B", name: "Begumpet & Jubilee Hills Heritage Belt", demographic: "Legacy private & historical day schools" },
+      { code: "01C", name: "Gachibowli & Madhapur Academic Axis", demographic: "Progressive K-12 & STEM institutions" },
+    ],
+  },
+  {
+    code: "02", name: "National Capital Region Circuit", circuit: "NCR",
+    subzones: [
+      { code: "02A", name: "Golf Course Road & Cyber City Belt (Gurugram)", demographic: "Ultra-premium global & IB world campuses" },
+      { code: "02B", name: "Noida Expressway & Knowledge Park Axis (Greater Noida)", demographic: "Sprawling multi-acre integrated institutional hubs" },
+      { code: "02C", name: "Chanakyapuri & Lutyens' Institutional Zone (New Delhi)", demographic: "Diplomatic & heritage boarding institutions" },
+    ],
+  },
+  {
+    code: "03", name: "Maharashtra & Western India Circuit", circuit: "West",
+    subzones: [
+      { code: "03A", name: "Bandra-Kurla Complex & South Mumbai Hub (Mumbai)", demographic: "Elite metropolitan day schools & legacy academies" },
+      { code: "03B", name: "Baner-Wakad & Pimpri-Chinchwad Axis (Pune)", demographic: "Technical, IB & global boarding institutions" },
+      { code: "03C", name: "Panchgani & Mahabaleshwar Residential Plateau", demographic: "Legacy heritage boarding schools & hill academies" },
+    ],
+  },
+  {
+    code: "04", name: "Karnataka & Southern Metropolitan Circuit", circuit: "South",
+    subzones: [
+      { code: "04A", name: "Whitefield & Sarjapur Innovation Belt (Bengaluru)", demographic: "New-age global tech & international residential campuses" },
+      { code: "04B", name: "Hebbal & Yelahanka North Corridor (Bengaluru)", demographic: "Sprawling acreage international academies" },
+      { code: "04C", name: "Ooty & Kodaikanal Hill Sanctuary Circuit (Tamil Nadu)", demographic: "Century-old residential boarding schools" },
+    ],
+  },
+  {
+    code: "05", name: "Northern Heritage & Boarding Circuit", circuit: "Northern corridor",
+    subzones: [
+      { code: "05A", name: "Doon Valley & Mussoorie Foothills Belt (Dehradun)", demographic: "India's premier legacy residential & all-boys/all-girls boarding academies" },
+      { code: "05B", name: "Ajmer & Jaipur Royal Heritage Corridor (Rajasthan)", demographic: "Historical Rajputana equestrian & boarding institutions" },
+      { code: "05C", name: "Shimla Hills & Solan Ridge Circuit (Himachal Pradesh)", demographic: "Heritage colonial residential boarding campuses" },
+    ],
+  },
+  {
+    code: "06", name: "Eastern & Central Regional Circuit", circuit: "East & Centre",
+    subzones: [
+      { code: "06A", name: "Alipore & Salt Lake Institutional Axis (Kolkata)", demographic: "Legacy metropolitan heritage schools" },
+      { code: "06B", name: "Central Malwa Educational Plateau (Indore / Bhopal)", demographic: "Sprawling residential & progressive CBSE/ICSE campuses" },
+    ],
+  },
+];
+
+/** Benchmark copy for the Pan-India section (Pan-India Directive §3). */
+export const benchmark = {
+  lines: [
+    "Equestrian excellence has historically been the sole privilege of select, century-old heritage academies.",
+    "BSAH democratises and elevates that sovereign infrastructure: turnkey, ex-cavalry managed arenas, STPCI-sanctioned national competition and zero-CapEx revenue-sharing models, brought directly to prospective premier campuses across India's leading educational corridors.",
+  ],
+};
 
 export type Hub = {
   slug: HubSlug;
@@ -68,35 +141,35 @@ export type Hub = {
   batches: { name: string; time: string; days: string }[];
 };
 
-/** Names from the client docs (confirm partnerships before launch). Numbers are SAMPLE. */
+/** Zone 01 flagship hubs (SAMPLE figures). Identified by zone codename, never by school name. */
 export const hubs: Hub[] = [
   {
-    slug: "dps-hyderabad", name: "DPS Hyderabad Campus Hub", short: "DPS Hyderabad", area: "Hyderabad", tier: "signature",
+    slug: "zone-01a-financial-district", name: "Zone 01A · Financial District & Narsingi Corridor", short: "Zone 01A · Narsingi", area: "Financial District", tier: "signature",
     stallions: 8, cadets: 150, image: "schoolAerial", note: "Circuit leader and host of the 2026 Sovereign Governor's Cup.",
     pin: { x: 58, y: 66 },
     batches: [
-      { name: "Dawn", time: "06:00–06:45", days: "Mon · Wed · Fri" },
-      { name: "After school", time: "16:00–16:45", days: "Tue · Thu" },
-      { name: "Weekend", time: "07:00–07:45", days: "Sat · Sun" },
+      { name: "Dawn Patrol", time: "06:15–07:00", days: "Mon · Wed · Fri" },
+      { name: "Twilight Batch", time: "15:45–16:30", days: "Tue · Thu · Fri" },
+      { name: "Weekend Circuit", time: "07:00–07:45", days: "Sat & Sun" },
     ],
   },
   {
-    slug: "oakridge-gachibowli", name: "Oakridge International Hub", short: "Oakridge, Gachibowli", area: "Gachibowli", tier: "standard",
+    slug: "zone-01c-gachibowli", name: "Zone 01C · Gachibowli & Madhapur Academic Axis", short: "Zone 01C · Gachibowli", area: "Gachibowli", tier: "standard",
     stallions: 4, cadets: 96, image: "schoolArenaNight", note: "Floodlit evening batches under the arena lights.",
     pin: { x: 30, y: 44 },
     batches: [
-      { name: "After school", time: "16:30–17:15", days: "Mon · Wed · Fri" },
-      { name: "Evening", time: "18:00–18:45", days: "Tue · Thu" },
+      { name: "Twilight Batch", time: "15:45–16:30", days: "Mon · Wed · Fri" },
+      { name: "Sunset Command", time: "16:45–17:30", days: "Tue · Thu" },
     ],
   },
   {
-    slug: "hyderabad-public-school", name: "The Hyderabad Public School Hub", short: "HPS, Begumpet", area: "Begumpet", tier: "royal",
+    slug: "zone-01b-begumpet", name: "Zone 01B · Begumpet & Jubilee Hills Heritage Belt", short: "Zone 01B · Begumpet", area: "Begumpet", tier: "royal",
     stallions: 12, cadets: 210, image: "bgPavilion", note: "Heritage pavilion and host of the Junior Lancers Invitational.",
     pin: { x: 54, y: 32 },
     batches: [
-      { name: "Dawn", time: "06:00–06:45", days: "Daily" },
-      { name: "After school", time: "16:00–16:45", days: "Mon–Fri" },
-      { name: "Lancer squad", time: "15:00–17:00", days: "Sat" },
+      { name: "Dawn Patrol", time: "06:15–07:00", days: "Daily" },
+      { name: "Twilight Batch", time: "15:45–16:30", days: "Mon–Fri" },
+      { name: "Sunset Command", time: "16:45–17:30", days: "Mon–Thu" },
     ],
   },
 ];

@@ -26,55 +26,68 @@ export function GateTitle() {
   );
 }
 
-type GateId = "schools" | "parents" | "partners";
+type GateId = "parents" | "schools" | "audit";
 
-const gates: { id: GateId; title: string; line: string; email: string; fields: Field[]; submit: string }[] = [
-  {
-    id: "schools",
-    title: "School boards",
-    line: "Book a campus feasibility audit and a 15-minute executive briefing.",
-    email: "boards@blackstallion.academy",
-    submit: "Request the briefing",
-    fields: [
-      { name: "name", label: "Your name", required: true, autoComplete: "name" },
-      { name: "designation", label: "Designation" },
-      { name: "organisation", label: "School", required: true, autoComplete: "organization" },
-      { name: "city", label: "City" },
-      { name: "email", label: "Email", type: "email", autoComplete: "email" },
-      { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
-      { name: "land", label: "Available land", type: "select", options: ["Under 0.5 acre", "0.5–1 acre", "1–1.5 acres", "1.5 acres or more"] },
-      { name: "message", label: "Anything we should know", type: "textarea" },
-    ],
-  },
+const zoneOptions = [
+  "Zone 01 · Telangana & AP (Hyderabad)",
+  "Zone 02 · NCR (Gurugram / Noida / Delhi)",
+  "Zone 03 · Maharashtra & West (Mumbai / Pune)",
+  "Zone 04 · Karnataka & South (Bengaluru / hills)",
+  "Zone 05 · Northern heritage & boarding corridor",
+  "Zone 06 · East & Centre (Kolkata / Indore / Bhopal)",
+];
+
+/** Onboarding gate logic per Directive 04 §4. */
+const gates: { id: GateId; title: string; line: string; note?: string; email: string; fields: Field[]; submit: string }[] = [
   {
     id: "parents",
-    title: "Parents",
-    line: "Enrolment, uniform sizing and Sovereign Passport support.",
+    title: "Enrol a cadet",
+    line: "The Sovereign Character Academy: enrolment for parents and guardians.",
+    note: "One-time onboarding kit ₹5,000 + GST (tunic, helmet, boots, Sovereign Passport).",
     email: "parents@blackstallion.academy",
-    submit: "Start the enquiry",
+    submit: "Submit cadet application",
     fields: [
-      { name: "name", label: "Parent's name", required: true, autoComplete: "name" },
-      { name: "child", label: "Child's name" },
-      { name: "class", label: "Class", type: "select", options: ["Class 3–5", "Class 6–8", "Class 9–10", "Class 11–12"] },
-      { name: "organisation", label: "School / hub" },
+      { name: "name", label: "Parent / guardian name", required: true, autoComplete: "name" },
+      { name: "student", label: "Student name" },
+      { name: "age", label: "Student age", type: "select", options: ["8–10", "11–13", "14–16", "17–18"] },
+      { name: "zone", label: "Target regional zone", type: "select", options: zoneOptions, wide: true },
+      { name: "tier", label: "Preferred tier", type: "select", options: ["Core Cadets · ₹8,500 + GST / month", "Sovereign Elite · ₹12,500 + GST / month"], wide: true },
       { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
       { name: "email", label: "Email", type: "email", autoComplete: "email" },
       { name: "message", label: "Questions", type: "textarea" },
     ],
   },
   {
-    id: "partners",
-    title: "Regional partners",
-    line: "PT teachers, sports heads and regional partners.",
-    email: "partners@blackstallion.academy",
-    submit: "Introduce yourself",
+    id: "schools",
+    title: "Partner your campus",
+    line: "Zero-CapEx infrastructure: BSAH funds, builds and operates; your school earns 25–30%.",
+    email: "boards@blackstallion.academy",
+    submit: "Request campus blueprint",
     fields: [
-      { name: "name", label: "Your name", required: true, autoComplete: "name" },
-      { name: "organisation", label: "Organisation", autoComplete: "organization" },
-      { name: "city", label: "City" },
+      { name: "name", label: "Trustee / principal name", required: true, autoComplete: "name" },
+      { name: "organisation", label: "Institution name", required: true, autoComplete: "organization" },
+      { name: "city", label: "Institution location" },
+      { name: "acreage", label: "Available acreage", type: "select", options: ["0.5 acre", "1.0 acre", "1.5+ acres"] },
+      { name: "capacity", label: "Student capacity", type: "select", options: ["100–150", "200–300", "300+"] },
+      { name: "email", label: "Official email", type: "email", autoComplete: "email" },
+      { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
+      { name: "message", label: "Anything we should know", type: "textarea" },
+    ],
+  },
+  {
+    id: "audit",
+    title: "Schedule a board audit",
+    line: "A formal institutional presentation to your board, on your campus or ours.",
+    email: "boards@blackstallion.academy",
+    submit: "Confirm board audit",
+    fields: [
+      { name: "name", label: "Board member name", required: true, autoComplete: "name" },
+      { name: "designation", label: "Designation" },
+      { name: "organisation", label: "Target campus / circuit", autoComplete: "organization" },
+      { name: "date", label: "Proposed audit date" },
+      { name: "slot", label: "Preferred slot", type: "select", options: ["Morning · 09:00–12:00", "Afternoon · 14:00–17:00"] },
       { name: "email", label: "Email", type: "email", autoComplete: "email" },
       { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
-      { name: "message", label: "How would you like to work together?", type: "textarea" },
     ],
   },
 ];
@@ -82,15 +95,12 @@ const gates: { id: GateId; title: string; line: string; email: string; fields: F
 /** §1 · S60 three gates. Signature: choosing an arch lights it and opens its form beneath. */
 export function Gates() {
   const [gate, setGate] = useState<GateId>("parents");
-  const [audit, setAudit] = useState(false);
 
   useEffect(() => {
     const g = new URLSearchParams(window.location.search).get("gate");
     const id = window.requestAnimationFrame(() => {
-      if (g === "audit") {
-        setGate("schools");
-        setAudit(true);
-      } else if (g === "schools" || g === "parents" || g === "partners") setGate(g);
+      if (g === "parents" || g === "schools" || g === "audit") setGate(g);
+      else if (g === "partners") setGate("schools");
     });
     return () => window.cancelAnimationFrame(id);
   }, []);
@@ -109,10 +119,7 @@ export function Gates() {
             type="button"
             role="radio"
             aria-checked={gate === x.id}
-            onClick={() => {
-              setGate(x.id);
-              setAudit(false);
-            }}
+            onClick={() => setGate(x.id)}
             className={cn(
               "group relative flex min-h-[16rem] flex-col justify-end overflow-hidden rounded-t-[999px] border p-6 pt-24 text-left transition-colors duration-500 md:min-h-[22rem]",
               gate === x.id ? "border-gold bg-gradient-to-b from-ember/40 to-ember/90" : "border-brass/25 hover:border-brass/60",
@@ -128,8 +135,9 @@ export function Gates() {
 
       <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
         <div>
-          <p className="label text-brass">{audit ? "Board audit" : g.title}</p>
-          <p className="t-voice mt-2 text-display-3 text-bone">{audit ? "Schedule a board audit." : g.line}</p>
+          <p className="label text-brass">Gate 0{gates.findIndex((x) => x.id === gate) + 1}</p>
+          <p className="t-voice mt-2 text-display-3 text-bone">{g.line}</p>
+          {g.note && <p className="t-ui mt-4 text-sm text-sand">{g.note}</p>}
           <p className="t-ui mt-4 text-sm text-dust">
             Or write to{" "}
             <a href={`mailto:${g.email}`} className="text-gold hover:text-bone">
@@ -138,8 +146,8 @@ export function Gates() {
           </p>
         </div>
         <AnimatePresence mode="wait">
-          <motion.div key={gate + String(audit)} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.45, ease: ease.citadel }}>
-            <LeadForm gate={audit ? "audit" : g.id} fields={g.fields} submitLabel={audit ? "Request the audit" : g.submit} />
+          <motion.div key={gate} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.45, ease: ease.citadel }}>
+            <LeadForm gate={g.id} fields={g.fields} submitLabel={g.submit} />
           </motion.div>
         </AnimatePresence>
       </div>

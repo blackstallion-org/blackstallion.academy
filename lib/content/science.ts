@@ -106,3 +106,26 @@ export const why = {
     ],
   },
 };
+
+/** The Sovereign Crucible, Variant B — internal command (Web Portal Directive 1; the core narrative engine). */
+export const crucible = {
+  label: "The Sovereign Crucible",
+  inscription: "History is not forged by banners;",
+  voice: "it is forged by internal command.",
+  paras: [
+    "In the late sixteenth century, the horsemen of Marwar faced the unforgiving landscape of the Thar Desert. Survival demanded a complete absence of illusion — the desert does not yield to rank, title or rhetoric. It demands absolute physical stamina, metabolic efficiency and mental stillness.",
+    "Today's battlefield is invisible, but no less severe.",
+  ],
+  crises: [
+    { name: "The crisis of focus", text: "Attention shattered by rapid algorithmic stimulation, eroding the capacity for deep work, patience and long-term mastery." },
+    { name: "The crisis of agility", text: "Passive digital comfort breeding low stress-tolerance, emotionally fragile responses and an instant-gratification mindset." },
+    { name: "The crisis of agency", text: "Superficial virtual metrics replacing authentic self-worth, leaving a generation connected to screens, yet disconnected from physical command." },
+  ],
+  stallion:
+    "A 500 kg Marwari stallion cannot be controlled by a screen swipe, an algorithmic shortcut or an inflated ego. It demands calm authority, emotional regulation, spatial presence and decisive action in real time.",
+  closing: [
+    "When a cadet masters a horse, they reclaim their focus and emotional poise.",
+    "When a cadet reclaims their mind, they strengthen their family.",
+    "And when families regain their grounding, society builds an unshakeable spine.",
+  ],
+};

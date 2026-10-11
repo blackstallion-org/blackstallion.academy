@@ -1,7 +1,9 @@
 import type { MediaKey } from "./media";
 
 /**
- * Reel 01 · The Marwari. Written fresh from the breed history (Blueprint Part 9).
+ * Reel 01 · The Marwari. Written fresh from the breed history (Blueprint Part 9),
+ * revised per Master Refinement §3 (biological & historical origins, no mythology)
+ * and §4 (the Traditional Lore of the Bards, isolated with BSAH neutrality insights).
  * Anything marked legend is folklore as told in Marwar.
  */
 
@@ -12,28 +14,39 @@ export const title = {
 };
 
 export const chapters = [
-  { id: "ocean", numeral: "I", name: "Born of the ocean" },
+  { id: "ocean", numeral: "I", name: "One bloodline" },
   { id: "marwar", numeral: "II", name: "Marwar, 1193" },
   { id: "bred", numeral: "III", name: "Bred by law" },
   { id: "ears", numeral: "IV", name: "The ears" },
-  { id: "omens", numeral: "V", name: "Omens" },
+  { id: "omens", numeral: "V", name: "The lore of the bards" },
   { id: "reasons", numeral: "VI", name: "Three reasons" },
   { id: "honour", numeral: "VII", name: "Roll of honour" },
-  { id: "dance", numeral: "VIII", name: "Born to dance" },
-  { id: "fall", numeral: "IX", name: "The fall" },
-  { id: "revival", numeral: "X", name: "The revival" },
-  { id: "today", numeral: "XI", name: "Every cadet rides one" },
+  { id: "fall", numeral: "VIII", name: "The fall" },
+  { id: "revival", numeral: "IX", name: "The revival" },
+  { id: "today", numeral: "X", name: "Every cadet rides one" },
 ] as const;
 
 export const ocean = {
-  inscription: "Before history,",
-  voice: "a horse king.",
-  body: "Hindu scripture tells of the churning of the cosmic ocean, when gods and demons pulled a great serpent around a mountain until the sea gave up its treasures. Among them rose Uchchaihshravas: a white horse with seven heads, so radiant the gods made him king of horses. Every horse in India, the old stories say, descends from him: the hill ponies of Manipur, the Spiti and Zanskari of the high passes, the Kathiawari of Gujarat, and the Marwari of the Thar.",
-  caption: "Uchchaihshravas rises from the churning of the ocean. Placeholder plate in the Marwar style.",
+  inscription: "Eight hundred years",
+  voice: "in one bloodline.",
+  body: "For centuries, civilisation was shaped by the partnership between horse and rider, and the world expanded from horseback. The Marwari emerged from a complex historical crucible: native desert stock, infused with influences from Arabian and Central Asian lines, refined through generations of strict selective breeding by the horsemen of Rajasthan. Whatever the exact genetic currents of its origins, the result is an undeniable masterpiece of adaptation. The Thar Desert stripped away weakness; what remained was a sovereign breed unique to Indian soil — compact, fiercely loyal, and structurally engineered for survival, endurance and absolute grace.",
+  caption: "A stallion of Marwar. Placeholder plate in the miniature style.",
   theories: [
-    { name: "The shipwreck", verdict: "Legend", text: "The Ain-i-Akbari, a sixteenth-century chronicle, tells of an Arab ship wrecked off Kutch, its seven horses swimming ashore to found a line." },
-    { name: "The steppe", verdict: "Some influence", text: "Turkoman and Mongol horses arrived with invading armies and mixed with local mares." },
-    { name: "The native", verdict: "Most accepted", text: "The Marwari shows little Arabian influence. At heart it is a horse of India." },
+    {
+      name: "The shipwreck",
+      verdict: "Legend",
+      text: "Oral histories and early records — later referenced in the sixteenth-century imperial chronicle Ain-i-Akbari — suggest the breed's unique characteristics were influenced by Arabian bloodlines introduced to the west coast. An Arab merchant vessel, the accounts say, was wrecked off the coast of Kutch; seven high-quality horses survived, swam ashore, and were bred with indigenous Marwari and Kathiawari mares, introducing the spirited temperament and fine head shape that became hallmarks of the breed.",
+    },
+    {
+      name: "The steppe",
+      verdict: "Historical influence",
+      text: "Over several centuries, military campaigns, migrations and trade networks brought Turkoman, Afghan and Central Asian steppe horses — including lines like the Akhal-Teke — into northern and western India. Bred with local mares, these sturdy warhorses infused the native stock with endurance, bone density and a natural capacity to thrive in hostile, arid environments: the raw stamina Rajput cavalry would need in desert warfare.",
+    },
+    {
+      name: "The native",
+      verdict: "Most accepted",
+      text: "The most widely accepted scientific and historical view is that the Marwari is fundamentally an indigenous horse of India, shaped by natural selection in the harsh Thar Desert. Modern genetic and phenotypic studies confirm a distinct genetic profile with minimal outside influence. Its unique lyre-shaped ears, curving inward until the tips touch, are a natural adaptation found nowhere else in the world. For over eight centuries this rugged native bloodline was carefully preserved by the Rathore horsemen of Marwar to produce a horse that is, at its heart, an unbreakable product of Indian soil.",
+    },
   ],
 };
 
@@ -68,19 +81,37 @@ export const ears = {
   ],
 };
 
-export const omens = {
-  inscription: "Read the",
-  voice: "horse.",
-  body: "Old Marwar read a horse's colour and the whorls of its coat as a forecast. Breeders still listen.",
-  tiles: [
-    { name: "Grey", text: "Favoured above all; the most prized colour.", tone: "luck", swatch: "#b9b4ac" },
-    { name: "Piebald & skewbald", text: "Close behind the greys.", tone: "luck", swatch: "split" },
-    { name: "Blaze & four socks", text: "A white blaze and four white socks bring luck.", tone: "luck", swatch: "#6b4a2e" },
-    { name: "Devman", text: "A long whorl down the neck: good fortune.", tone: "luck", swatch: "whorl" },
-    { name: "Anusudhal", text: "A whorl beneath the eye: unwelcome to a rider.", tone: "ill", swatch: "whorl" },
-    { name: "Black", text: "The colour of night and death, long thought unlucky.", tone: "ill", swatch: "#0d0b09" },
-    { name: "White", text: "Pure white is not registered as Marwari; some call it Nukra, a type of its own.", tone: "apart", swatch: "#e9e4da" },
-  ] as const,
+/** The Traditional Lore of the Bards (Master Refinement §4): oral folklore, isolated from history and science, each item paired with a BSAH neutrality insight. */
+export const lore = {
+  inscription: "The lore",
+  voice: "of the bards.",
+  sub: "The oral histories, markings and cadence of Marwar: what the bards attributed to fate, and how BSAH reads it today. Folklore varies by breeder and region.",
+  items: [
+    {
+      name: "Kala, the black horse",
+      tag: "The omen vs. the vow",
+      lore: "Bards and traveling traders historically viewed solid black horses (Kala) with superstition, associating dark coats with night, death and unpredictable temperaments.",
+      insight: "We reject superstition in favour of character. To us, the black coat represents the Vow of Absolute Loyalty: in cavalry history, a Marwari left the battlefield in three ways — in victory, in death, or carrying its wounded rider to safety. The black coat is a visual reminder of unwavering commitment when conditions are at their worst.",
+    },
+    {
+      name: "Hair whorls",
+      tag: "Devman vs. Anusudhal",
+      lore: "Traditional horsemen read a horse's destiny in the whorls (bhanwar) of its coat. A long whorl running down the neck (Devman) was cherished as a sign of good fortune and divine protection; a whorl beneath the eye (Anusudhal) was viewed as an ill omen, making the horse difficult to sell.",
+      insight: "While we honour the rich observational lore of ancient breeders, modern horsemanship looks deeper than coat patterns. What the bards attributed to fate, behavioural science recognises as equine temperament and biomarkers: hair whorls correlate with facial sensitivity and nervous-system reactivity. A true rider builds trust through consistent pressure-and-release training, regardless of physical whorls.",
+    },
+    {
+      name: "The Nukra lineage",
+      tag: "Ceremonial durbars vs. institutional protocol",
+      lore: "Pure white and albino-patterned horses (Nukra) were reserved for royal durbars, high ceremonial processions and spiritual gatherings, revered as embodiments of light and prestige.",
+      insight: "In institutional horsemanship, coat colour is secondary to structural soundness and training. Nukra is not a separate breed, but the revered white-coat lineage of Marwar representing the excellence of ceremony and protocol. It teaches cadets high-presentation standards, meticulous grooming and ceremonial precision — skills that translate directly into professional executive presence.",
+    },
+    {
+      name: "Born to dance",
+      tag: "The Nachni heritage",
+      lore: "Beyond war, the Marwari was celebrated for its natural cadence during regional celebrations. Certain rare lines, known as Nachni (“born to dance”), were trained to step, prance and rise to music with high knee action.",
+      insight: "We view the Nachni tradition through the lens of neuromuscular coordination and collection. The Marwari possesses an innate cadence; certain legendary lines exhibit a natural affinity for rhythmic footfall — proving that physical discipline, core strength and grace are deeply embedded in their bloodline.",
+    },
+  ],
   vow: {
     inscription: "They called the black horse an omen.",
     voice: "We call it a vow.",
@@ -89,7 +120,7 @@ export const omens = {
 };
 
 export const reasons = {
-  lead: "In the late sixteenth century the Rajputs of Marwar fielded a cavalry of more than fifty thousand. The Rathores held one belief about their horses: a Marwari leaves the battlefield in only three ways.",
+  lead: "In the late sixteenth century the horsemen of Marwar faced the ultimate test of terrain and survival, and fielded a cavalry of more than fifty thousand. They held one belief about their horses: a Marwari leaves the battlefield in only three ways.",
   words: ["Victory.", "Death.", "Or carrying its rider home."],
   tail: "The bards tell of horses charging war elephants, rearing to shield a fallen rider, and leaping walls no horse should clear.",
 };
@@ -123,12 +154,6 @@ export const honour: { name: string; when: string; text: string; image: MediaKey
 ];
 
 export const honourClose = "Their courage kept kings and generals alive to fight again. India's history might have turned differently without them.";
-
-export const dance = {
-  inscription: "Born to",
-  voice: "dance.",
-  body: "Beyond war, the Marwari is a horse of celebration. Some lines carry a strain called nachni, “born to dance”, and with a skilled handler they step and rise to music at weddings and festivals. Many believe the true nachni line has almost faded. Glimpses remain.",
-};
 
 export const fall = {
   inscription: "From royalty",

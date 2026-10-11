@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
-import { CadetsTitle, CreedCard, DayClock, MilestoneReels, PassportObject, Spotlights } from "@/components/sections/cadets/CadetScenes";
+import { CadetsTitle, CreedCard, DayClock, MilestoneReels, PassportObject, Spotlights, UniformSpec } from "@/components/sections/cadets/CadetScenes";
 
 export const metadata: Metadata = {
   title: "The Hall of Valour",
@@ -13,6 +13,7 @@ export default function CadetsPage() {
       <CadetsTitle />
       <Spotlights />
       <PassportObject />
+      <UniformSpec />
       <DayClock />
       <CreedCard />
       <MilestoneReels />

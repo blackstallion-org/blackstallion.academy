@@ -6,21 +6,22 @@
    ------------------------------------------------------------------ */
 @theme {
   /* Colour */
-  --color-night: #0a0806;
-  --color-umber: #16100b;
+  --color-night: #0f0e0d; /* Obsidian Black (Master Refinement §1) */
+  --color-umber: #1a1a18; /* Deep Charcoal */
   --color-ember: #2a1d12;
   --color-dust: #8a7660;
   --color-sand: #c8b08a;
   --color-bone: #ede3d1;
   --color-brass: #c5a059;
-  --color-gold: #e6ca65;
+  --color-gold: #d4af37; /* Burnished Gold */
+  --color-copper: #b87333; /* Metallic Warm Copper */
   --color-blood: #b13a24;
   --color-frost: #9fb3c8;
   --color-parchment: #e9dcc0;
   --color-ink: #1d150d;
 
   /* Guardrails: no pure black or white anywhere */
-  --color-black: #0a0806;
+  --color-black: #0f0e0d;
   --color-white: #ede3d1;
 
   /* Poster scale */
@@ -139,13 +140,13 @@
 
   /* The only allowed surface: umber with a faint brass edge */
   .plate {
-    background-color: rgb(22 16 11 / 0.92);
+    background-color: rgb(26 26 24 / 0.92);
     border: 1px solid rgb(197 160 89 / 0.22);
     border-radius: 1px;
   }
 
   .cinematic-vignette {
-    background: radial-gradient(ellipse at center, rgb(10 8 6 / 0) 35%, rgb(10 8 6 / 0.65) 75%, rgb(10 8 6 / 0.96) 100%);
+    background: radial-gradient(ellipse at center, rgb(15 14 13 / 0) 35%, rgb(15 14 13 / 0.65) 75%, rgb(15 14 13 / 0.96) 100%);
   }
 
   html[data-bsah-loaded] .bsah-loader {
@@ -168,9 +169,9 @@
   /* Graded placeholder used under every photograph until the file exists */
   .film-placeholder {
     background:
-      radial-gradient(ellipse 60% 45% at 62% 58%, rgb(230 202 101 / 0.22), transparent 70%),
+      radial-gradient(ellipse 60% 45% at 62% 58%, rgb(212 175 55 / 0.22), transparent 70%),
       radial-gradient(ellipse 80% 60% at 40% 70%, rgb(138 102 60 / 0.32), transparent 75%),
-      linear-gradient(180deg, #0a0806 0%, #21160d 55%, #0a0806 100%);
+      linear-gradient(180deg, #0f0e0d 0%, #21160d 55%, #0f0e0d 100%);
   }
 
   /* Parchment surface for documents (MOU, diploma, letter) */
@@ -185,13 +186,13 @@
 
   /* Text held on photographs */
   .shade-b {
-    background: linear-gradient(180deg, rgb(10 8 6 / 0) 0%, rgb(10 8 6 / 0.55) 55%, rgb(10 8 6 / 0.95) 100%);
+    background: linear-gradient(180deg, rgb(15 14 13 / 0) 0%, rgb(15 14 13 / 0.55) 55%, rgb(15 14 13 / 0.95) 100%);
   }
   .shade-l {
-    background: linear-gradient(90deg, rgb(10 8 6 / 0.92) 0%, rgb(10 8 6 / 0.6) 40%, rgb(10 8 6 / 0) 75%);
+    background: linear-gradient(90deg, rgb(15 14 13 / 0.92) 0%, rgb(15 14 13 / 0.6) 40%, rgb(15 14 13 / 0) 75%);
   }
   .shade-r {
-    background: linear-gradient(270deg, rgb(10 8 6 / 0.92) 0%, rgb(10 8 6 / 0.6) 40%, rgb(10 8 6 / 0) 75%);
+    background: linear-gradient(270deg, rgb(15 14 13 / 0.92) 0%, rgb(15 14 13 / 0.6) 40%, rgb(15 14 13 / 0) 75%);
   }
 
   /* Range input in brass */

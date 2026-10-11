@@ -2,7 +2,7 @@ import type { MediaKey } from "./media";
 
 /** Reel 06 · The Studbook. SAMPLE profiles from the client's fleet schema (Blueprint R06). */
 
-export type HubSlug = "dps-hyderabad" | "oakridge-gachibowli" | "hyderabad-public-school";
+export type HubSlug = "zone-01a-financial-district" | "zone-01c-gachibowli" | "zone-01b-begumpet";
 export type StallStatus = "rest" | "arena" | "feed";
 
 export type Stallion = {
@@ -27,37 +27,37 @@ export const statusLabel: Record<StallStatus, string> = { rest: "Rest", arena: "
 
 export const fleet: Stallion[] = [
   {
-    id: "chetak-ix", name: "Chetak IX", breed: "Purebred Marwari", family: "Marwari", chip: "356 098 112 004 912", hub: "dps-hyderabad",
+    id: "chetak-ix", name: "Chetak IX", breed: "Purebred Marwari", family: "Marwari", chip: "356 098 112 004 912", hub: "zone-01a-financial-district",
     character: "The Calm Sovereign", quote: "A fortress of composure. Chetak grounds anxious first-time cadets.",
     specialty: "Breath calibration & beginner canter", age: 7, hands: "15.2", coat: "Dark bay, white blaze", status: "rest", image: "fleetChetak",
     pedigree: { sire: "Chetak VIII", dam: "Rani of Badgaon", grandsire: "Vangalia line", granddam: "Kesari" },
   },
   {
-    id: "veer", name: "Veer", breed: "Kathiawari cavalry line", family: "Kathiawari", chip: "356 098 112 004 988", hub: "oakridge-gachibowli",
+    id: "veer", name: "Veer", breed: "Kathiawari cavalry line", family: "Kathiawari", chip: "356 098 112 004 988", hub: "zone-01c-gachibowli",
     character: "The High-Velocity Lancer", quote: "Relentless focus under momentum. Veer answers ten grams of rein.",
     specialty: "Tent pegging & lance precision", age: 6, hands: "15.0", coat: "Chestnut gold", status: "arena", image: "fleetVeer",
     pedigree: { sire: "Toofan of Gondal", dam: "Moti", grandsire: "Sultan", granddam: "Heera" },
   },
   {
-    id: "zilzal", name: "Zilzal", breed: "Purebred Marwari", family: "Marwari", chip: "356 098 112 005 011", hub: "hyderabad-public-school",
+    id: "zilzal", name: "Zilzal", breed: "Purebred Marwari", family: "Marwari", chip: "356 098 112 005 011", hub: "zone-01b-begumpet",
     character: "The Stoic Leader", quote: "Commanding presence, unshakable patience. Notices a rider's nerves instantly.",
     specialty: "Formation drills & vaulting", age: 8, hands: "15.3", coat: "Jet black", status: "rest", image: "legendBlack",
     pedigree: { sire: "Shyam", dam: "Raat Rani", grandsire: "Kala Bhairav", granddam: "Chandni" },
   },
   {
-    id: "tofan", name: "Tofan", breed: "Purebred Marwari", family: "Marwari", chip: "356 098 112 004 991", hub: "dps-hyderabad",
+    id: "tofan", name: "Tofan", breed: "Purebred Marwari", family: "Marwari", chip: "356 098 112 004 991", hub: "zone-01a-financial-district",
     character: "The Sensitive One", quote: "High sensitivity. Demands absolute rider composure.",
     specialty: "Advanced lancer speed targets", age: 9, hands: "15.1", coat: "Dappled grey", status: "feed", image: "legendGrey",
     pedigree: { sire: "Megh", dam: "Dhoop", grandsire: "Indra", granddam: "Saanjh" },
   },
   {
-    id: "kesar", name: "Kesar", breed: "Marwari", family: "Marwari", chip: "356 098 112 005 027", hub: "oakridge-gachibowli",
+    id: "kesar", name: "Kesar", breed: "Marwari", family: "Marwari", chip: "356 098 112 005 027", hub: "zone-01c-gachibowli",
     character: "The Showman", quote: "Steps lightly and loves an audience.",
     specialty: "Mounted archery", age: 8, hands: "14.3", coat: "Skewbald", status: "rest", image: "fleetKesar",
     pedigree: { sire: "Rangeela", dam: "Kesar Kali", grandsire: "Nachan", granddam: "Pari" },
   },
   {
-    id: "arbudh", name: "Arbudh", breed: "Marwari", family: "Marwari", chip: "356 098 112 005 034", hub: "hyderabad-public-school",
+    id: "arbudh", name: "Arbudh", breed: "Marwari", family: "Marwari", chip: "356 098 112 005 034", hub: "zone-01b-begumpet",
     character: "The Endurance Horse", quote: "Never the fastest. Never the first to tire.",
     specialty: "Distance & terrain transitions", age: 10, hands: "15.0", coat: "Light bay, four white socks", status: "arena", image: "fleetArbudh",
     pedigree: { sire: "Durga", dam: "Thar Rani", grandsire: "Abu", granddam: "Retila" },
@@ -65,6 +65,16 @@ export const fleet: Stallion[] = [
 ];
 
 export const FLEET_TOTAL = 21;
+
+/** Official Marwari studbook colour registry (Master Refinement §5). */
+export const coatRegistry = [
+  { n: "01", name: "Bhanwar / Telia Kumat", coat: "Dark bay", hex: "#2a1d15", line: "Deep mahogany body, dark points. Grounded endurance." },
+  { n: "02", name: "Kala", coat: "Black", hex: "#0f0e0d", line: "Rare obsidian sheen, white blaze. The sovereign vow of loyalty." },
+  { n: "03", name: "Surang / Kumat", coat: "Chestnut & bay", hex: "#593822", line: "Rich copper-brown to the golden-red tones of a Thar sunset." },
+  { n: "04", name: "Shwet / Kagra", coat: "Grey & dappled", hex: "#8c8882", line: "Silver and iron tones maturing into a silver-white coat." },
+  { n: "05", name: "Nukra", coat: "Pure white", hex: "#d9d5cd", line: "Pure ceremonial white. Formal protocol and precision." },
+  { n: "06", name: "Ablak", coat: "Piebald / skewbald", hex: "dual", line: "Striking two-tone contrast patterns of individuality." },
+];
 
 export const feeds = [
   { cam: "CAM 01", horse: "Chetak IX", place: "Stall 3", status: "REST" },

@@ -37,7 +37,7 @@ export function ScienceTitle() {
           <motion.path d="M57.1 22.4 L60.6 19.8" strokeWidth="0.08" {...draw} transition={t(0.95)} />
           <motion.path d="M46.5 53.2 H68 M46.5 52.4 V54 M68 52.4 V54" {...draw} transition={t(1)} />
         </g>
-        <g className="font-mono" fontSize="1.05" fill="rgb(230 202 101)">
+        <g className="font-mono" fontSize="1.05" fill="rgb(212 175 55)">
           <motion.text x="57.4" y="6.2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(1.2)}>
             AXIS 0.0°
           </motion.text>

@@ -4,7 +4,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Reveal } from "@/components/film/Reveal";
 import { Ascent, ChapterHead, ChapterRail, Descent, EarsZoom, LegendTitle, RouteMap, ThreeWords } from "@/components/sections/legend/LegendScenes";
-import { bred, dance, honour, honourClose, ocean, omens, revival, today } from "@/lib/content/legend";
+import { bred, honour, honourClose, lore, ocean, revival, today } from "@/lib/content/legend";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -12,25 +12,13 @@ export const metadata: Metadata = {
   description: "Eight hundred years of the horse that would not leave the field: born of legend, bred in the Thar, nearly lost, revived. Every BSAH cadet rides one.",
 };
 
-function Swatch({ kind }: { kind: string }) {
-  if (kind === "split")
-    return <span className="h-10 w-10 rounded-full" style={{ background: "conic-gradient(#e9e4da 0 50%, #5a3b22 50% 100%)" }} />;
-  if (kind === "whorl")
-    return (
-      <svg viewBox="0 0 40 40" className="h-10 w-10 text-brass" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden>
-        <path d="M20 20 m0 -2 a2 2 0 1 1 -2 2 a5 5 0 1 1 5 5 a8 8 0 1 1 -8 -8 a11 11 0 1 1 11 11" />
-      </svg>
-    );
-  return <span className="h-10 w-10 rounded-full border border-brass/30" style={{ background: kind }} />;
-}
-
 export default function LegendPage() {
   return (
     <>
       <LegendTitle />
       <ChapterRail />
 
-      {/* I · Born of the ocean — quote + miniature plate + three theories */}
+      {/* I · One bloodline — overview + miniature plate + three theories of origin */}
       <section id="ocean" aria-labelledby="ocean-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-center">
           <div>
@@ -56,7 +44,7 @@ export default function LegendPage() {
         </div>
 
         <div className="mt-24">
-          <p className="label text-brass">Three theories of where it really began</p>
+          <p className="label text-brass">Reel 01 · The three theories of origin</p>
           <ol className="mt-6 grid gap-px bg-brass/15 md:grid-cols-3">
             {ocean.theories.map((t, i) => (
               <Reveal as="li" key={t.name} delay={i * 0.1} className="bg-night p-6 md:p-8">
@@ -119,37 +107,40 @@ export default function LegendPage() {
       {/* IV · The ears — scrub zoom */}
       <EarsZoom />
 
-      {/* V · Omens — almanac grid + the vow */}
+      {/* V · The Traditional Lore of the Bards — paired lore / insight ledger + the vow */}
       <section id="omens" aria-labelledby="omens-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
         <ChapterHead id="omens" />
-        <Headline id="omens-h" className="mt-4" inscription={omens.inscription} voice={omens.voice} />
-        <p className="t-story mt-6 max-w-2xl text-sand">{omens.body}</p>
-        <ul className="mt-12 grid grid-cols-1 gap-px bg-brass/15 sm:grid-cols-2 lg:grid-cols-4">
-          {omens.tiles.map((t, i) => (
-            <Reveal as="li" key={t.name} delay={(i % 4) * 0.08} className="flex flex-col gap-5 bg-night p-6">
-              <div className="flex items-center justify-between">
-                <Swatch kind={t.swatch} />
-                <span className={cn("label", t.tone === "luck" ? "text-gold" : t.tone === "ill" ? "text-blood" : "text-dust")}>
-                  {t.tone === "luck" ? "Fortune" : t.tone === "ill" ? "Ill omen" : "Apart"}
-                </span>
+        <Headline id="omens-h" className="mt-4" inscription={lore.inscription} voice={lore.voice} />
+        <p className="t-story mt-6 max-w-2xl text-sand">{lore.sub}</p>
+        <ol className="mt-14 border-t border-brass/20">
+          {lore.items.map((t, i) => (
+            <Reveal as="li" key={t.name} delay={(i % 2) * 0.08} className="grid gap-6 border-b border-brass/20 py-10 lg:grid-cols-[14rem_1fr_1fr] lg:gap-10">
+              <div>
+                <p className="font-mono text-xs text-gold">ITEM {String(i + 1).padStart(2, "0")}</p>
+                <p className="t-voice mt-2 text-2xl text-bone">{t.name}</p>
+                <p className="label mt-2 text-dust">{t.tag}</p>
               </div>
-              <p className="t-voice text-xl text-bone">{t.name}</p>
-              <p className="text-sm text-sand">{t.text}</p>
+              <div>
+                <p className="label text-dust">Traditional lore</p>
+                <p className="t-story mt-3 italic text-sand">{t.lore}</p>
+              </div>
+              <div>
+                <p className="label text-brass">BSAH neutrality insight</p>
+                <p className="mt-3 text-sand">{t.insight}</p>
+              </div>
             </Reveal>
           ))}
-          <li className="hidden bg-night p-6 lg:flex lg:items-end">
-            <p className="font-mono text-xs leading-relaxed text-dust">FOLKLORE · VARIES BY BREEDER AND REGION</p>
-          </li>
-        </ul>
+        </ol>
+        <p className="font-mono mt-6 text-xs text-dust">FOLKLORE · VARIES BY BREEDER AND REGION</p>
 
         <div className="relative mt-24 grid gap-10 overflow-hidden lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
           <div className="relative aspect-[3/4] w-full max-w-md">
             <FilmImage name="legendBlack" sizes="(min-width: 1024px) 35vw, 90vw" />
           </div>
           <div>
-            <Headline inscription={omens.vow.inscription} voice={omens.vow.voice} voiceColor="blood" size="2" />
+            <Headline inscription={lore.vow.inscription} voice={lore.vow.voice} voiceColor="blood" size="2" />
             <Reveal>
-              <p className="t-story mt-6 max-w-xl text-sand">{omens.vow.text}</p>
+              <p className="t-story mt-6 max-w-xl text-sand">{lore.vow.text}</p>
             </Reveal>
           </div>
         </div>
@@ -188,25 +179,10 @@ export default function LegendPage() {
         </div>
       </section>
 
-      {/* VIII · Born to dance — interlude */}
-      <section id="dance" aria-labelledby="dance-h" className="relative grid min-h-[80svh] lg:grid-cols-2">
-        <div className="gutter flex flex-col justify-center py-24 lg:order-1">
-          <ChapterHead id="dance" />
-          <Headline id="dance-h" className="mt-4" inscription={dance.inscription} voice={dance.voice} />
-          <Reveal>
-            <p className="t-story mt-6 max-w-lg text-sand">{dance.body}</p>
-          </Reveal>
-        </div>
-        <div className="relative min-h-[60svh] lg:order-2">
-          <FilmImage name="legendNachni" sizes="(min-width: 1024px) 50vw, 100vw" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-transparent to-transparent lg:via-night/10" />
-        </div>
-      </section>
-
-      {/* IX · The fall — descent */}
+      {/* VIII · The fall — descent */}
       <Descent />
 
-      {/* X · The revival — ascent timeline + vignette */}
+      {/* IX · The revival — ascent timeline + vignette */}
       <section id="revival" aria-labelledby="revival-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
         <FilmImage name="legendRevival" grade="deep" className="opacity-45" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/70 to-night" />

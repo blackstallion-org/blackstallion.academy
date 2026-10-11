@@ -70,7 +70,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
             [arena.x + arena.w, arena.y + arena.h],
           ].map(([x, y], i) => (
             <motion.g key={`l${i}`} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ ...t, delay: 0.3 + i * 0.06 }}>
-              <circle cx={x} cy={y} r="14" fill="rgb(230 202 101 / 0.12)" />
+              <circle cx={x} cy={y} r="14" fill="rgb(212 175 55 / 0.12)" />
               <circle cx={x} cy={y} r="3.5" fill={gold} />
             </motion.g>
           ))}
@@ -115,7 +115,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
         )}
         {hasDeck && (
           <motion.g key="deck" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ ...t, delay: 0.35 }}>
-            <rect x={arena.x + arena.w + 24} y={arena.y + 134} width="140" height="60" fill="rgb(230 202 101 / 0.08)" stroke={gold} strokeWidth="1.4" />
+            <rect x={arena.x + arena.w + 24} y={arena.y + 134} width="140" height="60" fill="rgb(212 175 55 / 0.08)" stroke={gold} strokeWidth="1.4" />
             <text x={arena.x + arena.w + 32} y={arena.y + 168} className="label" fontSize="10" fill={gold} letterSpacing="1.5">
               VIP DECK · STPCI
             </text>

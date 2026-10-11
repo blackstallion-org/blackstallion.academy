@@ -14,19 +14,19 @@ export const hero = {
     { label: "Find your campus", href: "/schools#hubs" },
   ],
   stats: [
-    { value: "12", label: "pillars of character, drilled in the saddle" },
+    { value: "13", label: "pillars of character, drilled in the saddle" },
     { value: "25–30%", label: "of tuition back to partner schools" },
     { value: "24/7", label: "stall-cam for every parent" },
   ],
   /** SAMPLE live figures. */
-  ticker: ["BSAH National Command", "Hours logged 1,480", "Canter transitions passed 342", "Active stallions 21", "Hubs live 3", "Next: Governor's Cup · 14 Nov"],
+  ticker: ["BSAH National Command", "Hours logged 14,800 (sample)", "Canter transitions passed 342", "Active stallions 21", "Hubs live 3", "Next: Governor's Cup · 14 Nov"],
 };
 
 export const story = {
   inscription: "Eight hundred years",
   voice: "in one bloodline.",
   frames: [
-    { kicker: "Born of the ocean", text: "The old stories tell of a seven-headed white horse rising from the churning sea. Every horse, the bards say, descends from him.", image: "legendOcean" as MediaKey },
+    { kicker: "One bloodline", text: "For centuries, civilisation was shaped by the partnership between horse and rider. In the Thar Desert that partnership bred a horse unlike any other.", image: "legendOcean" as MediaKey },
     { kicker: "Marwar, 1193", text: "Driven from Kannauj, the Rathores rode into the Thar. Their horses learned to live on a cup of water.", image: "legendExodus" as MediaKey },
     { kicker: "The vow", text: "A Marwari left the battlefield three ways: in victory, in death, or carrying its wounded rider home.", image: "legendCavalry" as MediaKey },
     { kicker: "Nearly lost", text: "After 1947 the royal stables emptied. Horses were sold, castrated, shot. A few people refused to let the line end.", image: "legendRevival" as MediaKey },
@@ -77,16 +77,16 @@ export const doors = {
       points: ["A leather Sovereign Passport, sealed in brass", "Your own Marwari, for years", "The STPCI national circuit"],
     },
     {
-      who: "Schools", title: "The CapEx Engine", image: "schoolAerial" as MediaKey, href: "/schools", cta: "For schools",
-      points: ["A turnkey arena, designed, built and run by BSAH", "25–30% of tuition back to the school", "Ex-cavalry faculty, no burden on your staff"],
+      who: "Schools", title: "The Zero-CapEx Engine", image: "schoolAerial" as MediaKey, href: "/schools", cta: "For schools",
+      points: ["A turnkey arena, funded, built and run by BSAH", "25–30% of tuition back to the school, settled quarterly", "Ex-cavalry faculty, no burden on your staff"],
     },
   ],
 };
 
 export const ledger = {
   inscription: "Four ranks.",
-  voice: "Twelve pillars.",
-  body: "Every mounted drill maps to a trait a leader needs. Climb from Squire to Lancer and the ledger records each step.",
+  voice: "Thirteen pillars.",
+  body: "Nine foundations of horsemanship, four BSAH tactical disciplines. Every drill maps to a trait a leader needs, and the ledger records each step from Squire to Sovereign Lancer.",
 };
 
 export const studbook = { inscription: "Twenty-one stallions.", voice: "Every one has a name." };
@@ -94,7 +94,7 @@ export const studbook = { inscription: "Twenty-one stallions.", voice: "Every on
 export const schoolsTeaser = {
   inscription: "Your campus",
   voice: "becomes a citadel.",
-  body: "You fund the arena. We design, build and run it, and return 25–30% of tuition to the school.",
+  body: "Zero capital expenditure to the school board. BSAH funds, builds and operates the arena, and returns 25–30% of tuition to the school.",
 };
 
 export const verifier = {
@@ -119,8 +119,8 @@ export const command = {
   inscription: "Ask the",
   voice: "command terminal.",
   question: "What is the safety record for Cadet Lancer drills?",
-  answer: "BSAH requires certified helmets and vests and an ex-cavalry spotter on every mounted drill. No major injuries logged across 1,480 horsemanship hours. (Sample figure.)",
-  chips: ["Payback for 150 cadets", "Insurance cover", "Who are the instructors?"],
+  answer: "Certified helmets for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor on every mounted drill. Over 14,800 training hours logged nationally with zero major injuries (sample figure), backed by ₹10 lakh group accident insurance per cadet.",
+  chips: ["CapEx & revenue share", "STPCI accreditation", "Curriculum & class timings"],
 };
 
 export const chronicle = { inscription: "Stories", voice: "from the stable." };

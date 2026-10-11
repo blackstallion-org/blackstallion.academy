@@ -120,6 +120,7 @@ function Panel({ h, mode }: { h: Hotspot; mode: "compact" | "full" }) {
     <div>
       <p className="label text-brass">{h.name}</p>
       <h3 className="t-voice mt-2 text-display-3 text-bone">{h.title}</h3>
+      <p className="font-mono mt-3 text-[0.68rem] tracking-[0.12em] text-copper">{h.metric}</p>
       {mode === "compact" ? (
         <>
           <p className="mt-4 text-lede text-sand">{h.short}</p>

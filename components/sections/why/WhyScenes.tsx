@@ -9,7 +9,7 @@ import { r } from "@/components/film/range";
 import { Reveal } from "@/components/film/Reveal";
 import { CompareSlider } from "@/components/sections/shared/CompareSlider";
 import { entity } from "@/lib/content/site";
-import { why } from "@/lib/content/science";
+import { crucible, why } from "@/lib/content/science";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
@@ -168,6 +168,49 @@ export function TrainList() {
             </Reveal>
           ))}
         </ol>
+      </div>
+    </section>
+  );
+}
+
+
+/** §2b · S32 the Sovereign Crucible. The core narrative engine: desert endurance, the three modern crises, the answer in the saddle. */
+export function SovereignCrucible() {
+  return (
+    <section aria-labelledby="crucible-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+      <div className="gutter">
+        <Label>{crucible.label}</Label>
+        <Headline id="crucible-h" className="mt-4 max-w-5xl" inscription={crucible.inscription} voice={crucible.voice} />
+        <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+          <div>
+            {crucible.paras.map((t) => (
+              <Reveal key={t.slice(0, 24)}>
+                <p className="t-story mt-6 max-w-xl text-sand first:mt-0">{t}</p>
+              </Reveal>
+            ))}
+            <Reveal>
+              <p className="t-story mt-10 max-w-xl text-bone">{crucible.stallion}</p>
+            </Reveal>
+          </div>
+          <ol className="self-start border-t border-frost/25">
+            {crucible.crises.map((c, i) => (
+              <Reveal as="li" key={c.name} delay={i * 0.12} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-frost/25 py-6">
+                <span className="font-mono pt-1 text-sm text-frost">0{i + 1}</span>
+                <span>
+                  <span className="t-voice block text-2xl text-frost">{c.name}</span>
+                  <span className="mt-2 block text-sand">{c.text}</span>
+                </span>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+        <div className="mt-20 max-w-3xl">
+          {crucible.closing.map((line, i) => (
+            <Reveal key={line} delay={i * 0.15}>
+              <p className={cn("t-voice mt-3 text-display-3", i === 2 ? "text-gold" : "text-bone")}>{line}</p>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

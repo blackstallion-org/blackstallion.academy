@@ -108,7 +108,7 @@ export function MouGenerator() {
             {blank(d.land, "[ ]")} acres of School land, and operate it.
           </p>
           <p>
-            <strong>2. The School.</strong> Funds construction (indicative capital {tier.capexLabel}), provides land, access and utilities, and promotes the programme to its students.
+            <strong>2. The School.</strong> Provides land, access and utilities, and promotes the programme to its students. Construction is funded by BSAH (indicative capital {tier.capexLabel}) at zero capital expenditure to the School.
           </p>
           <p>
             <strong>3. BSAH.</strong> Provides stallions, ex-cavalry faculty, veterinary care, group accident insurance for every active cadet, admissions, billing and the parent app.

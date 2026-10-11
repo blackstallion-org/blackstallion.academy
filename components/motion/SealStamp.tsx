@@ -91,7 +91,7 @@ export function SealStamp({
       >
         <defs>
           <radialGradient id={`brass-${uid}`} cx="40%" cy="35%" r="75%">
-            <stop offset="0%" stopColor="#E6CA65" />
+            <stop offset="0%" stopColor="#D4AF37" />
             <stop offset="55%" stopColor="#C5A059" />
             <stop offset="100%" stopColor="#7D6230" />
           </radialGradient>

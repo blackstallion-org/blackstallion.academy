@@ -1,84 +1,96 @@
-import { formatINR, simulate, tiers } from "./schools";
+import { tiers } from "./schools";
 
 /**
  * Reel 13 · Command AI. Scripted answers today (keyword match); a live model
  * replaces `answer()` when Supabase and the AI route land. Logged questions go to command_ai_logs.
+ * The first four entries are the quick-action query matrix (Directive 04 §3).
  */
 
 export type Entry = { id: string; ask: string; keywords: string[]; answer: string };
 
-const roi150 = simulate(150, 25, tiers[0].capexLakh);
-
 export const knowledge: Entry[] = [
   {
-    id: "roi",
-    ask: "Payback for 150 cadets",
-    keywords: ["roi", "payback", "return", "revenue", "share", "earn", "income", "150"],
-    answer: `On a Standard Hub (${tiers[0].capexLabel}) with 150 cadets at ₹8,000 a month before GST, annual tuition is ${formatINR(
-      roi150.annualTuition,
-    )}. At a 25% share the school receives ${formatINR(roi150.schoolYear)} a year, about ${formatINR(
-      roi150.schoolMonth,
-    )} a month, so the arena pays back in roughly ${roi150.paybackMonths.toFixed(1)} months at full enrolment. Enrolment ramps up over the first terms; the MOU sets final terms. Try the simulator at /schools.`,
+    id: "capex",
+    ask: "CapEx & revenue share",
+    keywords: ["roi", "payback", "return", "revenue", "share", "earn", "income", "capex", "financial", "model", "fund"],
+    answer:
+      "BSAH funds, constructs and operates the turnkey arena with ex-cavalry faculty at ZERO capital expenditure to the school board. 25% to 30% of cadet tuition is returned directly to the partner institution, settled quarterly. The MOU sets final terms; see the model at /schools.",
   },
   {
     id: "insurance",
-    ask: "Insurance cover",
-    keywords: ["insurance", "insured", "cover", "accident", "liability"],
-    answer: "Every active cadet is covered by ₹10 lakh comprehensive group accident insurance, arranged and paid by BSAH. The school carries no equestrian liability for sessions BSAH runs.",
+    ask: "Insurance & safety record",
+    keywords: ["insurance", "insured", "cover", "accident", "liability", "safety", "safe", "injury", "injuries", "helmet", "fall", "record", "lancer"],
+    answer:
+      "Certified helmets are worn for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor stands on every mounted drill. Over 14,800 training hours logged nationally with zero major injuries (sample figure; live data follows), backed by ₹10 lakh group accident insurance per cadet.",
+  },
+  {
+    id: "stpci",
+    ask: "STPCI accreditation",
+    keywords: ["stpci", "accredit", "recognised", "recognized", "sanction", "official", "council", "federation", "efi"],
+    answer:
+      "Fully sanctioned by the School Tent Pegging Council of India (STPCI). Every training hour and rank milestone is cryptographically logged to the cadet's Sovereign Passport, qualifying them for the national Governor's Cup circuit.",
+  },
+  {
+    id: "timings",
+    ask: "Curriculum & class timings",
+    keywords: ["timing", "timings", "schedule", "academic", "class", "clash", "school hours", "batch", "batches", "when"],
+    answer:
+      "BSAH operates strictly in non-academic buffer windows via the 45-minute military drill protocol: Dawn Patrol (06:15), Twilight Batch (15:45) and Sunset Command (16:45), with the Weekend Circuit on Saturday and Sunday mornings. Zero disruption to regular classroom hours.",
   },
   {
     id: "faculty",
     ask: "Who are the instructors?",
-    keywords: ["instructor", "faculty", "coach", "teacher", "army", "rvc", "ncc", "cavalry"],
-    answer: "Instructors are drawn from Indian Army Remount and Veterinary Corps (RVC) and NCC cavalry units. Each hub has a chief instructor and a stable master; an equine veterinarian makes daily rounds.",
-  },
-  {
-    id: "safety",
-    ask: "What is the safety record for Cadet Lancer drills?",
-    keywords: ["safety", "safe", "injury", "injuries", "helmet", "fall", "record", "lancer"],
-    answer: "Certified helmets for every mounted minute, vests for jumping and lance work, and an ex-cavalry spotter on every mounted drill. Cadets learn to fall before they canter. No major injuries logged across 1,480 horsemanship hours (sample figure; live data follows).",
+    keywords: ["instructor", "faculty", "coach", "teacher", "army", "rvc", "ncc", "cavalry", "61st"],
+    answer:
+      "Instructors are recruited directly from the retired Indian Army Remount & Veterinary Corps (RVC), 61st Cavalry JCOs and NCOs, NCC Equestrian Wings and regional equestrian federations across Rajasthan, Punjab, Haryana and Telangana. Each hub has a chief instructor and a stable master; an equine veterinarian makes daily rounds.",
   },
   {
     id: "fees",
     ask: "What does it cost a parent?",
-    keywords: ["fee", "fees", "cost", "price", "tuition", "pay", "gst", "upi"],
-    answer: "Onboarding ₹2,000 once (passport, seal stamping, badges, welcome box). Tuition ₹8,000 a month plus 18% GST, ₹9,440 in total, by UPI Autopay on the 1st. The riding safety kit is an optional ₹3,000.",
+    keywords: ["fee", "fees", "cost", "price", "tuition", "pay", "gst", "upi", "elite", "kit"],
+    answer:
+      "Core Cadets: ₹8,500 + GST a month, two sessions a week. Sovereign Elite: ₹12,500 + GST a month, three sessions a week plus skill-at-arms, STPCI registration and the 24/7 stall-cam. The one-time onboarding kit is ₹5,000 + GST (tunic, helmet, boots, Sovereign Passport). UPI Autopay on the 1st.",
   },
   {
     id: "tiers",
     ask: "What do the three hub tiers include?",
-    keywords: ["tier", "tiers", "standard", "signature", "royal", "pavilion", "stables", "acre", "land", "build", "capex"],
-    answer: tiers.map((t) => `${t.name}: ${t.includes.join(", ")}, ${t.acres}, ${t.cadets} cadets, ${t.capexLabel}.`).join(" "),
+    keywords: ["tier", "tiers", "standard", "signature", "royal", "pavilion", "stables", "acre", "land", "build"],
+    answer: tiers.map((t) => `${t.name}: ${t.includes.join(", ")}, ${t.acres}, ${t.cadets} cadets, BSAH-funded (${t.capexLabel} invested).`).join(" "),
   },
   {
     id: "curriculum",
     ask: "How does the curriculum work?",
-    keywords: ["curriculum", "rank", "ranks", "pillar", "pillars", "squire", "rider", "knight", "class", "session"],
-    answer: "Four ranks (Cadet Squire, Cadet Rider, Cadet Knight, Sovereign Lancer) and twelve pillars of character. A session is 45 minutes: 15 minutes of ground and stable care, 30 mounted. Every session is graded on riding, ground and stable work and entered in the ledger the same day.",
+    keywords: ["curriculum", "rank", "ranks", "pillar", "pillars", "squire", "rider", "knight", "session"],
+    answer:
+      "Four ranks (Cadet Squire, Cadet Rider, Cadet Knight, Sovereign Lancer) and the 13-Pillar Sovereign Ledger: nine foundations of horsemanship and four BSAH tactical disciplines. A session is 45 minutes — ground protocol, core riding, a tactical skill-at-arms module, then care and digital logging — and every session is graded and entered in the ledger the same day.",
   },
   {
     id: "horses",
     ask: "Which horses do cadets ride?",
     keywords: ["horse", "horses", "marwari", "kathiawari", "stallion", "fleet", "breed"],
-    answer: "Indigenous Marwari and Kathiawari stallions, 21 across the hubs, each microchipped (ISO 11784), vet-checked daily and on a 24/7 stall camera. Each cadet is assigned a stallion for the long term.",
+    answer:
+      "Indigenous Marwari and Kathiawari stallions, 21 across the hubs, each microchipped (ISO 11784), vet-checked daily and on a 24/7 stall camera. Each cadet is assigned a stallion for the long term.",
   },
   {
     id: "tournaments",
     ask: "How do schools compete?",
-    keywords: ["tournament", "compete", "competition", "stpci", "cup", "governor", "league", "circuit", "tent pegging"],
-    answer: "Hubs compete on the STPCI interscholastic circuit in tent pegging, barrel racing and mounted archery. The 2026 Sovereign Governor's Cup runs on 14 November at DPS Hyderabad. Royal Pavilion hubs can host finals.",
+    keywords: ["tournament", "compete", "competition", "cup", "governor", "league", "circuit", "tent pegging"],
+    answer:
+      "Hubs compete on the STPCI interscholastic circuit in tent pegging, barrel racing and mounted archery, with standings kept by regional zone. The 2026 Sovereign Governor's Cup runs on 14 November. Royal Pavilion hubs can host finals.",
   },
   {
     id: "verify",
     ask: "How can a university verify a cadet?",
-    keywords: ["verify", "verification", "passport", "credential", "university", "admissions", "diploma", "efi"],
-    answer: "Every cadet's passport carries a code like BSAH-2026-HYD-042. Entering it at /verify shows the sealed record: rank, riding hours, hub, EFI registration and milestones. Nothing private is shown.",
+    keywords: ["verify", "verification", "passport", "credential", "university", "admissions", "diploma"],
+    answer:
+      "Every cadet's passport carries a code like BSAH-2026-HYD-042. Entering it at /verify shows the sealed record: rank, riding hours, hub, EFI registration and milestones. Nothing private is shown.",
   },
   {
     id: "age",
     ask: "What age can a child start?",
     keywords: ["age", "old", "start", "join", "enrol", "enroll", "admission", "beginner"],
-    answer: "From 8, in the Junior batch (minimum age to be confirmed per hub). Every cadet starts as a Cadet Squire on the ground, with or without riding experience.",
+    answer:
+      "From 8, in the Junior batch (minimum age to be confirmed per hub). Every cadet starts as a Cadet Squire on the ground, with or without riding experience.",
   },
 ];
 

@@ -6,7 +6,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label, ReelMark, StatusDot } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
-import { careLog, feeds, fleet, FLEET_TOTAL, statusLabel, type Stallion } from "@/lib/content/fleet";
+import { careLog, coatRegistry, feeds, fleet, FLEET_TOTAL, statusLabel, type Stallion } from "@/lib/content/fleet";
 import { hubs } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -269,6 +269,37 @@ export function CareLog() {
           ))}
         </ol>
       </div>
+    </section>
+  );
+}
+
+
+/** §2b · S42 the official colour registry. Six studbook coats as inked swatch plates. */
+export function CoatRegistry() {
+  return (
+    <section aria-labelledby="coats-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <Label>Official Marwari studbook</Label>
+      <Headline id="coats-h" className="mt-4" inscription="The colour" voice="registry." />
+      <ul className="mt-14 grid gap-px bg-brass/15 sm:grid-cols-2 lg:grid-cols-3">
+        {coatRegistry.map((c) => (
+          <li key={c.n} className="flex gap-5 bg-night p-6">
+            <span
+              aria-hidden
+              className="mt-1 h-12 w-12 shrink-0 rounded-full border border-brass/30"
+              style={{ background: c.hex === "dual" ? "conic-gradient(#e9e4da 0 50%, #2a1d15 50% 100%)" : c.hex }}
+            />
+            <span>
+              <span className="flex items-baseline gap-3">
+                <span className="font-mono text-xs text-gold">{c.n}</span>
+                <span className="t-voice text-xl text-bone">{c.name}</span>
+              </span>
+              <span className="label mt-1 block text-dust">{c.coat}</span>
+              <span className="mt-3 block text-sm text-sand">{c.line}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="t-ui mt-6 text-xs text-dust">Registry names as used in Marwar; shades indicative.</p>
     </section>
   );
 }

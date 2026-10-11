@@ -44,7 +44,7 @@ export function Atmosphere() {
           style={{
             left: sx,
             top: sy,
-            background: "radial-gradient(circle, rgb(230 202 101 / 0.22) 0%, rgb(197 160 89 / 0.08) 35%, transparent 70%)",
+            background: "radial-gradient(circle, rgb(212 175 55 / 0.22) 0%, rgb(197 160 89 / 0.08) 35%, transparent 70%)",
           }}
         />
       )}
@@ -52,7 +52,7 @@ export function Atmosphere() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 120% 90% at 50% 45%, transparent 45%, rgb(10 8 6 / 0.55) 80%, rgb(10 8 6 / 0.92) 100%)",
+            "radial-gradient(ellipse 120% 90% at 50% 45%, transparent 45%, rgb(15 14 13 / 0.55) 80%, rgb(15 14 13 / 0.92) 100%)",
         }}
       />
     </div>
