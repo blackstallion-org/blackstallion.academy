@@ -29,10 +29,10 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
     <svg viewBox="0 0 800 460" className={cn("h-full w-full", className)} role="img" aria-label={`${tier.name} site plan: ${tier.includes.join(", ")}`}>
       <defs>
         <pattern id="bp-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M20 0H0V20" fill="none" stroke="rgb(89 56 34 / 0.2)" strokeWidth="1" />
+          <path d="M20 0H0V20" fill="none" stroke="rgb(184 115 51 / 0.08)" strokeWidth="1" />
         </pattern>
         <pattern id="bp-sand" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <line x1="0" y1="0" x2="0" y2="6" stroke="rgb(89 56 34 / 0.45)" strokeWidth="1" />
+          <line x1="0" y1="0" x2="0" y2="6" stroke="rgb(184 115 51 / 0.18)" strokeWidth="1" />
         </pattern>
       </defs>
       <rect width="800" height="460" fill="url(#bp-grid)" />
@@ -89,7 +89,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
             opacity: i < tier.stables ? 1 : 0,
           }}
           transition={{ ...t, delay: i < tier.stables ? i * 0.04 : 0 }}
-          fill="rgb(42 29 21 / 0.8)"
+          fill="rgb(26 26 24 / 0.8)"
           stroke={ink}
           strokeWidth="1"
         />

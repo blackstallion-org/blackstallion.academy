@@ -115,6 +115,7 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
           </div>
           <LeadForm
             gate="hub"
+            fallbackEmail="parents@blackstallion.academy"
             hidden={{ organisation: hub.name }}
             submitLabel="Request a visit"
             fields={[

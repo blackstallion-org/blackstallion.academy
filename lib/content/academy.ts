@@ -19,14 +19,14 @@ export const passport = {
 };
 
 export const day = [
-  { time: "06:00", title: "Stoic daily spark", text: "A 30-second audio brief on courage, in the app." },
-  { time: "07:30", title: "School", text: "The ordinary day. Posture travels with them." },
-  { time: "15:45", title: "The gate", text: "Passport scanned at the stable gate; a parent is alerted." },
-  { time: "16:00", title: "Ground care", text: "Grooming, hooves, tack. The horse comes first." },
-  { time: "16:15", title: "Mounted session", text: "Breath, posture, then the discipline of the day." },
-  { time: "16:45", title: "Log and debrief", text: "Graded on riding, ground and stable. The ledger updates." },
-  { time: "17:00", title: "The reel", text: "A ten-second milestone reel goes home." },
-  { time: "21:00", title: "Lights out", text: "The stallion's night feed, on camera." },
+  { time: "06:00 AM", title: "Stoic daily spark", text: "A 30-second audio brief on courage, in the app." },
+  { time: "07:30 AM", title: "School", text: "The ordinary day. Posture travels with them." },
+  { time: "03:45 PM", title: "The gate", text: "Passport scanned at the stable gate; a parent is alerted." },
+  { time: "04:00 PM", title: "Ground care", text: "Grooming, hooves, tack. The horse comes first." },
+  { time: "04:15 PM", title: "Mounted session", text: "Breath, posture, then the discipline of the day." },
+  { time: "04:45 PM", title: "Log and debrief", text: "Graded on riding, ground and stable. The ledger updates." },
+  { time: "05:00 PM", title: "The reel", text: "A ten-second milestone reel goes home." },
+  { time: "09:00 PM", title: "Lights out", text: "The stallion's night feed, on camera." },
 ];
 
 /** Verbatim from docs/legal/cadet-creed.md */

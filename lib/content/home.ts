@@ -103,7 +103,7 @@ export const verifier = {
   body: "Admissions officers and federations can check a cadet's rank, hours and EFI registration in seconds.",
 };
 
-export const circuit = { inscription: "Lances down.", voice: "Schools at war.", cup: { name: "Sovereign Governor's Cup", date: "2026-11-14T09:00:00+05:30", place: "Hyderabad" } };
+export const circuit = { inscription: "Lances down.", voice: "Zones on the circuit.", cup: { name: "Sovereign Governor's Cup", date: "2026-11-14T09:00:00+05:30", place: "Hyderabad" } };
 
 export const shield = {
   inscription: "Safety",

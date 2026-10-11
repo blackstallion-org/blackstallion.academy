@@ -5,35 +5,32 @@
    Kala night, Nukra and bone type, copper (brass token) and burnished gold as accents; Bhanwar/Surang warm the shadows.
    ------------------------------------------------------------------ */
 @theme {
-  /* Colour: the official BSAH Marwari Studbook palette only. Old token names are kept as aliases so components stay unchanged. */
-  --bg-primary: #0f0e0d;      /* Obsidian Black */
-  --bg-secondary: #2a1d15;    /* Dark Bay */
-  --accent-copper: #593822;   /* Copper Chestnut */
-  --text-primary: #ffffff;    /* Pure White */
-  --text-secondary: #d9d5cd;  /* Ceremonial White */
-  --text-muted: #8c8882;      /* Iron Grey */
-
-  --color-night: #0f0e0d;
-  --color-kala: #0f0e0d;
-  --color-umber: #0f0e0d;
-  --color-bhanwar: #2a1d15;
-  --color-ember: #2a1d15;
-  --color-surang: #593822;
-  --color-brass: #b87333; /* Warm Copper: text accents */
-  --color-line: #593822; /* Copper Chestnut: borders, rules, fills */
+  /* Colour. Core UI palette per the BSAH Master Directive (Layer 1):
+     Obsidian Black #0F0E0D · Deep Charcoal #1A1A18 · Metallic Warm Copper #B87333 · Burnished Gold #D4AF37.
+     The studbook coat colours live separately (--coat-*) and are used only for the registry and coat swatches. */
+  --color-night: #0f0e0d;   /* Obsidian Black: canvas */
+  --color-umber: #1a1a18;   /* Deep Charcoal: surfaces */
+  --color-ember: #1a1a18;   /* Deep Charcoal: panels */
+  --color-brass: #b87333;   /* Metallic Warm Copper: labels, rules, accents */
   --color-copper: #b87333;
-  --color-shwet: #8c8882;
-  --color-dust: #8c8882;
-  --color-frost: #9fb3c8;
-  --color-nukra: #d9d5cd;
-  --color-sand: #d9d5cd;
-  --color-parchment: #d9d5cd;
-  --color-bone: #ede3d1;
-  --color-gold: #d4af37;
-  --color-blood: #b13a24;
-  --color-ink: #0f0e0d;
+  --color-line: rgb(184 115 51 / 0.3); /* Copper hairline */
+  --color-gold: #d4af37;    /* Burnished Gold: the one word that matters, active states */
+  --color-bone: #ede3d1;    /* headline cream */
+  --color-sand: #d9d5cd;    /* body on images */
+  --color-dust: #8c8882;    /* captions, muted */
+  --color-blood: #b13a24;   /* the war beat, once per page */
+  --color-frost: #9fb3c8;   /* digital crisis only */
+  --color-parchment: #e9dcc0;
+  --color-ink: #1d150d;
   --color-black: #0f0e0d;
   --color-white: #ede3d1;
+
+  /* Official Marwari Studbook colour registry (coat colours, not UI colours) */
+  --color-bhanwar: #2a1d15;
+  --color-kala: #0f0e0d;
+  --color-surang: #593822;
+  --color-shwet: #8c8882;
+  --color-nukra: #d9d5cd;
 
   /* Poster scale */
   --text-poster: clamp(3.1rem, 10.5vw, 12.5rem);
@@ -146,13 +143,13 @@
   /* Brass hairline rule */
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, #593822 12%, #593822 88%, transparent);
+    background: linear-gradient(90deg, transparent, rgb(184 115 51 / 0.55) 12%, rgb(184 115 51 / 0.55) 88%, transparent);
   }
 
   /* The only allowed surface: umber with a faint brass edge */
   .plate {
-    background-color: #2a1d15;
-    border: 1px solid #593822;
+    background-color: rgb(26 26 24 / 0.92);
+    border: 1px solid rgb(184 115 51 / 0.22);
     border-radius: 1px;
   }
 
@@ -178,13 +175,13 @@
 
   /* Graded placeholder used under every photograph until the file exists */
   .film-placeholder {
-    background: linear-gradient(180deg, #0f0e0d 0%, #2a1d15 55%, #0f0e0d 100%);
+    background: linear-gradient(180deg, #0f0e0d 0%, #1a1a18 55%, #0f0e0d 100%);
   }
 
   /* Parchment surface for documents (MOU, diploma, letter) */
   .parchment {
     color: var(--color-ink);
-    background: #d9d5cd;
+    background: var(--color-parchment);
     box-shadow: 0 30px 80px rgb(0 0 0 / 0.55);
   }
 
@@ -203,7 +200,7 @@
   .range-brass {
     appearance: none;
     height: 2px;
-    background: #593822;
+    background: rgb(184 115 51 / 0.3);
     outline-offset: 8px;
   }
   .range-brass::-webkit-slider-thumb {
@@ -228,7 +225,7 @@
     width: 100%;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid #593822;
+    border-bottom: 1px solid rgb(184 115 51 / 0.35);
     padding: 0.7rem 0;
     color: var(--color-bone);
     font-family: var(--font-sans);

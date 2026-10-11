@@ -17,6 +17,7 @@ export function Matrix() {
   const [active, setActive] = useState<SystemId>("brain");
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const sys = matrix.systems.find((s) => s.id === active)!;
+  const hud = active === "brain" || active === "spine";
 
   const onKey = (e: KeyboardEvent, i: number) => {
     const n = matrix.systems.length;
@@ -47,6 +48,7 @@ export function Matrix() {
                 aria-controls="matrix-panel"
                 tabIndex={active === s.id ? 0 : -1}
                 onClick={() => setActive(s.id as SystemId)}
+                onMouseEnter={() => setActive(s.id as SystemId)}
                 onKeyDown={(e) => onKey(e, i)}
                 className={cn(
                   "group flex shrink-0 items-baseline gap-4 border-b py-4 pr-6 text-left transition-colors lg:pr-0",
@@ -61,8 +63,19 @@ export function Matrix() {
             ))}
           </div>
 
-          <div className="relative mx-auto aspect-[5/7] w-full max-w-[22rem] lg:max-w-none">
-            <RiderDiagram active={active} />
+          <div className="mx-auto w-full max-w-[22rem] lg:max-w-none">
+            {/* Brain & Spine HUD: the plate drops into an obsidian depth-of-field and the alignment grid turns gold */}
+            <div
+              className={cn(
+                "relative aspect-[5/7] w-full transition-[background-color,box-shadow] duration-700",
+                hud && "bg-night shadow-[inset_0_0_90px_rgb(0_0_0/0.95)]",
+              )}
+            >
+              <RiderDiagram active={active} />
+            </div>
+            <p className={cn("label mt-3 text-center transition-colors duration-700", hud ? "text-gold" : "text-dust")} aria-live="polite">
+              {active === "spine" ? "Pelvic Kinematics: 3D Core Realignment" : active === "brain" ? "Neural focus: calm intent, real-time correction" : "Tap Brain or Spine for the alignment HUD"}
+            </p>
           </div>
 
           <div id="matrix-panel" role="tabpanel" aria-labelledby={`tab-${active}`} className="lg:pt-6">

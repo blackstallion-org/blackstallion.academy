@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   },
   description:
     "The interscholastic equestrian leadership academy and national tent pegging circuit for India's schools. Indigenous Marwari stallions, ex-cavalry instructors, a verifiable ledger of every hour.",
+  alternates: { canonical: "/" },
+  twitter: { card: "summary_large_image" },
   openGraph: {
     siteName: "Black Stallion Academy",
     locale: "en_IN",

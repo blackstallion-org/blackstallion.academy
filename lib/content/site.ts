@@ -36,7 +36,7 @@ export const reels: Reel[] = [
   { n: 9, href: "/safety", act: "citadel", title: "The Shield", inscription: "Safety", voice: "before speed.", blurb: "Ex-cavalry faculty, daily vet care, insurance.", image: "safetyKit" },
   { n: 10, href: "/schools", act: "ledger", title: "The Citadel", inscription: "Your campus", voice: "becomes a citadel.", blurb: "Tiers, returns and the draft MOU for school boards.", image: "schoolAerial" },
   { n: 11, href: "/verify", act: "ledger", title: "The Seal", inscription: "Every hour", voice: "sealed in brass.", blurb: "Verify a cadet's passport.", image: "bgPassport" },
-  { n: 12, href: "/tournaments", act: "ledger", title: "The Circuit", inscription: "Lances down.", voice: "Schools at war.", blurb: "STPCI standings and fixtures.", image: "bgCharge" },
+  { n: 12, href: "/tournaments", act: "ledger", title: "The Circuit", inscription: "Lances down.", voice: "Zones on the circuit.", blurb: "STPCI standings and fixtures.", image: "bgCharge" },
   { n: 13, href: "/command", act: "ledger", title: "Command AI", inscription: "Ask the", voice: "command terminal.", blurb: "ROI, insurance, safety, curriculum.", image: "bgArena" },
   { n: 14, href: "/journal", act: "ledger", title: "The Chronicle", inscription: "Stories", voice: "from the stable.", blurb: "Legends, science and the circuit.", image: "journalReins" },
   { n: 15, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
@@ -87,6 +87,7 @@ export const corridors = [
 
 export const legalNav = [
   { label: "About", href: "/about" },
+  { label: "Lore of the Bards", href: "/lore" },
   { label: "Journal", href: "/journal" },
   { label: "Command AI", href: "/command" },
 ];

@@ -45,6 +45,9 @@ export const media = {
   legendCavalry: m("legend-cavalry.png", "hf_20261011_125701_03894133-4ebe-4853-bbf3-fb8b894c5b42.png", "Marwari horsemen as dark silhouettes riding through a plume of golden desert dust"),
   legendChetak: m("legend-chetak.png", "hf_20261011_123831_2b8dbd56-ff58-4874-94f2-9f3582efc329.png", "Weathered leather tack and oxidized bronze stirrups on dark stone, wind-blown sand"),
   legendBahadur: m("legend-bahadur.png", "hf_20261011_125701_e77bf110-1d6e-4276-b777-a60ccce661b9.png", "A lone Marwari stallion silhouetted on a desert dune ridge at sunset"),
+  /* Lore reel (11 Oct 2026): original studio portraits; replace with commissioned photography. */
+  kalaPortrait: m("lore-kala.png", "hf_20261011_142335_cc424b5d-501a-4bc6-9af2-edce6dba169a.png", "Black-and-white portrait of a black Marwari stallion with lyre-shaped ears and a white blaze", "60% 35%"),
+  nukraPortrait: m("lore-nukra.png", "hf_20261011_142423_18de8c55-e9b9-4415-970e-a1d04f0176ce.png", "A pure white Marwari horse in a dark stone courtyard at dusk", "40% 40%"),
   legendNachni: m("legend-nachni.png", "hf_20261009_133621_81837c50-d744-4170-a4c4-28e23c303420.png", "A Marwari dancing at a night wedding procession in Rajasthan"),
   legendFall: m("legend-fall.png", "hf_20261009_134450_fded19b4-ef5f-47e2-ad72-61dfcc13a8d8.png", "A thin Marwari harnessed to a village cart, 1950s"),
   legendRevival: m("legend-revival.png", "hf_20261009_134452_071b671c-3a71-467c-b01b-41fdd53c797c.png", "A herd of Marwari horses galloping across Rajasthan at golden hour"),
@@ -75,7 +78,7 @@ export const media = {
   schoolAerial: m("school-aerial.png", "hf_20261009_141351_105fa634-2dcd-4313-902c-4720f60297d8.png", "Aerial view of a school campus with a new riding arena at dusk"),
   schoolArenaNight: m("school-arena-night.png", "hf_20261009_141352_f3f0129a-4d73-4510-b78f-5eaef0041c8b.png", "A floodlit school riding arena at night"),
   tournCup: m("tourn-cup.png", "hf_20261009_141653_3ffd5740-6fa9-4d99-890c-edc64312a25c.png", "A silver and brass trophy with crossed lances beside gold medals"),
-  tournCrowd: m("tourn-crowd.png", "hf_20261009_141652_01e06bcb-f8c6-4fa2-ac9d-aea9ab789968.png", "A rider at full gallop with lance lowered before a school crowd"),
+  tournCrowd: m("tourn-crowd.png", "hf_20261011_143142_68fdcc65-e301-4366-83a1-d74042dff88d.png", "A rider at full gallop with lance lowered before a school crowd"),
   tournPodium: m("tourn-podium.png", "hf_20261009_141652_b40d5bb5-0add-4dbe-98fa-804b08055fa9.png", "Three cadets on a podium receiving medals"),
   journalReins: m("journal-reins.png", "hf_20261009_141653_ed15a453-da1c-4f1a-9507-25f09b028615.png", "Gloved hands holding leather reins lightly"),
   contactGate: m("contact-gate.png", "hf_20261009_142018_b4e92a4f-3602-4c04-85ce-1c80dfda6af5.png", "A studded Rajput fort gate at night between two lanterns"),

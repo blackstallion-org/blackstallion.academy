@@ -24,8 +24,8 @@ export function ParentsTitle() {
       <div aria-hidden className="absolute inset-0 shade-b" />
       {/* The rail runs along the foot of the frame, under the copy, and drops away as you scroll. */}
       <motion.div aria-hidden className="absolute inset-x-0 bottom-[3vh] flex flex-col gap-5" style={{ y: railY }}>
-        <span className="h-5 w-full bg-gradient-to-b from-[#2A1D15] to-[#0F0E0D] shadow-[0_10px_30px_rgb(0_0_0/0.6)]" />
-        <span className="h-4 w-full bg-gradient-to-b from-[#2A1D15] to-[#0F0E0D]" />
+        <span className="h-5 w-full bg-gradient-to-b from-[#1A1A18] to-[#0F0E0D] shadow-[0_10px_30px_rgb(0_0_0/0.6)]" />
+        <span className="h-4 w-full bg-gradient-to-b from-[#1A1A18] to-[#0F0E0D]" />
       </motion.div>
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[calc(3vh+5.5rem)]">
         <ReelMark n={8} act="citadel" />
@@ -154,7 +154,7 @@ export function HoofPath() {
       <Headline id="path-h" className="mt-4" inscription="Five steps" voice="to the first canter." />
       <div ref={ref} className="relative mt-14 hidden md:block" style={{ aspectRatio: "100 / 34" }}>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden>
-          <motion.path d={d} fill="none" stroke="rgb(89 56 34 / 1)" strokeWidth="0.25" strokeDasharray="0.8 1.2" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
+          <motion.path d={d} fill="none" stroke="rgb(184 115 51 / 0.4)" strokeWidth="0.25" strokeDasharray="0.8 1.2" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
         </svg>
         {admissions.map((a, i) => (
           <motion.div
@@ -209,8 +209,8 @@ export function Receipt() {
             transition={{ duration: 1.6, ease: ease.citadel }}
           >
             <p className="t-inscribe text-center text-sm tracking-[0.2em] text-ink">Black Stallion Academy</p>
-            <p className="font-mono mt-1 text-center text-[0.65rem] text-[#593822]">FEE SCHEDULE · 2026–27 · GSTIN ON INVOICE</p>
-            <div className="my-5 border-t border-dashed border-[#593822]/60" />
+            <p className="font-mono mt-1 text-center text-[0.65rem] text-[#6b5130]">FEE SCHEDULE · 2026–27 · GSTIN ON INVOICE</p>
+            <div className="my-5 border-t border-dashed border-[#8a6a2c]/60" />
             <ul className="flex flex-col gap-5">
               {fees.map((f) => (
                 <li key={f.item}>
@@ -218,11 +218,11 @@ export function Receipt() {
                     <span>{f.item}</span>
                     <span>{inr(f.amount)}</span>
                   </p>
-                  <p className="t-ui mt-1 text-xs text-[#2A1D15]">{f.detail}</p>
+                  <p className="t-ui mt-1 text-xs text-[#5a4526]">{f.detail}</p>
                 </li>
               ))}
             </ul>
-            <div className="my-5 border-t border-dashed border-[#593822]/60" />
+            <div className="my-5 border-t border-dashed border-[#8a6a2c]/60" />
             <p className="font-mono flex justify-between text-sm font-semibold text-ink">
               <span>First month · Core, with kit & GST</span>
               <span>{inr(firstMonthCore)}</span>
@@ -235,7 +235,7 @@ export function Receipt() {
               <span>Each month after · Sovereign Elite</span>
               <span>{inr(withGst(price.elite))}</span>
             </p>
-            <p className="font-mono mt-6 text-center text-[0.6rem] text-[#593822]">PAYMENTS VIA RAZORPAY · UPI AUTOPAY ON THE 1ST</p>
+            <p className="font-mono mt-6 text-center text-[0.6rem] text-[#6b5130]">PAYMENTS VIA RAZORPAY · UPI AUTOPAY ON THE 1ST</p>
           </motion.div>
         </div>
       </div>

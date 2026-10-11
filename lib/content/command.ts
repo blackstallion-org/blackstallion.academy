@@ -7,19 +7,21 @@ import { tiers } from "./schools";
  * The first four entries are the quick-action query matrix (Directive 04 §3).
  */
 
-export type Entry = { id: string; ask: string; keywords: string[]; answer: string };
+export type Entry = { id: string; ask: string; /** The full question a quick-action chip submits. */ query?: string; keywords: string[]; answer: string };
 
 export const knowledge: Entry[] = [
   {
     id: "capex",
     ask: "CapEx & revenue share",
+    query: "What is the financial model for partner school boards?",
     keywords: ["roi", "payback", "return", "revenue", "share", "earn", "income", "capex", "financial", "model", "fund"],
     answer:
-      "BSAH funds, constructs and operates the turnkey arena with ex-cavalry faculty at ZERO capital expenditure to the school board. 25% to 30% of cadet tuition is returned directly to the partner institution, settled quarterly. The MOU sets final terms; see the model at /schools.",
+      "Proposed model: BSAH funds, constructs and operates a turnkey arena with ex-cavalry faculty at zero capital expenditure to the school board, and 25% to 30% of cadet tuition is returned to the partner institution, settled quarterly. This is an offer, not an existing arrangement: it applies only under a signed agreement, and the MOU sets the final terms. See the model at /schools.",
   },
   {
     id: "insurance",
     ask: "Insurance & safety record",
+    query: "What is the safety record for Cadet Lancer drills?",
     keywords: ["insurance", "insured", "cover", "accident", "liability", "safety", "safe", "injury", "injuries", "helmet", "fall", "record", "lancer"],
     answer:
       "BSAH describes certified helmets for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor on every mounted drill. Training-hour totals, injury records and insurance cover are not published yet: the figures and the policy documents are being confirmed, and nothing is shown until they are.",
@@ -27,23 +29,25 @@ export const knowledge: Entry[] = [
   {
     id: "stpci",
     ask: "STPCI accreditation",
+    query: "Is this program officially recognized for competitions?",
     keywords: ["stpci", "accredit", "recognised", "recognized", "sanction", "official", "council", "federation", "efi"],
     answer:
-      "The School Tent Pegging Council of India (STPCI) is the governing council in the BSAH structure. Sanction, registration terms and Governor's Cup qualification are being confirmed and will be published with documentation. Passport logging is planned, not yet live.",
+      "The School Tent Pegging Council of India (STPCI) is the governing council in the BSAH structure. The intended process: every session's milestones are logged in the cadet's Sovereign Passport, and that record is what the council reviews for registration and competition eligibility. Official recognition, registration terms and Governor's Cup eligibility are being confirmed and will be published with documentation; passport logging is planned, not yet live.",
   },
   {
     id: "timings",
     ask: "Curriculum & class timings",
+    query: "How do riding sessions fit into academic schedules?",
     keywords: ["timing", "timings", "schedule", "academic", "class", "clash", "school hours", "batch", "batches", "when"],
     answer:
-      "BSAH operates strictly in non-academic buffer windows via the 45-minute military drill protocol: Dawn Patrol (06:15), Twilight Batch (15:45) and Sunset Command (16:45), with the Weekend Circuit on Saturday and Sunday mornings. Zero disruption to regular classroom hours.",
+      "Sessions are planned for non-academic buffer windows using the 45-minute military session protocol (10 minutes ground protocol and tack inspection, 15 minutes core riding and biomechanical alignment, 10 minutes skill-at-arms, 10 minutes dismount, care and digital logging): Dawn Patrol at 06:15 AM, Twilight Batch at 03:45 PM and Sunset Command at 04:45 PM, with the Weekend Circuit on Saturday and Sunday mornings. Final batch times are set against each campus's own timetable before launch.",
   },
   {
     id: "faculty",
     ask: "Who are the instructors?",
     keywords: ["instructor", "faculty", "coach", "teacher", "army", "rvc", "ncc", "cavalry", "61st"],
     answer:
-      "Instructors are recruited directly from the retired Indian Army Remount & Veterinary Corps (RVC), 61st Cavalry JCOs and NCOs, NCC Equestrian Wings and regional equestrian federations across Rajasthan, Punjab, Haryana and Telangana. Each hub has a chief instructor and a stable master; an equine veterinarian makes daily rounds.",
+      "BSAH's faculty recruitment pipeline targets retired Indian Army Remount & Veterinary Corps (RVC) personnel, 61st Cavalry JCOs and NCOs, NCC Equestrian Wings and regional equestrian federations across Rajasthan, Punjab, Haryana and Telangana. These are recruitment sources, not confirmed affiliations; no individual is named until appointed. The planned staffing per hub is a chief instructor and a stable master, with daily rounds by an equine veterinarian.",
   },
   {
     id: "fees",
@@ -70,14 +74,14 @@ export const knowledge: Entry[] = [
     ask: "Which horses do cadets ride?",
     keywords: ["horse", "horses", "marwari", "kathiawari", "stallion", "fleet", "breed"],
     answer:
-      "Indigenous Marwari and Kathiawari stallions, 21 across the hubs, each microchipped (ISO 11784), vet-checked daily and on a 24/7 stall camera. Each cadet is assigned a stallion for the long term.",
+      "The planned fleet: indigenous Marwari and Kathiawari stallions, each microchipped (ISO 11784), vet-checked daily and on a 24/7 stall camera, with each cadet assigned a stallion for the long term. Fleet numbers on the site are sample figures.",
   },
   {
     id: "tournaments",
     ask: "How do schools compete?",
     keywords: ["tournament", "compete", "competition", "cup", "governor", "league", "circuit", "tent pegging"],
     answer:
-      "Hubs compete on the STPCI interscholastic circuit in tent pegging, barrel racing and mounted archery, with standings kept by regional zone. The 2026 Sovereign Governor's Cup runs on 14 November. Royal Pavilion hubs can host finals.",
+      "Hubs compete on the STPCI interscholastic circuit in tent pegging, barrel racing and mounted archery, with standings kept by regional zone. The Sovereign Governor's Cup fixture shown on the site is a sample, pending confirmation. Royal Pavilion hubs are designed to host finals.",
   },
   {
     id: "verify",

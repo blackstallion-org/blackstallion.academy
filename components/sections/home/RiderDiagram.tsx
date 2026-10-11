@@ -19,7 +19,7 @@ const vertebrae = Array.from({ length: 17 }, (_, i) => {
  */
 export function RiderDiagram({ active, className }: { active: SystemId; className?: string }) {
   const on = (id: SystemId) => active === id;
-  const stroke = (id: SystemId) => (on(id) ? "var(--color-gold)" : "rgb(89 56 34 / 0.88)");
+  const stroke = (id: SystemId) => (on(id) ? "var(--color-gold)" : "rgb(184 115 51 / 0.35)");
 
   return (
     <svg viewBox="0 0 300 420" className={cn("h-full w-full", className)} role="img" aria-label={`Rider diagram, ${active} highlighted`}>
@@ -38,7 +38,12 @@ export function RiderDiagram({ active, className }: { active: SystemId; classNam
       </defs>
 
       {/* Grid ticks like an engineering plate */}
-      <g stroke="rgb(89 56 34 / 0.25)" strokeWidth="0.5">
+      <g
+        stroke={on("brain") || on("spine") ? "rgb(212 175 55 / 0.32)" : "rgb(184 115 51 / 0.1)"}
+        strokeWidth="0.5"
+        style={{ transition: "stroke 700ms ease" }}
+        data-hud={on("brain") || on("spine") ? "alignment-grid" : undefined}
+      >
         {Array.from({ length: 11 }, (_, i) => (
           <line key={`h${i}`} x1="0" x2="300" y1={i * 42} y2={i * 42} />
         ))}
@@ -48,8 +53,8 @@ export function RiderDiagram({ active, className }: { active: SystemId; classNam
       </g>
 
       {/* Horse: back, withers, neck */}
-      <path d="M10 338 C70 318 120 310 150 312 C195 314 230 318 252 314 C268 300 276 270 284 236" fill="none" stroke="rgb(89 56 34 / 1)" strokeWidth="1.2" />
-      <path d="M10 352 C80 334 200 332 262 330" fill="none" stroke="rgb(89 56 34 / 0.45)" strokeWidth="0.8" strokeDasharray="2 4" />
+      <path d="M10 338 C70 318 120 310 150 312 C195 314 230 318 252 314 C268 300 276 270 284 236" fill="none" stroke="rgb(184 115 51 / 0.4)" strokeWidth="1.2" />
+      <path d="M10 352 C80 334 200 332 262 330" fill="none" stroke="rgb(184 115 51 / 0.18)" strokeWidth="0.8" strokeDasharray="2 4" />
 
       {/* Brain */}
       <g filter={on("brain") ? "url(#glow)" : undefined}>
@@ -106,12 +111,12 @@ export function RiderDiagram({ active, className }: { active: SystemId; classNam
       </g>
 
       {/* Arms and reins */}
-      <path d="M150 132 L176 196 L206 214" fill="none" stroke="rgb(89 56 34 / 1)" strokeWidth="1.1" strokeLinecap="round" />
-      <path d="M206 214 C236 222 262 232 286 240" fill="none" stroke="rgb(89 56 34 / 0.88)" strokeWidth="0.7" strokeDasharray="1.5 3" />
+      <path d="M150 132 L176 196 L206 214" fill="none" stroke="rgb(184 115 51 / 0.4)" strokeWidth="1.1" strokeLinecap="round" />
+      <path d="M206 214 C236 222 262 232 286 240" fill="none" stroke="rgb(184 115 51 / 0.35)" strokeWidth="0.7" strokeDasharray="1.5 3" />
       <circle cx="206" cy="214" r="2" fill="var(--color-brass)" />
 
       {/* Axis line: head over shoulders over hips */}
-      <line x1="150" y1="40" x2="150" y2="300" stroke={on("spine") ? "rgb(255 255 255 / 0.36)" : "rgb(89 56 34 / 0.38)"} strokeWidth="0.6" strokeDasharray="4 4" />
+      <line x1="150" y1="40" x2="150" y2="300" stroke={on("spine") ? "rgb(255 255 255 / 0.36)" : "rgb(184 115 51 / 0.15)"} strokeWidth="0.6" strokeDasharray="4 4" />
       <text x="158" y="38" className="font-mono" fontSize="7" fill="rgb(140 136 130)">
         AXIS 0.0°
       </text>

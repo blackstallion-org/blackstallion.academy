@@ -3,7 +3,7 @@
 import { useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { playEffect } from "@/lib/audio/engine";
-import { answer, fallback, knowledge } from "@/lib/content/command";
+import { answer, fallback, knowledge, type Entry } from "@/lib/content/command";
 import { cn } from "@/lib/utils";
 
 type Line = { who: "sys" | "you" | "ai"; text: string };
@@ -38,11 +38,11 @@ export function Terminal({ chips, opening, tall = false, className }: Props) {
   const asked = useRef(false);
   const chipList = chips ?? knowledge.slice(0, 4).map((k) => k.ask);
 
-  const ask = async (q: string) => {
+  const ask = async (q: string, entry?: Entry) => {
     if (busy || !q.trim()) return;
     setBusy(true);
     setLines((l) => [...l, { who: "you", text: q }]);
-    const hit = answer(q);
+    const hit = entry ?? answer(q);
     const full = hit?.answer ?? fallback;
     if (reduced) {
       setLines((l) => [...l, { who: "ai", text: full }]);
@@ -116,7 +116,10 @@ export function Terminal({ chips, opening, tall = false, className }: Props) {
             key={c}
             type="button"
             disabled={busy}
-            onClick={() => void ask(c)}
+            onClick={() => {
+              const e = knowledge.find((k) => k.ask === c);
+              void ask(e?.query ?? c, e);
+            }}
             className="label shrink-0 border border-line px-3 py-2 text-sand transition-colors hover:border-gold hover:text-gold disabled:opacity-40"
           >
             {c}

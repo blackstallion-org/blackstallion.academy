@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useLenis } from "lenis/react";
 import { useEffect, useRef, useState } from "react";
-import { Monogram } from "@/components/brand/Monogram";
+import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
 import { acts, corridors, navCta, primaryNav, reelFor, reels, TOTAL_REELS, type Act } from "@/lib/content/site";
@@ -45,7 +45,7 @@ export function SiteNav() {
         <div className="gutter flex h-16 items-center justify-between gap-6 md:h-20">
           <div className="flex min-w-0 items-center gap-4">
             <Link href="/" className="flex items-center gap-3" aria-label="Black Stallion Academy, home">
-              <Monogram className="h-7 w-7" />
+              <CrestMark className="h-10 w-10" decorative />
               <Wordmark layout="inline" className="hidden sm:inline" />
             </Link>
             {reel && (
@@ -158,7 +158,7 @@ function Menu({ onClose }: { onClose: () => void }) {
     >
       <div className="gutter flex h-16 items-center justify-between md:h-20">
         <Link href="/" onClick={onClose} className="flex items-center gap-3">
-          <Monogram className="h-7 w-7" />
+          <CrestMark className="h-10 w-10" decorative />
           <Wordmark layout="inline" />
         </Link>
         <button ref={closeRef} type="button" onClick={onClose} className="label px-2 py-2.5 text-bone hover:text-gold">

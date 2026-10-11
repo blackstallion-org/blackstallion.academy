@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { BreathCue } from "@/components/film/BreathCue";
 import { EndCard } from "@/components/film/EndCard";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -26,6 +27,7 @@ export default function LegendPage() {
           <div>
             <ChapterHead id="ocean" />
             <Headline id="ocean-h" className="mt-4" inscription={ocean.inscription} voice={ocean.voice} />
+            <p className="t-story mt-4 italic text-bone">{ocean.sub}</p>
             <Reveal>
               <p className="t-story mt-8 max-w-2xl text-sand first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:[font-family:var(--font-kalnia)] first-letter:font-semibold first-letter:text-[4.2em] first-letter:leading-[0.8] first-letter:text-gold">
                 {ocean.body}
@@ -109,43 +111,17 @@ export default function LegendPage() {
       {/* IV · The ears — scrub zoom */}
       <EarsZoom />
 
-      {/* V · The Traditional Lore of the Bards — paired lore / insight ledger + the vow */}
-      <section id="omens" aria-labelledby="omens-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      {/* V · The Traditional Lore of the Bards lives in its own reel (/lore), kept apart from history and science */}
+      <section id="omens" aria-labelledby="omens-h" className="gutter relative py-[clamp(5rem,12vh,10rem)]">
         <ChapterHead id="omens" />
-        <Headline id="omens-h" className="mt-4" inscription={lore.inscription} voice={lore.voice} />
+        <Headline id="omens-h" className="mt-4" inscription={lore.inscription} voice={lore.voice} size="2" />
         <p className="t-story mt-6 max-w-2xl text-sand">{lore.sub}</p>
-        <ol className="mt-14 border-t border-line">
-          {lore.items.map((t, i) => (
-            <Reveal as="li" key={t.name} delay={(i % 2) * 0.08} className="grid gap-6 border-b border-line py-10 lg:grid-cols-[14rem_1fr_1fr] lg:gap-10">
-              <div>
-                <p className="font-mono text-xs text-gold">ITEM {String(i + 1).padStart(2, "0")}</p>
-                <p className="t-voice mt-2 text-2xl text-bone">{t.name}</p>
-                <p className="label mt-2 text-dust">{t.tag}</p>
-              </div>
-              <div>
-                <p className="label text-dust">Traditional lore</p>
-                <p className="t-story mt-3 italic text-sand">{t.lore}</p>
-              </div>
-              <div>
-                <p className="label text-brass">BSAH neutrality insight</p>
-                <p className="mt-3 text-sand">{t.insight}</p>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
-        <p className="font-mono mt-6 text-xs text-dust">FOLKLORE · VARIES BY BREEDER AND REGION</p>
-
-        <div className="relative mt-24 grid gap-10 overflow-hidden lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
-          <div className="relative aspect-[3/4] w-full max-w-md">
-            <FilmImage name="legendBlack" sizes="(min-width: 1024px) 35vw, 90vw" />
-          </div>
-          <div>
-            <Headline inscription={lore.vow.inscription} voice={lore.vow.voice} voiceColor="blood" size="2" />
-            <Reveal>
-              <p className="t-story mt-6 max-w-xl text-sand">{lore.vow.text}</p>
-            </Reveal>
-          </div>
-        </div>
+        <p className="mt-4 max-w-2xl text-sm text-dust">
+          Folklore is kept in a reel of its own, apart from this history and from the science: Kala, the hair whorls, the Nukra lineage and the Nachni heritage.
+        </p>
+        <Link href="/lore" className="label mt-8 inline-block border border-line px-4 py-3 text-sand hover:border-gold hover:text-bone">
+          Enter the lore of the bards →
+        </Link>
       </section>
 
       {/* VI · Three reasons */}
@@ -195,7 +171,7 @@ export default function LegendPage() {
             <Ascent />
           </div>
           <Reveal className="parchment mx-auto mt-24 max-w-2xl px-8 py-10 md:px-14 md:py-14">
-            <p className="label text-[#593822]">{revival.vignette.note}</p>
+            <p className="label text-[#B87333]">{revival.vignette.note}</p>
             <p className="t-voice mt-3 text-3xl text-ink">{revival.vignette.title}</p>
             <p className="mt-5 text-lg leading-relaxed text-ink/85">{revival.vignette.text}</p>
           </Reveal>

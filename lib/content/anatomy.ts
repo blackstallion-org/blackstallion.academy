@@ -18,8 +18,8 @@ export type Hotspot = {
 
 export const hotspots: Hotspot[] = [
   {
-    id: "ears", name: "Ears", title: "180° of attention", x: 71, y: 10, metric: "180° INDEPENDENT ACOUSTIC SWIVEL",
-    short: "The lyre-shaped ears swivel independently to track the rider's breathing and ambient shifts. Tense up and they flick back instantly.", trains: "Composure & active environmental reading",
+    id: "ears", name: "Ears", title: "180° Radar", x: 71, y: 10, metric: "180° Independent Acoustic Swivel",
+    short: "The lyre-shaped ears swivel independently to track the rider's breathing and ambient shifts. Tense up and they flick back instantly.", trains: "Composure & Active Environmental Reading",
     layers: {
       equine: "Lyre-shaped ears turn through 180° and track sound independently.",
       rider: "Your breathing and tension are audible to the horse; they force the cadet into total physical stillness and emotional composure.",
@@ -28,8 +28,8 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "neck", name: "Neck", title: "The balancer", x: 62, y: 19, metric: "CERVICAL BIOMECHANICAL LEVER",
-    short: "High-carried and muscularly dense, the neck is a dynamic counterweight across shifting sand, teaching subtle balance shifts over brute force.", trains: "Poise & dynamic weight distribution",
+    id: "neck", name: "Neck", title: "The Balancer", x: 62, y: 19, metric: "Cervical Biomechanical Lever",
+    short: "High-carried and muscularly dense, the neck is a dynamic counterweight across shifting sand, teaching subtle balance shifts over brute force.", trains: "Poise & Dynamic Weight Distribution",
     layers: {
       equine: "High-carried, arching and muscularly dense: a dynamic counterweight engineered for rapid weight shifts across shifting dunes.",
       rider: "A level, soft neck asks for a level rider: head stacked over spine.",
@@ -38,7 +38,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "saddle", name: "Saddle", title: "The moving floor", x: 47, y: 29, metric: "PELVIC KINEMATICS · 3D CORE REALIGNMENT",
+    id: "saddle", name: "Saddle", title: "The moving floor", x: 47, y: 29, metric: "Pelvic Kinematics: 3D Core Realignment",
     short: "At a walk the horse moves your pelvis in three dimensions, close to the pattern of human walking.", trains: "Core and balance",
     layers: {
       equine: "The back carries the stride straight into the rider's seat.",

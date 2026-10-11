@@ -9,6 +9,7 @@ import { LeadForm, type Field } from "@/components/sections/shared/LeadForm";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { priceLabel } from "@/lib/content/pricing";
+import { network } from "@/lib/content/schools";
 
 /** Title card · T16 gate. Signature: two gate halves part to reveal the page. */
 export function GateTitle() {
@@ -16,8 +17,8 @@ export function GateTitle() {
     <section aria-labelledby="gate-h" className="relative min-h-[92svh] overflow-hidden">
       <FilmImage name="contactGate" priority />
       <div aria-hidden className="absolute inset-0 shade-b" />
-      <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-line bg-[linear-gradient(90deg,#0F0E0D,#2A1D15)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
-      <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-line bg-[linear-gradient(270deg,#0F0E0D,#2A1D15)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
+      <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-line bg-[linear-gradient(90deg,#0F0E0D,#1A1A18)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
+      <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-line bg-[linear-gradient(270deg,#0F0E0D,#1A1A18)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
       <div className="gutter relative flex min-h-[92svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={15} act="ledger" />
         <Headline id="gate-h" as="h1" size="poster" animate="mount" delay={1.2} className="mt-6" inscription="The arena" voice="is open." />
@@ -29,65 +30,66 @@ export function GateTitle() {
 
 type GateId = "parents" | "schools" | "audit";
 
-const zoneOptions = [
-  "Zone 01 · Telangana & AP (Hyderabad)",
-  "Zone 02 · NCR (Gurugram / Noida / Delhi)",
-  "Zone 03 · Maharashtra & West (Mumbai / Pune)",
-  "Zone 04 · Karnataka & South (Bengaluru / hills)",
-  "Zone 05 · Northern heritage & boarding corridor",
-  "Zone 06 · East & Centre (Kolkata / Indore / Bhopal)",
-];
+/** Target regional zones (Pan-India Directive): all 17 corridor codes, grouped by circuit. Proposed corridors, not operating campuses. */
+const zoneGroups = network.map((z) => ({
+  label: `Zone ${z.code} · ${z.name}`,
+  options: z.subzones.map((s) => `${s.code} · ${s.name}`),
+}));
 
-/** Onboarding gate logic per Directive 04 §4. */
-const gates: { id: GateId; title: string; line: string; note?: string; email: string; fields: Field[]; submit: string }[] = [
+/** Onboarding gate logic (Directive 04 §4 / Master Directive Layer 16). Headers, fields and buttons as specified. */
+const gates: { id: GateId; title: string; header: string; sub: string; line: string; pricing?: string[]; email: string; fields: Field[]; submit: string }[] = [
   {
     id: "parents",
     title: "Enrol a cadet",
-    line: "The Sovereign Character Academy: enrolment for parents and guardians.",
-    note: `One-time onboarding kit ${priceLabel.kit} (tunic, helmet, boots, Sovereign Passport).`,
+    header: "Enrol a Cadet",
+    sub: "Sovereign Character Academy",
+    line: "Cadet enrolment portal for parents and guardians.",
+    pricing: [`Core Cadets: ${priceLabel.core} per month`, `Sovereign Elite: ${priceLabel.elite} per month`, `One-Time Kit: ${priceLabel.kit}`],
     email: "parents@blackstallion.academy",
-    submit: "Submit cadet application",
+    submit: "SUBMIT CADET APPLICATION",
     fields: [
-      { name: "name", label: "Parent / guardian name", required: true, autoComplete: "name" },
-      { name: "student", label: "Student name" },
-      { name: "age", label: "Student age", type: "select", options: ["8–10", "11–13", "14–16", "17–18"] },
-      { name: "zone", label: "Target regional zone", type: "select", options: zoneOptions, wide: true },
-      { name: "tier", label: "Preferred tier", type: "select", options: [`Core Cadets · ${priceLabel.core} / month`, `Sovereign Elite · ${priceLabel.elite} / month`], wide: true },
+      { name: "name", label: "Parent / Guardian Name", required: true, autoComplete: "name" },
+      { name: "student", label: "Student Name & Age", required: true, hint: "e.g. Aarav, 11" },
+      { name: "zone", label: "Target Regional Zone", type: "select", groups: zoneGroups, required: true, wide: true },
+      { name: "tier", label: "Preferred Tier", type: "select", required: true, wide: true, options: [`Core Cadets · ${priceLabel.core} / month`, `Sovereign Elite · ${priceLabel.elite} / month`] },
+      { name: "email", label: "Email", type: "email", autoComplete: "email", hint: "Email or phone required" },
       { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
-      { name: "email", label: "Email", type: "email", autoComplete: "email" },
       { name: "message", label: "Questions", type: "textarea" },
     ],
   },
   {
     id: "schools",
     title: "Partner your campus",
-    line: "Zero-CapEx infrastructure: BSAH funds, builds and operates; your school earns 25–30%.",
+    header: "Partner Your Campus",
+    sub: "Zero CapEx Infrastructure",
+    line: "Campus partnership portal. Proposed model: BSAH funds, builds and operates; the school earns 25–30% under a signed agreement.",
     email: "boards@blackstallion.academy",
-    submit: "Request campus blueprint",
+    submit: "REQUEST CAMPUS BLUEPRINT",
     fields: [
-      { name: "name", label: "Trustee / principal name", required: true, autoComplete: "name" },
-      { name: "organisation", label: "Institution name", required: true, autoComplete: "organization" },
-      { name: "city", label: "Institution location" },
-      { name: "acreage", label: "Available acreage", type: "select", options: ["0.5 acre", "1.0 acre", "1.5+ acres"] },
-      { name: "capacity", label: "Student capacity", type: "select", options: ["100–150", "200–300", "300+"] },
-      { name: "email", label: "Official email", type: "email", autoComplete: "email" },
-      { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
+      { name: "name", label: "Trustee / Principal Name", required: true, autoComplete: "name" },
+      { name: "organisation", label: "Institution Name & Location", required: true, autoComplete: "organization", wide: true },
+      { name: "acreage", label: "Acreage", type: "select", required: true, options: ["0.5 Acres", "1.0 Acres", "1.5+ Acres"] },
+      { name: "capacity", label: "Student Capacity", type: "select", required: true, options: ["100–150", "200–300", "300+"] },
+      { name: "email", label: "Official Email", type: "email", required: true, autoComplete: "email" },
+      { name: "phone", label: "Official Phone", type: "tel", required: true, autoComplete: "tel" },
       { name: "message", label: "Anything we should know", type: "textarea" },
     ],
   },
   {
     id: "audit",
     title: "Schedule a board audit",
-    line: "A formal institutional presentation to your board, on your campus or ours.",
+    header: "Schedule a Board Audit",
+    sub: "Formal Institutional Presentation",
+    line: "Executive board audit: a formal institutional presentation to your board, on your campus or ours.",
     email: "boards@blackstallion.academy",
-    submit: "Confirm board audit",
+    submit: "CONFIRM BOARD AUDIT",
     fields: [
-      { name: "name", label: "Board member name", required: true, autoComplete: "name" },
-      { name: "designation", label: "Designation" },
-      { name: "organisation", label: "Target campus / circuit", autoComplete: "organization" },
-      { name: "date", label: "Proposed audit date" },
-      { name: "slot", label: "Preferred slot", type: "select", options: ["Morning · 09:00–12:00", "Afternoon · 14:00–17:00"] },
-      { name: "email", label: "Email", type: "email", autoComplete: "email" },
+      { name: "name", label: "Board Member Name", required: true, autoComplete: "name" },
+      { name: "designation", label: "Designation", required: true },
+      { name: "organisation", label: "Target Campus / Circuit", required: true, autoComplete: "organization", wide: true },
+      { name: "date", label: "Proposed Audit Date", type: "date", required: true },
+      { name: "slot", label: "Proposed Audit Slot", type: "select", required: true, options: ["Morning · 09:00 AM–12:00 PM", "Afternoon · 02:00 PM–05:00 PM"] },
+      { name: "email", label: "Email", type: "email", required: true, autoComplete: "email" },
       { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
     ],
   },
@@ -108,6 +110,17 @@ export function Gates() {
 
   const g = gates.find((x) => x.id === gate)!;
 
+  const choose = (next: GateId) => {
+    setGate(next);
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set("gate", next);
+      window.history.replaceState(window.history.state, "", url);
+    } catch {
+      /* ignore */
+    }
+  };
+
   return (
     <section aria-labelledby="gates-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <h2 id="gates-h" className="sr-only">
@@ -120,7 +133,7 @@ export function Gates() {
             type="button"
             role="radio"
             aria-checked={gate === x.id}
-            onClick={() => setGate(x.id)}
+            onClick={() => choose(x.id)}
             className={cn(
               "group relative flex min-h-[16rem] flex-col justify-end overflow-hidden rounded-t-[999px] border p-6 pt-24 text-left transition-colors duration-500 md:min-h-[22rem]",
               gate === x.id ? "border-gold bg-gradient-to-b from-ember/40 to-ember/90" : "border-line hover:border-line/60",
@@ -137,8 +150,20 @@ export function Gates() {
       <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
         <div>
           <p className="label text-brass">Gate 0{gates.findIndex((x) => x.id === gate) + 1}</p>
-          <p className="t-voice mt-2 text-display-3 text-bone">{g.line}</p>
-          {g.note && <p className="t-ui mt-4 text-sm text-sand">{g.note}</p>}
+          <h3 className="t-voice mt-2 text-display-3 text-bone">
+            {g.header} <span className="text-dust">|</span> <span className="text-gold">{g.sub}</span>
+          </h3>
+          <p className="t-ui mt-4 text-sm text-sand">{g.line}</p>
+          {g.pricing && (
+            <ul className="mt-6 border-t border-line">
+              {g.pricing.map((p) => (
+                <li key={p} className="font-mono border-b border-line py-2 text-sm text-sand">
+                  {p}
+                </li>
+              ))}
+              <li className="t-ui py-2 text-xs text-dust">Published prices, subject to confirmation at enrolment.</li>
+            </ul>
+          )}
           <p className="t-ui mt-4 text-sm text-dust">
             Or write to{" "}
             <a href={`mailto:${g.email}`} className="text-gold hover:text-bone">
@@ -148,7 +173,7 @@ export function Gates() {
         </div>
         <AnimatePresence mode="wait">
           <motion.div key={gate} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.45, ease: ease.citadel }}>
-            <LeadForm gate={g.id} fields={g.fields} submitLabel={g.submit} />
+            <LeadForm gate={g.id} fields={g.fields} submitLabel={g.submit} fallbackEmail={g.email} />
           </motion.div>
         </AnimatePresence>
       </div>

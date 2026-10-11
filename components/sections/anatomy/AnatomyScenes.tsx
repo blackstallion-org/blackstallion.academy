@@ -167,7 +167,7 @@ export function EarDial() {
         >
           <svg viewBox="0 0 400 400" className="h-full w-full" aria-hidden>
             {/* Arc of 180° */}
-            <path d="M60 248 A140 140 0 0 1 340 248" fill="none" stroke="rgb(89 56 34 / 0.62)" strokeWidth="1" />
+            <path d="M60 248 A140 140 0 0 1 340 248" fill="none" stroke="rgb(184 115 51 / 0.25)" strokeWidth="1" />
             {Array.from({ length: 19 }, (_, i) => {
               const a = (-90 + i * 10) * (Math.PI / 180);
               const x1 = 200 + Math.sin(a) * 140;

@@ -13,6 +13,7 @@ import { Reveal } from "@/components/film/Reveal";
 import { creed, day, passport, reels, spotlights, uniform } from "@/lib/content/academy";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { QrSeal } from "@/components/brand/QrSeal";
 
 /** Title card · T8 portrait. Signature: a tall portrait rises beside the title with a vertical name credit. */
 export function CadetsTitle() {
@@ -66,7 +67,7 @@ export function Spotlights() {
 /** §2 · S44 passport object. Signature: the leather cover swings open as you scroll, revealing the seals. */
 export function PassportObject() {
   return (
-    <PinnedScene length={2.6} label="The Sovereign Passport" reducedFallback={<PassportFrame open />}>
+    <PinnedScene id="passport" length={2.6} label="The Sovereign Passport" reducedFallback={<PassportFrame open />}>
       {(p) => <PassportFrame progress={p} />}
     </PinnedScene>
   );
@@ -94,26 +95,29 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
           <div className="relative ml-[50%] aspect-[3/4] w-1/2">
             {/* Inner right page */}
             <motion.div className="parchment absolute inset-0 p-4 sm:p-6" style={{ opacity: pagesOpacity }}>
-              <p className="label text-[#593822]">Seals</p>
+              <p className="label text-[#6b5130]">Seals</p>
               <ul className="mt-3 grid grid-cols-2 gap-3">
                 {seals.map((s, i) => (
                   <li key={s} className="flex flex-col items-center">
                     <motion.span
-                      className={cn("grid h-12 w-12 place-items-center rounded-full border-2 sm:h-16 sm:w-16", i < 3 ? "border-[#593822] bg-[#593822]/60" : "border-dashed border-[#593822]/40")}
+                      className={cn("grid h-12 w-12 place-items-center rounded-full border-2 sm:h-16 sm:w-16", i < 3 ? "border-[#B87333] bg-[#B87333]/60" : "border-dashed border-[#B87333]/40")}
                       animate={{ scale: i < 3 && stage > i ? 1 : i < 3 ? 1.3 : 1, opacity: i < 3 ? (stage > i ? 1 : 0) : 1 }}
                       transition={{ duration: 0.35, ease: ease.citadel }}
                     >
-                      {i < 3 && <Monogram className="h-6 w-6 text-[#0F0E0D] sm:h-8 sm:w-8" />}
+                      {i < 3 && <Monogram className="h-6 w-6 text-[#3b2a12] sm:h-8 sm:w-8" />}
                     </motion.span>
-                    <span className="label mt-1 text-[0.55rem] text-[#593822]">{s}</span>
+                    <span className="label mt-1 text-[0.55rem] text-[#6b5130]">{s}</span>
                   </li>
                 ))}
               </ul>
-              <p className="font-mono mt-4 text-[0.6rem] text-[#0F0E0D] sm:text-xs">HOURS · 48</p>
+              <div className="mt-3 flex items-end justify-between gap-2">
+                <p className="font-mono text-[0.6rem] text-[#3b2a12] sm:text-xs">HOURS · 48</p>
+                <QrSeal code="BSAH-2026-HYD-042" label="QR seal" className="w-14 text-[#3b2a12] sm:w-20" />
+              </div>
             </motion.div>
             {/* Cover, hinged on the left edge; the back of the cover is the identity page */}
             <motion.div className="absolute inset-0 origin-left [transform-style:preserve-3d]" style={{ rotateY: rotate }}>
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 border border-[#593822] bg-[linear-gradient(135deg,#2A1D15,#0F0E0D)] shadow-[0_30px_60px_rgb(0_0_0/0.6)] [backface-visibility:hidden]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 border border-[#B87333] bg-[linear-gradient(135deg,#1A1A18,#0F0E0D)] shadow-[0_30px_60px_rgb(0_0_0/0.6)] [backface-visibility:hidden]">
                 <Monogram className="h-14 w-14 text-gold" />
                 <p className="t-inscribe text-center text-[0.7rem] tracking-[0.18em] text-gold/90">
                   Sovereign
@@ -123,11 +127,11 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
                 <p className="label text-[0.5rem] text-brass/70">BSAH · STPCI</p>
               </div>
               <div className="parchment absolute inset-0 p-4 [backface-visibility:hidden] [transform:rotateY(180deg)] sm:p-6">
-                <p className="label text-[#593822]">Identity</p>
+                <p className="label text-[#6b5130]">Identity</p>
                 <p className="t-voice mt-3 text-lg text-ink sm:text-2xl">Cadet Alpha</p>
-                <p className="t-ui mt-1 text-xs text-[#2A1D15]">Zone 01A · Financial District Hub</p>
-                <p className="font-mono mt-6 text-[0.55rem] text-[#0F0E0D] sm:text-xs">BSAH-2026-HYD-042</p>
-                <p className="t-ui mt-1 text-[0.6rem] text-[#2A1D15]">Sample record</p>
+                <p className="t-ui mt-1 text-xs text-[#5a4526]">Zone 01A · Financial District Hub</p>
+                <p className="font-mono mt-6 text-[0.55rem] text-[#3b2a12] sm:text-xs">BSAH-2026-HYD-042</p>
+                <p className="t-ui mt-1 text-[0.6rem] text-[#5a4526]">Sample record</p>
               </div>
             </motion.div>
           </div>
@@ -174,14 +178,14 @@ export function CreedCard() {
   return (
     <section aria-labelledby="creed-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <div className="parchment mx-auto max-w-3xl px-8 py-12 md:px-16 md:py-16">
-        <p className="label text-center text-[#593822]">Dominus Sui, Dominus Equi</p>
+        <p className="label text-center text-[#6b5130]">Dominus Sui, Dominus Equi</p>
         <h2 id="creed-h" className="t-inscribe mt-3 text-center text-3xl text-ink md:text-4xl">
           The Sovereign Cadet Creed
         </h2>
         <ol className="mt-10 flex flex-col gap-6">
           {creed.map((c, i) => (
             <Reveal as="li" key={c} delay={i * 0.08} className="grid grid-cols-[2.5rem_1fr] gap-3">
-              <span className="t-inscribe text-xl text-[#593822]">{["I", "II", "III", "IV", "V", "VI"][i]}</span>
+              <span className="t-inscribe text-xl text-[#6b5130]">{["I", "II", "III", "IV", "V", "VI"][i]}</span>
               <span className="text-lg leading-relaxed text-ink">{c}</span>
             </Reveal>
           ))}

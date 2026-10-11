@@ -164,7 +164,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
           </dl>
           <p className="label mt-10 text-brass">Pedigree (sample)</p>
           <svg viewBox="0 0 400 180" className="mt-4 w-full" role="img" aria-label={`Pedigree: sire ${s.pedigree.sire}, dam ${s.pedigree.dam}`}>
-            <g stroke="rgb(89 56 34 / 1)" fill="none">
+            <g stroke="rgb(184 115 51 / 0.4)" fill="none">
               <path d="M110 90 H140 V40 H170 M140 90 V140 H170" />
               <path d="M290 40 H310 V18 H330 M310 40 V62 H330" />
             </g>
@@ -291,7 +291,9 @@ export function CoatRegistry() {
                 <span className="font-mono text-xs text-gold">{c.n}</span>
                 <span className="t-voice text-xl text-bone">{c.name}</span>
               </span>
-              <span className="label mt-1 block text-dust">{c.coat}</span>
+              <span className="label mt-1 block text-dust">
+                {c.coat} · <span className="font-mono normal-case tracking-normal text-sand">{c.hex === "dual" ? "Dual-tone" : c.hex.toUpperCase()}</span>
+              </span>
               <span className="mt-3 block text-sm text-sand">{c.line}</span>
             </span>
           </li>

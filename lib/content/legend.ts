@@ -29,6 +29,7 @@ export const chapters = [
 export const ocean = {
   inscription: "Eight hundred years",
   voice: "in one bloodline.",
+  sub: "Man saw the world from horseback, and the world expanded.",
   body: "For centuries, civilisation was shaped by the partnership between horse and rider, and the world expanded from horseback. The Marwari emerged from a complex historical crucible: native desert stock, infused with influences from Arabian and Central Asian lines, refined through generations of strict selective breeding by the horsemen of Rajasthan. Whatever the exact genetic currents of its origins, the result is an undeniable masterpiece of adaptation. The Thar Desert stripped away weakness; what remained was a sovereign breed unique to Indian soil — compact, fiercely loyal, and structurally engineered for survival, endurance and absolute grace.",
   caption: "A stallion of Marwar. Placeholder image.",
   theories: [
@@ -40,12 +41,12 @@ export const ocean = {
     {
       name: "The steppe",
       verdict: "Historical influence",
-      text: "Over several centuries, military campaigns, migrations and trade networks brought Turkoman, Afghan and Central Asian steppe horses — including lines like the Akhal-Teke — into northern and western India. Bred with local mares, these sturdy warhorses infused the native stock with endurance, bone density and a natural capacity to thrive in hostile, arid environments: the raw stamina Rajput cavalry would need in desert warfare.",
+      text: "Over several centuries, military campaigns, migrations and trade networks brought Turkoman, Afghan and Central Asian steppe horses — including lines like the Akhal-Teke — into northern and western India. Bred with local mares, these sturdy warhorses infused the native stock with endurance, bone density and a natural capacity to thrive in hostile, arid environments: the raw stamina that desert horsemen needed simply to survive.",
     },
     {
       name: "The native",
       verdict: "Most accepted",
-      text: "The most widely accepted scientific and historical view is that the Marwari is fundamentally an indigenous horse of India, shaped by natural selection in the harsh Thar Desert. Modern genetic and phenotypic studies confirm a distinct genetic profile with minimal outside influence. Its unique lyre-shaped ears, curving inward until the tips touch, are a natural adaptation found nowhere else in the world. For over eight centuries this rugged native bloodline was carefully preserved by the Rathore horsemen of Marwar to produce a horse that is, at its heart, an unbreakable product of Indian soil.",
+      text: "The most widely accepted view is that the Marwari is fundamentally an indigenous horse of India, shaped by natural selection in the harsh Thar Desert. Genetic and phenotypic studies describe it as a distinct population, though its precise ancestry is not settled. Its lyre-shaped ears, curving inward until the tips touch, are the breed's most recognisable trait. For over eight centuries this rugged native bloodline was carefully preserved by the Rathore horsemen of Marwar to produce a horse that is, at its heart, an unbreakable product of Indian soil.",
     },
   ],
 };
@@ -83,9 +84,11 @@ export const ears = {
 
 /** The Traditional Lore of the Bards (Master Refinement §4): oral folklore, isolated from history and science, each item paired with a BSAH neutrality insight. */
 export const lore = {
-  inscription: "The lore",
-  voice: "of the bards.",
-  sub: "The oral histories, markings and cadence of Marwar: what the bards attributed to fate, and how BSAH reads it today. Folklore varies by breeder and region.",
+  title: "The Traditional Lore of the Bards",
+  inscription: "The Traditional Lore",
+  voice: "of the Bards.",
+  sub: "The oral histories, markings, and cadence of Marwar.",
+  note: "What the bards attributed to fate, and how BSAH reads it today. This is folklore, kept apart from the history and the science; it varies by breeder and region, and a horse's colour or markings do not predict its temperament.",
   items: [
     {
       name: "Kala, the black horse",
@@ -97,7 +100,7 @@ export const lore = {
       name: "Hair whorls",
       tag: "Devman vs. Anusudhal",
       lore: "Traditional horsemen read a horse's destiny in the whorls (bhanwar) of its coat. A long whorl running down the neck (Devman) was cherished as a sign of good fortune and divine protection; a whorl beneath the eye (Anusudhal) was viewed as an ill omen, making the horse difficult to sell.",
-      insight: "While we honour the rich observational lore of ancient breeders, modern horsemanship looks deeper than coat patterns. What the bards attributed to fate, behavioural science recognises as equine temperament and biomarkers: hair whorls correlate with facial sensitivity and nervous-system reactivity. A true rider builds trust through consistent pressure-and-release training, regardless of physical whorls.",
+      insight: "While we honour the rich observational lore of ancient breeders, modern horsemanship looks deeper than coat patterns. Some researchers have explored possible links between whorl position and temperament, but the evidence is limited and no definitive relationship is established. What decides how a horse responds is its handling: a true rider builds trust through consistent pressure-and-release training, regardless of physical whorls.",
     },
     {
       name: "The Nukra lineage",
@@ -109,7 +112,7 @@ export const lore = {
       name: "Born to dance",
       tag: "The Nachni heritage",
       lore: "Beyond war, the Marwari was celebrated for its natural cadence during regional celebrations. Certain rare lines, known as Nachni (“born to dance”), were trained to step, prance and rise to music with high knee action.",
-      insight: "We view the Nachni tradition through the lens of neuromuscular coordination and collection. The Marwari possesses an innate cadence; certain legendary lines exhibit a natural affinity for rhythmic footfall — proving that physical discipline, core strength and grace are deeply embedded in their bloodline.",
+      insight: "We view the Nachni tradition through the lens of neuromuscular coordination and collection. The Marwari possesses an innate cadence; certain legendary lines exhibit a natural affinity for rhythmic footfall — a living reminder that physical discipline, core strength and grace can be cultivated in horse and rider alike.",
     },
   ],
   vow: {

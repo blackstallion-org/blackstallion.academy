@@ -96,7 +96,7 @@ export function MouGenerator() {
       <article aria-label="Draft memorandum of understanding" className="parchment print-doc min-w-0 break-words px-6 py-10 text-[0.95rem] leading-relaxed md:px-12 md:py-14">
         <p className="label text-center text-blood">Draft for discussion · not a binding document</p>
         <h2 className="t-inscribe mt-4 text-center text-2xl text-ink">Memorandum of Understanding</h2>
-        <p className="mt-1 text-center text-sm text-[#2A1D15]">{today}</p>
+        <p className="mt-1 text-center text-sm text-[#5a4526]">{today}</p>
         <div className="mt-8 flex flex-col gap-4 text-ink/90">
           <p>
             This memorandum is made between <strong>{blank(d.school, "[School name]")}</strong>, {blank(d.city, "[City]")} (&ldquo;the School&rdquo;), represented by{" "}
@@ -123,14 +123,14 @@ export function MouGenerator() {
         <div className="mt-12 grid grid-cols-2 gap-8 text-sm">
           <div className="border-t border-ink/40 pt-2">
             <p className="text-ink">{blank(d.trustee, "For the School")}</p>
-            <p className="text-[#2A1D15]">{blank(d.school, "School")}</p>
+            <p className="text-[#5a4526]">{blank(d.school, "School")}</p>
           </div>
           <div className="border-t border-ink/40 pt-2">
             <p className="text-ink">For BSAH</p>
-            <p className="text-[#2A1D15]">Office of the Executive Chairman</p>
+            <p className="text-[#5a4526]">Office of the Executive Chairman</p>
           </div>
         </div>
-        <p className="font-mono mt-10 text-center text-[0.65rem] text-[#593822]">
+        <p className="font-mono mt-10 text-center text-[0.65rem] text-[#6b5130]">
           CONTACT · {d.email || "email"} · {d.phone || "phone"}
         </p>
       </article>

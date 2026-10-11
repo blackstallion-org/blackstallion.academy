@@ -99,7 +99,7 @@ export const pillars: Pillar[] = [
     sub: "Executing tight turns at maximum velocity with absolute spatial awareness and dynamic weight distribution.",
   },
   {
-    n: 13, name: "Cavalry squad formation & parade command", skill: "Strategic synchronisation, collective discipline", trait: "Institutional loyalty, executive leadership presence", discipline: true,
+    n: 13, name: "Cavalry squad formation & parade command", skill: "Strategic synchronization, collective discipline", trait: "Institutional loyalty, executive leadership presence", discipline: true,
     sub: "Individual mastery unified into squadron discipline: responsibility for the tactical precision and honour of the entire unit.",
   },
 ];
@@ -114,12 +114,12 @@ export const classSegments = [
   { from: 35, to: 45, title: "Dismount, care & digital logging", detail: "Wash down and reward the stallion, log the session grades, scan the QR seal into the Sovereign Passport.", mounted: false },
 ];
 
-/** Campus operating schedule (Master Refinement §9.1). SAMPLE timings; confirm per hub. */
+/** Campus operating schedule (Master Refinement §9.1). Published timings, subject to confirmation per hub. */
 export const batches = [
-  { name: "Dawn Patrol", time: "06:15–07:00", days: "Mon · Wed · Fri", who: "High school & senior squad", focus: "High-intensity drills, zero class conflict" },
-  { name: "Twilight Batch", time: "15:45–16:30", days: "Tue · Thu · Fri", who: "Primary & middle school", focus: "Post-school transition before bus departures" },
-  { name: "Sunset Command", time: "16:45–17:30", days: "Mon–Thu", who: "Advanced lancer squad", focus: "Skill-at-arms, lance runs, barrel racing" },
-  { name: "Weekend Circuit", time: "07:00–07:45 · 08:00–08:45", days: "Sat & Sun", who: "Open & parent–cadet batches", focus: "Skill-at-arms, family attendance, monthly trials" },
+  { name: "Dawn Patrol", time: "06:15 AM–07:00 AM", days: "Mon · Wed · Fri", who: "High School / Senior Squad", focus: "High-intensity drills, zero class conflict" },
+  { name: "Twilight Batch", time: "03:45 PM–04:30 PM", days: "Tue · Thu · Fri", who: "Primary & Middle School", focus: "Post-school transition before bus departures" },
+  { name: "Sunset Command", time: "04:45 PM–05:30 PM", days: "Mon–Thu", who: "Advanced Lancer Squad", focus: "Skill-at-arms, lance runs, barrel racing" },
+  { name: "Weekend Circuit", time: "07:00 AM–07:45 AM · 08:00 AM–08:45 AM", days: "Sat & Sun", who: "Open / Parent-Cadet Batches", focus: "Skill-at-arms, family attendance, monthly trials" },
 ];
 
 export const assessment = [

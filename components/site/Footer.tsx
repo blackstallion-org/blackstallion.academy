@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Crest } from "@/components/brand/Crest";
+import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { acts, corridors, entity, legalNav, reels, type Act } from "@/lib/content/site";
 
@@ -12,7 +12,7 @@ export function Footer() {
       <div className="gutter grid gap-12 py-20 lg:grid-cols-[1.2fr_2fr]">
         <div className="flex flex-col gap-8">
           <div className="flex items-center gap-5">
-            <Crest simple className="h-16 w-16" />
+            <CrestMark size="lg" className="h-28 w-28" />
             <Wordmark className="text-base" />
           </div>
           <p className="max-w-sm text-sand">

@@ -60,7 +60,7 @@ export function Glass() {
           </Reveal>
         </div>
         <div className="relative mx-auto h-[560px] w-[280px] rounded-[44px] border border-frost/30 bg-[#0F0E0D] p-3">
-          <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-gradient-to-b from-[#2A1D15] to-[#0F0E0D]">
+          <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-gradient-to-b from-[#1A1A18] to-[#0F0E0D]">
             <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
             <p className="font-mono absolute left-0 right-0 top-12 text-center text-4xl font-light text-frost/80">03:12</p>
             <div className="absolute inset-x-3 bottom-0 top-28 overflow-hidden [mask-image:linear-gradient(transparent,black_15%,black_85%,transparent)]">

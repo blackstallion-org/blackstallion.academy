@@ -25,14 +25,33 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
   const active = points.find((h) => h.id === activeId) ?? points[0];
 
   return (
-    <div className={cn("grid gap-8 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] lg:items-center", className)}>
+    <div
+      className={cn(
+        "grid gap-8 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] lg:items-center",
+        className,
+      )}
+    >
       <div className="relative aspect-[16/9] w-full overflow-hidden border border-line bg-night">
-        <FilmImage name="anatomyProfile" sizes="(min-width: 1024px) 62vw, 100vw" className="bg-none" />
-        <div aria-hidden className="cinematic-vignette absolute inset-0 opacity-70" />
+        <FilmImage
+          name="anatomyProfile"
+          sizes="(min-width: 1024px) 62vw, 100vw"
+          className="bg-none"
+        />
+        <div
+          aria-hidden
+          className="cinematic-vignette absolute inset-0 opacity-70"
+        />
         {/* Plate rulings */}
         <div aria-hidden className="absolute inset-3 border border-line" />
-        <p className="font-mono absolute bottom-4 left-5 text-[0.6rem] tracking-[0.14em] text-dust">PLATE 02 · MARWARI · 15.2 HH</p>
-        <svg aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 56.25" preserveAspectRatio="none">
+        <p className="font-mono absolute bottom-4 left-5 text-[0.6rem] tracking-[0.14em] text-dust">
+          PLATE 02 · MARWARI · 15.2 HH
+        </p>
+        <svg
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full"
+          viewBox="0 0 100 56.25"
+          preserveAspectRatio="none"
+        >
           <motion.line
             key={active.id}
             x1={active.x}
@@ -48,7 +67,11 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
         </svg>
         <ul>
           {points.map((h) => (
-            <li key={h.id} className="absolute" style={{ left: `${h.x}%`, top: `${h.y}%` }}>
+            <li
+              key={h.id}
+              className="absolute"
+              style={{ left: `${h.x}%`, top: `${h.y}%` }}
+            >
               <button
                 type="button"
                 onClick={() => setActiveId(h.id)}
@@ -68,13 +91,17 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
                 <span
                   className={cn(
                     "relative h-2.5 w-2.5 rounded-full transition-colors",
-                    h.id === active.id ? "bg-gold" : "bg-bone/70 group-hover:bg-gold",
+                    h.id === active.id
+                      ? "bg-gold"
+                      : "bg-bone/70 group-hover:bg-gold",
                   )}
                 />
                 <span
                   className={cn(
                     "label pointer-events-none absolute top-9 whitespace-nowrap text-[0.6rem] transition-opacity",
-                    h.id === active.id ? "text-gold opacity-100" : "text-sand opacity-0 group-hover:opacity-100 md:opacity-70",
+                    h.id === active.id
+                      ? "text-gold opacity-100"
+                      : "text-sand opacity-0 group-hover:opacity-100 md:opacity-70",
                   )}
                 >
                   {h.name}
@@ -97,14 +124,23 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
             <Panel h={active} mode={mode} />
           </motion.div>
         </AnimatePresence>
-        <div className="mt-8 flex flex-wrap gap-2 lg:hidden" role="group" aria-label="Choose a point">
+        <div
+          className="mt-8 flex flex-wrap gap-2 lg:hidden"
+          role="group"
+          aria-label="Choose a point"
+        >
           {points.map((h) => (
             <button
               key={h.id}
               type="button"
               onClick={() => setActiveId(h.id)}
               aria-pressed={h.id === active.id}
-              className={cn("label border px-3 py-2", h.id === active.id ? "border-gold text-gold" : "border-line text-sand")}
+              className={cn(
+                "label border px-3 py-2",
+                h.id === active.id
+                  ? "border-gold text-gold"
+                  : "border-line text-sand",
+              )}
             >
               {h.name}
             </button>
@@ -120,7 +156,9 @@ function Panel({ h, mode }: { h: Hotspot; mode: "compact" | "full" }) {
     <div>
       <p className="label text-brass">{h.name}</p>
       <h3 className="t-voice mt-2 text-display-3 text-bone">{h.title}</h3>
-      <p className="font-mono mt-3 text-[0.68rem] tracking-[0.12em] text-copper">{h.metric}</p>
+      <p className="font-mono mt-3 text-[0.68rem] tracking-[0.12em] text-copper">
+        {h.metric}
+      </p>
       {mode === "compact" ? (
         <>
           <p className="mt-4 text-lede text-sand">{h.short}</p>
@@ -129,14 +167,30 @@ function Panel({ h, mode }: { h: Hotspot; mode: "compact" | "full" }) {
           </p>
         </>
       ) : (
-        <dl className="mt-6 divide-y divide-line/15 border-y border-line">
-          {layerNames.map((l) => (
-            <div key={l.key} className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
-              <dt className="label pt-1 text-dust">{l.label}</dt>
-              <dd className={l.key === "builds" ? "t-voice text-xl text-gold" : "text-sand"}>{h.layers[l.key]}</dd>
-            </div>
-          ))}
-        </dl>
+        <>
+          <p className="label mt-4 text-dust">
+            Trait <span className="ml-2 text-gold">{h.trains}</span>
+          </p>
+          <dl className="mt-6 divide-y divide-line/15 border-y border-line">
+            {layerNames.map((l) => (
+              <div
+                key={l.key}
+                className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6"
+              >
+                <dt className="label pt-1 text-dust">{l.label}</dt>
+                <dd
+                  className={
+                    l.key === "builds"
+                      ? "t-voice text-xl text-gold"
+                      : "text-sand"
+                  }
+                >
+                  {h.layers[l.key]}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </>
       )}
     </div>
   );

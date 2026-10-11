@@ -78,6 +78,8 @@ export function Headline({
             {inscription}
           </motion.span>
         </span>
+        {/* a real space so the accessible name reads "inscription voice", not "inscriptionvoice" */}
+        {" "}
         <span className="block overflow-hidden pb-[0.12em]">
           <motion.span
             variants={animate === "none" ? undefined : line(1)}

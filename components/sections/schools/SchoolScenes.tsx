@@ -160,7 +160,7 @@ export function ConfiguratorAndSimulator() {
 
           <div className="relative mx-auto aspect-[2/1.25] w-full max-w-lg" aria-live="polite">
             <svg viewBox="0 0 400 250" className="h-full w-full" aria-hidden>
-              <path d="M40 210 A160 160 0 0 1 360 210" fill="none" stroke="rgb(89 56 34 / 0.5)" strokeWidth="14" />
+              <path d="M40 210 A160 160 0 0 1 360 210" fill="none" stroke="rgb(184 115 51 / 0.2)" strokeWidth="14" />
               <motion.path d="M40 210 A160 160 0 0 1 360 210" fill="none" stroke="var(--color-gold)" strokeWidth="14" initial={false} animate={{ pathLength: Math.max(0.02, gauge) }} transition={{ duration: 0.8, ease: ease.citadel }} />
               {[0, 25, 50, 75, 100].map((m) => {
                 const a = Math.PI - (m / 100) * Math.PI;
@@ -198,7 +198,7 @@ export function HubMap() {
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
         <div className="plate relative aspect-square w-full overflow-hidden sm:aspect-[4/3]">
           <svg viewBox="0 0 100 75" className="absolute inset-0 h-full w-full" aria-hidden>
-            <circle cx="50" cy="40" r="30" fill="none" stroke="rgb(89 56 34 / 0.62)" strokeWidth="0.4" strokeDasharray="1 1.2" />
+            <circle cx="50" cy="40" r="30" fill="none" stroke="rgb(184 115 51 / 0.25)" strokeWidth="0.4" strokeDasharray="1 1.2" />
             <path d="M8 46 C 25 42, 35 50, 50 46 S 75 38, 94 44" fill="none" stroke="rgb(140 136 130 / 0.35)" strokeWidth="0.8" />
             <text x="80" y="41" className="font-mono" fontSize="1.8" fill="rgb(140 136 130 / 0.6)">MUSI</text>
             <text x="62" y="12" className="font-mono" fontSize="1.8" fill="rgb(140 136 130)">OUTER RING ROAD</text>

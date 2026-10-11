@@ -26,7 +26,7 @@ export default function AboutPage() {
       {/* §1 · S61 letter */}
       <section aria-labelledby="letter-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
         <Reveal className="parchment mx-auto max-w-3xl px-8 py-12 md:px-16 md:py-16">
-          <p className="label text-[#593822]">{letter.note}</p>
+          <p className="label text-[#6b5130]">{letter.note}</p>
           <h2 id="letter-h" className="t-inscribe mt-3 text-2xl text-ink md:text-3xl">
             The Mandate
           </h2>
@@ -38,7 +38,7 @@ export default function AboutPage() {
             ))}
           </div>
           <p className="t-voice mt-10 text-3xl text-ink">{letter.sign}</p>
-          <p className="label mt-1 text-[#593822]">{letter.title}</p>
+          <p className="label mt-1 text-[#6b5130]">{letter.title}</p>
         </Reveal>
       </section>
 

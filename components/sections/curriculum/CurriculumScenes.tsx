@@ -1,13 +1,14 @@
 "use client";
 
 import { motion, useInView, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { assessment, classSegments, disciplines, ranks } from "@/lib/content/curriculum";
 import { ease } from "@/lib/motion/tokens";
+import { cn } from "@/lib/utils";
 
 /** Title card · T6 ledger page. Signature: ruled lines draw across the ledger like a clerk's pen. */
 export function CurriculumTitle() {
@@ -30,31 +31,74 @@ export function CurriculumTitle() {
   );
 }
 
-/** §1 · S34 staircase. Signature: each step rises into place, lifting the rank name with it. */
+/** §1 · S34 staircase. Signature: each step rises into place; choosing a step opens its rank dossier. */
 export function Staircase() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.35 });
+  const [sel, setSel] = useState(0);
+  const rk = ranks[sel];
+  const focus = rk.detail.replace(/\.$/, "").split(/, (?:and )?/);
+  const artifacts = rk.insignia.split(" · ").map((a) => (/stpci/i.test(a) ? `${a} (subject to verification)` : a));
   return (
     <section aria-labelledby="ranks-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>Four ranks</Label>
       <Headline id="ranks-h" className="mt-4" inscription="Squire to" voice="Sovereign Lancer." />
-      <div ref={ref} className="mt-16 grid gap-4 md:h-[62svh] md:grid-cols-4 md:items-end md:gap-2">
-        {ranks.map((rk, i) => (
-          <motion.div
-            key={rk.id}
-            className="relative flex flex-col justify-start border-t-2 border-gold bg-gradient-to-b from-ember/70 to-transparent p-5 md:p-6"
+      <div ref={ref} className="mt-16 grid gap-4 md:h-[62svh] md:grid-cols-4 md:items-end md:gap-2" role="tablist" aria-label="Cadet ranks">
+        {ranks.map((r_, i) => (
+          <motion.button
+            key={r_.id}
+            type="button"
+            role="tab"
+            id={`rank-tab-${r_.id}`}
+            aria-selected={sel === i}
+            aria-controls="rank-panel"
+            onClick={() => setSel(i)}
+            className={cn(
+              "relative flex flex-col justify-start border-t-2 p-5 text-left transition-colors md:p-6",
+              sel === i ? "border-gold bg-gradient-to-b from-ember to-ember/20" : "border-line bg-gradient-to-b from-ember/50 to-transparent hover:border-gold/60",
+            )}
             initial={{ height: "0%", opacity: 0 }}
             animate={inView ? { height: `${40 + i * 20}%`, opacity: 1 } : {}}
             transition={{ duration: 1.3, ease: ease.citadel, delay: i * 0.18 }}
             style={{ minHeight: 220 }}
           >
-            <span className="t-inscribe text-3xl text-gold">{rk.numeral}</span>
-            <p className="t-voice mt-3 text-2xl text-bone md:text-3xl">{rk.name}</p>
-            <p className="mt-3 text-sm text-sand">{rk.detail}</p>
-            <p className="t-ui mt-4 text-xs text-dust">{rk.insignia}</p>
-            <p className="font-mono mt-auto pt-6 text-xs text-dust">PILLARS {String(rk.pillars[0]).padStart(2, "0")}–{String(rk.pillars[rk.pillars.length - 1]).padStart(2, "0")}</p>
-          </motion.div>
+            <span className="t-inscribe text-3xl text-gold">{r_.numeral}</span>
+            <span className="t-voice mt-3 block text-2xl text-bone md:text-3xl">{r_.name}</span>
+            <span className="mt-3 block text-sm text-sand">{r_.detail}</span>
+            <span className="t-ui mt-4 block text-xs text-dust">{r_.insignia}</span>
+            <span className="font-mono mt-auto block pt-6 text-xs text-dust">PILLARS {String(r_.pillars[0]).padStart(2, "0")}–{String(r_.pillars[r_.pillars.length - 1]).padStart(2, "0")}</span>
+          </motion.button>
         ))}
+      </div>
+      <div id="rank-panel" role="tabpanel" aria-labelledby={`rank-tab-${rk.id}`} className="mt-8 grid gap-8 border border-line p-6 md:grid-cols-[auto_1fr_1fr] md:p-8">
+        <div>
+          <p className="font-mono text-xs text-dust">RANK {rk.numeral} OF IV</p>
+          <p className="t-voice mt-1 text-3xl text-gold">{rk.name}</p>
+          <div className="mt-4 flex gap-1.5" aria-label={`Progress: rank ${sel + 1} of 4`}>
+            {ranks.map((_, i) => (
+              <span key={i} className={cn("h-1.5 w-10", i <= sel ? "bg-gold" : "bg-line")} />
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="label text-brass">Core focus</p>
+          <ul className="mt-3 space-y-1.5 text-sand">
+            {focus.map((f) => (
+              <li key={f}>· {f.charAt(0).toUpperCase() + f.slice(1)}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="label text-brass">Artifacts</p>
+          <ul className="mt-3 space-y-1.5 text-sand">
+            {artifacts.map((a) => (
+              <li key={a}>· {a.charAt(0).toUpperCase() + a.slice(1)}</li>
+            ))}
+          </ul>
+        </div>
+        <p className="t-ui text-xs text-dust md:col-span-3">
+          Illustrative progression. Ranks are awarded only on verified assessment records; nothing chosen here is saved.
+        </p>
       </div>
     </section>
   );
@@ -71,7 +115,7 @@ export function ClockRing() {
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
         <div className="relative mx-auto aspect-square w-full max-w-md">
           <svg viewBox="0 0 400 400" className="h-full w-full -rotate-90" aria-hidden>
-            <circle cx="200" cy="200" r={R} fill="none" stroke="rgb(89 56 34 / 0.38)" strokeWidth="18" />
+            <circle cx="200" cy="200" r={R} fill="none" stroke="rgb(184 115 51 / 0.15)" strokeWidth="18" />
             {classSegments.map((s, i) => (
               <Seg key={s.title} i={i} progress={scrollYProgress} from={s.from} to={s.to} C={C} R={R} mounted={s.mounted} />
             ))}
@@ -79,7 +123,7 @@ export function ClockRing() {
               const a = (m / 45) * Math.PI * 2;
               const len = m % 15 === 0 ? 14 : m % 5 === 0 ? 8 : 4;
               return (
-                <line key={m} x1={200 + Math.cos(a) * 172} y1={200 + Math.sin(a) * 172} x2={200 + Math.cos(a) * (172 + len)} y2={200 + Math.sin(a) * (172 + len)} stroke="rgb(89 56 34 / 1)" strokeWidth="1" />
+                <line key={m} x1={200 + Math.cos(a) * 172} y1={200 + Math.sin(a) * 172} x2={200 + Math.cos(a) * (172 + len)} y2={200 + Math.sin(a) * (172 + len)} stroke="rgb(184 115 51 / 0.4)" strokeWidth="1" />
               );
             })}
           </svg>

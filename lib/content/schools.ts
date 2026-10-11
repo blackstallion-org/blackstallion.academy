@@ -123,7 +123,7 @@ export const network: Zone[] = [
 export const benchmark = {
   lines: [
     "Equestrian excellence has historically been the sole privilege of select, century-old heritage academies.",
-    "BSAH democratises and elevates that sovereign infrastructure: turnkey, ex-cavalry managed arenas, STPCI-sanctioned national competition and zero-CapEx revenue-sharing models, brought directly to prospective premier campuses across India's leading educational corridors.",
+    "BSAH democratizes and elevates this sovereign infrastructure: turnkey, ex-cavalry managed arenas, STPCI-sanctioned national competition and zero-CapEx revenue-sharing models, brought directly to prospective premier campuses across India's leading educational corridors.",
   ],
 };
 
@@ -154,35 +154,35 @@ export type Hub = {
   batches: { name: string; time: string; days: string }[];
 };
 
-/** Zone 01 flagship hubs (SAMPLE figures). Identified by zone codename, never by school name. */
+/** Zone 01 proposed flagship corridors (SAMPLE planning figures, not operating campuses). Identified by zone codename, never by school name. */
 export const hubs: Hub[] = [
   {
     slug: "zone-01a-financial-district", status: "prospect", name: "Zone 01A · Financial District & Narsingi Corridor", short: "Zone 01A · Narsingi", area: "Financial District", tier: "signature",
-    stallions: 8, cadets: 150, image: "schoolAerial", note: "Circuit leader and host of the 2026 Sovereign Governor's Cup.",
+    stallions: 8, cadets: 150, image: "schoolAerial", note: "Proposed flagship corridor and candidate host venue for the Sovereign Governor's Cup (subject to STPCI confirmation).",
     pin: { x: 58, y: 66 },
     batches: [
-      { name: "Dawn Patrol", time: "06:15–07:00", days: "Mon · Wed · Fri" },
-      { name: "Twilight Batch", time: "15:45–16:30", days: "Tue · Thu · Fri" },
-      { name: "Weekend Circuit", time: "07:00–07:45", days: "Sat & Sun" },
+      { name: "Dawn Patrol", time: "06:15 AM–07:00 AM", days: "Mon · Wed · Fri" },
+      { name: "Twilight Batch", time: "03:45 PM–04:30 PM", days: "Tue · Thu · Fri" },
+      { name: "Weekend Circuit", time: "07:00 AM–07:45 AM", days: "Sat & Sun" },
     ],
   },
   {
     slug: "zone-01c-gachibowli", status: "prospect", name: "Zone 01C · Gachibowli & Madhapur Academic Axis", short: "Zone 01C · Gachibowli", area: "Gachibowli", tier: "standard",
-    stallions: 4, cadets: 96, image: "schoolArenaNight", note: "Floodlit evening batches under the arena lights.",
+    stallions: 4, cadets: 96, image: "schoolArenaNight", note: "Proposed corridor planned for floodlit evening batches.",
     pin: { x: 30, y: 44 },
     batches: [
-      { name: "Twilight Batch", time: "15:45–16:30", days: "Mon · Wed · Fri" },
-      { name: "Sunset Command", time: "16:45–17:30", days: "Tue · Thu" },
+      { name: "Twilight Batch", time: "03:45 PM–04:30 PM", days: "Mon · Wed · Fri" },
+      { name: "Sunset Command", time: "04:45 PM–05:30 PM", days: "Tue · Thu" },
     ],
   },
   {
     slug: "zone-01b-begumpet", status: "prospect", name: "Zone 01B · Begumpet & Jubilee Hills Heritage Belt", short: "Zone 01B · Begumpet", area: "Begumpet", tier: "royal",
-    stallions: 12, cadets: 210, image: "bgPavilion", note: "Heritage pavilion and host of the Junior Lancers Invitational.",
+    stallions: 12, cadets: 210, image: "bgPavilion", note: "Proposed heritage pavilion; candidate host for the Junior Lancers Invitational.",
     pin: { x: 54, y: 32 },
     batches: [
-      { name: "Dawn Patrol", time: "06:15–07:00", days: "Daily" },
-      { name: "Twilight Batch", time: "15:45–16:30", days: "Mon–Fri" },
-      { name: "Sunset Command", time: "16:45–17:30", days: "Mon–Thu" },
+      { name: "Dawn Patrol", time: "06:15 AM–07:00 AM", days: "Daily" },
+      { name: "Twilight Batch", time: "03:45 PM–04:30 PM", days: "Mon–Fri" },
+      { name: "Sunset Command", time: "04:45 PM–05:30 PM", days: "Mon–Thu" },
     ],
   },
 ];

@@ -22,7 +22,7 @@ function Sprockets() {
       aria-hidden
       className="h-4 w-full"
       style={{
-        backgroundColor: "rgb(42 29 21 / 0.85)",
+        backgroundColor: "rgb(26 26 24 / 0.85)",
         backgroundImage: "linear-gradient(90deg, transparent 0 7px, rgb(15 14 13) 7px 17px, transparent 17px 24px)",
         backgroundSize: "24px 7px",
         backgroundRepeat: "repeat-x",

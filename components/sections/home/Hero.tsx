@@ -11,6 +11,7 @@ import { r } from "@/components/film/range";
 import { hero } from "@/lib/content/home";
 import { heroVideo, LOCAL_MEDIA } from "@/lib/content/media";
 import { ease } from "@/lib/motion/tokens";
+import { StallionStage, useStallionEnabled } from "@/components/hero/StallionStage";
 
 /**
  * §1 Hero · T1 dust emergence + S01 pinned headline scrub.
@@ -49,6 +50,7 @@ function HeroVideo() {
 }
 
 function HeroFrame({ progress }: { progress: MotionValue<number> }) {
+  const stallion = useStallionEnabled();
   const scale = useTransform(progress, r(0, 1), [1.06, 1.22]);
   const aOpacity = useTransform(progress, r(0.18, 0.36), [1, 0]);
   const aY = useTransform(progress, r(0.18, 0.36), ["0%", "-30%"]);
@@ -84,9 +86,13 @@ function HeroFrame({ progress }: { progress: MotionValue<number> }) {
       </motion.div>
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div aria-hidden className="absolute inset-0 shade-l opacity-70" />
-      <motion.div aria-hidden className="absolute inset-0 bg-night" style={{ opacity: veil }} />
+      {/* The centrepiece: the interactive stallion, kept clear of the headline column */}
+      {stallion && (
+        <StallionStage className="absolute inset-x-0 top-[40%] h-[38%] sm:top-[6%] sm:h-[58%] lg:left-[34%] lg:right-0 lg:top-[3%] lg:h-[70%]" />
+      )}
+      <motion.div aria-hidden className="pointer-events-none absolute inset-0 bg-night" style={{ opacity: veil }} />
 
-      <div className="gutter relative flex h-full flex-col justify-between pb-6 pt-24 md:pt-28">
+      <div className="gutter pointer-events-none relative flex h-full flex-col justify-between pb-6 pt-24 md:pt-28 [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
         <motion.p
           className="label flex items-center gap-3 text-sand"
           initial={{ opacity: 0, y: 12 }}
@@ -98,12 +104,12 @@ function HeroFrame({ progress }: { progress: MotionValue<number> }) {
         </motion.p>
 
         <div className="relative">
-          <div className="relative min-h-[2.1em] text-poster">
+          <div className={stallion ? "relative min-h-[2.1em] max-w-[48rem] text-display-1" : "relative min-h-[2.1em] text-poster"}>
             <motion.div className="absolute inset-x-0 bottom-0" style={{ opacity: aOpacity, y: aY }}>
-              <Headline as="h1" size="poster" animate="mount" delay={0.4} voiceColor="bone" {...hero.frames[0]} />
+              <Headline as="h1" size={stallion ? "1" : "poster"} animate="mount" delay={0.4} voiceColor="bone" {...hero.frames[0]} />
             </motion.div>
             <motion.div className="absolute inset-x-0 bottom-0" style={{ opacity: bOpacity, y: bY }} aria-hidden>
-              <Headline as="p" size="poster" animate="none" {...hero.frames[1]} />
+              <Headline as="p" size={stallion ? "1" : "poster"} animate="none" {...hero.frames[1]} />
             </motion.div>
           </div>
 

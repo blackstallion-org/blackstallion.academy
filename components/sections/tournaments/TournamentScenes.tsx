@@ -33,7 +33,7 @@ export function CircuitTitle() {
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={12} act="ledger" />
-        <Headline id="circuit-title" as="h1" size="poster" animate="mount" delay={0.4} className="mt-6" inscription="Lances down." voice="Schools at war." />
+        <Headline id="circuit-title" as="h1" size="poster" animate="mount" delay={0.4} className="mt-6" inscription="Lances down." voice="Zones on the circuit." />
         <p className="t-story mt-6 max-w-2xl text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</p>
       </div>
     </section>
@@ -168,10 +168,10 @@ export function CourseDiagram() {
         </div>
         <div ref={ref} className="plate relative p-4 md:p-6">
           <svg viewBox="0 0 600 220" className="w-full" role="img" aria-label="Tent pegging course: 100 metre run-up, peg about 6 centimetres wide, 9-foot lance, gallop around 35 km/h">
-            <rect x="20" y="90" width="560" height="40" fill="rgb(89 56 34 / 0.2)" stroke="rgb(89 56 34 / 1)" />
+            <rect x="20" y="90" width="560" height="40" fill="rgb(184 115 51 / 0.08)" stroke="rgb(184 115 51 / 0.4)" />
             {Array.from({ length: 11 }, (_, i) => (
               <g key={i}>
-                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="rgb(89 56 34 / 1)" />
+                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="rgb(184 115 51 / 0.4)" />
                 <text x={20 + i * 50} y="156" textAnchor="middle" fontSize="10" className="font-mono" fill="rgb(140 136 130)">
                   {i * 10}
                 </text>
