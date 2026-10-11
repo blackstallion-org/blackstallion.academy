@@ -2,7 +2,7 @@
 
 export type Evidence = "Supported" | "Emerging" | "Not yet published";
 
-export const statusColor: Record<Evidence, string> = { Supported: "text-gold", Emerging: "text-sand", "Not yet published": "text-blood" };
+export const statusColor: Record<Evidence, string> = { Supported: "text-gold", Emerging: "text-sand", "Not yet published": "text-white" };
 
 export const systems = [
   {

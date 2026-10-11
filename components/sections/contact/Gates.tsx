@@ -16,8 +16,8 @@ export function GateTitle() {
     <section aria-labelledby="gate-h" className="relative min-h-[92svh] overflow-hidden">
       <FilmImage name="contactGate" priority />
       <div aria-hidden className="absolute inset-0 shade-b" />
-      <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-brass/40 bg-[linear-gradient(90deg,#140d07,#2a1d12)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
-      <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-brass/40 bg-[linear-gradient(270deg,#140d07,#2a1d12)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
+      <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-brass bg-[linear-gradient(90deg,#0F0E0D,#2A1D15)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
+      <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-brass bg-[linear-gradient(270deg,#0F0E0D,#2A1D15)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
       <div className="gutter relative flex min-h-[92svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={15} act="ledger" />
         <Headline id="gate-h" as="h1" size="poster" animate="mount" delay={1.2} className="mt-6" inscription="The arena" voice="is open." />
@@ -123,7 +123,7 @@ export function Gates() {
             onClick={() => setGate(x.id)}
             className={cn(
               "group relative flex min-h-[16rem] flex-col justify-end overflow-hidden rounded-t-[999px] border p-6 pt-24 text-left transition-colors duration-500 md:min-h-[22rem]",
-              gate === x.id ? "border-gold bg-gradient-to-b from-ember/40 to-ember/90" : "border-brass/25 hover:border-brass/60",
+              gate === x.id ? "border-gold bg-gradient-to-b from-ember/40 to-ember/90" : "border-brass hover:border-brass/60",
             )}
           >
             <span className="font-mono absolute left-1/2 top-10 -translate-x-1/2 text-xs text-dust">0{i + 1}</span>
@@ -136,7 +136,7 @@ export function Gates() {
 
       <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
         <div>
-          <p className="label text-brass">Gate 0{gates.findIndex((x) => x.id === gate) + 1}</p>
+          <p className="label text-dust">Gate 0{gates.findIndex((x) => x.id === gate) + 1}</p>
           <p className="t-voice mt-2 text-display-3 text-bone">{g.line}</p>
           {g.note && <p className="t-ui mt-4 text-sm text-sand">{g.note}</p>}
           <p className="t-ui mt-4 text-sm text-dust">

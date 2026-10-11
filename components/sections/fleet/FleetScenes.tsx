@@ -17,12 +17,10 @@ const hubName = (slug: string) => hubs.find((h) => h.slug === slug)?.short ?? sl
 export function FleetTitle() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const glow = useTransform(scrollYProgress, r(0, 0.6), [0.35, 1]);
   const scale = useTransform(scrollYProgress, r(0, 1), [1, 1.12]);
   return (
     <section ref={ref} aria-labelledby="fleet-h" className="relative min-h-[100svh] overflow-hidden">
       <FilmImage name="bgStable" priority scale={scale} grade="deep" />
-      <motion.div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_40%_45%_at_50%_40%,rgb(230_202_101/0.35),transparent_70%)] mix-blend-screen" style={{ opacity: glow }} />
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={6} act="citadel" />
@@ -48,7 +46,7 @@ export function Registry() {
         </div>
         <div className="flex gap-2" role="radiogroup" aria-label="Filter by breed">
           {(["All", "Marwari", "Kathiawari"] as const).map((f) => (
-            <button key={f} type="button" role="radio" aria-checked={filter === f} onClick={() => setFilter(f)} className={cn("label border px-4 py-2.5", filter === f ? "border-gold text-gold" : "border-brass/30 text-sand hover:text-bone")}>
+            <button key={f} type="button" role="radio" aria-checked={filter === f} onClick={() => setFilter(f)} className={cn("label border px-4 py-2.5", filter === f ? "border-gold text-gold" : "border-brass text-sand hover:text-bone")}>
               {f}
             </button>
           ))}
@@ -59,7 +57,7 @@ export function Registry() {
         <table className="w-full min-w-[760px] border-collapse text-left">
           <caption className="sr-only">Stallion registry (sample records)</caption>
           <thead>
-            <tr className="border-b border-brass/40">
+            <tr className="border-b border-brass">
               {["", "Name", "Breed", "Microchip (ISO 11784)", "Hub", "Status", ""].map((h, k) => (
                 <th key={k} scope="col" className="label py-3 pr-4 font-semibold text-dust">
                   {h}
@@ -69,7 +67,7 @@ export function Registry() {
           </thead>
           <tbody>
             {list.map((s) => (
-              <tr key={s.id} className="group border-b border-brass/15 transition-colors hover:bg-umber/60">
+              <tr key={s.id} className="group border-b border-brass transition-colors hover:bg-umber/60">
                 <td className="py-3 pr-4">
                   <div className="relative h-14 w-12 overflow-hidden">
                     <FilmImage name={s.image} sizes="48px" />
@@ -88,7 +86,7 @@ export function Registry() {
                   </span>
                 </td>
                 <td className="text-right">
-                  <button type="button" onClick={() => setOpen(s)} className="label border border-brass/40 px-3 py-2 text-gold hover:border-gold">
+                  <button type="button" onClick={() => setOpen(s)} className="label border border-brass px-3 py-2 text-gold hover:border-gold">
                     Open
                     <span className="sr-only"> {s.name}</span>
                   </button>
@@ -125,7 +123,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-label={`${s.name}, studbook page`}
-        className="fixed inset-y-0 right-0 z-[76] w-full max-w-xl overflow-y-auto border-l border-brass/25 bg-umber"
+        className="fixed inset-y-0 right-0 z-[76] w-full max-w-xl overflow-y-auto border-l border-brass bg-umber"
         initial={{ x: "100%" }}
         animate={{ x: "0%" }}
         exit={{ x: "100%" }}
@@ -139,7 +137,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
             Close ✕
           </button>
           <div className="absolute inset-x-0 bottom-0 p-6">
-            <p className="label text-brass">{s.character}</p>
+            <p className="label text-dust">{s.character}</p>
             <p className="t-voice mt-1 text-5xl text-bone">{s.name}</p>
           </div>
         </div>
@@ -164,9 +162,9 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
               <dd className="font-mono mt-1 text-lg text-gold">{s.chip}</dd>
             </div>
           </dl>
-          <p className="label mt-10 text-brass">Pedigree (sample)</p>
+          <p className="label mt-10 text-dust">Pedigree (sample)</p>
           <svg viewBox="0 0 400 180" className="mt-4 w-full" role="img" aria-label={`Pedigree: sire ${s.pedigree.sire}, dam ${s.pedigree.dam}`}>
-            <g stroke="rgb(184 115 51 / 0.5)" fill="none">
+            <g stroke="rgb(89 56 34 / 1)" fill="none">
               <path d="M110 90 H140 V40 H170 M140 90 V140 H170" />
               <path d="M290 40 H310 V18 H330 M310 40 V62 H330" />
             </g>
@@ -178,7 +176,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
               <text x="336" y="66" fill="rgb(217 213 205)" fontSize="10">{s.pedigree.granddam}</text>
             </g>
           </svg>
-          <button type="button" disabled className="label mt-8 w-full border border-brass/30 py-3 text-dust">
+          <button type="button" disabled className="label mt-8 w-full border border-brass py-3 text-dust">
             Watch stall-cam · parents only, in the app
           </button>
         </div>
@@ -202,7 +200,7 @@ function Clock() {
 export function CctvGrid() {
   const positions = ["30% 40%", "70% 60%", "50% 30%", "45% 70%"];
   return (
-    <section aria-labelledby="cctv-h" className="relative bg-[#070807] py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="cctv-h" className="relative bg-[#0F0E0D] py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-6 md:grid-cols-[1fr_minmax(0,26rem)] md:items-end">
         <div>
           <Label>Stall-cam</Label>
@@ -213,15 +211,15 @@ export function CctvGrid() {
       <div className="gutter mt-12 grid gap-2 sm:grid-cols-2">
         {feeds.map((f, i) => (
           <figure key={f.cam} className="relative aspect-video overflow-hidden bg-black">
-            <FilmImage name="fleetStallcam" grade="none" position={positions[i]} scale={1.2 + i * 0.08} imgClassName="[filter:grayscale(0.2)_sepia(0.4)_hue-rotate(50deg)_saturate(1.4)_brightness(0.85)]" />
+            <FilmImage name="fleetStallcam" grade="none" position={positions[i]} scale={1.2 + i * 0.08} imgClassName="[filter:grayscale(1)_contrast(1.1)]" />
             <div aria-hidden className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgb(0_0_0/0.25)_0_1px,transparent_1px_3px)]" />
-            <figcaption className="font-mono absolute inset-0 flex flex-col justify-between p-3 text-[0.68rem] uppercase tracking-[0.1em] text-[#b8e0b0]">
+            <figcaption className="font-mono absolute inset-0 flex flex-col justify-between p-3 text-[0.68rem] uppercase tracking-[0.1em] text-[#D9D5CD]">
               <span className="flex justify-between">
                 <span>
                   {f.cam} · {f.horse}
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 animate-pulse rounded-full bg-[#e0533a]" aria-hidden /> REC
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-[#FFFFFF]" aria-hidden /> REC
                 </span>
               </span>
               <span className="flex justify-between">
@@ -252,11 +250,11 @@ export function CareLog() {
           <Headline id="log-h" className="mt-4" inscription="The stable" voice="log." />
           <p className="mt-6 max-w-sm text-sand">Horses are checked before cadets, every day. A sample day from the duty log.</p>
         </div>
-        <ol ref={ref} className="font-mono border-t border-brass/25 text-sm">
+        <ol ref={ref} className="font-mono border-t border-brass text-sm">
           {careLog.map((l, i) => (
             <motion.li
               key={l.time}
-              className="grid grid-cols-[4rem_1fr] gap-4 border-b border-brass/15 py-4 sm:grid-cols-[4.5rem_10rem_1fr_auto]"
+              className="grid grid-cols-[4rem_1fr] gap-4 border-b border-brass py-4 sm:grid-cols-[4.5rem_10rem_1fr_auto]"
               initial={{ opacity: 0, x: -10 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.4, delay: i * 0.18 }}
@@ -264,7 +262,7 @@ export function CareLog() {
               <span className="text-gold">{l.time}</span>
               <span className="text-bone">{l.item}</span>
               <span className="col-start-2 text-sand/80 sm:col-start-auto">{l.detail}</span>
-              <span className={cn("col-start-2 sm:col-start-auto", l.result.includes("bruise") ? "text-blood" : "text-[#8fb98a]")}>{l.result}</span>
+              <span className={cn("col-start-2 sm:col-start-auto", l.result.includes("bruise") ? "text-white" : "text-[#D9D5CD]")}>{l.result}</span>
             </motion.li>
           ))}
         </ol>
@@ -280,12 +278,12 @@ export function CoatRegistry() {
     <section aria-labelledby="coats-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>Official Marwari studbook</Label>
       <Headline id="coats-h" className="mt-4" inscription="The colour" voice="registry." />
-      <ul className="mt-14 grid gap-px bg-brass/15 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-14 grid gap-px bg-brass sm:grid-cols-2 lg:grid-cols-3">
         {coatRegistry.map((c) => (
           <li key={c.n} className="flex gap-5 bg-night p-6">
             <span
               aria-hidden
-              className="mt-1 h-12 w-12 shrink-0 rounded-full border border-brass/30"
+              className="mt-1 h-12 w-12 shrink-0 rounded-full border border-brass"
               style={{ background: c.hex === "dual" ? "conic-gradient(#d9d5cd 0 50%, #2a1d15 50% 100%)" : c.hex }}
             />
             <span>

@@ -20,7 +20,7 @@ export function WhyTitle() {
       <div className="absolute inset-0 grid grid-cols-2">
         <motion.div className="relative overflow-hidden" initial={{ x: "-20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
           <FilmImage name="whyCrisis" grade="cold" priority position="40% 50%" />
-          <div aria-hidden className="absolute inset-0 bg-[#0b1220]/40" />
+          <div aria-hidden className="absolute inset-0 bg-[#0F0E0D]/40" />
         </motion.div>
         <motion.div className="relative overflow-hidden" initial={{ x: "20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
           <FilmImage name="whyCure" priority position="30% 50%" />
@@ -28,7 +28,7 @@ export function WhyTitle() {
       </div>
       <motion.span
         aria-hidden
-        className="absolute inset-y-0 left-1/2 w-px bg-gold shadow-[0_0_30px_6px_rgb(230_202_101/0.35)]"
+        className="absolute inset-y-0 left-1/2 w-px bg-gold"
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
         transition={{ duration: 1.4, ease: ease.citadel, delay: 1 }}
@@ -59,8 +59,8 @@ export function Glass() {
             <p className="t-story mt-6 max-w-lg text-sand">{why.glass.body}</p>
           </Reveal>
         </div>
-        <div className="relative mx-auto h-[560px] w-[280px] rounded-[44px] border border-frost/30 bg-[#0b0f16] p-3 shadow-[0_0_80px_rgb(159_179_200/0.12)]">
-          <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-gradient-to-b from-[#121a26] to-[#070a0f]">
+        <div className="relative mx-auto h-[560px] w-[280px] rounded-[44px] border border-frost/30 bg-[#0F0E0D] p-3">
+          <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-gradient-to-b from-[#2A1D15] to-[#0F0E0D]">
             <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
             <p className="font-mono absolute left-0 right-0 top-12 text-center text-4xl font-light text-frost/80">03:12</p>
             <div className="absolute inset-x-3 bottom-0 top-28 overflow-hidden [mask-image:linear-gradient(transparent,black_15%,black_85%,transparent)]">
@@ -96,14 +96,14 @@ export function BigSlider() {
       </div>
       <CompareSlider left="whyCrisis" right="whyCure" leftLabel="Digital crisis" rightLabel="Sovereign cure" onChange={setPct} className="mt-10 h-[78svh] w-full" />
       <div className="gutter mt-10">
-        <div className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-brass/30 pb-3 md:grid-cols-[10rem_1fr_1fr]">
+        <div className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-brass pb-3 md:grid-cols-[10rem_1fr_1fr]">
           <span />
           <span className="label text-frost">Digital crisis</span>
           <span className="label text-gold">Sovereign cure</span>
         </div>
         {why.slider.table.map((row) => (
-          <div key={row.k} className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-brass/15 py-5 md:grid-cols-[10rem_1fr_1fr]">
-            <span className="label pt-1 text-brass">{row.k}</span>
+          <div key={row.k} className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-brass py-5 md:grid-cols-[10rem_1fr_1fr]">
+            <span className="label pt-1 text-dust">{row.k}</span>
             <span className={cn("transition-colors duration-700 md:text-lg", cured ? "text-frost/40 line-through decoration-1" : "text-frost")}>{row.a}</span>
             <span className={cn("t-voice transition-colors duration-700 md:text-xl", cured ? "text-gold" : "text-bone/70")}>{row.b}</span>
           </div>
@@ -160,7 +160,7 @@ export function TrainList() {
         </div>
         <ol className="flex flex-col">
           {why.train.items.map((it, k) => (
-            <Reveal as="li" key={it} delay={k * 0.12} className="flex items-center gap-6 border-b border-brass/15 py-6" y={0}>
+            <Reveal as="li" key={it} delay={k * 0.12} className="flex items-center gap-6 border-b border-brass py-6" y={0}>
               <motion.span initial={{ scale: 1.6, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.2 + k * 0.12 }} style={{ rotate: k % 2 ? 12 : -12 }}>
                 <Hoof className="h-6 w-6 text-gold" />
               </motion.span>

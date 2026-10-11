@@ -8,7 +8,6 @@ import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
 import { PinnedScene } from "@/components/film/PinnedScene";
 import { r } from "@/components/film/range";
-import { GoldDust } from "@/components/motion/GoldDust";
 import { hero } from "@/lib/content/home";
 import { heroVideo, LOCAL_MEDIA } from "@/lib/content/media";
 import { ease } from "@/lib/motion/tokens";
@@ -51,8 +50,6 @@ function HeroVideo() {
 
 function HeroFrame({ progress }: { progress: MotionValue<number> }) {
   const scale = useTransform(progress, r(0, 1), [1.06, 1.22]);
-  const dustX = useTransform(progress, r(0, 1), ["-12%", "14%"]);
-  const dustOpacity = useTransform(progress, r(0, 0.35, 0.6, 1), [0.25, 0.75, 0.75, 0.35]);
   const aOpacity = useTransform(progress, r(0.18, 0.36), [1, 0]);
   const aY = useTransform(progress, r(0.18, 0.36), ["0%", "-30%"]);
   const bOpacity = useTransform(progress, r(0.4, 0.58), [0, 1]);
@@ -85,13 +82,9 @@ function HeroFrame({ progress }: { progress: MotionValue<number> }) {
         <FilmImage name="heroDust" priority />
         <HeroVideo />
       </motion.div>
-      <FilmImage name="dustWall" blend="screen" x={dustX} opacity={dustOpacity} bleed />
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div aria-hidden className="absolute inset-0 shade-l opacity-70" />
       <motion.div aria-hidden className="absolute inset-0 bg-night" style={{ opacity: veil }} />
-      <div aria-hidden className="absolute inset-0 opacity-80">
-        <GoldDust density={0.5} />
-      </div>
 
       <div className="gutter relative flex h-full flex-col justify-between pb-6 pt-24 md:pt-28">
         <motion.p
@@ -129,9 +122,9 @@ function HeroFrame({ progress }: { progress: MotionValue<number> }) {
         </div>
 
         <div>
-          <dl className="grid grid-cols-3 border-t border-brass/25">
+          <dl className="grid grid-cols-3 border-t border-brass">
             {hero.stats.map((s, i) => (
-              <div key={s.value} className={i > 0 ? "border-l border-brass/25 pl-3 pt-4 md:pl-6" : "pt-4 pr-3"}>
+              <div key={s.value} className={i > 0 ? "border-l border-brass pl-3 pt-4 md:pl-6" : "pt-4 pr-3"}>
                 <dt className="sr-only">{s.label}</dt>
                 <dd className="t-voice text-[clamp(1.35rem,3.2vw,2.6rem)] leading-none text-gold">{s.value}</dd>
                 <dd className="label mt-2 text-[0.62rem] text-dust md:text-[0.7rem]">{s.label}</dd>
@@ -149,7 +142,7 @@ function Ticker() {
   const reduced = useReducedMotion();
   const items = [...hero.ticker, ...hero.ticker];
   return (
-    <div className="mt-5 overflow-hidden border-y border-brass/15 py-2" aria-label="Live command figures (sample)">
+    <div className="mt-5 overflow-hidden border-y border-brass py-2" aria-label="Live command figures (sample)">
       <div className={reduced ? "flex gap-10" : "animate-marquee flex w-max gap-10"}>
         {items.map((t, i) => (
           <span key={i} className="font-mono flex items-center gap-10 whitespace-nowrap text-[0.68rem] uppercase tracking-[0.12em] text-sand/80">

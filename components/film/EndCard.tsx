@@ -27,7 +27,7 @@ export function EndCard({ current }: { current: number }) {
         <div aria-hidden className="absolute inset-0 bg-night/55" />
         <div aria-hidden className="cinematic-vignette absolute inset-0" />
         <div className="gutter relative flex h-full flex-col justify-end pb-[10vh]">
-          <p className="label text-brass">
+          <p className="label text-dust">
             Next · <span className="font-mono tracking-[0.12em] text-gold">Reel {pad(next.n)}</span> · Act {acts[next.act].numeral}
           </p>
           <p className="mt-5 text-display-1">

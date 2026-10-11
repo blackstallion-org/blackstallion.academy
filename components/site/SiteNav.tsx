@@ -49,7 +49,7 @@ export function SiteNav() {
               <Wordmark layout="inline" className="hidden sm:inline" />
             </Link>
             {reel && (
-              <span className="label hidden items-center gap-2 border-l border-brass/25 pl-4 text-dust lg:flex">
+              <span className="label hidden items-center gap-2 border-l border-brass pl-4 text-dust lg:flex">
                 <span className="font-mono tracking-[0.1em] text-gold">
                   {pad(reel.n)}/{TOTAL_REELS}
                 </span>
@@ -174,7 +174,7 @@ function Menu({ onClose }: { onClose: () => void }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: ease.citadel, delay: 0.25 + col * 0.08 }}
           >
-            <p className="label border-b border-brass/25 pb-3 text-brass">
+            <p className="label border-b border-brass pb-3 text-dust">
               Act {acts[act].numeral} · {acts[act].name} <span className="text-dust">· {acts[act].zone}</span>
             </p>
             <ul className="mt-4">
@@ -186,7 +186,7 @@ function Menu({ onClose }: { onClose: () => void }) {
                       href={r.href}
                       onClick={onClose}
                       aria-current={active ? "page" : undefined}
-                      className="group flex items-baseline gap-4 border-b border-brass/10 py-3"
+                      className="group flex items-baseline gap-4 border-b border-brass py-3"
                     >
                       <span className="font-mono text-xs text-gold/80">{pad(r.n)}</span>
                       <span
@@ -206,7 +206,7 @@ function Menu({ onClose }: { onClose: () => void }) {
         ))}
       </div>
 
-      <div className="gutter flex flex-col gap-6 border-t border-brass/15 py-8 md:flex-row md:items-center md:justify-between">
+      <div className="gutter flex flex-col gap-6 border-t border-brass py-8 md:flex-row md:items-center md:justify-between">
         <ul className="flex flex-col gap-2 md:flex-row md:gap-8">
           {corridors.map((c) => (
             <li key={c.id} className="t-ui text-sm text-sand">

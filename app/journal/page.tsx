@@ -20,10 +20,10 @@ export default function JournalPage() {
       {/* T15 · Masthead */}
       <header className="gutter pt-28 md:pt-32">
         <ReelMark n={14} act="ledger" />
-        <div className="mt-8 border-y-2 border-double border-brass/40 py-6 text-center">
+        <div className="mt-8 border-y-2 border-double border-brass py-6 text-center">
           <p className="label text-dust">Hyderabad · Vol. I · Stories from the stable</p>
           <h1 className="t-inscribe mt-3 text-[clamp(1.9rem,8vw,8.5rem)] leading-none text-bone">The Chronicle</h1>
-          <p className="label mt-3 text-brass">Legend · Academy · Circuit</p>
+          <p className="label mt-3 text-dust">Legend · Academy · Circuit</p>
         </div>
       </header>
 
@@ -34,7 +34,7 @@ export default function JournalPage() {
             <FilmImage name={featured.cover} grade="none" priority sizes="(min-width: 1024px) 60vw, 100vw" className="transition-transform duration-[1600ms] group-hover:scale-[1.03]" />
           </div>
           <div className="lg:pb-6">
-            <p className="label text-brass">
+            <p className="label text-dust">
               {featured.category} · {featured.minutes} min read · {fmt(featured.date)}
             </p>
             <h2 className="mt-4 text-display-2">
@@ -51,13 +51,13 @@ export default function JournalPage() {
 
       {/* Editorial list: alternating image side, no cards */}
       <section aria-label="All stories" className="gutter mt-24 pb-[clamp(6rem,14vh,12rem)]">
-        <ol className="border-t border-brass/20">
+        <ol className="border-t border-brass">
           {rest.map((p, i) => (
             <Reveal as="li" key={p.slug}>
-              <Link href={`/journal/${p.slug}`} className="group grid items-center gap-6 border-b border-brass/20 py-8 md:grid-cols-[4rem_minmax(0,1fr)_14rem] md:gap-10">
+              <Link href={`/journal/${p.slug}`} className="group grid items-center gap-6 border-b border-brass py-8 md:grid-cols-[4rem_minmax(0,1fr)_14rem] md:gap-10">
                 <span className="font-mono text-sm text-dust">{String(i + 2).padStart(2, "0")}</span>
                 <div>
-                  <p className="label text-brass">
+                  <p className="label text-dust">
                     {p.category} · {p.minutes} min
                   </p>
                   <p className="t-voice mt-2 text-[clamp(1.5rem,3vw,2.6rem)] leading-tight text-bone transition-colors group-hover:text-gold">{p.title.join(" ")}</p>

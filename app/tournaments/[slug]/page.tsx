@@ -43,7 +43,7 @@ export default async function TournamentPage({ params }: PageProps<"/tournaments
       </section>
 
       <section aria-label="Details" className="gutter py-16">
-        <dl className="grid grid-cols-2 gap-px bg-brass/15 md:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-px bg-brass md:grid-cols-4">
           {[
             ["Date", t.dateLabel],
             ["Venue", t.venue],
@@ -66,7 +66,7 @@ export default async function TournamentPage({ params }: PageProps<"/tournaments
           </h2>
           <ul className="mt-8 flex flex-col gap-4">
             {t.events.map((e) => (
-              <li key={e} className="flex items-center gap-4 border-b border-brass/15 pb-4 text-lg text-sand">
+              <li key={e} className="flex items-center gap-4 border-b border-brass pb-4 text-lg text-sand">
                 <Hoof className="text-gold" />
                 {e}
               </li>
@@ -76,7 +76,7 @@ export default async function TournamentPage({ params }: PageProps<"/tournaments
         <div>
           <Label>Order of the day</Label>
           <h2 className="t-voice mt-3 text-display-3 text-bone">Schedule</h2>
-          <ol className="mt-8 border-l border-brass/30">
+          <ol className="mt-8 border-l border-brass">
             {t.schedule.map((s) => (
               <li key={s.time} className="relative pb-6 pl-6">
                 <span aria-hidden className="absolute -left-[5px] top-2 h-2.5 w-2.5 rounded-full bg-gold" />

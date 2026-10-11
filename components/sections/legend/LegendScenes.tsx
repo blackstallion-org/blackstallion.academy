@@ -8,7 +8,6 @@ import { ReelMark } from "@/components/film/Marks";
 import { PinnedScene } from "@/components/film/PinnedScene";
 import { r } from "@/components/film/range";
 import { Reveal } from "@/components/film/Reveal";
-import { GoldDust } from "@/components/motion/GoldDust";
 import { chapters, ears, fall, marwar, reasons, revival, title } from "@/lib/content/legend";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -39,10 +38,7 @@ function IrisFrame({ progress, open = false }: { progress?: MotionValue<number>;
         <FilmImage name="duneSilhouette" priority scale={open ? 1 : scale} grade="film" />
         <div aria-hidden className="absolute inset-0 shade-b" />
       </motion.div>
-      <motion.div aria-hidden className="pointer-events-none absolute left-1/2 top-[48%] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full border border-brass/40" style={{ width: ring }} />
-      <div aria-hidden className="absolute inset-0 opacity-70">
-        <GoldDust density={0.6} />
-      </div>
+      <motion.div aria-hidden className="pointer-events-none absolute left-1/2 top-[48%] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full border border-brass" style={{ width: ring }} />
       <motion.div className="gutter relative flex h-full min-h-[100svh] flex-col justify-end pb-[10vh]" style={{ y: textY }}>
         <ReelMark n={1} act="legend" />
         <Headline as="h1" size="poster" animate="mount" className="mt-6" inscription={title.inscription} voice={title.voice} />
@@ -107,7 +103,7 @@ export function ChapterRail() {
               aria-current={active === c.id ? "location" : undefined}
               aria-label={`Chapter ${c.numeral}: ${c.name}`}
             >
-              <span className={cn("h-px transition-all duration-500", active === c.id ? "w-6 bg-gold" : "w-3 bg-brass/40 group-hover:w-5 group-hover:bg-brass")} />
+              <span className={cn("h-px transition-all duration-500", active === c.id ? "w-6 bg-gold" : "w-3 bg-brass group-hover:w-5 group-hover:bg-brass")} />
               <span
                 aria-hidden
                 className="label pointer-events-none absolute left-9 whitespace-nowrap bg-night/90 px-2 py-1 text-[0.6rem] text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
@@ -126,9 +122,9 @@ export function ChapterRail() {
 export function ChapterHead({ id, className }: { id: string; className?: string }) {
   const c = chapters.find((x) => x.id === id)!;
   return (
-    <p className={cn("label flex items-center gap-3 text-brass", className)}>
+    <p className={cn("label flex items-center gap-3 text-dust", className)}>
       <span className="t-inscribe text-base tracking-[0.1em] text-gold">{c.numeral}</span>
-      <span aria-hidden className="h-px w-8 bg-brass/50" />
+      <span aria-hidden className="h-px w-8 bg-brass" />
       {c.name}
     </p>
   );
@@ -196,7 +192,7 @@ function EarsFrame({ progress }: { progress: MotionValue<number> }) {
     <div className="relative h-full">
       <FilmImage name="legendEars" scale={scale} y={y} position="50% 30%" bleed />
       <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,transparent_30%,rgb(10_8_6/0.8)_80%)]" />
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,transparent_30%,rgb(15_14_13/0.8)_80%)]" />
       <div className="gutter relative flex h-full flex-col justify-end pb-[10vh]">
         <ChapterHead id="ears" />
         <Headline className="mt-4" size="1" inscription={ears.inscription} voice={ears.voice} />
@@ -326,7 +322,7 @@ export function Ascent() {
     <div ref={ref}>
       <div className="relative hidden md:block" style={{ aspectRatio: "1000 / 340" }}>
         <svg viewBox="0 0 1000 340" className="absolute inset-0 h-full w-full" aria-hidden>
-          <line x1="40" x2="960" y1="320" y2="320" stroke="rgb(184 115 51 / 0.25)" />
+          <line x1="40" x2="960" y1="320" y2="320" stroke="rgb(89 56 34 / 0.62)" />
           <motion.path d={d} fill="none" stroke="var(--color-gold)" strokeWidth="1.6" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
           {pts.map(([x, y], i) => (
             <motion.circle key={i} cx={x} cy={y} r="5" fill="var(--color-gold)" initial={{ scale: 0 }} animate={inView ? { scale: 1 } : {}} transition={{ delay: 0.3 + i * 0.35, duration: 0.5 }} />
@@ -347,7 +343,7 @@ export function Ascent() {
       </div>
       <ol className="mt-6 grid gap-8 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
         {revival.milestones.map((m) => (
-          <Reveal as="li" key={m.year} className="border-t border-brass/25 pt-4">
+          <Reveal as="li" key={m.year} className="border-t border-brass pt-4">
             <p className="font-mono text-sm text-gold md:hidden">{m.year}</p>
             <p className="mt-1 text-sm leading-relaxed text-sand">{m.text}</p>
           </Reveal>

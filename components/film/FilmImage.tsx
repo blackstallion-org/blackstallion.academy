@@ -30,10 +30,10 @@ type FilmImageProps = {
 };
 
 const grades = {
-  film: "[filter:sepia(0.22)_saturate(0.82)_brightness(0.8)_contrast(1.06)]",
-  deep: "[filter:sepia(0.3)_saturate(0.75)_brightness(0.6)_contrast(1.12)]",
-  cold: "[filter:saturate(0.7)_brightness(0.82)_contrast(1.05)_hue-rotate(-6deg)]",
-  mono: "[filter:grayscale(1)_sepia(0.25)_brightness(0.8)_contrast(1.1)]",
+  film: "[filter:saturate(0.82)_brightness(0.8)_contrast(1.06)]",
+  deep: "[filter:saturate(0.75)_brightness(0.6)_contrast(1.12)]",
+  cold: "[filter:saturate(0.7)_brightness(0.82)_contrast(1.05)]",
+  mono: "[filter:grayscale(1)_brightness(0.8)_contrast(1.1)]",
   none: "",
 } as const;
 

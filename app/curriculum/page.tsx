@@ -34,7 +34,7 @@ export default function CurriculumPage() {
             <table className="w-full min-w-[760px] border-collapse text-left">
               <caption className="sr-only">Batch timetable (sample, confirm per hub)</caption>
               <thead>
-                <tr className="border-b border-brass/40">
+                <tr className="border-b border-brass">
                   {["Batch", "Time", "Days", "Cadets", "Focus"].map((h) => (
                     <th key={h} scope="col" className="label py-3 pr-6 font-semibold text-dust">
                       {h}
@@ -44,7 +44,7 @@ export default function CurriculumPage() {
               </thead>
               <tbody>
                 {batches.map((b) => (
-                  <tr key={b.name} className="border-b border-brass/15">
+                  <tr key={b.name} className="border-b border-brass">
                     <th scope="row" className="t-voice py-5 pr-6 text-xl font-semibold text-bone">
                       {b.name}
                     </th>

@@ -22,7 +22,7 @@ function Sprockets() {
       aria-hidden
       className="h-4 w-full"
       style={{
-        backgroundColor: "rgb(42 29 18 / 0.85)",
+        backgroundColor: "rgb(42 29 21 / 0.85)",
         backgroundImage: "linear-gradient(90deg, transparent 0 7px, rgb(15 14 13) 7px 17px, transparent 17px 24px)",
         backgroundSize: "24px 7px",
         backgroundRepeat: "repeat-x",
@@ -79,7 +79,7 @@ function Strip({ progress }: { progress: MotionValue<number> }) {
                     </span>
                   </div>
                   <div className="flex flex-col justify-end gap-3 p-5 md:p-10">
-                    <p className="label text-brass">{f.kicker}</p>
+                    <p className="label text-dust">{f.kicker}</p>
                     <p
                       className={
                         i === n - 1
@@ -127,7 +127,7 @@ function StoryStack() {
             <div className="relative aspect-[16/10]">
               <FilmImage name={f.image} sizes="(min-width: 768px) 45vw, 90vw" />
             </div>
-            <p className="label mt-4 text-brass">{f.kicker}</p>
+            <p className="label mt-4 text-dust">{f.kicker}</p>
             <p className="mt-2 text-sand">{f.text}</p>
           </li>
         ))}

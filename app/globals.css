@@ -5,30 +5,34 @@
    Kala night, Nukra and bone type, copper (brass token) and burnished gold as accents; Bhanwar/Surang warm the shadows.
    ------------------------------------------------------------------ */
 @theme {
-  /* Colour */
-  --color-night: #0f0e0d; /* Obsidian Black (Master Refinement §1) */
-  --color-umber: #1a1a18; /* Deep Charcoal */
-  /* Official Marwari studbook colour registry (Master Refinement §5): the film's grade comes from the coats. */
-  --color-bhanwar: #2a1d15; /* Dark bay */
-  --color-kala: #0f0e0d; /* Black */
-  --color-surang: #593822; /* Chestnut & bay */
-  --color-shwet: #8c8882; /* Grey & dappled */
-  --color-nukra: #d9d5cd; /* Pure white */
-  --color-ember: #2a1d15; /* = Bhanwar */
-  --color-dust: #8c8882; /* = Shwet: captions */
-  --color-sand: #d9d5cd; /* = Nukra: body on images */
-  --color-bone: #ede3d1;
-  --color-brass: #b87333; /* = Warm Copper: rules, labels, accents */
-  --color-gold: #d4af37; /* Burnished Gold */
-  --color-copper: #b87333; /* Metallic Warm Copper */
-  --color-blood: #b13a24;
-  --color-frost: #9fb3c8;
-  --color-parchment: #e9dcc0;
-  --color-ink: #1d150d;
+  /* Colour: the official BSAH Marwari Studbook palette only. Old token names are kept as aliases so components stay unchanged. */
+  --bg-primary: #0f0e0d;      /* Obsidian Black */
+  --bg-secondary: #2a1d15;    /* Dark Bay */
+  --accent-copper: #593822;   /* Copper Chestnut */
+  --text-primary: #ffffff;    /* Pure White */
+  --text-secondary: #d9d5cd;  /* Ceremonial White */
+  --text-muted: #8c8882;      /* Iron Grey */
 
-  /* Guardrails: no pure black or white anywhere */
+  --color-night: #0f0e0d;
+  --color-kala: #0f0e0d;
+  --color-umber: #0f0e0d;
+  --color-bhanwar: #2a1d15;
+  --color-ember: #2a1d15;
+  --color-surang: #593822;
+  --color-brass: #593822;
+  --color-copper: #593822;
+  --color-shwet: #8c8882;
+  --color-dust: #8c8882;
+  --color-frost: #8c8882;
+  --color-nukra: #d9d5cd;
+  --color-sand: #d9d5cd;
+  --color-parchment: #d9d5cd;
+  --color-bone: #ffffff;
+  --color-gold: #ffffff;
+  --color-blood: #593822;
+  --color-ink: #0f0e0d;
   --color-black: #0f0e0d;
-  --color-white: #ede3d1;
+  --color-white: #ffffff;
 
   /* Poster scale */
   --text-poster: clamp(3.1rem, 10.5vw, 12.5rem);
@@ -58,7 +62,7 @@
 @layer base {
   html {
     background-color: var(--color-night);
-    color: var(--color-bone);
+    color: var(--text-secondary);
     color-scheme: dark;
     -webkit-text-size-adjust: 100%;
   }
@@ -75,8 +79,8 @@
   }
 
   ::selection {
-    background-color: rgb(184 115 51 / 0.35);
-    color: var(--color-bone);
+    background-color: rgb(89 56 34 / 0.8);
+    color: #ffffff;
   }
 
   :focus-visible {
@@ -141,13 +145,13 @@
   /* Brass hairline rule */
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgb(184 115 51 / 0.55) 12%, rgb(184 115 51 / 0.55) 88%, transparent);
+    background: linear-gradient(90deg, transparent, #593822 12%, #593822 88%, transparent);
   }
 
   /* The only allowed surface: umber with a faint brass edge */
   .plate {
-    background-color: rgb(26 26 24 / 0.92);
-    border: 1px solid rgb(184 115 51 / 0.22);
+    background-color: #2a1d15;
+    border: 1px solid #593822;
     border-radius: 1px;
   }
 
@@ -166,28 +170,21 @@
     inset: -50%;
     z-index: 70;
     pointer-events: none;
-    opacity: 0.1;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.92 0 0 0 0 0.8 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     animation: grain 0.9s steps(6) infinite;
   }
 
   /* Graded placeholder used under every photograph until the file exists */
   .film-placeholder {
-    background:
-      radial-gradient(ellipse 60% 45% at 62% 58%, rgb(212 175 55 / 0.22), transparent 70%),
-      radial-gradient(ellipse 80% 60% at 40% 70%, rgb(138 102 60 / 0.32), transparent 75%),
-      linear-gradient(180deg, #0f0e0d 0%, #21160d 55%, #0f0e0d 100%);
+    background: linear-gradient(180deg, #0f0e0d 0%, #2a1d15 55%, #0f0e0d 100%);
   }
 
   /* Parchment surface for documents (MOU, diploma, letter) */
   .parchment {
     color: var(--color-ink);
-    background:
-      radial-gradient(ellipse 120% 80% at 50% 0%, rgb(255 248 230 / 0.55), transparent 60%),
-      radial-gradient(ellipse 90% 70% at 100% 100%, rgb(150 110 60 / 0.25), transparent 70%),
-      linear-gradient(180deg, #ecdfc3, #dfcda8);
-    box-shadow: 0 30px 80px rgb(0 0 0 / 0.55), inset 0 0 120px rgb(120 80 30 / 0.22);
+    background: #d9d5cd;
+    box-shadow: 0 30px 80px rgb(0 0 0 / 0.55);
   }
 
   /* Text held on photographs */
@@ -205,7 +202,7 @@
   .range-brass {
     appearance: none;
     height: 2px;
-    background: rgb(184 115 51 / 0.3);
+    background: #593822;
     outline-offset: 8px;
   }
   .range-brass::-webkit-slider-thumb {
@@ -230,15 +227,15 @@
     width: 100%;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid rgb(184 115 51 / 0.35);
+    border-bottom: 1px solid #593822;
     padding: 0.7rem 0;
-    color: var(--color-bone);
+    color: #ffffff;
     font-family: var(--font-sans);
     font-size: 1rem;
     border-radius: 0;
   }
   .field::placeholder {
-    color: rgb(140 136 130 / 0.8);
+    color: #8c8882;
   }
   .field:focus-visible {
     outline: 1px solid var(--color-gold);

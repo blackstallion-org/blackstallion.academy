@@ -81,7 +81,7 @@ export function ConfiguratorAndSimulator() {
         <div className="gutter">
           <Label>Three tiers</Label>
           <Headline id="tiers-h" className="mt-4" inscription="Choose" voice="your arena." />
-          <div className="mt-12 grid gap-px bg-brass/15 md:grid-cols-3" role="radiogroup" aria-label="Hub tier">
+          <div className="mt-12 grid gap-px bg-brass md:grid-cols-3" role="radiogroup" aria-label="Hub tier">
             {tiers.map((t) => (
               <button
                 key={t.id}
@@ -98,7 +98,7 @@ export function ConfiguratorAndSimulator() {
                 </span>
                 <ul className="mt-5 flex flex-wrap gap-2">
                   {t.includes.map((x) => (
-                    <li key={x} className="label border border-brass/25 px-2 py-1 text-[0.6rem] text-sand">
+                    <li key={x} className="label border border-brass px-2 py-1 text-[0.6rem] text-sand">
                       {x}
                     </li>
                   ))}
@@ -129,7 +129,7 @@ export function ConfiguratorAndSimulator() {
               <p className="label text-dust">School revenue share</p>
               <div className="mt-3 flex gap-2" role="radiogroup" aria-label="Revenue share">
                 {[25, 30].map((s) => (
-                  <button key={s} type="button" role="radio" aria-checked={share === s} onClick={() => setShare(s)} className={cn("font-mono border px-5 py-3", share === s ? "border-gold text-gold" : "border-brass/30 text-sand")}>
+                  <button key={s} type="button" role="radio" aria-checked={share === s} onClick={() => setShare(s)} className={cn("font-mono border px-5 py-3", share === s ? "border-gold text-gold" : "border-brass text-sand")}>
                     {s}%
                   </button>
                 ))}
@@ -138,7 +138,7 @@ export function ConfiguratorAndSimulator() {
             <p className="t-ui text-sm text-dust">
               Tier: <span className="text-sand">{tier.name}</span> (BSAH invests {tier.capexLabel}) · change it above.
             </p>
-            <dl className="grid grid-cols-2 gap-6 border-t border-brass/25 pt-8">
+            <dl className="grid grid-cols-2 gap-6 border-t border-brass pt-8">
               <div>
                 <dt className="label text-dust">Annual tuition</dt>
                 <dd className="font-mono mt-2 text-2xl text-bone">{formatINR(sim.annualTuition)}</dd>
@@ -160,7 +160,7 @@ export function ConfiguratorAndSimulator() {
 
           <div className="relative mx-auto aspect-[2/1.25] w-full max-w-lg" aria-live="polite">
             <svg viewBox="0 0 400 250" className="h-full w-full" aria-hidden>
-              <path d="M40 210 A160 160 0 0 1 360 210" fill="none" stroke="rgb(184 115 51 / 0.2)" strokeWidth="14" />
+              <path d="M40 210 A160 160 0 0 1 360 210" fill="none" stroke="rgb(89 56 34 / 0.5)" strokeWidth="14" />
               <motion.path d="M40 210 A160 160 0 0 1 360 210" fill="none" stroke="var(--color-gold)" strokeWidth="14" initial={false} animate={{ pathLength: Math.max(0.02, gauge) }} transition={{ duration: 0.8, ease: ease.citadel }} />
               {[0, 25, 50, 75, 100].map((m) => {
                 const a = Math.PI - (m / 100) * Math.PI;
@@ -198,9 +198,9 @@ export function HubMap() {
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
         <div className="plate relative aspect-square w-full overflow-hidden sm:aspect-[4/3]">
           <svg viewBox="0 0 100 75" className="absolute inset-0 h-full w-full" aria-hidden>
-            <circle cx="50" cy="40" r="30" fill="none" stroke="rgb(184 115 51 / 0.25)" strokeWidth="0.4" strokeDasharray="1 1.2" />
-            <path d="M8 46 C 25 42, 35 50, 50 46 S 75 38, 94 44" fill="none" stroke="rgb(159 179 200 / 0.35)" strokeWidth="0.8" />
-            <text x="80" y="41" className="font-mono" fontSize="1.8" fill="rgb(159 179 200 / 0.6)">MUSI</text>
+            <circle cx="50" cy="40" r="30" fill="none" stroke="rgb(89 56 34 / 0.62)" strokeWidth="0.4" strokeDasharray="1 1.2" />
+            <path d="M8 46 C 25 42, 35 50, 50 46 S 75 38, 94 44" fill="none" stroke="rgb(140 136 130 / 0.35)" strokeWidth="0.8" />
+            <text x="80" y="41" className="font-mono" fontSize="1.8" fill="rgb(140 136 130 / 0.6)">MUSI</text>
             <text x="62" y="12" className="font-mono" fontSize="1.8" fill="rgb(140 136 130)">OUTER RING ROAD</text>
             <text x="4" y="72" className="font-mono" fontSize="1.8" fill="rgb(140 136 130)">HYDERABAD · SKETCH, NOT TO SCALE</text>
           </svg>
@@ -227,10 +227,10 @@ export function HubMap() {
         <div>
           <Label>Hubs</Label>
           <Headline id="hubs-h" className="mt-4" inscription="Zone 01," voice="live in Hyderabad." />
-          <ul className="mt-10 border-t border-brass/20">
+          <ul className="mt-10 border-t border-brass">
             {hubs.map((h) => (
               <li key={h.slug}>
-                <Link href={`/schools/${h.slug}`} onMouseEnter={() => setHover(h.slug)} onMouseLeave={() => setHover(null)} className="group grid grid-cols-[1fr_auto] items-center gap-4 border-b border-brass/20 py-5">
+                <Link href={`/schools/${h.slug}`} onMouseEnter={() => setHover(h.slug)} onMouseLeave={() => setHover(null)} className="group grid grid-cols-[1fr_auto] items-center gap-4 border-b border-brass py-5">
                   <span>
                     <span className={cn("t-voice block text-xl transition-colors md:text-2xl", hover === h.slug ? "text-gold" : "text-bone")}>{h.name}</span>
                     <span className="t-ui mt-1 block text-sm text-dust">
@@ -261,12 +261,12 @@ export function PanIndiaNetwork() {
           <p className="t-story text-sand">{benchmark.lines[0]}</p>
           <p className="t-story mt-4 text-sand">{benchmark.lines[1]}</p>
         </div>
-        <div className="mt-14 grid gap-px bg-brass/15 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-14 grid gap-px bg-brass md:grid-cols-2 xl:grid-cols-3">
           {network.map((z) => (
             <div key={z.code} className="bg-night p-6 md:p-8">
-              <p className="font-mono text-sm text-copper">ZONE {z.code}</p>
+              <p className="font-mono text-sm text-dust">ZONE {z.code}</p>
               <h3 className="t-voice mt-2 text-2xl text-bone">{z.name}</h3>
-              <ul className="mt-6 flex flex-col gap-4 border-t border-brass/15 pt-5">
+              <ul className="mt-6 flex flex-col gap-4 border-t border-brass pt-5">
                 {z.subzones.map((sz) => (
                   <li key={sz.code}>
                     <p className="label text-gold">

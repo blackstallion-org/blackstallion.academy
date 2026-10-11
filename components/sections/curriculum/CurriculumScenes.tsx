@@ -18,7 +18,7 @@ export function CurriculumTitle() {
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div aria-hidden className="absolute inset-x-0 top-[18%] flex flex-col gap-[4.2vh] px-[6vw] opacity-60">
         {Array.from({ length: 9 }, (_, i) => (
-          <motion.span key={i} className="block h-px origin-left bg-brass/40" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, ease: ease.citadel, delay: 0.2 + i * 0.08 }} />
+          <motion.span key={i} className="block h-px origin-left bg-brass" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, ease: ease.citadel, delay: 0.2 + i * 0.08 }} />
         ))}
       </div>
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
@@ -71,7 +71,7 @@ export function ClockRing() {
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
         <div className="relative mx-auto aspect-square w-full max-w-md">
           <svg viewBox="0 0 400 400" className="h-full w-full -rotate-90" aria-hidden>
-            <circle cx="200" cy="200" r={R} fill="none" stroke="rgb(184 115 51 / 0.15)" strokeWidth="18" />
+            <circle cx="200" cy="200" r={R} fill="none" stroke="rgb(89 56 34 / 0.38)" strokeWidth="18" />
             {classSegments.map((s, i) => (
               <Seg key={s.title} i={i} progress={scrollYProgress} from={s.from} to={s.to} C={C} R={R} mounted={s.mounted} />
             ))}
@@ -79,7 +79,7 @@ export function ClockRing() {
               const a = (m / 45) * Math.PI * 2;
               const len = m % 15 === 0 ? 14 : m % 5 === 0 ? 8 : 4;
               return (
-                <line key={m} x1={200 + Math.cos(a) * 172} y1={200 + Math.sin(a) * 172} x2={200 + Math.cos(a) * (172 + len)} y2={200 + Math.sin(a) * (172 + len)} stroke="rgb(184 115 51 / 0.5)" strokeWidth="1" />
+                <line key={m} x1={200 + Math.cos(a) * 172} y1={200 + Math.sin(a) * 172} x2={200 + Math.cos(a) * (172 + len)} y2={200 + Math.sin(a) * (172 + len)} stroke="rgb(89 56 34 / 1)" strokeWidth="1" />
               );
             })}
           </svg>
@@ -93,15 +93,15 @@ export function ClockRing() {
         <div>
           <Label>One session</Label>
           <Headline id="class-h" className="mt-4" inscription="Forty-five" voice="minutes, exactly." />
-          <ol className="mt-10 border-t border-brass/20">
+          <ol className="mt-10 border-t border-brass">
             {classSegments.map((s) => (
-              <li key={s.title} className="grid grid-cols-[5.5rem_1fr] gap-4 border-b border-brass/20 py-4">
+              <li key={s.title} className="grid grid-cols-[5.5rem_1fr] gap-4 border-b border-brass py-4">
                 <span className="font-mono pt-1 text-sm text-gold">
                   {String(s.from).padStart(2, "0")}–{s.to}
                 </span>
                 <span>
                   <span className="t-voice block text-xl text-bone">
-                    {s.title} {s.mounted && <span className="label ml-2 align-middle text-brass">Mounted</span>}
+                    {s.title} {s.mounted && <span className="label ml-2 align-middle text-dust">Mounted</span>}
                   </span>
                   <span className="mt-1 block text-sand">{s.detail}</span>
                 </span>
@@ -151,7 +151,7 @@ export function ThreeStamps() {
             animate={inView ? { opacity: 1, scale: 1, rotate: i === 1 ? 3 : -4 } : {}}
             transition={{ duration: 0.5, ease: ease.citadel, delay: 0.2 + i * 0.35 }}
           >
-            <div className="grid h-40 w-40 place-items-center rounded-full border-2 border-dashed border-blood/70 text-blood">
+            <div className="grid h-40 w-40 place-items-center rounded-full border-2 border-dashed border-blood/70 text-white">
               <div className="grid h-32 w-32 place-items-center rounded-full border border-blood/60">
                 <span className="t-inscribe text-lg tracking-[0.1em]">{a.name}</span>
               </div>

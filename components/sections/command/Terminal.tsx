@@ -80,11 +80,11 @@ export function Terminal({ chips, opening, tall = false, className }: Props) {
 
   return (
     <div ref={ref} className={cn("plate flex min-w-0 flex-col shadow-[0_40px_120px_rgb(0_0_0/0.6)]", className)}>
-      <div className="flex items-center justify-between border-b border-brass/20 px-4 py-3">
-        <span className="font-mono text-[0.68rem] tracking-[0.14em] text-brass">SOVEREIGN COMMAND · EXECUTIVE TERMINAL</span>
+      <div className="flex items-center justify-between border-b border-brass px-4 py-3">
+        <span className="font-mono text-[0.68rem] tracking-[0.14em] text-dust">SOVEREIGN COMMAND · EXECUTIVE TERMINAL</span>
         <span className="flex gap-1.5" aria-hidden>
-          <span className="h-2 w-2 rounded-full bg-brass/40" />
-          <span className="h-2 w-2 rounded-full bg-brass/40" />
+          <span className="h-2 w-2 rounded-full bg-brass" />
+          <span className="h-2 w-2 rounded-full bg-brass" />
           <span className="h-2 w-2 rounded-full bg-blood/70" />
         </span>
       </div>
@@ -110,21 +110,21 @@ export function Terminal({ chips, opening, tall = false, className }: Props) {
         )}
       </div>
 
-      <div className="no-scrollbar flex gap-2 overflow-x-auto border-t border-brass/15 px-4 py-3">
+      <div className="no-scrollbar flex gap-2 overflow-x-auto border-t border-brass px-4 py-3">
         {chipList.map((c) => (
           <button
             key={c}
             type="button"
             disabled={busy}
             onClick={() => void ask(c)}
-            className="label shrink-0 border border-brass/30 px-3 py-2 text-sand transition-colors hover:border-gold hover:text-gold disabled:opacity-40"
+            className="label shrink-0 border border-brass px-3 py-2 text-sand transition-colors hover:border-gold hover:text-gold disabled:opacity-40"
           >
             {c}
           </button>
         ))}
       </div>
 
-      <form onSubmit={submit} className="flex items-center gap-3 border-t border-brass/15 px-4 py-3 transition-colors focus-within:border-gold/60 focus-within:bg-ember/60">
+      <form onSubmit={submit} className="flex items-center gap-3 border-t border-brass px-4 py-3 transition-colors focus-within:border-gold/60 focus-within:bg-ember/60">
         <span className="font-mono text-gold" aria-hidden>
           &gt;
         </span>

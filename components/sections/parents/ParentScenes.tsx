@@ -24,8 +24,8 @@ export function ParentsTitle() {
       <div aria-hidden className="absolute inset-0 shade-b" />
       {/* The rail runs along the foot of the frame, under the copy, and drops away as you scroll. */}
       <motion.div aria-hidden className="absolute inset-x-0 bottom-[3vh] flex flex-col gap-5" style={{ y: railY }}>
-        <span className="h-5 w-full bg-gradient-to-b from-[#3a2614] to-[#1a1009] shadow-[0_10px_30px_rgb(0_0_0/0.6)]" />
-        <span className="h-4 w-full bg-gradient-to-b from-[#33210f] to-[#160e07]" />
+        <span className="h-5 w-full bg-gradient-to-b from-[#2A1D15] to-[#0F0E0D] shadow-[0_10px_30px_rgb(0_0_0/0.6)]" />
+        <span className="h-4 w-full bg-gradient-to-b from-[#2A1D15] to-[#0F0E0D]" />
       </motion.div>
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[calc(3vh+5.5rem)]">
         <ReelMark n={8} act="citadel" />
@@ -55,11 +55,11 @@ function Screen({ id }: { id: string }) {
   if (id === "cam")
     return (
       <div className="relative h-full">
-        <FilmImage name="fleetStallcam" grade="none" imgClassName="[filter:sepia(0.4)_hue-rotate(50deg)_saturate(1.3)_brightness(0.8)]" />
-        <div className="font-mono absolute inset-x-0 top-0 flex justify-between p-3 text-[0.6rem] text-[#b8e0b0]">
+        <FilmImage name="fleetStallcam" grade="none" imgClassName="[filter:grayscale(1)_contrast(1.1)]" />
+        <div className="font-mono absolute inset-x-0 top-0 flex justify-between p-3 text-[0.6rem] text-[#D9D5CD]">
           <span>CHETAK IX · STALL 3</span>
           <span className="flex items-center gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#e0533a]" /> LIVE
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FFFFFF]" /> LIVE
           </span>
         </div>
       </div>
@@ -69,12 +69,12 @@ function Screen({ id }: { id: string }) {
       <div className="flex h-full flex-col justify-center gap-3 p-4">
         <p className="label text-dust">Now</p>
         <div className="rounded-2xl bg-umber p-4">
-          <p className="label text-brass">BSAH · Gate</p>
+          <p className="label text-dust">BSAH · Gate</p>
           <p className="t-ui mt-1 text-sm text-bone">Bravo checked in at 15:52</p>
           <p className="t-ui text-xs text-dust">Zone 01A Hub · passport scanned</p>
         </div>
         <div className="rounded-2xl bg-umber/60 p-4 opacity-60">
-          <p className="label text-brass">BSAH · Session</p>
+          <p className="label text-dust">BSAH · Session</p>
           <p className="t-ui mt-1 text-sm text-bone">Mounted session started</p>
         </div>
       </div>
@@ -94,7 +94,7 @@ function Screen({ id }: { id: string }) {
     );
   return (
     <div className="flex h-full flex-col justify-center p-5">
-      <p className="label text-brass">Sovereign Passport</p>
+      <p className="label text-dust">Sovereign Passport</p>
       <p className="t-voice mt-2 text-2xl text-bone">Cadet Rider</p>
       <p className="font-mono mt-4 text-3xl text-gold">24 hrs</p>
       <div className="mt-3 h-1 w-full bg-brass/20">
@@ -113,7 +113,7 @@ function PhoneFrame({ active, all = false }: { active: number; all?: boolean }) 
         <Label>In your pocket</Label>
         <ol className="mt-8 flex flex-col">
           {phoneSteps.map((s, k) => (
-            <li key={s.id} className={cn("border-l-2 py-4 pl-6 transition-colors duration-500", k === active || all ? "border-gold" : "border-brass/15")}>
+            <li key={s.id} className={cn("border-l-2 py-4 pl-6 transition-colors duration-500", k === active || all ? "border-gold" : "border-brass")}>
               <p className={cn("label", k === active || all ? "text-gold" : "text-dust")}>{s.label}</p>
               <p className={cn("t-voice mt-1 text-xl transition-colors md:text-2xl", k === active || all ? "text-bone" : "text-sand/40")}>{s.title}</p>
               {(k === active || all) && <p className="mt-2 max-w-md text-sand">{s.text}</p>}
@@ -122,7 +122,7 @@ function PhoneFrame({ active, all = false }: { active: number; all?: boolean }) 
         </ol>
       </div>
       {!all && (
-        <div className="relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-brass/30 bg-[#0d0a07] p-3 shadow-[0_40px_120px_rgb(0_0_0/0.7)] md:block">
+        <div className="relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-brass bg-[#0F0E0D] p-3 shadow-[0_40px_120px_rgb(0_0_0/0.7)] md:block">
           <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-night">
             <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
             <div className="t-ui absolute inset-x-0 top-12 z-10 flex items-center justify-between px-5 text-[0.65rem] text-dust">
@@ -154,7 +154,7 @@ export function HoofPath() {
       <Headline id="path-h" className="mt-4" inscription="Five steps" voice="to the first canter." />
       <div ref={ref} className="relative mt-14 hidden md:block" style={{ aspectRatio: "100 / 34" }}>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden>
-          <motion.path d={d} fill="none" stroke="rgb(184 115 51 / 0.5)" strokeWidth="0.25" strokeDasharray="0.8 1.2" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
+          <motion.path d={d} fill="none" stroke="rgb(89 56 34 / 1)" strokeWidth="0.25" strokeDasharray="0.8 1.2" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
         </svg>
         {admissions.map((a, i) => (
           <motion.div
@@ -209,8 +209,8 @@ export function Receipt() {
             transition={{ duration: 1.6, ease: ease.citadel }}
           >
             <p className="t-inscribe text-center text-sm tracking-[0.2em] text-ink">Black Stallion Academy</p>
-            <p className="font-mono mt-1 text-center text-[0.65rem] text-[#6b5130]">FEE SCHEDULE · 2026–27 · GSTIN ON INVOICE</p>
-            <div className="my-5 border-t border-dashed border-[#8a6a2c]/60" />
+            <p className="font-mono mt-1 text-center text-[0.65rem] text-[#593822]">FEE SCHEDULE · 2026–27 · GSTIN ON INVOICE</p>
+            <div className="my-5 border-t border-dashed border-[#593822]/60" />
             <ul className="flex flex-col gap-5">
               {fees.map((f) => (
                 <li key={f.item}>
@@ -218,11 +218,11 @@ export function Receipt() {
                     <span>{f.item}</span>
                     <span>{inr(f.amount)}</span>
                   </p>
-                  <p className="t-ui mt-1 text-xs text-[#5a4526]">{f.detail}</p>
+                  <p className="t-ui mt-1 text-xs text-[#2A1D15]">{f.detail}</p>
                 </li>
               ))}
             </ul>
-            <div className="my-5 border-t border-dashed border-[#8a6a2c]/60" />
+            <div className="my-5 border-t border-dashed border-[#593822]/60" />
             <p className="font-mono flex justify-between text-sm font-semibold text-ink">
               <span>First month · Core, with kit & GST</span>
               <span>{inr(firstMonthCore)}</span>
@@ -235,7 +235,7 @@ export function Receipt() {
               <span>Each month after · Sovereign Elite</span>
               <span>{inr(withGst(price.elite))}</span>
             </p>
-            <p className="font-mono mt-6 text-center text-[0.6rem] text-[#6b5130]">PAYMENTS VIA RAZORPAY · UPI AUTOPAY ON THE 1ST</p>
+            <p className="font-mono mt-6 text-center text-[0.6rem] text-[#593822]">PAYMENTS VIA RAZORPAY · UPI AUTOPAY ON THE 1ST</p>
           </motion.div>
         </div>
       </div>
@@ -254,11 +254,11 @@ export function StandingOrders() {
           <Label>Questions</Label>
           <Headline id="faq-h" className="mt-4" inscription="Standing" voice="orders." />
         </div>
-        <ul className="border-t border-brass/25">
+        <ul className="border-t border-brass">
           {faq.map((f, i) => {
             const isOpen = open === i;
             return (
-              <li key={f.q} className="border-b border-brass/15">
+              <li key={f.q} className="border-b border-brass">
                 <h3>
                   <button
                     type="button"

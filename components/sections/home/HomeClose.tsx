@@ -55,20 +55,20 @@ export function HomeChronicle() {
           </AnimatePresence>
           <div aria-hidden className="absolute inset-0 shade-b" />
           <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-            <p className="label text-brass">
+            <p className="label text-dust">
               {p.category} · {p.minutes} min read
             </p>
             <p className="t-voice mt-2 text-display-3 text-bone">{p.title.join(" ")}</p>
           </div>
         </Link>
-        <ol className="border-t border-brass/15">
+        <ol className="border-t border-brass">
           {list.map((post, k) => (
             <li key={post.slug}>
               <Link
                 href={`/journal/${post.slug}`}
                 onMouseEnter={() => setI(k)}
                 onFocus={() => setI(k)}
-                className="group grid grid-cols-[2rem_1fr] gap-3 border-b border-brass/15 py-6"
+                className="group grid grid-cols-[2rem_1fr] gap-3 border-b border-brass py-6"
               >
                 <span className="font-mono pt-1 text-xs text-dust">{String(k + 1).padStart(2, "0")}</span>
                 <span>

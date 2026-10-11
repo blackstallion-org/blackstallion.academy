@@ -33,7 +33,7 @@ export default function LegendPage() {
             </Reveal>
           </div>
           <Reveal as="figure" className="mx-auto w-full max-w-md">
-            <div className="relative aspect-[3/4] border border-brass/25 p-3">
+            <div className="relative aspect-[3/4] border border-brass p-3">
               <div className="relative h-full w-full">
                 <FilmImage name="legendBlack" sizes="(min-width: 1024px) 30vw, 90vw" />
               </div>
@@ -46,8 +46,8 @@ export default function LegendPage() {
         </div>
 
         <div className="mt-24">
-          <p className="label text-brass">Reel 01 · The three theories of origin</p>
-          <ol className="mt-6 grid gap-px bg-brass/15 md:grid-cols-3">
+          <p className="label text-dust">Reel 01 · The three theories of origin</p>
+          <ol className="mt-6 grid gap-px bg-brass md:grid-cols-3">
             {ocean.theories.map((t, i) => (
               <Reveal as="li" key={t.name} delay={i * 0.1} className="bg-night p-6 md:p-8">
                 <p className="flex items-center justify-between">
@@ -91,9 +91,9 @@ export default function LegendPage() {
             <ChapterHead id="bred" />
             <Headline id="bred-h" className="mt-4" inscription={bred.inscription} voice={bred.voice} />
             <p className="t-story mt-6 text-sand">{bred.body}</p>
-            <ol className="mt-10 border-t border-brass/20">
+            <ol className="mt-10 border-t border-brass">
               {bred.traits.map((t, i) => (
-                <Reveal as="li" key={t.name} className="grid grid-cols-[2.5rem_1fr] gap-4 border-b border-brass/20 py-5">
+                <Reveal as="li" key={t.name} className="grid grid-cols-[2.5rem_1fr] gap-4 border-b border-brass py-5">
                   <span className="font-mono text-gold">{String(i + 1).padStart(2, "0")}</span>
                   <span>
                     <span className="t-voice block text-xl text-bone">{t.name}</span>
@@ -114,9 +114,9 @@ export default function LegendPage() {
         <ChapterHead id="omens" />
         <Headline id="omens-h" className="mt-4" inscription={lore.inscription} voice={lore.voice} />
         <p className="t-story mt-6 max-w-2xl text-sand">{lore.sub}</p>
-        <ol className="mt-14 border-t border-brass/20">
+        <ol className="mt-14 border-t border-brass">
           {lore.items.map((t, i) => (
-            <Reveal as="li" key={t.name} delay={(i % 2) * 0.08} className="grid gap-6 border-b border-brass/20 py-10 lg:grid-cols-[14rem_1fr_1fr] lg:gap-10">
+            <Reveal as="li" key={t.name} delay={(i % 2) * 0.08} className="grid gap-6 border-b border-brass py-10 lg:grid-cols-[14rem_1fr_1fr] lg:gap-10">
               <div>
                 <p className="font-mono text-xs text-gold">ITEM {String(i + 1).padStart(2, "0")}</p>
                 <p className="t-voice mt-2 text-2xl text-bone">{t.name}</p>
@@ -127,7 +127,7 @@ export default function LegendPage() {
                 <p className="t-story mt-3 italic text-sand">{t.lore}</p>
               </div>
               <div>
-                <p className="label text-brass">BSAH neutrality insight</p>
+                <p className="label text-dust">BSAH neutrality insight</p>
                 <p className="mt-3 text-sand">{t.insight}</p>
               </div>
             </Reveal>
@@ -164,7 +164,7 @@ export default function LegendPage() {
                 <FilmImage name={h.image} sizes="(min-width: 1024px) 30vw, 78vw" />
                 <div aria-hidden className="absolute inset-0 shade-b" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
-                  <p className="label text-brass">
+                  <p className="label text-dust">
                     {h.when}
                     {h.legend && <span className="ml-2 text-dust">· legend</span>}
                   </p>
@@ -195,7 +195,7 @@ export default function LegendPage() {
             <Ascent />
           </div>
           <Reveal className="parchment mx-auto mt-24 max-w-2xl px-8 py-10 md:px-14 md:py-14">
-            <p className="label text-[#6b5130]">{revival.vignette.note}</p>
+            <p className="label text-[#593822]">{revival.vignette.note}</p>
             <p className="t-voice mt-3 text-3xl text-ink">{revival.vignette.title}</p>
             <p className="mt-5 text-lg leading-relaxed text-ink/85">{revival.vignette.text}</p>
           </Reveal>

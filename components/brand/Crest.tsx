@@ -16,7 +16,7 @@ export function Crest({ className, title = "Black Stallion Academy crest", simpl
   return (
     <svg
       viewBox="0 0 200 200"
-      className={cn("h-24 w-24 text-brass", className)}
+      className={cn("h-24 w-24 text-dust", className)}
       role="img"
       aria-label={title}
     >

@@ -28,7 +28,7 @@ export function SchoolsTeaser() {
           <Headline id="schools-h" className="mt-4" inscription={schoolsTeaser.inscription} voice={schoolsTeaser.voice} />
           <p className="mt-6 max-w-md text-sand">{schoolsTeaser.body}</p>
 
-          <div className="mt-10 flex flex-col border-t border-brass/20" role="radiogroup" aria-label="Hub tier">
+          <div className="mt-10 flex flex-col border-t border-brass" role="radiogroup" aria-label="Hub tier">
             {tiers.map((t) => (
               <button
                 key={t.id}
@@ -36,7 +36,7 @@ export function SchoolsTeaser() {
                 role="radio"
                 aria-checked={id === t.id}
                 onClick={() => setId(t.id)}
-                className="group grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-brass/20 py-4 text-left"
+                className="group grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-brass py-4 text-left"
               >
                 <span>
                   <span className={cn("t-voice block text-2xl transition-colors", id === t.id ? "text-gold" : "text-sand group-hover:text-bone")}>{t.name}</span>

@@ -60,7 +60,7 @@ export function LeadForm({ gate, fields, submitLabel = "Send", hidden, className
           <div key={f.name} className={cn("flex flex-col gap-1", (f.wide || f.type === "textarea") && "sm:col-span-2")}>
             <label htmlFor={fid} className="label text-dust">
               {f.label}
-              {f.required && <span className="ml-1 text-brass">*</span>}
+              {f.required && <span className="ml-1 text-dust">*</span>}
             </label>
             {f.type === "textarea" ? (
               <textarea {...common} rows={4} />
@@ -77,7 +77,7 @@ export function LeadForm({ gate, fields, submitLabel = "Send", hidden, className
               <input {...common} type={f.type ?? "text"} />
             )}
             {err && (
-              <p id={`${fid}-err`} className="t-ui text-xs text-blood">
+              <p id={`${fid}-err`} className="t-ui text-xs text-white">
                 {err}
               </p>
             )}
@@ -86,7 +86,7 @@ export function LeadForm({ gate, fields, submitLabel = "Send", hidden, className
       })}
       <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
         <p className="t-ui text-xs text-dust" aria-live="polite">
-          {state && !state.ok ? <span className="text-blood">{state.message}</span> : "Preview form: submissions are not saved yet. Please also email us directly."}
+          {state && !state.ok ? <span className="text-white">{state.message}</span> : "Preview form: submissions are not saved yet. Please also email us directly."}
         </p>
         <button type="submit" disabled={pending} className="label bg-gold px-6 py-4 text-night transition-colors hover:bg-bone disabled:opacity-60">
           {pending ? "Sealing…" : submitLabel}

@@ -26,11 +26,11 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
 
   return (
     <div className={cn("grid gap-8 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] lg:items-center", className)}>
-      <div className="relative aspect-[16/9] w-full overflow-hidden border border-brass/15 bg-night">
+      <div className="relative aspect-[16/9] w-full overflow-hidden border border-brass bg-night">
         <FilmImage name="anatomyProfile" sizes="(min-width: 1024px) 62vw, 100vw" className="bg-none" />
         <div aria-hidden className="cinematic-vignette absolute inset-0 opacity-70" />
         {/* Plate rulings */}
-        <div aria-hidden className="absolute inset-3 border border-brass/10" />
+        <div aria-hidden className="absolute inset-3 border border-brass" />
         <p className="font-mono absolute bottom-4 left-5 text-[0.6rem] tracking-[0.14em] text-dust">PLATE 02 · MARWARI · 15.2 HH</p>
         <svg aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 56.25" preserveAspectRatio="none">
           <motion.line
@@ -104,7 +104,7 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
               type="button"
               onClick={() => setActiveId(h.id)}
               aria-pressed={h.id === active.id}
-              className={cn("label border px-3 py-2", h.id === active.id ? "border-gold text-gold" : "border-brass/30 text-sand")}
+              className={cn("label border px-3 py-2", h.id === active.id ? "border-gold text-gold" : "border-brass text-sand")}
             >
               {h.name}
             </button>
@@ -118,9 +118,9 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
 function Panel({ h, mode }: { h: Hotspot; mode: "compact" | "full" }) {
   return (
     <div>
-      <p className="label text-brass">{h.name}</p>
+      <p className="label text-dust">{h.name}</p>
       <h3 className="t-voice mt-2 text-display-3 text-bone">{h.title}</h3>
-      <p className="font-mono mt-3 text-[0.68rem] tracking-[0.12em] text-copper">{h.metric}</p>
+      <p className="font-mono mt-3 text-[0.68rem] tracking-[0.12em] text-dust">{h.metric}</p>
       {mode === "compact" ? (
         <>
           <p className="mt-4 text-lede text-sand">{h.short}</p>
@@ -129,7 +129,7 @@ function Panel({ h, mode }: { h: Hotspot; mode: "compact" | "full" }) {
           </p>
         </>
       ) : (
-        <dl className="mt-6 divide-y divide-brass/15 border-y border-brass/15">
+        <dl className="mt-6 divide-y divide-brass/15 border-y border-brass">
           {layerNames.map((l) => (
             <div key={l.key} className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
               <dt className="label pt-1 text-dust">{l.label}</dt>

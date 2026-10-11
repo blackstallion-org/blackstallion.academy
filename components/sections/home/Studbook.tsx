@@ -26,7 +26,7 @@ export function Studbook() {
       </div>
 
       <div className="gutter mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-        <ol className="border-t border-brass/15">
+        <ol className="border-t border-brass">
           {fleet.map((s, k) => (
             <li key={s.id}>
               <button
@@ -35,7 +35,7 @@ export function Studbook() {
                 onFocus={() => setI(k)}
                 onClick={() => setI(k)}
                 aria-pressed={i === k}
-                className="group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 border-b border-brass/15 py-4 text-left md:py-5"
+                className="group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 border-b border-brass py-4 text-left md:py-5"
               >
                 <span className="font-mono text-xs text-dust">{String(k + 1).padStart(2, "0")}</span>
                 <span

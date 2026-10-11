@@ -53,7 +53,7 @@ export function StandingsLanes() {
         <table className="w-full min-w-[720px] border-collapse text-left">
           <caption className="sr-only">STPCI league standings (sample, from the client brief)</caption>
           <thead>
-            <tr className="border-b border-brass/40">
+            <tr className="border-b border-brass">
               {["Pos", "Hub", "Lane", "Points", "Gold", "Governor's Cup"].map((h) => (
                 <th key={h} scope="col" className="label py-3 pr-4 font-semibold text-dust">
                   {h}
@@ -63,13 +63,13 @@ export function StandingsLanes() {
           </thead>
           <tbody>
             {standings.map((s, i) => (
-              <tr key={s.hub} className="border-b border-brass/15">
+              <tr key={s.hub} className="border-b border-brass">
                 <td className="font-mono py-6 pr-4 text-lg text-gold">0{s.pos}</td>
                 <th scope="row" className="t-voice pr-4 text-2xl font-semibold text-bone">
                   {s.hub}
                 </th>
                 <td className="w-[30%] pr-6">
-                  <div className="relative h-2 bg-brass/15">
+                  <div className="relative h-2 bg-brass">
                     <motion.div className="absolute inset-y-0 left-0 bg-gold" initial={{ width: 0 }} animate={inView ? { width: `${(s.points / max) * 100}%` } : {}} transition={{ duration: 1.8, ease: ease.citadel, delay: i * 0.2 }} />
                   </div>
                 </td>
@@ -119,12 +119,12 @@ function Flip({ text, delay = 0 }: { text: string; delay?: number }) {
 /** §2 · S58 departure board. Signature: the letters flip like a station board before settling. */
 export function FixtureBoard() {
   return (
-    <section aria-labelledby="fixtures-h" className="relative bg-[#0c0a08] py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="fixtures-h" className="relative bg-[#0F0E0D] py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter">
         <Label>Fixtures</Label>
         <Headline id="fixtures-h" className="mt-4" inscription="Next" voice="on the circuit." />
-        <ol className="font-mono mt-12 border border-brass/20 bg-black/40">
-          <li className="hidden grid-cols-[9rem_1fr_1fr_8rem] gap-4 border-b border-brass/20 px-5 py-3 text-[0.65rem] uppercase tracking-[0.18em] text-dust md:grid">
+        <ol className="font-mono mt-12 border border-brass bg-black/40">
+          <li className="hidden grid-cols-[9rem_1fr_1fr_8rem] gap-4 border-b border-brass px-5 py-3 text-[0.65rem] uppercase tracking-[0.18em] text-dust md:grid">
             <span>Date</span>
             <span>Fixture</span>
             <span>Venue</span>
@@ -132,7 +132,7 @@ export function FixtureBoard() {
           </li>
           {tournaments.map((t, i) => (
             <li key={t.slug}>
-              <Link href={`/tournaments/${t.slug}`} className="group grid gap-2 border-b border-brass/10 px-5 py-5 uppercase tracking-[0.08em] transition-colors hover:bg-umber/70 md:grid-cols-[9rem_minmax(0,1fr)_minmax(0,1fr)_10rem] md:gap-4">
+              <Link href={`/tournaments/${t.slug}`} className="group grid gap-2 border-b border-brass px-5 py-5 uppercase tracking-[0.08em] transition-colors hover:bg-umber/70 md:grid-cols-[9rem_minmax(0,1fr)_minmax(0,1fr)_10rem] md:gap-4">
                 <span className="text-gold">
                   <Flip text={t.dateLabel} delay={i * 200} />
                 </span>
@@ -140,7 +140,7 @@ export function FixtureBoard() {
                   <Flip text={t.name.toUpperCase()} delay={i * 200 + 100} />
                 </span>
                 <span className="text-sand">{t.venue.toUpperCase()}</span>
-                <span className={cn("whitespace-nowrap", t.status === "open" ? "text-[#8fb98a]" : "text-dust")}>
+                <span className={cn("whitespace-nowrap", t.status === "open" ? "text-[#D9D5CD]" : "text-dust")}>
                   {t.status === "open" ? "ENTRIES OPEN" : "SOON"} <Arrow className="ml-1 inline h-2 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </Link>
@@ -168,10 +168,10 @@ export function CourseDiagram() {
         </div>
         <div ref={ref} className="plate relative p-4 md:p-6">
           <svg viewBox="0 0 600 220" className="w-full" role="img" aria-label="Tent pegging course: 100 metre run-up, peg about 6 centimetres wide, 9-foot lance, gallop around 35 km/h">
-            <rect x="20" y="90" width="560" height="40" fill="rgb(184 115 51 / 0.08)" stroke="rgb(184 115 51 / 0.4)" />
+            <rect x="20" y="90" width="560" height="40" fill="rgb(89 56 34 / 0.2)" stroke="rgb(89 56 34 / 1)" />
             {Array.from({ length: 11 }, (_, i) => (
               <g key={i}>
-                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="rgb(184 115 51 / 0.5)" />
+                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="rgb(89 56 34 / 1)" />
                 <text x={20 + i * 50} y="156" textAnchor="middle" fontSize="10" className="font-mono" fill="rgb(140 136 130)">
                   {i * 10}
                 </text>
@@ -192,7 +192,7 @@ export function CourseDiagram() {
             <motion.g initial={{ x: 0 }} animate={inView ? { x: 470 } : {}} transition={{ duration: 2.6, ease: [0.45, 0, 0.9, 0.6], delay: 0.4 }}>
               <circle cx="40" cy="110" r="8" fill="var(--color-bone)" />
               <line x1="40" y1="110" x2="78" y2="118" stroke="var(--color-bone)" strokeWidth="2" />
-              <text x="40" y="78" textAnchor="middle" fontSize="10" className="font-mono" fill="rgb(237 227 209)">
+              <text x="40" y="78" textAnchor="middle" fontSize="10" className="font-mono" fill="rgb(217 213 205)">
                 ≈35 KM/H
               </text>
             </motion.g>
@@ -217,7 +217,7 @@ export function Podium() {
             <FilmImage name="tournPodium" sizes="(min-width: 1024px) 60vw, 100vw" />
           </div>
           {/* The cup, as a detail plate pinned to the corner of the scene. */}
-          <div className="absolute -bottom-8 right-4 h-44 w-32 overflow-hidden border border-brass/40 shadow-[0_24px_60px_rgb(0_0_0/0.7)] md:-bottom-10 md:right-8 md:h-56 md:w-40">
+          <div className="absolute -bottom-8 right-4 h-44 w-32 overflow-hidden border border-brass shadow-[0_24px_60px_rgb(0_0_0/0.7)] md:-bottom-10 md:right-8 md:h-56 md:w-40">
             <FilmImage name="tournCup" sizes="10rem" />
           </div>
         </div>
@@ -226,7 +226,7 @@ export function Podium() {
           <Headline id="podium-h" className="mt-4" inscription="On the" voice="podium." />
           <ol className="mt-10 flex flex-col">
             {champions.map((c, i) => (
-              <li key={c.title} className="grid grid-cols-[3rem_1fr] items-baseline gap-4 border-b border-brass/15 py-5">
+              <li key={c.title} className="grid grid-cols-[3rem_1fr] items-baseline gap-4 border-b border-brass py-5">
                 <span className="t-inscribe text-3xl text-gold">{i + 1}</span>
                 <span>
                   <span className="label block text-dust">{c.title}</span>

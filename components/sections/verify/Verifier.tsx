@@ -31,10 +31,10 @@ export function Verifier({ showSamples = false, className }: Props) {
   return (
     <div className={cn("grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start", className)}>
       <form onSubmit={verify} className="flex flex-col gap-4" aria-describedby={`${id}-hint`}>
-        <label htmlFor={`${id}-code`} className="label text-brass">
+        <label htmlFor={`${id}-code`} className="label text-dust">
           Passport code
         </label>
-        <div className="flex items-end gap-3 border-b border-brass/40 focus-within:border-gold">
+        <div className="flex items-end gap-3 border-b border-brass focus-within:border-gold">
           <input
             id={`${id}-code`}
             value={code}
@@ -107,7 +107,7 @@ export function Verifier({ showSamples = false, className }: Props) {
                   <dt className="label text-dust">EFI</dt>
                   <dd className="font-mono text-sm text-sand">{result.efi ?? "Pending"}</dd>
                 </div>
-                <p className="label col-span-2 border-t border-brass/30 pt-3 text-dust">Sample record · demo data, not a real cadet</p>
+                <p className="label col-span-2 border-t border-brass pt-3 text-dust">Sample record · demo data, not a real cadet</p>
                 <div className="col-span-2 pt-2">
                   <Link href={`/verify/${result.code}`} className="label inline-flex items-center gap-3 text-gold hover:text-bone">
                     Open the full record <Arrow />
