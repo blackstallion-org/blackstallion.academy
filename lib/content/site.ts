@@ -87,6 +87,7 @@ export const corridors = [
 
 export const legalNav = [
   { label: "About", href: "/about" },
+  { label: "Admissions", href: "/admissions" },
   { label: "Journal", href: "/journal" },
   { label: "Command AI", href: "/command" },
 ];
