@@ -63,7 +63,7 @@ export const pillars: Pillar[] = [
     sub: "Translating internal intent into clean, readable physical cues that bridge human and equine understanding.",
   },
   {
-    n: 4, name: "Riding at speed, over terrain", skill: "Courage, adaptability", trait: "Confidence, resilience",
+    n: 4, name: "Riding at different speeds & terrains", skill: "Courage, adaptability", trait: "Confidence, resilience",
     sub: "Maintaining poise and dynamic balance as the environment shifts without warning beneath the saddle.",
   },
   {
@@ -71,7 +71,7 @@ export const pillars: Pillar[] = [
     sub: "Committing eyes and intent beyond obstacles, teaching the mind to execute decisive action under momentum.",
   },
   {
-    n: 6, name: "Working with a stubborn horse", skill: "Flexibility, negotiation", trait: "Emotional intelligence, diplomacy",
+    n: 6, name: "Working with a stubborn / unpredictable horse", skill: "Flexibility, negotiation", trait: "Emotional intelligence, diplomacy",
     sub: "Converting opposition into voluntary cooperation through soft pressure and immediate release.",
   },
   {

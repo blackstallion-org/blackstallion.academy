@@ -1,10 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useState } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
-import { phaseOf, pillars, ranks, type Pillar } from "@/lib/content/curriculum";
+import { phaseOf, phases, pillars, ranks, type Pillar } from "@/lib/content/curriculum";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
@@ -12,14 +12,42 @@ import { cn } from "@/lib/utils";
  * §2 · S35 the Sovereign Codex vault. Thirteen copper-rimmed tiles in a staggered
  * two-column vault; opening one ignites its rim and reveals skill, trait and the
  * ledger line. One tile open at a time. Directive 04 §1 (the 13-Pillar Sovereign Ledger).
+ * Phase tabs (All / Foundation / Crucible / Sovereign Command) filter the vault; no WebGL.
  */
 export function CodexVault() {
   const [open, setOpen] = useState<number | null>(1);
   const reduced = useReducedMotion();
+  const [phaseIx, setPhaseIx] = useState<number | null>(null); // null = all thirteen
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
+  const visible = phaseIx === null ? pillars : pillars.filter((p) => phases[phaseIx].pillars.includes(p.n));
   // Staggered vault: odd pillars stack left, even pillars stack right (offset).
-  const colA = pillars.filter((_, i) => i % 2 === 0);
-  const colB = pillars.filter((_, i) => i % 2 === 1);
+  const colA = visible.filter((_, i) => i % 2 === 0);
+  const colB = visible.filter((_, i) => i % 2 === 1);
+
+  const tabs: { label: string; sub: string; ix: number | null }[] = [
+    { label: "All thirteen", sub: "01–13", ix: null },
+    ...phases.map((ph, i) => ({ label: `${ph.numeral} · ${ph.name}`, sub: `${String(ph.pillars[0]).padStart(2, "0")}–${String(ph.pillars[ph.pillars.length - 1]).padStart(2, "0")}`, ix: i })),
+  ];
+  const choose = (ix: number | null) => {
+    setPhaseIx(ix);
+    setOpen(ix === null ? 1 : phases[ix].pillars[0]);
+  };
+  const onTabKey = (e: KeyboardEvent, at: number) => {
+    const dir = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+    if (e.key === "Home" || e.key === "End") {
+      e.preventDefault();
+      const to = e.key === "Home" ? 0 : tabs.length - 1;
+      choose(tabs[to].ix);
+      tabRefs.current[to]?.focus();
+      return;
+    }
+    if (!dir) return;
+    e.preventDefault();
+    const to = (at + dir + tabs.length) % tabs.length;
+    choose(tabs[to].ix);
+    tabRefs.current[to]?.focus();
+  };
 
   const tile = (p: Pillar) => {
     const isOpen = open === p.n;
@@ -113,7 +141,36 @@ export function CodexVault() {
         <p className="t-story mt-6 max-w-2xl text-sand">
           Nine foundations every rider on earth has learned the hard way, and four tactical disciplines that belong to BSAH. Open a tile.
         </p>
-        <div className="mt-14 grid gap-4 md:grid-cols-2 md:gap-6">
+        <div role="tablist" aria-label="Filter the pillars by phase" className="no-scrollbar mt-10 flex gap-2 overflow-x-auto">
+          {tabs.map((t, i) => {
+            const active = phaseIx === t.ix;
+            return (
+              <button
+                key={t.label}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
+                type="button"
+                role="tab"
+                id={`codex-tab-${i}`}
+                aria-selected={active}
+                aria-controls="codex-panel"
+                tabIndex={active ? 0 : -1}
+                onClick={() => choose(t.ix)}
+                onKeyDown={(e) => onTabKey(e, i)}
+                className={cn(
+                  "label shrink-0 border px-4 py-3 text-left transition-colors duration-500",
+                  active ? "border-gold bg-ember/70 text-gold" : "border-copper/30 text-sand hover:border-copper/70 hover:text-bone",
+                )}
+              >
+                {t.label}
+                <span className="font-mono ml-3 text-[0.62rem] text-dust">{t.sub}</span>
+              </button>
+            );
+          })}
+        </div>
+        {phaseIx !== null && <p className="t-story mt-5 text-sand">{phases[phaseIx].line}</p>}
+        <div id="codex-panel" role="tabpanel" aria-labelledby={`codex-tab-${phaseIx === null ? 0 : phaseIx + 1}`} className="mt-10 grid gap-4 md:grid-cols-2 md:gap-6">
           <ul className="flex flex-col gap-4 md:gap-6">{colA.map(tile)}</ul>
           <ul className="flex flex-col gap-4 md:gap-6 md:mt-20">{colB.map(tile)}</ul>
         </div>
