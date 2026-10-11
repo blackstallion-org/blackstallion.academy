@@ -29,7 +29,7 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
   return (
     <article>
       <header className="relative min-h-[88svh]">
-        <FilmImage name={post.cover} priority grade={post.cover === "legendChetak" ? "none" : "film"} />
+        <FilmImage name={post.cover} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
           <Link href="/journal" className="label text-sand hover:text-gold">

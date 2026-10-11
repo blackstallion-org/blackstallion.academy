@@ -53,13 +53,13 @@ export const ocean = {
 export const marwar = {
   inscription: "Driven into",
   voice: "the desert.",
-  body: "In 1193 the Rathore clan lost Kannauj and rode west into the Thar, to the dry plains of Marwar. Little grew there. Water came by the cupful. The horses that lived were the ones that could march for days, through heat by day and cold by night, on scraps of fodder, and still carry a rider into a fight. The horses survived, and so did the Rathores. In time the clan grew strong again, and the desert had given it a horse.",
+  body: "Driven from fertile river plains into the arid expanse of the Thar, the horsemen of Marwar survived on terrain, not ideology. Little grew there. Water came by the cupful. The horses that lived were the ones that could march for days, through heat by day and cold by night, on scraps of fodder, and still carry a rider. The desert did not yield to rank, title or rhetoric. It rewarded stamina, efficiency and stillness, and in time it had given the people of Marwar a horse.",
 };
 
 export const bred = {
   inscription: "Bred by",
   voice: "law.",
-  body: "From the twelfth century the Rathores bred their horses strictly, keeping only the finest stallions. What they chose for is still in the breed.",
+  body: "For centuries the horse-breeders of Marwar bred strictly, keeping only the finest stallions. What they chose for is still in the breed.",
   traits: [
     { name: "Upright shoulder", text: "Lifts the hoof clean out of soft sand." },
     { name: "Slim, hard legs", text: "Built for distance, not the sprint." },
@@ -122,27 +122,27 @@ export const lore = {
 export const reasons = {
   lead: "In the late sixteenth century the horsemen of Marwar faced the ultimate test of terrain and survival, and fielded a cavalry of more than fifty thousand. They held one belief about their horses: a Marwari leaves the battlefield in only three ways.",
   words: ["Victory.", "Death.", "Or carrying its rider home."],
-  tail: "The bards tell of horses charging war elephants, rearing to shield a fallen rider, and leaping walls no horse should clear.",
+  tail: "The bards tell of horses rearing to shield a fallen rider, crossing rivers wounded, and leaping walls no horse should clear.",
 };
 
 export const honour: { name: string; when: string; text: string; image: MediaKey; legend?: boolean }[] = [
   {
-    name: "Chetak",
-    when: "Haldighati, 1576",
-    text: "Maharana Pratap's blue-grey stallion reared against a war elephant so his rider could strike. A blade on the elephant's tusk tore his leg. He would not leave until Pratap turned him, then carried his king across a stream and away from the field before he fell. A memorial stands near Haldighati.",
+    name: "The stallion at the stream",
+    when: "The ballads",
+    text: "A blue-grey stallion, wounded in the leg, would not leave the field until his rider turned him, then carried his rider across a stream to safety before he fell. Ballads across Rajasthan tell the story, and the details differ from teller to teller.",
     image: "legendChetak",
   },
   {
-    name: "Bahadur",
-    when: "Agra Fort, 1644",
-    text: "After Amar Singh Rathore struck down Salabat Khan inside the fort, the story goes, his horse carried him onto the ramparts and leapt from the wall. The horse did not survive the fall.",
+    name: "The leap from the wall",
+    when: "Folklore",
+    text: "In one told story, a horse carried its rider up onto a fortress rampart and leapt from the wall to save him. The horse did not survive the fall. Folklore, not record.",
     image: "legendBahadur",
     legend: true,
   },
   {
-    name: "Arbudh",
+    name: "The general's horse",
     when: "Marwar, 17th century",
-    text: "Remembered as the war horse of Veer Durgadas Rathore, the general who kept Marwar's infant heir from the Mughals.",
+    text: "Remembered in ballad as the war horse of a Marwar general who guarded a young heir through years of danger.",
     image: "fleetArbudh",
   },
   {
@@ -153,7 +153,7 @@ export const honour: { name: string; when: string; text: string; image: MediaKey
   },
 ];
 
-export const honourClose = "Their courage kept kings and generals alive to fight again. India's history might have turned differently without them.";
+export const honourClose = "Their courage carried riders home alive. The same quality, calm under pressure, is what the academy teaches.";
 
 export const fall = {
   inscription: "From royalty",

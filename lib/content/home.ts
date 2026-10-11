@@ -27,7 +27,7 @@ export const story = {
   voice: "in one bloodline.",
   frames: [
     { kicker: "One bloodline", text: "For centuries, civilisation was shaped by the partnership between horse and rider. In the Thar Desert that partnership bred a horse unlike any other.", image: "legendSand" as MediaKey },
-    { kicker: "Marwar, 1193", text: "Driven from Kannauj, the Rathores rode into the Thar. Their horses learned to live on a cup of water.", image: "bgFort" as MediaKey },
+    { kicker: "Marwar, the Thar", text: "Driven onto the arid plains of the Thar, the horsemen of Marwar survived on terrain, not ideology. Their horses learned to live on a cup of water.", image: "bgFort" as MediaKey },
     { kicker: "The vow", text: "A Marwari left the battlefield three ways: in victory, in death, or carrying its wounded rider home.", image: "legendCavalry" as MediaKey },
     { kicker: "Nearly lost", text: "After 1947 the royal stables emptied. Horses were sold, castrated, shot. A few people refused to let the line end.", image: "legendRevival" as MediaKey },
   ],

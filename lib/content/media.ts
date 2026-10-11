@@ -36,14 +36,15 @@ export const media = {
   dustPlume: m("dust-plume.png", "hf_20261009_002905_56886768-0acc-459c-ae40-a8356254a871.png", ""),
   dustWall: m("dust-wall.png", "hf_20261009_002905_226a4699-2319-45c7-ac8d-3d48708a5a42.png", ""),
 
+  /* Neutrality pass 11 Oct 2026: legendCavalry, legendChetak and legendBahadur were regenerated as banner-free, non-sectarian imagery (Directive §2). Keys kept to avoid churn. */
   /* ---------------------------------------------------- second set (Blueprint 8.2) */
   legendSand: m("legend-sand.png", "hf_20261009_133620_b9556c78-8c2d-482f-97cc-c5dc976e7787.png", "A Marwari's hooves lifting out of deep desert sand"),
   legendEars: m("legend-ears.png", "hf_20261009_133621_5a3cedb7-3682-4992-9f09-58666b26f286.png", "A Marwari's lyre-shaped ears curving inward until the tips touch"),
   legendGrey: m("legend-grey.png", "hf_20261009_134207_2579fc71-30ad-44d5-9a75-48d29801a99c.png", "A dappled grey Marwari stallion with a silver bridle by lantern light"),
   legendBlack: m("legend-black.png", "hf_20261009_134210_875318e8-ba4f-4012-86bd-3a472486c8a1.png", "A black Marwari stallion traced by a thin line of gold light"),
-  legendCavalry: m("legend-cavalry.png", "hf_20261009_134209_8d043273-b0f3-4582-bd72-377957e9f5fe.png", "A sixteenth-century Rajput cavalry charge with war elephants in the haze"),
-  legendChetak: m("legend-chetak.png", "hf_20261009_133621_a6f52e27-a2d6-4a2c-9383-b3d1dc45fe07.png", "A Rajput miniature of a wounded blue-grey warhorse leaping a stream with its king"),
-  legendBahadur: m("legend-bahadur.png", "hf_20261009_134449_79148b72-6c53-4cd8-b3c8-7a04b3d967a6.png", "A Marwari and rider leaping from the battlements of a fort at night"),
+  legendCavalry: m("legend-cavalry.png", "hf_20261011_123831_4c644d54-a316-48c8-a3c2-76db401d33c2.png", "Marwari horsemen as dark silhouettes riding through a plume of golden desert dust"),
+  legendChetak: m("legend-chetak.png", "hf_20261011_123831_2b8dbd56-ff58-4874-94f2-9f3582efc329.png", "Weathered leather tack and oxidized bronze stirrups on dark stone, wind-blown sand"),
+  legendBahadur: m("legend-bahadur.png", "hf_20261011_123831_ffe02a59-5992-4df6-8aa4-71cfd66e74d5.png", "A lone Marwari stallion on a dune ridge at the desert horizon beside a plain charcoal standard"),
   legendNachni: m("legend-nachni.png", "hf_20261009_133621_81837c50-d744-4170-a4c4-28e23c303420.png", "A Marwari dancing at a night wedding procession in Rajasthan"),
   legendFall: m("legend-fall.png", "hf_20261009_134450_fded19b4-ef5f-47e2-ad72-61dfcc13a8d8.png", "A thin Marwari harnessed to a village cart, 1950s"),
   legendRevival: m("legend-revival.png", "hf_20261009_134452_071b671c-3a71-467c-b01b-41fdd53c797c.png", "A herd of Marwari horses galloping across Rajasthan at golden hour"),

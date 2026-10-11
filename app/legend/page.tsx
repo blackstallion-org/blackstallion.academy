@@ -159,7 +159,7 @@ export default function LegendPage() {
           {honour.map((h) => (
             <li key={h.name} className="w-[78vw] shrink-0 snap-start sm:w-[46vw] lg:w-[30vw]">
               <div className="relative aspect-[3/4] overflow-hidden">
-                <FilmImage name={h.image} grade={h.image === "legendChetak" ? "none" : "film"} sizes="(min-width: 1024px) 30vw, 78vw" />
+                <FilmImage name={h.image} sizes="(min-width: 1024px) 30vw, 78vw" />
                 <div aria-hidden className="absolute inset-0 shade-b" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <p className="label text-brass">

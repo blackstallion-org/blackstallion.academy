@@ -61,3 +61,8 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - Compare slider: optional haptics toggle (off by default, hidden under reduced motion or without vibration support).
 - Backend foundation (NOT applied anywhere, no Supabase project): `supabase/migrations/*` (schema, RLS, rank/passport/lead functions, seed of 13 pillars, 6 zones, 3 prospect hubs) and `supabase/tests/run.sh` (throwaway Postgres 16; 101 checks passed on 11 Oct 2026). Open decisions: `docs/reference/backend-open-decisions.md`.
 - Still unverified: `next build` (no SWC binary in the Mac VM), screenshots at 390/1440, reduced-motion and keyboard-focus review.
+
+## Session 11 Oct 2026 (neutrality pass 2)
+- Regenerated legendCavalry, legendChetak, legendBahadur with Higgsfield (nano_banana_pro request; banner-free, no elephants, no miniatures). NOT yet visually reviewed by me (CDN blocked in my sandbox) — please check them in the Higgsfield gallery before launch; fetch-media.sh and media.ts point at the new files.
+- Removed Kannauj, Rathore-conquest, Haldighati/Pratap, Mughal and Agra Fort framing from Legend, home story strip and the journal post; replaced with Marwar-horsemen / ballad-tradition wording (Directive §2–3). Route map labels now "River plains · The Thar · Marwar".
+- Still open: three-dimensional stallion (asset to come), named Hyderabad schools (HPS, Oakridge, DPS, Gitanjali) kept as codenames until written partner consent exists, Crucible Variant A/B choice, audio cue assets.

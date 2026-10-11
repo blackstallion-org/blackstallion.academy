@@ -136,7 +136,7 @@ export function ChapterHead({ id, className }: { id: string; className?: string 
 
 /* ------------------------------------------------------------------ S17 · Route map */
 
-/** Ch. II · route drawn across the desert from Kannauj (east) to Marwar (west) as you scroll. */
+/** Ch. II · route drawn from the river plains (east) across the Thar to Marwar (west) as you scroll. */
 export function RouteMap() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -159,7 +159,7 @@ export function RouteMap() {
           <circle cx="940" cy="220" r="6" fill="var(--color-gold)" />
           <motion.circle cx="60" cy="180" r="7" fill="var(--color-gold)" style={{ opacity: draw }} />
         </svg>
-        <span className="label absolute right-[4vw] top-[30%] text-gold md:top-[34%]">Kannauj · 1193</span>
+        <span className="label absolute right-[4vw] top-[30%] text-gold md:top-[34%]">River plains</span>
         <span className="label absolute left-[44%] top-[29%] text-sand/80 md:top-[33%]">The Thar</span>
         <motion.span className="label absolute left-[4vw] top-[26%] text-gold md:top-[30%]" style={{ opacity: draw }}>
           Marwar
