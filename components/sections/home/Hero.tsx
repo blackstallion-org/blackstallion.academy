@@ -3,13 +3,11 @@
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Crest } from "@/components/brand/Crest";
-import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
 import { PinnedScene } from "@/components/film/PinnedScene";
 import { r } from "@/components/film/range";
 import { hero } from "@/lib/content/home";
-import { heroVideo, LOCAL_MEDIA } from "@/lib/content/media";
 import { ease } from "@/lib/motion/tokens";
 
 /**
@@ -25,7 +23,8 @@ export function Hero() {
   );
 }
 
-function HeroVideo() {
+/** The opening film: shipped with the site (public/video), so it never depends on the media CDN. */
+function IntroVideo() {
   const ref = useRef<HTMLVideoElement>(null);
   const [ok, setOk] = useState(false);
   useEffect(() => {
@@ -35,13 +34,14 @@ function HeroVideo() {
     <video
       ref={ref}
       className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms]"
-      style={{ opacity: ok ? 0.9 : 0, objectPosition: "62% 45%" }}
-      src={LOCAL_MEDIA ? heroVideo.file : heroVideo.remote}
+      style={{ opacity: ok ? 0.85 : 0, objectPosition: "50% 50%" }}
+      src="/video/hero-intro.mp4"
+      poster="/video/hero-intro-poster.jpg"
       muted
       loop
       playsInline
       autoPlay
-      preload="metadata"
+      preload="auto"
       aria-hidden
       onCanPlay={() => setOk(true)}
     />
@@ -79,8 +79,7 @@ function HeroFrame({ progress }: { progress: MotionValue<number> }) {
   return (
     <div className="relative h-full w-full">
       <motion.div className="absolute inset-0" style={{ scale, x: driftX, y: driftY }}>
-        <FilmImage name="heroDust" priority />
-        <HeroVideo />
+        <IntroVideo />
       </motion.div>
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div aria-hidden className="absolute inset-0 shade-l opacity-70" />
@@ -98,12 +97,12 @@ function HeroFrame({ progress }: { progress: MotionValue<number> }) {
         </motion.p>
 
         <div className="relative">
-          <div className="relative min-h-[2.1em] text-poster">
+          <div className="relative min-h-[2.1em] text-display-2">
             <motion.div className="absolute inset-x-0 bottom-0" style={{ opacity: aOpacity, y: aY }}>
-              <Headline as="h1" size="poster" animate="mount" delay={0.4} voiceColor="bone" {...hero.frames[0]} />
+              <Headline as="h1" size="2" animate="mount" delay={0.4} voiceColor="bone" {...hero.frames[0]} />
             </motion.div>
             <motion.div className="absolute inset-x-0 bottom-0" style={{ opacity: bOpacity, y: bY }} aria-hidden>
-              <Headline as="p" size="poster" animate="none" {...hero.frames[1]} />
+              <Headline as="p" size="2" animate="none" {...hero.frames[1]} />
             </motion.div>
           </div>
 
@@ -159,11 +158,11 @@ function Ticker() {
 function HeroStatic() {
   return (
     <div className="relative min-h-[100svh]">
-      <FilmImage name="heroDust" priority />
+      <video className="absolute inset-0 h-full w-full object-cover opacity-80" src="/video/hero-intro.mp4" poster="/video/hero-intro-poster.jpg" muted playsInline preload="none" aria-hidden />
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end gap-8 pb-16 pt-28">
         <p className="label text-sand">{hero.badge}</p>
-        <h1 className="text-poster">
+        <h1 className="text-display-2">
           <span className="t-inscribe block text-[0.5em]">{hero.frames[0].inscription}</span>
           <span className="t-voice block">{hero.frames[0].voice}</span>
           <span className="t-inscribe mt-4 block text-[0.5em]">{hero.frames[1].inscription}</span>
