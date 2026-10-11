@@ -72,3 +72,9 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - Audio files are NOT present (Higgsfield cannot generate music or sound effects). Needed: bsah_ambient_432hz_drone.mp3, bsah_stallion_breath.wav, bsah_keystroke.wav in public/audio; licence to be confirmed (see public/audio/README.md).
 - Directive Doc 04 terminal answers NOT adopted verbatim: "25–30% returned", "14,800 hours, zero major injuries", "₹10 Lakh insurance per cadet", "fully sanctioned by STPCI / cryptographically logged" have no evidence on file (claims ledger). Terminal shows "being confirmed" until evidence and owners are supplied.
 - Pan-India benchmark copy keeps heritage schools unnamed (Directive names HPS, Doon, Mayo; naming real institutions needs their consent).
+- [x] **Session 11 Oct 2026 (evening) · QA, palette, images, admissions, audit log.** Unmerged branches, one per task:
+  - `claude/pr-1-sound-engine`: opt-in sound engine (default off; the three audio files are owner-supplied, see `public/audio/README.md`). Carries all earlier directive work.
+  - `claude/pr-2-qa-fixes-images-palette`: full build + 390/1440 screenshots, keyboard focus and reduced-motion audit (`docs/qa/`); fixes; the three regenerated legend images; Marwari Studbook palette tokens.
+  - `claude/pr-3-admissions`: placeholder `/admissions` page from existing content, flagged draft.
+  - `claude/pr-4-audit-log-migration`: `20261011000400_audit_log_coverage.sql` + tests (120 checks pass on disposable Postgres 16).
+  - Blocked on owner: GitHub push credentials, sound files, 3D stallion GLB, client answers, claim evidence (25-30% share, ticker numbers marked sample).
