@@ -17,8 +17,8 @@ type Props = {
 };
 
 const BOOT: Line[] = [
-  { who: "sys", text: "SOVEREIGN COMMAND TERMINAL v2.4 | LATENCY: 12ms | STPCI ENCRYPTED NODE" },
-  { who: "sys", text: "System initialised. Connected to BSAH National Registry." },
+  { who: "sys", text: "SOVEREIGN COMMAND TERMINAL · DEMO MODE" },
+  { who: "sys", text: "Scripted answers from the academy's brief. Not connected to a live registry or live data." },
 ];
 
 /**

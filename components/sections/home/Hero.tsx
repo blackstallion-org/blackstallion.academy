@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, useTransform, type MotionValue } from "motion/react";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Crest } from "@/components/brand/Crest";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -60,9 +60,28 @@ function HeroFrame({ progress }: { progress: MotionValue<number> }) {
   const subOpacity = useTransform(progress, r(0.55, 0.72), [0, 1]);
   const veil = useTransform(progress, r(0.7, 1), [0, 0.5]);
 
+  // Cursor-follow: the photograph drifts a few pixels against the pointer. Mouse only, and
+  // HeroFrame never renders under reduced motion (PinnedScene swaps in HeroStatic).
+  const cx = useMotionValue(0);
+  const cy = useMotionValue(0);
+  const sx = useSpring(cx, { stiffness: 38, damping: 22, mass: 1.2 });
+  const sy = useSpring(cy, { stiffness: 38, damping: 22, mass: 1.2 });
+  const driftX = useTransform(sx, (v) => v * -26);
+  const driftY = useTransform(sy, (v) => v * -16);
+  useEffect(() => {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      cx.set(e.clientX / window.innerWidth - 0.5);
+      cy.set(e.clientY / window.innerHeight - 0.5);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [cx, cy]);
+
   return (
     <div className="relative h-full w-full">
-      <motion.div className="absolute inset-0" style={{ scale }}>
+      <motion.div className="absolute inset-0" style={{ scale, x: driftX, y: driftY }}>
         <FilmImage name="heroDust" priority />
         <HeroVideo />
       </motion.div>

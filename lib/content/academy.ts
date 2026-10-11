@@ -6,9 +6,9 @@ import type { MediaKey } from "./media";
 
 /** SAMPLE spotlights, names from the client docs. */
 export const spotlights: { name: string; rank: string; hub: string; hours: number; honour: string; image: MediaKey; code: string }[] = [
-  { name: "Zayd Saif Khan", rank: "Cadet Knight", hub: "Zone 01A · Financial District Hub", hours: 48, honour: "National STPCI qualifier", image: "cadetZayd", code: "BSAH-2026-HYD-042" },
-  { name: "Ananya Reddy", rank: "Cadet Knight", hub: "Zone 01C · Gachibowli Academic Axis", hours: 36, honour: "Mounted archery champion", image: "cadetAnanya", code: "BSAH-2026-HYD-017" },
-  { name: "Rohan Verma", rank: "Cadet Rider", hub: "Zone 01B · Begumpet Heritage Belt", hours: 24, honour: "Perfect canter score", image: "cadetRohan", code: "BSAH-2026-HYD-088" },
+  { name: "Cadet Alpha", rank: "Cadet Knight", hub: "Zone 01A · Financial District Hub", hours: 48, honour: "National STPCI qualifier", image: "cadetZayd", code: "BSAH-2026-HYD-042" },
+  { name: "Cadet Bravo", rank: "Cadet Knight", hub: "Zone 01C · Gachibowli Academic Axis", hours: 36, honour: "Mounted archery champion", image: "cadetAnanya", code: "BSAH-2026-HYD-017" },
+  { name: "Cadet Charlie", rank: "Cadet Rider", hub: "Zone 01B · Begumpet Heritage Belt", hours: 24, honour: "Perfect canter score", image: "cadetRohan", code: "BSAH-2026-HYD-088" },
 ];
 
 export const passport = {
@@ -48,9 +48,9 @@ export const uniform = [
 ];
 
 export const reels: { title: string; who: string; image: MediaKey }[] = [
-  { title: "First canter", who: "Rohan, 13", image: "cadetRohan" },
-  { title: "First peg carried", who: "Zayd, 15", image: "currTentpeg" },
-  { title: "Archery at the canter", who: "Ananya, 14", image: "currArchery" },
+  { title: "First canter", who: "Charlie, 13", image: "cadetRohan" },
+  { title: "First peg carried", who: "Alpha, 15", image: "currTentpeg" },
+  { title: "Archery at the canter", who: "Bravo, 14", image: "currArchery" },
   { title: "Riding without reins", who: "Knight squad", image: "currFormation" },
 ];
 
@@ -58,7 +58,7 @@ export const reels: { title: string; who: string; image: MediaKey }[] = [
 
 export const phoneSteps = [
   { id: "cam", label: "Stall-cam", title: "Watch Chetak IX at night feed, live.", text: "Every stall has a camera. Open the app and see your child's stallion rest, eat and sleep." },
-  { id: "gate", label: "Gate alert", title: "Ananya checked in at 15:52 · Zone 01A Hub.", text: "The moment the passport is scanned at the stable gate, you know your child has arrived." },
+  { id: "gate", label: "Gate alert", title: "Bravo checked in at 15:52 · Zone 01A Hub.", text: "The moment the passport is scanned at the stable gate, you know your child has arrived." },
   { id: "reel", label: "Milestone reel", title: "Today: first canter without stirrups · 0:10.", text: "After each milestone, a ten-second reel lands on your phone, with a posture overlay." },
   { id: "passport", label: "Passport", title: "Cadet Rider · 24 hrs · next seal at 30 hrs.", text: "Rank, hours and the next seal, the same record a university can verify." },
 ];
@@ -81,9 +81,9 @@ export const fees = [
 export const faq = [
   { q: "What age can my child start?", a: "From 8, in the Junior batch. Everyone starts at Cadet Squire, on the ground. (Minimum age to be confirmed per hub.)" },
   { q: "Does my child need riding experience?", a: "No. Experience moves a cadet faster, never past the rules." },
-  { q: "Is it safe?", a: "Safety is the first promise: ex-cavalry instructors, a spotter on every mounted drill, certified helmets and vests, daily vet checks and ₹10 lakh accident cover. See the Shield for the full protocol." },
+  { q: "Is it safe?", a: "Safety is the first promise: ex-cavalry instructors, a spotter on every mounted drill, certified helmets and vests, daily vet checks. Accident-insurance terms are being confirmed. See the Shield for the full protocol." },
   { q: "Will it clash with school?", a: "Sessions run on your child's own campus, before or after school hours." },
-  { q: "What if my child falls?", a: "Falls are part of riding. Cadets wear certified helmets and vests, learn how to fall before they canter, and are covered by ₹10 lakh group accident insurance." },
+  { q: "What if my child falls?", a: "Falls are part of riding. Cadets wear certified helmets and vests, and learn how to fall before they canter. Accident-insurance terms are being confirmed and will be published." },
   { q: "Can I watch?", a: "From the rail during sessions, and any time on the stall-cam." },
   { q: "How do I pay?", a: "Monthly UPI Autopay on the 1st. Onboarding and the kit are paid once." },
   { q: "Can we pause?", a: "Yes, with 30 days' notice. (Sample policy; final terms at enrolment.)" },
@@ -101,7 +101,7 @@ export const kitLabels = [
 export const shields = [
   { big: "Ex-military", title: "Instructors", line: "Recruited from retired Indian Army RVC, 61st Cavalry JCOs/NCOs and NCC Equestrian Wings." },
   { big: "Daily", title: "Veterinary & livestock care", line: "On-campus equine vet protocols; strict hydration and feeding logs." },
-  { big: "₹10 L", title: "Comprehensive insurance", line: "Group accident cover for every active cadet." },
+  { big: "Cover", title: "Insurance", line: "Accident-insurance terms are being confirmed and will be published here." },
 ];
 
 export const orders = [

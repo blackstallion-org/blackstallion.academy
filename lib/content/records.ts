@@ -22,8 +22,8 @@ export type Credential = {
 
 export const credentials: Credential[] = [
   {
-    code: "BSAH-2026-HYD-042", name: "Zayd Saif Khan", rank: "knight", rankName: "Cadet Knight", hours: 48,
-    hub: "zone-01a-financial-district", hubName: "Zone 01A · Financial District Hub", efi: "EFI-JR-99823", issued: "2026-09-28",
+    code: "BSAH-2026-HYD-042", name: "Cadet Alpha", rank: "knight", rankName: "Cadet Knight", hours: 48,
+    hub: "zone-01a-financial-district", hubName: "Zone 01A · Financial District Hub", efi: "SAMPLE-EFI-0001", issued: "2026-09-28",
     seals: ["squire", "rider", "knight"],
     milestones: [
       { date: "2026-03-14", text: "Seal I · Cadet Squire" },
@@ -34,8 +34,8 @@ export const credentials: Credential[] = [
     ],
   },
   {
-    code: "BSAH-2026-HYD-017", name: "Ananya Reddy", rank: "knight", rankName: "Cadet Knight", hours: 36,
-    hub: "zone-01c-gachibowli", hubName: "Zone 01C · Gachibowli Academic Axis", efi: "EFI-JR-99741", issued: "2026-09-12",
+    code: "BSAH-2026-HYD-017", name: "Cadet Bravo", rank: "knight", rankName: "Cadet Knight", hours: 36,
+    hub: "zone-01c-gachibowli", hubName: "Zone 01C · Gachibowli Academic Axis", efi: "SAMPLE-EFI-0002", issued: "2026-09-12",
     seals: ["squire", "rider", "knight"],
     milestones: [
       { date: "2026-04-02", text: "Seal I · Cadet Squire" },
@@ -45,7 +45,7 @@ export const credentials: Credential[] = [
     ],
   },
   {
-    code: "BSAH-2026-HYD-088", name: "Rohan Verma", rank: "rider", rankName: "Cadet Rider", hours: 24,
+    code: "BSAH-2026-HYD-088", name: "Cadet Charlie", rank: "rider", rankName: "Cadet Rider", hours: 24,
     hub: "zone-01b-begumpet", hubName: "Zone 01B · Begumpet Heritage Belt", efi: null, issued: "2026-09-05",
     seals: ["squire", "rider"],
     milestones: [
@@ -122,6 +122,6 @@ export const tournamentBySlug = (slug: string) => tournaments.find((t) => t.slug
 
 export const champions = [
   { title: "Governor's Cup 2025–26", who: "Zone 01A · Financial District Hub" },
-  { title: "Mounted archery", who: "Ananya Reddy · Zone 01C" },
-  { title: "Best young rider", who: "Rohan Verma · Zone 01B" },
+  { title: "Mounted archery", who: "Cadet Bravo · Zone 01C" },
+  { title: "Best young rider", who: "Cadet Charlie · Zone 01B" },
 ];

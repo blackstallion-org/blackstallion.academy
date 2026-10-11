@@ -70,7 +70,7 @@ function Screen({ id }: { id: string }) {
         <p className="label text-dust">Now</p>
         <div className="rounded-2xl bg-umber p-4">
           <p className="label text-brass">BSAH · Gate</p>
-          <p className="t-ui mt-1 text-sm text-bone">Ananya checked in at 15:52</p>
+          <p className="t-ui mt-1 text-sm text-bone">Bravo checked in at 15:52</p>
           <p className="t-ui text-xs text-dust">Zone 01A Hub · passport scanned</p>
         </div>
         <div className="rounded-2xl bg-umber/60 p-4 opacity-60">

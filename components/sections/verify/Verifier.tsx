@@ -107,6 +107,7 @@ export function Verifier({ showSamples = false, className }: Props) {
                   <dt className="label text-dust">EFI</dt>
                   <dd className="font-mono text-sm text-sand">{result.efi ?? "Pending"}</dd>
                 </div>
+                <p className="label col-span-2 border-t border-brass/30 pt-3 text-dust">Sample record · demo data, not a real cadet</p>
                 <div className="col-span-2 pt-2">
                   <Link href={`/verify/${result.code}`} className="label inline-flex items-center gap-3 text-gold hover:text-bone">
                     Open the full record <Arrow />

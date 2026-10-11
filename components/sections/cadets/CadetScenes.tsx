@@ -27,7 +27,7 @@ export function CadetsTitle() {
         <motion.div className="relative h-[70svh] lg:h-[86svh]" initial={{ clipPath: "inset(100% 0 0 0)" }} animate={{ clipPath: "inset(0% 0 0 0)" }} transition={{ duration: 1.6, ease: ease.citadel, delay: 0.3 }}>
           <FilmImage name="cadetZayd" priority sizes="(min-width: 1024px) 45vw, 100vw" />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent" />
-          <p className="label absolute right-3 top-6 text-sand [writing-mode:vertical-rl]">Zayd Saif Khan · Cadet Knight · sample</p>
+          <p className="label absolute right-3 top-6 text-sand [writing-mode:vertical-rl]">Cadet Alpha · Cadet Knight · sample</p>
         </motion.div>
       </div>
     </section>
@@ -58,7 +58,7 @@ export function Spotlights() {
           </Reveal>
         ))}
       </ol>
-      <p className="t-ui mt-12 text-xs text-dust">Spotlights are sample records from the client brief; portraits are AI placeholders.</p>
+      <p className="t-ui mt-12 text-xs text-dust">Spotlights are sample records with invented callsigns, not real cadets; portraits are AI placeholders.</p>
     </section>
   );
 }
@@ -124,7 +124,7 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
               </div>
               <div className="parchment absolute inset-0 p-4 [backface-visibility:hidden] [transform:rotateY(180deg)] sm:p-6">
                 <p className="label text-[#6b5130]">Identity</p>
-                <p className="t-voice mt-3 text-lg text-ink sm:text-2xl">Zayd Saif Khan</p>
+                <p className="t-voice mt-3 text-lg text-ink sm:text-2xl">Cadet Alpha</p>
                 <p className="t-ui mt-1 text-xs text-[#5a4526]">Zone 01A · Financial District Hub</p>
                 <p className="font-mono mt-6 text-[0.55rem] text-[#3b2a12] sm:text-xs">BSAH-2026-HYD-042</p>
                 <p className="t-ui mt-1 text-[0.6rem] text-[#5a4526]">Sample record</p>

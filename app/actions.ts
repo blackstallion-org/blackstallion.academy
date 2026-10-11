@@ -5,7 +5,7 @@ import { z } from "zod";
 /**
  * Lead capture for every form on the site (contact gates, hub enquiries, MOU requests).
  * Validates on the server. Persistence lands with Supabase (`leads` and `mou_proposals` tables);
- * until then submissions are acknowledged but not stored. Never log personal data.
+ * until then submissions are NOT stored and the confirmation says so. Never log personal data.
  */
 
 export type LeadState = { ok: boolean; message: string; errors?: Record<string, string> } | null;
@@ -37,5 +37,5 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
   }
   // TODO(supabase): insert into public.leads (gate, payload) with RLS "anonymous insert only".
   await new Promise((r) => setTimeout(r, 400));
-  return { ok: true, message: "Received. Sealed for the Office of the Chairman. We reply within one working day." };
+  return { ok: true, message: "Thank you. This form is still in preview and your details were not saved. To be sure we hear you, please email the address shown on this page." };
 }

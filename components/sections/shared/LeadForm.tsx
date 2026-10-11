@@ -34,7 +34,7 @@ export function LeadForm({ gate, fields, submitLabel = "Send", hidden, className
   if (state?.ok) {
     return (
       <div className={cn("flex flex-col items-start gap-6", className)} role="status">
-        <SealStamp label="RECEIVED" trigger="manual" play className="h-28 w-28" />
+        <SealStamp label="PREVIEW" trigger="manual" play className="h-28 w-28" />
         <p className="t-story text-bone">{state.message}</p>
       </div>
     );
@@ -86,7 +86,7 @@ export function LeadForm({ gate, fields, submitLabel = "Send", hidden, className
       })}
       <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
         <p className="t-ui text-xs text-dust" aria-live="polite">
-          {state && !state.ok ? <span className="text-blood">{state.message}</span> : "We reply within one working day. No spam, no sharing."}
+          {state && !state.ok ? <span className="text-blood">{state.message}</span> : "Preview form: submissions are not saved yet. Please also email us directly."}
         </p>
         <button type="submit" disabled={pending} className="label bg-gold px-6 py-4 text-night transition-colors hover:bg-bone disabled:opacity-60">
           {pending ? "Sealing…" : submitLabel}

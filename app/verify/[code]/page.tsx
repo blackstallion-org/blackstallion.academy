@@ -53,7 +53,7 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
         <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <div>
             <p className="label flex items-center gap-2 text-gold">
-              <span className="h-2 w-2 rounded-full bg-gold" aria-hidden /> Seal verified · sample record
+              <span className="h-2 w-2 rounded-full bg-gold" aria-hidden /> Sample record · demo data, not a real cadet
             </p>
             <h1 id="record-h" className="t-voice mt-4 text-display-2 text-bone">
               {c.name}

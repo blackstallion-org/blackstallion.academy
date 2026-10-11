@@ -21,14 +21,14 @@ export const knowledge: Entry[] = [
     ask: "Insurance & safety record",
     keywords: ["insurance", "insured", "cover", "accident", "liability", "safety", "safe", "injury", "injuries", "helmet", "fall", "record", "lancer"],
     answer:
-      "Certified helmets are worn for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor stands on every mounted drill. Over 14,800 training hours logged nationally with zero major injuries (sample figure; live data follows), backed by ₹10 lakh group accident insurance per cadet.",
+      "BSAH describes certified helmets for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor on every mounted drill. Training-hour totals, injury records and insurance cover are not published yet: the figures and the policy documents are being confirmed, and nothing is shown until they are.",
   },
   {
     id: "stpci",
     ask: "STPCI accreditation",
     keywords: ["stpci", "accredit", "recognised", "recognized", "sanction", "official", "council", "federation", "efi"],
     answer:
-      "Fully sanctioned by the School Tent Pegging Council of India (STPCI). Every training hour and rank milestone is cryptographically logged to the cadet's Sovereign Passport, qualifying them for the national Governor's Cup circuit.",
+      "The School Tent Pegging Council of India (STPCI) is the governing council in the BSAH structure. Sanction, registration terms and Governor's Cup qualification are being confirmed and will be published with documentation. Passport logging is planned, not yet live.",
   },
   {
     id: "timings",
@@ -95,7 +95,7 @@ export const knowledge: Entry[] = [
 ];
 
 export const fallback =
-  "Logged for the Office of the Chairman. A person will reply within one working day. Meanwhile, try one of the suggested questions.";
+  "This demo has no scripted answer for that question, and questions are not saved. Try one of the suggested questions, or email the Office of the Chairman.";
 
 export function answer(query: string): Entry | null {
   const q = query.toLowerCase();

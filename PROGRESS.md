@@ -34,6 +34,12 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
   - **Palette** (Refinement §1): tokens aligned to the directive — night #0F0E0D (obsidian), umber #1A1A18 (deep charcoal), gold #D4AF37 (burnished), new `copper` #B87333; all hardcoded night/gold RGBs swept.
   - Verified: lint, typecheck and `next build` pass (build run in the cloud sandbox; the local VM has no npm egress for the linux SWC binary); all touched routes screenshotted at 390/1440 and the new sections reviewed.
   - **Deferred (needs assets/decisions):** the interactive 3D WebGL stallion hero (no GLB model yet — tracked below), the audio engine (432 Hz drone, stallion breath, keystroke cues: files don't exist; no dead toggle shipped), cryptographic passport logging (marketing copy only in terminal answers).
+- [x] **Session 11 Oct 2026 (later) · Honesty pass.**
+  - Terminal is now labelled DEMO MODE; removed "LATENCY 12ms / ENCRYPTED NODE / National Registry" boot lines and the unevidenced "zero major injuries", "14,800 hours", "₹10 lakh insurance", "fully sanctioned" and "cryptographically logged" claims (command.ts, home.ts, academy.ts, command and safety pages). Insurance, injury records and STPCI sanction read "being confirmed" until documented.
+  - Lead form no longer promises a reply: confirmation says the form is a preview and nothing was saved (stamp reads PREVIEW). Terminal fallback likewise.
+  - Demo cadets renamed to callsigns (Cadet Alpha/Bravo/Charlie), sample EFI numbers marked SAMPLE, "Seal verified" replaced with "Sample record · demo data" on /verify.
+  - Hero: mouse-only cursor drift on the photograph (springed, 26/16 px), absent under reduced motion and on touch.
+  - Checked: eslint and `tsc --noEmit` pass. `next build` could not run on the Mac (no linux-arm64 SWC binary); not screenshotted.
 - [ ] **Run `sh scripts/fetch-media.sh` on the Mac**, set `NEXT_PUBLIC_LOCAL_MEDIA=1`, then re-screenshot every page at 390/1440 and tune focal points and hotspot positions against the real stills (science overlay already registered).
 - [ ] **Client answers** (Blueprint Part 10): minimum age and the Chairman's letter still open. (Funding model and school names settled by the 11 Oct directives: BSAH funds at zero CapEx; zone codenames, no named schools.)
 - [ ] **3D stallion** (optional): GLB in `public/models/marwari.glb` + `components/three/StallionViewer.tsx`, falls back to the specimen plate.

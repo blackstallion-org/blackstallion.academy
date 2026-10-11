@@ -19,7 +19,7 @@ export const hero = {
     { value: "24/7", label: "stall-cam for every parent" },
   ],
   /** SAMPLE live figures. */
-  ticker: ["BSAH National Command", "Hours logged 14,800 (sample)", "Canter transitions passed 342", "Active stallions 21", "Hubs live 3", "Next: Governor's Cup · 14 Nov"],
+  ticker: ["BSAH National Command (demo data)", "Hours logged 14,800 (sample)", "Canter transitions passed 342 (sample)", "Active stallions 21 (sample)", "Hubs live 3 (sample)", "Next: Governor's Cup · 14 Nov"],
 };
 
 export const story = {
@@ -111,7 +111,7 @@ export const shield = {
   columns: [
     { big: "Ex-cavalry", line: "Instructors from Indian Army RVC and NCC cavalry units." },
     { big: "Daily", line: "Hoof, feed and hydration checks for every stallion, every day." },
-    { big: "₹10 L", line: "Group accident insurance for every active cadet." },
+    { big: "Cover", line: "Accident-insurance terms are being confirmed and will be published here." },
   ],
 };
 
@@ -119,7 +119,7 @@ export const command = {
   inscription: "Ask the",
   voice: "command terminal.",
   question: "What is the safety record for Cadet Lancer drills?",
-  answer: "Certified helmets for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor on every mounted drill. Over 14,800 training hours logged nationally with zero major injuries (sample figure), backed by ₹10 lakh group accident insurance per cadet.",
+  answer: "BSAH describes certified helmets for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor on every mounted drill. Injury records and insurance cover are not published yet: they are being confirmed, and no figures are shown until they are.",
   chips: ["CapEx & revenue share", "STPCI accreditation", "Curriculum & class timings"],
 };
 

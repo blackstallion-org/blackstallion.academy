@@ -36,9 +36,9 @@ export default function CommandPage() {
             </div>
             <div className="border-t border-brass/30 pt-4">
               <p className="label text-brass">Dossier · cover</p>
-              <p className="font-mono mt-2 text-sm text-sand">₹10 L group accident insurance per active cadet</p>
+              <p className="font-mono mt-2 text-sm text-sand">Accident-insurance terms to be confirmed</p>
             </div>
-            <p className="t-ui border-t border-brass/30 pt-4 text-xs text-dust">Preview: scripted answers from the academy&rsquo;s brief. Live AI follows with the Supabase back end; questions it cannot answer are routed to the Office of the Chairman.</p>
+            <p className="t-ui border-t border-brass/30 pt-4 text-xs text-dust">Demo: scripted answers from the academy&rsquo;s brief. Not connected to live data or a registry. Live answers follow once the back end exists and each claim is documented.</p>
           </aside>
         </div>
       </section>
