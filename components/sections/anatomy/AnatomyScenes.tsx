@@ -104,7 +104,7 @@ export function ScaleBalance() {
               <text x="40" y="140" textAnchor="middle" className="font-mono" fontSize="16" fill="var(--color-gold)">
                 10 g
               </text>
-              <text x="40" y="196" textAnchor="middle" className="label" fontSize="10" fill="rgb(200 176 138)" letterSpacing="2">
+              <text x="40" y="196" textAnchor="middle" className="label" fontSize="10" fill="rgb(217 213 205)" letterSpacing="2">
                 REIN
               </text>
             </motion.g>
@@ -114,7 +114,7 @@ export function ScaleBalance() {
               <text x="460" y="140" textAnchor="middle" className="font-mono" fontSize="16" fill="var(--color-bone)">
                 500 kg
               </text>
-              <text x="460" y="196" textAnchor="middle" className="label" fontSize="10" fill="rgb(200 176 138)" letterSpacing="2">
+              <text x="460" y="196" textAnchor="middle" className="label" fontSize="10" fill="rgb(217 213 205)" letterSpacing="2">
                 STALLION
               </text>
             </motion.g>
@@ -167,7 +167,7 @@ export function EarDial() {
         >
           <svg viewBox="0 0 400 400" className="h-full w-full" aria-hidden>
             {/* Arc of 180° */}
-            <path d="M60 248 A140 140 0 0 1 340 248" fill="none" stroke="rgb(197 160 89 / 0.25)" strokeWidth="1" />
+            <path d="M60 248 A140 140 0 0 1 340 248" fill="none" stroke="rgb(184 115 51 / 0.25)" strokeWidth="1" />
             {Array.from({ length: 19 }, (_, i) => {
               const a = (-90 + i * 10) * (Math.PI / 180);
               const x1 = 200 + Math.sin(a) * 140;
@@ -176,10 +176,10 @@ export function EarDial() {
               const y2 = 248 - Math.cos(a) * (i % 3 === 0 ? 124 : 132);
               return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--color-brass)" strokeWidth={i % 3 === 0 ? 1.4 : 0.8} />;
             })}
-            <text x="44" y="272" className="font-mono" fontSize="11" fill="rgb(138 118 96)">
+            <text x="44" y="272" className="font-mono" fontSize="11" fill="rgb(140 136 130)">
               −90°
             </text>
-            <text x="322" y="272" className="font-mono" fontSize="11" fill="rgb(138 118 96)">
+            <text x="322" y="272" className="font-mono" fontSize="11" fill="rgb(140 136 130)">
               +90°
             </text>
             <motion.g style={{ rotate: smooth, originX: "200px", originY: "248px" }}>

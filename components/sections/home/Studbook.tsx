@@ -56,7 +56,7 @@ export function Studbook() {
           <li className="t-story py-5 italic text-dust">and {FLEET_TOTAL - fleet.length} more in the registry.</li>
         </ol>
 
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="lg:sticky motion-reduce:lg:static lg:top-24 lg:self-start">
           <div className="relative aspect-[4/5] w-full overflow-hidden bg-night">
             <AnimatePresence mode="popLayout">
               <motion.div

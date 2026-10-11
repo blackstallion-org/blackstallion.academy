@@ -67,7 +67,7 @@ export default function LegendPage() {
       {/* III · Bred by law — annotated callouts */}
       <section id="bred" aria-labelledby="bred-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
-          <div className="relative aspect-[16/11] overflow-hidden lg:sticky lg:top-24 lg:self-start">
+          <div className="relative aspect-[16/11] overflow-hidden lg:sticky motion-reduce:lg:static lg:top-24 lg:self-start">
             <FilmImage name="legendSand" sizes="(min-width: 1024px) 50vw, 100vw" />
             {[
               [38, 22],

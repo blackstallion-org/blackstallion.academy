@@ -326,7 +326,7 @@ export function Ascent() {
     <div ref={ref}>
       <div className="relative hidden md:block" style={{ aspectRatio: "1000 / 340" }}>
         <svg viewBox="0 0 1000 340" className="absolute inset-0 h-full w-full" aria-hidden>
-          <line x1="40" x2="960" y1="320" y2="320" stroke="rgb(197 160 89 / 0.25)" />
+          <line x1="40" x2="960" y1="320" y2="320" stroke="rgb(184 115 51 / 0.25)" />
           <motion.path d={d} fill="none" stroke="var(--color-gold)" strokeWidth="1.6" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
           {pts.map(([x, y], i) => (
             <motion.circle key={i} cx={x} cy={y} r="5" fill="var(--color-gold)" initial={{ scale: 0 }} animate={inView ? { scale: 1 } : {}} transition={{ delay: 0.3 + i * 0.35, duration: 0.5 }} />

@@ -166,7 +166,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
           </dl>
           <p className="label mt-10 text-brass">Pedigree (sample)</p>
           <svg viewBox="0 0 400 180" className="mt-4 w-full" role="img" aria-label={`Pedigree: sire ${s.pedigree.sire}, dam ${s.pedigree.dam}`}>
-            <g stroke="rgb(197 160 89 / 0.5)" fill="none">
+            <g stroke="rgb(184 115 51 / 0.5)" fill="none">
               <path d="M110 90 H140 V40 H170 M140 90 V140 H170" />
               <path d="M290 40 H310 V18 H330 M310 40 V62 H330" />
             </g>
@@ -174,8 +174,8 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
               <text x="0" y="94" fill="var(--color-gold)">{s.name}</text>
               <text x="176" y="44" fill="var(--color-bone)">{s.pedigree.sire}</text>
               <text x="176" y="144" fill="var(--color-bone)">{s.pedigree.dam}</text>
-              <text x="336" y="22" fill="rgb(200 176 138)" fontSize="10">{s.pedigree.grandsire}</text>
-              <text x="336" y="66" fill="rgb(200 176 138)" fontSize="10">{s.pedigree.granddam}</text>
+              <text x="336" y="22" fill="rgb(217 213 205)" fontSize="10">{s.pedigree.grandsire}</text>
+              <text x="336" y="66" fill="rgb(217 213 205)" fontSize="10">{s.pedigree.granddam}</text>
             </g>
           </svg>
           <button type="button" disabled className="label mt-8 w-full border border-brass/30 py-3 text-dust">
@@ -286,7 +286,7 @@ export function CoatRegistry() {
             <span
               aria-hidden
               className="mt-1 h-12 w-12 shrink-0 rounded-full border border-brass/30"
-              style={{ background: c.hex === "dual" ? "conic-gradient(#e9e4da 0 50%, #2a1d15 50% 100%)" : c.hex }}
+              style={{ background: c.hex === "dual" ? "conic-gradient(#d9d5cd 0 50%, #2a1d15 50% 100%)" : c.hex }}
             />
             <span>
               <span className="flex items-baseline gap-3">

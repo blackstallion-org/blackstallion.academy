@@ -152,7 +152,7 @@ export function PulseLine() {
         <div ref={ref} className="relative h-56 overflow-hidden border-y border-brass/15">
           {[
             { amp: 34, phase: 0, color: "var(--color-gold)", label: "Horse's walk · rider's pelvis" },
-            { amp: 26, phase: 0.35, color: "rgb(200 176 138 / 0.6)", label: "Human walking gait" },
+            { amp: 26, phase: 0.35, color: "rgb(217 213 205 / 0.6)", label: "Human walking gait" },
           ].map((w, k) => (
             <div key={k} className="absolute inset-0">
               <motion.svg

@@ -2,17 +2,23 @@
 
 /* ------------------------------------------------------------------
    BSAH — "The Marwari" film look. Rules: docs/BLUEPRINT.md Part 3.
-   Black-brown night, sand and bone type, brass as accent only.
+   Kala night, Nukra and bone type, copper (brass token) and burnished gold as accents; Bhanwar/Surang warm the shadows.
    ------------------------------------------------------------------ */
 @theme {
   /* Colour */
   --color-night: #0f0e0d; /* Obsidian Black (Master Refinement §1) */
   --color-umber: #1a1a18; /* Deep Charcoal */
-  --color-ember: #2a1d12;
-  --color-dust: #8a7660;
-  --color-sand: #c8b08a;
+  /* Official Marwari studbook colour registry (Master Refinement §5): the film's grade comes from the coats. */
+  --color-bhanwar: #2a1d15; /* Dark bay */
+  --color-kala: #0f0e0d; /* Black */
+  --color-surang: #593822; /* Chestnut & bay */
+  --color-shwet: #8c8882; /* Grey & dappled */
+  --color-nukra: #d9d5cd; /* Pure white */
+  --color-ember: #2a1d15; /* = Bhanwar */
+  --color-dust: #8c8882; /* = Shwet: captions */
+  --color-sand: #d9d5cd; /* = Nukra: body on images */
   --color-bone: #ede3d1;
-  --color-brass: #c5a059;
+  --color-brass: #b87333; /* = Warm Copper: rules, labels, accents */
   --color-gold: #d4af37; /* Burnished Gold */
   --color-copper: #b87333; /* Metallic Warm Copper */
   --color-blood: #b13a24;
@@ -69,7 +75,7 @@
   }
 
   ::selection {
-    background-color: rgb(197 160 89 / 0.35);
+    background-color: rgb(184 115 51 / 0.35);
     color: var(--color-bone);
   }
 
@@ -135,13 +141,13 @@
   /* Brass hairline rule */
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgb(197 160 89 / 0.55) 12%, rgb(197 160 89 / 0.55) 88%, transparent);
+    background: linear-gradient(90deg, transparent, rgb(184 115 51 / 0.55) 12%, rgb(184 115 51 / 0.55) 88%, transparent);
   }
 
   /* The only allowed surface: umber with a faint brass edge */
   .plate {
     background-color: rgb(26 26 24 / 0.92);
-    border: 1px solid rgb(197 160 89 / 0.22);
+    border: 1px solid rgb(184 115 51 / 0.22);
     border-radius: 1px;
   }
 
@@ -199,7 +205,7 @@
   .range-brass {
     appearance: none;
     height: 2px;
-    background: rgb(197 160 89 / 0.3);
+    background: rgb(184 115 51 / 0.3);
     outline-offset: 8px;
   }
   .range-brass::-webkit-slider-thumb {
@@ -224,7 +230,7 @@
     width: 100%;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid rgb(197 160 89 / 0.35);
+    border-bottom: 1px solid rgb(184 115 51 / 0.35);
     padding: 0.7rem 0;
     color: var(--color-bone);
     font-family: var(--font-sans);
@@ -232,10 +238,11 @@
     border-radius: 0;
   }
   .field::placeholder {
-    color: rgb(138 118 96 / 0.8);
+    color: rgb(140 136 130 / 0.8);
   }
   .field:focus-visible {
-    outline: none;
+    outline: 1px solid var(--color-gold);
+    outline-offset: 4px;
     border-bottom-color: var(--color-gold);
   }
   select.field option {

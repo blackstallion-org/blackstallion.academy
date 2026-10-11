@@ -23,7 +23,7 @@ export default function SciencePage() {
       {/* §4 · S30 footnote ledger */}
       <section aria-labelledby="claims-h" className="gutter relative pb-[clamp(6rem,14vh,12rem)]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
-          <div className="lg:sticky lg:top-28 lg:self-start">
+          <div className="lg:sticky motion-reduce:lg:static lg:top-28 lg:self-start">
             <Label>The honest part</Label>
             <Headline id="claims-h" className="mt-4" inscription="What we can" voice="stand behind." />
             <p className="mt-6 max-w-sm text-sand">Every health claim on this site is listed here with its status. If we cannot source it, we do not say it.</p>

@@ -4,6 +4,7 @@ import { ReelMark } from "@/components/film/Marks";
 import { CommandBoot } from "@/components/sections/command/CommandBoot";
 import { Terminal } from "@/components/sections/command/Terminal";
 import { knowledge } from "@/lib/content/command";
+import { priceLabel } from "@/lib/content/pricing";
 import { tiers } from "@/lib/content/schools";
 
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export default function CommandPage() {
           <aside aria-label="Dossier" className="flex flex-col gap-6">
             <div className="border-t border-brass/30 pt-4">
               <p className="label text-brass">Dossier · fees</p>
-              <p className="font-mono mt-2 text-sm text-sand">₹2,000 onboarding · ₹9,440 / month incl. GST · kit ₹3,000 optional</p>
+              <p className="font-mono mt-2 text-sm text-sand">{`Core ${priceLabel.core} / month · Elite ${priceLabel.elite} / month · kit ${priceLabel.kit} once`}</p>
             </div>
             <div className="border-t border-brass/30 pt-4">
               <p className="label text-brass">Dossier · tiers</p>

@@ -154,7 +154,7 @@ export function HoofPath() {
       <Headline id="path-h" className="mt-4" inscription="Five steps" voice="to the first canter." />
       <div ref={ref} className="relative mt-14 hidden md:block" style={{ aspectRatio: "100 / 34" }}>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden>
-          <motion.path d={d} fill="none" stroke="rgb(197 160 89 / 0.5)" strokeWidth="0.25" strokeDasharray="0.8 1.2" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
+          <motion.path d={d} fill="none" stroke="rgb(184 115 51 / 0.5)" strokeWidth="0.25" strokeDasharray="0.8 1.2" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
         </svg>
         {admissions.map((a, i) => (
           <motion.div

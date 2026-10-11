@@ -168,16 +168,16 @@ export function CourseDiagram() {
         </div>
         <div ref={ref} className="plate relative p-4 md:p-6">
           <svg viewBox="0 0 600 220" className="w-full" role="img" aria-label="Tent pegging course: 100 metre run-up, peg about 6 centimetres wide, 9-foot lance, gallop around 35 km/h">
-            <rect x="20" y="90" width="560" height="40" fill="rgb(197 160 89 / 0.08)" stroke="rgb(197 160 89 / 0.4)" />
+            <rect x="20" y="90" width="560" height="40" fill="rgb(184 115 51 / 0.08)" stroke="rgb(184 115 51 / 0.4)" />
             {Array.from({ length: 11 }, (_, i) => (
               <g key={i}>
-                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="rgb(197 160 89 / 0.5)" />
-                <text x={20 + i * 50} y="156" textAnchor="middle" fontSize="10" className="font-mono" fill="rgb(138 118 96)">
+                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="rgb(184 115 51 / 0.5)" />
+                <text x={20 + i * 50} y="156" textAnchor="middle" fontSize="10" className="font-mono" fill="rgb(140 136 130)">
                   {i * 10}
                 </text>
               </g>
             ))}
-            <text x="300" y="176" textAnchor="middle" fontSize="11" className="label" fill="rgb(200 176 138)" letterSpacing="2">
+            <text x="300" y="176" textAnchor="middle" fontSize="11" className="label" fill="rgb(217 213 205)" letterSpacing="2">
               100 M RUN-UP
             </text>
             <rect x="514" y="104" width="8" height="12" fill="var(--color-gold)" />
@@ -196,7 +196,7 @@ export function CourseDiagram() {
                 ≈35 KM/H
               </text>
             </motion.g>
-            <text x="24" y="30" fontSize="10" className="font-mono" fill="rgb(138 118 96)">
+            <text x="24" y="30" fontSize="10" className="font-mono" fill="rgb(140 136 130)">
               LANCE · 9 FT
             </text>
           </svg>

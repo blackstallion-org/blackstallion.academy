@@ -29,10 +29,10 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
     <svg viewBox="0 0 800 460" className={cn("h-full w-full", className)} role="img" aria-label={`${tier.name} site plan: ${tier.includes.join(", ")}`}>
       <defs>
         <pattern id="bp-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M20 0H0V20" fill="none" stroke="rgb(197 160 89 / 0.08)" strokeWidth="1" />
+          <path d="M20 0H0V20" fill="none" stroke="rgb(184 115 51 / 0.08)" strokeWidth="1" />
         </pattern>
         <pattern id="bp-sand" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <line x1="0" y1="0" x2="0" y2="6" stroke="rgb(197 160 89 / 0.18)" strokeWidth="1" />
+          <line x1="0" y1="0" x2="0" y2="6" stroke="rgb(184 115 51 / 0.18)" strokeWidth="1" />
         </pattern>
       </defs>
       <rect width="800" height="460" fill="url(#bp-grid)" />
@@ -47,7 +47,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
         strokeWidth="1"
         strokeDasharray="6 5"
       />
-      <motion.text initial={false} animate={{ x: ox + 8, y: oy - 8 }} transition={t} className="font-mono" fontSize="11" fill="rgb(138 118 96)">
+      <motion.text initial={false} animate={{ x: ox + 8, y: oy - 8 }} transition={t} className="font-mono" fontSize="11" fill="rgb(140 136 130)">
         SITE · {tier.acres.toUpperCase()}
       </motion.text>
 
@@ -94,13 +94,13 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
           strokeWidth="1"
         />
       ))}
-      <motion.text initial={false} animate={{ x: stallsX, y: stallsY + 60 }} transition={t} className="font-mono" fontSize="11" fill="rgb(200 176 138)">
+      <motion.text initial={false} animate={{ x: stallsX, y: stallsY + 60 }} transition={t} className="font-mono" fontSize="11" fill="rgb(217 213 205)">
         {tier.stables} STABLES
       </motion.text>
 
       {/* Tack room (all tiers) */}
       <motion.rect initial={false} animate={{ x: arena.x + arena.w + 24, y: arena.y, width: 70, height: 50 }} transition={t} fill="none" stroke={ink} strokeWidth="1" />
-      <motion.text initial={false} animate={{ x: arena.x + arena.w + 32, y: arena.y + 30 }} transition={t} className="label" fontSize="10" fill="rgb(200 176 138)" letterSpacing="1.5">
+      <motion.text initial={false} animate={{ x: arena.x + arena.w + 32, y: arena.y + 30 }} transition={t} className="label" fontSize="10" fill="rgb(217 213 205)" letterSpacing="1.5">
         TACK
       </motion.text>
 
@@ -127,7 +127,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
       <g transform="translate(760 40)" fill="none" stroke={ink}>
         <circle r="14" strokeWidth="0.8" />
         <path d="M0 -10 L4 4 L0 1 L-4 4 Z" fill={ink} />
-        <text y="28" textAnchor="middle" fontSize="9" fill="rgb(138 118 96)" className="font-mono" stroke="none">
+        <text y="28" textAnchor="middle" fontSize="9" fill="rgb(140 136 130)" className="font-mono" stroke="none">
           N
         </text>
       </g>

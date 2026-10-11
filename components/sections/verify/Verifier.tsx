@@ -41,7 +41,7 @@ export function Verifier({ showSamples = false, className }: Props) {
             onChange={(e) => setCode(e.target.value.toUpperCase())}
             spellCheck={false}
             autoComplete="off"
-            className="font-mono w-full bg-transparent py-3 text-[clamp(1.1rem,2.4vw,1.8rem)] tracking-[0.06em] text-bone outline-none placeholder:text-dust"
+            className="font-mono w-full bg-transparent py-3 text-[clamp(1.1rem,2.4vw,1.8rem)] tracking-[0.06em] text-bone focus-visible:outline focus-visible:outline-1 focus-visible:outline-gold focus-visible:outline-offset-8 placeholder:text-dust"
             placeholder="BSAH-2026-HYD-042"
           />
           <button type="submit" className="label mb-2 shrink-0 bg-gold px-5 py-3 text-night hover:bg-bone">

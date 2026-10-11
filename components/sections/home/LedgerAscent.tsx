@@ -14,10 +14,10 @@ const H = 560;
 /* Columns sit left of centre so the last rank's labels (which read rightwards) stay inside the frame. */
 const colX = [80, 300, 520, 740];
 const baseY = [480, 390, 300, 210];
-const jitter = [0, 40, -20];
+const jitter = [0, 40, -20, 28];
 
 const nodes = ranks.flatMap((rank, ri) =>
-  rank.pillars.map((n, k) => ({ n, ri, x: colX[ri] + jitter[k], y: baseY[ri] - k * 74 })),
+  rank.pillars.map((n, k) => ({ n, ri, x: colX[ri] + jitter[k], y: baseY[ri] - k * (rank.pillars.length > 3 ? 58 : 74) })),
 );
 
 /**
@@ -59,7 +59,7 @@ export function LedgerAscent() {
           <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 h-full w-full" aria-hidden>
             {/* Rank floors */}
             {ranks.map((_, ri) => (
-              <line key={ri} x1={Math.max(0, colX[ri] - 60)} x2={colX[ri] + 180} y1={baseY[ri] + 34} y2={baseY[ri] + 34} stroke="rgb(197 160 89 / 0.25)" strokeWidth="1" />
+              <line key={ri} x1={Math.max(0, colX[ri] - 60)} x2={colX[ri] + 180} y1={baseY[ri] + 34} y2={baseY[ri] + 34} stroke="rgb(184 115 51 / 0.25)" strokeWidth="1" />
             ))}
             {/* Ascent path between ranks */}
             {ranks.slice(0, -1).map((_, ri) => {
@@ -83,14 +83,13 @@ export function LedgerAscent() {
             })}
             {/* Constellation lines inside each rank */}
             {ranks.map((_, ri) => {
-              const [a, b, c] = rankNodes(ri);
-              const d = `M${a.x} ${a.y} L${b.x} ${b.y} L${c.x} ${c.y}`;
+              const d = rankNodes(ri).map((nd, i) => `${i === 0 ? "M" : "L"}${nd.x} ${nd.y}`).join(" ");
               return (
                 <motion.path
                   key={`c${ri}-${ri === active ? "on" : "off"}`}
                   d={d}
                   fill="none"
-                  stroke={ri <= active ? "var(--color-gold)" : "rgb(197 160 89 / 0.2)"}
+                  stroke={ri <= active ? "var(--color-gold)" : "rgb(184 115 51 / 0.2)"}
                   strokeWidth={ri === active ? 1.6 : 1}
                   initial={{ pathLength: ri === active && !reduced ? 0 : 1 }}
                   animate={{ pathLength: 1 }}
@@ -104,7 +103,7 @@ export function LedgerAscent() {
               return (
                 <g key={nd.n}>
                   {on && <circle cx={nd.x} cy={nd.y} r="16" fill="rgb(212 175 55 / 0.12)" />}
-                  <circle cx={nd.x} cy={nd.y} r={on ? 5 : 3.5} fill={on ? "var(--color-gold)" : done ? "var(--color-brass)" : "rgb(197 160 89 / 0.35)"} />
+                  <circle cx={nd.x} cy={nd.y} r={on ? 5 : 3.5} fill={on ? "var(--color-gold)" : done ? "var(--color-brass)" : "rgb(184 115 51 / 0.35)"} />
                 </g>
               );
             })}

@@ -99,7 +99,7 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
                 {seals.map((s, i) => (
                   <li key={s} className="flex flex-col items-center">
                     <motion.span
-                      className={cn("grid h-12 w-12 place-items-center rounded-full border-2 sm:h-16 sm:w-16", i < 3 ? "border-[#8a6a2c] bg-[#c5a059]/60" : "border-dashed border-[#8a6a2c]/40")}
+                      className={cn("grid h-12 w-12 place-items-center rounded-full border-2 sm:h-16 sm:w-16", i < 3 ? "border-[#8a6a2c] bg-[#b87333]/60" : "border-dashed border-[#8a6a2c]/40")}
                       animate={{ scale: i < 3 && stage > i ? 1 : i < 3 ? 1.3 : 1, opacity: i < 3 ? (stage > i ? 1 : 0) : 1 }}
                       transition={{ duration: 0.35, ease: ease.citadel }}
                     >
@@ -145,7 +145,7 @@ export function DayClock() {
   return (
     <section aria-labelledby="day-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
-        <div className="lg:sticky lg:top-28 lg:self-start">
+        <div className="lg:sticky motion-reduce:lg:static lg:top-28 lg:self-start">
           <Label>A day</Label>
           <Headline id="day-h" className="mt-4" inscription="A cadet's" voice="day." />
         </div>

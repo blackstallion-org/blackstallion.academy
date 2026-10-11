@@ -139,7 +139,7 @@ export function Terminal({ chips, opening, tall = false, className }: Props) {
             playEffect("key", 0.18, 45);
           }}
           placeholder="Type a question…"
-          className="font-mono flex-1 bg-transparent text-sm text-bone outline-none placeholder:text-dust"
+          className="font-mono flex-1 bg-transparent text-sm text-bone focus-visible:outline focus-visible:outline-1 focus-visible:outline-gold focus-visible:outline-offset-8 placeholder:text-dust"
           autoComplete="off"
         />
         <button type="submit" disabled={busy} className="label text-gold hover:text-bone disabled:opacity-40">

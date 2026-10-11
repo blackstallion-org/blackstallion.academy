@@ -44,7 +44,7 @@ export function Atmosphere() {
           style={{
             left: sx,
             top: sy,
-            background: "radial-gradient(circle, rgb(212 175 55 / 0.22) 0%, rgb(197 160 89 / 0.08) 35%, transparent 70%)",
+            background: "radial-gradient(circle, rgb(212 175 55 / 0.22) 0%, rgb(184 115 51 / 0.08) 35%, transparent 70%)",
           }}
         />
       )}

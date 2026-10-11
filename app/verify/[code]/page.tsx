@@ -121,7 +121,7 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
             <p className="mt-4 text-lg text-ink/85">
               has earned the rank of <strong>{c.rankName}</strong> with <strong>{c.hours} logged riding hours</strong> at {c.hubName}.
             </p>
-            <div className="mx-auto mt-10 grid h-28 w-28 place-items-center rounded-full bg-[radial-gradient(circle_at_40%_35%,#d4af37,#c5a059_55%,#7d6230)] shadow-[0_6px_18px_rgb(0_0_0/0.35)]">
+            <div className="mx-auto mt-10 grid h-28 w-28 place-items-center rounded-full bg-[radial-gradient(circle_at_40%_35%,#d4af37,#b87333_55%,#7d6230)] shadow-[0_6px_18px_rgb(0_0_0/0.35)]">
               <Monogram className="h-12 w-12 text-[#3b2a12]" />
             </div>
             <div className="mt-12 grid grid-cols-2 gap-10 text-sm">

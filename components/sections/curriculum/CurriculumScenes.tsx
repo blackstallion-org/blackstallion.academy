@@ -71,7 +71,7 @@ export function ClockRing() {
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
         <div className="relative mx-auto aspect-square w-full max-w-md">
           <svg viewBox="0 0 400 400" className="h-full w-full -rotate-90" aria-hidden>
-            <circle cx="200" cy="200" r={R} fill="none" stroke="rgb(197 160 89 / 0.15)" strokeWidth="18" />
+            <circle cx="200" cy="200" r={R} fill="none" stroke="rgb(184 115 51 / 0.15)" strokeWidth="18" />
             {classSegments.map((s, i) => (
               <Seg key={s.title} i={i} progress={scrollYProgress} from={s.from} to={s.to} C={C} R={R} mounted={s.mounted} />
             ))}
@@ -79,7 +79,7 @@ export function ClockRing() {
               const a = (m / 45) * Math.PI * 2;
               const len = m % 15 === 0 ? 14 : m % 5 === 0 ? 8 : 4;
               return (
-                <line key={m} x1={200 + Math.cos(a) * 172} y1={200 + Math.sin(a) * 172} x2={200 + Math.cos(a) * (172 + len)} y2={200 + Math.sin(a) * (172 + len)} stroke="rgb(197 160 89 / 0.5)" strokeWidth="1" />
+                <line key={m} x1={200 + Math.cos(a) * 172} y1={200 + Math.sin(a) * 172} x2={200 + Math.cos(a) * (172 + len)} y2={200 + Math.sin(a) * (172 + len)} stroke="rgb(184 115 51 / 0.5)" strokeWidth="1" />
               );
             })}
           </svg>
