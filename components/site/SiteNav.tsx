@@ -7,6 +7,7 @@ import { useLenis } from "lenis/react";
 import { useEffect, useRef, useState } from "react";
 import { Monogram } from "@/components/brand/Monogram";
 import { Wordmark } from "@/components/brand/Wordmark";
+import { SoundToggle } from "@/components/site/SoundToggle";
 import { acts, corridors, navCta, primaryNav, reelFor, reels, TOTAL_REELS, type Act } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -77,6 +78,7 @@ export function SiteNav() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <SoundToggle />
             <Link
               href={navCta.href}
               className="label hidden border border-brass/45 px-4 py-2.5 text-bone transition-colors hover:border-gold hover:text-gold md:inline-block"

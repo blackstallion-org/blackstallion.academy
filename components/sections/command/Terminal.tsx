@@ -2,6 +2,7 @@
 
 import { useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { playEffect } from "@/lib/audio/engine";
 import { answer, fallback, knowledge } from "@/lib/content/command";
 import { cn } from "@/lib/utils";
 
@@ -133,7 +134,10 @@ export function Terminal({ chips, opening, tall = false, className }: Props) {
         <input
           id="cmd-input"
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value);
+            playEffect("key", 0.18, 45);
+          }}
           placeholder="Type a question…"
           className="font-mono flex-1 bg-transparent text-sm text-bone outline-none placeholder:text-dust"
           autoComplete="off"

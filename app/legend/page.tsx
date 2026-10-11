@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BreathCue } from "@/components/film/BreathCue";
 import { EndCard } from "@/components/film/EndCard";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
@@ -20,6 +21,7 @@ export default function LegendPage() {
 
       {/* I · One bloodline — overview + miniature plate + three theories of origin */}
       <section id="ocean" aria-labelledby="ocean-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+        <BreathCue />
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-center">
           <div>
             <ChapterHead id="ocean" />

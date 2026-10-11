@@ -66,3 +66,9 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - Regenerated legendCavalry, legendChetak, legendBahadur with Higgsfield (nano_banana_pro request; banner-free, no elephants, no miniatures). NOT yet visually reviewed by me (CDN blocked in my sandbox) — please check them in the Higgsfield gallery before launch; fetch-media.sh and media.ts point at the new files.
 - Removed Kannauj, Rathore-conquest, Haldighati/Pratap, Mughal and Agra Fort framing from Legend, home story strip and the journal post; replaced with Marwar-horsemen / ballad-tradition wording (Directive §2–3). Route map labels now "River plains · The Thar · Marwar".
 - Still open: three-dimensional stallion (asset to come), named Hyderabad schools (HPS, Oakridge, DPS, Gitanjali) kept as codenames until written partner consent exists, Crucible Variant A/B choice, audio cue assets.
+
+## Session 11 Oct 2026 (audio engine)
+- Added opt-in sound engine: `lib/audio/engine.ts`, `components/site/SoundToggle.tsx` (nav, default OFF, remembered when storage allows), `components/film/BreathCue.tsx` (Reel 01, Reel 04, Act III divider), keystroke sound in the Command Terminal. Missing files fail silently.
+- Audio files are NOT present (Higgsfield cannot generate music or sound effects). Needed: bsah_ambient_432hz_drone.mp3, bsah_stallion_breath.wav, bsah_keystroke.wav in public/audio; licence to be confirmed (see public/audio/README.md).
+- Directive Doc 04 terminal answers NOT adopted verbatim: "25–30% returned", "14,800 hours, zero major injuries", "₹10 Lakh insurance per cadet", "fully sanctioned by STPCI / cryptographically logged" have no evidence on file (claims ledger). Terminal shows "being confirmed" until evidence and owners are supplied.
+- Pan-India benchmark copy keeps heritage schools unnamed (Directive names HPS, Doon, Mayo; naming real institutions needs their consent).
