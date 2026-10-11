@@ -7,7 +7,9 @@ CLAUDE.md
 .mcp.json
 .next
 node_modules
-*.mp4
+hf_*.mp4
+public/video/hf_*
+public/media/*.mp4
 *.pdf
 Claude outputs
 blackstallion images

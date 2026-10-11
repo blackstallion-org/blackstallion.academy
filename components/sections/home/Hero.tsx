@@ -1,147 +1,216 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from "motion/react";
-import { useReducedMotion } from "@/lib/motion/reduced";
+import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Crest } from "@/components/brand/Crest";
-import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
-import { PinnedScene } from "@/components/film/PinnedScene";
-import { r } from "@/components/film/range";
 import { hero } from "@/lib/content/home";
-import { heroVideo, LOCAL_MEDIA } from "@/lib/content/media";
 import { ease } from "@/lib/motion/tokens";
-import { StallionStage, useStallionEnabled } from "@/components/hero/StallionStage";
 
 /**
- * §1 Hero · T1 dust emergence + S01 pinned headline scrub.
- * Signature: "WE DO NOT TEACH children to ride." gives way to "WE FORGE THEM to lead."
- * while the photograph pushes in and a wall of dust drifts across.
+ * §1 Hero · Full-frame cinematic opening film + Institutional doctrine below.
+ * The video plays full screen without obstruction, followed by the manifesto down below.
  */
 export function Hero() {
   return (
-    <PinnedScene id="top" length={2.4} label="We forge them to lead" reducedFallback={<HeroStatic />}>
-      {(p) => <HeroFrame progress={p} />}
-    </PinnedScene>
+    <>
+      <HeroVideoSection />
+      <HeroContentSection />
+    </>
   );
 }
 
-function HeroVideo() {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [ok, setOk] = useState(false);
+function HeroVideoSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const reducedMotion = useReducedMotion();
+
   useEffect(() => {
-    ref.current?.play().catch(() => {});
-  }, []);
+    const video = videoRef.current;
+    if (!video) return;
+    if (reducedMotion) {
+      video.pause();
+      return;
+    }
+    video.play().catch(() => {
+      // Autoplay with sound might be blocked; browser requires muted
+      video.muted = true;
+      video.play().catch(() => {});
+    });
+  }, [reducedMotion]);
+
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
+  };
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  };
+
+  const scrollToContent = () => {
+    document.getElementById("doctrine")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <video
-      ref={ref}
-      className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms]"
-      style={{ opacity: ok ? 0.9 : 0, objectPosition: "62% 45%" }}
-      src={LOCAL_MEDIA ? heroVideo.file : heroVideo.remote}
-      muted
-      loop
-      playsInline
-      autoPlay
-      preload="metadata"
-      aria-hidden
-      onCanPlay={() => setOk(true)}
-    />
+    <section
+      id="top"
+      aria-label="Opening Film"
+      className="relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-night flex items-center justify-center"
+    >
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition: "50% 50%" }}
+        muted
+        loop
+        playsInline
+        autoPlay
+        preload="auto"
+        poster="/video/hero-main-poster.jpg"
+        aria-label="The Marwari Stallion opening film"
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onVolumeChange={(e) => setIsMuted(e.currentTarget.muted)}
+      >
+        <source src="/video/hero-main.mp4" type="video/mp4" />
+        <source src="/video/hf_20261009_040342_f162e5a7-55d6-41fa-a5d4-3e461d925182.mp4" type="video/mp4" />
+      </video>
+
+      {/* Subtle bottom edge gradient to transition smoothly into the doctrine section */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-night via-night/50 to-transparent"
+      />
+
+      {/* Center scroll prompt */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+        <button
+          type="button"
+          onClick={scrollToContent}
+          className="group flex flex-col items-center gap-2 text-sand/80 transition-colors hover:text-gold focus-visible:text-gold"
+          aria-label="Scroll down to academy doctrine"
+        >
+          <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-sand/70 group-hover:text-gold">
+            Explore
+          </span>
+          <span className="block h-5 w-[1px] bg-gold/60 transition-transform group-hover:scale-y-125 animate-pulse" />
+        </button>
+      </div>
+
+      {/* Bottom right floating controls (Sound & Playback) */}
+      <div className="no-print absolute bottom-6 right-6 z-20 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={toggleSound}
+          aria-pressed={!isMuted}
+          aria-label={isMuted ? "Unmute video sound" : "Mute video sound"}
+          className="group flex items-center gap-2 rounded-full border border-brass/50 bg-night/80 px-3.5 py-2 text-[0.68rem] font-mono uppercase tracking-[0.12em] text-sand backdrop-blur-md transition-all hover:border-gold hover:text-gold"
+        >
+          {isMuted ? (
+            <>
+              <svg className="h-3.5 w-3.5 text-dust group-hover:text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+              </svg>
+              <span>Sound OFF</span>
+            </>
+          ) : (
+            <>
+              <svg className="h-3.5 w-3.5 text-gold animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+              <span className="text-gold">Sound ON</span>
+            </>
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={togglePlay}
+          aria-label={isPlaying ? "Pause video" : "Play video"}
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-brass/50 bg-night/80 text-sand backdrop-blur-md transition-all hover:border-gold hover:text-gold"
+        >
+          {isPlaying ? (
+            <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+              <path fillRule="evenodd" d="M6.75 5.25a.75.75 0 01.75.75v12a.75.75 0 01-1.5 0v-12a.75.75 0 01.75-.75zm10.5 0a.75.75 0 01.75.75v12a.75.75 0 01-1.5 0v-12a.75.75 0 01.75-.75z" clipRule="evenodd" />
+            </svg>
+          ) : (
+            <svg className="h-3.5 w-3.5 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.99A1.875 1.875 0 014.5 18.338V5.653z" clipRule="evenodd" />
+            </svg>
+          )}
+        </button>
+      </div>
+    </section>
   );
 }
 
-function HeroFrame({ progress }: { progress: MotionValue<number> }) {
-  const stallion = useStallionEnabled();
-  const scale = useTransform(progress, r(0, 1), [1.06, 1.22]);
-  const aOpacity = useTransform(progress, r(0.18, 0.36), [1, 0]);
-  const aY = useTransform(progress, r(0.18, 0.36), ["0%", "-30%"]);
-  const bOpacity = useTransform(progress, r(0.4, 0.58), [0, 1]);
-  const bY = useTransform(progress, r(0.4, 0.58), ["30%", "0%"]);
-  const subOpacity = useTransform(progress, r(0.55, 0.72), [0, 1]);
-  const veil = useTransform(progress, r(0.7, 1), [0, 0.5]);
-
-  // Cursor-follow: the photograph drifts a few pixels against the pointer. Mouse only, and
-  // HeroFrame never renders under reduced motion (PinnedScene swaps in HeroStatic).
-  const cx = useMotionValue(0);
-  const cy = useMotionValue(0);
-  const sx = useSpring(cx, { stiffness: 38, damping: 22, mass: 1.2 });
-  const sy = useSpring(cy, { stiffness: 38, damping: 22, mass: 1.2 });
-  const driftX = useTransform(sx, (v) => v * -26);
-  const driftY = useTransform(sy, (v) => v * -16);
-  useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-    const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") return;
-      cx.set(e.clientX / window.innerWidth - 0.5);
-      cy.set(e.clientY / window.innerHeight - 0.5);
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [cx, cy]);
-
+function HeroContentSection() {
   return (
-    <div className="relative h-full w-full">
-      <motion.div className="absolute inset-0" style={{ scale, x: driftX, y: driftY }}>
-        <FilmImage name="heroDust" priority />
-        <HeroVideo />
-      </motion.div>
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-0 shade-l opacity-70" />
-      {/* The centrepiece: the interactive stallion, kept clear of the headline column */}
-      {stallion && (
-        <StallionStage className="absolute inset-x-0 top-[40%] h-[38%] sm:top-[6%] sm:h-[58%] lg:left-[34%] lg:right-0 lg:top-[3%] lg:h-[70%]" />
-      )}
-      <motion.div aria-hidden className="pointer-events-none absolute inset-0 bg-night" style={{ opacity: veil }} />
-
-      <div className="gutter pointer-events-none relative flex h-full flex-col justify-between pb-6 pt-24 md:pt-28 [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
+    <section id="doctrine" aria-label="Institutional Doctrine" className="relative border-t border-brass/40 bg-night py-16 md:py-24">
+      <div className="gutter space-y-12 md:space-y-16">
+        {/* Crest & Council badge */}
         <motion.p
           className="label flex items-center gap-3 text-sand"
           initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: ease.citadel, delay: 0.6 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: ease.citadel }}
         >
           <Crest simple className="h-9 w-9" title="STPCI crest" />
           <span className="max-w-[16rem] sm:max-w-none">{hero.badge}</span>
         </motion.p>
 
-        <div className="relative">
-          <div className={stallion ? "relative min-h-[2.1em] max-w-[48rem] text-display-1" : "relative min-h-[2.1em] text-poster"}>
-            <motion.div className="absolute inset-x-0 bottom-0" style={{ opacity: aOpacity, y: aY }}>
-              <Headline as="h1" size={stallion ? "1" : "poster"} animate="mount" delay={0.4} voiceColor="bone" {...hero.frames[0]} />
-            </motion.div>
-            <motion.div className="absolute inset-x-0 bottom-0" style={{ opacity: bOpacity, y: bY }} aria-hidden>
-              <Headline as="p" size={stallion ? "1" : "poster"} animate="none" {...hero.frames[1]} />
-            </motion.div>
+        {/* Dual Headline statements */}
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <Headline as="h1" size="2" animate="inView" voiceColor="bone" {...hero.frames[0]} />
           </div>
-
-          <motion.div
-            className="mt-6 grid gap-6 md:mt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end"
-            style={{ opacity: subOpacity }}
-          >
-            <p className="max-w-xl text-lede text-sand">{hero.sub}</p>
-            <div className="flex flex-wrap gap-3">
-              <Cta href={hero.ctas[0].href} variant="solid">
-                {hero.ctas[0].label}
-              </Cta>
-              <Cta href={hero.ctas[1].href}>{hero.ctas[1].label}</Cta>
-            </div>
-          </motion.div>
+          <div className="lg:border-l lg:border-brass/35 lg:pl-12">
+            <Headline as="p" size="2" animate="inView" voiceColor="gold" {...hero.frames[1]} />
+          </div>
         </div>
 
-        <div>
-          <dl className="grid grid-cols-3 border-t border-line">
+        {/* Lede & CTAs */}
+        <div className="grid gap-8 border-t border-brass/25 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+          <p className="max-w-2xl text-lede text-sand leading-relaxed">{hero.sub}</p>
+          <div className="flex flex-wrap gap-4">
+            <Cta href={hero.ctas[0].href} variant="solid">
+              {hero.ctas[0].label}
+            </Cta>
+            <Cta href={hero.ctas[1].href}>{hero.ctas[1].label}</Cta>
+          </div>
+        </div>
+
+        {/* Stats and Ticker */}
+        <div className="pt-4">
+          <dl className="grid grid-cols-1 border-t border-brass sm:grid-cols-3">
             {hero.stats.map((s, i) => (
-              <div key={s.value} className={i > 0 ? "border-l border-line pl-3 pt-4 md:pl-6" : "pt-4 pr-3"}>
+              <div
+                key={s.value}
+                className={i > 0 ? "border-t border-brass pt-6 sm:border-l sm:border-t-0 sm:pl-6 md:pl-8 sm:pt-4" : "pt-6 sm:pt-4 sm:pr-4"}
+              >
                 <dt className="sr-only">{s.label}</dt>
-                <dd className="t-voice text-[clamp(1.35rem,3.2vw,2.6rem)] leading-none text-gold">{s.value}</dd>
-                <dd className="label mt-2 text-[0.62rem] text-dust md:text-[0.7rem]">{s.label}</dd>
+                <dd className="t-voice text-[clamp(1.85rem,3.4vw,2.8rem)] leading-none text-gold">{s.value}</dd>
+                <dd className="label mt-3 text-[0.65rem] text-dust md:text-[0.72rem]">{s.label}</dd>
               </div>
             ))}
           </dl>
           <Ticker />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -149,7 +218,7 @@ function Ticker() {
   const reduced = useReducedMotion();
   const items = [...hero.ticker, ...hero.ticker];
   return (
-    <div className="mt-5 overflow-hidden border-y border-line py-2" aria-label="Live command figures (sample)">
+    <div className="mt-8 overflow-hidden border-y border-brass py-2.5" aria-label="Live command figures (sample)">
       <div className={reduced ? "flex gap-10" : "animate-marquee flex w-max gap-10"}>
         {items.map((t, i) => (
           <span key={i} className="font-mono flex items-center gap-10 whitespace-nowrap text-[0.68rem] uppercase tracking-[0.12em] text-sand/80">
@@ -158,31 +227,6 @@ function Ticker() {
             <span aria-hidden className="text-brass/50">·</span>
           </span>
         ))}
-      </div>
-    </div>
-  );
-}
-
-function HeroStatic() {
-  return (
-    <div className="relative min-h-[100svh]">
-      <FilmImage name="heroDust" priority />
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end gap-8 pb-16 pt-28">
-        <p className="label text-sand">{hero.badge}</p>
-        <h1 className="text-poster">
-          <span className="t-inscribe block text-[0.5em]">{hero.frames[0].inscription}</span>
-          <span className="t-voice block">{hero.frames[0].voice}</span>
-          <span className="t-inscribe mt-4 block text-[0.5em]">{hero.frames[1].inscription}</span>
-          <span className="t-voice block text-gold">{hero.frames[1].voice}</span>
-        </h1>
-        <p className="max-w-xl text-lede text-sand">{hero.sub}</p>
-        <div className="flex flex-wrap gap-3">
-          <Cta href={hero.ctas[0].href} variant="solid">
-            {hero.ctas[0].label}
-          </Cta>
-          <Cta href={hero.ctas[1].href}>{hero.ctas[1].label}</Cta>
-        </div>
       </div>
     </div>
   );
