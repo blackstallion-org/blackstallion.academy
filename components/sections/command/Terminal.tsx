@@ -1,6 +1,7 @@
 "use client";
 
-import { useInView, useReducedMotion } from "motion/react";
+import { useInView } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { playEffect } from "@/lib/audio/engine";
 import { answer, fallback, knowledge, type Entry } from "@/lib/content/command";

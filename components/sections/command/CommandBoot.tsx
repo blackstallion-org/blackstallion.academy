@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { ease } from "@/lib/motion/tokens";
 
 const lines = ["SOVEREIGN COMMAND TERMINAL · DEMO", "LINK · OFFICE OF THE EXECUTIVE CHAIRMAN", "SCRIPTED ANSWERS · ASK ABOUT ROI, INSURANCE, SAFETY OR CURRICULUM"];

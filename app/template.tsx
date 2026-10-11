@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { useEffect, useState } from "react";
 import { Monogram } from "@/components/brand/Monogram";
 import { curtain } from "@/lib/motion/tokens";

@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { useRef, useState, type KeyboardEvent } from "react";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";

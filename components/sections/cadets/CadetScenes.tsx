@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
+import { motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { useRef, useState } from "react";
 import { Monogram } from "@/components/brand/Monogram";
 import { FilmImage } from "@/components/film/FilmImage";

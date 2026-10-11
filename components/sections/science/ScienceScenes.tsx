@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { AnimatePresence, motion, useInView, useScroll, useTransform } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { useRef, useState, type KeyboardEvent } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";

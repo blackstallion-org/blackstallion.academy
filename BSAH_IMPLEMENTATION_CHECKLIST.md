@@ -35,6 +35,6 @@ Statuses: CV = completed & verified · AV = already implemented & verified · PC
 | 18 | QR seal (real, scannable) on verify + passport | CV | decodes to /verify/BSAH-2026-HYD-042 |
 | 18 | Live cadet registry | BL | Supabase not provisioned |
 | 19 | Keyboard focus visible | CV | 125 tab stops, 0 without visible focus |
-| 19 | Reduced motion | PC | no sticky/pinning; React #418 hydration warnings on 4–5 routes under reduced motion are PRE-EXISTING (same on base build) |
+| 19 | Reduced motion | CV | no sticky/pinning; hydration-safe reduced-motion hook (lib/motion/reduced.ts) removed the React #418 warnings on /, /legend, /cadets, /parents. An intermittent #418 remains on /about (pre-existing, not reproducible in isolation) |
 | 20 | Canonical, OG, Twitter, icons | CV | |
 | 20 | Live Vercel deployment | NI | not deployed; no credentials |

@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { useId, useRef } from "react";
 import { blaze, earLeft, earRight } from "@/components/brand/paths";
 import { ease, inViewOnce, sealStamp } from "@/lib/motion/tokens";

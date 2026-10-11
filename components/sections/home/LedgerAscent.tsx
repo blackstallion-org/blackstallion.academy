@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useInView } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { useEffect, useRef, useState } from "react";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";

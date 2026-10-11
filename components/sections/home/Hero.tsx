@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { useEffect, useRef, useState } from "react";
 import { Crest } from "@/components/brand/Crest";
 import { FilmImage } from "@/components/film/FilmImage";
