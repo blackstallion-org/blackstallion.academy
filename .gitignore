@@ -52,3 +52,4 @@ next-env.d.ts
 
 # large local video files (not source)
 /public/video/hf_*
+/_to_delete/
