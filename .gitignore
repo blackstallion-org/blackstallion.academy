@@ -49,3 +49,6 @@ next-env.d.ts
 /blackstallion images/
 /instructions/
 /*.pdf
+
+# large local video files (not source)
+/public/video/hf_*

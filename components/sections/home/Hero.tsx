@@ -26,15 +26,14 @@ export function Hero() {
 /** The opening film: shipped with the site (public/video), so it never depends on the media CDN. */
 function IntroVideo() {
   const ref = useRef<HTMLVideoElement>(null);
-  const [ok, setOk] = useState(false);
   useEffect(() => {
     ref.current?.play().catch(() => {});
   }, []);
   return (
     <video
       ref={ref}
-      className="absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms]"
-      style={{ opacity: ok ? 0.85 : 0, objectPosition: "50% 50%" }}
+      className="absolute inset-0 h-full w-full object-cover"
+      style={{ opacity: 0.85, objectPosition: "50% 50%" }}
       src="/video/hero-intro.mp4"
       poster="/video/hero-intro-poster.jpg"
       muted
@@ -43,7 +42,6 @@ function IntroVideo() {
       autoPlay
       preload="auto"
       aria-hidden
-      onCanPlay={() => setOk(true)}
     />
   );
 }
