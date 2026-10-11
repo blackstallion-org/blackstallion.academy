@@ -53,3 +53,11 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).
 - Images in the cloud build sandbox render as graded gradients (the CDN is blocked there); judge final visuals on the Mac after fetching media.
+
+## Session 11 Oct 2026 (later) · Imagery, pricing, hubs, haptics, backend foundation
+- Legend reel no longer uses mythological/banner-risk imagery (legendOcean/legendExodus removed from media.ts and fetch-media.sh); uses legendBlack and bgFort.
+- Single pricing source: `lib/content/pricing.ts` (core, elite, kit, GST); used by academy, parents, gates, schools, command.
+- Hubs carry a lifecycle `status` (all three are `prospect`); hub pages show status and mark timings as proposed samples.
+- Compare slider: optional haptics toggle (off by default, hidden under reduced motion or without vibration support).
+- Backend foundation (NOT applied anywhere, no Supabase project): `supabase/migrations/*` (schema, RLS, rank/passport/lead functions, seed of 13 pillars, 6 zones, 3 prospect hubs) and `supabase/tests/run.sh` (throwaway Postgres 16; 101 checks passed on 11 Oct 2026). Open decisions: `docs/reference/backend-open-decisions.md`.
+- Still unverified: `next build` (no SWC binary in the Mac VM), screenshots at 390/1440, reduced-motion and keyboard-focus review.
