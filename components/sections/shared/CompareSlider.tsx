@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useTransform } from "motion/react";
-import { useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useRef, useState, useSyncExternalStore, type KeyboardEvent, type PointerEvent } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import type { MediaKey } from "@/lib/content/media";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,15 @@ type Props = {
   onChange?: (pct: number) => void;
 };
 
+const subscribeNone = () => () => {};
+function vibrationAvailable() {
+  try {
+    return !window.matchMedia("(prefers-reduced-motion: reduce)").matches && typeof navigator.vibrate === "function";
+  } catch {
+    return false;
+  }
+}
+
 /**
  * S05 before/after slider. Drag, click or use the arrow keys.
  * The crisis side is graded cold, the cure side warm.
@@ -27,8 +36,22 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, className, o
   const clip = useTransform(pct, (v) => `inset(0 0 0 ${v}%)`);
   const left_ = useTransform(pct, (v) => `${v}%`);
 
+  // Optional haptics: off by default, only offered where the Vibration API exists, never under reduced motion.
+  const canVibrate = useSyncExternalStore(subscribeNone, vibrationAvailable, () => false);
+  const [haptics, setHaptics] = useState(false);
+  const lastStep = useRef(5);
+
   const set = (v: number) => {
     const c = Math.max(0, Math.min(100, v));
+    const step = Math.round(c / 10);
+    if (haptics && step !== lastStep.current) {
+      try {
+        navigator.vibrate(6);
+      } catch {
+        /* unsupported or blocked: ignore */
+      }
+    }
+    lastStep.current = step;
     pct.set(c);
     setValue(Math.round(c));
     onChange?.(c);
@@ -67,6 +90,18 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, className, o
 
       <span className="label pointer-events-none absolute left-4 top-4 text-frost md:left-6 md:top-6">{leftLabel}</span>
       <span className="label pointer-events-none absolute right-4 top-4 text-gold md:right-6 md:top-6">{rightLabel}</span>
+
+      {canVibrate && (
+        <button
+          type="button"
+          aria-pressed={haptics}
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => setHaptics((h) => !h)}
+          className="label absolute bottom-4 left-4 z-10 border border-brass/40 bg-night/70 px-3 py-2 text-sand transition-colors hover:border-gold hover:text-gold md:bottom-6 md:left-6"
+        >
+          Haptics: {haptics ? "on" : "off"}
+        </button>
+      )}
 
       <motion.div className="absolute inset-y-0 w-px bg-gold/80" style={{ left: left_ }}>
         <button

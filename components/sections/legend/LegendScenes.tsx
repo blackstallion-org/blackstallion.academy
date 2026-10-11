@@ -145,7 +145,7 @@ export function RouteMap() {
     <section id="marwar" ref={ref} aria-labelledby="marwar-h" className="relative overflow-hidden">
       {/* The map. On phones the copy follows below it; from md up the copy sits over the foot of the map. */}
       <div className="relative h-[58svh] min-h-[360px] md:h-[90svh] md:min-h-[560px]">
-        <FilmImage name="legendExodus" grade="deep" />
+        <FilmImage name="bgFort" grade="deep" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/30 to-night" />
         <svg viewBox="0 0 1000 400" preserveAspectRatio="none" className="absolute inset-x-0 top-[34%] h-[30%] w-full md:top-[38%]" aria-hidden>
           <motion.path

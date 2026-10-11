@@ -1,4 +1,5 @@
 import type { MediaKey } from "./media";
+import { price, priceLabel } from "./pricing";
 
 /** Reels 07–09 and the credits page. Blueprint Part 6 (R07 Cadets, R08 Parents, R09 Safety, About). */
 
@@ -73,9 +74,9 @@ export const admissions = [
 
 /** Institutional pricing (Master Refinement §9.1). GST added at billing. */
 export const fees = [
-  { item: "Core Cadets (monthly)", detail: "Two sessions a week · ₹8,500 + 18% GST, by UPI Autopay on the 1st", amount: 8500 },
-  { item: "Sovereign Elite (monthly)", detail: "Three sessions a week + skill-at-arms + STPCI registration + 24/7 stall-cam · ₹12,500 + 18% GST", amount: 12500 },
-  { item: "Onboarding kit (one-time)", detail: "Bandhgala tunic, helmet, boots, handcrafted Sovereign Passport · ₹5,000 + GST", amount: 5000 },
+  { item: "Core Cadets (monthly)", detail: `Two sessions a week · ${priceLabel.core.replace("+ GST", "+ 18% GST")}, by UPI Autopay on the 1st`, amount: price.core },
+  { item: "Sovereign Elite (monthly)", detail: `Three sessions a week + skill-at-arms + STPCI registration + 24/7 stall-cam · ${priceLabel.elite.replace("+ GST", "+ 18% GST")}`, amount: price.elite },
+  { item: "Onboarding kit (one-time)", detail: `Bandhgala tunic, helmet, boots, handcrafted Sovereign Passport · ${priceLabel.kit}`, amount: price.kit },
 ];
 
 export const faq = [

@@ -30,7 +30,7 @@ export const ocean = {
   inscription: "Eight hundred years",
   voice: "in one bloodline.",
   body: "For centuries, civilisation was shaped by the partnership between horse and rider, and the world expanded from horseback. The Marwari emerged from a complex historical crucible: native desert stock, infused with influences from Arabian and Central Asian lines, refined through generations of strict selective breeding by the horsemen of Rajasthan. Whatever the exact genetic currents of its origins, the result is an undeniable masterpiece of adaptation. The Thar Desert stripped away weakness; what remained was a sovereign breed unique to Indian soil — compact, fiercely loyal, and structurally engineered for survival, endurance and absolute grace.",
-  caption: "A stallion of Marwar. Placeholder plate in the miniature style.",
+  caption: "A stallion of Marwar. Placeholder image.",
   theories: [
     {
       name: "The shipwreck",

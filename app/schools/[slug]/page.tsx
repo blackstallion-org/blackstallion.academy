@@ -6,7 +6,7 @@ import { Headline } from "@/components/film/Headline";
 import { Label, StatusDot } from "@/components/film/Marks";
 import { LeadForm } from "@/components/sections/shared/LeadForm";
 import { fleet, statusLabel } from "@/lib/content/fleet";
-import { hubBySlug, hubs, tierById } from "@/lib/content/schools";
+import { hubBySlug, hubStatusLabel, hubs, tierById } from "@/lib/content/schools";
 
 export function generateStaticParams() {
   return hubs.map((h) => ({ slug: h.slug }));
@@ -45,8 +45,9 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
       </section>
 
       <section aria-label="At this hub" className="gutter relative py-16">
-        <dl className="grid grid-cols-2 gap-px bg-brass/15 md:grid-cols-4">
+        <dl className="grid grid-cols-2 gap-px bg-brass/15 md:grid-cols-5">
           {[
+            ["Status", hubStatusLabel[hub.status]],
             ["Tier", tier.name],
             ["Stallions", String(hub.stallions)],
             ["Cadets", `${hub.cadets} (sample)`],
@@ -78,7 +79,7 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
                 </li>
               ))}
             </ul>
-            <p className="t-ui mt-3 text-xs text-dust">Sample timings; confirmed at the hub visit.</p>
+            <p className="t-ui mt-3 text-xs text-dust">Proposed timings (sample); they may differ from the standard academy schedule and are confirmed at the hub visit.</p>
           </div>
           <div>
             <Label>Stabled here</Label>

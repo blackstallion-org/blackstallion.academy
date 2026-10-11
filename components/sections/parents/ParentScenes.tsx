@@ -10,8 +10,8 @@ import { r } from "@/components/film/range";
 import { admissions, faq, fees, phoneSteps } from "@/lib/content/academy";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { inr, price, withGst } from "@/lib/content/pricing";
 
-const inr = (n: number) => `₹${new Intl.NumberFormat("en-IN").format(n)}`;
 
 /** Title card · T9 rail view. Signature: the wooden rail in the foreground slides down as the arena opens up. */
 export function ParentsTitle() {
@@ -192,8 +192,7 @@ export function HoofPath() {
 export function Receipt() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
-  const GST = 1.18;
-  const firstMonthCore = Math.round((8500 + 5000) * GST);
+  const firstMonthCore = withGst(price.core + price.kit);
   return (
     <section id="fees" aria-labelledby="fees-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-center">
@@ -230,11 +229,11 @@ export function Receipt() {
             </p>
             <p className="font-mono mt-2 flex justify-between text-sm text-ink">
               <span>Each month after · Core</span>
-              <span>{inr(Math.round(8500 * GST))}</span>
+              <span>{inr(withGst(price.core))}</span>
             </p>
             <p className="font-mono mt-2 flex justify-between text-sm text-ink">
               <span>Each month after · Sovereign Elite</span>
-              <span>{inr(Math.round(12500 * GST))}</span>
+              <span>{inr(withGst(price.elite))}</span>
             </p>
             <p className="font-mono mt-6 text-center text-[0.6rem] text-[#6b5130]">PAYMENTS VIA RAZORPAY · UPI AUTOPAY ON THE 1ST</p>
           </motion.div>

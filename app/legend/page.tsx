@@ -33,7 +33,7 @@ export default function LegendPage() {
           <Reveal as="figure" className="mx-auto w-full max-w-md">
             <div className="relative aspect-[3/4] border border-brass/25 p-3">
               <div className="relative h-full w-full">
-                <FilmImage name="legendOcean" grade="none" sizes="(min-width: 1024px) 30vw, 90vw" />
+                <FilmImage name="legendBlack" sizes="(min-width: 1024px) 30vw, 90vw" />
               </div>
             </div>
             <figcaption className="label mt-4 text-dust">

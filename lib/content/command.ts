@@ -1,3 +1,4 @@
+import { priceLabel } from "./pricing";
 import { tiers } from "./schools";
 
 /**
@@ -49,7 +50,7 @@ export const knowledge: Entry[] = [
     ask: "What does it cost a parent?",
     keywords: ["fee", "fees", "cost", "price", "tuition", "pay", "gst", "upi", "elite", "kit"],
     answer:
-      "Core Cadets: ₹8,500 + GST a month, two sessions a week. Sovereign Elite: ₹12,500 + GST a month, three sessions a week plus skill-at-arms, STPCI registration and the 24/7 stall-cam. The one-time onboarding kit is ₹5,000 + GST (tunic, helmet, boots, Sovereign Passport). UPI Autopay on the 1st.",
+      `Core Cadets: ${priceLabel.core} a month, two sessions a week. Sovereign Elite: ${priceLabel.elite} a month, three sessions a week plus skill-at-arms, STPCI registration and the 24/7 stall-cam. The one-time onboarding kit is ${priceLabel.kit} (tunic, helmet, boots, Sovereign Passport). UPI Autopay on the 1st.`,
   },
   {
     id: "tiers",

@@ -37,8 +37,6 @@ export const media = {
   dustWall: m("dust-wall.png", "hf_20261009_002905_226a4699-2319-45c7-ac8d-3d48708a5a42.png", ""),
 
   /* ---------------------------------------------------- second set (Blueprint 8.2) */
-  legendOcean: m("legend-ocean.png", "hf_20261009_133738_46f96059-e48f-4cf2-b3ba-1babc9d1160c.png", "A Rajput miniature of Uchchaihshravas, the seven-headed white horse, rising from the churning ocean"),
-  legendExodus: m("legend-exodus.png", "hf_20261009_133739_5f55f3b2-a9b0-4569-a0d3-c382da90c47a.png", "Rathore warriors and their caravan crossing the Thar desert at dusk"),
   legendSand: m("legend-sand.png", "hf_20261009_133620_b9556c78-8c2d-482f-97cc-c5dc976e7787.png", "A Marwari's hooves lifting out of deep desert sand"),
   legendEars: m("legend-ears.png", "hf_20261009_133621_5a3cedb7-3682-4992-9f09-58666b26f286.png", "A Marwari's lyre-shaped ears curving inward until the tips touch"),
   legendGrey: m("legend-grey.png", "hf_20261009_134207_2579fc71-30ad-44d5-9a75-48d29801a99c.png", "A dappled grey Marwari stallion with a silver bridle by lantern light"),

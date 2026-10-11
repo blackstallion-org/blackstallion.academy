@@ -20,8 +20,6 @@ get bg-passport.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32P
 get bg-charge.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002640_5b5f28cc-654a-499d-8b0e-35093d96acb5.png"
 get dust-plume.png           "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002905_56886768-0acc-459c-ae40-a8356254a871.png"
 get dust-wall.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002905_226a4699-2319-45c7-ac8d-3d48708a5a42.png"
-get legend-ocean.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_133738_46f96059-e48f-4cf2-b3ba-1babc9d1160c.png"
-get legend-exodus.png        "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_133739_5f55f3b2-a9b0-4569-a0d3-c382da90c47a.png"
 get legend-sand.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_133620_b9556c78-8c2d-482f-97cc-c5dc976e7787.png"
 get legend-ears.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_133621_5a3cedb7-3682-4992-9f09-58666b26f286.png"
 get legend-grey.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_134207_2579fc71-30ad-44d5-9a75-48d29801a99c.png"

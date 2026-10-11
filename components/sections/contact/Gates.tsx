@@ -8,6 +8,7 @@ import { ReelMark } from "@/components/film/Marks";
 import { LeadForm, type Field } from "@/components/sections/shared/LeadForm";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { priceLabel } from "@/lib/content/pricing";
 
 /** Title card · T16 gate. Signature: two gate halves part to reveal the page. */
 export function GateTitle() {
@@ -43,7 +44,7 @@ const gates: { id: GateId; title: string; line: string; note?: string; email: st
     id: "parents",
     title: "Enrol a cadet",
     line: "The Sovereign Character Academy: enrolment for parents and guardians.",
-    note: "One-time onboarding kit ₹5,000 + GST (tunic, helmet, boots, Sovereign Passport).",
+    note: `One-time onboarding kit ${priceLabel.kit} (tunic, helmet, boots, Sovereign Passport).`,
     email: "parents@blackstallion.academy",
     submit: "Submit cadet application",
     fields: [
@@ -51,7 +52,7 @@ const gates: { id: GateId; title: string; line: string; note?: string; email: st
       { name: "student", label: "Student name" },
       { name: "age", label: "Student age", type: "select", options: ["8–10", "11–13", "14–16", "17–18"] },
       { name: "zone", label: "Target regional zone", type: "select", options: zoneOptions, wide: true },
-      { name: "tier", label: "Preferred tier", type: "select", options: ["Core Cadets · ₹8,500 + GST / month", "Sovereign Elite · ₹12,500 + GST / month"], wide: true },
+      { name: "tier", label: "Preferred tier", type: "select", options: [`Core Cadets · ${priceLabel.core} / month`, `Sovereign Elite · ${priceLabel.elite} / month`], wide: true },
       { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
       { name: "email", label: "Email", type: "email", autoComplete: "email" },
       { name: "message", label: "Questions", type: "textarea" },

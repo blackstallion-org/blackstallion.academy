@@ -1,5 +1,6 @@
 import type { HubSlug } from "./fleet";
 import type { MediaKey } from "./media";
+import { price } from "./pricing";
 
 /**
  * Reel 10 · The Citadel (school boards). Blueprint R10, revised per the
@@ -28,7 +29,7 @@ export const tiers: Tier[] = [
   { id: "royal", name: "Royal Pavilion", stables: 12, acres: "1.5+ acres", cadets: "300+", capexLakh: 25, capexLabel: "₹25.00 L+", includes: ["12 stables", "Cavalry arena", "VIP deck", "STPCI host venue"] },
 ];
 
-export const TUITION_PER_MONTH = 8500; // ₹ per cadet (Core tier), before GST
+export const TUITION_PER_MONTH = price.core; // ₹ per cadet (Core tier), before GST
 
 /** School income at a given enrolment and revenue share. The school carries no capital. */
 export function simulate(cadets: number, sharePct: number) {
@@ -126,8 +127,20 @@ export const benchmark = {
   ],
 };
 
+/** Commercial lifecycle (Architecture Blueprint L7). No hub is shown as contracted or active without evidence. */
+export type HubStatus = "prospect" | "pipeline" | "contracted" | "active" | "paused" | "closed";
+export const hubStatusLabel: Record<HubStatus, string> = {
+  prospect: "Prospect · not yet contracted",
+  pipeline: "In pipeline",
+  contracted: "Contracted",
+  active: "Active",
+  paused: "Paused",
+  closed: "Closed",
+};
+
 export type Hub = {
   slug: HubSlug;
+  status: HubStatus;
   name: string;
   short: string;
   area: string;
@@ -144,7 +157,7 @@ export type Hub = {
 /** Zone 01 flagship hubs (SAMPLE figures). Identified by zone codename, never by school name. */
 export const hubs: Hub[] = [
   {
-    slug: "zone-01a-financial-district", name: "Zone 01A · Financial District & Narsingi Corridor", short: "Zone 01A · Narsingi", area: "Financial District", tier: "signature",
+    slug: "zone-01a-financial-district", status: "prospect", name: "Zone 01A · Financial District & Narsingi Corridor", short: "Zone 01A · Narsingi", area: "Financial District", tier: "signature",
     stallions: 8, cadets: 150, image: "schoolAerial", note: "Circuit leader and host of the 2026 Sovereign Governor's Cup.",
     pin: { x: 58, y: 66 },
     batches: [
@@ -154,7 +167,7 @@ export const hubs: Hub[] = [
     ],
   },
   {
-    slug: "zone-01c-gachibowli", name: "Zone 01C · Gachibowli & Madhapur Academic Axis", short: "Zone 01C · Gachibowli", area: "Gachibowli", tier: "standard",
+    slug: "zone-01c-gachibowli", status: "prospect", name: "Zone 01C · Gachibowli & Madhapur Academic Axis", short: "Zone 01C · Gachibowli", area: "Gachibowli", tier: "standard",
     stallions: 4, cadets: 96, image: "schoolArenaNight", note: "Floodlit evening batches under the arena lights.",
     pin: { x: 30, y: 44 },
     batches: [
@@ -163,7 +176,7 @@ export const hubs: Hub[] = [
     ],
   },
   {
-    slug: "zone-01b-begumpet", name: "Zone 01B · Begumpet & Jubilee Hills Heritage Belt", short: "Zone 01B · Begumpet", area: "Begumpet", tier: "royal",
+    slug: "zone-01b-begumpet", status: "prospect", name: "Zone 01B · Begumpet & Jubilee Hills Heritage Belt", short: "Zone 01B · Begumpet", area: "Begumpet", tier: "royal",
     stallions: 12, cadets: 210, image: "bgPavilion", note: "Heritage pavilion and host of the Junior Lancers Invitational.",
     pin: { x: 54, y: 32 },
     batches: [
