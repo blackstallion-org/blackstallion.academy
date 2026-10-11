@@ -50,7 +50,7 @@ export function Matrix() {
                 onKeyDown={(e) => onKey(e, i)}
                 className={cn(
                   "group flex shrink-0 items-baseline gap-4 border-b py-4 pr-6 text-left transition-colors lg:pr-0",
-                  active === s.id ? "border-gold" : "border-brass hover:border-brass/50",
+                  active === s.id ? "border-gold" : "border-line hover:border-line/50",
                 )}
               >
                 <span className="font-mono text-xs text-dust">0{i + 1}</span>
@@ -75,7 +75,7 @@ export function Matrix() {
                 transition={{ duration: 0.45, ease: ease.citadel }}
               >
                 <p className="t-story text-bone">{sys.text}</p>
-                <div className="mt-8 border-l border-brass pl-5">
+                <div className="mt-8 border-l border-line pl-5">
                   <p className="label">
                     <span className={sys.evidence === "Supported" ? "text-gold" : "text-sand"}>● {sys.evidence}</span>
                     <span className="ml-3 text-dust">Evidence</span>

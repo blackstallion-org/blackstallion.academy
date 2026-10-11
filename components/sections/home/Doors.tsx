@@ -58,7 +58,7 @@ export function Doors() {
                   >
                     {d.points.map((pt) => (
                       <li key={pt} className="flex items-start gap-3 text-sm text-sand md:text-base">
-                        <Hoof className="mt-1 h-3.5 w-3.5 text-dust" />
+                        <Hoof className="mt-1 h-3.5 w-3.5 text-brass" />
                         {pt}
                       </li>
                     ))}

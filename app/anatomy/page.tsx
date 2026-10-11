@@ -41,9 +41,9 @@ export default function AnatomyPage() {
           <p className="font-mono max-w-[16rem] text-xs leading-relaxed text-dust">
             Compiled from breed-society standards and Marwar horse literature. Individual horses and lines vary.
           </p>
-          <dl className="border-t border-brass">
+          <dl className="border-t border-line">
             {breedStandard.map((row, i) => (
-              <Reveal key={row.k} delay={i * 0.04} className="grid gap-2 border-b border-brass py-6 sm:grid-cols-[12rem_1fr] sm:gap-8">
+              <Reveal key={row.k} delay={i * 0.04} className="grid gap-2 border-b border-line py-6 sm:grid-cols-[12rem_1fr] sm:gap-8">
                 <dt className="label pt-1 text-dust">{row.k}</dt>
                 <dd className="text-lede text-bone">{row.v}</dd>
               </Reveal>

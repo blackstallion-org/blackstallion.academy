@@ -97,7 +97,7 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, className, o
           aria-pressed={haptics}
           onPointerDown={(e) => e.stopPropagation()}
           onClick={() => setHaptics((h) => !h)}
-          className="label absolute bottom-4 left-4 z-10 border border-brass bg-night/70 px-3 py-2 text-sand transition-colors hover:border-gold hover:text-gold md:bottom-6 md:left-6"
+          className="label absolute bottom-4 left-4 z-10 border border-line bg-night/70 px-3 py-2 text-sand transition-colors hover:border-gold hover:text-gold md:bottom-6 md:left-6"
         >
           Haptics: {haptics ? "on" : "off"}
         </button>

@@ -85,16 +85,16 @@ export function MouGenerator() {
             <button type="submit" disabled={pending} className="label bg-gold px-6 py-4 text-night hover:bg-bone disabled:opacity-60">
               {pending ? "Sealing…" : "Send to the BSAH board office"}
             </button>
-            <button type="button" onClick={() => window.print()} className="label border border-brass/45 px-6 py-4 text-bone hover:border-gold hover:text-gold">
+            <button type="button" onClick={() => window.print()} className="label border border-line/45 px-6 py-4 text-bone hover:border-gold hover:text-gold">
               Print / save as PDF
             </button>
-            {state && !state.ok && <p className="t-ui w-full text-sm text-white">{state.message}</p>}
+            {state && !state.ok && <p className="t-ui w-full text-sm text-blood">{state.message}</p>}
           </div>
         )}
       </form>
 
       <article aria-label="Draft memorandum of understanding" className="parchment print-doc min-w-0 break-words px-6 py-10 text-[0.95rem] leading-relaxed md:px-12 md:py-14">
-        <p className="label text-center text-white">Draft for discussion · not a binding document</p>
+        <p className="label text-center text-blood">Draft for discussion · not a binding document</p>
         <h2 className="t-inscribe mt-4 text-center text-2xl text-ink">Memorandum of Understanding</h2>
         <p className="mt-1 text-center text-sm text-[#2A1D15]">{today}</p>
         <div className="mt-8 flex flex-col gap-4 text-ink/90">

@@ -46,7 +46,7 @@ export function Registry() {
         </div>
         <div className="flex gap-2" role="radiogroup" aria-label="Filter by breed">
           {(["All", "Marwari", "Kathiawari"] as const).map((f) => (
-            <button key={f} type="button" role="radio" aria-checked={filter === f} onClick={() => setFilter(f)} className={cn("label border px-4 py-2.5", filter === f ? "border-gold text-gold" : "border-brass text-sand hover:text-bone")}>
+            <button key={f} type="button" role="radio" aria-checked={filter === f} onClick={() => setFilter(f)} className={cn("label border px-4 py-2.5", filter === f ? "border-gold text-gold" : "border-line text-sand hover:text-bone")}>
               {f}
             </button>
           ))}
@@ -57,7 +57,7 @@ export function Registry() {
         <table className="w-full min-w-[760px] border-collapse text-left">
           <caption className="sr-only">Stallion registry (sample records)</caption>
           <thead>
-            <tr className="border-b border-brass">
+            <tr className="border-b border-line">
               {["", "Name", "Breed", "Microchip (ISO 11784)", "Hub", "Status", ""].map((h, k) => (
                 <th key={k} scope="col" className="label py-3 pr-4 font-semibold text-dust">
                   {h}
@@ -67,7 +67,7 @@ export function Registry() {
           </thead>
           <tbody>
             {list.map((s) => (
-              <tr key={s.id} className="group border-b border-brass transition-colors hover:bg-umber/60">
+              <tr key={s.id} className="group border-b border-line transition-colors hover:bg-umber/60">
                 <td className="py-3 pr-4">
                   <div className="relative h-14 w-12 overflow-hidden">
                     <FilmImage name={s.image} sizes="48px" />
@@ -86,7 +86,7 @@ export function Registry() {
                   </span>
                 </td>
                 <td className="text-right">
-                  <button type="button" onClick={() => setOpen(s)} className="label border border-brass px-3 py-2 text-gold hover:border-gold">
+                  <button type="button" onClick={() => setOpen(s)} className="label border border-line px-3 py-2 text-gold hover:border-gold">
                     Open
                     <span className="sr-only"> {s.name}</span>
                   </button>
@@ -123,7 +123,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-label={`${s.name}, studbook page`}
-        className="fixed inset-y-0 right-0 z-[76] w-full max-w-xl overflow-y-auto border-l border-brass bg-umber"
+        className="fixed inset-y-0 right-0 z-[76] w-full max-w-xl overflow-y-auto border-l border-line bg-umber"
         initial={{ x: "100%" }}
         animate={{ x: "0%" }}
         exit={{ x: "100%" }}
@@ -137,7 +137,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
             Close ✕
           </button>
           <div className="absolute inset-x-0 bottom-0 p-6">
-            <p className="label text-dust">{s.character}</p>
+            <p className="label text-brass">{s.character}</p>
             <p className="t-voice mt-1 text-5xl text-bone">{s.name}</p>
           </div>
         </div>
@@ -162,7 +162,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
               <dd className="font-mono mt-1 text-lg text-gold">{s.chip}</dd>
             </div>
           </dl>
-          <p className="label mt-10 text-dust">Pedigree (sample)</p>
+          <p className="label mt-10 text-brass">Pedigree (sample)</p>
           <svg viewBox="0 0 400 180" className="mt-4 w-full" role="img" aria-label={`Pedigree: sire ${s.pedigree.sire}, dam ${s.pedigree.dam}`}>
             <g stroke="rgb(89 56 34 / 1)" fill="none">
               <path d="M110 90 H140 V40 H170 M140 90 V140 H170" />
@@ -176,7 +176,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
               <text x="336" y="66" fill="rgb(217 213 205)" fontSize="10">{s.pedigree.granddam}</text>
             </g>
           </svg>
-          <button type="button" disabled className="label mt-8 w-full border border-brass py-3 text-dust">
+          <button type="button" disabled className="label mt-8 w-full border border-line py-3 text-dust">
             Watch stall-cam · parents only, in the app
           </button>
         </div>
@@ -250,11 +250,11 @@ export function CareLog() {
           <Headline id="log-h" className="mt-4" inscription="The stable" voice="log." />
           <p className="mt-6 max-w-sm text-sand">Horses are checked before cadets, every day. A sample day from the duty log.</p>
         </div>
-        <ol ref={ref} className="font-mono border-t border-brass text-sm">
+        <ol ref={ref} className="font-mono border-t border-line text-sm">
           {careLog.map((l, i) => (
             <motion.li
               key={l.time}
-              className="grid grid-cols-[4rem_1fr] gap-4 border-b border-brass py-4 sm:grid-cols-[4.5rem_10rem_1fr_auto]"
+              className="grid grid-cols-[4rem_1fr] gap-4 border-b border-line py-4 sm:grid-cols-[4.5rem_10rem_1fr_auto]"
               initial={{ opacity: 0, x: -10 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.4, delay: i * 0.18 }}
@@ -262,7 +262,7 @@ export function CareLog() {
               <span className="text-gold">{l.time}</span>
               <span className="text-bone">{l.item}</span>
               <span className="col-start-2 text-sand/80 sm:col-start-auto">{l.detail}</span>
-              <span className={cn("col-start-2 sm:col-start-auto", l.result.includes("bruise") ? "text-white" : "text-[#D9D5CD]")}>{l.result}</span>
+              <span className={cn("col-start-2 sm:col-start-auto", l.result.includes("bruise") ? "text-blood" : "text-[#D9D5CD]")}>{l.result}</span>
             </motion.li>
           ))}
         </ol>
@@ -278,12 +278,12 @@ export function CoatRegistry() {
     <section aria-labelledby="coats-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>Official Marwari studbook</Label>
       <Headline id="coats-h" className="mt-4" inscription="The colour" voice="registry." />
-      <ul className="mt-14 grid gap-px bg-brass sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-14 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
         {coatRegistry.map((c) => (
           <li key={c.n} className="flex gap-5 bg-night p-6">
             <span
               aria-hidden
-              className="mt-1 h-12 w-12 shrink-0 rounded-full border border-brass"
+              className="mt-1 h-12 w-12 shrink-0 rounded-full border border-line"
               style={{ background: c.hex === "dual" ? "conic-gradient(#d9d5cd 0 50%, #2a1d15 50% 100%)" : c.hex }}
             />
             <span>

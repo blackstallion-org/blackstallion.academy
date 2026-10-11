@@ -80,9 +80,9 @@ export function HomeStandings() {
 
       <div ref={ref} className="gutter mt-12">
         <p className="label mb-3 text-dust">STPCI standings 2026–27 · sample</p>
-        <ol className="border-t border-brass">
+        <ol className="border-t border-line">
           {standings.map((s, i) => (
-            <li key={s.hub} className="relative border-b border-brass py-5">
+            <li key={s.hub} className="relative border-b border-line py-5">
               <div className="flex items-baseline justify-between gap-4">
                 <span className="flex items-baseline gap-4">
                   <span className="font-mono text-sm text-dust">0{s.pos}</span>
@@ -93,7 +93,7 @@ export function HomeStandings() {
                 </span>
               </div>
               <div className="relative mt-4 h-8">
-                <div aria-hidden className="absolute inset-x-0 top-1/2 border-t border-dashed border-brass" />
+                <div aria-hidden className="absolute inset-x-0 top-1/2 border-t border-dashed border-line" />
                 <motion.div
                   className="absolute top-0"
                   initial={{ left: "0%" }}
@@ -131,7 +131,7 @@ export function HomeShield() {
                 aria-hidden
                 viewBox="0 0 10 400"
                 preserveAspectRatio="none"
-                className="absolute left-0 top-0 hidden h-full w-2.5 text-dust lg:block"
+                className="absolute left-0 top-0 hidden h-full w-2.5 text-brass lg:block"
               >
                 <motion.path
                   d="M5 0 L8 18 L5.5 22 L5.5 400 L4.5 400 L4.5 22 L2 18 Z"

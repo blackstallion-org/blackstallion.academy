@@ -48,7 +48,7 @@ export function Spotlights() {
               <div aria-hidden className="absolute inset-0 shade-b" />
               <span className="font-mono absolute left-4 top-4 text-xs text-gold">{s.hours} HRS</span>
             </div>
-            <p className="label mt-5 text-dust">{s.rank}</p>
+            <p className="label mt-5 text-brass">{s.rank}</p>
             <p className="t-voice mt-1 text-3xl text-bone">{s.name}</p>
             <p className="mt-2 text-sand">{s.honour}</p>
             <p className="t-ui mt-1 text-sm text-dust">{s.hub}</p>
@@ -150,7 +150,7 @@ export function DayClock() {
           <Headline id="day-h" className="mt-4" inscription="A cadet's" voice="day." />
         </div>
         <div ref={ref} className="relative pl-10">
-          <span aria-hidden className="absolute bottom-0 left-3 top-0 w-px bg-brass/25" />
+          <span aria-hidden className="absolute bottom-0 left-3 top-0 w-px bg-line/25" />
           <motion.span aria-hidden className="absolute left-3 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold" style={{ top }} />
           <ol className="flex flex-col gap-10">
             {day.map((d) => (
@@ -256,9 +256,9 @@ export function UniformSpec() {
         <div className="lg:order-1">
           <Label>The uniform</Label>
           <Headline id="uniform-h" className="mt-4" inscription="Midnight wool," voice="copper and brass." />
-          <dl className="mt-10 border-t border-brass">
+          <dl className="mt-10 border-t border-line">
             {uniform.map((u, i) => (
-              <div key={u.item} className="grid gap-1 border-b border-brass py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+              <div key={u.item} className="grid gap-1 border-b border-line py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
                 <dt className="pt-1">
                   <span className="font-mono mr-3 text-xs text-gold">{String(i + 1).padStart(2, "0")}</span>
                   <span className="label text-dust">{u.item}</span>

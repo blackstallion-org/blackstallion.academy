@@ -52,12 +52,12 @@ export function ShieldColumns() {
         {shields.map((s, i) => (
           <motion.div
             key={s.title}
-            className="relative lg:px-10 lg:first:pl-0 lg:[&:not(:first-child)]:border-l lg:[&:not(:first-child)]:border-brass"
+            className="relative lg:px-10 lg:first:pl-0 lg:[&:not(:first-child)]:border-l lg:[&:not(:first-child)]:border-line"
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, ease: ease.citadel, delay: i * 0.2 }}
           >
-            <svg viewBox="0 0 40 48" className="h-12 w-10 text-dust" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden>
+            <svg viewBox="0 0 40 48" className="h-12 w-10 text-brass" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden>
               <path d="M20 2 L37 8 V22 C37 34 29 42 20 46 C11 42 3 34 3 22 V8 Z" />
               <path d="M20 10 V38 M12 22 H28" strokeWidth="0.8" />
             </svg>
@@ -83,11 +83,11 @@ export function OrdersOfTheDay() {
           <Headline id="orders-h" className="mt-4" inscription="Orders" voice="of the day." />
           <p className="mt-6 max-w-sm text-sand">Posted in every tack room. Read aloud before the first session of the week.</p>
         </div>
-        <ol ref={ref} className="font-mono flex flex-col gap-0 border-t border-brass">
+        <ol ref={ref} className="font-mono flex flex-col gap-0 border-t border-line">
           {orders.map((o, i) => (
             <motion.li
               key={o}
-              className="grid grid-cols-[3rem_1fr] gap-4 border-b border-brass py-5 text-[0.95rem] text-bone"
+              className="grid grid-cols-[3rem_1fr] gap-4 border-b border-line py-5 text-[0.95rem] text-bone"
               initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
               animate={inView ? { opacity: 1, clipPath: "inset(0 0% 0 0)" } : {}}
               transition={{ duration: 0.9, ease: ease.citadel, delay: i * 0.15 }}

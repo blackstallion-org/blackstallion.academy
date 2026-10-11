@@ -38,7 +38,7 @@ function IrisFrame({ progress, open = false }: { progress?: MotionValue<number>;
         <FilmImage name="duneSilhouette" priority scale={open ? 1 : scale} grade="film" />
         <div aria-hidden className="absolute inset-0 shade-b" />
       </motion.div>
-      <motion.div aria-hidden className="pointer-events-none absolute left-1/2 top-[48%] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full border border-brass" style={{ width: ring }} />
+      <motion.div aria-hidden className="pointer-events-none absolute left-1/2 top-[48%] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full border border-line" style={{ width: ring }} />
       <motion.div className="gutter relative flex h-full min-h-[100svh] flex-col justify-end pb-[10vh]" style={{ y: textY }}>
         <ReelMark n={1} act="legend" />
         <Headline as="h1" size="poster" animate="mount" className="mt-6" inscription={title.inscription} voice={title.voice} />
@@ -103,7 +103,7 @@ export function ChapterRail() {
               aria-current={active === c.id ? "location" : undefined}
               aria-label={`Chapter ${c.numeral}: ${c.name}`}
             >
-              <span className={cn("h-px transition-all duration-500", active === c.id ? "w-6 bg-gold" : "w-3 bg-brass group-hover:w-5 group-hover:bg-brass")} />
+              <span className={cn("h-px transition-all duration-500", active === c.id ? "w-6 bg-gold" : "w-3 bg-line group-hover:w-5 group-hover:bg-line")} />
               <span
                 aria-hidden
                 className="label pointer-events-none absolute left-9 whitespace-nowrap bg-night/90 px-2 py-1 text-[0.6rem] text-gold opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
@@ -122,9 +122,9 @@ export function ChapterRail() {
 export function ChapterHead({ id, className }: { id: string; className?: string }) {
   const c = chapters.find((x) => x.id === id)!;
   return (
-    <p className={cn("label flex items-center gap-3 text-dust", className)}>
+    <p className={cn("label flex items-center gap-3 text-brass", className)}>
       <span className="t-inscribe text-base tracking-[0.1em] text-gold">{c.numeral}</span>
-      <span aria-hidden className="h-px w-8 bg-brass" />
+      <span aria-hidden className="h-px w-8 bg-line" />
       {c.name}
     </p>
   );
@@ -211,7 +211,7 @@ function EarsFrame({ progress }: { progress: MotionValue<number> }) {
         </div>
         <div className="mt-6 flex gap-2" aria-hidden>
           {ears.beats.map((_, i) => (
-            <span key={i} className={cn("h-px w-10 transition-colors duration-500", i <= beat ? "bg-gold" : "bg-brass/25")} />
+            <span key={i} className={cn("h-px w-10 transition-colors duration-500", i <= beat ? "bg-gold" : "bg-line/25")} />
           ))}
         </div>
       </div>
@@ -343,7 +343,7 @@ export function Ascent() {
       </div>
       <ol className="mt-6 grid gap-8 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
         {revival.milestones.map((m) => (
-          <Reveal as="li" key={m.year} className="border-t border-brass pt-4">
+          <Reveal as="li" key={m.year} className="border-t border-line pt-4">
             <p className="font-mono text-sm text-gold md:hidden">{m.year}</p>
             <p className="mt-1 text-sm leading-relaxed text-sand">{m.text}</p>
           </Reveal>

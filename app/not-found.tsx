@@ -4,7 +4,7 @@ import { reels } from "@/lib/content/site";
 export default function NotFound() {
   return (
     <section className="gutter flex min-h-[90svh] flex-col justify-center pt-24">
-      <p className="label text-dust">Reel missing</p>
+      <p className="label text-brass">Reel missing</p>
       <h1 className="mt-4 text-display-1">
         <span className="t-inscribe block text-[0.5em]">This frame</span>
         <span className="t-voice block text-gold">was cut.</span>

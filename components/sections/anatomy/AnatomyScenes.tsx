@@ -32,9 +32,9 @@ export function AnatomyTitle() {
       <div className="gutter mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
         <div className="max-w-sm">
           <p className="t-story text-sand">Five hundred kilograms of muscle and nerve that notices your breathing before you do.</p>
-          <dl className="font-mono mt-8 hidden border-t border-brass text-xs lg:block">
+          <dl className="font-mono mt-8 hidden border-t border-line text-xs lg:block">
             {catalogue.map(([k, v]) => (
-              <div key={k} className="grid grid-cols-[6.5rem_1fr] gap-3 border-b border-brass py-2">
+              <div key={k} className="grid grid-cols-[6.5rem_1fr] gap-3 border-b border-line py-2">
                 <dt className="uppercase tracking-[0.12em] text-dust">{k}</dt>
                 <dd className="text-sand">{v}</dd>
               </div>
@@ -54,7 +54,7 @@ export function AnatomyTitle() {
               <motion.span
                 key={c}
                 aria-hidden
-                className={`absolute bg-brass ${c}`}
+                className={`absolute bg-line ${c}`}
                 initial={{ scaleX: i < 2 ? 0 : 1, scaleY: i >= 2 ? 0 : 1 }}
                 animate={{ scaleX: 1, scaleY: 1 }}
                 transition={{ duration: 1.4, ease: ease.citadel, delay: 0.8 + i * 0.12 }}
@@ -85,7 +85,7 @@ export function ScaleBalance() {
     <section aria-labelledby="grams-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
         <div>
-          <p className="label text-dust">The reins</p>
+          <p className="label text-brass">The reins</p>
           <Headline id="grams-h" className="mt-4" inscription="Ten grams" voice="against half a tonne." />
           <p className="t-story mt-6 max-w-lg text-sand">
             The lightest touch on the rein can turn a 500 kg stallion. Pull hard and the horse braces against you. Children learn fast that force fails and clarity works.
@@ -208,14 +208,14 @@ export function EarDial() {
               aria-valuenow={deg}
               aria-valuetext={`${deg} degrees`}
               onKeyDown={onKey}
-              className="label border border-brass px-3 py-2 text-sand hover:border-gold"
+              className="label border border-line px-3 py-2 text-sand hover:border-gold"
             >
               Drag the ear · or use arrow keys
             </button>
           </motion.div>
         </div>
         <div>
-          <p className="label text-dust">The ears</p>
+          <p className="label text-brass">The ears</p>
           <Headline id="dial-h" className="mt-4" inscription="One hundred and eighty" voice="degrees of attention." />
           <p className="t-story mt-6 max-w-lg text-sand">
             Each ear turns on its own. One can follow the instructor&rsquo;s voice while the other listens to the rider&rsquo;s breathing.

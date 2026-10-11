@@ -96,14 +96,14 @@ export function BigSlider() {
       </div>
       <CompareSlider left="whyCrisis" right="whyCure" leftLabel="Digital crisis" rightLabel="Sovereign cure" onChange={setPct} className="mt-10 h-[78svh] w-full" />
       <div className="gutter mt-10">
-        <div className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-brass pb-3 md:grid-cols-[10rem_1fr_1fr]">
+        <div className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-line pb-3 md:grid-cols-[10rem_1fr_1fr]">
           <span />
           <span className="label text-frost">Digital crisis</span>
           <span className="label text-gold">Sovereign cure</span>
         </div>
         {why.slider.table.map((row) => (
-          <div key={row.k} className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-brass py-5 md:grid-cols-[10rem_1fr_1fr]">
-            <span className="label pt-1 text-dust">{row.k}</span>
+          <div key={row.k} className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-line py-5 md:grid-cols-[10rem_1fr_1fr]">
+            <span className="label pt-1 text-brass">{row.k}</span>
             <span className={cn("transition-colors duration-700 md:text-lg", cured ? "text-frost/40 line-through decoration-1" : "text-frost")}>{row.a}</span>
             <span className={cn("t-voice transition-colors duration-700 md:text-xl", cured ? "text-gold" : "text-bone/70")}>{row.b}</span>
           </div>
@@ -160,7 +160,7 @@ export function TrainList() {
         </div>
         <ol className="flex flex-col">
           {why.train.items.map((it, k) => (
-            <Reveal as="li" key={it} delay={k * 0.12} className="flex items-center gap-6 border-b border-brass py-6" y={0}>
+            <Reveal as="li" key={it} delay={k * 0.12} className="flex items-center gap-6 border-b border-line py-6" y={0}>
               <motion.span initial={{ scale: 1.6, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.2 + k * 0.12 }} style={{ rotate: k % 2 ? 12 : -12 }}>
                 <Hoof className="h-6 w-6 text-gold" />
               </motion.span>

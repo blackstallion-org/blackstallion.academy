@@ -53,7 +53,7 @@ export function StandingsLanes() {
         <table className="w-full min-w-[720px] border-collapse text-left">
           <caption className="sr-only">STPCI league standings (sample, from the client brief)</caption>
           <thead>
-            <tr className="border-b border-brass">
+            <tr className="border-b border-line">
               {["Pos", "Hub", "Lane", "Points", "Gold", "Governor's Cup"].map((h) => (
                 <th key={h} scope="col" className="label py-3 pr-4 font-semibold text-dust">
                   {h}
@@ -63,13 +63,13 @@ export function StandingsLanes() {
           </thead>
           <tbody>
             {standings.map((s, i) => (
-              <tr key={s.hub} className="border-b border-brass">
+              <tr key={s.hub} className="border-b border-line">
                 <td className="font-mono py-6 pr-4 text-lg text-gold">0{s.pos}</td>
                 <th scope="row" className="t-voice pr-4 text-2xl font-semibold text-bone">
                   {s.hub}
                 </th>
                 <td className="w-[30%] pr-6">
-                  <div className="relative h-2 bg-brass">
+                  <div className="relative h-2 bg-line">
                     <motion.div className="absolute inset-y-0 left-0 bg-gold" initial={{ width: 0 }} animate={inView ? { width: `${(s.points / max) * 100}%` } : {}} transition={{ duration: 1.8, ease: ease.citadel, delay: i * 0.2 }} />
                   </div>
                 </td>
@@ -123,8 +123,8 @@ export function FixtureBoard() {
       <div className="gutter">
         <Label>Fixtures</Label>
         <Headline id="fixtures-h" className="mt-4" inscription="Next" voice="on the circuit." />
-        <ol className="font-mono mt-12 border border-brass bg-black/40">
-          <li className="hidden grid-cols-[9rem_1fr_1fr_8rem] gap-4 border-b border-brass px-5 py-3 text-[0.65rem] uppercase tracking-[0.18em] text-dust md:grid">
+        <ol className="font-mono mt-12 border border-line bg-black/40">
+          <li className="hidden grid-cols-[9rem_1fr_1fr_8rem] gap-4 border-b border-line px-5 py-3 text-[0.65rem] uppercase tracking-[0.18em] text-dust md:grid">
             <span>Date</span>
             <span>Fixture</span>
             <span>Venue</span>
@@ -132,7 +132,7 @@ export function FixtureBoard() {
           </li>
           {tournaments.map((t, i) => (
             <li key={t.slug}>
-              <Link href={`/tournaments/${t.slug}`} className="group grid gap-2 border-b border-brass px-5 py-5 uppercase tracking-[0.08em] transition-colors hover:bg-umber/70 md:grid-cols-[9rem_minmax(0,1fr)_minmax(0,1fr)_10rem] md:gap-4">
+              <Link href={`/tournaments/${t.slug}`} className="group grid gap-2 border-b border-line px-5 py-5 uppercase tracking-[0.08em] transition-colors hover:bg-umber/70 md:grid-cols-[9rem_minmax(0,1fr)_minmax(0,1fr)_10rem] md:gap-4">
                 <span className="text-gold">
                   <Flip text={t.dateLabel} delay={i * 200} />
                 </span>
@@ -217,7 +217,7 @@ export function Podium() {
             <FilmImage name="tournPodium" sizes="(min-width: 1024px) 60vw, 100vw" />
           </div>
           {/* The cup, as a detail plate pinned to the corner of the scene. */}
-          <div className="absolute -bottom-8 right-4 h-44 w-32 overflow-hidden border border-brass shadow-[0_24px_60px_rgb(0_0_0/0.7)] md:-bottom-10 md:right-8 md:h-56 md:w-40">
+          <div className="absolute -bottom-8 right-4 h-44 w-32 overflow-hidden border border-line shadow-[0_24px_60px_rgb(0_0_0/0.7)] md:-bottom-10 md:right-8 md:h-56 md:w-40">
             <FilmImage name="tournCup" sizes="10rem" />
           </div>
         </div>
@@ -226,7 +226,7 @@ export function Podium() {
           <Headline id="podium-h" className="mt-4" inscription="On the" voice="podium." />
           <ol className="mt-10 flex flex-col">
             {champions.map((c, i) => (
-              <li key={c.title} className="grid grid-cols-[3rem_1fr] items-baseline gap-4 border-b border-brass py-5">
+              <li key={c.title} className="grid grid-cols-[3rem_1fr] items-baseline gap-4 border-b border-line py-5">
                 <span className="t-inscribe text-3xl text-gold">{i + 1}</span>
                 <span>
                   <span className="label block text-dust">{c.title}</span>

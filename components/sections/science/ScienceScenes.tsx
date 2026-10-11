@@ -75,7 +75,7 @@ export function SystemsConsole() {
     <section aria-labelledby="systems-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>Four systems</Label>
       <Headline id="systems-h" className="mt-4" inscription="One rider," voice="four systems at work." />
-      <div role="tablist" aria-label="Body systems" className="no-scrollbar mt-12 flex gap-8 overflow-x-auto border-b border-brass">
+      <div role="tablist" aria-label="Body systems" className="no-scrollbar mt-12 flex gap-8 overflow-x-auto border-b border-line">
         {systems.map((x, k) => (
           <button
             key={x.id}
@@ -108,7 +108,7 @@ export function SystemsConsole() {
                 </li>
               ))}
             </ol>
-            <ul className="mt-10 flex flex-col gap-3 border-l border-brass pl-5">
+            <ul className="mt-10 flex flex-col gap-3 border-l border-line pl-5">
               {s.evidence.map((e) => (
                 <li key={e.text}>
                   <span className={cn("label mr-3", statusColor[e.status])}>● {e.status}</span>
@@ -149,7 +149,7 @@ export function PulseLine() {
           <p className="font-mono mt-8 whitespace-nowrap text-2xl text-gold md:text-3xl">≈100 movements / min</p>
           <p className="label mt-2 text-dust">Source · American Hippotherapy Association</p>
         </div>
-        <div ref={ref} className="relative h-56 overflow-hidden border-y border-brass">
+        <div ref={ref} className="relative h-56 overflow-hidden border-y border-line">
           {[
             { amp: 34, phase: 0, color: "var(--color-gold)", label: "Horse's walk · rider's pelvis" },
             { amp: 26, phase: 0.35, color: "rgb(217 213 205 / 0.6)", label: "Human walking gait" },
@@ -170,7 +170,7 @@ export function PulseLine() {
               </span>
             </div>
           ))}
-          <span aria-hidden className="absolute inset-y-0 left-1/2 w-px bg-brass/30" />
+          <span aria-hidden className="absolute inset-y-0 left-1/2 w-px bg-line/30" />
         </div>
       </div>
     </section>
@@ -186,7 +186,7 @@ export function ComparisonLedger({ cols, rows, note }: { cols: readonly string[]
       <Label>Demands compared</Label>
       <Headline id="compare-h" className="mt-4" inscription="Twenty minutes" voice="in the saddle." />
       <div ref={ref} className="mt-12">
-        <div className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-brass pb-3 md:grid-cols-[10rem_1fr_1fr] md:gap-8">
+        <div className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-line pb-3 md:grid-cols-[10rem_1fr_1fr] md:gap-8">
           <span />
           <span className="label text-gold">{cols[0]}</span>
           <span className="label text-dust">{cols[1]}</span>
@@ -205,10 +205,10 @@ function Row({ row, k, n, progress }: { row: { k: string; a: string; b: string }
   const opacity = useTransform(progress, r(k / n, (k + 0.6) / n), [0.25, 1]);
   return (
     <motion.div className="relative grid grid-cols-[6rem_1fr_1fr] gap-4 py-6 md:grid-cols-[10rem_1fr_1fr] md:gap-8" style={{ opacity }}>
-      <span className="label pt-1 text-dust">{row.k}</span>
+      <span className="label pt-1 text-brass">{row.k}</span>
       <span className="text-bone md:text-lg">{row.a}</span>
       <span className="text-sand/70 md:text-lg">{row.b}</span>
-      <motion.span aria-hidden className="absolute inset-x-0 bottom-0 h-px origin-left bg-brass/25" style={{ scaleX }} />
+      <motion.span aria-hidden className="absolute inset-x-0 bottom-0 h-px origin-left bg-line/25" style={{ scaleX }} />
     </motion.div>
   );
 }

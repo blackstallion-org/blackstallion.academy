@@ -18,8 +18,8 @@ export function Wordmark({ className, layout = "stacked" }: WordmarkProps) {
   return (
     <span className={cn("inline-flex flex-col leading-none text-bone", className)}>
       <span className="t-inscribe text-[1.5em] tracking-[0.04em]">Black Stallion</span>
-      <span aria-hidden className="my-[0.6em] h-px w-full bg-brass" />
-      <span className="label text-[0.62em] text-dust">Academy of Horsemanship</span>
+      <span aria-hidden className="my-[0.6em] h-px w-full bg-line" />
+      <span className="label text-[0.62em] text-brass">Academy of Horsemanship</span>
     </span>
   );
 }

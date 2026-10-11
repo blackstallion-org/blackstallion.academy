@@ -18,7 +18,7 @@ export function CurriculumTitle() {
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div aria-hidden className="absolute inset-x-0 top-[18%] flex flex-col gap-[4.2vh] px-[6vw] opacity-60">
         {Array.from({ length: 9 }, (_, i) => (
-          <motion.span key={i} className="block h-px origin-left bg-brass" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, ease: ease.citadel, delay: 0.2 + i * 0.08 }} />
+          <motion.span key={i} className="block h-px origin-left bg-line" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, ease: ease.citadel, delay: 0.2 + i * 0.08 }} />
         ))}
       </div>
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
@@ -93,15 +93,15 @@ export function ClockRing() {
         <div>
           <Label>One session</Label>
           <Headline id="class-h" className="mt-4" inscription="Forty-five" voice="minutes, exactly." />
-          <ol className="mt-10 border-t border-brass">
+          <ol className="mt-10 border-t border-line">
             {classSegments.map((s) => (
-              <li key={s.title} className="grid grid-cols-[5.5rem_1fr] gap-4 border-b border-brass py-4">
+              <li key={s.title} className="grid grid-cols-[5.5rem_1fr] gap-4 border-b border-line py-4">
                 <span className="font-mono pt-1 text-sm text-gold">
                   {String(s.from).padStart(2, "0")}–{s.to}
                 </span>
                 <span>
                   <span className="t-voice block text-xl text-bone">
-                    {s.title} {s.mounted && <span className="label ml-2 align-middle text-dust">Mounted</span>}
+                    {s.title} {s.mounted && <span className="label ml-2 align-middle text-brass">Mounted</span>}
                   </span>
                   <span className="mt-1 block text-sand">{s.detail}</span>
                 </span>
@@ -151,7 +151,7 @@ export function ThreeStamps() {
             animate={inView ? { opacity: 1, scale: 1, rotate: i === 1 ? 3 : -4 } : {}}
             transition={{ duration: 0.5, ease: ease.citadel, delay: 0.2 + i * 0.35 }}
           >
-            <div className="grid h-40 w-40 place-items-center rounded-full border-2 border-dashed border-blood/70 text-white">
+            <div className="grid h-40 w-40 place-items-center rounded-full border-2 border-dashed border-blood/70 text-blood">
               <div className="grid h-32 w-32 place-items-center rounded-full border border-blood/60">
                 <span className="t-inscribe text-lg tracking-[0.1em]">{a.name}</span>
               </div>

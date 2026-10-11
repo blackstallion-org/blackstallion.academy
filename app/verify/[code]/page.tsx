@@ -58,7 +58,7 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
             <h1 id="record-h" className="t-voice mt-4 text-display-2 text-bone">
               {c.name}
             </h1>
-            <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-brass pt-8">
+            <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-5 border-t border-line pt-8">
               {[
                 ["Rank", c.rankName],
                 ["Riding hours", String(c.hours)],
@@ -73,13 +73,13 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
                 </div>
               ))}
             </dl>
-            <p className="label mt-10 text-dust">Seals</p>
+            <p className="label mt-10 text-brass">Seals</p>
             <ol className="mt-4 flex gap-3">
               {ranks.map((rk) => {
                 const has = c.seals.includes(rk.id);
                 return (
                   <li key={rk.id} className="flex flex-col items-center gap-2">
-                    <span className={has ? "grid h-14 w-14 place-items-center rounded-full border-2 border-gold bg-gold/15" : "grid h-14 w-14 place-items-center rounded-full border border-dashed border-brass"}>
+                    <span className={has ? "grid h-14 w-14 place-items-center rounded-full border-2 border-gold bg-gold/15" : "grid h-14 w-14 place-items-center rounded-full border border-dashed border-line"}>
                       {has ? <Monogram className="h-7 w-7 text-gold" /> : <span className="font-mono text-xs text-dust">{rk.numeral}</span>}
                     </span>
                     <span className="label text-[0.6rem] text-dust">{rk.name.replace("Cadet ", "").replace("Sovereign ", "")}</span>
@@ -89,8 +89,8 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
             </ol>
           </div>
           <div>
-            <p className="label text-dust">Milestones</p>
-            <ol className="mt-4 border-l border-brass">
+            <p className="label text-brass">Milestones</p>
+            <ol className="mt-4 border-l border-line">
               {c.milestones.map((m) => (
                 <li key={m.date + m.text} className="relative pb-6 pl-6">
                   <span aria-hidden className="absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full bg-gold" />
@@ -106,7 +106,7 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
       {/* Diploma: printable */}
       <section aria-label="Diploma" className="gutter pb-[clamp(6rem,14vh,12rem)]">
         <div className="no-print mb-6 flex flex-wrap items-center justify-between gap-4">
-          <p className="label text-dust">Gold-embossed diploma · preview</p>
+          <p className="label text-brass">Gold-embossed diploma · preview</p>
           <PrintButton />
         </div>
         <article className="parchment print-doc relative mx-auto max-w-4xl overflow-hidden px-8 py-12 text-center md:px-20 md:py-16">

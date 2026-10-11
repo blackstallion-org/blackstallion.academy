@@ -26,7 +26,7 @@ export default function VerifyPage() {
       <section aria-labelledby="sees-h" className="gutter relative pb-[clamp(6rem,14vh,12rem)]">
         <Label>Privacy</Label>
         <Headline id="sees-h" className="mt-4" inscription="What a verifier" voice="sees." />
-        <div className="mt-12 grid gap-px bg-brass md:grid-cols-2">
+        <div className="mt-12 grid gap-px bg-line md:grid-cols-2">
           <div className="bg-night p-8">
             <p className="label text-gold">Shown</p>
             <ul className="mt-5 flex flex-col gap-3">
@@ -38,7 +38,7 @@ export default function VerifyPage() {
             </ul>
           </div>
           <div className="bg-night p-8">
-            <p className="label text-white">Never shown</p>
+            <p className="label text-blood">Never shown</p>
             <ul className="mt-5 flex flex-col gap-3">
               {["Contact details", "Address", "Medical notes", "Payments"].map((x) => (
                 <li key={x} className="t-voice text-xl text-sand/50 line-through decoration-1">

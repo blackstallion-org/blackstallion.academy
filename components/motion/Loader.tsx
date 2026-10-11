@@ -40,7 +40,7 @@ export function LoaderMark({ className, onDone }: { className?: string; onDone?:
   return (
     <motion.svg
       viewBox={MONOGRAM_VIEWBOX}
-      className={cn("h-20 w-20 text-dust", className)}
+      className={cn("h-20 w-20 text-brass", className)}
       initial="hidden"
       animate="visible"
       aria-hidden

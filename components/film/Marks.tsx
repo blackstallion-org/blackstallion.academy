@@ -8,11 +8,11 @@ const pad = (n: number) => String(n).padStart(2, "0");
 /** "REEL 05 / 15 · ACT II · THE CITADEL" */
 export function ReelMark({ n, act, className }: { n: number; act: Act; className?: string }) {
   return (
-    <p className={cn("label flex flex-wrap items-center gap-x-3 gap-y-1 text-dust", className)}>
+    <p className={cn("label flex flex-wrap items-center gap-x-3 gap-y-1 text-brass", className)}>
       <span className="font-mono text-[0.7rem] tracking-[0.12em] text-gold">
         REEL {pad(n)} / {TOTAL_REELS}
       </span>
-      <span aria-hidden className="h-px w-6 bg-brass/60" />
+      <span aria-hidden className="h-px w-6 bg-line/60" />
       <span>
         Act {acts[act].numeral} · {acts[act].name}
       </span>
@@ -23,7 +23,7 @@ export function ReelMark({ n, act, className }: { n: number; act: Act; className
 /** Small section label. With `reel`, prefixes "REEL 05 ·". */
 export function Label({ children, reel, className }: { children: ReactNode; reel?: number; className?: string }) {
   return (
-    <p className={cn("label text-dust", className)}>
+    <p className={cn("label text-brass", className)}>
       {reel !== undefined && <span className="mr-2 font-mono tracking-[0.12em] text-gold/90">REEL {pad(reel)} ·</span>}
       {children}
     </p>
@@ -42,7 +42,7 @@ export function Cta({ href, children, variant = "ghost", className }: CtaProps) 
   const base = "label group inline-flex items-center gap-3 transition-colors duration-300";
   const styles = {
     solid: "bg-gold px-6 py-4 text-night hover:bg-bone",
-    ghost: "border border-brass/45 px-6 py-4 text-bone hover:border-gold hover:text-gold",
+    ghost: "border border-line/45 px-6 py-4 text-bone hover:border-gold hover:text-gold",
     link: "text-gold hover:text-bone",
   }[variant];
   return (
@@ -64,7 +64,7 @@ export function Arrow({ className }: { className?: string }) {
 /** The section divider: a hairline with a lance tip and a horseshoe seal. */
 export function LanceRule({ className, label }: { className?: string; label?: string }) {
   return (
-    <div className={cn("flex items-center gap-4 text-dust", className)} role="separator">
+    <div className={cn("flex items-center gap-4 text-brass", className)} role="separator">
       <svg viewBox="0 0 40 10" className="h-2.5 w-10 shrink-0" aria-hidden fill="currentColor">
         <path d="M0 5 L10 2 L40 4.6 L40 5.4 L10 8 Z" />
       </svg>
@@ -101,7 +101,7 @@ export function Hoof({ className }: { className?: string }) {
 
 /** Status dot used in registries. */
 export function StatusDot({ status, className }: { status: "rest" | "arena" | "feed" | "live"; className?: string }) {
-  const color = { rest: "bg-[#D9D5CD]", arena: "bg-gold", feed: "bg-brass", live: "bg-blood" }[status];
+  const color = { rest: "bg-[#D9D5CD]", arena: "bg-gold", feed: "bg-line", live: "bg-blood" }[status];
   return (
     <span className={cn("relative inline-flex h-2 w-2", className)} aria-hidden>
       <span className={cn("absolute inset-0 rounded-full animate-pulse-ring", color)} />

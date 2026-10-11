@@ -19,20 +19,21 @@
   --color-bhanwar: #2a1d15;
   --color-ember: #2a1d15;
   --color-surang: #593822;
-  --color-brass: #593822;
-  --color-copper: #593822;
+  --color-brass: #b87333; /* Warm Copper: text accents */
+  --color-line: #593822; /* Copper Chestnut: borders, rules, fills */
+  --color-copper: #b87333;
   --color-shwet: #8c8882;
   --color-dust: #8c8882;
-  --color-frost: #8c8882;
+  --color-frost: #9fb3c8;
   --color-nukra: #d9d5cd;
   --color-sand: #d9d5cd;
   --color-parchment: #d9d5cd;
-  --color-bone: #ffffff;
-  --color-gold: #ffffff;
-  --color-blood: #593822;
+  --color-bone: #ede3d1;
+  --color-gold: #d4af37;
+  --color-blood: #b13a24;
   --color-ink: #0f0e0d;
   --color-black: #0f0e0d;
-  --color-white: #ffffff;
+  --color-white: #ede3d1;
 
   /* Poster scale */
   --text-poster: clamp(3.1rem, 10.5vw, 12.5rem);
@@ -62,7 +63,7 @@
 @layer base {
   html {
     background-color: var(--color-night);
-    color: var(--text-secondary);
+    color: var(--color-bone);
     color-scheme: dark;
     -webkit-text-size-adjust: 100%;
   }
@@ -79,8 +80,8 @@
   }
 
   ::selection {
-    background-color: rgb(89 56 34 / 0.8);
-    color: #ffffff;
+    background-color: rgb(184 115 51 / 0.35);
+    color: var(--color-bone);
   }
 
   :focus-visible {
@@ -212,7 +213,7 @@
     border-radius: 999px;
     background: var(--color-gold);
     border: 3px solid var(--color-night);
-    box-shadow: 0 0 0 1px var(--color-brass);
+    box-shadow: 0 0 0 1px var(--color-line);
   }
   .range-brass::-moz-range-thumb {
     width: 14px;
@@ -229,7 +230,7 @@
     border: 0;
     border-bottom: 1px solid #593822;
     padding: 0.7rem 0;
-    color: #ffffff;
+    color: var(--color-bone);
     font-family: var(--font-sans);
     font-size: 1rem;
     border-radius: 0;

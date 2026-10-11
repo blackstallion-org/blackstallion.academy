@@ -82,14 +82,14 @@ export function CodexVault() {
             aria-controls={`codex-${p.n}`}
             className="flex w-full items-baseline gap-4 p-5 text-left md:p-6"
           >
-            <span className={cn("t-inscribe text-[clamp(1.6rem,3vw,2.6rem)] leading-none transition-colors duration-700", isOpen ? "text-gold" : "text-dust")}>
+            <span className={cn("t-inscribe text-[clamp(1.6rem,3vw,2.6rem)] leading-none transition-colors duration-700", isOpen ? "text-gold" : "text-copper")}>
               {String(p.n).padStart(2, "0")}
             </span>
             <span className="min-w-0 flex-1">
               <span className={cn("t-voice block text-xl leading-tight transition-colors duration-700 md:text-2xl", isOpen ? "text-bone" : "text-sand")}>{p.name}</span>
               <span className="label mt-2 block text-[0.6rem] text-dust">
                 Phase {phase.numeral} · {phase.name}
-                {p.discipline && <span className="ml-2 text-dust">BSAH discipline</span>}
+                {p.discipline && <span className="ml-2 text-copper">BSAH discipline</span>}
               </span>
             </span>
             <span aria-hidden className={cn("t-inscribe text-lg transition-transform duration-500", isOpen ? "rotate-45 text-gold" : "text-dust")}>

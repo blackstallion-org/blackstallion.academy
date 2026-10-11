@@ -27,7 +27,7 @@ export function EndCard({ current }: { current: number }) {
         <div aria-hidden className="absolute inset-0 bg-night/55" />
         <div aria-hidden className="cinematic-vignette absolute inset-0" />
         <div className="gutter relative flex h-full flex-col justify-end pb-[10vh]">
-          <p className="label text-dust">
+          <p className="label text-brass">
             Next · <span className="font-mono tracking-[0.12em] text-gold">Reel {pad(next.n)}</span> · Act {acts[next.act].numeral}
           </p>
           <p className="mt-5 text-display-1">
@@ -40,7 +40,7 @@ export function EndCard({ current }: { current: number }) {
           </p>
           <div className="mt-10 flex items-center gap-4">
             <span className="font-mono text-xs text-dust">{pad(current)}</span>
-            <span className="relative h-px flex-1 bg-brass/20">
+            <span className="relative h-px flex-1 bg-line/20">
               <span className="absolute inset-y-0 left-0 bg-gold" style={{ width: `${progress}%` }} />
             </span>
             <span className="font-mono text-xs text-dust">{TOTAL_REELS}</span>

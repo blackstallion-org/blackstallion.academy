@@ -37,7 +37,7 @@ export function CrisisCure() {
         <p className="label mt-3 text-dust">Drag to compare · arrow keys work too</p>
       </div>
 
-      <ul className="gutter mt-12 grid gap-px bg-brass/10 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="gutter mt-12 grid gap-px bg-line/10 sm:grid-cols-2 lg:grid-cols-4">
         {crisis.pairs.map(([from, to]) => (
           <li key={from} className="flex flex-col gap-2 bg-night py-6 pr-6 sm:pl-6 sm:first:pl-0">
             <span className={cn("t-ui text-sm line-through decoration-1 transition-colors duration-700", cured ? "text-frost/40" : "text-frost")}>

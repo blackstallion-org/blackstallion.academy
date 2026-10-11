@@ -69,12 +69,12 @@ function Screen({ id }: { id: string }) {
       <div className="flex h-full flex-col justify-center gap-3 p-4">
         <p className="label text-dust">Now</p>
         <div className="rounded-2xl bg-umber p-4">
-          <p className="label text-dust">BSAH · Gate</p>
+          <p className="label text-brass">BSAH · Gate</p>
           <p className="t-ui mt-1 text-sm text-bone">Bravo checked in at 15:52</p>
           <p className="t-ui text-xs text-dust">Zone 01A Hub · passport scanned</p>
         </div>
         <div className="rounded-2xl bg-umber/60 p-4 opacity-60">
-          <p className="label text-dust">BSAH · Session</p>
+          <p className="label text-brass">BSAH · Session</p>
           <p className="t-ui mt-1 text-sm text-bone">Mounted session started</p>
         </div>
       </div>
@@ -94,10 +94,10 @@ function Screen({ id }: { id: string }) {
     );
   return (
     <div className="flex h-full flex-col justify-center p-5">
-      <p className="label text-dust">Sovereign Passport</p>
+      <p className="label text-brass">Sovereign Passport</p>
       <p className="t-voice mt-2 text-2xl text-bone">Cadet Rider</p>
       <p className="font-mono mt-4 text-3xl text-gold">24 hrs</p>
-      <div className="mt-3 h-1 w-full bg-brass/20">
+      <div className="mt-3 h-1 w-full bg-line/20">
         <div className="h-full w-[80%] bg-gold" />
       </div>
       <p className="t-ui mt-2 text-xs text-dust">Next seal at 30 hrs</p>
@@ -113,7 +113,7 @@ function PhoneFrame({ active, all = false }: { active: number; all?: boolean }) 
         <Label>In your pocket</Label>
         <ol className="mt-8 flex flex-col">
           {phoneSteps.map((s, k) => (
-            <li key={s.id} className={cn("border-l-2 py-4 pl-6 transition-colors duration-500", k === active || all ? "border-gold" : "border-brass")}>
+            <li key={s.id} className={cn("border-l-2 py-4 pl-6 transition-colors duration-500", k === active || all ? "border-gold" : "border-line")}>
               <p className={cn("label", k === active || all ? "text-gold" : "text-dust")}>{s.label}</p>
               <p className={cn("t-voice mt-1 text-xl transition-colors md:text-2xl", k === active || all ? "text-bone" : "text-sand/40")}>{s.title}</p>
               {(k === active || all) && <p className="mt-2 max-w-md text-sand">{s.text}</p>}
@@ -122,7 +122,7 @@ function PhoneFrame({ active, all = false }: { active: number; all?: boolean }) 
         </ol>
       </div>
       {!all && (
-        <div className="relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-brass bg-[#0F0E0D] p-3 shadow-[0_40px_120px_rgb(0_0_0/0.7)] md:block">
+        <div className="relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-line bg-[#0F0E0D] p-3 shadow-[0_40px_120px_rgb(0_0_0/0.7)] md:block">
           <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-night">
             <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
             <div className="t-ui absolute inset-x-0 top-12 z-10 flex items-center justify-between px-5 text-[0.65rem] text-dust">
@@ -254,11 +254,11 @@ export function StandingOrders() {
           <Label>Questions</Label>
           <Headline id="faq-h" className="mt-4" inscription="Standing" voice="orders." />
         </div>
-        <ul className="border-t border-brass">
+        <ul className="border-t border-line">
           {faq.map((f, i) => {
             const isOpen = open === i;
             return (
-              <li key={f.q} className="border-b border-brass">
+              <li key={f.q} className="border-b border-line">
                 <h3>
                   <button
                     type="button"

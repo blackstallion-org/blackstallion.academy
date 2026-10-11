@@ -28,9 +28,9 @@ export default function SciencePage() {
             <Headline id="claims-h" className="mt-4" inscription="What we can" voice="stand behind." />
             <p className="mt-6 max-w-sm text-sand">Every health claim on this site is listed here with its status. If we cannot source it, we do not say it.</p>
           </div>
-          <ol className="border-t border-brass">
+          <ol className="border-t border-line">
             {claims.map((c, i) => (
-              <Reveal as="li" key={c.claim} delay={i * 0.04} className="grid gap-3 border-b border-brass py-6 sm:grid-cols-[2.5rem_1fr_9rem] sm:gap-6">
+              <Reveal as="li" key={c.claim} delay={i * 0.04} className="grid gap-3 border-b border-line py-6 sm:grid-cols-[2.5rem_1fr_9rem] sm:gap-6">
                 <span className="font-mono text-xs text-dust">[{i + 1}]</span>
                 <div>
                   <p className={cn("text-lg", c.status === "Not yet published" ? "text-sand/60 line-through decoration-1" : "text-bone")}>{c.claim}</p>

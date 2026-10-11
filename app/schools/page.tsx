@@ -27,7 +27,7 @@ export default function SchoolsPage() {
         <ul className="mt-14 grid grid-cols-2 gap-10 lg:grid-cols-4">
           {seals.map((s, i) => (
             <Reveal as="li" key={s.title} delay={i * 0.1} className="flex flex-col items-center text-center">
-              <div className="grid h-28 w-28 place-items-center rounded-full border border-brass/50">
+              <div className="grid h-28 w-28 place-items-center rounded-full border border-line/50">
                 <div className="grid h-22 w-22 place-items-center rounded-full border border-dashed border-gold/60">
                   <span className="t-inscribe text-lg text-gold">{["I", "II", "III", "IV"][i]}</span>
                 </div>

@@ -12,7 +12,7 @@ export function Monogram({ className, title }: MonogramProps) {
   return (
     <svg
       viewBox={MONOGRAM_VIEWBOX}
-      className={cn("h-8 w-8 text-dust", className)}
+      className={cn("h-8 w-8 text-brass", className)}
       fill="currentColor"
       role={title ? "img" : undefined}
       aria-label={title}

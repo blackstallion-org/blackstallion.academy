@@ -36,7 +36,7 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
           <Link href="/schools#hubs" className="label text-sand hover:text-gold">
             ← All hubs
           </Link>
-          <p className="label mt-8 text-dust">
+          <p className="label mt-8 text-brass">
             BSAH hub · {hub.area} · {tier.name}
           </p>
           <Headline id="hub-h" as="h1" size="1" animate="mount" className="mt-4" inscription={first} voice={rest.join(" ")} />
@@ -45,7 +45,7 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
       </section>
 
       <section aria-label="At this hub" className="gutter relative py-16">
-        <dl className="grid grid-cols-2 gap-px bg-brass md:grid-cols-5">
+        <dl className="grid grid-cols-2 gap-px bg-line md:grid-cols-5">
           {[
             ["Status", hubStatusLabel[hub.status]],
             ["Tier", tier.name],
@@ -68,9 +68,9 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
             <h2 id="hub-batches" className="t-voice mt-3 text-display-3 text-bone">
               When cadets ride
             </h2>
-            <ul className="mt-8 border-t border-brass">
+            <ul className="mt-8 border-t border-line">
               {hub.batches.map((b) => (
-                <li key={b.name} className="grid grid-cols-[1fr_auto] gap-4 border-b border-brass py-4">
+                <li key={b.name} className="grid grid-cols-[1fr_auto] gap-4 border-b border-line py-4">
                   <span>
                     <span className="t-voice block text-xl text-bone">{b.name}</span>
                     <span className="t-ui text-sm text-dust">{b.days}</span>

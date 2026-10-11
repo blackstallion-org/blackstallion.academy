@@ -8,7 +8,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 /** Footer: reel index by act, the three corridors, and the entity notice. */
 export function Footer() {
   return (
-    <footer className="no-print relative border-t border-brass bg-night">
+    <footer className="no-print relative border-t border-line bg-night">
       <div className="gutter grid gap-12 py-20 lg:grid-cols-[1.2fr_2fr]">
         <div className="flex flex-col gap-8">
           <div className="flex items-center gap-5">
@@ -33,7 +33,7 @@ export function Footer() {
         <nav aria-label="All reels" className="grid gap-10 sm:grid-cols-3">
           {(Object.keys(acts) as Act[]).map((act) => (
             <div key={act}>
-              <p className="label text-dust">
+              <p className="label text-brass">
                 Act {acts[act].numeral} · {acts[act].name}
               </p>
               <ul className="mt-4 flex flex-col gap-2.5">
@@ -53,7 +53,7 @@ export function Footer() {
         </nav>
       </div>
 
-      <div className="gutter flex flex-col gap-4 border-t border-brass py-8 md:flex-row md:items-end md:justify-between">
+      <div className="gutter flex flex-col gap-4 border-t border-line py-8 md:flex-row md:items-end md:justify-between">
         <p className="t-ui max-w-3xl text-xs leading-relaxed text-dust">
           {entity.parent} · Operating arm: {entity.operator} (BSAH) · Sanctioned by the {entity.council} ({entity.councilShort}) ·{" "}
           {entity.city}. Imagery on this site is AI-generated placeholder art until the commissioned shoot.

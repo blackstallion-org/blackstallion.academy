@@ -18,7 +18,7 @@ export default function AboutPage() {
       {/* T17 · Monogram drawn in brass */}
       <section aria-labelledby="about-h" className="gutter relative flex min-h-[100svh] flex-col items-center justify-center pt-24 text-center">
         <LoaderMark className="h-28 w-28 md:h-36 md:w-36" />
-        <p className="label mt-10 text-dust">Credits · Behind the camera</p>
+        <p className="label mt-10 text-brass">Credits · Behind the camera</p>
         <Headline id="about-h" as="h1" size="1" animate="mount" delay={0.8} className="mx-auto mt-4" inscription="Dominus Sui," voice="dominus equi." />
         <p className="t-story mt-6 text-sand">{entity.mottoEn}.</p>
       </section>
@@ -51,16 +51,16 @@ export default function AboutPage() {
         <Headline id="house-h" className="mt-4" inscription="Horsemanship is" voice="the gateway." />
         <div className="mt-14 flex flex-col items-center">
           <Reveal className="border border-gold px-6 py-4 text-center">
-            <p className="label text-dust">Parent</p>
+            <p className="label text-brass">Parent</p>
             <p className="t-voice mt-1 text-2xl text-bone">{house.parent}</p>
           </Reveal>
-          <span aria-hidden className="h-10 w-px bg-brass" />
-          <span aria-hidden className="hidden h-px w-[66%] bg-brass md:block" />
+          <span aria-hidden className="h-10 w-px bg-line" />
+          <span aria-hidden className="hidden h-px w-[66%] bg-line md:block" />
           <ul className="grid w-full gap-6 md:grid-cols-3 md:gap-8">
             {house.children.map((c, i) => (
               <Reveal as="li" key={c.name} delay={i * 0.12} className="flex flex-col items-center text-center">
-                <span aria-hidden className="hidden h-8 w-px bg-brass md:block" />
-                <div className={i === 0 ? "w-full border border-gold/70 p-5" : "w-full border border-brass p-5"}>
+                <span aria-hidden className="hidden h-8 w-px bg-line md:block" />
+                <div className={i === 0 ? "w-full border border-gold/70 p-5" : "w-full border border-line p-5"}>
                   <p className={i === 0 ? "label text-gold" : "label text-dust"}>{c.status}</p>
                   <p className="t-voice mt-2 text-xl text-bone">{c.name}</p>
                   <p className="mt-2 text-sm text-sand">{c.line}</p>
@@ -68,8 +68,8 @@ export default function AboutPage() {
               </Reveal>
             ))}
           </ul>
-          <Reveal className="mt-14 w-full max-w-xl border-t border-dashed border-brass pt-6 text-center">
-            <p className="label text-dust">Governing council</p>
+          <Reveal className="mt-14 w-full max-w-xl border-t border-dashed border-line pt-6 text-center">
+            <p className="label text-brass">Governing council</p>
             <p className="t-voice mt-1 text-xl text-bone">{house.council.name}</p>
             <p className="mt-1 text-sm text-sand">{house.council.line}</p>
           </Reveal>

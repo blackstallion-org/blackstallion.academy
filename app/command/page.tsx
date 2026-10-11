@@ -21,12 +21,12 @@ export default function CommandPage() {
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.7fr)]">
           <Terminal tall opening="Payback for 150 cadets" chips={knowledge.map((k) => k.ask)} />
           <aside aria-label="Dossier" className="flex flex-col gap-6">
-            <div className="border-t border-brass pt-4">
-              <p className="label text-dust">Dossier · fees</p>
+            <div className="border-t border-line pt-4">
+              <p className="label text-brass">Dossier · fees</p>
               <p className="font-mono mt-2 text-sm text-sand">{`Core ${priceLabel.core} / month · Elite ${priceLabel.elite} / month · kit ${priceLabel.kit} once`}</p>
             </div>
-            <div className="border-t border-brass pt-4">
-              <p className="label text-dust">Dossier · tiers</p>
+            <div className="border-t border-line pt-4">
+              <p className="label text-brass">Dossier · tiers</p>
               <ul className="font-mono mt-2 flex flex-col gap-1 text-sm text-sand">
                 {tiers.map((t) => (
                   <li key={t.id}>
@@ -35,11 +35,11 @@ export default function CommandPage() {
                 ))}
               </ul>
             </div>
-            <div className="border-t border-brass pt-4">
-              <p className="label text-dust">Dossier · cover</p>
+            <div className="border-t border-line pt-4">
+              <p className="label text-brass">Dossier · cover</p>
               <p className="font-mono mt-2 text-sm text-sand">Accident-insurance terms to be confirmed</p>
             </div>
-            <p className="t-ui border-t border-brass pt-4 text-xs text-dust">Demo: scripted answers from the academy&rsquo;s brief. Not connected to live data or a registry. Live answers follow once the back end exists and each claim is documented.</p>
+            <p className="t-ui border-t border-line pt-4 text-xs text-dust">Demo: scripted answers from the academy&rsquo;s brief. Not connected to live data or a registry. Live answers follow once the back end exists and each claim is documented.</p>
           </aside>
         </div>
       </section>

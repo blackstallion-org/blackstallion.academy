@@ -35,7 +35,7 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
           <Link href="/journal" className="label text-sand hover:text-gold">
             ← The Chronicle
           </Link>
-          <p className="label mt-8 text-dust">
+          <p className="label mt-8 text-brass">
             {post.category} · {post.minutes} min read · {fmt(post.date)}
           </p>
           <h1 className="mt-4 max-w-5xl text-display-1">
@@ -57,14 +57,14 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
               );
             if (b.t === "quote")
               return (
-                <blockquote key={k} className="my-14 border-y border-brass py-8 text-center">
-                  <Horseshoe className="mx-auto mb-4 text-dust" />
+                <blockquote key={k} className="my-14 border-y border-line py-8 text-center">
+                  <Horseshoe className="mx-auto mb-4 text-brass" />
                   <p className="t-voice text-[clamp(1.5rem,3vw,2.4rem)] leading-tight text-gold">{b.text}</p>
                 </blockquote>
               );
             if (b.t === "note")
               return (
-                <p key={k} className="t-ui mt-12 border-l border-brass pl-4 text-sm text-dust">
+                <p key={k} className="t-ui mt-12 border-l border-line pl-4 text-sm text-dust">
                   {b.text}
                 </p>
               );
@@ -85,11 +85,11 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
         </div>
       </div>
 
-      <Link href={`/journal/${next.slug}`} className="group relative block h-[60svh] overflow-hidden border-t border-brass">
+      <Link href={`/journal/${next.slug}`} className="group relative block h-[60svh] overflow-hidden border-t border-line">
         <FilmImage name={next.cover} className="transition-transform duration-[2000ms] group-hover:scale-[1.04]" imgClassName="opacity-50" />
         <div aria-hidden className="absolute inset-0 bg-night/60" />
         <div className="gutter relative flex h-full flex-col justify-end pb-12">
-          <p className="label text-dust">Next story</p>
+          <p className="label text-brass">Next story</p>
           <p className="mt-3 text-display-2">
             <span className="t-inscribe block text-[0.5em]">{next.title[0]}</span>
             <span className="t-voice block text-gold">{next.title[1]}</span>

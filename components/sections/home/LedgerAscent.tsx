@@ -129,7 +129,7 @@ export function LedgerAscent() {
           })}
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-px bg-brass md:grid-cols-4" role="group" aria-label="Ranks">
+        <div className="mt-8 grid grid-cols-2 gap-px bg-line md:grid-cols-4" role="group" aria-label="Ranks">
           {ranks.map((r, i) => (
             <button
               key={r.id}

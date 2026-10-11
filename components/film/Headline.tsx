@@ -16,8 +16,8 @@ const voiceColors = {
   gold: "text-gold",
   bone: "text-bone",
   sand: "text-sand",
-  blood: "text-white",
-  brass: "text-dust",
+  blood: "text-blood",
+  brass: "text-brass",
 } as const;
 
 type HeadlineProps = {

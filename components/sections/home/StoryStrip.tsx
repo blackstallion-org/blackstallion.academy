@@ -79,7 +79,7 @@ function Strip({ progress }: { progress: MotionValue<number> }) {
                     </span>
                   </div>
                   <div className="flex flex-col justify-end gap-3 p-5 md:p-10">
-                    <p className="label text-dust">{f.kicker}</p>
+                    <p className="label text-brass">{f.kicker}</p>
                     <p
                       className={
                         i === n - 1
@@ -108,7 +108,7 @@ function Strip({ progress }: { progress: MotionValue<number> }) {
       <div className="gutter">
         <div className="flex gap-1.5" aria-hidden>
           {frames.map((f, i) => (
-            <span key={f.kicker} className={`h-px flex-1 transition-colors duration-500 ${i <= active ? "bg-gold" : "bg-brass/20"}`} />
+            <span key={f.kicker} className={`h-px flex-1 transition-colors duration-500 ${i <= active ? "bg-gold" : "bg-line/20"}`} />
           ))}
         </div>
       </div>
@@ -127,7 +127,7 @@ function StoryStack() {
             <div className="relative aspect-[16/10]">
               <FilmImage name={f.image} sizes="(min-width: 768px) 45vw, 90vw" />
             </div>
-            <p className="label mt-4 text-dust">{f.kicker}</p>
+            <p className="label mt-4 text-brass">{f.kicker}</p>
             <p className="mt-2 text-sand">{f.text}</p>
           </li>
         ))}
