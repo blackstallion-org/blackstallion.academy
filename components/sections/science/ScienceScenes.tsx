@@ -11,6 +11,7 @@ import { RiderDiagram, type SystemId } from "@/components/sections/home/RiderDia
 import { statusColor, systems } from "@/lib/content/science";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { r3 } from "@/lib/round";
 
 
 /** Title card · T4 line drawing. Signature: motion-capture lines draw over the rider, then the photograph fades up. */
@@ -135,7 +136,7 @@ export function PulseLine() {
   const wave = (amp: number, phase: number) =>
     Array.from({ length: 41 }, (_, k) => {
       const x = k * 30;
-      const y = 60 + Math.sin((k / 4) * Math.PI + phase) * amp + Math.sin((k / 2) * Math.PI + phase) * amp * 0.25;
+      const y = r3(60 + Math.sin((k / 4) * Math.PI + phase) * amp + Math.sin((k / 2) * Math.PI + phase) * amp * 0.25);
       return `${k ? "L" : "M"}${x} ${y.toFixed(1)}`;
     }).join(" ");
   return (

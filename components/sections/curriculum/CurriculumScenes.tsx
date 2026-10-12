@@ -9,6 +9,7 @@ import { r } from "@/components/film/range";
 import { assessment, classSegments, disciplines, ranks } from "@/lib/content/curriculum";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { r3 } from "@/lib/round";
 
 /** Title card · T6 ledger page. Signature: ruled lines draw across the ledger like a clerk's pen. */
 export function CurriculumTitle() {
@@ -123,7 +124,7 @@ export function ClockRing() {
               const a = (m / 45) * Math.PI * 2;
               const len = m % 15 === 0 ? 14 : m % 5 === 0 ? 8 : 4;
               return (
-                <line key={m} x1={200 + Math.cos(a) * 172} y1={200 + Math.sin(a) * 172} x2={200 + Math.cos(a) * (172 + len)} y2={200 + Math.sin(a) * (172 + len)} stroke="rgb(184 115 51 / 0.4)" strokeWidth="1" />
+                <line key={m} x1={r3(200 + Math.cos(a) * 172)} y1={r3(200 + Math.sin(a) * 172)} x2={r3(200 + Math.cos(a) * (172 + len))} y2={r3(200 + Math.sin(a) * (172 + len))} stroke="rgb(184 115 51 / 0.4)" strokeWidth="1" />
               );
             })}
           </svg>

@@ -8,6 +8,7 @@ import { ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { earLeft } from "@/components/brand/paths";
 import { ease } from "@/lib/motion/tokens";
+import { r3 } from "@/lib/round";
 
 /** Title card · T3 specimen plate. Signature: catalogue lines rule in around the horse like a museum mount. */
 const catalogue: [string, string][] = [
@@ -170,10 +171,10 @@ export function EarDial() {
             <path d="M60 248 A140 140 0 0 1 340 248" fill="none" stroke="rgb(184 115 51 / 0.25)" strokeWidth="1" />
             {Array.from({ length: 19 }, (_, i) => {
               const a = (-90 + i * 10) * (Math.PI / 180);
-              const x1 = 200 + Math.sin(a) * 140;
-              const y1 = 248 - Math.cos(a) * 140;
-              const x2 = 200 + Math.sin(a) * (i % 3 === 0 ? 124 : 132);
-              const y2 = 248 - Math.cos(a) * (i % 3 === 0 ? 124 : 132);
+              const x1 = r3(200 + Math.sin(a) * 140);
+              const y1 = r3(248 - Math.cos(a) * 140);
+              const x2 = r3(200 + Math.sin(a) * (i % 3 === 0 ? 124 : 132));
+              const y2 = r3(248 - Math.cos(a) * (i % 3 === 0 ? 124 : 132));
               return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--color-brass)" strokeWidth={i % 3 === 0 ? 1.4 : 0.8} />;
             })}
             <text x="44" y="272" className="font-mono" fontSize="11" fill="rgb(140 136 130)">

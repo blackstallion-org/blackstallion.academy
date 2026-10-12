@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { r3 } from "@/lib/round";
 
 export type SystemId = "brain" | "spine" | "muscle" | "heart";
 
@@ -9,7 +10,7 @@ const vertebrae = Array.from({ length: 17 }, (_, i) => {
   const t = i / 16;
   const y = 112 + t * 172;
   // A gentle S-curve: cervical lordosis, thoracic kyphosis, lumbar lordosis.
-  const x = 150 + Math.sin(t * Math.PI * 2) * 4;
+  const x = r3(150 + Math.sin(t * Math.PI * 2) * 4);
   return { x, y, w: 9 + t * 6 };
 });
 

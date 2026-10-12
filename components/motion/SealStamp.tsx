@@ -6,6 +6,7 @@ import { useId, useRef } from "react";
 import { blaze, earLeft, earRight } from "@/components/brand/paths";
 import { ease, inViewOnce, sealStamp } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { r3 } from "@/lib/round";
 
 type SealStampProps = {
   /** Text engraved on the top arc. Keep it to one word. */
@@ -104,7 +105,7 @@ export function SealStamp({
         <g fill={`url(#brass-${uid})`}>
           {Array.from({ length: 40 }, (_, i) => {
             const a = (i / 40) * Math.PI * 2;
-            return <circle key={i} cx={60 + Math.cos(a) * 56} cy={60 + Math.sin(a) * 56} r="2.4" />;
+            return <circle key={i} cx={r3(60 + Math.cos(a) * 56)} cy={r3(60 + Math.sin(a) * 56)} r="2.4" />;
           })}
         </g>
         <circle cx="60" cy="60" r="53" fill={`url(#brass-${uid})`} />

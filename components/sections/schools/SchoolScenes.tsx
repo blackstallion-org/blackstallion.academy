@@ -11,6 +11,7 @@ import { benchmark, formatINR, hubs, model, network, simulate, tierById, tiers, 
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { BlueprintPlan } from "./BlueprintPlan";
+import { r3 } from "@/lib/round";
 
 /** Title card · T11 aerial zoom. Signature: the campus slowly comes closer as you begin to scroll. */
 export function SchoolsTitle() {
@@ -165,7 +166,7 @@ export function ConfiguratorAndSimulator() {
               {[0, 25, 50, 75, 100].map((m) => {
                 const a = Math.PI - (m / 100) * Math.PI;
                 return (
-                  <text key={m} x={200 + Math.cos(a) * 185} y={214 - Math.sin(a) * 185} textAnchor="middle" className="font-mono" fontSize="11" fill="rgb(140 136 130)">
+                  <text key={m} x={r3(200 + Math.cos(a) * 185)} y={r3(214 - Math.sin(a) * 185)} textAnchor="middle" className="font-mono" fontSize="11" fill="rgb(140 136 130)">
                     {m === 0 ? "0" : ""}
                   </text>
                 );
