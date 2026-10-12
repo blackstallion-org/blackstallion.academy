@@ -19,6 +19,7 @@
 
 - The home page `/` is the **trailer**: 15 sections in three zones (Hook / Proof / Convert), each teasing one page.
 - Every other page is a **reel** (`lib/content/site.ts` → `reels`), with the same grammar: **title card** (unique opening move) → **scenes** (each a different layout archetype, one signature moment) → **end card** (`components/film/EndCard.tsx`, hands off to the next reel).
+- Five pages open with a full-screen cinematic scene from `components/cinematic/` (home split reveal, curriculum aperture, schools layered marquee, hub parallax stack, verify pixel dissolve). Specs and assets: `docs/cinematic-redesign/`. One signature move per page; do not reuse an opening effect on another page.
 - Two-voice headlines via `components/film/Headline.tsx`: INSCRIPTION (Kalnia wide hairline caps) + war voice (Kalnia heavy lowercase, gold).
 - Archetypes may appear once per page and at most twice across the site (Blueprint Part 4).
 

@@ -3,7 +3,6 @@ import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Chain, VerifyTitle } from "@/components/sections/verify/VerifyScenes";
-import { Verifier } from "@/components/sections/verify/Verifier";
 
 export const metadata: Metadata = {
   title: "The Seal · Verify a passport",
@@ -14,12 +13,6 @@ export default function VerifyPage() {
   return (
     <>
       <VerifyTitle />
-
-      <section aria-labelledby="verify-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
-        <Label>Verify a passport</Label>
-        <Headline id="verify-h" className="mt-4" inscription="Enter" voice="the code." />
-        <Verifier showSamples className="mt-12" />
-      </section>
 
       <Chain />
 
@@ -41,7 +34,7 @@ export default function VerifyPage() {
             <p className="label text-blood">Never shown</p>
             <ul className="mt-5 flex flex-col gap-3">
               {["Contact details", "Address", "Medical notes", "Payments"].map((x) => (
-                <li key={x} className="t-voice text-xl text-sand/50 line-through decoration-1">
+                <li key={x} className="t-voice text-xl text-dust line-through decoration-1">
                   {x}
                 </li>
               ))}

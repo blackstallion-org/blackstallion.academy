@@ -6,29 +6,43 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
+import { PortalReveal } from "@/components/cinematic/PortalReveal";
 import { assessment, classSegments, disciplines, ranks } from "@/lib/content/curriculum";
+import { reelFor } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { r3 } from "@/lib/round";
 
-/** Title card · T6 ledger page. Signature: ruled lines draw across the ledger like a clerk's pen. */
+/**
+ * Title card · cinematic opening 2 of 5 (docs/cinematic-redesign): scroll-driven aperture.
+ * A brass aperture in the Thar at dusk; scrolling travels through it to the cadets in formation,
+ * then releases into the ranks below. The ledger-page title card it replaces is retired.
+ */
 export function CurriculumTitle() {
+  const reel = reelFor("/curriculum");
   return (
-    <section aria-labelledby="curr-h" className="relative min-h-[100svh] overflow-hidden">
-      <FilmImage name="currLedger" priority />
-      <div aria-hidden className="absolute inset-0 bg-night/45" />
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-x-0 top-[18%] flex flex-col gap-[4.2vh] px-[6vw] opacity-60">
-        {Array.from({ length: 9 }, (_, i) => (
-          <motion.span key={i} className="block h-px origin-left bg-line" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, ease: ease.citadel, delay: 0.2 + i * 0.08 }} />
-        ))}
-      </div>
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
-        <ReelMark n={5} act="citadel" />
-        <Headline id="curr-h" as="h1" size="1" animate="mount" className="mt-6 max-w-5xl" inscription="An athletic curriculum" voice="that builds character." />
-        <p className="t-story mt-6 max-w-2xl text-sand">Every mounted drill maps to a trait a leader needs in a boardroom, a negotiation or a crisis.</p>
-      </div>
-    </section>
+    <PortalReveal
+      id="curriculum-open"
+      label="An athletic curriculum that builds character"
+      outer="currPortal"
+      inner="currFormation"
+      title={
+        <>
+          <ReelMark n={5} act="citadel" />
+          <Headline id="curr-h" as="h1" size="1" animate="mount" delay={0.4} className="mt-6 max-w-5xl" inscription="An athletic curriculum" voice="that builds character." />
+          <p className="t-story mt-6 max-w-xl text-sand">Every mounted drill maps to a trait a leader needs in a boardroom, a negotiation or a crisis.</p>
+        </>
+      }
+      arrival={
+        <>
+          <p className="label text-brass">{reel?.title ?? "The Ledger"}</p>
+          <p className="mt-5 text-display-1 text-balance">
+            <span className="t-inscribe block text-[0.5em] leading-tight text-bone">{reel?.inscription ?? "Four ranks."}</span>
+            <span className="t-voice block text-gold">{reel?.voice ?? "Thirteen pillars."}</span>
+          </p>
+        </>
+      }
+    />
   );
 }
 
@@ -75,7 +89,7 @@ export function Staircase() {
         <div>
           <p className="font-mono text-xs text-dust">RANK {rk.numeral} OF IV</p>
           <p className="t-voice mt-1 text-3xl text-gold">{rk.name}</p>
-          <div className="mt-4 flex gap-1.5" aria-label={`Progress: rank ${sel + 1} of 4`}>
+          <div className="mt-4 flex gap-1.5" role="img" aria-label={`Progress: rank ${sel + 1} of 4`}>
             {ranks.map((_, i) => (
               <span key={i} className={cn("h-1.5 w-10", i <= sel ? "bg-gold" : "bg-line")} />
             ))}

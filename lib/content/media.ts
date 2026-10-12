@@ -82,9 +82,25 @@ export const media = {
   tournPodium: m("tourn-podium.png", "hf_20261009_141652_b40d5bb5-0add-4dbe-98fa-804b08055fa9.png", "Three cadets on a podium receiving medals"),
   journalReins: m("journal-reins.png", "hf_20261009_141653_ed15a453-da1c-4f1a-9507-25f09b028615.png", "Gloved hands holding leather reins lightly"),
   contactGate: m("contact-gate.png", "hf_20261009_142018_b4e92a4f-3602-4c04-85ce-1c80dfda6af5.png", "A studded Rajput fort gate at night between two lanterns"),
+
+  /* ---------------------------------------------------- cinematic openings (12 Oct 2026, docs/cinematic-redesign) */
+  currPortal: m("cinematic-curriculum-portal.png", "hf_20261012_075903_837d442d-f961-4279-a573-b907d9ae874c.png", "A lone rider on a Marwari horse silhouetted at the centre of the Thar horizon at dusk", "50% 55%"),
+  riderStudio: m("cinematic-rider-studio.png", "hf_20261012_075902_e5044e71-3f6f-414f-a810-5b0a4e2303f2.png", "A cadet in uniform sitting tall on a dark bay Marwari horse"),
+  riderCutout: m("cinematic-rider-cutout.png", "hf_20261012_080035_e5ca080a-3c8b-4b31-87a0-4be4c159313f.png", "A cadet in uniform sitting tall on a dark bay Marwari horse"),
+  hubArena: m("cinematic-hub-arena.png", "hf_20261012_075901_38fcd9ba-1efe-49cb-ba3d-7118fe004a33.png", "A cadet leading a Marwari across a new school riding arena at dawn (indicative)", "50% 60%"),
+  verifyPortrait: m("cinematic-verify-portrait.png", "hf_20261012_075902_035e1ba3-b48e-496d-9f0d-a4e5b12f05ba.png", "Portrait of a dark bay Marwari stallion with inward-curving ears against black", "72% 45%"),
 } satisfies Record<string, Media>;
 
 export type MediaKey = keyof typeof media;
+
+/** Home opening film: the hero cut cropped to its 2.5:1 picture (letterbox removed) and re-encoded. Originals stay in public/video. */
+export const homeFilm = {
+  poster: "/video/home-hero-cropped-poster.jpg",
+  sources: [
+    { src: "/video/home-hero-cropped-1280.mp4", media: "(max-width: 900px)" },
+    { src: "/video/home-hero-cropped-1920.mp4" },
+  ],
+} as const;
 
 export const heroVideo = { file: "/media/hero-loop.mp4", remote: `${CDN}hf_20261009_002919_571f23fa-14a9-4d0b-bbe3-19f4311054d8.mp4` };
 

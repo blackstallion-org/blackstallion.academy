@@ -406,6 +406,18 @@
   to { transform: translateX(-50%); }
 }
 
+/* Scroll cue: a short antique-gold bead travelling down a hairline */
+@keyframes cue {
+  0% { transform: translateY(-100%); }
+  70%, 100% { transform: translateY(220%); }
+}
+
+/* Hub rotation dwell: a hairline that fills while a destination is held */
+@keyframes dwell {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
 @keyframes blink {
   50% { opacity: 0; }
 }

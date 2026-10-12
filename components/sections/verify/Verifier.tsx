@@ -9,13 +9,18 @@ import { credentialByCode, credentials, type Credential } from "@/lib/content/re
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
-type Props = { showSamples?: boolean; className?: string };
+type Props = {
+  showSamples?: boolean;
+  /** Form above the result in one column (the cinematic opening on /verify); side by side otherwise. */
+  stacked?: boolean;
+  className?: string;
+};
 
 /**
  * S10 seal verifier. Looks the code up (sample records today, Supabase later),
  * stamps the brass seal, then lets the record rise beneath it.
  */
-export function Verifier({ showSamples = false, className }: Props) {
+export function Verifier({ showSamples = false, stacked = false, className }: Props) {
   const id = useId();
   const [code, setCode] = useState("BSAH-2026-HYD-042");
   const [result, setResult] = useState<Credential | null | undefined>(undefined);
@@ -29,7 +34,7 @@ export function Verifier({ showSamples = false, className }: Props) {
   };
 
   return (
-    <div className={cn("grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start", className)}>
+    <div className={cn("grid gap-10", !stacked && "lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start", className)}>
       <form onSubmit={verify} className="flex flex-col gap-4" aria-describedby={`${id}-hint`}>
         <label htmlFor={`${id}-code`} className="label text-brass">
           Passport code
@@ -71,7 +76,7 @@ export function Verifier({ showSamples = false, className }: Props) {
         )}
       </form>
 
-      <div aria-live="polite" className="relative min-h-[18rem]">
+      <div aria-live="polite" className={cn("relative", stacked ? "min-h-0" : "min-h-[18rem]")}>
         <AnimatePresence mode="wait">
           {result === null && (
             <motion.p key="none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="t-story text-sand">

@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
-import { Label, StatusDot } from "@/components/film/Marks";
+import { ParallaxStack } from "@/components/cinematic/ParallaxStack";
+import { Cta, Label, StatusDot } from "@/components/film/Marks";
 import { LeadForm } from "@/components/sections/shared/LeadForm";
 import { fleet, statusLabel } from "@/lib/content/fleet";
 import { hubBySlug, hubStatusLabel, hubs, tierById } from "@/lib/content/schools";
@@ -26,40 +27,64 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
   const tier = tierById(hub.tier);
   const horses = fleet.filter((s) => s.hub === hub.slug);
   const [first, ...rest] = hub.name.split(" ");
+  const facts: [string, string][] = [
+    ["Status", hubStatusLabel[hub.status]],
+    ["Tier", tier.name],
+    ["Stallions", String(hub.stallions)],
+    ["Cadets", `${hub.cadets} (sample)`],
+    ["Faculty", "Ex-cavalry instructor + vet"],
+  ];
 
   return (
     <>
-      <section aria-labelledby="hub-h" className="relative min-h-[88svh] overflow-hidden">
-        <FilmImage name={hub.image} priority />
-        <div aria-hidden className="absolute inset-0 shade-b" />
-        <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
-          <Link href="/schools#hubs" className="label text-sand hover:text-gold">
-            ← All hubs
-          </Link>
-          <p className="label mt-8 text-brass">
-            BSAH hub · {hub.area} · {tier.name}
-          </p>
-          <Headline id="hub-h" as="h1" size="1" animate="mount" className="mt-4" inscription={first} voice={rest.join(" ")} />
-          <p className="t-story mt-6 max-w-xl text-sand">{hub.note}</p>
-        </div>
-      </section>
-
-      <section aria-label="At this hub" className="gutter relative py-16">
-        <dl className="grid grid-cols-2 gap-px bg-line md:grid-cols-5">
-          {[
-            ["Status", hubStatusLabel[hub.status]],
-            ["Tier", tier.name],
-            ["Stallions", String(hub.stallions)],
-            ["Cadets", `${hub.cadets} (sample)`],
-            ["Faculty", "Ex-cavalry instructor + vet"],
-          ].map(([k, v]) => (
-            <div key={k} className="bg-night p-6">
-              <dt className="label text-dust">{k}</dt>
-              <dd className="t-voice mt-2 text-2xl text-bone">{v}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      {/* Cinematic opening 4 of 5 (docs/cinematic-redesign): vertical parallax stack. One component for every hub slug. */}
+      <ParallaxStack
+        id="hub-open"
+        label={hub.name}
+        scenes={[
+          {
+            id: "hub-arrival",
+            image: hub.image,
+            content: (
+              <>
+                <Link href="/schools#hubs" className="label self-start text-sand hover:text-gold">
+                  ← All hubs
+                </Link>
+                <p className="label mt-8 text-brass">
+                  BSAH hub · {hub.area} · {tier.name}
+                </p>
+                <Headline id="hub-h" as="h1" size="1" animate="mount" delay={0.2} className="mt-4 max-w-6xl" inscription={first} voice={rest.join(" ")} />
+                <p className="t-story mt-6 max-w-xl text-sand">{hub.note}</p>
+              </>
+            ),
+          },
+          {
+            id: "hub-facts",
+            image: "hubArena",
+            layer: "dustPlume",
+            content: (
+              <>
+                <Label>At this hub</Label>
+                <h2 className="t-voice mt-3 text-display-2 text-bone">{hub.short}</h2>
+                <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-line pt-8 md:grid-cols-5">
+                  {facts.map(([k, v]) => (
+                    <div key={k}>
+                      <dt className="label text-dust">{k}</dt>
+                      <dd className="t-voice mt-2 text-[clamp(1.25rem,2.2vw,1.9rem)] leading-tight text-bone">{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <Cta href="#hub-enquire" variant="solid">
+                    Book a hub visit
+                  </Cta>
+                  <span className="t-ui text-xs text-dust">Indicative image: the arena is built to the {tier.name} specification at the hub visit.</span>
+                </div>
+              </>
+            ),
+          },
+        ]}
+      />
 
       <section aria-labelledby="hub-batches" className="gutter relative py-16">
         <div className="grid gap-12 lg:grid-cols-2">
@@ -106,11 +131,11 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
         </div>
       </section>
 
-      <section aria-labelledby="hub-enquire" className="relative bg-umber/40 py-[clamp(5rem,12vh,10rem)]">
+      <section id="hub-enquire" aria-labelledby="hub-enquire-h" className="relative scroll-mt-16 bg-umber/40 py-[clamp(5rem,12vh,10rem)]">
         <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div>
             <Label>Enrol at {hub.short}</Label>
-            <Headline id="hub-enquire" className="mt-4" inscription="Book a" voice="hub visit." />
+            <Headline id="hub-enquire-h" className="mt-4" inscription="Book a" voice="hub visit." />
             <p className="mt-6 max-w-sm text-sand">Meet the instructor and the stallions, then a twenty-minute assessment ride places your child in the right batch.</p>
           </div>
           <LeadForm

@@ -4,15 +4,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useLenis } from "lenis/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
 import { acts, corridors, navCta, primaryNav, reelFor, reels, TOTAL_REELS, type Act } from "@/lib/content/site";
+import { hubs } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+/** Routes whose first screen is a dark cinematic opening (docs/cinematic-redesign). */
+const darkOpenings = new Set(["/", "/curriculum", "/schools", "/verify", ...hubs.map((h) => `/schools/${h.slug}`)]);
+const opensDark = (pathname: string) => darkOpenings.has(pathname.replace(/\/$/, "") || "/");
 
 /**
  * Global navigation. Hides while scrolling down, returns on the way up.
@@ -25,21 +30,46 @@ export function SiteNav() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
-  /* Over the home film the bar reads light-on-dark; everywhere else it is ivory and ink. */
-  const overFilm = pathname === "/" && !solid;
+  const headerRef = useRef<HTMLElement>(null);
+  /*
+   * The bar takes the tone of whatever passes beneath it: light-on-dark over a cinematic opening or any
+   * `.tone-dark` scene, ivory and ink elsewhere. First paint uses the route's known opening.
+   */
+  const [sampled, setSampled] = useState<{ path: string; dark: boolean } | null>(null);
+  const overDark = sampled?.path === pathname ? sampled.dark : opensDark(pathname);
+
+  const sample = useCallback(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const y = header.getBoundingClientRect().bottom + 2;
+    const under = document.elementsFromPoint(window.innerWidth / 2, Math.max(2, y)).find((el) => !header.contains(el));
+    setSampled({ path: pathname, dark: Boolean(under?.closest(".tone-dark")) });
+  }, [pathname]);
+
+  useEffect(() => {
+    // Sample once the new route has painted, and again after its opening has laid out.
+    const id = requestAnimationFrame(sample);
+    const late = window.setTimeout(sample, 400);
+    return () => {
+      cancelAnimationFrame(id);
+      window.clearTimeout(late);
+    };
+  }, [sample]);
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
     setSolid(y > 40);
     setHidden(y > 240 && y > prev && !open);
+    sample();
   });
 
   return (
     <>
       <motion.header
+        ref={headerRef}
         className={cn(
-          "no-print fixed inset-x-0 top-0 z-[60] transition-colors duration-500",
-          overFilm && "tone-dark",
+          "no-print fixed inset-x-0 top-0 z-[60] transition-colors duration-300",
+          overDark && "tone-dark",
           solid
             ? "border-b border-line/60 bg-night/95"
             : "bg-gradient-to-b from-night/90 via-night/55 to-transparent",

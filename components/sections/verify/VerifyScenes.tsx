@@ -2,27 +2,33 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
-import { FilmImage } from "@/components/film/FilmImage";
+import { PixelDissolve } from "@/components/cinematic/PixelDissolve";
 import { Headline } from "@/components/film/Headline";
 import { Label, ReelMark } from "@/components/film/Marks";
-import { SealStamp } from "@/components/motion/SealStamp";
+import { Verifier } from "@/components/sections/verify/Verifier";
 import { ease } from "@/lib/motion/tokens";
 
-/** Title card · T12 seal. Signature: a brass seal stamps down over the title. */
+/**
+ * Title card · cinematic opening 5 of 5 (docs/cinematic-redesign): pixel dissolve.
+ * The portrait resolves from coarse blocks behind the page while the real verifier is usable at once:
+ * the form is in the opening itself, never delayed behind the effect.
+ */
 export function VerifyTitle() {
   return (
-    <section aria-labelledby="verify-title" className="relative min-h-[92svh] overflow-hidden">
-      <FilmImage name="bgPassport" priority grade="deep" />
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div className="gutter relative flex min-h-[92svh] flex-col justify-end pb-[10vh]">
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <ReelMark n={11} act="ledger" />
-            <Headline id="verify-title" as="h1" size="poster" animate="mount" className="mt-6" inscription="Every hour" voice="sealed in brass." />
-          </div>
-          <SealStamp label="SEALED" trigger="inView" className="hidden h-40 w-40 shrink-0 md:inline-grid" />
+    <section aria-labelledby="verify-title" className="tone-dark relative min-h-[100svh] overflow-hidden bg-night">
+      <PixelDissolve name="verifyPortrait" />
+      <div aria-hidden className="absolute inset-0 bg-night/60 lg:hidden" />
+      <div aria-hidden className="absolute inset-0 hidden bg-gradient-to-r from-night via-night/80 to-transparent lg:block lg:w-[70%]" />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-night to-transparent" />
+      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[max(8vh,env(safe-area-inset-bottom))] pt-28">
+        <div className="max-w-xl">
+          <ReelMark n={11} act="ledger" />
+          <Headline id="verify-title" as="h1" size="1" animate="mount" delay={0.5} className="mt-6" inscription="Every hour" voice="sealed in brass." />
+          <p className="t-story mt-5 text-sand">A public record of every cadet&rsquo;s rank and hours. Nothing private, nothing editable.</p>
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: ease.citadel, delay: 0.35 }}>
+            <Verifier showSamples stacked className="mt-10" />
+          </motion.div>
         </div>
-        <p className="t-story mt-6 max-w-xl text-sand">A public record of every cadet&rsquo;s rank and hours. Nothing private, nothing editable.</p>
       </div>
     </section>
   );

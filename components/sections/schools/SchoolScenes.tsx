@@ -1,44 +1,54 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
-import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Cta, Label, ReelMark } from "@/components/film/Marks";
-import { r } from "@/components/film/range";
 import { benchmark, formatINR, hubs, model, network, simulate, tierById, tiers, TUITION_PER_MONTH, type TierId } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { LayeredMarquee, type Destination } from "@/components/cinematic/LayeredMarquee";
 import { BlueprintPlan } from "./BlueprintPlan";
 import { r3 } from "@/lib/round";
 
-/** Title card · T11 aerial zoom. Signature: the campus slowly comes closer as you begin to scroll. */
+/**
+ * Title card · cinematic opening 3 of 5 (docs/cinematic-redesign): layered silhouette marquee.
+ * Each live hub (from lib/content/schools) takes the screen in turn: its photograph, its area set
+ * enormous behind a cadet on a Marwari, and a link straight to the hub page.
+ */
 export function SchoolsTitle() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const scale = useTransform(scrollYProgress, r(0, 1), [1.02, 1.25]);
+  const destinations: Destination[] = hubs.map((h) => ({
+    id: h.slug,
+    href: `/schools/${h.slug}`,
+    title: h.area,
+    name: h.name,
+    meta: `${tierById(h.tier).name} · ${h.stallions} stallions`,
+    image: h.image,
+  }));
   return (
-    <section ref={ref} aria-labelledby="schools-title" className="relative min-h-[100svh] overflow-hidden">
-      <motion.div className="absolute inset-0" initial={{ scale: 1.15 }} animate={{ scale: 1 }} transition={{ duration: 3, ease: ease.citadel }}>
-        <FilmImage name="schoolAerial" priority scale={scale} />
-      </motion.div>
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-0 shade-l opacity-70" />
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
-        <ReelMark n={10} act="ledger" />
-        <Headline id="schools-title" as="h1" size="1" animate="mount" className="mt-6" inscription="Your campus" voice="becomes a citadel." />
-        <p className="t-story mt-6 max-w-2xl text-sand">
-          A turnkey equestrian hub, funded, built and run by BSAH at zero capital expenditure to the school board, returning 25–30% of tuition to your institution.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Cta href="/schools/mou" variant="solid">
-            Request a draft MOU
-          </Cta>
-          <Cta href="#simulator">Run the numbers</Cta>
-        </div>
-      </div>
-    </section>
+    <LayeredMarquee
+      id="schools-open"
+      labelledBy="schools-title"
+      destinations={destinations}
+      foreground="riderCutout"
+      listLabel="Zone 01 · Hyderabad hubs"
+      heading={
+        <>
+          <ReelMark n={10} act="ledger" />
+          <Headline id="schools-title" as="h1" size="2" animate="mount" delay={0.3} className="mt-5" inscription="Your campus" voice="becomes a citadel." />
+          <p className="t-story mt-5 hidden max-w-md text-sand sm:block">Funded, built and run by BSAH at zero capital expenditure to the school board.</p>
+          <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Cta href="/schools/mou" variant="solid">
+              Request a draft MOU
+            </Cta>
+            <Cta href="#simulator" variant="link">
+              Run the numbers
+            </Cta>
+          </div>
+        </>
+      }
+    />
   );
 }
 
