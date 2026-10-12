@@ -22,8 +22,8 @@ function Sprockets() {
       aria-hidden
       className="h-4 w-full"
       style={{
-        backgroundColor: "rgb(26 26 24 / 0.85)",
-        backgroundImage: "linear-gradient(90deg, transparent 0 7px, rgb(15 14 13) 7px 17px, transparent 17px 24px)",
+        backgroundColor: "#2a1d15",
+        backgroundImage: "linear-gradient(90deg, transparent 0 7px, var(--color-night) 7px 17px, transparent 17px 24px)",
         backgroundSize: "24px 7px",
         backgroundRepeat: "repeat-x",
         backgroundPosition: "0 50%",
@@ -74,7 +74,7 @@ function Strip({ progress }: { progress: MotionValue<number> }) {
                 <div className="grid gap-0 md:grid-cols-[1.35fr_1fr]">
                   <div className="relative aspect-[16/10] md:aspect-auto md:h-[52svh]">
                     <FilmImage name={f.image} sizes="(min-width: 768px) 55vw, 90vw" />
-                    <span className="font-mono absolute left-3 top-3 text-[0.65rem] text-bone/70">
+                    <span className="font-mono absolute left-3 top-3 text-[0.65rem] text-ivory/85 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)]">
                       {String(i + 1).padStart(2, "0")}A
                     </span>
                   </div>

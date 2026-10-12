@@ -5,10 +5,10 @@ import { acts, corridors, entity, legalNav, reels, type Act } from "@/lib/conten
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Footer: reel index by act, the three corridors, and the entity notice. */
+/** Footer: reel index by act, the three corridors, and the entity notice. A dark leather coda (the 30% accent). */
 export function Footer() {
   return (
-    <footer className="no-print relative border-t border-line bg-night">
+    <footer className="tone-dark surface-leather no-print relative border-t border-antique/40">
       <div className="gutter grid gap-12 py-20 lg:grid-cols-[1.2fr_2fr]">
         <div className="flex flex-col gap-8">
           <div className="flex items-center gap-5">

@@ -8,13 +8,14 @@ const pad = (n: number) => String(n).padStart(2, "0");
 /**
  * The end card: hands the visitor to the next reel (Blueprint 2.2).
  * The whole card is one link; the progress bar shows how far through the film they are.
+ * Always a dark cinematic scene: with the footer it forms the dark coda of every page.
  */
 export function EndCard({ current }: { current: number }) {
   const next = nextReel(current);
   const progress = (current / TOTAL_REELS) * 100;
 
   return (
-    <section aria-label="Next reel" className="relative">
+    <section aria-label="Next reel" className="tone-dark relative bg-night">
       <Link
         href={next.href}
         className="group relative block h-[78svh] min-h-[520px] overflow-hidden focus-visible:outline-offset-[-8px]"

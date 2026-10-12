@@ -64,11 +64,11 @@ export function Matrix() {
           </div>
 
           <div className="mx-auto w-full max-w-[22rem] lg:max-w-none">
-            {/* Brain & Spine HUD: the plate drops into an obsidian depth-of-field and the alignment grid turns gold */}
+            {/* Brain & Spine HUD: the ivory plate drops into a charcoal depth-of-field and the alignment grid turns antique gold */}
             <div
               className={cn(
                 "relative aspect-[5/7] w-full transition-[background-color,box-shadow] duration-700",
-                hud && "bg-night shadow-[inset_0_0_90px_rgb(0_0_0/0.95)]",
+                hud && "tone-dark bg-night shadow-[inset_0_0_90px_rgb(0_0_0/0.95)]",
               )}
             >
               <RiderDiagram active={active} />

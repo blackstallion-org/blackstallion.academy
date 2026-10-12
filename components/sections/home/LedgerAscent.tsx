@@ -60,7 +60,7 @@ export function LedgerAscent() {
           <svg viewBox={`0 0 ${W} ${H}`} className="absolute inset-0 h-full w-full" aria-hidden>
             {/* Rank floors */}
             {ranks.map((_, ri) => (
-              <line key={ri} x1={Math.max(0, colX[ri] - 60)} x2={colX[ri] + 180} y1={baseY[ri] + 34} y2={baseY[ri] + 34} stroke="rgb(184 115 51 / 0.25)" strokeWidth="1" />
+              <line key={ri} x1={Math.max(0, colX[ri] - 60)} x2={colX[ri] + 180} y1={baseY[ri] + 34} y2={baseY[ri] + 34} stroke="color-mix(in srgb, var(--color-brass) 25%, transparent)" strokeWidth="1" />
             ))}
             {/* Ascent path between ranks */}
             {ranks.slice(0, -1).map((_, ri) => {
@@ -90,7 +90,7 @@ export function LedgerAscent() {
                   key={`c${ri}-${ri === active ? "on" : "off"}`}
                   d={d}
                   fill="none"
-                  stroke={ri <= active ? "var(--color-gold)" : "rgb(184 115 51 / 0.2)"}
+                  stroke={ri <= active ? "var(--color-gold)" : "color-mix(in srgb, var(--color-brass) 20%, transparent)"}
                   strokeWidth={ri === active ? 1.6 : 1}
                   initial={{ pathLength: ri === active && !reduced ? 0 : 1 }}
                   animate={{ pathLength: 1 }}
@@ -103,8 +103,8 @@ export function LedgerAscent() {
               const done = nd.ri < active;
               return (
                 <g key={nd.n}>
-                  {on && <circle cx={nd.x} cy={nd.y} r="16" fill="rgb(255 255 255 / 0.07)" />}
-                  <circle cx={nd.x} cy={nd.y} r={on ? 5 : 3.5} fill={on ? "var(--color-gold)" : done ? "var(--color-brass)" : "rgb(184 115 51 / 0.35)"} />
+                  {on && <circle cx={nd.x} cy={nd.y} r="16" fill="color-mix(in srgb, var(--color-bone) 7%, transparent)" />}
+                  <circle cx={nd.x} cy={nd.y} r={on ? 5 : 3.5} fill={on ? "var(--color-gold)" : done ? "var(--color-brass)" : "color-mix(in srgb, var(--color-brass) 35%, transparent)"} />
                 </g>
               );
             })}

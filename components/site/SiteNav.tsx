@@ -25,6 +25,8 @@ export function SiteNav() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
+  /* Over the home film the bar reads light-on-dark; everywhere else it is ivory and ink. */
+  const overFilm = pathname === "/" && !solid;
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -37,7 +39,10 @@ export function SiteNav() {
       <motion.header
         className={cn(
           "no-print fixed inset-x-0 top-0 z-[60] transition-colors duration-500",
-          solid ? "bg-gradient-to-b from-night/95 via-night/70 to-transparent" : "bg-transparent",
+          overFilm && "tone-dark",
+          solid
+            ? "border-b border-line/60 bg-night/95"
+            : "bg-gradient-to-b from-night/90 via-night/55 to-transparent",
         )}
         animate={{ y: hidden ? "-110%" : "0%" }}
         transition={{ duration: 0.6, ease: ease.citadel }}
@@ -150,7 +155,7 @@ function Menu({ onClose }: { onClose: () => void }) {
       role="dialog"
       aria-modal="true"
       aria-label="All reels"
-      className="no-print fixed inset-0 z-[80] overflow-y-auto bg-night"
+      className="tone-dark surface-leather no-print fixed inset-0 z-[80] overflow-y-auto"
       initial={{ clipPath: "inset(0 0 100% 0)" }}
       animate={{ clipPath: "inset(0 0 0% 0)" }}
       exit={{ clipPath: "inset(0 0 100% 0)" }}

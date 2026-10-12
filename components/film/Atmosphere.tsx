@@ -1,6 +1,6 @@
 /**
- * Site-wide atmosphere: a plain black vignette only. No cursor lamp, no dust, no coloured light.
- * Grain lives on <body> (.grain).
+ * Site-wide atmosphere: a faint leather-brown edge, like light falling off a printed page.
+ * No cursor lamp, no dust, no coloured light. Grain lives on <body> (.grain).
  */
 export function Atmosphere() {
   return (
@@ -9,7 +9,7 @@ export function Atmosphere() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 120% 90% at 50% 45%, transparent 55%, rgb(15 14 13 / 0.6) 85%, rgb(15 14 13 / 0.9) 100%)",
+            "radial-gradient(ellipse 125% 95% at 50% 45%, transparent 62%, rgb(73 49 38 / 0.05) 86%, rgb(73 49 38 / 0.12) 100%)",
         }}
       />
     </div>

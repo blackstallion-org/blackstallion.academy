@@ -119,7 +119,7 @@ function Flip({ text, delay = 0 }: { text: string; delay?: number }) {
 /** §2 · S58 departure board. Signature: the letters flip like a station board before settling. */
 export function FixtureBoard() {
   return (
-    <section aria-labelledby="fixtures-h" className="relative bg-[#0F0E0D] py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="fixtures-h" className="tone-dark surface-leather relative py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter">
         <Label>Fixtures</Label>
         <Headline id="fixtures-h" className="mt-4" inscription="Next" voice="on the circuit." />
@@ -168,16 +168,16 @@ export function CourseDiagram() {
         </div>
         <div ref={ref} className="plate relative p-4 md:p-6">
           <svg viewBox="0 0 600 220" className="w-full" role="img" aria-label="Tent pegging course: 100 metre run-up, peg about 6 centimetres wide, 9-foot lance, gallop around 35 km/h">
-            <rect x="20" y="90" width="560" height="40" fill="rgb(184 115 51 / 0.08)" stroke="rgb(184 115 51 / 0.4)" />
+            <rect x="20" y="90" width="560" height="40" fill="color-mix(in srgb, var(--color-brass) 8%, transparent)" stroke="color-mix(in srgb, var(--color-brass) 40%, transparent)" />
             {Array.from({ length: 11 }, (_, i) => (
               <g key={i}>
-                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="rgb(184 115 51 / 0.4)" />
-                <text x={20 + i * 50} y="156" textAnchor="middle" fontSize="10" className="font-mono" fill="rgb(140 136 130)">
+                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="color-mix(in srgb, var(--color-brass) 40%, transparent)" />
+                <text x={20 + i * 50} y="156" textAnchor="middle" fontSize="10" className="font-mono" fill="var(--color-dust)">
                   {i * 10}
                 </text>
               </g>
             ))}
-            <text x="300" y="176" textAnchor="middle" fontSize="11" className="label" fill="rgb(217 213 205)" letterSpacing="2">
+            <text x="300" y="176" textAnchor="middle" fontSize="11" className="label" fill="var(--color-sand)" letterSpacing="2">
               100 M RUN-UP
             </text>
             <rect x="514" y="104" width="8" height="12" fill="var(--color-gold)" />
@@ -192,11 +192,11 @@ export function CourseDiagram() {
             <motion.g initial={{ x: 0 }} animate={inView ? { x: 470 } : {}} transition={{ duration: 2.6, ease: [0.45, 0, 0.9, 0.6], delay: 0.4 }}>
               <circle cx="40" cy="110" r="8" fill="var(--color-bone)" />
               <line x1="40" y1="110" x2="78" y2="118" stroke="var(--color-bone)" strokeWidth="2" />
-              <text x="40" y="78" textAnchor="middle" fontSize="10" className="font-mono" fill="rgb(217 213 205)">
+              <text x="40" y="78" textAnchor="middle" fontSize="10" className="font-mono" fill="var(--color-sand)">
                 ≈35 KM/H
               </text>
             </motion.g>
-            <text x="24" y="30" fontSize="10" className="font-mono" fill="rgb(140 136 130)">
+            <text x="24" y="30" fontSize="10" className="font-mono" fill="var(--color-dust)">
               LANCE · 9 FT
             </text>
           </svg>

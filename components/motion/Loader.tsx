@@ -79,7 +79,7 @@ export function Loader() {
 
   return (
     <motion.div
-      className="bsah-loader fixed inset-0 z-[100] grid place-items-center bg-night"
+      className="bsah-loader tone-dark surface-leather fixed inset-0 z-[100] grid place-items-center"
       initial={{ opacity: 1 }}
       animate={{ opacity: state === "leaving" ? 0 : 1 }}
       transition={{ duration: 0.35, ease: ease.citadel }}

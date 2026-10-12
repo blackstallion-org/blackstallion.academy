@@ -171,7 +171,7 @@ export default function LegendPage() {
             <Ascent />
           </div>
           <Reveal className="parchment mx-auto mt-24 max-w-2xl px-8 py-10 md:px-14 md:py-14">
-            <p className="label text-[#B87333]">{revival.vignette.note}</p>
+            <p className="label text-brass">{revival.vignette.note}</p>
             <p className="t-voice mt-3 text-3xl text-ink">{revival.vignette.title}</p>
             <p className="mt-5 text-lg leading-relaxed text-ink/85">{revival.vignette.text}</p>
           </Reveal>

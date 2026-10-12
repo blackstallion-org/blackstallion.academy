@@ -104,22 +104,29 @@ Example: `WE DO NOT TEACH` / **children to ride.**
 
 ## 3. Design system
 
-### 3.1 Colour (unchanged tokens, `app/globals.css`)
+### 3.1 Colour (tokens in `app/globals.css`; revised 12 Oct 2026 · warm equestrian editorial)
 
-| Token | Hex | Use |
-| --- | --- | --- |
-| night | #0A0806 | Canvas. Black-brown, never #000 |
-| umber | #16100B | Rare raised surfaces (terminal, drawer) |
-| ember | #2A1D12 | Warm shadows inside gradients |
-| bone | #EDE3D1 | Headlines, primary text |
-| sand | #C8B08A | Body text on images |
-| dust | #8A7660 | Captions, secondary |
-| brass | #C5A059 | Hairlines, labels, active states |
-| gold | #E6CA65 | The one number or word that matters |
-| blood | #B13A24 | The war beat; large type only, once per page at most |
-| frost | #9FB3C8 | **Only** for the "digital crisis" side on `/why` (cold screen light) |
+The site is now light by default: ~70% warm editorial (ivory, parchment, chestnut, caramel, leather, from reference 2) and ~30% dark luxury accents (charcoal, antique gold, from reference 1). Token names are semantic roles; their values swap inside a `.tone-dark` scope, so components never hard-code a palette.
 
-Rules: gold is a highlight, never a fill. No glassmorphism, neon, rounded SaaS cards or emoji icons. Text sits on photographs held by gradients, not in boxes. Where a surface is unavoidable (terminal, drawer, receipt) it is `umber` with a 1 px brass hairline at 22% opacity and a 1 px radius.
+| Token (role) | Light (default) | `.tone-dark` | Use |
+| --- | --- | --- | --- |
+| night (canvas) | #F3EDE2 ivory | #171513 charcoal | Page and section background |
+| umber (surface) | #E8DECE parchment | #1F1B17 | Editorial bands, quiet surfaces |
+| ember (raised) | #FAF7F0 off-white | #2A221C leather | `.plate`, drawers, cards of record |
+| bone (headline ink) | #30251E deep brown | #F3EDE2 | Headlines, primary text |
+| sand (body ink) | #4D3C30 | #DDD0BC | Body copy |
+| dust (caption) | #6F5B4B | #A8957F | Captions, secondary |
+| brass (labels, rules) | #7B5636 bronze | #B88A62 caramel | Labels, hairlines, small accents |
+| gold (the one word) | #78472F chestnut | #C9A66B antique gold | The one word or number that matters; solid CTA fill |
+| line (hairline) | chestnut 24% | antique gold 28% | Borders |
+| blood | #A8301C | #DC6448 | The war beat, once per page at most |
+| frost | #4A6279 | #9FB3C8 | **Only** the digital-crisis side |
+
+Fixed brand colours (never swapped): ivory #F3EDE2 · parch #E8DECE · offwhite #FAF7F0 · sandline #D4C3AD · chestnut #78472F · caramel #B88A62 · leather #493126 · charcoal #171513 · antique #C9A66B.
+
+Where `.tone-dark` is used (the deliberate 30%): the home hero film, both intermissions, the Seal verifier, the finale, every end card, the footer, the menu, the loader, the command terminal, the specimen plate, the passport scene, the stable CCTV wall, the fixtures board, phones, and the journal "next story" card. Everything else is ivory.
+
+Rules: gold (chestnut on ivory, antique gold on charcoal) is a highlight, never a large fill except the one solid CTA. No glassmorphism, neon, rounded SaaS cards or emoji icons. Text on photographs is held by `shade-*` gradients, which fade to ivory in the light scope and to charcoal in `.tone-dark`. Photo grades (`--grade-*`) are lighter on ivory and keep the darker film grade inside dark scenes. All text pairs meet WCAG AA (4.5:1) on their surfaces.
 
 ### 3.2 Type (replaces Bodoni / Barlow / JetBrains)
 

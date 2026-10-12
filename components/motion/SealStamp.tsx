@@ -93,9 +93,9 @@ export function SealStamp({
       >
         <defs>
           <radialGradient id={`brass-${uid}`} cx="40%" cy="35%" r="75%">
-            <stop offset="0%" stopColor="#D4AF37" />
-            <stop offset="55%" stopColor="#B87333" />
-            <stop offset="100%" stopColor="#7D6230" />
+            <stop offset="0%" stopColor="#E6CD94" />
+            <stop offset="55%" stopColor="#C9A66B" />
+            <stop offset="100%" stopColor="#8A6A3E" />
           </radialGradient>
           <path id={`seal-top-${uid}`} d="M18 60 A42 42 0 0 1 102 60" />
           <path id={`seal-bottom-${uid}`} d="M14 60 A46 46 0 0 0 106 60" />
@@ -111,11 +111,11 @@ export function SealStamp({
         <circle cx="60" cy="60" r="53" fill={`url(#brass-${uid})`} />
 
         {/* Engraving (debossed into the brass) */}
-        <g fill="none" stroke="#0A0B0E" strokeOpacity="0.55">
+        <g fill="none" stroke="#2A1D15" strokeOpacity="0.55">
           <circle cx="60" cy="60" r="49" strokeWidth="1.2" />
           <circle cx="60" cy="60" r="33" strokeWidth="0.9" />
         </g>
-        <g fill="#0A0B0E" fillOpacity="0.62" className="t-inscribe">
+        <g fill="#2A1D15" fillOpacity="0.62" className="t-inscribe">
           <text fontSize="10" letterSpacing="3" textAnchor="middle">
             <textPath href={`#seal-top-${uid}`} startOffset="50%">
               {label}

@@ -30,7 +30,7 @@ export function ScienceTitle() {
         where the portrait crop puts the rider behind the headline.
       */}
       <svg viewBox="0 0 100 56.25" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 hidden h-full w-full md:block" aria-hidden>
-        <g fill="none" stroke="var(--color-gold)" strokeWidth="0.12">
+        <g fill="none" stroke="var(--color-antique)" strokeWidth="0.12">
           <motion.line x1="54.6" y1="3.2" x2="54.6" y2="34" strokeDasharray="0.6 0.6" {...draw} transition={t(0.2)} />
           <motion.circle cx="54.8" cy="5.8" r="2" {...draw} transition={t(0.35)} />
           <motion.path d="M54.8 8.6 L54.6 15.5 L54.1 23.6" {...draw} transition={t(0.5)} />
@@ -39,7 +39,7 @@ export function ScienceTitle() {
           <motion.path d="M57.1 22.4 L60.6 19.8" strokeWidth="0.08" {...draw} transition={t(0.95)} />
           <motion.path d="M46.5 53.2 H68 M46.5 52.4 V54 M68 52.4 V54" {...draw} transition={t(1)} />
         </g>
-        <g className="font-mono" fontSize="1.05" fill="rgb(255 255 255)">
+        <g className="font-mono" fontSize="1.05" fill="var(--color-ivory)">
           <motion.text x="57.4" y="6.2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={t(1.2)}>
             AXIS 0.0°
           </motion.text>
@@ -154,7 +154,7 @@ export function PulseLine() {
         <div ref={ref} className="relative h-56 overflow-hidden border-y border-line">
           {[
             { amp: 34, phase: 0, color: "var(--color-gold)", label: "Horse's walk · rider's pelvis" },
-            { amp: 26, phase: 0.35, color: "rgb(217 213 205 / 0.6)", label: "Human walking gait" },
+            { amp: 26, phase: 0.35, color: "color-mix(in srgb, var(--color-sand) 60%, transparent)", label: "Human walking gait" },
           ].map((w, k) => (
             <div key={k} className="absolute inset-0">
               <motion.svg

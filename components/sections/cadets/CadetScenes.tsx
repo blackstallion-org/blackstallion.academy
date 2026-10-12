@@ -29,7 +29,7 @@ export function CadetsTitle() {
         <motion.div className="relative h-[70svh] lg:h-[86svh]" initial={{ clipPath: "inset(100% 0 0 0)" }} animate={{ clipPath: "inset(0% 0 0 0)" }} transition={{ duration: 1.6, ease: ease.citadel, delay: 0.3 }}>
           <FilmImage name="cadetZayd" priority sizes="(min-width: 1024px) 45vw, 100vw" />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent" />
-          <p className="label absolute right-3 top-6 text-sand [writing-mode:vertical-rl]">Cadet Alpha · Cadet Knight · sample</p>
+          <p className="label absolute right-3 top-6 text-ivory/90 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)] [writing-mode:vertical-rl]">Cadet Alpha · Cadet Knight · sample</p>
         </motion.div>
       </div>
     </section>
@@ -68,7 +68,7 @@ export function Spotlights() {
 /** §2 · S44 passport object. Signature: the leather cover swings open as you scroll, revealing the seals. */
 export function PassportObject() {
   return (
-    <PinnedScene id="passport" length={2.6} label="The Sovereign Passport" reducedFallback={<PassportFrame open />}>
+    <PinnedScene id="passport" length={2.6} label="The Sovereign Passport" className="tone-dark surface-leather" reducedFallback={<PassportFrame open />}>
       {(p) => <PassportFrame progress={p} />}
     </PinnedScene>
   );
@@ -101,7 +101,7 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
                 {seals.map((s, i) => (
                   <li key={s} className="flex flex-col items-center">
                     <motion.span
-                      className={cn("grid h-12 w-12 place-items-center rounded-full border-2 sm:h-16 sm:w-16", i < 3 ? "border-[#B87333] bg-[#B87333]/60" : "border-dashed border-[#B87333]/40")}
+                      className={cn("grid h-12 w-12 place-items-center rounded-full border-2 sm:h-16 sm:w-16", i < 3 ? "border-caramel bg-caramel/60" : "border-dashed border-caramel/50")}
                       animate={{ scale: i < 3 && stage > i ? 1 : i < 3 ? 1.3 : 1, opacity: i < 3 ? (stage > i ? 1 : 0) : 1 }}
                       transition={{ duration: 0.35, ease: ease.citadel }}
                     >
@@ -118,7 +118,7 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
             </motion.div>
             {/* Cover, hinged on the left edge; the back of the cover is the identity page */}
             <motion.div className="absolute inset-0 origin-left [transform-style:preserve-3d]" style={{ rotateY: rotate }}>
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 border border-[#B87333] bg-[linear-gradient(135deg,#1A1A18,#0F0E0D)] shadow-[0_30px_60px_rgb(0_0_0/0.6)] [backface-visibility:hidden]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 border border-antique/70 bg-[linear-gradient(135deg,#493126,#2a1d15)] shadow-[0_30px_60px_rgb(0_0_0/0.6)] [backface-visibility:hidden]">
                 <Monogram className="h-14 w-14 text-gold" />
                 <p className="t-inscribe text-center text-[0.7rem] tracking-[0.18em] text-gold/90">
                   Sovereign
@@ -233,7 +233,7 @@ export function MilestoneReels() {
                   <circle key={k} cx={x} cy={y} r="1.1" fill="var(--color-gold)" />
                 ))}
               </svg>
-              <span className="font-mono absolute right-3 top-3 text-[0.65rem] text-bone/80">0:10</span>
+              <span className="font-mono absolute right-3 top-3 text-[0.65rem] text-ivory/90 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)]">0:10</span>
               <div aria-hidden className="absolute inset-0 shade-b" />
               <div className="absolute inset-x-0 bottom-0 p-4">
                 <p className="t-voice text-xl text-bone">{rl.title}</p>

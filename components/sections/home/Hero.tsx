@@ -66,7 +66,7 @@ function HeroVideoSection() {
     <section
       id="top"
       aria-label="Opening Film"
-      className="relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-night flex items-center justify-center"
+      className="tone-dark relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-night flex items-center justify-center"
     >
       <video
         ref={videoRef}
@@ -87,10 +87,13 @@ function HeroVideoSection() {
         <source src="/video/hf_20261009_040342_f162e5a7-55d6-41fa-a5d4-3e461d925182.mp4" type="video/mp4" />
       </video>
 
-      {/* Subtle bottom edge gradient to transition smoothly into the doctrine section */}
+      {/* Top veil keeps the navigation legible over bright frames */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-charcoal/55 to-transparent" />
+
+      {/* The film dissolves into the ivory page below */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-night via-night/50 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-72 bg-[linear-gradient(to_top,var(--color-ivory)_0%,rgb(243_237_226/0.96)_34%,rgb(232_214_190/0.45)_64%,transparent_100%)]"
       />
 
       {/* Center scroll prompt */}
@@ -98,13 +101,13 @@ function HeroVideoSection() {
         <button
           type="button"
           onClick={scrollToContent}
-          className="group flex flex-col items-center gap-2 text-sand/80 transition-colors hover:text-gold focus-visible:text-gold"
+          className="group flex flex-col items-center gap-2 text-leather transition-colors hover:text-chestnut focus-visible:text-chestnut"
           aria-label="Scroll down to academy doctrine"
         >
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-sand/70 group-hover:text-gold">
+          <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-leather group-hover:text-chestnut">
             Explore
           </span>
-          <span className="block h-5 w-[1px] bg-gold/60 transition-transform group-hover:scale-y-125 animate-pulse" />
+          <span className="block h-5 w-[1px] bg-chestnut/70 transition-transform group-hover:scale-y-125 animate-pulse" />
         </button>
       </div>
 
@@ -158,7 +161,7 @@ function HeroVideoSection() {
 
 function HeroContentSection() {
   return (
-    <section id="doctrine" aria-label="Institutional Doctrine" className="relative border-t border-brass/40 bg-night py-16 md:py-24">
+    <section id="doctrine" aria-label="Institutional Doctrine" className="relative bg-night py-16 md:py-24">
       <div className="gutter space-y-12 md:space-y-16">
         {/* Crest & Council badge */}
         <motion.p
