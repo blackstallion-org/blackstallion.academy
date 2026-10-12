@@ -15,7 +15,7 @@ insert into public.curriculum_pillars (id, title, skill_developed, trait_applica
   (10, 'Skill-at-arms & tent pegging runs', 'High-speed spatial convergence, absolute kinetic focus', 'Precision under velocity, target execution', 'command'),
   (11, 'Mounted archery & bow release', 'Dual-task coordination, breath-hold stillness', 'Poise under dynamic motion, split-second timing', 'command'),
   (12, 'High-velocity barrel racing', 'Centrifugal balance, split-second geometric agility', 'Calculated risk-taking, razor-sharp reflexes', 'command'),
-  (13, 'Cavalry squad formation & parade command', 'Strategic synchronisation, collective discipline', 'Institutional loyalty, executive leadership presence', 'command')
+  (13, 'Cavalry squad formation & parade command', 'Strategic synchronization, collective discipline', 'Institutional loyalty, executive leadership presence', 'command')
 on conflict (id) do nothing;
 
 insert into public.regional_zones (code, name, description) values

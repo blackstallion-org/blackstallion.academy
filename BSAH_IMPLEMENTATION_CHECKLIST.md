@@ -38,15 +38,16 @@ Statuses: **CV** completed & verified this session · **AV** already implemented
 | 16.1 | Gates `?gate=parents|schools|audit`: headers, fields, buttons, URL sync | CV | yes | `components/sections/contact/Gates.tsx` | interact.py: 3 direct URLs; run.py L18 (31 strings) | — |
 | 16.2 | Validation (required, email, phone, future date), values kept on error, privacy note | CV | yes | `app/actions.ts`, `components/sections/shared/LeadForm.tsx` | interact.py: 6 invalid on empty, email/phone/date errors, values kept | — |
 | 16.3 | Truthful submission (no fake success) | CV | yes | `app/actions.ts` | unset webhook → "NOT sent"; local test receiver → 1 POST with bearer secret, seal shown | — |
-| 16.4 | Production lead backend | BL | — | `LEAD_WEBHOOK_URL`, `LEAD_WEBHOOK_SECRET` | — | Owner: provide the endpoint (Supabase function, CRM or Zapier) |
+| 16.4 | Lead storage backend (Supabase) | PC | yes | Supabase project `bsah-academy` (Mumbai); `app/actions.ts` calls `public.submit_lead` RPC; `.env.example` | As the anonymous role: submit_lead stored a row (privacy version 2026-10-draft, audit event written), anon cannot read leads (42501), invalid name rejected. 122/122 database tests pass locally | End-to-end from the website not proven: neither the sandbox nor the Mac can reach supabase.co (egress allowlist). Set `SUPABASE_URL` + `SUPABASE_PUBLISHABLE_KEY` in Vercel to switch it on, then submit one form to confirm |
 | 17 | Audio: ambient drone, breath cues, terminal keystrokes, OFF by default | CV | yes (files) | `public/audio/*`, `lib/audio/engine.ts`, `docs/qa/make_audio.py` | audio.py: ambient plays (t=2.4 s) and pauses; 5 throttled key sounds for 10 chars; breath fires on /legend; all files 200/206 | Files are synthesised placeholders (no licence needed); replace with recordings if wanted |
 | 18.1 | QR seal, real and scannable, public code only | CV | yes | `lib/qr.ts`, `components/brand/QrSeal.tsx` | OpenCV decodes the rendered QR to `https://blackstallion.academy/verify/BSAH-2026-HYD-042` | — |
-| 18.2 | Live cadet registry / QR into real records | BL | — | `supabase/` (not applied) | — | Supabase project not provisioned |
+| 18.2 | Live cadet registry / QR into real records | PC | yes (database) | migrations 0100–0600 applied; `verify_passport()` RPC live | migrations listed in Supabase; advisors: 0 errors | No sign-in, admin screens or cadets yet; the website still reads sample records |
 | 19.1 | Keyboard focus visible | CV | no (verified) | `app/globals.css` | resp.py: 125 tab stops, 0 invisible | — |
 | 19.2 | Reduced motion: no pinning/parallax; hydration-safe | CV | yes | `lib/motion/reduced.ts` (used in 13 components) | resp.py: 0 sticky elements, 0 errors on 7 routes under reduced motion | — |
 | 19.3 | Hydration: trig-computed SVG attributes | CV | yes | `lib/round.ts` (SealStamp, Curriculum, Schools, Anatomy, Science, RiderDiagram) | the /verify mismatch reported by `next dev` is gone | — |
 | 19.4 | `/about` React #418 in production build | PC | partly | `/about` | not reproducible in `next dev`; still logged by the production build | Likely the scroll-linked word opacity in `Monolith`; cosmetic, page renders and works |
 | 20.1 | Title, description, canonical, Open Graph, Twitter card, icons | CV | yes | `app/layout.tsx`, `app/lore/page.tsx`, `app/opengraph-image.*` | build output lists icon/OG routes | — |
+| 20.3 | Privacy notice | PC | yes | `app/privacy/page.tsx`, linked from every form and the footer | `/privacy` 200 in build | Draft: needs counsel review; retention period and grievance officer are placeholders |
 | 20.2 | Deployment | NI | — | — | — | Owner asked not to deploy; GitHub push also blocked (no credentials on the Mac) |
 
 ## Count

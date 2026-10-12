@@ -107,7 +107,7 @@ begin
   perform t.eq('anon: cannot read school_hubs (contract fields)', t.scalar(null, 'anon', 'select count(*) from public.school_hubs'), 'ERR:42501');
   perform t.eq('anon: cannot insert a lead directly', t.dml(null, 'anon', $q$insert into public.onboarding_leads (lead_type, contact_name, email, privacy_notice_version) values ('cadet','x','a@b.co','v1')$q$), 'ERR:42501');
   perform t.eq('anon: can read the 13 pillars', t.scalar(null, 'anon', 'select count(*) from public.curriculum_pillars'), '13');
-  perform t.eq('anon: public hub labels visible', t.scalar(null, 'anon', 'select count(*) from public.public_hub_labels'), '3');
+  perform t.eq('anon: public hub labels visible', t.scalar(null, 'anon', 'select count(*) from public.list_public_hubs()'), '3');
   perform t.eq('anon: hub labels expose no finance/contract columns',
     (select count(*)::text from information_schema.columns where table_name = 'public_hub_labels'
        and column_name in ('contract_reference','revenue_share_pct','zero_capex_invested','acreage')), '0');
@@ -210,7 +210,7 @@ begin
   perform t.eq('hub: partner member sees own hub', t.scalar(sp, 'authenticated', 'select count(*) from public.school_hubs'), '1');
   perform t.eq('hub: guardian sees no hub records', t.scalar(g1, 'authenticated', 'select count(*) from public.school_hubs'), '0');
   perform t.eq('hub: partner cannot change status', t.dml(sp, 'authenticated', $q$update public.school_hubs set status = 'active'$q$), 'OK:0');
-  perform t.eq('hub: public label shows contracted status only as label (no contract ref column)', t.scalar(null, 'anon', $q$select status::text from public.public_hub_labels where code = '01A'$q$), 'contracted');
+  perform t.eq('hub: public label shows contracted status only as label (no contract ref column)', t.scalar(null, 'anon', $q$select status::text from public.list_public_hubs() where code = '01A'$q$), 'contracted');
 
   -- claims ledger
   perform t.eq('claim: cannot go live without evidence', t.dml(ops, 'authenticated', $q$insert into public.approved_claims (claim_key, public_copy, active) values ('c1','Some claim', true)$q$), 'ERR:23514');

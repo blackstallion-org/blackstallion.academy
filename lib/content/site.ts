@@ -90,4 +90,5 @@ export const legalNav = [
   { label: "Lore of the Bards", href: "/lore" },
   { label: "Journal", href: "/journal" },
   { label: "Command AI", href: "/command" },
+  { label: "Privacy", href: "/privacy" },
 ];

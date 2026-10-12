@@ -1,5 +1,5 @@
 -- BSAH core schema. Source: Comprehensive Architecture Blueprint §8 (a recommended baseline).
--- NOT applied to any database. Review with the business before running anywhere real.
+-- Applied to Supabase project bsah-academy (hiqowfwptvsndrzayifm) on 12 Oct 2026.
 -- Additions beyond the blueprint are marked [ADDED]: instructor_assignments and hub_members, which
 -- the blueprint's RLS rules require ("instructors scoped to assigned cadets", "school users see only their hub").
 

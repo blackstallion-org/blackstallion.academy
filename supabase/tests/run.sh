@@ -12,5 +12,6 @@ PS="$PS -d bsah_test"
 $PS -v ON_ERROR_STOP=1 -f "$HERE/00_supabase_stub.sql"
 for f in "$HERE"/../migrations/*.sql; do echo "apply $(basename "$f")"; $PS -v ON_ERROR_STOP=1 -f "$f"; done
 $PS -v ON_ERROR_STOP=1 -t -A -f "$HERE/10_authorization_tests.sql" | tee "$D/out.txt"
+$PS -v ON_ERROR_STOP=1 -t -A -f "$HERE/20_audit_and_role_freshness_tests.sql" | tee -a "$D/out.txt"
 P=$(grep -c '^PASS' "$D/out.txt" || true); F=$(grep -c '^FAIL' "$D/out.txt" || true)
 echo "---- $P passed, $F failed"; [ "$F" = 0 ]

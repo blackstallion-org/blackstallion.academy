@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, useId } from "react";
 import { submitLead, type LeadState } from "@/app/actions";
 import { SealStamp } from "@/components/motion/SealStamp";
@@ -141,7 +142,10 @@ export function LeadForm({ gate, fields, submitLabel = "Send", hidden, fallbackE
         <div className="t-ui text-xs text-dust" aria-live="polite">
           {state?.status === "invalid" ? <span className="text-blood">{state.message}</span> : <span>Fields marked * are required.</span>}
           <p id={`${id}-privacy`} className="mt-1">
-            Privacy: these details are used only to reply to this enquiry and are never sold or shared. Do not include medical or payment information.
+            Privacy: these details are used only to reply to this enquiry and are never sold or shared. Do not include medical or payment information.{" "}
+            <Link href="/privacy" className="underline decoration-line underline-offset-2 hover:text-bone">
+              Privacy notice
+            </Link>
           </p>
         </div>
         <button type="submit" disabled={pending} aria-disabled={pending} className="label shrink-0 bg-gold px-6 py-4 uppercase text-night transition-colors hover:bg-bone disabled:opacity-60">

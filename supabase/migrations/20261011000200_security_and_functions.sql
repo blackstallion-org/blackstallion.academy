@@ -1,5 +1,5 @@
 -- BSAH authorisation, business rules and RLS. Source: Architecture Blueprint §9 and Prompts 2.3, 3.1, 4.2, 4.3.
--- NOT applied to any database. Default deny: every table has RLS on and grants are listed explicitly.
+-- Applied to Supabase project bsah-academy (hiqowfwptvsndrzayifm) on 12 Oct 2026. Default deny: every table has RLS on and grants are listed explicitly.
 -- Open decisions (see docs/reference/backend-open-decisions.md): who may issue credentials and approve ranks,
 -- rank criteria, instructor "propose" workflow, school-partner aggregates, lead routing.
 
