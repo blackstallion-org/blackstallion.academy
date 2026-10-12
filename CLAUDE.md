@@ -22,11 +22,12 @@
 - Two-voice headlines via `components/film/Headline.tsx`: INSCRIPTION (Kalnia wide hairline caps) + war voice (Kalnia heavy lowercase, gold).
 - Archetypes may appear once per page and at most twice across the site (Blueprint Part 4).
 
-### Colour (tokens in `app/globals.css`)
+### Colour (tokens in `app/globals.css`, Blueprint 3.1)
 
-night #0A0806 canvas · umber #16100B · ember #2A1D12 · bone #EDE3D1 headlines · sand #C8B08A body on images · dust #8A7660 captions · brass #C5A059 accents · gold #E6CA65 the one word that matters · blood #B13A24 the war beat (once per page max) · frost #9FB3C8 only for the "digital crisis".
+Light by default (~70% warm editorial), with deliberate dark scenes (~30%) via the `.tone-dark` class. Token names are roles; values swap per scope:
+night canvas #F3EDE2 ivory (dark #171513 charcoal) · umber #E8DECE parchment · ember #FAF7F0 raised · bone #30251E headline ink · sand #4D3C30 body · dust #6F5B4B captions · brass #7B5636 labels and rules (dark: caramel #B88A62) · gold #78472F chestnut, the one word that matters (dark: antique gold #C9A66B) · blood the war beat (once per page max) · frost only for the "digital crisis". Fixed brand colours: ivory, parch, chestnut, caramel, leather #493126, charcoal, antique.
 
-No cards on photographs; gradients (`shade-b`, `shade-l`, `shade-r`) hold the text. The only surface is `.plate`; documents use `.parchment`.
+Never hard-code a hex for UI; use the role tokens (SVG attributes accept `var(--color-…)` and `color-mix`). To make a section dark, add `tone-dark` (+ `bg-night` or `surface-leather`); never invert by hand. No cards on photographs; gradients (`shade-b`, `shade-l`, `shade-r`) hold the text. The only surface is `.plate`; documents use `.parchment`.
 
 ### Type (self-hosted, `lib/fonts.ts`)
 

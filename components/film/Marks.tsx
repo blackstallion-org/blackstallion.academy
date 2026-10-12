@@ -41,7 +41,7 @@ type CtaProps = {
 export function Cta({ href, children, variant = "ghost", className }: CtaProps) {
   const base = "label group inline-flex items-center gap-3 transition-colors duration-300";
   const styles = {
-    solid: "bg-gold px-6 py-4 text-night hover:bg-bone",
+    solid: "bg-gold px-6 py-4 text-night shadow-[inset_0_0_0_1px_rgb(201_166_107/0.35)] hover:bg-bone",
     ghost: "border border-line/45 px-6 py-4 text-bone hover:border-gold hover:text-gold",
     link: "text-gold hover:text-bone",
   }[variant];
@@ -101,7 +101,7 @@ export function Hoof({ className }: { className?: string }) {
 
 /** Status dot used in registries. */
 export function StatusDot({ status, className }: { status: "rest" | "arena" | "feed" | "live"; className?: string }) {
-  const color = { rest: "bg-[#D9D5CD]", arena: "bg-gold", feed: "bg-line", live: "bg-blood" }[status];
+  const color = { rest: "bg-dust", arena: "bg-gold", feed: "bg-line", live: "bg-blood" }[status];
   return (
     <span className={cn("relative inline-flex h-2 w-2", className)} aria-hidden>
       <span className={cn("absolute inset-0 rounded-full animate-pulse-ring", color)} />

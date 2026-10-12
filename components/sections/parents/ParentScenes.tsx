@@ -24,8 +24,8 @@ export function ParentsTitle() {
       <div aria-hidden className="absolute inset-0 shade-b" />
       {/* The rail runs along the foot of the frame, under the copy, and drops away as you scroll. */}
       <motion.div aria-hidden className="absolute inset-x-0 bottom-[3vh] flex flex-col gap-5" style={{ y: railY }}>
-        <span className="h-5 w-full bg-gradient-to-b from-[#1A1A18] to-[#0F0E0D] shadow-[0_10px_30px_rgb(0_0_0/0.6)]" />
-        <span className="h-4 w-full bg-gradient-to-b from-[#1A1A18] to-[#0F0E0D]" />
+        <span className="h-5 w-full bg-gradient-to-b from-[#6a4631] to-leather shadow-[0_10px_30px_rgb(73_49_38/0.35)]" />
+        <span className="h-4 w-full bg-gradient-to-b from-[#6a4631] to-leather" />
       </motion.div>
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[calc(3vh+5.5rem)]">
         <ReelMark n={8} act="citadel" />
@@ -122,7 +122,7 @@ function PhoneFrame({ active, all = false }: { active: number; all?: boolean }) 
         </ol>
       </div>
       {!all && (
-        <div className="relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-line bg-[#0F0E0D] p-3 shadow-[0_40px_120px_rgb(0_0_0/0.7)] md:block">
+        <div className="tone-dark relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-line bg-charcoal p-3 shadow-[0_40px_100px_-20px_rgb(73_49_38/0.55)] md:block">
           <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-night">
             <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
             <div className="t-ui absolute inset-x-0 top-12 z-10 flex items-center justify-between px-5 text-[0.65rem] text-dust">
@@ -154,7 +154,7 @@ export function HoofPath() {
       <Headline id="path-h" className="mt-4" inscription="Five steps" voice="to the first canter." />
       <div ref={ref} className="relative mt-14 hidden md:block" style={{ aspectRatio: "100 / 34" }}>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden>
-          <motion.path d={d} fill="none" stroke="rgb(184 115 51 / 0.4)" strokeWidth="0.25" strokeDasharray="0.8 1.2" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
+          <motion.path d={d} fill="none" stroke="color-mix(in srgb, var(--color-brass) 40%, transparent)" strokeWidth="0.25" strokeDasharray="0.8 1.2" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 2.4, ease: ease.citadel }} />
         </svg>
         {admissions.map((a, i) => (
           <motion.div

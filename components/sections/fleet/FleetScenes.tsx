@@ -118,7 +118,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
 
   return (
     <>
-      <motion.div className="fixed inset-0 z-[75] bg-night/70" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} aria-hidden />
+      <motion.div className="fixed inset-0 z-[75] bg-charcoal/55" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} aria-hidden />
       <motion.aside
         role="dialog"
         aria-modal="true"
@@ -164,7 +164,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
           </dl>
           <p className="label mt-10 text-brass">Pedigree (sample)</p>
           <svg viewBox="0 0 400 180" className="mt-4 w-full" role="img" aria-label={`Pedigree: sire ${s.pedigree.sire}, dam ${s.pedigree.dam}`}>
-            <g stroke="rgb(184 115 51 / 0.4)" fill="none">
+            <g stroke="color-mix(in srgb, var(--color-brass) 40%, transparent)" fill="none">
               <path d="M110 90 H140 V40 H170 M140 90 V140 H170" />
               <path d="M290 40 H310 V18 H330 M310 40 V62 H330" />
             </g>
@@ -172,8 +172,8 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
               <text x="0" y="94" fill="var(--color-gold)">{s.name}</text>
               <text x="176" y="44" fill="var(--color-bone)">{s.pedigree.sire}</text>
               <text x="176" y="144" fill="var(--color-bone)">{s.pedigree.dam}</text>
-              <text x="336" y="22" fill="rgb(217 213 205)" fontSize="10">{s.pedigree.grandsire}</text>
-              <text x="336" y="66" fill="rgb(217 213 205)" fontSize="10">{s.pedigree.granddam}</text>
+              <text x="336" y="22" fill="var(--color-sand)" fontSize="10">{s.pedigree.grandsire}</text>
+              <text x="336" y="66" fill="var(--color-sand)" fontSize="10">{s.pedigree.granddam}</text>
             </g>
           </svg>
           <button type="button" disabled className="label mt-8 w-full border border-line py-3 text-dust">
@@ -200,7 +200,7 @@ function Clock() {
 export function CctvGrid() {
   const positions = ["30% 40%", "70% 60%", "50% 30%", "45% 70%"];
   return (
-    <section aria-labelledby="cctv-h" className="relative bg-[#0F0E0D] py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="cctv-h" className="tone-dark relative bg-night py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-6 md:grid-cols-[1fr_minmax(0,26rem)] md:items-end">
         <div>
           <Label>Stall-cam</Label>

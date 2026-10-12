@@ -21,7 +21,7 @@ export function WhyTitle() {
       <div className="absolute inset-0 grid grid-cols-2">
         <motion.div className="relative overflow-hidden" initial={{ x: "-20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
           <FilmImage name="whyCrisis" grade="cold" priority position="40% 50%" />
-          <div aria-hidden className="absolute inset-0 bg-[#0F0E0D]/40" />
+          <div aria-hidden className="absolute inset-0 bg-charcoal/40" />
         </motion.div>
         <motion.div className="relative overflow-hidden" initial={{ x: "20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
           <FilmImage name="whyCure" priority position="30% 50%" />
@@ -35,6 +35,7 @@ export function WhyTitle() {
         transition={{ duration: 1.4, ease: ease.citadel, delay: 1 }}
       />
       <div aria-hidden className="absolute inset-0 shade-b" />
+      <div aria-hidden className="absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-night/85 via-night/40 to-transparent" />
       <span className="label absolute left-[max(16px,4vw)] top-24 text-frost">The crisis</span>
       <span className="label absolute right-[max(16px,4vw)] top-24 text-gold">The cure</span>
       <div className="gutter relative flex min-h-[100svh] flex-col items-center justify-end pb-[10vh] text-center">
@@ -60,8 +61,8 @@ export function Glass() {
             <p className="t-story mt-6 max-w-lg text-sand">{why.glass.body}</p>
           </Reveal>
         </div>
-        <div className="relative mx-auto h-[560px] w-[280px] rounded-[44px] border border-frost/30 bg-[#0F0E0D] p-3">
-          <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-gradient-to-b from-[#1A1A18] to-[#0F0E0D]">
+        <div className="tone-dark relative mx-auto h-[560px] w-[280px] rounded-[44px] border border-frost/30 bg-charcoal p-3 shadow-[0_40px_100px_-20px_rgb(73_49_38/0.55)]">
+          <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-gradient-to-b from-umber to-night">
             <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
             <p className="font-mono absolute left-0 right-0 top-12 text-center text-4xl font-light text-frost/80">03:12</p>
             <div className="absolute inset-x-3 bottom-0 top-28 overflow-hidden [mask-image:linear-gradient(transparent,black_15%,black_85%,transparent)]">

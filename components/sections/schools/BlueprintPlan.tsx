@@ -29,10 +29,10 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
     <svg viewBox="0 0 800 460" className={cn("h-full w-full", className)} role="img" aria-label={`${tier.name} site plan: ${tier.includes.join(", ")}`}>
       <defs>
         <pattern id="bp-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M20 0H0V20" fill="none" stroke="rgb(184 115 51 / 0.08)" strokeWidth="1" />
+          <path d="M20 0H0V20" fill="none" stroke="color-mix(in srgb, var(--color-brass) 8%, transparent)" strokeWidth="1" />
         </pattern>
         <pattern id="bp-sand" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <line x1="0" y1="0" x2="0" y2="6" stroke="rgb(184 115 51 / 0.18)" strokeWidth="1" />
+          <line x1="0" y1="0" x2="0" y2="6" stroke="color-mix(in srgb, var(--color-brass) 18%, transparent)" strokeWidth="1" />
         </pattern>
       </defs>
       <rect width="800" height="460" fill="url(#bp-grid)" />
@@ -47,7 +47,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
         strokeWidth="1"
         strokeDasharray="6 5"
       />
-      <motion.text initial={false} animate={{ x: ox + 8, y: oy - 8 }} transition={t} className="font-mono" fontSize="11" fill="rgb(140 136 130)">
+      <motion.text initial={false} animate={{ x: ox + 8, y: oy - 8 }} transition={t} className="font-mono" fontSize="11" fill="var(--color-dust)">
         SITE · {tier.acres.toUpperCase()}
       </motion.text>
 
@@ -70,7 +70,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
             [arena.x + arena.w, arena.y + arena.h],
           ].map(([x, y], i) => (
             <motion.g key={`l${i}`} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ ...t, delay: 0.3 + i * 0.06 }}>
-              <circle cx={x} cy={y} r="14" fill="rgb(255 255 255 / 0.07)" />
+              <circle cx={x} cy={y} r="14" fill="color-mix(in srgb, var(--color-bone) 7%, transparent)" />
               <circle cx={x} cy={y} r="3.5" fill={gold} />
             </motion.g>
           ))}
@@ -89,18 +89,18 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
             opacity: i < tier.stables ? 1 : 0,
           }}
           transition={{ ...t, delay: i < tier.stables ? i * 0.04 : 0 }}
-          fill="rgb(26 26 24 / 0.8)"
+          fill="color-mix(in srgb, var(--color-umber) 80%, transparent)"
           stroke={ink}
           strokeWidth="1"
         />
       ))}
-      <motion.text initial={false} animate={{ x: stallsX, y: stallsY + 60 }} transition={t} className="font-mono" fontSize="11" fill="rgb(217 213 205)">
+      <motion.text initial={false} animate={{ x: stallsX, y: stallsY + 60 }} transition={t} className="font-mono" fontSize="11" fill="var(--color-sand)">
         {tier.stables} STABLES
       </motion.text>
 
       {/* Tack room (all tiers) */}
       <motion.rect initial={false} animate={{ x: arena.x + arena.w + 24, y: arena.y, width: 70, height: 50 }} transition={t} fill="none" stroke={ink} strokeWidth="1" />
-      <motion.text initial={false} animate={{ x: arena.x + arena.w + 32, y: arena.y + 30 }} transition={t} className="label" fontSize="10" fill="rgb(217 213 205)" letterSpacing="1.5">
+      <motion.text initial={false} animate={{ x: arena.x + arena.w + 32, y: arena.y + 30 }} transition={t} className="label" fontSize="10" fill="var(--color-sand)" letterSpacing="1.5">
         TACK
       </motion.text>
 
@@ -115,7 +115,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
         )}
         {hasDeck && (
           <motion.g key="deck" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ ...t, delay: 0.35 }}>
-            <rect x={arena.x + arena.w + 24} y={arena.y + 134} width="140" height="60" fill="rgb(255 255 255 / 0.05)" stroke={gold} strokeWidth="1.4" />
+            <rect x={arena.x + arena.w + 24} y={arena.y + 134} width="140" height="60" fill="color-mix(in srgb, var(--color-bone) 5%, transparent)" stroke={gold} strokeWidth="1.4" />
             <text x={arena.x + arena.w + 32} y={arena.y + 168} className="label" fontSize="10" fill={gold} letterSpacing="1.5">
               VIP DECK · STPCI
             </text>
@@ -127,7 +127,7 @@ export function BlueprintPlan({ tier, className }: { tier: Tier; className?: str
       <g transform="translate(760 40)" fill="none" stroke={ink}>
         <circle r="14" strokeWidth="0.8" />
         <path d="M0 -10 L4 4 L0 1 L-4 4 Z" fill={ink} />
-        <text y="28" textAnchor="middle" fontSize="9" fill="rgb(140 136 130)" className="font-mono" stroke="none">
+        <text y="28" textAnchor="middle" fontSize="9" fill="var(--color-dust)" className="font-mono" stroke="none">
           N
         </text>
       </g>

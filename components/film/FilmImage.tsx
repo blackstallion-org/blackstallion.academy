@@ -23,17 +23,19 @@ type FilmImageProps = {
   /** Extra bleed so parallax never shows an edge. */
   bleed?: boolean;
   sizes?: string;
-  /** Unifies the AI stills into one graded look. "film" darkens and warms; "cold" is for the crisis frame. */
+  /** Unifies the AI stills into one graded look. "film" is a light warm grade; "deep" holds text; "cold" is for the crisis frame. */
   grade?: "film" | "deep" | "cold" | "mono" | "none";
   className?: string;
   imgClassName?: string;
 };
 
+/* Grades are CSS variables (app/globals.css) so a still is lighter on ivory pages and
+   keeps its darker film grade inside `.tone-dark` scenes. */
 const grades = {
-  film: "[filter:saturate(0.82)_brightness(0.8)_contrast(1.06)]",
-  deep: "[filter:saturate(0.75)_brightness(0.6)_contrast(1.12)]",
-  cold: "[filter:saturate(0.7)_brightness(0.82)_contrast(1.05)]",
-  mono: "[filter:grayscale(1)_brightness(0.8)_contrast(1.1)]",
+  film: "[filter:var(--grade-film)]",
+  deep: "[filter:var(--grade-deep)]",
+  cold: "[filter:var(--grade-cold)]",
+  mono: "[filter:var(--grade-mono)]",
   none: "",
 } as const;
 

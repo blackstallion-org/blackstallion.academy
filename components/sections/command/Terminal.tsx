@@ -80,7 +80,7 @@ export function Terminal({ chips, opening, tall = false, className }: Props) {
   };
 
   return (
-    <div ref={ref} className={cn("plate flex min-w-0 flex-col shadow-[0_40px_120px_rgb(0_0_0/0.6)]", className)}>
+    <div ref={ref} className={cn("tone-dark plate surface-leather flex min-w-0 flex-col shadow-[0_40px_100px_-30px_rgb(36_26_19/0.6)]", className)}>
       <div className="flex items-center justify-between border-b border-line px-4 py-3">
         <span className="font-mono text-[0.68rem] tracking-[0.14em] text-brass">SOVEREIGN COMMAND · EXECUTIVE TERMINAL</span>
         <span className="flex gap-1.5" aria-hidden>

@@ -1,29 +1,44 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   BSAH — "The Marwari" film look. Rules: docs/BLUEPRINT.md Part 3.
-   Kala night, Nukra and bone type, copper (brass token) and burnished gold as accents; Bhanwar/Surang warm the shadows.
+   BSAH — Equestrian editorial. Rules: docs/BLUEPRINT.md Part 3 (palette revised Oct 2026).
+   ~70% warm editorial (ivory, parchment, chestnut, caramel, leather) ·
+   ~30% dark luxury accents (charcoal, antique gold) used deliberately via `.tone-dark`.
+
+   The token NAMES are semantic roles kept from the film build so no component had to be renamed:
+     night = canvas · umber = surface · ember = raised panel · bone = headline ink ·
+     sand = body ink · dust = captions · brass = labels and rules · gold = the one word that matters.
+   Their VALUES depend on the tone scope: light by default, dark inside `.tone-dark`.
    ------------------------------------------------------------------ */
 @theme {
-  /* Colour. Core UI palette per the BSAH Master Directive (Layer 1):
-     Obsidian Black #0F0E0D · Deep Charcoal #1A1A18 · Metallic Warm Copper #B87333 · Burnished Gold #D4AF37.
-     The studbook coat colours live separately (--coat-*) and are used only for the registry and coat swatches. */
-  --color-night: #0f0e0d;   /* Obsidian Black: canvas */
-  --color-umber: #1a1a18;   /* Deep Charcoal: surfaces */
-  --color-ember: #1a1a18;   /* Deep Charcoal: panels */
-  --color-brass: #b87333;   /* Metallic Warm Copper: labels, rules, accents */
-  --color-copper: #b87333;
-  --color-line: rgb(184 115 51 / 0.3); /* Copper hairline */
-  --color-gold: #d4af37;    /* Burnished Gold: the one word that matters, active states */
-  --color-bone: #ede3d1;    /* headline cream */
-  --color-sand: #d9d5cd;    /* body on images */
-  --color-dust: #8c8882;    /* captions, muted */
-  --color-blood: #b13a24;   /* the war beat, once per page */
-  --color-frost: #9fb3c8;   /* digital crisis only */
-  --color-parchment: #e9dcc0;
-  --color-ink: #1d150d;
-  --color-black: #0f0e0d;
-  --color-white: #ede3d1;
+  /* Role tokens (light / editorial values; `.tone-dark` below swaps them) */
+  --color-night: #f3ede2;   /* canvas: warm ivory */
+  --color-umber: #e8dece;   /* surface: soft parchment */
+  --color-ember: #faf7f0;   /* raised panel: warm off-white */
+  --color-brass: #7b5636;   /* labels, rules, accents: bronze-caramel (AA on ivory) */
+  --color-copper: #78472f;  /* chestnut */
+  --color-line: rgb(120 71 47 / 0.24); /* hairline: muted sand on ivory */
+  --color-gold: #78472f;    /* the one word that matters, active states: chestnut */
+  --color-bone: #30251e;    /* headline ink: deep warm brown */
+  --color-sand: #4d3c30;    /* body ink */
+  --color-dust: #6f5b4b;    /* captions, muted */
+  --color-blood: #a8301c;   /* the war beat, once per page */
+  --color-frost: #4a6279;   /* digital crisis only (slate on ivory) */
+  --color-parchment: #fbf8f1; /* documents */
+  --color-ink: #241a13;
+  --color-black: #171513;
+  --color-white: #faf7f0;
+
+  /* Fixed brand palette (never swapped by tone) */
+  --color-ivory: #f3ede2;
+  --color-parch: #e8dece;
+  --color-offwhite: #faf7f0;
+  --color-sandline: #d4c3ad;
+  --color-chestnut: #78472f;
+  --color-caramel: #b88a62;
+  --color-leather: #493126;
+  --color-charcoal: #171513;
+  --color-antique: #c9a66b;
 
   /* Official Marwari Studbook colour registry (coat colours, not UI colours) */
   --color-bhanwar: #2a1d15;
@@ -57,11 +72,77 @@
   --font-mono: var(--font-rupee), var(--font-martian), ui-monospace, monospace;
 }
 
+/* ------------------------------------------------------------------
+   Tone scopes. Light is the default (the 70%). `.tone-dark` is the 30%:
+   charcoal, leather and antique gold for act breaks, end cards, the terminal,
+   the menu, the loader and the footer. Anything inside inherits the swap.
+   ------------------------------------------------------------------ */
+:root,
+.tone-light {
+  --shade-rgb: 243 237 226;          /* ivory, for gradients that hold text on photographs */
+  --shade-mid: 0.62;
+  --shade-max: 0.96;
+  --grade-film: saturate(0.94) brightness(0.98) contrast(1.03) sepia(0.06);
+  --grade-deep: saturate(0.88) brightness(0.92) contrast(1.04) sepia(0.1);
+  --grade-cold: saturate(0.72) brightness(0.9) contrast(1.04);
+  --grade-mono: grayscale(1) sepia(0.18) brightness(0.92) contrast(1.06);
+  --plate-shadow: 0 1px 0 rgb(255 255 255 / 0.55) inset, 0 22px 48px -32px rgb(73 49 38 / 0.45);
+  --doc-shadow: 0 1px 0 rgb(255 255 255 / 0.7) inset, 0 30px 70px -34px rgb(73 49 38 / 0.5);
+  --crest-filter: brightness(0.66) saturate(1.35) contrast(1.15);
+}
+
+/* Re-enter the light scope inside a dark one (e.g. a document on a dark scene) */
+.tone-light {
+  --color-night: #f3ede2;
+  --color-umber: #e8dece;
+  --color-ember: #faf7f0;
+  --color-brass: #7b5636;
+  --color-copper: #78472f;
+  --color-line: rgb(120 71 47 / 0.24);
+  --color-gold: #78472f;
+  --color-bone: #30251e;
+  --color-sand: #4d3c30;
+  --color-dust: #6f5b4b;
+  --color-blood: #a8301c;
+  --color-frost: #4a6279;
+  --color-parchment: #fbf8f1;
+  color: var(--color-bone);
+  color-scheme: light;
+}
+
+.tone-dark {
+  --color-night: #171513;   /* charcoal */
+  --color-umber: #1f1b17;
+  --color-ember: #2a221c;   /* dark leather panel */
+  --color-brass: #b88a62;   /* caramel */
+  --color-copper: #b88a62;
+  --color-line: rgb(201 166 107 / 0.28);
+  --color-gold: #c9a66b;    /* antique gold */
+  --color-bone: #f3ede2;
+  --color-sand: #ddd0bc;
+  --color-dust: #a8957f;
+  --color-blood: #dc6448;
+  --color-frost: #9fb3c8;
+  --color-parchment: #e9dcc0;
+  --shade-rgb: 23 21 19;
+  --shade-mid: 0.55;
+  --shade-max: 0.95;
+  --grade-film: saturate(0.82) brightness(0.8) contrast(1.06);
+  --grade-deep: saturate(0.75) brightness(0.62) contrast(1.12);
+  --grade-cold: saturate(0.7) brightness(0.82) contrast(1.05);
+  --grade-mono: grayscale(1) brightness(0.8) contrast(1.1);
+  --plate-shadow: none;
+  --doc-shadow: 0 30px 80px rgb(0 0 0 / 0.55);
+  --crest-filter: none;
+  color: var(--color-bone);
+  color-scheme: dark;
+}
+
 @layer base {
   html {
     background-color: var(--color-night);
     color: var(--color-bone);
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -69,7 +150,7 @@
     min-height: 100dvh;
     font-family: var(--font-serif);
     font-size: 1.0625rem;
-    font-weight: 380;
+    font-weight: 400;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -77,12 +158,12 @@
   }
 
   ::selection {
-    background-color: rgb(184 115 51 / 0.35);
+    background-color: rgb(184 138 98 / 0.32);
     color: var(--color-bone);
   }
 
   :focus-visible {
-    outline: 1px solid var(--color-gold);
+    outline: 1.5px solid var(--color-gold);
     outline-offset: 4px;
   }
 
@@ -104,6 +185,14 @@
     font-stretch: 125%;
     text-transform: uppercase;
     letter-spacing: 0.015em;
+  }
+  /* Hairlines need a touch more weight on ivory to hold their ink */
+  :root .t-inscribe,
+  .tone-light .t-inscribe {
+    font-weight: 260;
+  }
+  .tone-dark .t-inscribe {
+    font-weight: 200;
   }
 
   /* Headline voice 2: heavy lowercase, the line that lands */
@@ -136,71 +225,119 @@
     font-family: var(--font-serif);
     font-size: var(--text-lede);
     line-height: var(--text-lede--line-height);
-    font-weight: 360;
+    font-weight: 380;
     text-wrap: pretty;
   }
 
-  /* Brass hairline rule */
+  /* Antique-gold hairline rule */
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgb(184 115 51 / 0.55) 12%, rgb(184 115 51 / 0.55) 88%, transparent);
+    background: linear-gradient(90deg, transparent, rgb(201 166 107 / 0.75) 12%, rgb(201 166 107 / 0.75) 88%, transparent);
   }
 
-  /* The only allowed surface: umber with a faint brass edge */
+  /* The only allowed surface: a raised panel with a sand edge (dark leather inside .tone-dark) */
   .plate {
-    background-color: rgb(26 26 24 / 0.92);
-    border: 1px solid rgb(184 115 51 / 0.22);
-    border-radius: 1px;
+    background-color: color-mix(in srgb, var(--color-ember) 94%, transparent);
+    border: 1px solid var(--color-line);
+    border-radius: 2px;
+    box-shadow: var(--plate-shadow);
+  }
+
+  /* Reference 1: textured black packaging. A faint leather sheen for dark scenes. */
+  .surface-leather {
+    background-color: var(--color-night);
+    background-image:
+      radial-gradient(120% 80% at 18% 0%, rgb(201 166 107 / 0.09), transparent 60%),
+      radial-gradient(90% 70% at 100% 100%, rgb(73 49 38 / 0.45), transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='l'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.79 0 0 0 0 0.65 0 0 0 0 0.42 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23l)'/%3E%3C/svg%3E");
+  }
+
+  /* Reference 2: catalogue paper. A soft parchment field for editorial bands. */
+  .surface-paper {
+    background-color: var(--color-umber);
+    background-image: radial-gradient(140% 90% at 50% 0%, rgb(250 247 240 / 0.55), transparent 65%);
   }
 
   .cinematic-vignette {
-    background: radial-gradient(ellipse at center, rgb(15 14 13 / 0) 35%, rgb(15 14 13 / 0.65) 75%, rgb(15 14 13 / 0.96) 100%);
+    background: radial-gradient(
+      ellipse at center,
+      rgb(var(--shade-rgb) / 0) 35%,
+      rgb(var(--shade-rgb) / 0.62) 75%,
+      rgb(var(--shade-rgb) / 0.96) 100%
+    );
+  }
+
+  /* The supplied gold crest, deepened to bronze on ivory */
+  .crest-ink {
+    filter: var(--crest-filter);
   }
 
   html[data-bsah-loaded] .bsah-loader {
     display: none;
   }
 
-  /* Heavy 35mm grain over everything; jitters like a projector */
+  /* Fine paper grain over everything; still jitters like a projector */
   .grain::after {
     content: "";
     position: fixed;
     inset: -50%;
     z-index: 70;
     pointer-events: none;
-    opacity: 0.06;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.19 0 0 0 0 0.15 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     animation: grain 0.9s steps(6) infinite;
   }
 
   /* Graded placeholder used under every photograph until the file exists */
   .film-placeholder {
-    background: linear-gradient(180deg, #0f0e0d 0%, #1a1a18 55%, #0f0e0d 100%);
+    background: linear-gradient(
+      180deg,
+      var(--color-umber) 0%,
+      color-mix(in srgb, var(--color-umber) 70%, var(--color-caramel)) 60%,
+      var(--color-umber) 100%
+    );
   }
 
-  /* Parchment surface for documents (MOU, diploma, letter) */
+  /* Paper surface for documents (MOU, diploma, letter, receipt) */
   .parchment {
     color: var(--color-ink);
     background: var(--color-parchment);
-    box-shadow: 0 30px 80px rgb(0 0 0 / 0.55);
+    border: 1px solid var(--color-sandline);
+    box-shadow: var(--doc-shadow);
   }
 
-  /* Text held on photographs */
+  /* Text held on photographs. Ivory fades in the light scope, charcoal in .tone-dark. */
   .shade-b {
-    background: linear-gradient(180deg, rgb(15 14 13 / 0) 0%, rgb(15 14 13 / 0.55) 55%, rgb(15 14 13 / 0.95) 100%);
+    background: linear-gradient(
+      180deg,
+      rgb(var(--shade-rgb) / 0) 0%,
+      rgb(var(--shade-rgb) / var(--shade-mid)) 55%,
+      rgb(var(--shade-rgb) / var(--shade-max)) 100%
+    );
   }
   .shade-l {
-    background: linear-gradient(90deg, rgb(15 14 13 / 0.92) 0%, rgb(15 14 13 / 0.6) 40%, rgb(15 14 13 / 0) 75%);
+    background: linear-gradient(
+      90deg,
+      rgb(var(--shade-rgb) / var(--shade-max)) 0%,
+      rgb(var(--shade-rgb) / var(--shade-mid)) 42%,
+      rgb(var(--shade-rgb) / 0) 78%
+    );
   }
   .shade-r {
-    background: linear-gradient(270deg, rgb(15 14 13 / 0.92) 0%, rgb(15 14 13 / 0.6) 40%, rgb(15 14 13 / 0) 75%);
+    background: linear-gradient(
+      270deg,
+      rgb(var(--shade-rgb) / var(--shade-max)) 0%,
+      rgb(var(--shade-rgb) / var(--shade-mid)) 42%,
+      rgb(var(--shade-rgb) / 0) 78%
+    );
   }
 
-  /* Range input in brass */
+  /* Range input */
   .range-brass {
     appearance: none;
     height: 2px;
-    background: rgb(184 115 51 / 0.3);
+    background: color-mix(in srgb, var(--color-brass) 35%, transparent);
     outline-offset: 8px;
   }
   .range-brass::-webkit-slider-thumb {
@@ -220,28 +357,33 @@
     border: 3px solid var(--color-night);
   }
 
-  /* Form field on dark: an underline, not a box */
+  /* Form field: an underline, not a box */
   .field {
     width: 100%;
     background: transparent;
     border: 0;
-    border-bottom: 1px solid rgb(184 115 51 / 0.35);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-brass) 45%, transparent);
     padding: 0.7rem 0;
     color: var(--color-bone);
     font-family: var(--font-sans);
     font-size: 1rem;
     border-radius: 0;
+    transition: border-color 0.3s;
+  }
+  .field:hover {
+    border-bottom-color: var(--color-brass);
   }
   .field::placeholder {
-    color: #8c8882;
+    color: var(--color-dust);
   }
   .field:focus-visible {
-    outline: 1px solid var(--color-gold);
+    outline: 1.5px solid var(--color-gold);
     outline-offset: 4px;
     border-bottom-color: var(--color-gold);
   }
   select.field option {
-    background: var(--color-umber);
+    background: var(--color-ember);
+    color: var(--color-bone);
   }
 }
 

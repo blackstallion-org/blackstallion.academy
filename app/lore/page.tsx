@@ -59,7 +59,7 @@ export default function LorePage() {
             <div className={`grid gap-10 lg:grid-cols-2 lg:items-center ${flip ? "lg:[&>figure]:order-2" : ""}`}>
               <Reveal as="figure" className="relative mx-auto aspect-[4/5] w-full max-w-lg overflow-hidden border border-line">
                 <FilmImage name={plate.image} grade={plate.grade} position={plate.position} sizes="(min-width: 1024px) 40vw, 92vw" />
-                <span aria-hidden className="t-inscribe absolute left-4 top-3 text-5xl text-bone/80">{plate.numeral}</span>
+                <span aria-hidden className="t-inscribe absolute left-4 top-3 text-5xl text-ivory/90 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)]">{plate.numeral}</span>
               </Reveal>
               <div>
                 <p className="font-mono text-xs text-gold">COMPONENT {String(i + 1).padStart(2, "0")}</p>

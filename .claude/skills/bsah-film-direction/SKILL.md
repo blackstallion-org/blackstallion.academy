@@ -28,6 +28,7 @@ The site is one film in fifteen reels. The home page is the trailer. Every decis
 ## Colour and surfaces
 
 - Canvas `night`, text `bone`/`sand`, accents `brass`, the one important word `gold`. `frost` only for the digital-crisis side.
+- The site is light by default (ivory canvas, chestnut "gold", deep-brown ink: ~70%). Dark luxury is a deliberate accent (~30%): add `tone-dark` to a section and the same tokens swap to charcoal, ivory ink and antique gold. Use it for act breaks, end cards, instruments (terminal, specimen plate), objects (passport, phones) and the footer. Never hard-code hexes; never invert by hand.
 - Text sits on photographs, held by `shade-b` / `shade-l` / `shade-r` gradients. No rounded SaaS cards, no glassmorphism, no neon, no emoji icons. The only surfaces: `.plate` (terminal, drawer, plan) and `.parchment` (letter, MOU, diploma, receipt, creed).
 
 ## Motion

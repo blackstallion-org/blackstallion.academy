@@ -94,7 +94,7 @@ export function HomeChronicle() {
 /** §15 Finale · S15 credits roll. Signature: credits roll up past the three held calls to action. */
 export function Finale() {
   return (
-    <PinnedScene length={3} label="The arena is open" reducedFallback={<FinaleFrame />}>
+    <PinnedScene length={3} label="The arena is open" className="tone-dark surface-leather" reducedFallback={<FinaleFrame />}>
       {(p) => <FinaleRolling progress={p} />}
     </PinnedScene>
   );

@@ -17,8 +17,8 @@ export function GateTitle() {
     <section aria-labelledby="gate-h" className="relative min-h-[92svh] overflow-hidden">
       <FilmImage name="contactGate" priority />
       <div aria-hidden className="absolute inset-0 shade-b" />
-      <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-line bg-[linear-gradient(90deg,#0F0E0D,#1A1A18)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
-      <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-line bg-[linear-gradient(270deg,#0F0E0D,#1A1A18)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
+      <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-line bg-[linear-gradient(90deg,#2a1d15,#493126)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
+      <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-line bg-[linear-gradient(270deg,#2a1d15,#493126)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 1.8, ease: ease.inOut, delay: 0.3 }} />
       <div className="gutter relative flex min-h-[92svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={15} act="ledger" />
         <Headline id="gate-h" as="h1" size="poster" animate="mount" delay={1.2} className="mt-6" inscription="The arena" voice="is open." />

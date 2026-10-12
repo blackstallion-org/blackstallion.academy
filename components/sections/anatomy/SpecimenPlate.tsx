@@ -31,7 +31,7 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
         className,
       )}
     >
-      <div className="relative aspect-[16/9] w-full overflow-hidden border border-line bg-night">
+      <div className="tone-dark relative aspect-[16/9] w-full overflow-hidden border border-line bg-night">
         <FilmImage
           name="anatomyProfile"
           sizes="(min-width: 1024px) 62vw, 100vw"
