@@ -16,13 +16,13 @@ export function Doors() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section aria-labelledby="doors-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="doors-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter mb-12">
         <Label>Choose your door</Label>
         <Headline id="doors-h" className="mt-4" inscription={doors.inscription} voice={doors.voice} />
       </div>
 
-      <div className="gutter flex flex-col gap-3 lg:h-[78svh] lg:flex-row">
+      <div className="flex flex-col gap-px bg-line lg:h-[100svh] lg:flex-row">
         {doors.items.map((d, i) => {
           const active = open === i;
           return (
@@ -32,7 +32,7 @@ export function Doors() {
               onMouseEnter={() => setOpen(i)}
               onFocus={() => setOpen(i)}
               className={cn(
-                "group relative block min-h-[68svh] overflow-hidden transition-[flex-grow] duration-[900ms] ease-[var(--ease-citadel)] lg:min-h-0",
+                "group relative block min-h-[100svh] overflow-hidden transition-[flex-grow] duration-[900ms] ease-[var(--ease-citadel)] lg:min-h-0",
                 active ? "lg:flex-[2.4]" : "lg:flex-1",
               )}
             >
@@ -40,8 +40,7 @@ export function Doors() {
                 name={d.image}
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="transition-transform duration-[1600ms] ease-[var(--ease-citadel)] group-hover:scale-[1.03]"
-                imgClassName={cn("transition-[opacity,filter] duration-700", active ? "lg:opacity-100" : "lg:!opacity-45")}
-              />
+                              />
               <div aria-hidden className="absolute inset-0 shade-b" />
               <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
                 <div className="flex items-start justify-between">

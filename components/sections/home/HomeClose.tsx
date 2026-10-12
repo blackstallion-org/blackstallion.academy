@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 /** §13 Command AI · S13 terminal. Signature: the question types itself, the answer streams in. */
 export function HomeCommand() {
   return (
-    <section aria-labelledby="command-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="command-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
         <div>
           <Label reel={13}>Command AI</Label>
@@ -41,7 +41,7 @@ export function HomeChronicle() {
   const p = list[i];
 
   return (
-    <section aria-labelledby="chronicle-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="chronicle-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label reel={14}>The Chronicle</Label>
         <Headline id="chronicle-h" className="mt-4" inscription={chronicle.inscription} voice={chronicle.voice} />
@@ -116,8 +116,8 @@ function FinaleRolling({ progress }: { progress: import("motion/react").MotionVa
   const ctaY = useTransform(progress, r(0.58, 0.74), [30, 0]);
   return (
     <div className="relative h-full">
-      <FilmImage name="duneSilhouette" grade="deep" className="opacity-70" />
-      <div aria-hidden className="absolute inset-0 bg-night/50" />
+      <FilmImage name="duneSilhouette" grade="none" />
+      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_50%,rgb(var(--shade-rgb)/0.6),transparent_75%)]" />
       <motion.ul className="gutter absolute inset-x-0 top-0 flex flex-col items-center gap-10 text-center" style={{ y, opacity: creditsOpacity }} aria-hidden>
         {credits.map(([k, v]) => (
           <li key={k}>
@@ -136,7 +136,8 @@ function FinaleRolling({ progress }: { progress: import("motion/react").MotionVa
 function FinaleFrame({ inline = false }: { inline?: boolean }) {
   return (
     <div className={cn("gutter w-full text-center", !inline && "relative py-32")}>
-      {!inline && <FilmImage name="duneSilhouette" grade="deep" className="opacity-60" />}
+      {!inline && <FilmImage name="duneSilhouette" grade="none" />}
+      {!inline && <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_50%,rgb(var(--shade-rgb)/0.6),transparent_75%)]" />}
       <div className="relative mx-auto max-w-5xl py-10">
         <Headline as="h2" size="1" inscription={finale.inscription} voice={finale.voice} className="mx-auto" />
         <div className="mt-10 flex flex-wrap justify-center gap-3">

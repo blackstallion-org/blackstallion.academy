@@ -24,7 +24,7 @@ export default function AboutPage() {
       </section>
 
       {/* §1 · S61 letter */}
-      <section aria-labelledby="letter-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="letter-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
         <Reveal className="parchment mx-auto max-w-3xl px-8 py-12 md:px-16 md:py-16">
           <p className="label text-[#6b5130]">{letter.note}</p>
           <h2 id="letter-h" className="t-inscribe mt-3 text-2xl text-ink md:text-3xl">
@@ -46,7 +46,7 @@ export default function AboutPage() {
       <Monolith label="Six truths we stand behind" lines={truths} />
 
       {/* §3 · S62 org tree */}
-      <section aria-labelledby="house-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="house-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
         <Label>The house</Label>
         <Headline id="house-h" className="mt-4" inscription="Horsemanship is" voice="the gateway." />
         <div className="mt-14 flex flex-col items-center">

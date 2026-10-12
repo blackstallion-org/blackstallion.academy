@@ -47,7 +47,7 @@ export function ModelFlow() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
   return (
-    <section aria-labelledby="model-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="model-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>The model</Label>
       <Headline id="model-h" className="mt-4" inscription="Zero CapEx." voice="We build. You earn." />
       <div ref={ref} className="relative mt-16 grid gap-12 md:grid-cols-3 md:gap-0">
@@ -78,7 +78,7 @@ export function ConfiguratorAndSimulator() {
 
   return (
     <>
-      <section aria-labelledby="tiers-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="tiers-h" className="relative overflow-hidden bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
         <div className="gutter">
           <Label>Three tiers</Label>
           <Headline id="tiers-h" className="mt-4" inscription="Choose" voice="your arena." />
@@ -114,7 +114,7 @@ export function ConfiguratorAndSimulator() {
         </div>
       </section>
 
-      <section id="simulator" aria-labelledby="sim-h" className="gutter relative scroll-mt-20 py-[clamp(6rem,14vh,12rem)]">
+      <section id="simulator" aria-labelledby="sim-h" className="gutter relative scroll-mt-20 py-[clamp(4.5rem,10vh,8rem)]">
         <Label>Return simulator</Label>
         <Headline id="sim-h" className="mt-4" inscription="The arena pays you" voice="from month one." />
         <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
@@ -195,7 +195,7 @@ export function ConfiguratorAndSimulator() {
 export function HubMap() {
   const [hover, setHover] = useState<string | null>(null);
   return (
-    <section id="hubs" aria-labelledby="hubs-h" className="relative scroll-mt-20 py-[clamp(6rem,14vh,12rem)]">
+    <section id="hubs" aria-labelledby="hubs-h" className="relative scroll-mt-20 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
         <div className="plate relative aspect-square w-full overflow-hidden sm:aspect-[4/3]">
           <svg viewBox="0 0 100 75" className="absolute inset-0 h-full w-full" aria-hidden>
@@ -254,7 +254,7 @@ export function HubMap() {
 /** §4b · S57 the Pan-India network. Six sovereign circuits; target corridors, not signed partners. */
 export function PanIndiaNetwork() {
   return (
-    <section aria-labelledby="network-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="network-h" className="relative bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label>The Sovereign Pan-India Regional Hub Network</Label>
         <Headline id="network-h" className="mt-4" inscription="Six circuits," voice="one national standard." />

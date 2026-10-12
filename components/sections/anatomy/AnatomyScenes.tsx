@@ -83,7 +83,7 @@ export function ScaleBalance() {
   const rightY = useTransform(smooth, (a) => Math.sin((a * Math.PI) / 180) * 210);
 
   return (
-    <section aria-labelledby="grams-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="grams-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
         <div>
           <p className="label text-brass">The reins</p>
@@ -155,7 +155,7 @@ export function EarDial() {
   const smooth = useSpring(angle, { stiffness: 120, damping: 16 });
 
   return (
-    <section aria-labelledby="dial-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="dial-h" className="relative overflow-hidden bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center">
         <div
           ref={ref}

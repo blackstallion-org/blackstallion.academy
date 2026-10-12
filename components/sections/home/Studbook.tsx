@@ -19,7 +19,7 @@ export function Studbook() {
   const h = fleet[i];
 
   return (
-    <section aria-labelledby="studbook-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="studbook-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label reel={6}>The Studbook</Label>
         <Headline id="studbook-h" className="mt-4" inscription={studbook.inscription} voice={studbook.voice} />

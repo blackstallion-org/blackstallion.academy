@@ -149,7 +149,7 @@ export function HoofPath() {
   const ys = [70, 30, 62, 26, 58];
   const d = xs.map((x, i) => `${i ? "S" : "M"}${i ? `${x - 10} ${ys[i]} ` : ""}${x} ${ys[i]}`).join(" ");
   return (
-    <section aria-labelledby="path-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="path-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>Admissions</Label>
       <Headline id="path-h" className="mt-4" inscription="Five steps" voice="to the first canter." />
       <div ref={ref} className="relative mt-14 hidden md:block" style={{ aspectRatio: "100 / 34" }}>
@@ -194,7 +194,7 @@ export function Receipt() {
   const inView = useInView(ref, { once: true, amount: 0.3 });
   const firstMonthCore = withGst(price.core + price.kit);
   return (
-    <section id="fees" aria-labelledby="fees-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section id="fees" aria-labelledby="fees-h" className="relative overflow-hidden bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-center">
         <div>
           <Label>Fees</Label>
@@ -248,7 +248,7 @@ export function StandingOrders() {
   const [open, setOpen] = useState<number | null>(0);
   const base = useId();
   return (
-    <section aria-labelledby="faq-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="faq-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
         <div>
           <Label>Questions</Label>

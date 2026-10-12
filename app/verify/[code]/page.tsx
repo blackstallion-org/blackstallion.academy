@@ -109,7 +109,7 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
       </section>
 
       {/* Diploma: printable */}
-      <section aria-label="Diploma" className="gutter pb-[clamp(6rem,14vh,12rem)]">
+      <section aria-label="Diploma" className="gutter pb-[clamp(4.5rem,10vh,8rem)]">
         <div className="no-print mb-6 flex flex-wrap items-center justify-between gap-4">
           <p className="label text-brass">Gold-embossed diploma · preview</p>
           <PrintButton />

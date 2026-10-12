@@ -23,7 +23,7 @@ export function CrisisCure() {
   }, [cured]);
 
   return (
-    <section aria-labelledby="crisis-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="crisis-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter mb-10 grid gap-6 md:grid-cols-[1fr_minmax(0,26rem)] md:items-end">
         <div>
           <Label reel={4}>Crisis &amp; Cure</Label>
@@ -32,7 +32,7 @@ export function CrisisCure() {
         <p className="text-sand">{crisis.body}</p>
       </div>
 
-      <div className="gutter">
+      <div>
         <CompareSlider
           left="whyCrisis"
           right="whyCure"
@@ -42,9 +42,9 @@ export function CrisisCure() {
             moved.current = true;
             setPct(v);
           }}
-          className="aspect-[4/5] w-full sm:aspect-[16/9]"
+          className="h-[100svh] w-full"
         />
-        <p className="label mt-3 text-dust">Drag to compare · arrow keys work too</p>
+        <p className="gutter label mt-3 text-dust">Drag to compare · arrow keys work too</p>
       </div>
 
       <ul className="gutter mt-12 grid gap-px bg-line/10 sm:grid-cols-2 lg:grid-cols-4">

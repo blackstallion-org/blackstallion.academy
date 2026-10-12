@@ -244,9 +244,9 @@ export function ThreeWords() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.45 });
   return (
-    <section id="reasons" aria-label="Three reasons" className="relative overflow-hidden py-[clamp(6rem,16vh,14rem)]">
-      <FilmImage name="legendCavalry" grade="deep" className="opacity-60" />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/40 to-night" />
+    <section id="reasons" aria-label="Three reasons" className="relative overflow-hidden py-[clamp(5rem,12vh,9rem)]">
+      <FilmImage name="legendCavalry" grade="none" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/60 to-transparent" />
       <div className="gutter relative">
         <ChapterHead id="reasons" />
         <Reveal>
@@ -284,12 +284,12 @@ export function ThreeWords() {
 export function Descent() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const gray = useTransform(scrollYProgress, r(0.15, 0.7), ["grayscale(0) brightness(0.8)", "grayscale(1) brightness(0.45)"]);
+  const gray = useTransform(scrollYProgress, r(0.15, 0.7), ["grayscale(0)", "grayscale(1)"]);
   return (
-    <section id="fall" ref={ref} aria-labelledby="fall-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
+    <section id="fall" ref={ref} aria-labelledby="fall-h" className="relative overflow-hidden py-[clamp(4.5rem,10vh,8rem)]">
       <div className="absolute inset-0">
-        <FilmImage name="legendFall" grade="mono" filter={gray} className="opacity-50" />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/80 to-night/40" />
+        <FilmImage name="legendFall" grade="none" filter={gray} />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/70 to-transparent" />
       </div>
       <div className="gutter relative">
         <ChapterHead id="fall" />

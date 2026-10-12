@@ -29,7 +29,7 @@ export function Matrix() {
   };
 
   return (
-    <section aria-labelledby="matrix-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="matrix-h" className="relative overflow-hidden bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label reel={3}>The Matrix</Label>
         <Headline id="matrix-h" className="mt-4" inscription={matrix.inscription} voice={matrix.voice} />

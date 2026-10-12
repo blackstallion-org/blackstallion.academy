@@ -29,10 +29,10 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
 
   return (
     <>
-      <section aria-labelledby="hub-h" className="relative min-h-[88svh] overflow-hidden">
+      <section aria-labelledby="hub-h" className="relative min-h-[100svh] overflow-hidden">
         <FilmImage name={hub.image} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
-        <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
+        <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-14">
           <Link href="/schools#hubs" className="label text-sand hover:text-gold">
             ← All hubs
           </Link>
@@ -106,7 +106,7 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
         </div>
       </section>
 
-      <section aria-labelledby="hub-enquire" className="relative bg-umber/40 py-[clamp(5rem,12vh,10rem)]">
+      <section aria-labelledby="hub-enquire" className="relative bg-umber/40 py-[clamp(4rem,9vh,7rem)]">
         <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div>
             <Label>Enrol at {hub.short}</Label>

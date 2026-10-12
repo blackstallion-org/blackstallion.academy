@@ -24,10 +24,10 @@ export default async function TournamentPage({ params }: PageProps<"/tournaments
 
   return (
     <>
-      <section aria-labelledby="t-h" className="relative min-h-[88svh] overflow-hidden">
+      <section aria-labelledby="t-h" className="relative min-h-[100svh] overflow-hidden">
         <FilmImage name={t.image} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
-        <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
+        <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-14">
           <Link href="/tournaments" className="label text-sand hover:text-gold">
             ← The Circuit
           </Link>
@@ -58,7 +58,7 @@ export default async function TournamentPage({ params }: PageProps<"/tournaments
         </dl>
       </section>
 
-      <section aria-labelledby="t-events" className="gutter grid gap-14 pb-[clamp(6rem,14vh,12rem)] lg:grid-cols-2">
+      <section aria-labelledby="t-events" className="gutter grid gap-14 pb-[clamp(4.5rem,10vh,8rem)] lg:grid-cols-2">
         <div>
           <Label>Events</Label>
           <h2 id="t-events" className="t-voice mt-3 text-display-3 text-bone">

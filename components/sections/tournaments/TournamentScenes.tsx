@@ -46,7 +46,7 @@ export function StandingsLanes() {
   const inView = useInView(ref, { once: true, amount: 0.3 });
   const max = Math.max(...standings.map((s) => s.points));
   return (
-    <section aria-labelledby="standings-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="standings-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>Season 2026–27 · sample</Label>
       <Headline id="standings-h" className="mt-4" inscription="STPCI" voice="standings." />
       <div ref={ref} className="relative mt-12 overflow-x-auto">
@@ -119,7 +119,7 @@ function Flip({ text, delay = 0 }: { text: string; delay?: number }) {
 /** §2 · S58 departure board. Signature: the letters flip like a station board before settling. */
 export function FixtureBoard() {
   return (
-    <section aria-labelledby="fixtures-h" className="tone-dark surface-leather relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="fixtures-h" className="tone-dark surface-leather relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label>Fixtures</Label>
         <Headline id="fixtures-h" className="mt-4" inscription="Next" voice="on the circuit." />
@@ -157,7 +157,7 @@ export function CourseDiagram() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
   return (
-    <section aria-labelledby="course-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="course-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
         <div>
           <Label>The discipline</Label>
@@ -210,7 +210,7 @@ export function CourseDiagram() {
 /** §4 · podium: hall of champions. */
 export function Podium() {
   return (
-    <section aria-labelledby="podium-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="podium-h" className="relative overflow-hidden py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
         <div className="relative">
           <div className="relative aspect-[16/10] overflow-hidden">

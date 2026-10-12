@@ -2,43 +2,45 @@
 
 /* ------------------------------------------------------------------
    BSAH — Equestrian editorial. Rules: docs/BLUEPRINT.md Part 3 (palette revised Oct 2026).
-   ~70% warm editorial (ivory, parchment, chestnut, caramel, leather) ·
-   ~30% dark luxury accents (charcoal, antique gold) used deliberately via `.tone-dark`.
+   80/20 (Oct 2026, deep pass): ~80% deep espresso and leather grounds ·
+   ~20% light and metal: parchment documents (`.tone-light`), copper rims, antique-gold voice.
+   Photographs are never graded, faded or washed: they keep their own colour and light.
 
    The token NAMES are semantic roles kept from the film build so no component had to be renamed:
      night = canvas · umber = surface · ember = raised panel · bone = headline ink ·
      sand = body ink · dust = captions · brass = labels and rules · gold = the one word that matters.
-   Their VALUES depend on the tone scope: light by default, dark inside `.tone-dark`.
+   Their VALUES depend on the tone scope: deep by default, deepest inside `.tone-dark`,
+   parchment inside `.tone-light`.
    ------------------------------------------------------------------ */
 @theme {
-  /* Role tokens (light / editorial values; `.tone-dark` below swaps them) */
-  --color-night: #f3ede2;   /* canvas: warm ivory */
-  --color-umber: #e8dece;   /* surface: soft parchment */
-  --color-ember: #faf7f0;   /* raised panel: warm off-white */
-  --color-brass: #7b5636;   /* labels, rules, accents: bronze-caramel (AA on ivory) */
-  --color-copper: #78472f;  /* chestnut */
-  --color-line: rgb(120 71 47 / 0.24); /* hairline: muted sand on ivory */
-  --color-gold: #78472f;    /* the one word that matters, active states: chestnut */
-  --color-bone: #30251e;    /* headline ink: deep warm brown */
-  --color-sand: #4d3c30;    /* body ink */
-  --color-dust: #6f5b4b;    /* captions, muted */
-  --color-blood: #a8301c;   /* the war beat, once per page */
-  --color-frost: #4a6279;   /* digital crisis only (slate on ivory) */
-  --color-parchment: #fbf8f1; /* documents */
+  /* Role tokens (deep default values; `.tone-dark` deepens, `.tone-light` lifts to parchment) */
+  --color-night: #120d0a;   /* canvas: espresso black */
+  --color-umber: #22160f;   /* surface band: deep saddle leather */
+  --color-ember: #2c1c12;   /* raised panel: oiled leather */
+  --color-brass: #c08a5b;   /* labels, rules: copper-caramel */
+  --color-copper: #b87333;  /* copper rims and highlights */
+  --color-line: rgb(184 115 51 / 0.26); /* hairline: copper */
+  --color-gold: #d1a464;    /* the one word that matters: antique gold */
+  --color-bone: #f1e6d4;    /* headline ink: warm ivory */
+  --color-sand: #d5c4ab;    /* body ink */
+  --color-dust: #a8927a;    /* captions, muted */
+  --color-blood: #d9603f;   /* the war beat, once per page */
+  --color-frost: #9fb3c8;   /* digital crisis only */
+  --color-parchment: #e9dbc2; /* documents */
   --color-ink: #241a13;
-  --color-black: #171513;
-  --color-white: #faf7f0;
+  --color-black: #0b0806;
+  --color-white: #f6efe3;
 
   /* Fixed brand palette (never swapped by tone) */
-  --color-ivory: #f3ede2;
-  --color-parch: #e8dece;
-  --color-offwhite: #faf7f0;
-  --color-sandline: #d4c3ad;
-  --color-chestnut: #78472f;
-  --color-caramel: #b88a62;
-  --color-leather: #493126;
-  --color-charcoal: #171513;
-  --color-antique: #c9a66b;
+  --color-ivory: #ece0cc;
+  --color-parch: #dfcdb1;
+  --color-offwhite: #f4eadb;
+  --color-sandline: #c9b393;
+  --color-chestnut: #6a3a22;
+  --color-caramel: #b07e52;
+  --color-leather: #3b2416;
+  --color-charcoal: #0e0a08;
+  --color-antique: #d1a464;
 
   /* Official Marwari Studbook colour registry (coat colours, not UI colours) */
   --color-bhanwar: #2a1d15;
@@ -77,62 +79,65 @@
    charcoal, leather and antique gold for act breaks, end cards, the terminal,
    the menu, the loader and the footer. Anything inside inherits the swap.
    ------------------------------------------------------------------ */
-:root,
-.tone-light {
-  --shade-rgb: 243 237 226;          /* ivory, for gradients that hold text on photographs */
-  --shade-mid: 0.62;
-  --shade-max: 0.96;
-  --grade-film: saturate(0.94) brightness(0.98) contrast(1.03) sepia(0.06);
-  --grade-deep: saturate(0.88) brightness(0.92) contrast(1.04) sepia(0.1);
-  --grade-cold: saturate(0.72) brightness(0.9) contrast(1.04);
-  --grade-mono: grayscale(1) sepia(0.18) brightness(0.92) contrast(1.06);
-  --plate-shadow: 0 1px 0 rgb(255 255 255 / 0.55) inset, 0 22px 48px -32px rgb(73 49 38 / 0.45);
-  --doc-shadow: 0 1px 0 rgb(255 255 255 / 0.7) inset, 0 30px 70px -34px rgb(73 49 38 / 0.5);
-  --crest-filter: brightness(0.66) saturate(1.35) contrast(1.15);
+:root {
+  --shade-rgb: 18 13 10;             /* espresso, for gradients that hold text on photographs */
+  --shade-mid: 0.5;
+  --shade-max: 0.92;
+  /* Photographs keep their own colour: grades are identity (kept as tokens so components need no change) */
+  --grade-film: none;
+  --grade-deep: none;
+  --grade-cold: none;
+  --grade-mono: grayscale(1) contrast(1.08);
+  --plate-shadow: 0 1px 0 rgb(209 164 100 / 0.06) inset, 0 30px 60px -36px rgb(0 0 0 / 0.8);
+  --doc-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.75);
+  --crest-filter: none;
 }
 
 /* Re-enter the light scope inside a dark one (e.g. a document on a dark scene) */
-.tone-light {
-  --color-night: #f3ede2;
-  --color-umber: #e8dece;
-  --color-ember: #faf7f0;
-  --color-brass: #7b5636;
-  --color-copper: #78472f;
-  --color-line: rgb(120 71 47 / 0.24);
-  --color-gold: #78472f;
-  --color-bone: #30251e;
-  --color-sand: #4d3c30;
-  --color-dust: #6f5b4b;
-  --color-blood: #a8301c;
-  --color-frost: #4a6279;
-  --color-parchment: #fbf8f1;
+.tone-light,
+.parchment {
+  --color-night: #ece0cc;   /* deep parchment */
+  --color-umber: #dfcdb1;
+  --color-ember: #f4eadb;
+  --color-brass: #6e4628;
+  --color-copper: #8a4b22;
+  --color-line: rgb(106 58 34 / 0.26);
+  --color-gold: #6a3a22;
+  --color-bone: #2a1c13;
+  --color-sand: #46342a;
+  --color-dust: #66503f;
+  --color-blood: #a02d18;
+  --color-frost: #43596e;
+  --color-parchment: #f4eadb;
+  --shade-rgb: 236 224 204;
+  --shade-mid: 0.6;
+  --shade-max: 0.95;
+  --plate-shadow: 0 1px 0 rgb(255 255 255 / 0.45) inset, 0 22px 48px -32px rgb(59 36 22 / 0.5);
+  --doc-shadow: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 30px 70px -34px rgb(59 36 22 / 0.55);
+  --crest-filter: brightness(0.62) saturate(1.35) contrast(1.15);
   color: var(--color-bone);
   color-scheme: light;
 }
 
 .tone-dark {
-  --color-night: #171513;   /* charcoal */
-  --color-umber: #1f1b17;
-  --color-ember: #2a221c;   /* dark leather panel */
-  --color-brass: #b88a62;   /* caramel */
-  --color-copper: #b88a62;
-  --color-line: rgb(201 166 107 / 0.28);
-  --color-gold: #c9a66b;    /* antique gold */
-  --color-bone: #f3ede2;
-  --color-sand: #ddd0bc;
-  --color-dust: #a8957f;
-  --color-blood: #dc6448;
+  --color-night: #0b0806;   /* obsidian */
+  --color-umber: #170f0a;
+  --color-ember: #22150d;   /* dark leather panel */
+  --color-brass: #c08a5b;
+  --color-copper: #b87333;
+  --color-line: rgb(184 115 51 / 0.3);
+  --color-gold: #d1a464;
+  --color-bone: #f1e6d4;
+  --color-sand: #d5c4ab;
+  --color-dust: #a8927a;
+  --color-blood: #d9603f;
   --color-frost: #9fb3c8;
-  --color-parchment: #e9dcc0;
-  --shade-rgb: 23 21 19;
-  --shade-mid: 0.55;
-  --shade-max: 0.95;
-  --grade-film: saturate(0.82) brightness(0.8) contrast(1.06);
-  --grade-deep: saturate(0.75) brightness(0.62) contrast(1.12);
-  --grade-cold: saturate(0.7) brightness(0.82) contrast(1.05);
-  --grade-mono: grayscale(1) brightness(0.8) contrast(1.1);
+  --color-parchment: #e9dbc2;
+  --shade-rgb: 11 8 6;
+  --shade-mid: 0.5;
+  --shade-max: 0.92;
   --plate-shadow: none;
-  --doc-shadow: 0 30px 80px rgb(0 0 0 / 0.55);
+  --doc-shadow: 0 30px 80px rgb(0 0 0 / 0.6);
   --crest-filter: none;
   color: var(--color-bone);
   color-scheme: dark;
@@ -142,7 +147,7 @@
   html {
     background-color: var(--color-night);
     color: var(--color-bone);
-    color-scheme: light;
+    color-scheme: dark;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -158,7 +163,7 @@
   }
 
   ::selection {
-    background-color: rgb(184 138 98 / 0.32);
+    background-color: rgb(184 115 51 / 0.4);
     color: var(--color-bone);
   }
 
@@ -187,7 +192,6 @@
     letter-spacing: 0.015em;
   }
   /* Hairlines need a touch more weight on ivory to hold their ink */
-  :root .t-inscribe,
   .tone-light .t-inscribe {
     font-weight: 260;
   }
@@ -232,7 +236,7 @@
   /* Antique-gold hairline rule */
   .hairline {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgb(201 166 107 / 0.75) 12%, rgb(201 166 107 / 0.75) 88%, transparent);
+    background: linear-gradient(90deg, transparent, rgb(184 115 51 / 0.7) 12%, rgb(209 164 100 / 0.7) 50%, rgb(184 115 51 / 0.7) 88%, transparent);
   }
 
   /* The only allowed surface: a raised panel with a sand edge (dark leather inside .tone-dark) */
@@ -247,15 +251,15 @@
   .surface-leather {
     background-color: var(--color-night);
     background-image:
-      radial-gradient(120% 80% at 18% 0%, rgb(201 166 107 / 0.09), transparent 60%),
-      radial-gradient(90% 70% at 100% 100%, rgb(73 49 38 / 0.45), transparent 70%),
+      radial-gradient(120% 80% at 18% 0%, rgb(184 115 51 / 0.1), transparent 60%),
+      radial-gradient(90% 70% at 100% 100%, rgb(59 36 22 / 0.5), transparent 70%),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='l'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.79 0 0 0 0 0.65 0 0 0 0 0.42 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23l)'/%3E%3C/svg%3E");
   }
 
   /* Reference 2: catalogue paper. A soft parchment field for editorial bands. */
   .surface-paper {
     background-color: var(--color-umber);
-    background-image: radial-gradient(140% 90% at 50% 0%, rgb(250 247 240 / 0.55), transparent 65%);
+    background-image: radial-gradient(140% 90% at 50% 0%, rgb(184 115 51 / 0.08), transparent 65%);
   }
 
   .cinematic-vignette {
@@ -283,8 +287,8 @@
     inset: -50%;
     z-index: 70;
     pointer-events: none;
-    opacity: 0.05;
-    mix-blend-mode: multiply;
+    opacity: 0.035;
+    mix-blend-mode: soft-light;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.19 0 0 0 0 0.15 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     animation: grain 0.9s steps(6) infinite;
   }

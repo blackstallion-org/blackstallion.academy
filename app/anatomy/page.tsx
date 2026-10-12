@@ -18,7 +18,7 @@ export default function AnatomyPage() {
       <AnatomyTitle />
 
       {/* §1 · S03 full specimen plate with four layers */}
-      <section aria-labelledby="plate-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="plate-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
         <Label>Read it four ways</Label>
         <Headline id="plate-h" className="mt-4" inscription="Six points," voice="six lessons." />
         <p className="t-story mt-6 max-w-2xl text-sand">
@@ -34,7 +34,7 @@ export default function AnatomyPage() {
       <EarDial />
 
       {/* §4 · S27 spec sheet */}
-      <section aria-labelledby="spec-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="spec-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
         <Label>Breed standard</Label>
         <Headline id="spec-h" className="mt-4" inscription="The" voice="specification." />
         <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1.45fr)]">

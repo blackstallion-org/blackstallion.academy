@@ -15,7 +15,7 @@ export default function ContactPage() {
       <Gates />
 
       {/* §2 · Coordinates */}
-      <section aria-label="Coordinates" className="gutter relative pb-[clamp(6rem,14vh,12rem)]">
+      <section aria-label="Coordinates" className="gutter relative pb-[clamp(4.5rem,10vh,8rem)]">
         <dl className="grid gap-px bg-line md:grid-cols-3">
           {[
             ["Headquarters", entity.city],

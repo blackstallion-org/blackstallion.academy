@@ -27,7 +27,7 @@ function vibrationAvailable() {
 
 /**
  * S05 before/after slider. Drag, click or use the arrow keys.
- * The crisis side is graded cold, the cure side warm.
+ * Both photographs are shown as shot: no grade, no wash.
  */
 export function CompareSlider({ left, right, leftLabel, rightLabel, className, onChange }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -82,11 +82,11 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, className, o
       }}
       onPointerMove={(e) => e.buttons === 1 && fromPointer(e)}
     >
-      <FilmImage name={left} grade="cold" sizes="100vw" />
+      <FilmImage name={left} grade="none" sizes="100vw" />
       <motion.div className="absolute inset-0" style={{ clipPath: clip }}>
         <FilmImage name={right} sizes="100vw" />
       </motion.div>
-      <div aria-hidden className="pointer-events-none absolute inset-0 shade-b opacity-70" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[rgb(var(--shade-rgb)/0.55)] to-transparent" />
 
       <span className="label pointer-events-none absolute left-4 top-4 text-frost md:left-6 md:top-6">{leftLabel}</span>
       <span className="label pointer-events-none absolute right-4 top-4 text-gold md:right-6 md:top-6">{rightLabel}</span>

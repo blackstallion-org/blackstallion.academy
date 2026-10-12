@@ -74,7 +74,7 @@ export function SystemsConsole() {
     tabs.current[next]?.focus();
   };
   return (
-    <section aria-labelledby="systems-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="systems-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>Four systems</Label>
       <Headline id="systems-h" className="mt-4" inscription="One rider," voice="four systems at work." />
       <div role="tablist" aria-label="Body systems" className="no-scrollbar mt-12 flex gap-8 overflow-x-auto border-b border-line">
@@ -140,7 +140,7 @@ export function PulseLine() {
       return `${k ? "L" : "M"}${x} ${y.toFixed(1)}`;
     }).join(" ");
   return (
-    <section aria-labelledby="pulse-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="pulse-h" className="relative overflow-hidden bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
         <div>
           <Label>The walk</Label>
@@ -184,7 +184,7 @@ export function ComparisonLedger({ cols, rows, note }: { cols: readonly string[]
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.6"] });
   return (
-    <section aria-labelledby="compare-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="compare-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>Demands compared</Label>
       <Headline id="compare-h" className="mt-4" inscription="Twenty minutes" voice="in the saddle." />
       <div ref={ref} className="mt-12">

@@ -39,7 +39,7 @@ export function CadetsTitle() {
 /** §1 · S43 staggered portraits. */
 export function Spotlights() {
   return (
-    <section aria-labelledby="spot-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="spot-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>Spotlights</Label>
       <Headline id="spot-h" className="mt-4" inscription="Hours earned," voice="names remembered." />
       <ol className="mt-16 grid gap-14 md:grid-cols-3 md:gap-8">
@@ -85,7 +85,7 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
 
   return (
     <div className={cn("relative flex h-full items-center", open && "min-h-[100svh] py-24")}>
-      <FilmImage name="bgPassport" grade="deep" className="opacity-30" />
+      <FilmImage name="bgPassport" grade="none" />
       <div className="gutter relative grid w-full gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
         <div>
           <Label>The passport</Label>
@@ -148,7 +148,7 @@ export function DayClock() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.6", "end 0.6"] });
   const top = useTransform(scrollYProgress, r(0, 1), ["0%", "100%"]);
   return (
-    <section aria-labelledby="day-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="day-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
         <div className="lg:sticky motion-reduce:lg:static lg:top-28 lg:self-start">
           <Label>A day</Label>
@@ -177,7 +177,7 @@ export function DayClock() {
 /** §4 · S46 creed card. Signature: each line of the creed is set as if by letterpress. */
 export function CreedCard() {
   return (
-    <section aria-labelledby="creed-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="creed-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="parchment mx-auto max-w-3xl px-8 py-12 md:px-16 md:py-16">
         <p className="label text-center text-[#6b5130]">Dominus Sui, Dominus Equi</p>
         <h2 id="creed-h" className="t-inscribe mt-3 text-center text-3xl text-ink md:text-4xl">
@@ -200,7 +200,7 @@ export function CreedCard() {
 export function MilestoneReels() {
   const reduced = useReducedMotion();
   return (
-    <section aria-labelledby="reels-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="reels-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label>Milestone reels</Label>
         <Headline id="reels-h" className="mt-4" inscription="Ten seconds" voice="that prove it." />
@@ -251,7 +251,7 @@ export function MilestoneReels() {
 /** §2b · S45 the uniform. The cadet uniform specification as a tailor's docket (Master Refinement §7). */
 export function UniformSpec() {
   return (
-    <section aria-labelledby="uniform-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="uniform-h" className="relative bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         <div className="relative aspect-[3/4] w-full max-w-md overflow-hidden lg:order-2">
           <FilmImage name="cadetZayd" sizes="(min-width: 1024px) 40vw, 90vw" grade="deep" />

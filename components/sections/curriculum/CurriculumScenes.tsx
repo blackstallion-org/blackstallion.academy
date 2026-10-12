@@ -16,7 +16,6 @@ export function CurriculumTitle() {
   return (
     <section aria-labelledby="curr-h" className="relative min-h-[100svh] overflow-hidden">
       <FilmImage name="currLedger" priority />
-      <div aria-hidden className="absolute inset-0 bg-night/45" />
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div aria-hidden className="absolute inset-x-0 top-[18%] flex flex-col gap-[4.2vh] px-[6vw] opacity-60">
         {Array.from({ length: 9 }, (_, i) => (
@@ -41,7 +40,7 @@ export function Staircase() {
   const focus = rk.detail.replace(/\.$/, "").split(/, (?:and )?/);
   const artifacts = rk.insignia.split(" · ").map((a) => (/stpci/i.test(a) ? `${a} (subject to verification)` : a));
   return (
-    <section aria-labelledby="ranks-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="ranks-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>Four ranks</Label>
       <Headline id="ranks-h" className="mt-4" inscription="Squire to" voice="Sovereign Lancer." />
       <div ref={ref} className="mt-16 grid gap-4 md:h-[62svh] md:grid-cols-4 md:items-end md:gap-2" role="tablist" aria-label="Cadet ranks">
@@ -112,7 +111,7 @@ export function ClockRing() {
   const R = 150;
   const C = 2 * Math.PI * R;
   return (
-    <section ref={ref} aria-labelledby="class-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section ref={ref} aria-labelledby="class-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
         <div className="relative mx-auto aspect-square w-full max-w-md">
           <svg viewBox="0 0 400 400" className="h-full w-full -rotate-90" aria-hidden>
@@ -184,7 +183,7 @@ export function ThreeStamps() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
   return (
-    <section aria-labelledby="graded-h" className="gutter relative overflow-hidden py-[clamp(6rem,14vh,12rem)] text-center">
+    <section aria-labelledby="graded-h" className="gutter relative overflow-hidden py-[clamp(4.5rem,10vh,8rem)] text-center">
       <Label className="justify-center">Graded three ways</Label>
       <Headline id="graded-h" className="mx-auto mt-4" inscription="Every session," voice="sealed the same day." />
       <div ref={ref} className="mt-14 grid gap-10 sm:grid-cols-3">
@@ -213,7 +212,7 @@ export function ThreeStamps() {
 /** §6 · S39 discipline panels. Four tall photographs; the caption rises on hover or focus. */
 export function DisciplinePanels() {
   return (
-    <section aria-labelledby="disc-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="disc-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label>The disciplines</Label>
         <Headline id="disc-h" className="mt-4" inscription="Four ways" voice="to win a field." />

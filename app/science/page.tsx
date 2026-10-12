@@ -21,7 +21,7 @@ export default function SciencePage() {
       <ComparisonLedger cols={comparison.cols} rows={comparison.rows} note={comparison.note} />
 
       {/* §4 · S30 footnote ledger */}
-      <section aria-labelledby="claims-h" className="gutter relative pb-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="claims-h" className="gutter relative pb-[clamp(4.5rem,10vh,8rem)]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
           <div className="lg:sticky motion-reduce:lg:static lg:top-28 lg:self-start">
             <Label>The honest part</Label>

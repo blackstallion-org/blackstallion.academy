@@ -14,9 +14,9 @@ import { ease } from "@/lib/motion/tokens";
 /** §10 Verifier · S10 seal verifier. */
 export function HomeVerifier() {
   return (
-    <section aria-labelledby="verify-h" className="tone-dark relative overflow-hidden bg-night py-[clamp(6rem,14vh,12rem)]">
-      <FilmImage name="bgPassport" grade="deep" className="opacity-40" />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/85 to-night/60" />
+    <section aria-labelledby="verify-h" className="tone-dark relative overflow-hidden bg-night py-[clamp(4.5rem,10vh,8rem)]">
+      <FilmImage name="bgPassport" grade="none" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/80 to-transparent" />
       <div className="gutter relative">
         <Label reel={11}>The Seal</Label>
         <Headline id="verify-h" className="mt-4" inscription={verifier.inscription} voice={verifier.voice} />
@@ -63,7 +63,7 @@ export function HomeStandings() {
   const max = Math.max(...standings.map((s) => s.points));
 
   return (
-    <section aria-labelledby="circuit-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="circuit-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="relative h-40 overflow-hidden md:h-56">
         <FilmImage name="bgCharge" position="50% 55%" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-transparent to-night" />
@@ -120,7 +120,7 @@ export function HomeShield() {
   const inView = useInView(ref, { once: true, amount: 0.4 });
 
   return (
-    <section aria-labelledby="shield-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="shield-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label reel={9}>The Shield</Label>
       <Headline id="shield-h" className="mt-4" inscription={shield.inscription} voice={shield.voice} />
       <div ref={ref} className="mt-14 grid lg:grid-cols-3">

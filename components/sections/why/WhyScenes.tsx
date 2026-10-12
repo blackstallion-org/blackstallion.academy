@@ -20,8 +20,7 @@ export function WhyTitle() {
     <section aria-labelledby="why-h" className="relative min-h-[100svh] overflow-hidden">
       <div className="absolute inset-0 grid grid-cols-2">
         <motion.div className="relative overflow-hidden" initial={{ x: "-20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
-          <FilmImage name="whyCrisis" grade="cold" priority position="40% 50%" />
-          <div aria-hidden className="absolute inset-0 bg-charcoal/40" />
+          <FilmImage name="whyCrisis" grade="none" priority position="40% 50%" />
         </motion.div>
         <motion.div className="relative overflow-hidden" initial={{ x: "20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
           <FilmImage name="whyCure" priority position="30% 50%" />
@@ -52,7 +51,7 @@ export function Glass() {
   const reduced = useReducedMotion();
   const items = [...why.glass.notifications, ...why.glass.notifications];
   return (
-    <section aria-labelledby="glass-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="glass-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:items-center">
         <div>
           <Label>The crisis</Label>
@@ -96,7 +95,7 @@ export function BigSlider() {
       <div className="gutter">
         <Headline id="slider-h" inscription={why.slider.inscription} voice={why.slider.voice} />
       </div>
-      <CompareSlider left="whyCrisis" right="whyCure" leftLabel="Digital crisis" rightLabel="Sovereign cure" onChange={setPct} className="mt-10 h-[78svh] w-full" />
+      <CompareSlider left="whyCrisis" right="whyCure" leftLabel="Digital crisis" rightLabel="Sovereign cure" onChange={setPct} className="mt-10 h-[100svh] w-full" />
       <div className="gutter mt-10">
         <div className="grid grid-cols-[6rem_1fr_1fr] gap-4 border-b border-line pb-3 md:grid-cols-[10rem_1fr_1fr]">
           <span />
@@ -121,7 +120,7 @@ export function Monolith({ lines, coda, label }: { lines: string[]; coda?: strin
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.45"] });
   const words = lines.join(" ¶ ").split(" ");
   return (
-    <section ref={ref} aria-label={label ?? "The sanctuary of unpowered truth"} className="gutter relative py-[clamp(8rem,20vh,16rem)]">
+    <section ref={ref} aria-label={label ?? "The sanctuary of unpowered truth"} className="gutter relative py-[clamp(6rem,14vh,11rem)]">
       {label && <Label className="mb-8">{label}</Label>}
       <p className="t-voice max-w-[22ch] text-display-2 leading-[1.05] sm:max-w-none">
         {words.map((w, k) =>
@@ -151,7 +150,7 @@ function Word({ children, progress, range }: { children: string; progress: Motio
 /** §4 · S33 hoofprint checklist. Signature: hoofprints stamp down the list like a horse walking past. */
 export function TrainList() {
   return (
-    <section aria-labelledby="train-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="train-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <div>
           <Label>The cure</Label>
@@ -179,7 +178,7 @@ export function TrainList() {
 /** §2b · S32 the Sovereign Crucible. The core narrative engine: desert endurance, the three modern crises, the answer in the saddle. */
 export function SovereignCrucible() {
   return (
-    <section aria-labelledby="crucible-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="crucible-h" className="relative bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label>{crucible.label}</Label>
         <Headline id="crucible-h" className="mt-4 max-w-5xl" inscription={crucible.inscription} voice={crucible.voice} />

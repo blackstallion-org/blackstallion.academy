@@ -38,7 +38,7 @@ export function Registry() {
   const list = fleet.filter((s) => filter === "All" || s.family === filter);
 
   return (
-    <section aria-labelledby="registry-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="registry-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
           <Label>The registry</Label>
@@ -200,7 +200,7 @@ function Clock() {
 export function CctvGrid() {
   const positions = ["30% 40%", "70% 60%", "50% 30%", "45% 70%"];
   return (
-    <section aria-labelledby="cctv-h" className="tone-dark relative bg-night py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="cctv-h" className="tone-dark relative bg-night py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-6 md:grid-cols-[1fr_minmax(0,26rem)] md:items-end">
         <div>
           <Label>Stall-cam</Label>
@@ -243,7 +243,7 @@ export function CareLog() {
   const ref = useRef<HTMLOListElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
   return (
-    <section aria-labelledby="log-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="log-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
         <div>
           <Label>Daily</Label>
@@ -275,7 +275,7 @@ export function CareLog() {
 /** §2b · S42 the official colour registry. Six studbook coats as inked swatch plates. */
 export function CoatRegistry() {
   return (
-    <section aria-labelledby="coats-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="coats-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>Official Marwari studbook</Label>
       <Headline id="coats-h" className="mt-4" inscription="The colour" voice="registry." />
       <ul className="mt-14 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">

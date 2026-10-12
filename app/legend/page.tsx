@@ -21,7 +21,7 @@ export default function LegendPage() {
       <ChapterRail />
 
       {/* I · One bloodline — overview + miniature plate + three theories of origin */}
-      <section id="ocean" aria-labelledby="ocean-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section id="ocean" aria-labelledby="ocean-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
         <BreathCue />
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-center">
           <div>
@@ -67,7 +67,7 @@ export default function LegendPage() {
       <RouteMap />
 
       {/* III · Bred by law — annotated callouts */}
-      <section id="bred" aria-labelledby="bred-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section id="bred" aria-labelledby="bred-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           <div className="relative aspect-[16/11] overflow-hidden lg:sticky motion-reduce:lg:static lg:top-24 lg:self-start">
             <FilmImage name="legendSand" sizes="(min-width: 1024px) 50vw, 100vw" />
@@ -112,7 +112,7 @@ export default function LegendPage() {
       <EarsZoom />
 
       {/* V · The Traditional Lore of the Bards lives in its own reel (/lore), kept apart from history and science */}
-      <section id="omens" aria-labelledby="omens-h" className="gutter relative py-[clamp(5rem,12vh,10rem)]">
+      <section id="omens" aria-labelledby="omens-h" className="gutter relative py-[clamp(4rem,9vh,7rem)]">
         <ChapterHead id="omens" />
         <Headline id="omens-h" className="mt-4" inscription={lore.inscription} voice={lore.voice} size="2" />
         <p className="t-story mt-6 max-w-2xl text-sand">{lore.sub}</p>
@@ -128,7 +128,7 @@ export default function LegendPage() {
       <ThreeWords />
 
       {/* VII · Roll of honour — native horizontal reel */}
-      <section id="honour" aria-labelledby="honour-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+      <section id="honour" aria-labelledby="honour-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
         <div className="gutter">
           <ChapterHead id="honour" />
           <Headline id="honour-h" className="mt-4" inscription="The roll" voice="of honour." />
@@ -161,9 +161,10 @@ export default function LegendPage() {
       <Descent />
 
       {/* IX · The revival — ascent timeline + vignette */}
-      <section id="revival" aria-labelledby="revival-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
-        <FilmImage name="legendRevival" grade="deep" className="opacity-45" />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/70 to-night" />
+      <section id="revival" aria-labelledby="revival-h" className="relative overflow-hidden py-[clamp(4.5rem,10vh,8rem)]">
+        <FilmImage name="legendRevival" grade="none" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/70 to-transparent" />
+        <div aria-hidden className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-night to-transparent" />
         <div className="gutter relative">
           <ChapterHead id="revival" />
           <Headline id="revival-h" className="mt-4" inscription={revival.inscription} voice={revival.voice} />

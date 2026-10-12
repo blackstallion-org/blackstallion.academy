@@ -46,7 +46,7 @@ export function LedgerAscent() {
   const rankNodes = (ri: number) => nodes.filter((nd) => nd.ri === ri);
 
   return (
-    <section aria-labelledby="ledger-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="ledger-h" className="relative overflow-hidden py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-6 md:grid-cols-[1fr_minmax(0,24rem)] md:items-end">
         <div>
           <Label reel={5}>The Ledger</Label>

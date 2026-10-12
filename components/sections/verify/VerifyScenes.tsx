@@ -11,10 +11,10 @@ import { ease } from "@/lib/motion/tokens";
 /** Title card · T12 seal. Signature: a brass seal stamps down over the title. */
 export function VerifyTitle() {
   return (
-    <section aria-labelledby="verify-title" className="relative min-h-[92svh] overflow-hidden">
+    <section aria-labelledby="verify-title" className="relative min-h-[100svh] overflow-hidden">
       <FilmImage name="bgPassport" priority grade="deep" />
       <div aria-hidden className="absolute inset-0 shade-b" />
-      <div className="gutter relative flex min-h-[92svh] flex-col justify-end pb-[10vh]">
+      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
         <div className="flex items-end justify-between gap-6">
           <div>
             <ReelMark n={11} act="ledger" />
@@ -38,7 +38,7 @@ export function Chain() {
     { title: "Verified", text: "Anyone with the code sees the record." },
   ];
   return (
-    <section aria-labelledby="chain-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="chain-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>How a record is made</Label>
       <Headline id="chain-h" className="mt-4" inscription="Issued. Sealed." voice="Verified." />
       <div ref={ref} className="mt-14 grid gap-10 md:grid-cols-3 md:gap-0">

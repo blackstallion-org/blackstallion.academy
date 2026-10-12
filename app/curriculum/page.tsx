@@ -22,7 +22,7 @@ export default function CurriculumPage() {
       <ClockRing />
 
       {/* §4 · S37 timetable board */}
-      <section aria-labelledby="batches-h" className="relative py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="batches-h" className="relative py-[clamp(4.5rem,10vh,8rem)]">
         <div className="relative h-[42svh] min-h-[260px]">
           <FilmImage name="currBatch" sizes="100vw" />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night/20 via-transparent to-night" />

@@ -134,7 +134,7 @@ export function CodexVault() {
   };
 
   return (
-    <section aria-labelledby="codex-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="codex-h" className="relative bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label>The Sovereign Codex</Label>
         <Headline id="codex-h" className="mt-4" inscription="Thirteen pillars," voice="one sovereign ledger." />

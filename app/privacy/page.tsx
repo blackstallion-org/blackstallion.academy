@@ -62,7 +62,7 @@ const sections: { h: string; p: string[] }[] = [
 
 export default function PrivacyPage() {
   return (
-    <article className="gutter mx-auto max-w-3xl pb-[clamp(6rem,14vh,12rem)] pt-32">
+    <article className="gutter mx-auto max-w-3xl pb-[clamp(4.5rem,10vh,8rem)] pt-32">
       <p className="label text-brass">Privacy notice · version {VERSION}</p>
       <h1 className="t-voice mt-4 text-display-2 text-bone">How we handle your details.</h1>
       <p role="note" className="mt-6 border border-blood/60 p-4 text-sm text-sand">

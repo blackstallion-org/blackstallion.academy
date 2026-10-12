@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function MouPage() {
   return (
-    <section aria-labelledby="mou-h" className="gutter relative pb-[clamp(6rem,14vh,12rem)] pt-28 md:pt-32">
+    <section aria-labelledby="mou-h" className="gutter relative pb-[clamp(4.5rem,10vh,8rem)] pt-28 md:pt-32">
       <Link href="/schools" className="label no-print text-sand hover:text-gold">
         ← The Citadel
       </Link>

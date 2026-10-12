@@ -18,15 +18,13 @@ export function EndCard({ current }: { current: number }) {
     <section aria-label="Next reel" className="tone-dark relative bg-night">
       <Link
         href={next.href}
-        className="group relative block h-[78svh] min-h-[520px] overflow-hidden focus-visible:outline-offset-[-8px]"
+        className="group relative block h-[100svh] min-h-[560px] overflow-hidden focus-visible:outline-offset-[-8px]"
       >
         <FilmImage
           name={next.image}
           className="transition-transform duration-[2400ms] ease-[var(--ease-citadel)] group-hover:scale-[1.04]"
-          imgClassName="opacity-60"
         />
-        <div aria-hidden className="absolute inset-0 bg-night/55" />
-        <div aria-hidden className="cinematic-vignette absolute inset-0" />
+        <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex h-full flex-col justify-end pb-[10vh]">
           <p className="label text-brass">
             Next · <span className="font-mono tracking-[0.12em] text-gold">Reel {pad(next.n)}</span> · Act {acts[next.act].numeral}

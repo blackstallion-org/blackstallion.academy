@@ -45,7 +45,7 @@ export function ShieldColumns() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
   return (
-    <section aria-labelledby="shields-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="shields-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>The three shields</Label>
       <Headline id="shields-h" className="mt-4" inscription="People, horses," voice="and cover." />
       <div ref={ref} className="mt-14 grid gap-10 lg:grid-cols-3 lg:gap-0">
@@ -76,7 +76,7 @@ export function OrdersOfTheDay() {
   const ref = useRef<HTMLOListElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
   return (
-    <section aria-labelledby="orders-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="orders-h" className="relative bg-umber/40 py-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
         <div>
           <Label>Protocol</Label>
@@ -105,7 +105,7 @@ export function OrdersOfTheDay() {
 /** §3 · S52 number wall. */
 export function NumberWall() {
   return (
-    <section aria-labelledby="record-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="record-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <Label>The record</Label>
       <Headline id="record-h" className="mt-4" inscription="The numbers" voice="we publish." />
       <dl className="mt-14 grid grid-cols-2 gap-x-6 gap-y-14 lg:grid-cols-4">
@@ -128,7 +128,7 @@ export function NumberWall() {
 /** §4 · the people in the arena. */
 export function People() {
   return (
-    <section aria-labelledby="people-h" className="relative pb-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="people-h" className="relative pb-[clamp(4.5rem,10vh,8rem)]">
       <div className="gutter">
         <Label>Faculty</Label>
         <Headline id="people-h" className="mt-4" inscription="The people" voice="in the arena." />

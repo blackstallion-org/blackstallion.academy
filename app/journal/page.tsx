@@ -50,7 +50,7 @@ export default function JournalPage() {
       </section>
 
       {/* Editorial list: alternating image side, no cards */}
-      <section aria-label="All stories" className="gutter mt-24 pb-[clamp(6rem,14vh,12rem)]">
+      <section aria-label="All stories" className="gutter mt-24 pb-[clamp(4.5rem,10vh,8rem)]">
         <ol className="border-t border-line">
           {rest.map((p, i) => (
             <Reveal as="li" key={p.slug}>

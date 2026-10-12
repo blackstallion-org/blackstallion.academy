@@ -6,7 +6,7 @@ import { instrument } from "@/lib/content/home";
 /** §3 The instrument · S03 specimen hotspots (compact). */
 export function Instrument() {
   return (
-    <section aria-labelledby="instrument-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="instrument-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
       <div className="mb-12 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
         <div>
           <Label reel={2}>The Instrument</Label>

@@ -19,7 +19,7 @@ export default function ParentsPage() {
       <StandingOrders />
 
       {/* §5 · CTA */}
-      <section aria-labelledby="enrol-h" className="gutter relative pb-[clamp(6rem,14vh,12rem)] text-center">
+      <section aria-labelledby="enrol-h" className="gutter relative pb-[clamp(4.5rem,10vh,8rem)] text-center">
         <Headline id="enrol-h" size="1" className="mx-auto" inscription="Enrol" voice="a cadet." />
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Cta href="/contact?gate=parents" variant="solid">

@@ -54,7 +54,7 @@ export default function LorePage() {
             key={t.name}
             id={`lore-${i + 1}`}
             aria-labelledby={`lore-${i + 1}-h`}
-            className="gutter relative scroll-mt-24 border-t border-line py-[clamp(5rem,12vh,10rem)]"
+            className="gutter relative scroll-mt-24 border-t border-line py-[clamp(4rem,9vh,7rem)]"
           >
             <div className={`grid gap-10 lg:grid-cols-2 lg:items-center ${flip ? "lg:[&>figure]:order-2" : ""}`}>
               <Reveal as="figure" className="relative mx-auto aspect-[4/5] w-full max-w-lg overflow-hidden border border-line">
@@ -79,7 +79,7 @@ export default function LorePage() {
         );
       })}
 
-      <section aria-labelledby="vow-h" className="gutter relative border-t border-line py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="vow-h" className="gutter relative border-t border-line py-[clamp(4.5rem,10vh,8rem)]">
         <Headline id="vow-h" inscription={lore.vow.inscription} voice={lore.vow.voice} voiceColor="blood" size="2" />
         <Reveal>
           <p className="t-story mt-6 max-w-xl text-sand">{lore.vow.text}</p>

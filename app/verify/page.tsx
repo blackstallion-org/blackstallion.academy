@@ -15,7 +15,7 @@ export default function VerifyPage() {
     <>
       <VerifyTitle />
 
-      <section aria-labelledby="verify-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="verify-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
         <Label>Verify a passport</Label>
         <Headline id="verify-h" className="mt-4" inscription="Enter" voice="the code." />
         <Verifier showSamples className="mt-12" />
@@ -23,7 +23,7 @@ export default function VerifyPage() {
 
       <Chain />
 
-      <section aria-labelledby="sees-h" className="gutter relative pb-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="sees-h" className="gutter relative pb-[clamp(4.5rem,10vh,8rem)]">
         <Label>Privacy</Label>
         <Headline id="sees-h" className="mt-4" inscription="What a verifier" voice="sees." />
         <div className="mt-12 grid gap-px bg-line md:grid-cols-2">

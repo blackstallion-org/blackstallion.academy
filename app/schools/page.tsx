@@ -21,7 +21,7 @@ export default function SchoolsPage() {
       <PanIndiaNetwork />
 
       {/* §5 · S56 seal row */}
-      <section aria-labelledby="seals-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section aria-labelledby="seals-h" className="gutter relative py-[clamp(4.5rem,10vh,8rem)]">
         <Label>What a hub brings</Label>
         <Headline id="seals-h" className="mt-4" inscription="Prestige," voice="on the national circuit." />
         <ul className="mt-14 grid grid-cols-2 gap-10 lg:grid-cols-4">
@@ -40,7 +40,7 @@ export default function SchoolsPage() {
       </section>
 
       {/* §6 · CTA */}
-      <section aria-labelledby="board-h" className="gutter relative pb-[clamp(6rem,14vh,12rem)] text-center">
+      <section aria-labelledby="board-h" className="gutter relative pb-[clamp(4.5rem,10vh,8rem)] text-center">
         <Headline id="board-h" size="1" className="mx-auto" inscription="Bring it" voice="to your board." />
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Cta href="/schools/mou" variant="solid">
