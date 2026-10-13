@@ -86,7 +86,6 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, className, o
       <motion.div className="absolute inset-0" style={{ clipPath: clip }}>
         <FilmImage name={right} sizes="100vw" />
       </motion.div>
-      <div aria-hidden className="pointer-events-none absolute inset-0 shade-b opacity-70" />
 
       <span className="label pointer-events-none absolute left-4 top-4 text-frost md:left-6 md:top-6">{leftLabel}</span>
       <span className="label pointer-events-none absolute right-4 top-4 text-gold md:right-6 md:top-6">{rightLabel}</span>

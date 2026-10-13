@@ -21,7 +21,7 @@ export function WhyTitle() {
       <div className="absolute inset-0 grid grid-cols-2">
         <motion.div className="relative overflow-hidden" initial={{ x: "-20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
           <FilmImage name="whyCrisis" grade="cold" priority position="40% 50%" />
-          <div aria-hidden className="absolute inset-0 bg-charcoal/40" />
+          <div aria-hidden className="absolute inset-0 bg-charcoal/10" />
         </motion.div>
         <motion.div className="relative overflow-hidden" initial={{ x: "20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
           <FilmImage name="whyCure" priority position="30% 50%" />

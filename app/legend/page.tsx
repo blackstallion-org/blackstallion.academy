@@ -162,7 +162,7 @@ export default function LegendPage() {
 
       {/* IX · The revival — ascent timeline + vignette */}
       <section id="revival" aria-labelledby="revival-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
-        <FilmImage name="legendRevival" grade="deep" className="opacity-45" />
+        <FilmImage name="legendRevival" grade="deep" className="opacity-80" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/70 to-night" />
         <div className="gutter relative">
           <ChapterHead id="revival" />
@@ -182,7 +182,7 @@ export default function LegendPage() {
       <section id="today" aria-labelledby="today-h" className="relative min-h-[100svh]">
         <FilmImage name="legendToday" sizes="100vw" />
         <div aria-hidden className="absolute inset-0 shade-b" />
-        <div aria-hidden className="absolute inset-0 shade-l opacity-80" />
+        <div aria-hidden className="absolute inset-0 shade-l opacity-40" />
         <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
           <ChapterHead id="today" />
           <Headline id="today-h" className="mt-4" size="1" inscription={today.inscription} voice={today.voice} />

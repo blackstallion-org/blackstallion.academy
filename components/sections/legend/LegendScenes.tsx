@@ -245,7 +245,7 @@ export function ThreeWords() {
   const inView = useInView(ref, { once: true, amount: 0.45 });
   return (
     <section id="reasons" aria-label="Three reasons" className="relative overflow-hidden py-[clamp(6rem,16vh,14rem)]">
-      <FilmImage name="legendCavalry" grade="deep" className="opacity-60" />
+      <FilmImage name="legendCavalry" grade="deep" className="opacity-85" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/40 to-night" />
       <div className="gutter relative">
         <ChapterHead id="reasons" />
@@ -288,7 +288,7 @@ export function Descent() {
   return (
     <section id="fall" ref={ref} aria-labelledby="fall-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
       <div className="absolute inset-0">
-        <FilmImage name="legendFall" grade="mono" filter={gray} className="opacity-50" />
+        <FilmImage name="legendFall" grade="mono" filter={gray} className="opacity-80" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/80 to-night/40" />
       </div>
       <div className="gutter relative">
