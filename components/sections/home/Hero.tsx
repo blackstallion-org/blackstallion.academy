@@ -84,7 +84,6 @@ function HeroVideoSection() {
         onVolumeChange={(e) => setIsMuted(e.currentTarget.muted)}
       >
         <source src="/video/hero-main.mp4" type="video/mp4" />
-        <source src="/video/hf_20261009_040342_f162e5a7-55d6-41fa-a5d4-3e461d925182.mp4" type="video/mp4" />
       </video>
 
       {/* Top veil keeps the navigation legible over bright frames */}
