@@ -19,7 +19,7 @@ export function SchoolsTeaser() {
 
   return (
     <section aria-labelledby="schools-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
-      <FilmImage name="bgPavilion" grade="deep" className="opacity-30 mix-blend-multiply" />
+      <FilmImage name="bgPavilion" grade="deep" className="opacity-80" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/80 to-night" />
 
       <div className="gutter relative grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:items-center">

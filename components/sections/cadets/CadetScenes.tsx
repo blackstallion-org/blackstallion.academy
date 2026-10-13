@@ -85,7 +85,7 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
 
   return (
     <div className={cn("relative flex h-full items-center", open && "min-h-[100svh] py-24")}>
-      <FilmImage name="bgPassport" grade="deep" className="opacity-30" />
+      <FilmImage name="bgPassport" grade="deep" className="opacity-85" />
       <div className="gutter relative grid w-full gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
         <div>
           <Label>The passport</Label>

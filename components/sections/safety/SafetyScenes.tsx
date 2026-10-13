@@ -14,8 +14,7 @@ export function SafetyTitle() {
   return (
     <section aria-labelledby="safety-h" className="relative min-h-[100svh] overflow-hidden">
       <FilmImage name="safetyKit" priority />
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-0 shade-l opacity-60" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       <ul className="absolute inset-0 hidden md:block">
         {kitLabels.map((k, i) => (
           <motion.li

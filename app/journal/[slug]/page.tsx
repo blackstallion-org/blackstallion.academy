@@ -86,8 +86,8 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
       </div>
 
       <Link href={`/journal/${next.slug}`} className="tone-dark group relative block h-[60svh] overflow-hidden border-t border-line bg-night">
-        <FilmImage name={next.cover} className="transition-transform duration-[2000ms] group-hover:scale-[1.04]" imgClassName="opacity-50" />
-        <div aria-hidden className="absolute inset-0 bg-night/60" />
+        <FilmImage name={next.cover} />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-night/40 to-transparent" />
         <div className="gutter relative flex h-full flex-col justify-end pb-12">
           <p className="label text-brass">Next story</p>
           <p className="mt-3 text-display-2">

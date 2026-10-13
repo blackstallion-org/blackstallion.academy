@@ -39,10 +39,9 @@ export function Doors() {
               <FilmImage
                 name={d.image}
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="transition-transform duration-[1600ms] ease-[var(--ease-citadel)] group-hover:scale-[1.03]"
-                imgClassName={cn("transition-[opacity,filter] duration-700", active ? "lg:opacity-100" : "lg:!opacity-45")}
+                imgClassName="opacity-100"
               />
-              <div aria-hidden className="absolute inset-0 shade-b" />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
               <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
                 <div className="flex items-start justify-between">
                   <span className="font-mono text-xs text-gold">0{i + 1}</span>

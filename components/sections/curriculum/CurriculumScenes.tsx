@@ -16,9 +16,8 @@ export function CurriculumTitle() {
   return (
     <section aria-labelledby="curr-h" className="relative min-h-[100svh] overflow-hidden">
       <FilmImage name="currLedger" priority />
-      <div aria-hidden className="absolute inset-0 bg-night/45" />
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-x-0 top-[18%] flex flex-col gap-[4.2vh] px-[6vw] opacity-60">
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+      <div aria-hidden className="absolute inset-x-0 top-[18%] flex flex-col gap-[4.2vh] px-[6vw] opacity-30 pointer-events-none">
         {Array.from({ length: 9 }, (_, i) => (
           <motion.span key={i} className="block h-px origin-left bg-line" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, ease: ease.citadel, delay: 0.2 + i * 0.08 }} />
         ))}
@@ -221,12 +220,12 @@ export function DisciplinePanels() {
       <ul className="mt-12 grid gap-1 sm:grid-cols-2 lg:grid-cols-4">
         {disciplines.map((d, i) => (
           <li key={d.name} tabIndex={0} className="group relative h-[70svh] overflow-hidden focus-visible:outline-offset-[-6px]">
-            <FilmImage name={d.image} sizes="(min-width: 1024px) 25vw, 50vw" className="transition-transform duration-[1600ms] ease-[var(--ease-citadel)] group-hover:scale-[1.05] group-focus:scale-[1.05]" />
-            <div aria-hidden className="absolute inset-0 shade-b" />
+            <FilmImage name={d.image} sizes="(min-width: 1024px) 25vw, 50vw" />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-6">
               <p className="font-mono text-xs text-gold">0{i + 1}</p>
               <p className="t-voice mt-2 text-3xl text-bone">{d.name}</p>
-              <p className="mt-3 max-w-xs text-sand transition-all duration-700 lg:translate-y-4 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 lg:group-focus:translate-y-0 lg:group-focus:opacity-100">
+              <p className="mt-3 max-w-xs text-sand">
                 {d.line}
               </p>
             </div>

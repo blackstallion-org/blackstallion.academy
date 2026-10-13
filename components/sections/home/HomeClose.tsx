@@ -50,10 +50,10 @@ export function HomeChronicle() {
         <Link href={`/journal/${p.slug}`} className="group relative block aspect-[4/3] overflow-hidden" aria-label={`${p.title.join(" ")} — read`}>
           <AnimatePresence mode="popLayout">
             <motion.div key={p.slug} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8, ease: ease.citadel }}>
-              <FilmImage name={p.cover} sizes="(min-width: 1024px) 55vw, 100vw" className="transition-transform duration-[1600ms] group-hover:scale-[1.03]" />
+              <FilmImage name={p.cover} sizes="(min-width: 1024px) 55vw, 100vw" />
             </motion.div>
           </AnimatePresence>
-          <div aria-hidden className="absolute inset-0 shade-b" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
             <p className="label text-brass">
               {p.category} · {p.minutes} min read
@@ -116,8 +116,7 @@ function FinaleRolling({ progress }: { progress: import("motion/react").MotionVa
   const ctaY = useTransform(progress, r(0.58, 0.74), [30, 0]);
   return (
     <div className="relative h-full">
-      <FilmImage name="duneSilhouette" grade="deep" className="opacity-70" />
-      <div aria-hidden className="absolute inset-0 bg-night/50" />
+      <FilmImage name="duneSilhouette" grade="deep" className="opacity-100" />
       <motion.ul className="gutter absolute inset-x-0 top-0 flex flex-col items-center gap-10 text-center" style={{ y, opacity: creditsOpacity }} aria-hidden>
         {credits.map(([k, v]) => (
           <li key={k}>
@@ -136,7 +135,7 @@ function FinaleRolling({ progress }: { progress: import("motion/react").MotionVa
 function FinaleFrame({ inline = false }: { inline?: boolean }) {
   return (
     <div className={cn("gutter w-full text-center", !inline && "relative py-32")}>
-      {!inline && <FilmImage name="duneSilhouette" grade="deep" className="opacity-60" />}
+      {!inline && <FilmImage name="duneSilhouette" grade="deep" className="opacity-100" />}
       <div className="relative mx-auto max-w-5xl py-10">
         <Headline as="h2" size="1" inscription={finale.inscription} voice={finale.voice} className="mx-auto" />
         <div className="mt-10 flex flex-wrap justify-center gap-3">

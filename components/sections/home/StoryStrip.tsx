@@ -222,7 +222,7 @@ export function StoryStrip() {
                 "relative h-full overflow-hidden border-r border-gold/20 will-change-[flex,transform]",
                 isActive
                   ? "cursor-default"
-                  : "cursor-pointer bg-[#141210] hover:bg-[#1a1714] transition-colors"
+                  : "cursor-pointer bg-[#141210]"
               )}
             >
               {/* Inner Image Wrapper with Scale Compensation & 3D Receding Depth */}
@@ -232,9 +232,7 @@ export function StoryStrip() {
                   z: isActive ? 0 : isPrevious ? -150 : -60,
                   filter: isActive
                     ? "brightness(1) contrast(1.02)"
-                    : isPrevious
-                    ? "brightness(0.65) contrast(0.95)"
-                    : "brightness(0.55) contrast(0.9)",
+                    : "brightness(0.95) contrast(1.02)",
                 }}
                 transition={{
                   duration: TRANSITION_DURATION,
@@ -259,10 +257,8 @@ export function StoryStrip() {
                 className={cn(
                   "pointer-events-none absolute inset-0 transition-opacity duration-1000",
                   isActive
-                    ? "bg-gradient-to-t from-[#0F0E0D] via-[#0F0E0D]/40 to-transparent opacity-95"
-                    : isPrevious
-                    ? "bg-black/75 opacity-90"
-                    : "bg-black/70 opacity-95 group-hover:opacity-80"
+                    ? "bg-gradient-to-t from-[#0F0E0D] via-[#0F0E0D]/30 to-transparent"
+                    : "bg-gradient-to-t from-black/60 via-transparent to-transparent"
                 )}
               />
 

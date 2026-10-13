@@ -15,7 +15,7 @@ import { ease } from "@/lib/motion/tokens";
 export function HomeVerifier() {
   return (
     <section aria-labelledby="verify-h" className="tone-dark relative overflow-hidden bg-night py-[clamp(6rem,14vh,12rem)]">
-      <FilmImage name="bgPassport" grade="deep" className="opacity-40" />
+      <FilmImage name="bgPassport" grade="deep" className="opacity-80" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/85 to-night/60" />
       <div className="gutter relative">
         <Label reel={11}>The Seal</Label>

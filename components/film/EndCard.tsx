@@ -22,11 +22,8 @@ export function EndCard({ current }: { current: number }) {
       >
         <FilmImage
           name={next.image}
-          className="transition-transform duration-[2400ms] ease-[var(--ease-citadel)] group-hover:scale-[1.04]"
-          imgClassName="opacity-60"
         />
-        <div aria-hidden className="absolute inset-0 bg-night/55" />
-        <div aria-hidden className="cinematic-vignette absolute inset-0" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-night/40 to-transparent" />
         <div className="gutter relative flex h-full flex-col justify-end pb-[10vh]">
           <p className="label text-brass">
             Next · <span className="font-mono tracking-[0.12em] text-gold">Reel {pad(next.n)}</span> · Act {acts[next.act].numeral}

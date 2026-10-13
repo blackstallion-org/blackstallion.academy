@@ -23,8 +23,7 @@ export function SchoolsTitle() {
       <motion.div className="absolute inset-0" initial={{ scale: 1.15 }} animate={{ scale: 1 }} transition={{ duration: 3, ease: ease.citadel }}>
         <FilmImage name="schoolAerial" priority scale={scale} />
       </motion.div>
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-0 shade-l opacity-70" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={10} act="ledger" />
         <Headline id="schools-title" as="h1" size="1" animate="mount" className="mt-6" inscription="Your campus" voice="becomes a citadel." />
