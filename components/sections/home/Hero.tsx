@@ -90,24 +90,18 @@ function HeroVideoSection() {
       {/* Top veil keeps the navigation legible over bright frames */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-charcoal/55 to-transparent" />
 
-      {/* The film dissolves into the ivory page below */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-72 bg-[linear-gradient(to_top,var(--color-ivory)_0%,rgb(243_237_226/0.96)_34%,rgb(232_214_190/0.45)_64%,transparent_100%)]"
-      />
-
       {/* Center scroll prompt */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
         <button
           type="button"
           onClick={scrollToContent}
-          className="group flex flex-col items-center gap-2 text-leather transition-colors hover:text-chestnut focus-visible:text-chestnut"
+          className="group flex flex-col items-center gap-2 text-[#FAF7F0] transition-colors hover:text-gold focus-visible:text-gold drop-shadow-md"
           aria-label="Scroll down to academy doctrine"
         >
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-leather group-hover:text-chestnut">
+          <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-[#FAF7F0] group-hover:text-gold">
             Explore
           </span>
-          <span className="block h-5 w-[1px] bg-chestnut/70 transition-transform group-hover:scale-y-125 animate-pulse" />
+          <span className="block h-5 w-[1px] bg-gold transition-transform group-hover:scale-y-125 animate-pulse" />
         </button>
       </div>
 
