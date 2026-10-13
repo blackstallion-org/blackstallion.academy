@@ -266,7 +266,10 @@ export function StallionPortalHero() {
     });
 
     if (portalVideoRef.current) {
-      portalVideoRef.current.src = cur.portalVideo;
+      if (portalVideoRef.current.getAttribute("data-active-src") !== cur.portalVideo) {
+        portalVideoRef.current.setAttribute("data-active-src", cur.portalVideo);
+        portalVideoRef.current.src = cur.portalVideo;
+      }
       portalVideoRef.current.play().catch(() => {});
     }
   }, [currentIdx, cur]);
@@ -356,8 +359,10 @@ export function StallionPortalHero() {
       const w = baseW * scale;
       const h = baseH * scale;
       const r = 90 * (1 - e) * scale;
-      const rx = a.rotX * (1 - e);
-      const ry = a.rotY * (1 - e);
+      const floatTiltX = Math.sin(now * 0.0012) * 2.2;
+      const floatTiltY = Math.cos(now * 0.001) * 2.2;
+      const rx = (a.rotX + floatTiltX) * (1 - e);
+      const ry = (a.rotY + floatTiltY) * (1 - e);
 
       if (w > 1 && h > 1) {
         const pts = roundedRectPoints(w, h, r);

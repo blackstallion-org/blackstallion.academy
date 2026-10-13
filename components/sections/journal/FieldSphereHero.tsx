@@ -326,6 +326,11 @@ export function FieldSphereHero() {
   }, [isGridView]);
 
   const revealSphere = useCallback(() => {
+    if (typeof window !== "undefined") {
+      try {
+        sessionStorage.setItem("bsah_field_sphere_revealed", "true");
+      } catch {}
+    }
     setShowIntro(false);
     setShowSplash(false);
     setIsRevealed(true);
@@ -340,11 +345,14 @@ export function FieldSphereHero() {
   useEffect(() => {
     let animId: number;
 
-    const renderLoop = () => {
+    const renderLoop = (now: number) => {
       const a = animRef.current;
       const isLit = a.focused >= 0;
 
       if (!a.dragging && !isLit) {
+        // Continuous, silky-smooth planetary floating rotation
+        a.spin = (a.spin + 0.065) % 360;
+
         a.dragX += a.velX;
         a.dragY += a.velY;
         a.velX *= 0.94;
@@ -357,6 +365,9 @@ export function FieldSphereHero() {
         if (pitch < -32) a.dragY = -32 - a.tilt;
       }
 
+      // Organic subtle vertical breathing wave when untouched
+      const floatY = !a.dragging && !isLit ? Math.sin(now * 0.0012) * 1.5 : 0;
+
       // Depth scroll calculation
       const scrollY = window.scrollY;
       const maxScroll = window.innerHeight * 0.16;
@@ -364,7 +375,7 @@ export function FieldSphereHero() {
       const camZTarget = p * Math.min(64, a.R * 0.12);
       a.camZ += (camZTarget - a.camZ) * 0.075;
 
-      const sx = a.tilt + a.dragY;
+      const sx = a.tilt + a.dragY + floatY;
       const sy = a.spin + a.dragX;
 
       if (worldRef.current) {
@@ -408,12 +419,14 @@ export function FieldSphereHero() {
           if (i === a.focused) fade = 0;
         }
 
+        // Quantize opacity & dim to prevent micro-stutter style recalculations
+        const fadeR = Math.round(fade * 100) / 100;
         const st = cardStatesRef.current[i];
-        if (st.fade !== fade) {
-          card.style.opacity = `${fade}`;
-          st.fade = fade;
+        if (st.fade !== fadeR) {
+          card.style.opacity = `${fadeR}`;
+          st.fade = fadeR;
         }
-        const dimR = Math.round(dim * 1000) / 1000;
+        const dimR = Math.round(dim * 100) / 100;
         if (st.dim !== dimR) {
           card.style.setProperty("--d", `${dimR}`);
           st.dim = dimR;
@@ -573,6 +586,27 @@ export function FieldSphereHero() {
 
   // Intro video and splash progress orchestration
   useEffect(() => {
+    let isRevealedCached = false;
+    if (typeof window !== "undefined") {
+      try {
+        isRevealedCached = sessionStorage.getItem("bsah_field_sphere_revealed") === "true";
+      } catch {}
+    }
+
+    if (isRevealedCached) {
+      const timer = setTimeout(() => {
+        setShowIntro(false);
+        setShowSplash(false);
+        setIsRevealed(true);
+        computeLayout();
+        setTimeout(() => {
+          computeLayout();
+          cardsRef.current.forEach((c) => c?.classList.add("in"));
+        }, 150);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+
     let p = 0;
     const interval = setInterval(() => {
       p += 15;
@@ -592,7 +626,7 @@ export function FieldSphereHero() {
     }, 120);
 
     return () => clearInterval(interval);
-  }, [revealSphere]);
+  }, [revealSphere, computeLayout]);
 
   const activeShot = activeLightbox !== null ? SHOTS[activeLightbox] : null;
 
@@ -773,6 +807,7 @@ export function FieldSphereHero() {
             muted
             playsInline
             preload="auto"
+            loop={false}
             onEnded={revealSphere}
           />
           <div className="veil" />
