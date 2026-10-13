@@ -13,7 +13,7 @@ interface Shot {
 }
 
 const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/";
-const FILM_URL = CDN + "hf_20261009_002919_571f23fa-14a9-4d0b-bbe3-19f4311054d8.mp4";
+const FILM_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260922_195107_ed3f055a-3a13-4a71-b743-e10310454246.mp4";
 
 const SHOTS: Shot[] = [
   {

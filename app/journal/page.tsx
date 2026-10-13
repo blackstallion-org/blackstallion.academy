@@ -52,6 +52,37 @@ export default function JournalPage() {
         </Link>
       </section>
 
+      {/* Field Dispatch Motion Reel */}
+      <section aria-label="Field motion dispatch" className="gutter mt-16 md:mt-24">
+        <div className="relative overflow-hidden rounded-[2px] border border-gold/30 bg-[#0F0E0D] shadow-[0_24px_60px_-15px_rgba(0,0,0,0.7)]">
+          <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden">
+            <video
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002919_571f23fa-14a9-4d0b-bbe3-19f4311054d8.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="h-full w-full object-cover"
+            />
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute left-6 right-6 bottom-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-gold font-bold">
+                  Field Dispatch · Cinema Reel
+                </span>
+                <h3 className="font-display text-2xl md:text-3xl text-bone mt-1 m-0">
+                  The Sovereign Gallop across the Thar
+                </h3>
+              </div>
+              <p className="font-serif text-xs md:text-sm text-sand/90 max-w-md m-0 leading-relaxed">
+                A purebred Marwari stallion at full gallop in Rajasthan. Eight hundred years of desert agility captured in golden hour dust.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Editorial list: alternating image side, no cards */}
       <section aria-label="All stories" className="gutter mt-24 pb-[clamp(6rem,14vh,12rem)]">
         <ol className="border-t border-line">
