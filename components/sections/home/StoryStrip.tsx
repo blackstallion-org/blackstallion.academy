@@ -1,142 +1,390 @@
 "use client";
 
-import { motion, useMotionValueEvent, useTransform, type MotionValue } from "motion/react";
-import { useState } from "react";
+import Link from "next/link";
+import { AnimatePresence, motion } from "motion/react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
-import { Headline } from "@/components/film/Headline";
-import { Cta, Label } from "@/components/film/Marks";
-import { PinnedScene } from "@/components/film/PinnedScene";
-import { r } from "@/components/film/range";
-import { story } from "@/lib/content/home";
+import { Arrow, Label } from "@/components/film/Marks";
 import type { MediaKey } from "@/lib/content/media";
+import { cn } from "@/lib/utils";
 
-const frames: { kicker: string; text: string; image: MediaKey }[] = [
-  ...story.frames,
-  { kicker: "The mark", text: story.closing, image: "legendEars" },
+/* ================= 5 Legend Frames Data ================= */
+interface LegendFrame {
+  id: string;
+  num: string;
+  numeral: string;
+  kicker: string;
+  headline: string;
+  story: string;
+  image: MediaKey;
+  tag: string;
+  year: string;
+  hasCta?: boolean;
+}
+
+const FRAMES: LegendFrame[] = [
+  {
+    id: "bloodline",
+    num: "01",
+    numeral: "I",
+    kicker: "One bloodline",
+    headline: "Eight hundred years in one bloodline.",
+    story:
+      "For centuries, civilisation was shaped by the partnership between horse and rider. In the Thar Desert that partnership bred a horse unlike any other.",
+    image: "legendSand",
+    tag: "ORIGIN · THAR BASIN",
+    year: "1193",
+  },
+  {
+    id: "terrain",
+    num: "02",
+    numeral: "II",
+    kicker: "Marwar, the Thar",
+    headline: "Bred by terrain, not ideology.",
+    story:
+      "Driven onto the arid plains of the Thar, the horsemen of Marwar survived on endurance. Their horses learned to live on a cup of desert water and outrun the wind.",
+    image: "bgFort",
+    tag: "TERRAIN · ADAPTATION",
+    year: "1350",
+  },
+  {
+    id: "vow",
+    num: "03",
+    numeral: "III",
+    kicker: "The vow",
+    headline: "Victory, death, or carrying the rider home.",
+    story:
+      "A Marwari left the battlefield in only three ways: in victory, in death, or carrying its wounded rider home. The ancient vow of loyalty that never broke.",
+    image: "legendCavalry",
+    tag: "CAVALRY · THE VOW",
+    year: "1576",
+  },
+  {
+    id: "revival",
+    num: "04",
+    numeral: "IV",
+    kicker: "Nearly lost",
+    headline: "The line that refused to vanish.",
+    story:
+      "After 1947 the royal stables emptied. Horses were sold, castrated, and scattered. A few passionate breeders refused to let eight centuries of blood end.",
+    image: "legendRevival",
+    tag: "REVIVAL · 1947–TODAY",
+    year: "1947",
+  },
+  {
+    id: "mark",
+    num: "05",
+    numeral: "V",
+    kicker: "The mark",
+    headline: "Their ears curl inward until the tips touch.",
+    story:
+      "Rotating 180 degrees independently, that is how you know the blood is pure. The inward lyre seal that no mixed breeding can ever imitate.",
+    image: "legendEars",
+    tag: "THE SEAL · PUREBRED MARWARI",
+    year: "2026",
+    hasCta: true,
+  },
 ];
 
-/** Sprocket holes along a strip of film. */
-function Sprockets() {
-  return (
-    <div
-      aria-hidden
-      className="h-4 w-full"
-      style={{
-        backgroundColor: "#2a1d15",
-        backgroundImage: "linear-gradient(90deg, transparent 0 7px, var(--color-night) 7px 17px, transparent 17px 24px)",
-        backgroundSize: "24px 7px",
-        backgroundRepeat: "repeat-x",
-        backgroundPosition: "0 50%",
-      }}
-    />
-  );
-}
-
 /**
- * §2 Marwari story · S02 horizontal film strip.
- * Signature: frames travel sideways on sprocketed film while the frame counter ticks.
+ * Sandhill Studio-style split-screen accordion hero slider.
+ * Self-contained component replacing the horizontal story strip.
+ * Full-viewport height, dual-column accordion masking reveal, kinetic typography, and output badge.
  */
 export function StoryStrip() {
-  return (
-    <PinnedScene length={4.2} label="The legend in five frames" reducedFallback={<StoryStack />}>
-      {(p) => <Strip progress={p} />}
-    </PinnedScene>
-  );
-}
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-function Strip({ progress }: { progress: MotionValue<number> }) {
-  const n = frames.length;
-  const x = useTransform(progress, r(0.08, 0.95), ["0%", `-${((n - 1) / n) * 100}%`]);
-  const [active, setActive] = useState(0);
-  useMotionValueEvent(progress, "change", (v) => {
-    const i = Math.min(n - 1, Math.max(0, Math.round(((v - 0.08) / 0.87) * (n - 1))));
-    setActive(i);
-  });
+  const total = FRAMES.length;
+  const cur = FRAMES[activeIdx];
+
+  const nextSlide = useCallback(() => {
+    setActiveIdx((prev) => (prev + 1) % total);
+  }, [total]);
+
+  const prevSlide = useCallback(() => {
+    setActiveIdx((prev) => (prev - 1 + total) % total);
+  }, [total]);
+
+  // Autoplay interval (pauses when user hovers or interacts)
+  useEffect(() => {
+    if (isPaused) return;
+    autoplayTimerRef.current = setInterval(nextSlide, 7000);
+    return () => {
+      if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
+    };
+  }, [nextSlide, isPaused]);
 
   return (
-    <div className="relative flex h-full flex-col justify-center gap-6 bg-night pt-16 md:gap-10">
-      <div className="gutter flex items-end justify-between gap-6">
+    <section
+      id="hero-slider"
+      aria-label="The Legend in Five Frames"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      className="relative w-full h-[100svh] min-h-[680px] max-h-[1100px] overflow-hidden bg-[#0F0E0D] text-[#FAF7F0] isolate select-none border-b border-gold/20"
+    >
+      {/* ================= Pinned Top Chrome ================= */}
+      <header className="pointer-events-none absolute left-0 right-0 top-0 z-30 flex items-start justify-between px-[clamp(18px,3vw,44px)] pt-[clamp(20px,3.2vh,40px)]">
         <div>
-          <Label reel={1}>The Legend</Label>
-          <Headline className="mt-4" size="2" inscription={story.inscription} voice={story.voice} />
+          <div className="flex items-center gap-3">
+            <Label reel={1} className="text-gold">
+              The Legend
+            </Label>
+            <span className="font-mono text-[0.62rem] uppercase tracking-widest text-sand/60">
+              Reel 01 · Sandhill Studio Style
+            </span>
+          </div>
+          <h2 className="font-serif text-[clamp(1.2rem,2vw,1.8rem)] text-bone tracking-tight mt-1 m-0">
+            Eight hundred years in one bloodline.
+          </h2>
         </div>
-        <p className="font-mono hidden text-sm text-dust md:block" aria-live="polite">
-          FRAME <span className="text-gold">{String(active + 1).padStart(2, "0")}</span> / {String(n).padStart(2, "0")}
-        </p>
-      </div>
 
-      <div className="relative overflow-hidden">
-        <motion.ol className="flex will-change-transform" style={{ x, width: `${n * 100}%` }}>
-          {frames.map((f, i) => (
-            <li key={f.kicker} className="relative" style={{ width: `${100 / n}%` }}>
-              <div className="mx-[max(16px,4vw)] flex flex-col bg-ember/40 md:mx-[8vw]">
-                <Sprockets />
-                <div className="grid gap-0 md:grid-cols-[1.35fr_1fr]">
-                  <div className="relative aspect-[16/10] md:aspect-auto md:h-[52svh]">
-                    <FilmImage name={f.image} sizes="(min-width: 768px) 55vw, 90vw" />
-                    <span className="font-mono absolute left-3 top-3 text-[0.65rem] text-ivory/85 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)]">
-                      {String(i + 1).padStart(2, "0")}A
-                    </span>
-                  </div>
-                  <div className="flex flex-col justify-end gap-3 p-5 md:p-10">
-                    <p className="label text-brass">{f.kicker}</p>
-                    <p
-                      className={
-                        i === n - 1
-                          ? "t-voice text-[clamp(1.4rem,2.6vw,2.4rem)] leading-tight text-gold"
-                          : "text-[clamp(1.05rem,1.5vw,1.35rem)] leading-relaxed text-sand"
-                      }
-                    >
-                      {f.text}
-                    </p>
-                    {i === n - 1 && (
-                      <div className="mt-4">
-                        <Cta href="/legend" variant="solid">
-                          Read the full legend
-                        </Cta>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <Sprockets />
+        {/* Pinned Output Sign / Studio Badge */}
+        <div className="pointer-events-auto flex items-center gap-4">
+          <div className="hidden sm:flex flex-col items-end text-right">
+            <span className="font-mono text-[0.72rem] tracking-[0.2em] uppercase text-gold font-bold">
+              FRAME {cur.num} / {String(total).padStart(2, "0")}
+            </span>
+            <span className="font-mono text-[0.6rem] tracking-[0.14em] uppercase text-sand/60">
+              {cur.tag}
+            </span>
+          </div>
+
+          <div
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/40 bg-black/60 backdrop-blur-md text-gold shadow-lg"
+            title="BSAH Studio Archive Output Sign"
+          >
+            <span className="font-serif text-sm font-bold tracking-tight">N&apos;</span>
+          </div>
+        </div>
+      </header>
+
+      {/* ================= Desktop / Tablet Accordion Layout ================= */}
+      <div className="hidden md:flex h-full w-full">
+        {FRAMES.map((frame, idx) => {
+          const isActive = idx === activeIdx;
+
+          return (
+            <div
+              key={frame.id}
+              onClick={() => setActiveIdx(idx)}
+              className={cn(
+                "relative h-full overflow-hidden cursor-pointer border-r border-gold/20 will-change-[flex-grow,width]",
+                "transition-[flex-grow,flex-basis] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                isActive ? "flex-[6] cursor-default" : "flex-[1] hover:flex-[1.25] bg-[#141210]"
+              )}
+            >
+              {/* Background Photography with Zoom & Mask Reveal */}
+              <div
+                className={cn(
+                  "absolute inset-0 h-full w-full transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  isActive ? "scale-100 opacity-100" : "scale-110 opacity-35 filter brightness-75"
+                )}
+              >
+                <FilmImage
+                  name={frame.image}
+                  sizes={isActive ? "(min-width: 1024px) 65vw, 100vw" : "15vw"}
+                  priority={idx === 0}
+                  className="h-full w-full object-cover"
+                />
               </div>
-            </li>
-          ))}
-        </motion.ol>
+
+              {/* Atmospheric Luxury Gradients */}
+              <div
+                aria-hidden
+                className={cn(
+                  "pointer-events-none absolute inset-0 transition-opacity duration-700",
+                  isActive
+                    ? "bg-gradient-to-t from-[#0F0E0D] via-[#0F0E0D]/45 to-transparent opacity-95"
+                    : "bg-black/65 opacity-100 hover:opacity-80"
+                )}
+              />
+
+              {/* Inactive Panel Preview Slivers (Vertical Editorial Typography) */}
+              {!isActive && (
+                <div className="absolute inset-0 z-20 flex flex-col justify-between items-center py-[clamp(28px,4vh,48px)] px-2">
+                  <span className="font-mono text-xs font-bold text-gold tracking-widest">
+                    {frame.num}
+                  </span>
+
+                  <div className="flex flex-col items-center gap-2">
+                    <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-sand/80 whitespace-nowrap [writing-mode:vertical-rl] rotate-180">
+                      {frame.kicker}
+                    </span>
+                    <span className="h-6 w-px bg-gold/30 my-1" />
+                  </div>
+
+                  <span className="font-mono text-[0.62rem] text-sand/50 tracking-wider">
+                    {frame.year}
+                  </span>
+                </div>
+              )}
+
+              {/* Active Panel Expanded Editorial Reveal */}
+              {isActive && (
+                <div className="relative z-20 flex h-full flex-col justify-end px-[clamp(28px,4.5vw,70px)] pb-[clamp(90px,12vh,130px)] max-w-3xl pointer-events-auto">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={frame.id}
+                      initial={{ opacity: 0, y: 32, filter: "blur(8px)" }}
+                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      exit={{ opacity: 0, y: -24, filter: "blur(6px)" }}
+                      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                      className="space-y-4"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs font-bold uppercase tracking-[0.22em] text-gold">
+                          FRAME {frame.num} · {frame.year}
+                        </span>
+                        <span className="h-px w-6 bg-gold/40" />
+                        <span className="font-mono text-[0.65rem] uppercase tracking-widest text-sand/70">
+                          {frame.kicker}
+                        </span>
+                      </div>
+
+                      <h3 className="font-display text-[clamp(2rem,3.8vw,4.2rem)] font-normal leading-[1.04] text-[#FAF7F0] tracking-tight m-0 text-balance">
+                        {frame.headline}
+                      </h3>
+
+                      <p className="font-serif text-sm md:text-base leading-relaxed text-sand/90 max-w-xl m-0 pt-1">
+                        {frame.story}
+                      </p>
+
+                      {frame.hasCta && (
+                        <div className="pt-3">
+                          <Link
+                            href="/legend"
+                            className="group inline-flex items-center gap-3 rounded-full border border-gold bg-gold/20 px-6 py-2.5 font-mono text-xs uppercase tracking-widest text-bone backdrop-blur-md transition-all hover:bg-gold hover:text-black hover:shadow-[0_0_24px_rgba(212,175,55,0.4)]"
+                          >
+                            <span>Read the full legend</span>
+                            <Arrow className="transition-transform group-hover:translate-x-1" />
+                          </Link>
+                        </div>
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
-      <div className="gutter">
-        <div className="flex gap-1.5" aria-hidden>
-          {frames.map((f, i) => (
-            <span key={f.kicker} className={`h-px flex-1 transition-colors duration-500 ${i <= active ? "bg-gold" : "bg-line/20"}`} />
-          ))}
+      {/* ================= Mobile Layout (Full-Bleed Stack) ================= */}
+      <div className="flex md:hidden relative h-full w-full">
+        <div className="relative h-full w-full overflow-hidden">
+          <FilmImage
+            name={cur.image}
+            sizes="100vw"
+            priority
+            className="h-full w-full object-cover"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-t from-[#0F0E0D] via-[#0F0E0D]/50 to-transparent"
+          />
+
+          <div className="relative z-20 flex h-full flex-col justify-end px-6 pb-28">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={cur.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.5 }}
+                className="space-y-3"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[0.68rem] font-bold uppercase tracking-widest text-gold">
+                    FRAME {cur.num} · {cur.kicker}
+                  </span>
+                </div>
+                <h3 className="font-display text-2xl font-normal leading-tight text-[#FAF7F0] m-0">
+                  {cur.headline}
+                </h3>
+                <p className="font-serif text-xs leading-relaxed text-sand/90 m-0 line-clamp-3">
+                  {cur.story}
+                </p>
+                {cur.hasCta && (
+                  <div className="pt-2">
+                    <Link
+                      href="/legend"
+                      className="inline-flex items-center gap-2 rounded-full border border-gold bg-gold/20 px-4 py-2 font-mono text-[0.68rem] uppercase tracking-widest text-bone"
+                    >
+                      Read full legend →
+                    </Link>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
 
-function StoryStack() {
-  return (
-    <div className="gutter py-24">
-      <Label reel={1}>The Legend</Label>
-      <Headline className="mt-4" size="2" inscription={story.inscription} voice={story.voice} />
-      <ol className="mt-12 grid gap-10 md:grid-cols-2">
-        {frames.map((f) => (
-          <li key={f.kicker}>
-            <div className="relative aspect-[16/10]">
-              <FilmImage name={f.image} sizes="(min-width: 768px) 45vw, 90vw" />
-            </div>
-            <p className="label mt-4 text-brass">{f.kicker}</p>
-            <p className="mt-2 text-sand">{f.text}</p>
-          </li>
-        ))}
-      </ol>
-      <div className="mt-10">
-        <Cta href="/legend" variant="solid">
-          Read the full legend
-        </Cta>
-      </div>
-    </div>
+      {/* ================= Pinned Bottom Controls & Segmented Scrubber ================= */}
+      <footer className="pointer-events-auto absolute bottom-0 left-0 right-0 z-30 flex flex-col gap-3 px-[clamp(18px,3vw,44px)] pb-[clamp(18px,2.8vh,30px)]">
+        {/* Segmented Timeline Scrubber */}
+        <div className="flex w-full items-center gap-2" role="tablist" aria-label="Slider frames">
+          {FRAMES.map((f, i) => (
+            <button
+              key={f.id}
+              type="button"
+              role="tab"
+              aria-selected={i === activeIdx}
+              onClick={() => setActiveIdx(i)}
+              className="group relative h-4 flex-1 py-1 focus:outline-none"
+              aria-label={`Jump to Frame ${f.num}: ${f.kicker}`}
+            >
+              <div
+                className={cn(
+                  "h-1 w-full rounded-full transition-all duration-500",
+                  i === activeIdx
+                    ? "bg-gold shadow-[0_0_12px_rgba(212,175,55,0.6)]"
+                    : i < activeIdx
+                    ? "bg-gold/60"
+                    : "bg-white/20 group-hover:bg-white/40"
+                )}
+              />
+            </button>
+          ))}
+        </div>
+
+        {/* Minimal Controls Row */}
+        <div className="flex items-center justify-between font-mono text-[0.68rem] tracking-widest text-sand/70">
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={prevSlide}
+              aria-label="Previous legend frame"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/30 bg-black/40 text-sand hover:border-gold hover:text-gold transition-colors"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={nextSlide}
+              aria-label="Next legend frame"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/30 bg-black/40 text-sand hover:border-gold hover:text-gold transition-colors"
+            >
+              →
+            </button>
+            <span className="hidden sm:inline-block text-sand/50">
+              Drag or Click any sliver to expand
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setIsPaused((prev) => !prev)}
+              className="hover:text-gold transition-colors"
+            >
+              AUTOPLAY: {isPaused ? "PAUSED" : "ACTIVE"}
+            </button>
+          </div>
+        </div>
+      </footer>
+    </section>
   );
 }
