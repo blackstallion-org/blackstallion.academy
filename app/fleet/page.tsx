@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
-import { CareLog, CctvGrid, CoatRegistry, FleetTitle, Registry } from "@/components/sections/fleet/FleetScenes";
+import { CareLog, CctvGrid, CoatRegistry, Registry } from "@/components/sections/fleet/FleetScenes";
+import { StallionPortalHero } from "@/components/sections/fleet/StallionPortalHero";
 
 export const metadata: Metadata = {
   title: "The Studbook",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function FleetPage() {
   return (
     <>
-      <FleetTitle />
+      <StallionPortalHero />
       <Registry />
       <CoatRegistry />
       <CctvGrid />
