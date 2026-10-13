@@ -95,10 +95,11 @@ export type MediaKey = keyof typeof media;
 
 /** Home opening film: the hero cut cropped to its 2.5:1 picture (letterbox removed) and re-encoded. Originals stay in public/video. */
 export const homeFilm = {
-  poster: "/video/home-hero-cropped-poster.jpg",
+  poster: "/images/0_hero.png",
   sources: [
-    { src: "/video/home-hero-cropped-1280.mp4", media: "(max-width: 900px)" },
+    { src: "/video/marwari-cinematic-intro.mp4" },
     { src: "/video/home-hero-cropped-1920.mp4" },
+    { src: "/video/home-hero-cropped-1280.mp4", media: "(max-width: 900px)" },
   ],
 } as const;
 

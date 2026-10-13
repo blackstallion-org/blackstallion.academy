@@ -5,6 +5,7 @@ import { Atmosphere } from "@/components/film/Atmosphere";
 import { Loader, loaderBootScript } from "@/components/motion/Loader";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { GSAPProvider } from "@/components/motion/GSAPProvider";
 import { Footer } from "@/components/site/Footer";
 import { SiteNav } from "@/components/site/SiteNav";
 import { fontVariables } from "@/lib/fonts";
@@ -27,8 +28,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F3EDE2",
-  colorScheme: "light",
+  themeColor: "#171513",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -41,6 +42,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="grain bg-night text-bone">
         <MotionProvider>
           <SmoothScroll>
+            {/* GSAP plugin registration (runs client-side only) */}
+            <GSAPProvider />
             <a
               href="#main"
               className="label sr-only z-[110] bg-umber px-4 py-3 text-bone focus:not-sr-only focus:fixed focus:left-4 focus:top-4"

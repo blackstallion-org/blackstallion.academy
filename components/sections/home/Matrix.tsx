@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState, type KeyboardEvent } from "react";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
+import { GSAPScrollReveal } from "@/components/cinematic/GSAPScrollReveal";
 import { matrix } from "@/lib/content/home";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,7 @@ import { RiderDiagram, type SystemId } from "./RiderDiagram";
 
 /**
  * §4 Matrix · S04 system console.
- * Signature: choosing a system lights its region on the rider plate.
+ * Enhanced with GSAP ClipPath reveals (Awwwards pattern) for the system labels.
  */
 export function Matrix() {
   const [active, setActive] = useState<SystemId>("brain");
@@ -35,36 +36,35 @@ export function Matrix() {
         <Headline id="matrix-h" className="mt-4" inscription={matrix.inscription} voice={matrix.voice} />
 
         <div className="mt-14 grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
+          {/* System tabs — GSAP clip-down reveal */}
           <div role="tablist" aria-label="Body systems" aria-orientation="vertical" className="no-scrollbar flex gap-2 overflow-x-auto lg:flex-col lg:gap-0">
             {matrix.systems.map((s, i) => (
-              <button
-                key={s.id}
-                ref={(el) => {
-                  tabs.current[i] = el;
-                }}
-                role="tab"
-                id={`tab-${s.id}`}
-                aria-selected={active === s.id}
-                aria-controls="matrix-panel"
-                tabIndex={active === s.id ? 0 : -1}
-                onClick={() => setActive(s.id as SystemId)}
-                onMouseEnter={() => setActive(s.id as SystemId)}
-                onKeyDown={(e) => onKey(e, i)}
-                className={cn(
-                  "group flex shrink-0 items-baseline gap-4 border-b py-4 pr-6 text-left transition-colors lg:pr-0",
-                  active === s.id ? "border-gold" : "border-line hover:border-line/50",
-                )}
-              >
-                <span className="font-mono text-xs text-dust">0{i + 1}</span>
-                <span className={cn("t-voice text-2xl transition-colors md:text-3xl", active === s.id ? "text-gold" : "text-sand group-hover:text-bone")}>
-                  {s.name}
-                </span>
-              </button>
+              <GSAPScrollReveal key={s.id} variant="clip-left" delay={i * 0.1}>
+                <button
+                  ref={(el) => { tabs.current[i] = el; }}
+                  role="tab"
+                  id={`tab-${s.id}`}
+                  aria-selected={active === s.id}
+                  aria-controls="matrix-panel"
+                  tabIndex={active === s.id ? 0 : -1}
+                  onClick={() => setActive(s.id as SystemId)}
+                  onMouseEnter={() => setActive(s.id as SystemId)}
+                  onKeyDown={(e) => onKey(e, i)}
+                  className={cn(
+                    "group flex w-full shrink-0 items-baseline gap-4 border-b py-4 pr-6 text-left transition-colors lg:pr-0",
+                    active === s.id ? "border-gold" : "border-line hover:border-line/50",
+                  )}
+                >
+                  <span className="font-mono text-xs text-dust">0{i + 1}</span>
+                  <span className={cn("t-voice text-2xl transition-colors md:text-3xl", active === s.id ? "text-gold" : "text-sand group-hover:text-bone")}>
+                    {s.name}
+                  </span>
+                </button>
+              </GSAPScrollReveal>
             ))}
           </div>
 
           <div className="mx-auto w-full max-w-[22rem] lg:max-w-none">
-            {/* Brain & Spine HUD: the ivory plate drops into a charcoal depth-of-field and the alignment grid turns antique gold */}
             <div
               className={cn(
                 "relative aspect-[5/7] w-full transition-[background-color,box-shadow] duration-700",

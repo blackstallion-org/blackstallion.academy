@@ -1,142 +1,87 @@
 "use client";
 
-import { motion, useMotionValueEvent, useTransform, type MotionValue } from "motion/react";
-import { useState } from "react";
-import { FilmImage } from "@/components/film/FilmImage";
-import { Headline } from "@/components/film/Headline";
-import { Cta, Label } from "@/components/film/Marks";
-import { PinnedScene } from "@/components/film/PinnedScene";
-import { r } from "@/components/film/range";
-import { story } from "@/lib/content/home";
-import type { MediaKey } from "@/lib/content/media";
-
-const frames: { kicker: string; text: string; image: MediaKey }[] = [
-  ...story.frames,
-  { kicker: "The mark", text: story.closing, image: "legendEars" },
-];
-
-/** Sprocket holes along a strip of film. */
-function Sprockets() {
-  return (
-    <div
-      aria-hidden
-      className="h-4 w-full"
-      style={{
-        backgroundColor: "#2a1d15",
-        backgroundImage: "linear-gradient(90deg, transparent 0 7px, var(--color-night) 7px 17px, transparent 17px 24px)",
-        backgroundSize: "24px 7px",
-        backgroundRepeat: "repeat-x",
-        backgroundPosition: "0 50%",
-      }}
-    />
-  );
-}
+import { SplitSlider, type SplitSlide } from "@/components/cinematic/SplitSlider";
+import { Label } from "@/components/film/Marks";
+import { GSAPScrollReveal } from "@/components/cinematic/GSAPScrollReveal";
 
 /**
- * §2 Marwari story · S02 horizontal film strip.
- * Signature: frames travel sideways on sprocketed film while the frame counter ticks.
+ * §2 Story Strip — Reel 01 · The Legend
+ * The Legend in Five Frames implemented via our award-winning SplitSlider:
+ * - Left: large cinematic media frame with rounded corners
+ * - Right: oversized editorial typography overlapping across the boundary
+ * - Local high-definition authentic Marwari imagery from Rajasthan
  */
 export function StoryStrip() {
-  return (
-    <PinnedScene length={4.2} label="The legend in five frames" reducedFallback={<StoryStack />}>
-      {(p) => <Strip progress={p} />}
-    </PinnedScene>
-  );
-}
+  const slides: SplitSlide[] = [
+    {
+      imageSrc: "/images/1_desert.png",
+      imageAlt: "A Marwari stallion in the Thar Desert sands",
+      imageFocus: "55% 45%",
+      kicker: "Reel 01 · The Legend — Frame 01A · One bloodline",
+      heading: "Eight hundred years in one bloodline.",
+      body: "For centuries, civilisation was shaped by the partnership between horse and rider. In the Thar Desert that partnership bred a horse unlike any other.",
+      ctaLabel: "Read the full legend",
+      ctaHref: "/legend",
+      ambientTone: "#A9673F",
+    },
+    {
+      imageSrc: "/images/2_war.png",
+      imageAlt: "Ruins of a sandstone Rajput fort and battlefield above the Thar",
+      imageFocus: "50% 50%",
+      kicker: "Reel 01 · The Legend — Frame 02A · Marwar, the Thar",
+      heading: "Survival on terrain, not ideology.",
+      body: "Driven onto the arid plains of the Thar, the horsemen of Marwar survived on terrain, not ideology. Their horses learned to live on a cup of water.",
+      ctaLabel: "Read the full legend",
+      ctaHref: "/legend",
+      ambientTone: "#332219",
+    },
+    {
+      imageSrc: "/images/0_hero.png",
+      imageAlt: "A Marwari stallion carrying its wounded rider home",
+      imageFocus: "50% 40%",
+      kicker: "Reel 01 · The Legend — Frame 03A · The vow",
+      heading: "Victory, death, or the wounded rider home.",
+      body: "A Marwari left the battlefield three ways: in victory, in death, or carrying its wounded rider home. That vow is bred into the bone.",
+      ctaLabel: "Read the full legend",
+      ctaHref: "/legend",
+      ambientTone: "#C5A059",
+    },
+    {
+      imageSrc: "/images/3_fall.png",
+      imageAlt: "The nearly lost bloodline after 1947",
+      imageFocus: "50% 55%",
+      kicker: "Reel 01 · The Legend — Frame 04A · Nearly lost",
+      heading: "A few people refused to let the line end.",
+      body: "After 1947 the royal stables emptied. Horses were sold, castrated, shot. A few noble breeders refused to let the indigenous bloodline die.",
+      ctaLabel: "Read the full legend",
+      ctaHref: "/legend",
+      ambientTone: "#2A1D15",
+    },
+    {
+      imageSrc: "/images/5_academy.png",
+      imageAlt: "Close-up of Marwari inward-curling ears — the mark of pure blood",
+      imageFocus: "50% 35%",
+      kicker: "Reel 01 · The Legend — Frame 05A · The mark",
+      heading: "Their ears curl inward until the tips touch.",
+      body: "That is how you know the blood is pure. The lyre-shaped ears swivel 180° independently, tracking the rider's breathing and ambient shifts.",
+      ctaLabel: "Read the full legend",
+      ctaHref: "/legend",
+      ambientTone: "#A9673F",
+    },
+  ];
 
-function Strip({ progress }: { progress: MotionValue<number> }) {
-  const n = frames.length;
-  const x = useTransform(progress, r(0.08, 0.95), ["0%", `-${((n - 1) / n) * 100}%`]);
-  const [active, setActive] = useState(0);
-  useMotionValueEvent(progress, "change", (v) => {
-    const i = Math.min(n - 1, Math.max(0, Math.round(((v - 0.08) / 0.87) * (n - 1))));
-    setActive(i);
-  });
-
   return (
-    <div className="relative flex h-full flex-col justify-center gap-6 bg-night pt-16 md:gap-10">
-      <div className="gutter flex items-end justify-between gap-6">
-        <div>
+    <section aria-label="The Legend in Five Frames" className="relative bg-[#08090B] border-b border-brass/20">
+      <div className="gutter pt-16 pb-8">
+        <GSAPScrollReveal variant="fade-up">
           <Label reel={1}>The Legend</Label>
-          <Headline className="mt-4" size="2" inscription={story.inscription} voice={story.voice} />
-        </div>
-        <p className="font-mono hidden text-sm text-dust md:block" aria-live="polite">
-          FRAME <span className="text-gold">{String(active + 1).padStart(2, "0")}</span> / {String(n).padStart(2, "0")}
-        </p>
+        </GSAPScrollReveal>
       </div>
 
-      <div className="relative overflow-hidden">
-        <motion.ol className="flex will-change-transform" style={{ x, width: `${n * 100}%` }}>
-          {frames.map((f, i) => (
-            <li key={f.kicker} className="relative" style={{ width: `${100 / n}%` }}>
-              <div className="mx-[max(16px,4vw)] flex flex-col bg-ember/40 md:mx-[8vw]">
-                <Sprockets />
-                <div className="grid gap-0 md:grid-cols-[1.35fr_1fr]">
-                  <div className="relative aspect-[16/10] md:aspect-auto md:h-[52svh]">
-                    <FilmImage name={f.image} sizes="(min-width: 768px) 55vw, 90vw" />
-                    <span className="font-mono absolute left-3 top-3 text-[0.65rem] text-ivory/85 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)]">
-                      {String(i + 1).padStart(2, "0")}A
-                    </span>
-                  </div>
-                  <div className="flex flex-col justify-end gap-3 p-5 md:p-10">
-                    <p className="label text-brass">{f.kicker}</p>
-                    <p
-                      className={
-                        i === n - 1
-                          ? "t-voice text-[clamp(1.4rem,2.6vw,2.4rem)] leading-tight text-gold"
-                          : "text-[clamp(1.05rem,1.5vw,1.35rem)] leading-relaxed text-sand"
-                      }
-                    >
-                      {f.text}
-                    </p>
-                    {i === n - 1 && (
-                      <div className="mt-4">
-                        <Cta href="/legend" variant="solid">
-                          Read the full legend
-                        </Cta>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <Sprockets />
-              </div>
-            </li>
-          ))}
-        </motion.ol>
-      </div>
-
-      <div className="gutter">
-        <div className="flex gap-1.5" aria-hidden>
-          {frames.map((f, i) => (
-            <span key={f.kicker} className={`h-px flex-1 transition-colors duration-500 ${i <= active ? "bg-gold" : "bg-line/20"}`} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function StoryStack() {
-  return (
-    <div className="gutter py-24">
-      <Label reel={1}>The Legend</Label>
-      <Headline className="mt-4" size="2" inscription={story.inscription} voice={story.voice} />
-      <ol className="mt-12 grid gap-10 md:grid-cols-2">
-        {frames.map((f) => (
-          <li key={f.kicker}>
-            <div className="relative aspect-[16/10]">
-              <FilmImage name={f.image} sizes="(min-width: 768px) 45vw, 90vw" />
-            </div>
-            <p className="label mt-4 text-brass">{f.kicker}</p>
-            <p className="mt-2 text-sand">{f.text}</p>
-          </li>
-        ))}
-      </ol>
-      <div className="mt-10">
-        <Cta href="/legend" variant="solid">
-          Read the full legend
-        </Cta>
-      </div>
-    </div>
+      <SplitSlider
+        slides={slides}
+        autoPlay={8000}
+      />
+    </section>
   );
 }
