@@ -3,7 +3,7 @@ import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { ConfiguratorAndSimulator, HubMap, ModelFlow, PanIndiaNetwork, SchoolsTitle } from "@/components/sections/schools/SchoolScenes";
+import { ConfiguratorAndSimulator, HubMap, ModelFlow, PanIndiaNetwork, SchoolArenaShowcase, SchoolsTitle } from "@/components/sections/schools/SchoolScenes";
 import { seals } from "@/lib/content/schools";
 
 export const metadata: Metadata = {
@@ -17,6 +17,7 @@ export default function SchoolsPage() {
       <SchoolsTitle />
       <ModelFlow />
       <ConfiguratorAndSimulator />
+      <SchoolArenaShowcase />
       <HubMap />
       <PanIndiaNetwork />
 

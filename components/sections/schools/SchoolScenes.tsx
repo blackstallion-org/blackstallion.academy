@@ -12,6 +12,7 @@ import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { BlueprintPlan } from "./BlueprintPlan";
 import { r3 } from "@/lib/round";
+import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
 
 /** Title card · T11 aerial zoom. Signature: the campus slowly comes closer as you begin to scroll. */
 export function SchoolsTitle() {
@@ -187,6 +188,69 @@ export function ConfiguratorAndSimulator() {
         </div>
       </section>
     </>
+  );
+}
+
+/** §3b · WebGL 4D Simplex Noise School Arena Architectural Showcase */
+export function SchoolArenaShowcase() {
+  const slides = [
+    {
+      image: "schoolAerial",
+      badge: "Turnkey Campus · Zero CapEx",
+      tag: "Master Plan Integration",
+      title: "Campus Master Plan Footprint",
+      subtitle: "BSAH finances, constructs, and operates the complete facility at zero capital expenditure to the school trust.",
+      caption: "Turnkey 1.5–3.0 acre layout featuring riding ring, stables, and spectator pavilion",
+    },
+    {
+      image: "schoolArenaNight",
+      badge: "Regulation Arena · All-Weather",
+      tag: "Silica Sand & LED Floodlighting",
+      title: "Floodlit Regulation Silica Arena",
+      subtitle: "Laser-graded geotextile silica sand surface engineered for shock absorption, dust reduction, and evening sessions.",
+      caption: "60m × 20m standard dressage & jumping ring specifications",
+    },
+    {
+      image: "tournCrowd",
+      badge: "Interscholastic Circuit",
+      tag: "Inter-School Tournament Day",
+      title: "Hosting the National Circuit",
+      subtitle: "Your school becomes an official circuit hub, hosting regional championships and earning 25–30% of total tuition.",
+      caption: "Full spectator perimeter with branded arena railings and scoring podium",
+    },
+    {
+      image: "bgStable",
+      badge: "Stable Quarters · 24/7 Care",
+      tag: "Indigenous Stall Architecture",
+      title: "Equine Quarters & Biometric Stalls",
+      subtitle: "Handcrafted timber stalls with rubber matting, automated watering, and 24/7 CCTV feeds accessible by school administrators.",
+      caption: "Veterinary-supervised stabling for up to 16 Marwari and Kathiawari stallions",
+    },
+  ];
+
+  return (
+    <section aria-labelledby="arena-showcase-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
+      <div className="gutter">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <Label>Architectural visualizer</Label>
+            <Headline id="arena-showcase-h" className="mt-4" inscription="The campus arena," voice="in liquid detail." />
+          </div>
+          <p className="max-w-md text-sand text-sm">
+            Discover the tangible physical assets BSAH installs on campus grounds. Cycle between views below with real-time WebGL simplex noise wave transitions.
+          </p>
+        </div>
+
+        <WebGLNoiseTransition
+          slides={slides}
+          aspectRatio="aspect-[16/10]"
+          showTabs
+          showControls
+          showDots
+          autoplayInterval={7500}
+        />
+      </div>
+    </section>
   );
 }
 

@@ -15,6 +15,7 @@ import { creed, day, passport, reels, spotlights, uniform } from "@/lib/content/
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { QrSeal } from "@/components/brand/QrSeal";
+import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
 
 /** Title card · T8 portrait. Signature: a tall portrait rises beside the title with a vertical name credit. */
 export function CadetsTitle() {
@@ -61,6 +62,69 @@ export function Spotlights() {
         ))}
       </ol>
       <p className="t-ui mt-12 text-xs text-dust">Spotlights are sample records with invented callsigns, not real cadets; portraits are AI placeholders.</p>
+    </section>
+  );
+}
+
+/** §1b · WebGL 4D Simplex Noise Cadet Action Gallery */
+export function CadetDrillShowcase() {
+  const slides = [
+    {
+      image: "cadetZayd",
+      badge: "Cadet Knight · Sample",
+      tag: "Tent-Pegging · 210 Hours",
+      title: "Cadet Alpha (Zayd)",
+      subtitle: "Target interception at full gallop with lowered lance. First rider in Zone 01 to record clean pegs across six consecutive passes.",
+      caption: "BSAH Sovereign Cadet Record · Zone 01A Hub",
+    },
+    {
+      image: "cadetAnanya",
+      badge: "Cadet Lancer · Sample",
+      tag: "Mounted Archery · 340 Hours",
+      title: "Cadet Bravo (Ananya)",
+      subtitle: "Recurve release at the sitting canter. National Junior STPCI qualifier with 88 points on the Hungarian target run.",
+      caption: "BSAH Sovereign Cadet Record · Zone 01B Hub",
+    },
+    {
+      image: "cadetRohan",
+      badge: "Cadet Cavalier · Sample",
+      tag: "Arena Stride · 120 Hours",
+      title: "Cadet Echo (Rohan)",
+      subtitle: "First unassisted canter without stirrups. Biomechanically tracked posture with 92% vertical spine alignment.",
+      caption: "BSAH Sovereign Cadet Record · Zone 01A Hub",
+    },
+    {
+      image: "currBatch",
+      badge: "Squadron Drills · Sample",
+      tag: "Line Formation · 400+ Hours Combined",
+      title: "The Sovereign Cohort",
+      subtitle: "Synchronized cavalry line maneuvers at dusk. Cadets learn troop cohesion, distance control, and absolute quiet in the saddle.",
+      caption: "BSAH Field Academy · Collective Formations",
+    },
+  ];
+
+  return (
+    <section aria-labelledby="cadet-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/30 border-y border-line/60">
+      <div className="gutter">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <Label>Tactical field reels</Label>
+            <Headline id="cadet-gallery-h" className="mt-4" inscription="The sovereign stride," voice="in liquid motion." />
+          </div>
+          <p className="max-w-md text-sand text-sm">
+            Experience the cadet cohort in action through real-time WebGL simplex noise transitions. Toggle between cadets to inspect verified form and field discipline.
+          </p>
+        </div>
+
+        <WebGLNoiseTransition
+          slides={slides}
+          aspectRatio="aspect-[16/10]"
+          showTabs
+          showControls
+          showDots
+          autoplayInterval={6500}
+        />
+      </div>
     </section>
   );
 }

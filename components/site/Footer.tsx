@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { corridors, entity, legalNav } from "@/lib/content/site";
 
@@ -26,9 +26,10 @@ const navLinks = [
  */
 export function Footer() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState(2026);
 
   useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
     const video = videoRef.current;
     if (!video) return;
 

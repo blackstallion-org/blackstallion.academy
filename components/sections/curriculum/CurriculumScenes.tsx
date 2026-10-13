@@ -10,6 +10,7 @@ import { assessment, classSegments, disciplines, ranks } from "@/lib/content/cur
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { r3 } from "@/lib/round";
+import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
 
 /** Title card · T6 ledger page. Signature: ruled lines draw across the ledger like a clerk's pen. */
 export function CurriculumTitle() {
@@ -205,6 +206,69 @@ export function ThreeStamps() {
         ))}
       </div>
       <p className="mx-auto mt-12 max-w-xl text-sand">Grades enter the ledger the same day and appear in the parent app.</p>
+    </section>
+  );
+}
+
+/** §5b · WebGL 4D Simplex Noise Four Disciplines Showcase */
+export function DisciplineActionGallery() {
+  const slides = [
+    {
+      image: "currTentpeg",
+      badge: "Discipline 01 · Cavalry Lance",
+      tag: "Tent-Pegging · Speed & Accuracy",
+      title: "The Art of the Lowered Lance",
+      subtitle: "A 9-foot ash lance lowered at full 35 km/h gallop. Hand-eye calibration to lift a 6 cm target peg from the sand.",
+      caption: "Standard STPCI military skill-at-arms competition discipline",
+    },
+    {
+      image: "currBarrel",
+      badge: "Discipline 02 · Acceleration",
+      tag: "Barrel Racing · Lateral Agile Gs",
+      title: "Cloverleaf High-G Barrel Turns",
+      subtitle: "Tight three-point turns demanding precision rein-contact, weight-shift into the stirrups, and instant bursts of power.",
+      caption: "Agility and balance test with electronic timing gates",
+    },
+    {
+      image: "currArchery",
+      badge: "Discipline 03 · Instinctive Bow",
+      tag: "Mounted Archery · Hands-Free Balance",
+      title: "Mounted Archery at the Canter",
+      subtitle: "Reins dropped to draw and loose arrows at Hungarian targets in under twelve seconds along a 90-metre track.",
+      caption: "High focus, bilateral core stability, and quiet posture",
+    },
+    {
+      image: "currFormation",
+      badge: "Discipline 04 · Troop Cohesion",
+      tag: "Squadron Drills · Collective Rhythm",
+      title: "Sovereign Line Formation",
+      subtitle: "Synchronized cavalry maneuvers where six to twelve cadets move as a single organism across the arena plane.",
+      caption: "Cultivating camaraderie, spatial awareness, and mutual trust",
+    },
+  ];
+
+  return (
+    <section aria-labelledby="disc-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
+      <div className="gutter">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <Label>Tactical skill modules</Label>
+            <Headline id="disc-gallery-h" className="mt-4" inscription="Four ways" voice="to win a field." />
+          </div>
+          <p className="max-w-md text-sand text-sm">
+            Watch the four sovereign disciplines come alive. Cycle through the tactical modules below using real-time WebGL simplex noise wave dissolves.
+          </p>
+        </div>
+
+        <WebGLNoiseTransition
+          slides={slides}
+          aspectRatio="aspect-[16/10]"
+          showTabs
+          showControls
+          showDots
+          autoplayInterval={7000}
+        />
+      </div>
     </section>
   );
 }

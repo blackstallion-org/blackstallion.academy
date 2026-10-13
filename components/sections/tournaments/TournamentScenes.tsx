@@ -10,6 +10,7 @@ import { CountUp } from "@/components/motion/CountUp";
 import { champions, standings, tournaments } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
 
 /** Title card · T13 charge. Signature: speed streaks rake across the frame as the title lands. */
 export function CircuitTitle() {
@@ -202,6 +203,69 @@ export function CourseDiagram() {
           </svg>
           <p className="t-ui mt-3 text-xs text-dust">Carry the peg past the line for full points. Distances indicative.</p>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/** §3b · WebGL 4D Simplex Noise Tournament Circuit Action Showcase */
+export function TournamentActionGallery() {
+  const slides = [
+    {
+      image: "bgCharge",
+      badge: "Full Gallop · 35 KM/H",
+      tag: "Cavalry Line Charge",
+      title: "The 35 km/h Tent-Pegging Run",
+      subtitle: "Riders thunder down the 100-metre course with lowered steel-point lances aiming for the 6 cm wooden peg.",
+      caption: "National STPCI Circuit Regulations · 9-Foot Ash Lance",
+    },
+    {
+      image: "tournCrowd",
+      badge: "Circuit Gallery",
+      tag: "Inter-School Atmosphere",
+      title: "The Grandstand Turn",
+      subtitle: "School student bodies, coaches, and trustees lining the sand rail as regional hubs compete for gold medals.",
+      caption: "Zone 01 Championship Rally · Hyderabad Host Hub",
+    },
+    {
+      image: "tournPodium",
+      badge: "Governor's Cup",
+      tag: "Gold Honours",
+      title: "The Championship Podium",
+      subtitle: "Top-scoring cadet lancers receive medals and perpetual Governor's laurels after three rigorous circuit days.",
+      caption: "First Place: Zone 01 Hyderabad Hub · Season 2025–26",
+    },
+    {
+      image: "tournCup",
+      badge: "Perpetual Trophy",
+      tag: "Silver & Brass Metalwork",
+      title: "The Sovereign Challenge Cup",
+      subtitle: "Hand-chased solid silver and oxidized brass trophy featuring crossed Rajput cavalry lances.",
+      caption: "Awarded annually to the school with highest aggregate discipline points",
+    },
+  ];
+
+  return (
+    <section aria-labelledby="circuit-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
+      <div className="gutter">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <Label>Circuit action archive</Label>
+            <Headline id="circuit-gallery-h" className="mt-4" inscription="Lances lowered," voice="in liquid resolution." />
+          </div>
+          <p className="max-w-md text-sand text-sm">
+            Experience the heat of the STPCI interscholastic league. Cycle through championship moments with real-time WebGL simplex noise wave transitions.
+          </p>
+        </div>
+
+        <WebGLNoiseTransition
+          slides={slides}
+          aspectRatio="aspect-[16/10]"
+          showTabs
+          showControls
+          showDots
+          autoplayInterval={7000}
+        />
       </div>
     </section>
   );

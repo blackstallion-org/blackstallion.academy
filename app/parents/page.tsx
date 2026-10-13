@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
-import { HoofPath, ParentsTitle, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
+import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
 
 export const metadata: Metadata = {
   title: "The Guardian",
@@ -14,6 +14,7 @@ export default function ParentsPage() {
     <>
       <ParentsTitle />
       <PinnedPhone />
+      <ParentVantageGallery />
       <HoofPath />
       <Receipt />
       <StandingOrders />

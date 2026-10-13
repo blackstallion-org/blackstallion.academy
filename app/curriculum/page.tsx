@@ -5,7 +5,7 @@ import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { CodexVault } from "@/components/sections/curriculum/CodexVault";
-import { ClockRing, CurriculumTitle, DisciplinePanels, Staircase, ThreeStamps } from "@/components/sections/curriculum/CurriculumScenes";
+import { ClockRing, CurriculumTitle, DisciplineActionGallery, DisciplinePanels, Staircase, ThreeStamps } from "@/components/sections/curriculum/CurriculumScenes";
 import { batches } from "@/lib/content/curriculum";
 
 export const metadata: Metadata = {
@@ -64,6 +64,7 @@ export default function CurriculumPage() {
       </section>
 
       <ThreeStamps />
+      <DisciplineActionGallery />
       <DisciplinePanels />
       <EndCard current={5} />
     </>

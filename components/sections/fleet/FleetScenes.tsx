@@ -10,6 +10,7 @@ import { careLog, coatRegistry, feeds, fleet, FLEET_TOTAL, statusLabel, type Sta
 import { hubs } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
 
 const hubName = (slug: string) => hubs.find((h) => h.slug === slug)?.short ?? slug;
 
@@ -99,6 +100,69 @@ export function Registry() {
       <p className="t-story mt-6 italic text-dust">{FLEET_TOTAL - fleet.length} more stallions in the registry · records shown are samples.</p>
 
       <AnimatePresence>{open && <Drawer s={open} onClose={() => setOpen(null)} />}</AnimatePresence>
+    </section>
+  );
+}
+
+/** §1b · WebGL 4D Simplex Noise Stallion Bloodline Showcase */
+export function StallionGallery() {
+  const slides = [
+    {
+      image: "fleetChetak",
+      badge: "Marwari · Chip #0104",
+      tag: "Zone 01A Hub · 15.2 Hands · Dark Bay",
+      title: "Chetak IX · Flagship Stallion",
+      subtitle: "Ancestral inward-curving lyre ears, exceptional courage under the lance, and a calm, rhythmic sitting trot.",
+      caption: "Assigned to Cadet Alpha · Verified ISO microchip 356-0291-0104",
+    },
+    {
+      image: "fleetVeer",
+      badge: "Kathiawari · Chip #0108",
+      tag: "Zone 01B Hub · 14.3 Hands · Chestnut Gold",
+      title: "Veer · The Desert Charger",
+      subtitle: "Famous for the rapid lateral pace-gait (revaal) and swift turns around the peg. Renowned desert stamina.",
+      caption: "Assigned to Cadet Bravo · Verified ISO microchip 356-0291-0108",
+    },
+    {
+      image: "fleetKesar",
+      badge: "Marwari · Chip #0112",
+      tag: "Zone 01A Hub · 15.1 Hands · Skewbald",
+      title: "Kesar · The Painted Warrior",
+      subtitle: "Rare dual-tone coat pattern with silver-trimmed parade tack. Lead stallion for squadron formation charges.",
+      caption: "Squadron formation lead · Verified ISO microchip 356-0291-0112",
+    },
+    {
+      image: "fleetArbudh",
+      badge: "Marwari · Chip #0119",
+      tag: "Zone 01C Hub · 15.3 Hands · Light Bay",
+      title: "Arbudh · The Dressage Pillar",
+      subtitle: "Four white stockings and balanced rhythm. Gentle mouth, patient with beginner squire mounts.",
+      caption: "Foundation school mount · Verified ISO microchip 356-0291-0119",
+    },
+  ];
+
+  return (
+    <section aria-labelledby="stallion-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
+      <div className="gutter">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <Label>Studbook visualizer</Label>
+            <Headline id="stallion-gallery-h" className="mt-4" inscription="The bloodline," voice="in liquid motion." />
+          </div>
+          <p className="max-w-md text-sand text-sm">
+            Inspect the flagship indigenous stallions powering our academies. Cycle through their records below with real-time WebGL simplex noise wave transitions.
+          </p>
+        </div>
+
+        <WebGLNoiseTransition
+          slides={slides}
+          aspectRatio="aspect-[16/10]"
+          showTabs
+          showControls
+          showDots
+          autoplayInterval={7000}
+        />
+      </div>
     </section>
   );
 }

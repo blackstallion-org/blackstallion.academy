@@ -11,6 +11,7 @@ import { admissions, faq, fees, phoneSteps } from "@/lib/content/academy";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { inr, price, withGst } from "@/lib/content/pricing";
+import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
 
 
 /** Title card · T9 rail view. Signature: the wooden rail in the foreground slides down as the arena opens up. */
@@ -138,6 +139,77 @@ function PhoneFrame({ active, all = false }: { active: number; all?: boolean }) 
         </div>
       )}
     </div>
+  );
+}
+
+/** §1b · WebGL 4D Simplex Noise Guardian Vantage Gallery */
+export function ParentVantageGallery() {
+  const slides = [
+    {
+      image: "parentsRail",
+      badge: "Rail Vantage · Live",
+      tag: "Morning Session · Pavilion Deck",
+      title: "The Arena Rail Line-of-Sight",
+      subtitle: "Direct viewing deck along the arena perimeter. Watch your cadet establish cadence under the instructor's direct eye.",
+      caption: "Zone 01A Hub · Covered spectator pavilion with morning tea",
+    },
+    {
+      image: "fleetStallcam",
+      badge: "Stall-Cam · 24/7",
+      tag: "Infrared Night-Vision Telemetry",
+      title: "Live Stall-Cam Monitoring",
+      subtitle: "Dedicated night-vision optics into Chetak IX's stall. Monitored resting cycles, feed times, and quiet nocturnal wellness.",
+      caption: "ISO-chipped fleet stall telemetry accessible via the parent app",
+    },
+    {
+      image: "cadetRohan",
+      badge: "Stride Reel · 10 Sec",
+      tag: "Posture & Spine Alignment",
+      title: "The Ten-Second Stride Reel",
+      subtitle: "Every canter without stirrups and lead transition logged with biomechanical overlays and delivered to your portal.",
+      caption: "Cadet Rider · Form progression milestone archive",
+    },
+    {
+      image: "bgPassport",
+      badge: "Passport · Sealed",
+      tag: "Official Rank Certifications",
+      title: "The Sovereign Passport Vault",
+      subtitle: "Full record of hours, discipline merits, and sealed rank stamps. Every milestone verified by former cavalry masters.",
+      caption: "Squire → Rider → Knight → Lancer sovereign progression",
+    },
+    {
+      image: "safetyKit",
+      badge: "Armour Spec · Level 2",
+      tag: "Certified Impact Tack",
+      title: "Military Safety Protocols",
+      subtitle: "CE Level-2 body protectors, Kevlar-reinforced gloves, and custom-fitted riding helmets inspected before every mount.",
+      caption: "BSAH zero-compromise child safety specification",
+    },
+  ];
+
+  return (
+    <section aria-labelledby="vantage-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
+      <div className="gutter">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <Label>Guardian perspective</Label>
+            <Headline id="vantage-gallery-h" className="mt-4" inscription="Five windows," voice="into your child's day." />
+          </div>
+          <p className="max-w-md text-sand text-sm">
+            You cannot be in the arena every day, but you can see every stride. Explore the guardian observation lenses below via real-time WebGL wave transitions.
+          </p>
+        </div>
+
+        <WebGLNoiseTransition
+          slides={slides}
+          aspectRatio="aspect-[16/10]"
+          showTabs
+          showControls
+          showDots
+          autoplayInterval={7000}
+        />
+      </div>
+    </section>
   );
 }
 

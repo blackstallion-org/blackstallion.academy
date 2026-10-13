@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
-import { CircuitTitle, CourseDiagram, FixtureBoard, Podium, StandingsLanes } from "@/components/sections/tournaments/TournamentScenes";
+import { CircuitTitle, CourseDiagram, FixtureBoard, Podium, StandingsLanes, TournamentActionGallery } from "@/components/sections/tournaments/TournamentScenes";
 
 export const metadata: Metadata = {
   title: "The Circuit",
@@ -14,6 +14,7 @@ export default function TournamentsPage() {
       <StandingsLanes />
       <FixtureBoard />
       <CourseDiagram />
+      <TournamentActionGallery />
       <Podium />
       <EndCard current={12} />
     </>
