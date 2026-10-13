@@ -2,6 +2,7 @@ import { Intermission } from "@/components/film/Intermission";
 import { CrisisCure } from "@/components/sections/home/CrisisCure";
 import { Doors } from "@/components/sections/home/Doors";
 import { Hero } from "@/components/sections/home/Hero";
+import { FluidFlowmapSection } from "@/components/sections/fluid/FluidFlowmapSection";
 import { HomeChronicle, HomeCommand, Finale } from "@/components/sections/home/HomeClose";
 import { HomeShield, HomeStandings, HomeVerifier } from "@/components/sections/home/HomeConvert";
 import { Instrument } from "@/components/sections/home/Instrument";
@@ -43,6 +44,7 @@ export default function Home() {
       <HomeShield />
       <HomeCommand />
       <HomeChronicle />
+      <FluidFlowmapSection />
       <Finale />
     </>
   );
