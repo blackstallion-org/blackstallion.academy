@@ -1,70 +1,144 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
-import { Wordmark } from "@/components/brand/Wordmark";
-import { acts, corridors, entity, legalNav, reels, type Act } from "@/lib/content/site";
+import { corridors, entity, legalNav } from "@/lib/content/site";
 
-const pad = (n: number) => String(n).padStart(2, "0");
+const navLinks = [
+  { href: "/legend", label: "The Legend" },
+  { href: "/anatomy", label: "The Instrument" },
+  { href: "/science", label: "Science & Matrix" },
+  { href: "/why", label: "Crucible & Cure" },
+  { href: "/curriculum", label: "Curriculum" },
+  { href: "/fleet", label: "The Studbook" },
+  { href: "/schools", label: "For Schools" },
+  { href: "/cadets", label: "Cadets" },
+  { href: "/parents", label: "Parents" },
+  { href: "/tournaments", label: "The Circuit" },
+  { href: "/command", label: "Command AI" },
+  { href: "/contact", label: "The Gate" },
+];
 
-/** Footer: reel index by act, the three corridors, and the entity notice. A dark leather coda (the 30% accent). */
+/**
+ * Meridian-style cinematic video footer adapted for BSAH.
+ * 70% warm natural editorial palette with atmospheric equine footage blend.
+ */
 export function Footer() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      video.removeAttribute("autoplay");
+      video.pause();
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(() => {});
+            }
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <footer className="tone-dark surface-leather no-print relative border-t border-antique/40">
-      <div className="gutter grid gap-12 py-20 lg:grid-cols-[1.2fr_2fr]">
-        <div className="flex flex-col gap-8">
-          <div className="flex items-center gap-5">
-            <CrestMark size="lg" className="h-28 w-28" />
-            <Wordmark className="text-base" />
-          </div>
-          <p className="max-w-sm text-sand">
-            <em>{entity.motto}.</em> {entity.mottoEn}.
-          </p>
-          <ul className="flex flex-col gap-3">
-            {corridors.map((c) => (
-              <li key={c.id} className="flex flex-col">
-                <span className="label text-dust">{c.title}</span>
-                <a href={`mailto:${c.email}`} className="t-ui text-bone hover:text-gold">
-                  {c.email}
-                </a>
+    <footer className="footer-meridian no-print" aria-label="Site Footer">
+      {/* Background ambient video (rendered first in DOM, visually placed lower via CSS flex order) */}
+      <video
+        ref={videoRef}
+        className="footer-meridian__video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/video/footer-ambient-poster.jpg"
+        aria-hidden="true"
+        tabIndex={-1}
+        disablePictureInPicture
+      >
+        <source src="/video/footer-ambient-h264.mp4" type="video/mp4" />
+        <source src="/video/footer-ambient.mp4" type="video/mp4" />
+        <source
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260928_144832_2b6b23aa-4416-4fcb-9df4-132349c59edc.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      {/* Content block: brand emblem, wordmark, tagline, nav and legal copy */}
+      <div className="footer-meridian__content">
+        <div className="footer-meridian__mark" aria-hidden="true">
+          <CrestMark size="sm" className="h-12 w-12 object-contain" />
+        </div>
+
+        <p className="footer-meridian__brand">
+          <Link href="/" aria-label="The Black Stallion Academy of Horsemanship Home">
+            black stallion academy
+          </Link>
+        </p>
+
+        <p className="footer-meridian__tagline">
+          <em>{entity.motto}.</em> {entity.mottoEn}. The interscholastic equestrian leadership academy and national circuit.
+        </p>
+
+        {/* Global horizontal navigation with animated underline hover */}
+        <nav className="footer-meridian__nav" aria-label="Footer Navigation">
+          <ul>
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href}>{link.label}</Link>
               </li>
             ))}
           </ul>
+        </nav>
+
+        {/* Tri-Corridor Direct Contacts */}
+        <div className="footer-meridian__corridors" aria-label="Direct Corridors">
+          {corridors.map((c, i) => (
+            <span key={c.id} className="footer-meridian__corridor-item">
+              <span className="footer-meridian__corridor-label">{c.title.toUpperCase()}:</span>
+              <a href={`mailto:${c.email}`} className="footer-meridian__corridor-link">
+                {c.email}
+              </a>
+              {i < corridors.length - 1 && <span className="footer-meridian__corridor-sep" aria-hidden="true">·</span>}
+            </span>
+          ))}
         </div>
 
-        <nav aria-label="All reels" className="grid gap-10 sm:grid-cols-3">
-          {(Object.keys(acts) as Act[]).map((act) => (
-            <div key={act}>
-              <p className="label text-brass">
-                Act {acts[act].numeral} · {acts[act].name}
-              </p>
-              <ul className="mt-4 flex flex-col gap-2.5">
-                {reels
-                  .filter((r) => r.act === act)
-                  .map((r) => (
-                    <li key={r.href}>
-                      <Link href={r.href} className="t-ui flex gap-3 text-sm text-sand hover:text-gold">
-                        <span className="font-mono text-xs text-dust">{pad(r.n)}</span>
-                        {r.title}
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          ))}
-        </nav>
-      </div>
-
-      <div className="gutter flex flex-col gap-4 border-t border-line py-8 md:flex-row md:items-end md:justify-between">
-        <p className="t-ui max-w-3xl text-xs leading-relaxed text-dust">
-          {entity.parent} · Operating arm: {entity.operator} (BSAH) · Sanctioned by the {entity.council} ({entity.councilShort}) ·{" "}
-          {entity.city}. Imagery on this site is AI-generated placeholder art until the commissioned shoot.
-        </p>
-        <div className="flex gap-6">
-          {legalNav.map((l) => (
-            <Link key={l.href} href={l.href} className="label text-dust hover:text-gold">
-              {l.label}
-            </Link>
-          ))}
-          <span className="label text-dust">© 2026</span>
+        {/* Institutional copyright, regulatory authority & legal directory */}
+        <div className="footer-meridian__copy">
+          <p>
+            © {currentYear} {entity.parent} · Operating arm: {entity.operator} (BSAH) · Sanctioned by the {entity.council} ({entity.councilShort}) · {entity.city}.
+          </p>
+          <div className="footer-meridian__legal">
+            {legalNav.map((l) => (
+              <Link key={l.href} href={l.href}>
+                {l.label}
+              </Link>
+            ))}
+            <Link href="/about">About</Link>
+            <Link href="/lore">Lore of the Bards</Link>
+            <Link href="/privacy">Privacy Notice</Link>
+          </div>
         </div>
       </div>
     </footer>
