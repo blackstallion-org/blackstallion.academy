@@ -279,13 +279,18 @@ export function Doors() {
     camera.fov = 2 * (180 / Math.PI) * Math.atan(1 / (2 * dist));
     camera.updateProjectionMatrix();
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(width, height);
-    renderer.setClearColor(0x000000, 0);
-
-    container.innerHTML = "";
-    container.appendChild(renderer.domElement);
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(width, height);
+      renderer.setClearColor(0x000000, 0);
+      container.innerHTML = "";
+      container.appendChild(renderer.domElement);
+    } catch (err) {
+      console.warn("⚠️ [Doors] WebGLRenderer creation skipped:", err);
+      return;
+    }
 
     const loader = new THREE.TextureLoader();
     loader.setCrossOrigin("anonymous");
