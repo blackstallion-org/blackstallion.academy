@@ -12,136 +12,136 @@ interface Shot {
   tall?: boolean;
 }
 
-const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/";
-const FILM_URL = CDN + "hf_20260922_195107_ed3f055a-3a13-4a71-b743-e10310454246.mp4";
+const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/";
+const FILM_URL = CDN + "hf_20261009_002919_571f23fa-14a9-4d0b-bbe3-19f4311054d8.mp4";
 
 const SHOTS: Shot[] = [
   {
-    id: "hf_20260922_194349_26ffdbfd-ac5e-49e9-a07d-c06d3f7cb4cb",
-    title: "Before the Dust Settled",
-    place: "South Africa · Limpopo Province",
-    note: "Field photography is rarely about pressing the shutter. Most of the work happens earlier — waiting, staying still, and accepting that nature decides if the frame exists. This encounter lasted less than a minute."
+    id: "hf_20261009_133621_5a3cedb7-3682-4992-9f09-58666b26f286",
+    title: "Why the Ears Curl",
+    place: "Marwar · Rajasthan",
+    note: "The signature lyre-shaped ears that curve inward until the tips touch. Rotating 180 degrees independently, desert riders read them as honest feedback long before a sound was heard."
   },
   {
-    id: "hf_20260922_194350_5546ea3d-6336-42c7-a59f-06165c5802be",
-    title: "The Long Walk Home",
-    place: "Kenya · Maasai Mara",
-    note: "A matriarch leading her herd across open grass at the end of the day. I stayed low and let them close the distance on their own terms."
+    id: "hf_20261009_134207_2579fc71-30ad-44d5-9a75-48d29801a99c",
+    title: "Omens of the Stable",
+    place: "Jodhpur · Royal Courtyard",
+    note: "A dappled grey Marwari stallion in silver cavalry bridle. The old bards read a horse's fortune in its hair whorls (devman), facial blaze, and white socks."
   },
   {
-    id: "hf_20260922_194349_b4533691-cb49-41d4-b56c-51f0fdcbe250",
-    title: "Something Understood",
-    place: "Botswana · Okavango Delta",
-    note: "He held the look for about four seconds. Long enough to be certain neither of us intended to move first."
+    id: "hf_20261009_134452_071b671c-3a71-467c-b01b-41fdd53c797c",
+    title: "The Golden Revival",
+    place: "Thar Desert · Golden Hour",
+    note: "A herd of sovereign Marwari horses galloping across the desert sand at dusk. Nearly lost after 1947, revived through dedicated studbook registries."
   },
   {
-    id: "hf_20260922_194349_e588abd3-1bfa-4918-894f-05632cc51ccc",
-    title: "Nine Hours of Nothing",
-    place: "Finland · Lapland",
-    note: "A full day in a hide for a single turn of the head. That ratio is normal and I have stopped resenting it."
+    id: "hf_20261009_002316_a9ac0234-9080-4a64-8d92-cf0705055f6b",
+    title: "The Rising Dust",
+    place: "Hyderabad · Arena One",
+    note: "A Marwari stallion emerging from a towering cloud of golden arena dust. The hard-boned desert breed feels at home when the ground lifts."
   },
   {
-    id: "hf_20260922_194350_28d92c80-de66-41cb-911e-b3b44aebe1f5",
-    title: "Borrowed Trust",
-    place: "Scotland · Cairngorms",
-    note: "She had learned the shape of a person and decided it was uninteresting. That indifference is the rarest thing in this work."
+    id: "hf_20261009_002317_1504aa62-05a7-47df-9bf5-fbb2b0c78ecc",
+    title: "The Molten Sky",
+    place: "Thar Basin · Dusk",
+    note: "A Marwari stallion rearing against a molten gold sunset sky. Known for exceptional shoulder elevation and battlefield bravery."
   },
   {
-    id: "hf_20260922_194349_04e89718-4214-4aff-bac5-490462bbfe2f",
-    title: "Small Weather",
-    place: "Costa Rica · Osa Peninsula",
-    note: "Rain had just stopped. Everything on that branch was the size of a thumbnail and lit like a stage."
+    id: "hf_20261009_002435_48940254-f4cb-49fe-9236-d84b15570955",
+    title: "The Full Gallop",
+    place: "Osian Sands · Rajasthan",
+    note: "A stallion at full stride across open dunes. Slim, hard-legged, and enduring, bred to cover desert distances without breaking cadence."
   },
   {
-    id: "hf_20260922_194417_2c031e22-2fad-4c81-a544-83cd6bba1c33",
-    title: "Against the Weather",
-    place: "Alaska · Chilkat Valley",
-    note: "Shot at a thousandth of a second into a rising storm. The light lasted eleven minutes."
+    id: "hf_20261009_002317_26761800-94f0-40d6-a6b2-a35941ddc7e0",
+    title: "The Honest Eye",
+    place: "Stable Pavilion · Early Light",
+    note: "Close-up of the arched forehead, dark eye, and inward-pointing ear tip. The ancient breed seal of purity recognized worldwide."
   },
   {
-    id: "hf_20260922_194349_a39c3226-7848-4b15-b840-98ad8aec467b",
-    title: "The Pale Edge",
-    place: "India · Bandhavgarh",
-    note: "Almost entirely hidden. I only found the frame because the foliage stopped moving in the wrong place."
+    id: "hf_20261009_002435_480a7609-4bd8-46c6-83b4-8c740f8aaf4b",
+    title: "The Lance at Speed",
+    place: "Circuit Ground · Hyderabad",
+    note: "A senior cadet lowering the tent-pegging lance at a gallop. 750 milliseconds to read the ground, align the point, and pierce the target."
   },
   {
-    id: "hf_20260922_194417_555e4d90-f35f-4a1a-8c75-def1e8b71988",
-    title: "Perfect Arithmetic",
-    place: "Indonesia · Raja Ampat",
-    note: "Coiled with a precision that looks designed. Nothing about it is — it is just the cheapest way to hold heat."
+    id: "hf_20261009_002317_0f749476-7e8d-47bf-b57a-9adcb7b21741",
+    title: "The Ridge Silhouette",
+    place: "Sam Dunes · Thar Border",
+    note: "A lone Marwari silhouetted against the amber horizon. Eight centuries of adaptation to extreme heat, cold, and desert solitude."
   },
   {
-    id: "hf_20260922_194417_e525a243-03c8-454b-83b4-60f541baf70a",
-    title: "Shallow Water",
-    place: "French Polynesia · Fakarava",
-    note: "Three metres down on a single breath. It passed close enough that I stopped composing and simply held the camera still."
+    id: "hf_20261009_134210_875318e8-ba4f-4012-86bd-3a472486c8a1",
+    title: "Traced in Gold",
+    place: "Night Stable · Lantern Pass",
+    note: "A jet-black stallion traced by a thin line of warm lantern light. The prized Kala coat revered in classical Rajput ballads."
   },
   {
-    id: "hf_20260922_194349_ec830e6f-b8e6-4569-8540-ee7f33902c53",
-    title: "Two of Nine",
-    place: "India · Ranthambore",
-    note: "Siblings resting out the afternoon heat. The second one never opened its eyes."
+    id: "hf_20261011_125701_03894133-4ebe-4853-bbf3-fb8b894c5b42",
+    title: "The Cavalry Line",
+    place: "Deccan Plateau · Trail Ride",
+    note: "Cadets riding in cavalry formation through the golden dust plume. Discipline, alignment, and synchronous cadence across the squadron."
   },
   {
-    id: "hf_20260922_194417_35a9af5f-bd07-45a7-bb73-08b47d19d530",
-    title: "Low Ground",
-    place: "Nepal · Chitwan",
-    note: "Flat on the ground at her eye level, which is the only honest angle for an animal that hunts from there."
+    id: "hf_20261011_125701_e77bf110-1d6e-4276-b777-a60ccce661b9",
+    title: "The Dune Sentinel",
+    place: "Bikaner Ridge · Sunset",
+    note: "A stallion watching the desert wind shift. The Marwari's senses detect approaching dust storms long before they reach camp."
   },
   {
-    id: "hf_20260922_194416_30e307a9-1265-45c3-a1a0-5c6fa5bb9f8d",
-    title: "Everything at Once",
-    place: "Iceland · Southern Coast",
-    note: "Free horses on a black beach at dusk. I panned and accepted whatever the frame gave back."
+    id: "hf_20261011_142335_cc424b5d-501a-4bc6-9af2-edce6dba169a",
+    title: "Portrait of Kala",
+    place: "Studbook Studio · Jodhpur",
+    note: "High-contrast portrait of a black Marwari stallion with the white star forehead marking and inwards curled ear tips."
   },
   {
-    id: "hf_20260922_194417_ff5cb9f8-8eed-4bfb-bb08-11256da92eae",
-    title: "White on White",
-    place: "Canada · Ellesmere Island",
-    note: "Snow removes every reference for exposure. The only reliable meter left is the eyes."
+    id: "hf_20261011_142423_18de8c55-e9b9-4415-970e-a1d04f0176ce",
+    title: "The Nukra Lineage",
+    place: "Sandstone Courtyard · Dawn",
+    note: "A pure white Nukra horse against weathered fort stone. Prized in ceremonial history and preserved through careful selection."
   },
   {
-    id: "hf_20260922_194418_1d9bff4a-4971-4944-9e49-d72e755ceeb0",
-    title: "Census",
-    place: "Namibia · Etosha",
-    note: "Two of roughly sixteen thousand left. The number is the reason the frame exists."
+    id: "hf_20261009_133621_81837c50-d744-4170-a4c4-28e23c303420",
+    title: "The Royal Nachni",
+    place: "Nagaur Fair · Evening",
+    note: "A ceremonial dancing Marwari performing the rhythmic lateral gait (revaal) at twilight, decorated in traditional brass and silver tack."
   },
   {
-    id: "hf_20260922_194349_75e53821-0807-4ebc-992d-34bae0ec2ce6",
-    title: "The Whole Field",
-    place: "France · Provence",
-    note: "Four millimetres of animal. At this magnification a breath of wind is an earthquake."
+    id: "hf_20261009_135918_8c0e7aab-156d-44e1-a197-f7562ec9938a",
+    title: "Chetak IX",
+    place: "Registry Stall 01 · Sovereign Studbook",
+    note: "Purebred dark bay Marwari with white star. The foundation sovereign stallion of the Black Stallion Academy breeding programme."
   },
   {
-    id: "hf_20260922_194417_5a227847-3796-4438-805d-7e66e9538205",
-    title: "First Season",
-    place: "Germany · Bavarian Forest",
-    note: "Days old and already still enough to disappear. Stillness is the first thing anything here learns."
+    id: "hf_20261009_135918_2230edd8-75d6-4133-9449-ca7c6e1b1fee",
+    title: "Veer of Kathiawar",
+    place: "Registry Stall 02 · Sovereign Studbook",
+    note: "Chestnut-gold stallion of the historic cavalry lineage. Agile, high-velocity turn rate, and sharp response to seat and rein."
   },
   {
-    id: "hf_20260922_194350_b49aa67e-0401-4029-af4f-f6ac3ee83398",
-    title: "Listening Posture",
-    place: "Tanzania · Serengeti",
-    note: "Ears forward, weight on the back legs. She heard something I never did."
+    id: "hf_20261009_140621_aeee0f2d-2fd4-4714-867f-a68aaf3e58c1",
+    title: "Kesar's Skewbald Coat",
+    place: "Paddock Three · Morning",
+    note: "A rare skewbald Marwari stallion whose dual-tone pattern mirrors the traditional heraldic banners of the desert clans."
   },
   {
-    id: "hf_20260922_194349_89b82779-3a46-4c55-b7c5-f4a0fd955874",
-    title: "A Line of Red",
-    place: "Spain · Fuente de Piedra",
-    note: "Underexposed by two stops until only the shape survived."
+    id: "hf_20261009_140620_a883058c-4b10-47ea-a035-0d79c6a905fc",
+    title: "The Four White Socks",
+    place: "Pasture Ridge · Noon",
+    note: "Arbudh, light bay with four clean white socks (Panchkalyan). Regarded in folklore as an auspicious sign for the rider."
   },
   {
-    id: "hf_20260922_194416_47e18c62-253a-42e1-97a9-9e5f6a6b8d59",
-    title: "Left Behind",
-    place: "Studio · Reykjavík",
-    note: "Found beneath a roost at first light. The only frame in this archive an animal agreed to in advance.",
+    id: "hf_20261009_002640_5b5f28cc-654a-499d-8b0e-35093d96acb5",
+    title: "Three Lances Lowered",
+    place: "Tournament Field · Gallop",
+    note: "Three cadets charging synchronously in competition lanes. The hallmark test of team precision and unshakeable nerve.",
     tall: true
   },
   {
-    id: "hf_20260922_194417_a455843c-d8db-461c-8ef6-74a325d2472c",
-    title: "The Other Side",
-    place: "Uganda · Kibale Forest",
-    note: "Taken by a colleague between two long waits. Proof, mostly, that someone is holding the camera."
+    id: "hf_20261009_134451_6575fc93-f93a-4d03-91fc-2a48c3788c1e",
+    title: "The Cadet's Touch",
+    place: "Arena Gate · First Light",
+    note: "A young cadet quietly touching the curved ear tip of her assigned mount before mounting. The relationship starts on the ground."
   }
 ];
 
