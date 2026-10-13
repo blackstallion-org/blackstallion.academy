@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { corridors, entity, legalNav } from "@/lib/content/site";
 
@@ -20,16 +20,16 @@ const navLinks = [
   { href: "/contact", label: "The Gate" },
 ];
 
+const COPYRIGHT_YEAR = 2026;
+
 /**
  * Meridian-style cinematic video footer adapted for BSAH.
  * 70% warm natural editorial palette with atmospheric equine footage blend.
  */
 export function Footer() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [currentYear, setCurrentYear] = useState(2026);
 
   useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
     const video = videoRef.current;
     if (!video) return;
 
@@ -128,7 +128,7 @@ export function Footer() {
         {/* Institutional copyright, regulatory authority & legal directory */}
         <div className="footer-meridian__copy">
           <p>
-            © {currentYear} {entity.parent} · Operating arm: {entity.operator} (BSAH) · Sanctioned by the {entity.council} ({entity.councilShort}) · {entity.city}.
+            © {COPYRIGHT_YEAR} {entity.parent} · Operating arm: {entity.operator} (BSAH) · Sanctioned by the {entity.council} ({entity.councilShort}) · {entity.city}.
           </p>
           <div className="footer-meridian__legal">
             {legalNav.map((l) => (

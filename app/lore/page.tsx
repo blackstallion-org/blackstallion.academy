@@ -4,6 +4,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
+import { GridScrollSection } from "@/components/sections/home/GridScrollSection";
 import { lore } from "@/lib/content/legend";
 import type { MediaKey } from "@/lib/content/media";
 
@@ -29,7 +30,10 @@ const plates: { image: MediaKey; numeral: string; grade: "film" | "mono" | "deep
 export default function LorePage() {
   return (
     <>
-      <section aria-labelledby="lore-h" className="gutter relative flex min-h-[80svh] flex-col justify-end pb-[10vh] pt-32">
+      {/* Opening Visual Prologue: The Sovereign Arsenal & Living Warhorse Bloodlines */}
+      <GridScrollSection />
+
+      <section aria-labelledby="lore-h" className="gutter relative flex min-h-[60svh] flex-col justify-end pb-[10vh] pt-20 border-t border-line/40">
         <Label>Folklore · a reel of its own</Label>
         <h1 id="lore-h" className="mt-6 text-display-1">
           <span className="t-inscribe block text-[0.55em] text-bone">{lore.inscription}</span>

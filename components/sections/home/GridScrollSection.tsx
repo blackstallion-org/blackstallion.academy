@@ -9,7 +9,7 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// 43 exact grid item coordinates from the Codrops Demo 1 layout
+// 43 exact grid item coordinates from the Codrops layout
 const GRID_COORDINATES: Array<{ r: number; c: number }> = [
   { r: 1, c: 4 },
   { r: 1, c: 1 },
@@ -101,38 +101,61 @@ const CURATED_MEDIA_KEYS: MediaKey[] = [
 export function GridScrollSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const grid = gridRef.current;
-    if (!section || !grid) return;
+    const header = headerRef.current;
+    if (!section || !grid || !header) return;
 
     // Use GSAP context for safe React mounting/unmounting
     const ctx = gsap.context(() => {
+      // 1. Smoothly fade out the sticky hero header as user scrolls down so it NEVER collides with the conclusion!
+      gsap.to(header, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "28% top",
+          scrub: true,
+        },
+        opacity: 0,
+        y: -70,
+        scale: 0.96,
+        pointerEvents: "none",
+        ease: "power1.out",
+      });
+
+      // 2. Parallax animation for small images: keep them sharp, clear and beautifully floating
       const items = grid.querySelectorAll<HTMLElement>(".grid__item");
 
-      items.forEach((item) => {
+      items.forEach((item, index) => {
         const image = item.querySelector<HTMLElement>(".grid__item-img");
         if (!image) return;
 
-        const randomOrigin = Math.random() > 0.5 ? "0% 100%" : "100% 100%";
+        // Subtle, elegant vertical float with varied speeds so images remain clearly visible and sharp
+        const speed = 30 + (index % 4) * 18;
 
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: item,
-            start: "top 45%",
-            end: "bottom top",
-            scrub: true,
+        gsap.fromTo(
+          image,
+          {
+            y: speed,
+            scale: 0.94,
+            opacity: 0.9,
           },
-        })
-          .set(image, {
-            transformOrigin: randomOrigin,
-          })
-          .to(image, {
+          {
+            scrollTrigger: {
+              trigger: item,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            },
+            y: -speed,
+            scale: 1.04,
+            opacity: 1,
             ease: "none",
-            scale: 0,
-            opacity: 0,
-          });
+          }
+        );
       });
     }, section);
 
@@ -145,51 +168,53 @@ export function GridScrollSection() {
     <section
       ref={sectionRef}
       aria-label="The Sovereign Arsenal Grid"
-      className="relative w-full bg-[#0a0908] text-bone overflow-clip border-y border-line/40"
+      className="relative w-full bg-[#0d0c0a] text-bone overflow-clip border-b border-line/40"
     >
       {/* Pinned Sticky Cover (Header & Luxury Brand Typography) */}
       <div className="sticky top-0 z-20 flex h-screen w-full flex-col items-center justify-center pointer-events-none px-6">
-        {/* Soft radial backdrop to preserve contrast over moving images */}
+        {/* Soft, reduced subtle vignette - no dark muddy veil */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-radial from-[#0a0908]/90 via-[#0a0908]/65 to-transparent pointer-events-none"
+          className="absolute inset-0 bg-radial from-transparent via-[#0d0c0a]/40 to-[#0d0c0a]/80 pointer-events-none"
         />
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl">
+        <div
+          ref={headerRef}
+          className="relative z-10 flex flex-col items-center text-center max-w-4xl transition-all"
+        >
           <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.35em] text-gold mb-3 sm:mb-4">
-            The Sovereign Arsenal
+            The Sovereign Arsenal · Lore Archive
           </span>
 
           <h2 className="font-display text-[clamp(2.5rem,7.5vw,7.5rem)] font-bold tracking-tight text-bone uppercase leading-[0.9] drop-shadow-2xl">
             Black Stallion<sup className="text-[0.42em] align-top text-gold ml-1">®</sup>
           </h2>
 
-          <h3 className="font-mono text-xs sm:text-base uppercase tracking-[0.25em] text-sand/85 mt-4 sm:mt-6">
+          <h3 className="font-mono text-xs sm:text-base uppercase tracking-[0.25em] text-sand mt-4 sm:mt-6">
             Twenty-One Living Warhorse Bloodlines
           </h3>
 
-          <div className="mt-8 flex items-center gap-2 rounded-full border border-gold/30 bg-black/60 px-4 py-1.5 backdrop-blur-md">
+          <div className="mt-8 flex items-center gap-2 rounded-full border border-gold/40 bg-black/40 px-4 py-1.5 backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-gold animate-ping" />
             <span className="font-mono text-[0.68rem] tracking-widest uppercase text-sand">
-              Scroll through the citadel
+              Scroll through the living archive
             </span>
           </div>
         </div>
       </div>
 
       {/* 8-Column Scattered Grid scrolling behind/through the pinned cover */}
-      <div className="relative -mt-[100vh] z-10 pb-24">
+      <div className="relative -mt-[100vh] z-10 pb-28">
         <div
           ref={gridRef}
-          className="grid w-full grid-cols-8 gap-2 sm:gap-3.5 md:gap-5 px-3 sm:px-6 md:px-10"
+          className="grid w-full grid-cols-8 gap-3 sm:gap-4 md:gap-6 px-3 sm:px-6 md:px-10"
           style={{
-            gridAutoRows: "clamp(70px, 12vw, 170px)",
+            gridAutoRows: "clamp(90px, 14vw, 200px)",
           }}
         >
           {GRID_COORDINATES.map((coord, index) => {
             const mediaKey = CURATED_MEDIA_KEYS[index % CURATED_MEDIA_KEYS.length];
             const src = mediaSrc(mediaKey) || `/media/${mediaKey}.png`;
-            // Wrap column index for mobile screens if needed
             const col = coord.c;
             const row = coord.r;
 
@@ -202,17 +227,18 @@ export function GridScrollSection() {
                   gridColumn: col,
                 }}
               >
+                {/* Clear, crisp image container with zero dark tint mask */}
                 <div
-                  className="grid__item-img relative aspect-square w-full rounded-lg sm:rounded-xl overflow-hidden border border-gold/20 shadow-lg bg-[#141210] will-change-transform"
+                  className="grid__item-img relative aspect-square w-full rounded-lg sm:rounded-xl overflow-hidden border border-gold/35 hover:border-gold shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-[#171513] will-change-transform transition-colors"
                   style={{
                     backgroundImage: `url(${src})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center 35%",
                   }}
                 >
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+                  {/* Subtle number tag for editorial flair */}
                   <div className="pointer-events-none absolute bottom-1.5 left-2 hidden sm:block">
-                    <span className="font-mono text-[0.55rem] uppercase tracking-wider text-sand/75">
+                    <span className="font-mono text-[0.6rem] uppercase tracking-wider text-sand bg-black/60 px-1.5 py-0.5 rounded border border-white/10 backdrop-blur-sm">
                       #{String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
@@ -223,8 +249,8 @@ export function GridScrollSection() {
         </div>
       </div>
 
-      {/* Concluding Section Statement (Matching the editorial footer from the Codrops demo) */}
-      <div className="relative z-20 min-h-[50vh] sm:min-h-[65vh] flex items-center justify-center border-t border-line/40 bg-ember/30 px-6 py-20 text-center">
+      {/* Concluding Section Statement (Clean, standalone, zero overlap) */}
+      <div className="relative z-20 min-h-[50vh] sm:min-h-[60vh] flex items-center justify-center border-t border-line/50 bg-[#12110e] px-6 py-28 text-center">
         <div className="max-w-3xl space-y-6">
           <span className="font-mono text-xs uppercase tracking-[0.28em] text-brass">
             The Doctrine of Reality

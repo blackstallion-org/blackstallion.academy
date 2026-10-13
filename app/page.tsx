@@ -6,7 +6,6 @@ import { FluidFlowmapSection } from "@/components/sections/fluid/FluidFlowmapSec
 import { HomeChronicle, HomeCommand, Finale } from "@/components/sections/home/HomeClose";
 import { HomeShield, HomeStandings, HomeVerifier } from "@/components/sections/home/HomeConvert";
 import { Instrument } from "@/components/sections/home/Instrument";
-import { GridScrollSection } from "@/components/sections/home/GridScrollSection";
 import { LedgerAscent } from "@/components/sections/home/LedgerAscent";
 import { Matrix } from "@/components/sections/home/Matrix";
 import { SchoolsTeaser } from "@/components/sections/home/SchoolsTeaser";
@@ -33,7 +32,6 @@ export default function Home() {
       <Doors />
       <LedgerAscent />
       <Studbook />
-      <GridScrollSection />
 
       <Intermission act="ledger" line="Now, the decision." />
 
