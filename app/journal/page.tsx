@@ -4,6 +4,7 @@ import { EndCard } from "@/components/film/EndCard";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Arrow, ReelMark } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
+import { FieldSphereHero } from "@/components/sections/journal/FieldSphereHero";
 import { posts } from "@/lib/content/journal";
 
 export const metadata: Metadata = {
@@ -17,8 +18,10 @@ export default function JournalPage() {
   const [featured, ...rest] = posts;
   return (
     <>
+      <FieldSphereHero />
+
       {/* T15 · Masthead */}
-      <header className="gutter pt-28 md:pt-32">
+      <header id="articles" className="gutter pt-20 md:pt-28 scroll-mt-12">
         <ReelMark n={14} act="ledger" />
         <div className="mt-8 border-y-2 border-double border-line py-6 text-center">
           <p className="label text-dust">Hyderabad · Vol. I · Stories from the stable</p>
