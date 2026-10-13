@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useCallback, useMemo, useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { Headline } from "@/components/film/Headline";
-import { Arrow, Hoof, Label } from "@/components/film/Marks";
-import { doors } from "@/lib/content/home";
+import { Arrow, Label } from "@/components/film/Marks";
 import { mediaSrc } from "@/lib/content/media";
 import { cn } from "@/lib/utils";
 
@@ -73,7 +72,7 @@ const FRAGMENT_SHADER = `
 
     vec4 gx10 = ixy10 / 7.0; vec4 gy10 = floor(gx10) / 7.0; vec4 gz10 = floor(gy10) / 6.0;
     gx10 = fract(gx10) - 0.5; gy10 = fract(gy10) - 0.5; gz10 = fract(gz10) - 0.5;
-    vec4 gw10 = vec4(0.75) - abs(gx10) - abs(gy10) - abs(gz10);
+    vec4 gw10 = vec4(0.75) - abs(gx10) - abs(gy10) - abs(gz00);
     vec4 sw10 = step(gw10, vec4(0.0));
     gx10 -= sw10 * (step(0.0, gx10) - 0.5);
     gy10 -= sw10 * (step(0.0, gy10) - 0.5);
@@ -170,10 +169,19 @@ function createProceduralNoise(): THREE.DataTexture {
   return tex;
 }
 
+export interface DoorItem {
+  who: string;
+  title: string;
+  tagline: string;
+  image: string;
+  href: string;
+  cta: string;
+}
+
 /**
- * §6 Three Doors · WebGL Liquid Noise Wave Transition.
- * Replaces the old flex-grow accordion with the user's WebGL simplex noise transition
- * specifically connecting the 3 door images: Parents, Cadets, and Schools.
+ * §6 Three Doors · Full-Screen WebGL Liquid Noise Stage with Minimal Overlay.
+ * Rebuilt per user directive: full-screen immersive canvas stage, minimal text info,
+ * and high-end photographic imagery.
  */
 export function Doors() {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -206,12 +214,38 @@ export function Doors() {
     aspect: 1,
   });
 
-  const doorItems = doors.items;
-  const currentDoor = doorItems[activeIdx];
+  const doorItems: DoorItem[] = useMemo(
+    () => [
+      {
+        who: "Parents",
+        title: "The Guardian",
+        tagline: "Watch your cadet's journey from the rail. 24/7 stall-cams, gate alerts, and verified session reels.",
+        image: "/images/door-parents.jpg",
+        href: "/parents",
+        cta: "For parents",
+      },
+      {
+        who: "Cadets",
+        title: "The Hall of Valour",
+        tagline: "A sealed leather passport, your own Marwari stallion, and the national circuit.",
+        image: "/images/door-cadets.jpg",
+        href: "/cadets",
+        cta: "For cadets",
+      },
+      {
+        who: "Schools",
+        title: "The Zero-CapEx Engine",
+        tagline: "Turnkey campus riding arena funded, built, and operated by BSAH with zero school expenditure.",
+        image: mediaSrc("schoolArenaNight") || mediaSrc("schoolAerial") || "/media/school-arena-night.png",
+        href: "/schools",
+        cta: "For schools",
+      },
+    ],
+    []
+  );
 
-  const imageUrls = useMemo(() => {
-    return doorItems.map((d) => mediaSrc(d.image) || `/media/${d.image}.png`);
-  }, [doorItems]);
+  const currentDoor = doorItems[activeIdx];
+  const imageUrls = useMemo(() => doorItems.map((d) => d.image), [doorItems]);
 
   // Transition to a specific target door index
   const goToDoor = useCallback(
@@ -225,7 +259,7 @@ export function Doors() {
       s.material.uniforms.texture2.value = nextTexture;
 
       const startTime = performance.now();
-      const duration = 1400; // 1.4s fluid easeOut
+      const duration = 1300; // 1.3s fluid easeOut
 
       const animateProgress = (now: number) => {
         const elapsed = now - startTime;
@@ -260,6 +294,11 @@ export function Doors() {
     goToDoor(nextIdx);
   }, [activeIdx, doorItems.length, goToDoor]);
 
+  const prevDoor = useCallback(() => {
+    const prevIdx = (activeIdx - 1 + doorItems.length) % doorItems.length;
+    goToDoor(prevIdx);
+  }, [activeIdx, doorItems.length, goToDoor]);
+
   // Three.js lifecycle setup
   useEffect(() => {
     const container = containerRef.current;
@@ -268,8 +307,8 @@ export function Doors() {
     let isMounted = true;
     const s = threeState.current;
 
-    const width = container.offsetWidth || 800;
-    const height = container.offsetHeight || 600;
+    const width = container.offsetWidth || 1200;
+    const height = container.offsetHeight || 750;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(70, width / height, 0.001, 1000);
@@ -284,7 +323,7 @@ export function Doors() {
       renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       renderer.setSize(width, height);
-      renderer.setClearColor(0x000000, 0);
+      renderer.setClearColor(0x000000, 1);
       container.innerHTML = "";
       container.appendChild(renderer.domElement);
     } catch (err) {
@@ -302,7 +341,7 @@ export function Doors() {
       if (!isMounted) return;
 
       const img0 = textures[0].image as HTMLImageElement | undefined;
-      const imageAspect = img0 && img0.width && img0.height ? img0.height / img0.width : 0.75;
+      const imageAspect = img0 && img0.width && img0.height ? img0.height / img0.width : 0.5625;
       s.aspect = imageAspect;
 
       let a1 = 1;
@@ -323,46 +362,51 @@ export function Doors() {
           time: { value: 0 },
           progress: { value: 0 },
           width: { value: 0.5 },
-          scaleX: { value: 40.0 },
-          scaleY: { value: 40.0 },
+          scaleX: { value: 40 },
+          scaleY: { value: 40 },
           texture1: { value: textures[0] },
-          texture2: { value: textures[1 % textures.length] },
+          texture2: { value: textures[1] },
           displacement: { value: noiseTex },
           resolution: { value: new THREE.Vector4(width, height, a1, a2) },
         },
         vertexShader: VERTEX_SHADER,
         fragmentShader: FRAGMENT_SHADER,
-        transparent: true,
       });
 
       const geometry = new THREE.PlaneGeometry(1, 1, 2, 2);
       const mesh = new THREE.Mesh(geometry, material);
       scene.add(mesh);
 
+      s.renderer = renderer;
       s.scene = scene;
       s.camera = camera;
-      s.renderer = renderer;
       s.material = material;
       s.textures = textures;
+      s.current = 0;
+      s.time = 0;
 
       setIsLoaded(true);
 
-      const render = () => {
+      const renderLoop = () => {
         if (!isMounted) return;
         s.time += 0.03;
         if (s.material) {
           s.material.uniforms.time.value = s.time;
         }
-        renderer.render(scene, camera);
-        s.rafId = requestAnimationFrame(render);
+        if (s.renderer && s.scene && s.camera) {
+          s.renderer.render(s.scene, s.camera);
+        }
+        s.rafId = requestAnimationFrame(renderLoop);
       };
-      s.rafId = requestAnimationFrame(render);
+      renderLoop();
     };
 
     imageUrls.forEach((url, idx) => {
       loader.load(
         url,
         (tex) => {
+          if (!isMounted) return;
+          tex.generateMipmaps = false;
           tex.minFilter = THREE.LinearFilter;
           tex.magFilter = THREE.LinearFilter;
           textures[idx] = tex;
@@ -373,15 +417,19 @@ export function Doors() {
         },
         undefined,
         () => {
+          if (!isMounted) return;
           const canvas = document.createElement("canvas");
-          canvas.width = 512;
-          canvas.height = 512;
+          canvas.width = 16;
+          canvas.height = 9;
           const ctx = canvas.getContext("2d");
           if (ctx) {
-            ctx.fillStyle = "#1a1815";
-            ctx.fillRect(0, 0, 512, 512);
+            ctx.fillStyle = idx === 0 ? "#1e1610" : idx === 1 ? "#12141a" : "#141c14";
+            ctx.fillRect(0, 0, 16, 9);
           }
           const fallbackTex = new THREE.CanvasTexture(canvas);
+          fallbackTex.generateMipmaps = false;
+          fallbackTex.minFilter = THREE.LinearFilter;
+          fallbackTex.magFilter = THREE.LinearFilter;
           textures[idx] = fallbackTex;
           loadedCount++;
           if (loadedCount === imageUrls.length) {
@@ -400,7 +448,7 @@ export function Doors() {
       s.renderer.setSize(w, h);
       s.camera.aspect = w / h;
 
-      const imgAspect = s.aspect || 0.75;
+      const imgAspect = s.aspect || 0.5625;
       let a1 = 1;
       let a2 = 1;
       if (h / w > imgAspect) {
@@ -434,34 +482,16 @@ export function Doors() {
   }, [imageUrls]);
 
   return (
-    <section aria-labelledby="doors-h" className="relative py-[clamp(6rem,14vh,12rem)]">
-      <div className="gutter mb-10 flex flex-wrap items-end justify-between gap-6">
+    <section aria-labelledby="doors-h" className="relative w-full bg-black py-12 md:py-20 overflow-hidden text-white">
+      {/* Top Header & Minimal Selector Tabs */}
+      <div className="gutter mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <Label>Choose your door</Label>
-          <Headline id="doors-h" className="mt-4" inscription={doors.inscription} voice={doors.voice} />
+          <Label>Three doors</Label>
+          <Headline id="doors-h" className="mt-2" inscription="Through the" voice="gate." />
         </div>
 
-        {/* Next Image Button matching user's template */}
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs uppercase tracking-widest text-sand/70 mr-1 hidden sm:inline-block">
-            DOOR 0{activeIdx + 1} / 0{doorItems.length}
-          </span>
-          <button
-            id="nextBtn"
-            type="button"
-            disabled={isTransitioning || !isLoaded}
-            onClick={nextDoor}
-            className="group inline-flex items-center gap-3 rounded-full border border-gold/40 bg-gold/15 px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-bone backdrop-blur-md transition-all hover:bg-gold hover:text-black hover:border-gold hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] disabled:opacity-40 disabled:cursor-not-allowed"
-          >
-            <span>Next image</span>
-            <Arrow className="transition-transform group-hover:translate-x-1" />
-          </button>
-        </div>
-      </div>
-
-      {/* Door Selector Tabs (01 Parents | 02 Cadets | 03 Schools) */}
-      <div className="gutter mb-6">
-        <div className="grid grid-cols-3 gap-2 border-b border-line pb-4" role="tablist" aria-label="The Three Doors">
+        {/* Minimal Door Selector Tabs */}
+        <div className="flex items-center gap-2 sm:gap-3" role="tablist" aria-label="The Three Doors">
           {doorItems.map((d, i) => {
             const isSelected = activeIdx === i;
             return (
@@ -473,114 +503,121 @@ export function Doors() {
                 onClick={() => goToDoor(i)}
                 disabled={isTransitioning}
                 className={cn(
-                  "group flex flex-col text-left py-3 px-2 sm:px-4 rounded-lg transition-all",
+                  "px-4 py-2 rounded-full font-mono text-xs uppercase tracking-widest transition-all",
                   isSelected
-                    ? "bg-ember/60 border border-gold/40"
-                    : "hover:bg-umber/40 border border-transparent"
+                    ? "bg-gold text-black font-semibold shadow-[0_0_24px_rgba(212,175,55,0.45)]"
+                    : "bg-white/5 border border-white/10 text-sand/80 hover:text-white hover:border-white/20"
                 )}
               >
-                <span className="font-mono text-xs font-bold text-gold tracking-widest">
-                  0{i + 1}
-                </span>
-                <span
-                  className={cn(
-                    "t-voice text-lg sm:text-2xl mt-1 leading-tight transition-colors",
-                    isSelected ? "text-bone" : "text-sand group-hover:text-bone"
-                  )}
-                >
-                  {d.who}
-                </span>
-                <span className="font-mono text-[0.62rem] uppercase tracking-wider text-dust mt-0.5 hidden md:block">
-                  {d.title}
-                </span>
+                0{i + 1} · {d.who}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Main Showcase Layout: WebGL Canvas on Left + Active Door Dossier on Right */}
-      <div className="gutter grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.9fr)] lg:items-center">
-        {/* WebGL Canvas Container (#slider matching user spec) */}
+      {/* Full-Screen Immersive WebGL Stage */}
+      <div className="gutter">
         <div
           id="slider"
           onClick={nextDoor}
-          title="Click to cycle next door image with WebGL transition"
-          className="relative w-full aspect-[4/3] sm:aspect-[16/10] lg:h-[580px] rounded-2xl overflow-hidden bg-[#111] cursor-pointer border border-gold/25 shadow-2xl"
+          title="Click stage to cycle next door image with WebGL transition"
+          className="relative w-full h-[70vh] min-h-[560px] max-h-[820px] rounded-3xl overflow-hidden bg-[#0c0c0c] cursor-pointer border border-gold/25 shadow-[0_20px_60px_rgba(0,0,0,0.8)] select-none isolate"
         >
-          <div ref={containerRef} className="absolute inset-0 h-full w-full" />
+          {/* WebGL Canvas */}
+          <div ref={containerRef} className="absolute inset-0 h-full w-full z-[1]" />
 
-          {/* Cinematic subtle edge gradient */}
+          {/* Deep Cinematic Gradients for Pristine Typography Contrast */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"
+            className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/90 via-black/35 to-black/30"
           />
 
-          {/* Active Door Bottom Badge */}
-          <div className="pointer-events-none absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 flex items-end justify-between z-10">
-            <div>
-              <span className="font-mono text-[0.65rem] uppercase tracking-widest text-gold block mb-1">
-                DOOR 0{activeIdx + 1} · {currentDoor.who.toUpperCase()}
-              </span>
-              <h4 className="font-display text-2xl sm:text-3xl text-[#FAF7F0] m-0">
-                {currentDoor.title}
-              </h4>
-            </div>
+          {/* Top Subtle Brand Stamp */}
+          <div className="pointer-events-none absolute top-6 left-6 sm:top-8 sm:left-8 z-[3] flex items-center gap-3">
+            <span className="font-mono text-[0.65rem] tracking-[0.25em] uppercase text-gold/80">
+              BSAH ADMISSIONS GATEWAY
+            </span>
+            <span className="h-1 w-1 rounded-full bg-gold/50" />
+            <span className="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-sand/60">
+              FRAME 0{activeIdx + 1} / 0{doorItems.length}
+            </span>
+          </div>
 
-            <div className="hidden sm:flex items-center gap-2 rounded-full border border-gold/30 bg-black/60 px-3.5 py-1.5 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold animate-ping" />
-              <span className="font-mono text-[0.62rem] tracking-wider uppercase text-sand">
-                Click canvas to cycle
-              </span>
+          {/* Minimal Cinematic Content Overlay (Bottom-Left) */}
+          <div className="pointer-events-none absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-[3] max-w-2xl">
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-gold block mb-2">
+              DOOR 0{activeIdx + 1} · {currentDoor.who.toUpperCase()}
+            </span>
+
+            <h3 className="font-serif text-3xl sm:text-5xl md:text-6xl text-[#FAF7F0] font-normal leading-[1.05] tracking-tight m-0 drop-shadow-md">
+              {currentDoor.title}
+            </h3>
+
+            <p className="font-serif text-sm sm:text-base text-sand/90 leading-relaxed max-w-xl mt-3 mb-6 drop-shadow">
+              {currentDoor.tagline}
+            </p>
+
+            <div className="pointer-events-auto inline-block">
+              <Link
+                href={currentDoor.href}
+                onClick={(e) => e.stopPropagation()}
+                className="group inline-flex items-center gap-3 rounded-full border border-gold bg-gold/25 px-6 py-2.5 font-mono text-xs uppercase tracking-widest text-bone backdrop-blur-md transition-all hover:bg-gold hover:text-black hover:border-gold hover:shadow-[0_0_24px_rgba(212,175,55,0.4)]"
+              >
+                <span>{currentDoor.cta}</span>
+                <Arrow className="transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
           </div>
 
+          {/* Minimal Stage Controls (Bottom-Right) */}
+          <div className="pointer-events-none absolute bottom-6 right-6 sm:bottom-10 sm:right-10 z-[3] flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-2 rounded-full border border-gold/30 bg-black/60 px-3.5 py-1.5 backdrop-blur-md">
+              <span className="h-1.5 w-1.5 rounded-full bg-gold animate-ping" />
+              <span className="font-mono text-[0.62rem] tracking-wider uppercase text-sand/80">
+                Click canvas to cycle
+              </span>
+            </div>
+
+            <div className="pointer-events-auto flex items-center gap-2">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevDoor();
+                }}
+                disabled={isTransitioning}
+                aria-label="Previous door"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/40 bg-black/70 text-sand hover:bg-gold hover:text-black hover:border-gold transition-colors disabled:opacity-40"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextDoor();
+                }}
+                disabled={isTransitioning}
+                aria-label="Next door"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-gold/40 bg-black/70 text-sand hover:bg-gold hover:text-black hover:border-gold transition-colors disabled:opacity-40"
+              >
+                →
+              </button>
+            </div>
+          </div>
+
+          {/* Loading Indicator */}
           {!isLoaded && (
-            <div className="absolute inset-0 grid place-items-center bg-[#111]">
+            <div className="absolute inset-0 grid place-items-center bg-[#0c0c0c] z-[10]">
               <div className="flex flex-col items-center gap-3">
                 <div className="h-6 w-6 rounded-full border-2 border-gold/30 border-t-gold animate-spin" />
                 <span className="font-mono text-xs tracking-widest uppercase text-sand/60">
-                  Compiling WebGL Shaders...
+                  Initializing Liquid Canvas...
                 </span>
               </div>
             </div>
           )}
-        </div>
-
-        {/* Door Dossier Panel */}
-        <div className="flex flex-col justify-between p-2 sm:p-6 lg:p-8 rounded-2xl border border-line bg-ember/30">
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <span className="font-mono text-xs font-bold text-gold tracking-widest">
-                DOOR 0{activeIdx + 1} OF 03
-              </span>
-              <span className="h-px w-6 bg-gold/40" />
-              <span className="label text-sand">{currentDoor.who}</span>
-            </div>
-
-            <h3 className="t-voice text-3xl sm:text-4xl text-bone mb-6">
-              {currentDoor.title}
-            </h3>
-
-            <ul className="space-y-4 mb-8">
-              {currentDoor.points.map((pt) => (
-                <li key={pt} className="flex items-start gap-3.5 text-sm sm:text-base text-sand leading-relaxed">
-                  <Hoof className="mt-1 h-3.5 w-3.5 shrink-0 text-brass" />
-                  <span>{pt}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="pt-4 border-t border-line/50">
-            <Link
-              href={currentDoor.href}
-              className="group inline-flex items-center gap-3 rounded-full border border-gold bg-gold/20 px-6 py-3 font-mono text-xs uppercase tracking-widest text-bone backdrop-blur-md transition-all hover:bg-gold hover:text-black hover:shadow-[0_0_24px_rgba(212,175,55,0.4)]"
-            >
-              <span>{currentDoor.cta}</span>
-              <Arrow className="transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
         </div>
       </div>
     </section>
