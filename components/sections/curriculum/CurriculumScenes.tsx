@@ -10,7 +10,7 @@ import { assessment, classSegments, disciplines, ranks } from "@/lib/content/cur
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { r3 } from "@/lib/round";
-import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
+import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
 
 /** Title card · T6 ledger page. Signature: ruled lines draw across the ledger like a clerk's pen. */
 export function CurriculumTitle() {
@@ -210,66 +210,60 @@ export function ThreeStamps() {
   );
 }
 
-/** §5b · WebGL 4D Simplex Noise Four Disciplines Showcase */
+/** §5b · Cinematic Forward-Zoom Four Disciplines Showcase */
 export function DisciplineActionGallery() {
-  const slides = [
+  const slides: ReelSlide[] = [
     {
-      image: "currTentpeg",
-      badge: "Discipline 01 · Cavalry Lance",
-      tag: "Tent-Pegging · Speed & Accuracy",
-      title: "The Art of the Lowered Lance",
-      subtitle: "A 9-foot ash lance lowered at full 35 km/h gallop. Hand-eye calibration to lift a 6 cm target peg from the sand.",
-      caption: "Standard STPCI military skill-at-arms competition discipline",
+      id: "tentpeg",
+      imageKey: "currTentpeg",
+      subtitle: "REEL 01 · 35 KM/H · CAVALRY LANCE",
+      titleLine1: "LOWERED",
+      titleLine2: "LANCE",
+      alt: "A lance tip piercing a wooden peg at full gallop in tent-pegging",
+      caption: "A 9-foot ash lance lowered at full 35 km/h gallop. Hand-eye calibration to lift a 6 cm target peg from the sand.",
+      align: "left",
     },
     {
-      image: "currBarrel",
-      badge: "Discipline 02 · Acceleration",
-      tag: "Barrel Racing · Lateral Agile Gs",
-      title: "Cloverleaf High-G Barrel Turns",
-      subtitle: "Tight three-point turns demanding precision rein-contact, weight-shift into the stirrups, and instant bursts of power.",
-      caption: "Agility and balance test with electronic timing gates",
+      id: "barrel",
+      imageKey: "currBarrel",
+      subtitle: "REEL 02 · ACCELERATION & G-FORCE",
+      titleLine1: "BARREL",
+      titleLine2: "RACING",
+      alt: "A rider turning tightly around a barrel in spraying sand",
+      caption: "Tight three-point turns demanding precision rein-contact, weight-shift into the stirrups, and instant bursts of power.",
+      align: "right",
     },
     {
-      image: "currArchery",
-      badge: "Discipline 03 · Instinctive Bow",
-      tag: "Mounted Archery · Hands-Free Balance",
-      title: "Mounted Archery at the Canter",
-      subtitle: "Reins dropped to draw and loose arrows at Hungarian targets in under twelve seconds along a 90-metre track.",
-      caption: "High focus, bilateral core stability, and quiet posture",
+      id: "archery",
+      imageKey: "currArchery",
+      subtitle: "REEL 03 · INSTINCTIVE BOW",
+      titleLine1: "MOUNTED",
+      titleLine2: "ARCHERY",
+      alt: "A girl cadet drawing a bow at the canter",
+      caption: "Reins dropped to draw and loose arrows at targets in under twelve seconds along a 90-metre track.",
+      align: "left",
     },
     {
-      image: "currFormation",
-      badge: "Discipline 04 · Troop Cohesion",
-      tag: "Squadron Drills · Collective Rhythm",
-      title: "Sovereign Line Formation",
-      subtitle: "Synchronized cavalry maneuvers where six to twelve cadets move as a single organism across the arena plane.",
-      caption: "Cultivating camaraderie, spatial awareness, and mutual trust",
+      id: "formation",
+      imageKey: "currFormation",
+      subtitle: "REEL 04 · SQUADRON COHESION",
+      titleLine1: "SOVEREIGN",
+      titleLine2: "FORMATION",
+      alt: "Cadets riding in line formation across an arena at dusk",
+      caption: "Synchronized cavalry maneuvers where six to twelve cadets move as a single organism across the arena plane.",
+      align: "right",
     },
   ];
 
   return (
-    <section aria-labelledby="disc-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
-      <div className="gutter">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div>
-            <Label>Tactical skill modules</Label>
-            <Headline id="disc-gallery-h" className="mt-4" inscription="Four ways" voice="to win a field." />
-          </div>
-          <p className="max-w-md text-sand text-sm">
-            Watch the four sovereign disciplines come alive. Cycle through the tactical modules below using real-time WebGL simplex noise wave dissolves.
-          </p>
-        </div>
-
-        <WebGLNoiseTransition
-          slides={slides}
-          aspectRatio="aspect-[16/10]"
-          showTabs
-          showControls
-          showDots
-          autoplayInterval={7000}
-        />
-      </div>
-    </section>
+    <CinematicStoryReel
+      sectionId="disc-gallery-h"
+      sectionLabel="Tactical Skill Modules"
+      sectionSubLabel="Four Sovereign Disciplines"
+      slides={slides}
+      exploreHref="/curriculum"
+      exploreLabel="Curriculum breakdown"
+    />
   );
 }
 

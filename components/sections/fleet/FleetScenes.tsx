@@ -10,7 +10,7 @@ import { careLog, coatRegistry, feeds, fleet, FLEET_TOTAL, statusLabel, type Sta
 import { hubs } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
-import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
+import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
 
 const hubName = (slug: string) => hubs.find((h) => h.slug === slug)?.short ?? slug;
 
@@ -104,66 +104,60 @@ export function Registry() {
   );
 }
 
-/** §1b · WebGL 4D Simplex Noise Stallion Bloodline Showcase */
+/** §1b · Cinematic Forward-Zoom Stallion Bloodline Showcase */
 export function StallionGallery() {
-  const slides = [
+  const slides: ReelSlide[] = [
     {
-      image: "fleetChetak",
-      badge: "Marwari · Chip #0104",
-      tag: "Zone 01A Hub · 15.2 Hands · Dark Bay",
-      title: "Chetak IX · Flagship Stallion",
-      subtitle: "Ancestral inward-curving lyre ears, exceptional courage under the lance, and a calm, rhythmic sitting trot.",
-      caption: "Assigned to Cadet Alpha · Verified ISO microchip 356-0291-0104",
+      id: "chetak",
+      imageKey: "fleetChetak",
+      subtitle: "REEL 01 · MARWARI · CHIP #0104",
+      titleLine1: "CHETAK IX",
+      titleLine2: "FLAGSHIP",
+      alt: "Chetak IX flagship Marwari stallion with ancestral lyre ears",
+      caption: "Ancestral inward-curving lyre ears, exceptional courage under the lance, and a calm, rhythmic sitting trot.",
+      align: "left",
     },
     {
-      image: "fleetVeer",
-      badge: "Kathiawari · Chip #0108",
-      tag: "Zone 01B Hub · 14.3 Hands · Chestnut Gold",
-      title: "Veer · The Desert Charger",
-      subtitle: "Famous for the rapid lateral pace-gait (revaal) and swift turns around the peg. Renowned desert stamina.",
-      caption: "Assigned to Cadet Bravo · Verified ISO microchip 356-0291-0108",
+      id: "veer",
+      imageKey: "fleetVeer",
+      subtitle: "REEL 02 · KATHIAWARI · CHIP #0108",
+      titleLine1: "VEER THE",
+      titleLine2: "CHARGER",
+      alt: "Veer chestnut gold Kathiawari stallion",
+      caption: "Famous for the rapid lateral pace-gait (revaal) and swift turns around the peg. Renowned desert stamina.",
+      align: "right",
     },
     {
-      image: "fleetKesar",
-      badge: "Marwari · Chip #0112",
-      tag: "Zone 01A Hub · 15.1 Hands · Skewbald",
-      title: "Kesar · The Painted Warrior",
-      subtitle: "Rare dual-tone coat pattern with silver-trimmed parade tack. Lead stallion for squadron formation charges.",
-      caption: "Squadron formation lead · Verified ISO microchip 356-0291-0112",
+      id: "kesar",
+      imageKey: "fleetKesar",
+      subtitle: "REEL 03 · MARWARI · CHIP #0112",
+      titleLine1: "KESAR THE",
+      titleLine2: "WARRIOR",
+      alt: "Kesar skewbald Marwari stallion in parade tack",
+      caption: "Rare dual-tone coat pattern with silver-trimmed parade tack. Lead stallion for squadron formation charges.",
+      align: "left",
     },
     {
-      image: "fleetArbudh",
-      badge: "Marwari · Chip #0119",
-      tag: "Zone 01C Hub · 15.3 Hands · Light Bay",
-      title: "Arbudh · The Dressage Pillar",
-      subtitle: "Four white stockings and balanced rhythm. Gentle mouth, patient with beginner squire mounts.",
-      caption: "Foundation school mount · Verified ISO microchip 356-0291-0119",
+      id: "arbudh",
+      imageKey: "fleetArbudh",
+      subtitle: "REEL 04 · MARWARI · CHIP #0119",
+      titleLine1: "ARBUDH THE",
+      titleLine2: "PILLAR",
+      alt: "Arbudh light bay Marwari with four white stockings",
+      caption: "Four white stockings and balanced rhythm. Gentle mouth, patient with beginner squire mounts.",
+      align: "right",
     },
   ];
 
   return (
-    <section aria-labelledby="stallion-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
-      <div className="gutter">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div>
-            <Label>Studbook visualizer</Label>
-            <Headline id="stallion-gallery-h" className="mt-4" inscription="The bloodline," voice="in liquid motion." />
-          </div>
-          <p className="max-w-md text-sand text-sm">
-            Inspect the flagship indigenous stallions powering our academies. Cycle through their records below with real-time WebGL simplex noise wave transitions.
-          </p>
-        </div>
-
-        <WebGLNoiseTransition
-          slides={slides}
-          aspectRatio="aspect-[16/10]"
-          showTabs
-          showControls
-          showDots
-          autoplayInterval={7000}
-        />
-      </div>
-    </section>
+    <CinematicStoryReel
+      sectionId="stallion-gallery-h"
+      sectionLabel="Studbook Visualizer"
+      sectionSubLabel="21 Registered Fleet Stallions"
+      slides={slides}
+      exploreHref="/fleet"
+      exploreLabel="Full registry"
+    />
   );
 }
 

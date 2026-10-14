@@ -10,7 +10,7 @@ import { CountUp } from "@/components/motion/CountUp";
 import { champions, standings, tournaments } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
-import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
+import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
 
 /** Title card · T13 charge. Signature: speed streaks rake across the frame as the title lands. */
 export function CircuitTitle() {
@@ -208,66 +208,60 @@ export function CourseDiagram() {
   );
 }
 
-/** §3b · WebGL 4D Simplex Noise Tournament Circuit Action Showcase */
+/** §3b · Cinematic Forward-Zoom Tournament Circuit Action Showcase */
 export function TournamentActionGallery() {
-  const slides = [
+  const slides: ReelSlide[] = [
     {
-      image: "bgCharge",
-      badge: "Full Gallop · 35 KM/H",
-      tag: "Cavalry Line Charge",
-      title: "The 35 km/h Tent-Pegging Run",
-      subtitle: "Riders thunder down the 100-metre course with lowered steel-point lances aiming for the 6 cm wooden peg.",
-      caption: "National STPCI Circuit Regulations · 9-Foot Ash Lance",
+      id: "charge",
+      imageKey: "bgCharge",
+      subtitle: "REEL 01 · 35 KM/H · TENT-PEGGING",
+      titleLine1: "LANCES",
+      titleLine2: "DOWN",
+      alt: "Cavalry line charge down the 100-metre course with lowered steel-point lances",
+      caption: "Thunder down the lane at 35 km/h. Hand-eye calibration to strike a 6 cm wooden peg.",
+      align: "left",
     },
     {
-      image: "tournCrowd",
-      badge: "Circuit Gallery",
-      tag: "Inter-School Atmosphere",
-      title: "The Grandstand Turn",
-      subtitle: "School student bodies, coaches, and trustees lining the sand rail as regional hubs compete for gold medals.",
-      caption: "Zone 01 Championship Rally · Hyderabad Host Hub",
+      id: "crowd",
+      imageKey: "tournCrowd",
+      subtitle: "REEL 02 · INTER-SCHOOL DERBY",
+      titleLine1: "GRANDSTAND",
+      titleLine2: "TURN",
+      alt: "School student bodies, coaches, and trustees lining the sand rail",
+      caption: "School student bodies, coaches, and trustees lining the sand rail as regional hubs compete.",
+      align: "right",
     },
     {
-      image: "tournPodium",
-      badge: "Governor's Cup",
-      tag: "Gold Honours",
-      title: "The Championship Podium",
-      subtitle: "Top-scoring cadet lancers receive medals and perpetual Governor's laurels after three rigorous circuit days.",
-      caption: "First Place: Zone 01 Hyderabad Hub · Season 2025–26",
+      id: "podium",
+      imageKey: "tournPodium",
+      subtitle: "REEL 03 · GOVERNOR'S LAURELS",
+      titleLine1: "CHAMPIONSHIP",
+      titleLine2: "PODIUM",
+      alt: "Top-scoring cadet lancers receive medals on the podium",
+      caption: "Top-scoring cadet lancers receive medals and perpetual laurels after three rigorous circuit days.",
+      align: "left",
     },
     {
-      image: "tournCup",
-      badge: "Perpetual Trophy",
-      tag: "Silver & Brass Metalwork",
-      title: "The Sovereign Challenge Cup",
-      subtitle: "Hand-chased solid silver and oxidized brass trophy featuring crossed Rajput cavalry lances.",
-      caption: "Awarded annually to the school with highest aggregate discipline points",
+      id: "trophy",
+      imageKey: "tournCup",
+      subtitle: "REEL 04 · SOVEREIGN CHALLENGE",
+      titleLine1: "PERPETUAL",
+      titleLine2: "TROPHY",
+      alt: "Solid silver and oxidized brass trophy featuring crossed Rajput cavalry lances",
+      caption: "Hand-chased solid silver and brass trophy awarded annually to highest aggregate discipline points.",
+      align: "right",
     },
   ];
 
   return (
-    <section aria-labelledby="circuit-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
-      <div className="gutter">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div>
-            <Label>Circuit action archive</Label>
-            <Headline id="circuit-gallery-h" className="mt-4" inscription="Lances lowered," voice="in liquid resolution." />
-          </div>
-          <p className="max-w-md text-sand text-sm">
-            Experience the heat of the STPCI interscholastic league. Cycle through championship moments with real-time WebGL simplex noise wave transitions.
-          </p>
-        </div>
-
-        <WebGLNoiseTransition
-          slides={slides}
-          aspectRatio="aspect-[16/10]"
-          showTabs
-          showControls
-          showDots
-          autoplayInterval={7000}
-        />
-      </div>
-    </section>
+    <CinematicStoryReel
+      sectionId="circuit-gallery-h"
+      sectionLabel="Circuit Action Archive"
+      sectionSubLabel="STPCI Interscholastic League"
+      slides={slides}
+      exploreHref="/tournaments"
+      exploreLabel="Circuit schedule"
+    />
   );
 }
 
