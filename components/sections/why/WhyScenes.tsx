@@ -108,36 +108,37 @@ export function WhyTitle() {
         The cure
       </motion.span>
 
-      {/* Editorial Content: Rising typography matching the animation reference */}
-      <div className="gutter relative flex min-h-[100svh] flex-col items-center justify-end pb-[10vh] text-center z-20">
+      {/* Editorial Content: Minimized, sleek rising typography allowing portal video to breathe */}
+      <div className="gutter relative flex min-h-[100svh] flex-col items-center justify-end pb-6 sm:pb-8 text-center z-20">
         <motion.div
-          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: ease.citadel, delay: 0.1 }}
         >
-          <ReelMark n={4} act="citadel" className="justify-center" />
+          <ReelMark n={4} act="citadel" className="justify-center scale-90" />
         </motion.div>
 
         <motion.div
-          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 22 }}
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.95, ease: ease.citadel, delay: 0.25 }}
-          className="mt-6 w-full"
+          className="mt-2 max-w-xl mx-auto"
         >
           <Headline
             id="why-h"
             as="h1"
-            size="poster"
+            size="3"
             animate="mount"
             delay={0.3}
             inscription={why.title.inscription}
             voice={why.title.voice}
+            inscriptionClassName="text-bone/90 tracking-[0.2em]"
           />
         </motion.div>
 
         <motion.p
-          className="t-story mt-6 text-sand max-w-xl mx-auto"
-          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+          className="t-ui mt-2 text-xs text-sand/75 max-w-md mx-auto tracking-wide"
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: ease.citadel, delay: 0.4 }}
         >
