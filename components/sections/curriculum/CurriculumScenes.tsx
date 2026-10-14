@@ -1,34 +1,41 @@
 "use client";
 
-import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { useRef, useState } from "react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
-import { Label, ReelMark } from "@/components/film/Marks";
+import { Label } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { assessment, classSegments, disciplines, ranks } from "@/lib/content/curriculum";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { r3 } from "@/lib/round";
 import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
+import { SpotlightRevealHero } from "@/components/film/SpotlightRevealHero";
+import { mediaSrc } from "@/lib/content/media";
 
-/** Title card · T6 ledger page. Signature: ruled lines draw across the ledger like a clerk's pen. */
+/** Title card · T6 ledger page with cursor-following spotlight reveal. */
 export function CurriculumTitle() {
+  const baseImg = mediaSrc("currLedger") || "/media/curr-ledger.png";
+  const revealImg = mediaSrc("currFormation") || "/media/curr-formation.png";
+
   return (
-    <section aria-labelledby="curr-h" className="relative min-h-[100svh] overflow-hidden">
-      <FilmImage name="currLedger" priority />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-      <div aria-hidden className="absolute inset-x-0 top-[18%] flex flex-col gap-[4.2vh] px-[6vw] opacity-30 pointer-events-none">
-        {Array.from({ length: 9 }, (_, i) => (
-          <motion.span key={i} className="block h-px origin-left bg-line" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2, ease: ease.citadel, delay: 0.2 + i * 0.08 }} />
-        ))}
-      </div>
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
-        <ReelMark n={5} act="citadel" />
-        <Headline id="curr-h" as="h1" size="1" animate="mount" className="mt-6 max-w-5xl" inscription="An athletic curriculum" voice="that builds character." />
-        <p className="t-story mt-6 max-w-2xl text-sand">Every mounted drill maps to a trait a leader needs in a boardroom, a negotiation or a crisis.</p>
-      </div>
-    </section>
+    <div className="relative">
+      <h1 id="curr-h" className="sr-only">An athletic curriculum that builds character.</h1>
+      <SpotlightRevealHero
+        baseImage={baseImg}
+        revealImage={revealImg}
+        tagline="Reel 05 / 15 · Act II The Citadel · The Curriculum"
+        titleItalic="An athletic curriculum"
+        titleRegular="that builds character."
+        leftDek="Every mounted drill maps to a trait a leader needs in a boardroom, a negotiation or a crisis. Four ranks, thirteen sovereign pillars."
+        rightDek="Peel back the ledger to inspect live mounted drills, biomechanical session protocols, and national STPCI standards."
+        ctaText="Inspect Codex"
+        ctaHref="#ranks-h"
+        ctaVariant="gold"
+        spotlightRadius={260}
+      />
+    </div>
   );
 }
 

@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
-import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Cta, Label, ReelMark } from "@/components/film/Marks";
-import { r } from "@/components/film/range";
 import { benchmark, formatINR, hubs, model, network, simulate, tierById, tiers, TUITION_PER_MONTH, type TierId } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -14,28 +12,105 @@ import { BlueprintPlan } from "./BlueprintPlan";
 import { r3 } from "@/lib/round";
 import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
 
-/** Title card · T11 aerial zoom. Signature: the campus slowly comes closer as you begin to scroll. */
+/** Title card · T11 Pan-India Sovereign Hub Network Orbital Satellite Flyover Hero */
 export function SchoolsTitle() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const scale = useTransform(scrollYProgress, r(0, 1), [1.02, 1.25]);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
+  };
+
   return (
-    <section ref={ref} aria-labelledby="schools-title" className="relative min-h-[100svh] overflow-hidden">
-      <motion.div className="absolute inset-0" initial={{ scale: 1.15 }} animate={{ scale: 1 }} transition={{ duration: 3, ease: ease.citadel }}>
-        <FilmImage name="schoolAerial" priority scale={scale} />
-      </motion.div>
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
+    <section
+      ref={ref}
+      aria-labelledby="schools-title"
+      className="tone-dark relative min-h-[100svh] h-[100svh] w-full overflow-hidden bg-black select-none isolate flex flex-col justify-between"
+    >
+      {/* Background Pan-India Satellite Flyover Video */}
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted={isMuted}
+        playsInline
+        preload="auto"
+        poster="/video/bsah-pan-india-poster.jpg"
+        aria-label="BSAH Sovereign Pan-India Hub Network orbital satellite flyover"
+        className="absolute inset-0 h-full w-full object-cover object-center z-10 brightness-[0.88] contrast-[1.08]"
+      >
+        <source src="/video/bsah-pan-india-hub.mp4" type="video/mp4" />
+        <source
+          src="/video/bsah_sovereign_pan_india_hub_network_20s (1).mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      {/* Cinematic Shadow Overlays for text legibility */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-15 bg-gradient-to-t from-black via-black/40 to-black/60"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-15 [background:radial-gradient(circle_at_70%_40%,transparent_30%,rgba(0,0,0,0.65)_100%)]"
+      />
+
+      {/* Top HUD Telemetry Bar */}
+      <div className="relative z-25 w-full pt-20 sm:pt-24 px-6 sm:px-12 flex items-center justify-between pointer-events-auto">
+        <div className="flex items-center gap-3">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gold" />
+          </span>
+          <span className="font-mono text-[0.65rem] sm:text-xs uppercase tracking-[0.25em] text-gold/90">
+            ORBITAL TELEMETRY · PAN-INDIA SOVEREIGN NETWORK
+          </span>
+        </div>
+
+        {/* Ambient Sound Toggle */}
+        <button
+          type="button"
+          onClick={toggleSound}
+          className="flex items-center gap-2 rounded-full border border-gold/40 bg-black/60 px-3.5 py-1.5 text-[0.65rem] font-mono uppercase tracking-[0.2em] text-[#faf7f0] backdrop-blur-md transition-all hover:border-gold hover:bg-gold/20 cursor-pointer"
+          aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+        >
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-gold" />
+          <span>SOUND {isMuted ? "OFF" : "ON"}</span>
+        </button>
+      </div>
+
+      {/* Bottom Editorial Content & High-Impact CTAs */}
+      <div className="gutter relative z-25 flex flex-col justify-end pb-[10vh] max-w-4xl">
         <ReelMark n={10} act="ledger" />
-        <Headline id="schools-title" as="h1" size="1" animate="mount" className="mt-6" inscription="Your campus" voice="becomes a citadel." />
-        <p className="t-story mt-6 max-w-2xl text-sand">
+        <Headline
+          id="schools-title"
+          as="h1"
+          size="1"
+          animate="mount"
+          className="mt-6 text-[#faf7f0]"
+          inscription="Your campus"
+          voice="becomes a citadel."
+        />
+        <p className="t-story mt-6 max-w-2xl text-[#faf7f0]/85 drop-shadow-md">
           A turnkey equestrian hub, funded, built and run by BSAH at zero capital expenditure to the school board, returning 25–30% of tuition to your institution.
         </p>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap items-center gap-4">
           <Cta href="/schools/mou" variant="solid">
             Request a draft MOU
           </Cta>
           <Cta href="#simulator">Run the numbers</Cta>
+          <a
+            href="#network"
+            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-gold hover:text-white transition-colors"
+          >
+            <span>28 Hubs Mapped</span>
+            <Arrow />
+          </a>
         </div>
       </div>
     </section>
@@ -196,60 +271,51 @@ export function SchoolArenaShowcase() {
   const slides = [
     {
       image: "schoolAerial",
-      badge: "Turnkey Campus · Zero CapEx",
-      tag: "Master Plan Integration",
-      title: "Campus Master Plan Footprint",
-      subtitle: "BSAH finances, constructs, and operates the complete facility at zero capital expenditure to the school trust.",
-      caption: "Turnkey 1.5–3.0 acre layout featuring riding ring, stables, and spectator pavilion",
+      badge: "Zero CapEx Campus",
+      tag: "Master Plan",
+      title: "Campus Master Plan",
+      subtitle: "Turnkey 3-acre layout financed, built, and operated at zero capital expenditure.",
+      caption: "Turnkey 1.5–3.0 Acre Arena & Pavilion",
     },
     {
       image: "schoolArenaNight",
-      badge: "Regulation Arena · All-Weather",
-      tag: "Silica Sand & LED Floodlighting",
-      title: "Floodlit Regulation Silica Arena",
-      subtitle: "Laser-graded geotextile silica sand surface engineered for shock absorption, dust reduction, and evening sessions.",
-      caption: "60m × 20m standard dressage & jumping ring specifications",
+      badge: "Regulation Arena",
+      tag: "All-Weather Silica",
+      title: "Regulation Silica Arena",
+      subtitle: "Laser-graded geotextile sand engineered for evening floodlit sessions.",
+      caption: "60m × 20m Standard Dressage Ring",
     },
     {
       image: "tournCrowd",
-      badge: "Interscholastic Circuit",
-      tag: "Inter-School Tournament Day",
-      title: "Hosting the National Circuit",
-      subtitle: "Your school becomes an official circuit hub, hosting regional championships and earning 25–30% of total tuition.",
-      caption: "Full spectator perimeter with branded arena railings and scoring podium",
+      badge: "Circuit Host",
+      tag: "National Circuit",
+      title: "National Circuit Hub",
+      subtitle: "Official host venue for regional equestrian championships.",
+      caption: "Spectator Railings & Scoring Pavilion",
     },
     {
       image: "bgStable",
-      badge: "Stable Quarters · 24/7 Care",
-      tag: "Indigenous Stall Architecture",
-      title: "Equine Quarters & Biometric Stalls",
-      subtitle: "Handcrafted timber stalls with rubber matting, automated watering, and 24/7 CCTV feeds accessible by school administrators.",
-      caption: "Veterinary-supervised stabling for up to 16 Marwari and Kathiawari stallions",
+      badge: "Biometric Care",
+      tag: "Equine Quarters",
+      title: "Biometric Equine Stalls",
+      subtitle: "Handcrafted timber stabling with automated watering and 24/7 care.",
+      caption: "Stabling for 16 Marwari Stallions",
     },
   ];
 
   return (
-    <section aria-labelledby="arena-showcase-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/35 border-y border-line/60">
-      <div className="gutter">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div>
-            <Label>Architectural visualizer</Label>
-            <Headline id="arena-showcase-h" className="mt-4" inscription="The campus arena," voice="in liquid detail." />
-          </div>
-          <p className="max-w-md text-sand text-sm">
-            Discover the tangible physical assets BSAH installs on campus grounds. Cycle between views below with real-time WebGL simplex noise wave transitions.
-          </p>
-        </div>
-
-        <WebGLNoiseTransition
-          slides={slides}
-          aspectRatio="aspect-[16/10]"
-          showTabs
-          showControls
-          showDots
-          autoplayInterval={7500}
-        />
-      </div>
+    <section aria-labelledby="arena-showcase-h" className="relative w-full h-[100svh] min-h-[100svh] overflow-hidden bg-night tone-dark border-y border-line/40">
+      <h2 id="arena-showcase-h" className="sr-only">Architectural visualizer — The campus arena, in liquid detail.</h2>
+      <WebGLNoiseTransition
+        slides={slides}
+        fullScreen
+        showTabs
+        showControls
+        showDots
+        showEffectToggle
+        initialEffect="slice"
+        autoplayInterval={7000}
+      />
     </section>
   );
 }

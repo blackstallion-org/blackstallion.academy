@@ -24,6 +24,7 @@ const FRAGMENT_SHADER = `
   uniform sampler2D texture2;
   uniform sampler2D displacement;
   uniform vec4 resolution;
+  uniform int effectType;
   varying vec2 vUv;
 
   vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
@@ -140,11 +141,59 @@ const FRAGMENT_SHADER = `
     vec2 newUV = (vUv - vec2(0.5)) * resolution.zw + vec2(0.5);
     vec4 color1 = texture2D(texture1, newUV);
     vec4 color2 = texture2D(texture2, newUV);
-    float noise = 0.5 * (cnoise(vec4(newUV.x * 40.0, newUV.y * 40.0, time * 0.2, 0.0)) + 1.0);
-    float w = 0.5 * parabola(progress, 1.0);
-    float mask = smoothstep(1.0 - w, 1.0, vUv.x + mix(-w / 2.0, 1.0 - w / 2.0, progress));
-    float final = smoothstep(1.0, 1.0 + 0.01, mask + noise * 0.2);
-    gl_FragColor = mix(color1, color2, final);
+
+    if (effectType == 1) {
+      // Codrops Demo 4: Diagonal Slice & Chromatic Dispersion
+      float diagonal = (vUv.x + vUv.y) * 0.5;
+      float sliceW = 0.35 * parabola(progress, 1.0);
+      float sliceMask = smoothstep(diagonal - sliceW, diagonal + sliceW, progress * 1.5 - 0.25);
+      
+      float rgbShift = sin(progress * 3.14159265) * 0.025;
+      vec4 c1R = texture2D(texture1, newUV + vec2(rgbShift, 0.0));
+      vec4 c1G = texture2D(texture1, newUV);
+      vec4 c1B = texture2D(texture1, newUV - vec2(rgbShift, 0.0));
+      vec4 c1 = vec4(c1R.r, c1G.g, c1B.b, 1.0);
+      
+      vec4 c2R = texture2D(texture2, newUV - vec2(rgbShift, 0.0));
+      vec4 c2G = texture2D(texture2, newUV);
+      vec4 c2B = texture2D(texture2, newUV + vec2(rgbShift, 0.0));
+      vec4 c2 = vec4(c2R.r, c2G.g, c2B.b, 1.0);
+      
+      gl_FragColor = mix(c1, c2, clamp(sliceMask, 0.0, 1.0));
+    } else if (effectType == 2) {
+      // Codrops Demo 5: Radial Ripple Distortion Wave
+      vec2 center = vec2(0.5);
+      float dist = length(vUv - center);
+      float ripple = sin(dist * 35.0 - progress * 18.0) * 0.04 * (1.0 - progress) * progress;
+      vec2 distortedUV = newUV + normalize(vUv - center + 0.0001) * ripple;
+      
+      float ripShift = sin(progress * 3.14159265) * 0.015;
+      vec4 rCol1 = texture2D(texture1, distortedUV + vec2(ripShift, 0.0));
+      vec4 rCol2 = texture2D(texture2, distortedUV - vec2(ripShift, 0.0));
+      
+      float circleMask = smoothstep(progress - 0.2, progress + 0.2, dist);
+      gl_FragColor = mix(rCol2, rCol1, circleMask);
+    } else if (effectType == 3) {
+      // Codrops Demo 3: Zoom Warp & Lens Surge
+      float p = progress;
+      float zoom1 = 1.0 + p * 0.25;
+      float zoom2 = 1.0 + (1.0 - p) * 0.25;
+      vec2 warpUV1 = (newUV - 0.5) / zoom1 + 0.5;
+      vec2 warpUV2 = (newUV - 0.5) / zoom2 + 0.5;
+      
+      float warpNoise = 0.5 * (cnoise(vec4(newUV.x * 20.0, newUV.y * 20.0, time * 0.4, 0.0)) + 1.0);
+      float warpShift = sin(p * 3.14159265) * 0.02;
+      vec4 wCol1 = texture2D(texture1, warpUV1 + vec2(warpShift * warpNoise, 0.0));
+      vec4 wCol2 = texture2D(texture2, warpUV2 - vec2(warpShift * warpNoise, 0.0));
+      gl_FragColor = mix(wCol1, wCol2, smoothstep(0.0, 1.0, p));
+    } else {
+      // Codrops Demo 1: Simplex Noise Wave Dissolve
+      float noise = 0.5 * (cnoise(vec4(newUV.x * 40.0, newUV.y * 40.0, time * 0.2, 0.0)) + 1.0);
+      float w = 0.5 * parabola(progress, 1.0);
+      float mask = smoothstep(1.0 - w, 1.0, vUv.x + mix(-w / 2.0, 1.0 - w / 2.0, progress));
+      float final = smoothstep(1.0, 1.0 + 0.01, mask + noise * 0.2);
+      gl_FragColor = mix(color1, color2, final);
+    }
   }
 `;
 
@@ -175,15 +224,20 @@ export interface WebGLNoiseSlide {
   meta?: string;
 }
 
+export type TransitionEffectMode = "wave" | "slice" | "ripple" | "warp";
+
 export interface WebGLNoiseTransitionProps {
   slides: WebGLNoiseSlide[];
   aspectRatio?: string; // e.g. "aspect-[16/10]", "aspect-[4/3]", "aspect-[3/4]", "aspect-[16/9]"
+  fullScreen?: boolean;
   className?: string;
   stageClassName?: string;
   autoplayInterval?: number; // ms, e.g. 5000 (0 or undefined to disable)
   showControls?: boolean;
   showDots?: boolean;
   showTabs?: boolean;
+  showEffectToggle?: boolean;
+  initialEffect?: TransitionEffectMode;
   onSlideChange?: (index: number) => void;
   initialIndex?: number;
 }
@@ -196,17 +250,22 @@ export interface WebGLNoiseTransitionProps {
 export function WebGLNoiseTransition({
   slides,
   aspectRatio = "aspect-[16/10]",
+  fullScreen = false,
   className,
   stageClassName,
   autoplayInterval,
   showControls = true,
   showDots = true,
   showTabs = false,
+  showEffectToggle = false,
+  initialEffect = "wave",
   onSlideChange,
   initialIndex = 0,
 }: WebGLNoiseTransitionProps) {
   const uniqueId = useId();
   const [activeIdx, setActiveIdx] = useState(initialIndex);
+  const [effect, setEffect] = useState<TransitionEffectMode>(initialEffect);
+  const effectRef = useRef(effect);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -250,7 +309,13 @@ export function WebGLNoiseTransition({
   const goToSlide = useCallback(
     (targetIndex: number) => {
       const s = threeState.current;
-      if (s.isRunning || s.textures.length < 2 || !s.material || targetIndex === s.current) return;
+      if (s.isRunning || targetIndex === s.current) return;
+      if (!s.material || s.textures.length < 2) {
+        s.current = targetIndex;
+        setActiveIdx(targetIndex);
+        onSlideChange?.(targetIndex);
+        return;
+      }
       s.isRunning = true;
       setIsTransitioning(true);
 
@@ -299,6 +364,32 @@ export function WebGLNoiseTransition({
     goToSlide(prevIdx);
   }, [activeIdx, slides.length, goToSlide]);
 
+  const cycleEffect = useCallback(() => {
+    setEffect((prev) => {
+      const order: TransitionEffectMode[] = ["slice", "ripple", "warp", "wave"];
+      const nextIdx = (order.indexOf(prev) + 1) % order.length;
+      return order[nextIdx];
+    });
+  }, []);
+
+  const effectLabels: Record<TransitionEffectMode, string> = {
+    slice: "Diagonal Slice",
+    ripple: "Radial Ripple",
+    warp: "Zoom Warp",
+    wave: "Simplex Wave",
+  };
+
+  useEffect(() => {
+    effectRef.current = effect;
+    if (threeState.current.material) {
+      const effectInt =
+        effect === "slice" ? 1 :
+        effect === "ripple" ? 2 :
+        effect === "warp" ? 3 : 0;
+      threeState.current.material.uniforms.effectType.value = effectInt;
+    }
+  }, [effect]);
+
   // Autoplay support
   useEffect(() => {
     if (!autoplayInterval || autoplayInterval <= 0 || slides.length < 2) return;
@@ -329,7 +420,14 @@ export function WebGLNoiseTransition({
     camera.fov = 2 * (180 / Math.PI) * Math.atan(1 / (2 * dist));
     camera.updateProjectionMatrix();
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    } catch (e) {
+      console.warn("WebGL context creation failed:", e);
+      return;
+    }
+    s.renderer = renderer;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
@@ -377,6 +475,12 @@ export function WebGLNoiseTransition({
           texture2: { value: secondTexture },
           displacement: { value: noiseTex },
           resolution: { value: new THREE.Vector4(width, height, a1, a2) },
+          effectType: {
+            value:
+              effectRef.current === "slice" ? 1 :
+              effectRef.current === "ripple" ? 2 :
+              effectRef.current === "warp" ? 3 : 0,
+          },
         },
         vertexShader: VERTEX_SHADER,
         fragmentShader: FRAGMENT_SHADER,
@@ -479,9 +583,11 @@ export function WebGLNoiseTransition({
       if (s.rafId) cancelAnimationFrame(s.rafId);
       s.textures.forEach((t) => t?.dispose());
       scene.clear();
-      renderer.dispose();
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
+      if (renderer) {
+        renderer.dispose();
+        if (container.contains(renderer.domElement)) {
+          container.removeChild(renderer.domElement);
+        }
       }
     };
   }, [resolvedUrls, initialIndex]);
@@ -489,10 +595,25 @@ export function WebGLNoiseTransition({
   const activeSlide = slides[activeIdx] || slides[0];
 
   return (
-    <div className={cn("relative flex flex-col", className)}>
+    <div
+      className={cn(
+        fullScreen
+          ? "relative w-full h-[100svh] min-h-[100svh] overflow-hidden bg-night select-none"
+          : "relative flex flex-col",
+        className
+      )}
+    >
       {/* Tab Pills if enabled */}
       {showTabs && slides.length > 1 && (
-        <div className="mb-4 flex flex-wrap gap-2" role="tablist">
+        <div
+          className={cn(
+            "flex flex-wrap gap-2",
+            fullScreen
+              ? "absolute top-24 left-6 sm:left-12 right-6 sm:right-12 z-30 max-w-5xl"
+              : "mb-4"
+          )}
+          role="tablist"
+        >
           {slides.map((s, idx) => (
             <button
               key={`${uniqueId}-tab-${idx}`}
@@ -502,10 +623,10 @@ export function WebGLNoiseTransition({
               disabled={isTransitioning}
               onClick={() => goToSlide(idx)}
               className={cn(
-                "group flex items-center gap-2 border px-3.5 py-1.5 text-xs font-mono transition-all",
+                "group flex items-center gap-2 border px-3.5 py-1.5 text-xs font-mono transition-all backdrop-blur-md cursor-pointer",
                 activeIdx === idx
-                  ? "border-gold bg-gold/10 text-gold shadow-[0_0_20px_rgba(197,160,89,0.15)]"
-                  : "border-line/60 bg-night/40 text-sand hover:border-gold/50 hover:text-bone"
+                  ? "border-gold bg-gold/20 text-gold shadow-[0_0_20px_rgba(197,160,89,0.2)]"
+                  : "border-line/70 bg-night/70 text-sand hover:border-gold/50 hover:text-bone"
               )}
             >
               <span className={cn("text-[0.65rem]", activeIdx === idx ? "text-gold" : "text-dust")}>
@@ -520,8 +641,9 @@ export function WebGLNoiseTransition({
       {/* Main WebGL Stage Container */}
       <div
         className={cn(
-          "relative w-full overflow-hidden border border-line/70 bg-night",
-          aspectRatio,
+          fullScreen
+            ? "absolute inset-0 h-full w-full overflow-hidden bg-night"
+            : cn("relative w-full overflow-hidden border border-line/70 bg-night", aspectRatio),
           stageClassName
         )}
       >
@@ -529,10 +651,10 @@ export function WebGLNoiseTransition({
         <div ref={containerRef} className="absolute inset-0 h-full w-full" />
 
         {/* Fallback & Initial Image */}
-        {!isLoaded && resolvedUrls[0] && (
+        {!isLoaded && resolvedUrls[activeIdx] && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={resolvedUrls[0]}
+            src={resolvedUrls[activeIdx] || resolvedUrls[0]}
             alt={activeSlide?.title || "BSAH Visual"}
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -541,22 +663,47 @@ export function WebGLNoiseTransition({
         {/* Cinematic Vignette / Shading */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/90 via-night/20 to-transparent"
+          className={cn(
+            "pointer-events-none absolute inset-0",
+            fullScreen
+              ? "bg-gradient-to-t from-black/95 via-black/35 to-black/60"
+              : "bg-gradient-to-t from-night/90 via-night/20 to-transparent"
+          )}
         />
 
         {/* Top Badges / Index Metadata */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-5 text-xs font-mono">
-          {activeSlide?.badge ? (
-            <span className="border border-gold/40 bg-night/80 px-2.5 py-1 uppercase tracking-widest text-gold shadow-sm backdrop-blur-sm">
-              {activeSlide.badge}
-            </span>
-          ) : (
-            <span className="text-[0.65rem] tracking-[0.2em] text-sand/80">
-              BSAH WEBGL OPTIC // NOISE WAVE DISSOLVE
-            </span>
+        <div
+          className={cn(
+            "pointer-events-none absolute inset-x-0 flex items-center justify-between text-xs font-mono z-20",
+            fullScreen ? "top-36 sm:top-36 left-6 sm:left-12 right-6 sm:right-12" : "top-0 p-5"
           )}
+        >
+          <div className="flex items-center gap-3">
+            {activeSlide?.badge ? (
+              <span className="border border-gold/40 bg-night/85 px-3 py-1.5 uppercase tracking-widest text-gold shadow-sm backdrop-blur-md">
+                {activeSlide.badge}
+              </span>
+            ) : (
+              <span className="text-[0.65rem] tracking-[0.2em] text-sand/80">
+                BSAH WEBGL OPTIC // NOISE WAVE DISSOLVE
+              </span>
+            )}
 
-          <div className="flex items-center gap-2 rounded-full border border-line/60 bg-night/80 px-3 py-1 text-gold backdrop-blur-sm">
+            {showEffectToggle && (
+              <button
+                type="button"
+                onClick={cycleEffect}
+                title="Click to cycle WebGL transition effects from list"
+                className="pointer-events-auto group flex items-center gap-1.5 border border-gold/30 bg-night/85 px-2.5 py-1.5 text-[0.68rem] tracking-wider text-sand backdrop-blur-md hover:border-gold hover:text-gold active:scale-95 transition-all cursor-pointer"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-gold/70 group-hover:bg-gold" />
+                <span>FX: {effectLabels[effect]}</span>
+                <span className="text-dust text-[0.6rem]">↻</span>
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 rounded-full border border-line/60 bg-night/85 px-3 py-1.5 text-gold backdrop-blur-md">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
             <span>
               {String(activeIdx + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
@@ -565,31 +712,102 @@ export function WebGLNoiseTransition({
         </div>
 
         {/* Bottom Slide Info Overlay */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 p-5 md:p-7">
+        <div
+          className={cn(
+            "pointer-events-none absolute bottom-0 left-0 z-20",
+            fullScreen
+              ? "p-6 sm:p-12 pb-10 sm:pb-14 max-w-2xl"
+              : "inset-x-0 p-5 md:p-7"
+          )}
+        >
           {activeSlide?.tag && (
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">{activeSlide.tag}</p>
           )}
           {activeSlide?.title && (
-            <h4 className="t-voice mt-1 text-2xl text-bone md:text-3xl">{activeSlide.title}</h4>
+            <h3 className="t-voice mt-1.5 text-3xl sm:text-4xl text-bone drop-shadow-md">
+              {activeSlide.title}
+            </h3>
           )}
           {activeSlide?.subtitle && (
-            <p className="mt-1.5 max-w-lg text-sm text-sand/90 md:text-base">{activeSlide.subtitle}</p>
+            <p className="mt-2 text-sm sm:text-base text-sand/90 leading-relaxed max-w-xl">
+              {activeSlide.subtitle}
+            </p>
           )}
           {activeSlide?.caption && (
-            <p className="t-ui mt-2 text-xs text-dust">{activeSlide.caption}</p>
+            <p className="t-ui mt-2 text-xs text-dust/90 font-mono tracking-wide">{activeSlide.caption}</p>
           )}
         </div>
 
         {/* Subtle Wave Dissolve Activity Indicator */}
         {isTransitioning && (
-          <div className="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full bg-gold/30">
-            <div className="h-full w-full animate-pulse bg-gold" />
+          <div className="pointer-events-none absolute bottom-0 left-0 h-[3px] w-full bg-gold/30 z-30">
+            <div className="h-full w-full animate-pulse bg-gold shadow-[0_0_12px_rgba(212,175,55,0.8)]" />
+          </div>
+        )}
+
+        {/* Fullscreen Controls & Pagination Dots */}
+        {fullScreen && (showControls || showDots) && slides.length > 1 && (
+          <div className="absolute bottom-8 right-6 sm:right-12 z-20 flex items-center gap-4">
+            {/* Pagination Indicators */}
+            {showDots && (
+              <div className="flex items-center gap-2">
+                {slides.map((_, idx) => (
+                  <button
+                    key={`${uniqueId}-dot-${idx}`}
+                    type="button"
+                    aria-label={`Go to slide ${idx + 1}`}
+                    disabled={isTransitioning}
+                    onClick={() => goToSlide(idx)}
+                    className={cn(
+                      "h-1.5 transition-all duration-300 cursor-pointer",
+                      activeIdx === idx
+                        ? "w-8 bg-gold shadow-[0_0_10px_rgba(212,175,55,0.8)]"
+                        : "w-2 bg-line/80 hover:bg-gold/60"
+                    )}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Prev / Next Arrows */}
+            {showControls && (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label="Previous slide"
+                  disabled={isTransitioning}
+                  onClick={prevSlide}
+                  className={cn(
+                    "group flex h-10 w-10 items-center justify-center border border-line/80 bg-night/80 text-sand backdrop-blur-md transition-all hover:border-gold hover:text-gold active:scale-95 cursor-pointer",
+                    isTransitioning && "opacity-50 cursor-not-allowed"
+                  )}
+                >
+                  <svg className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next slide"
+                  disabled={isTransitioning}
+                  onClick={nextSlide}
+                  className={cn(
+                    "group flex h-10 w-10 items-center justify-center border border-line/80 bg-night/80 text-sand backdrop-blur-md transition-all hover:border-gold hover:text-gold active:scale-95 cursor-pointer",
+                    isTransitioning && "opacity-50 cursor-not-allowed"
+                  )}
+                >
+                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 18l6-6-6-6" />
+                  </svg>
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Navigation Controls & Pagination Dots */}
-      {(showControls || showDots) && slides.length > 1 && (
+      {/* Non-fullscreen Controls & Dots */}
+      {!fullScreen && (showControls || showDots) && slides.length > 1 && (
         <div className="mt-4 flex items-center justify-between gap-4">
           {/* Pagination Indicators */}
           {showDots && (

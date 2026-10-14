@@ -17,20 +17,111 @@ import { cn } from "@/lib/utils";
 import { QrSeal } from "@/components/brand/QrSeal";
 import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
 
-/** Title card · T8 portrait. Signature: a tall portrait rises beside the title with a vertical name credit. */
+/** Title card · T8 portrait upgraded to Full-Screen Desert Valour Cinematic Video Hero matching reference */
 export function CadetsTitle() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const scrollToSpotlights = () => {
+    document.getElementById("spot-h")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <section aria-labelledby="cadets-h" className="relative min-h-[100svh] overflow-hidden pt-24">
-      <div className="gutter grid min-h-[calc(100svh-6rem)] gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-end">
-        <div className="pb-[8vh]">
+    <section
+      aria-labelledby="cadets-h"
+      className="tone-dark relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-black select-none isolate flex flex-col justify-between"
+    >
+      {/* Background Seamless Looping Video */}
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        poster="/video/cadets-desert-poster.jpg"
+        aria-label="Cadet desert horsemanship and golden halo loop"
+        className="absolute inset-0 h-full w-full object-cover object-center z-10 brightness-[0.92] contrast-[1.05]"
+      >
+        <source src="/video/cadets-desert-loop.mp4" type="video/mp4" />
+        <source
+          src="/video/Firefly Create a --3-second seamless cinematic loop-- using the provided desert image. The horse slo.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      {/* Atmospheric Vignette Gradients */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-15 bg-gradient-to-b from-black/85 via-transparent to-black/90"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-15 [background:radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.65)_100%)]"
+      />
+
+      {/* Top Banner & Monumental Wordmark matching reference screenshot */}
+      <div className="relative z-25 w-full pt-20 sm:pt-24 px-6 sm:px-12 md:px-16 flex flex-col items-center">
+        {/* Reel Tagline */}
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: ease.citadel, delay: 0.15 }}
+          className="mb-3"
+        >
           <ReelMark n={7} act="citadel" />
-          <Headline id="cadets-h" as="h1" size="poster" animate="mount" className="mt-6" inscription="The hall" voice="of valour." />
-          <p className="t-story mt-6 max-w-lg text-sand">Cadets earn their place: hour by hour, rank by rank, sealed in brass.</p>
-        </div>
-        <motion.div className="relative h-[70svh] lg:h-[86svh]" initial={{ clipPath: "inset(100% 0 0 0)" }} animate={{ clipPath: "inset(0% 0 0 0)" }} transition={{ duration: 1.6, ease: ease.citadel, delay: 0.3 }}>
-          <FilmImage name="cadetZayd" priority sizes="(min-width: 1024px) 45vw, 100vw" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent" />
-          <p className="label absolute right-3 top-6 text-ivory/90 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)] [writing-mode:vertical-rl]">Cadet Alpha · Cadet Knight · sample</p>
+        </motion.div>
+
+        {/* Monumental Flanking Display Title matching reference screenshot */}
+        <h1 id="cadets-h" className="w-full max-w-7xl">
+          <span className="sr-only">The Hall of Valour · Desert Cadet Horsemanship</span>
+          <div className="flex items-center justify-between w-full pointer-events-none select-none">
+            <motion.span
+              initial={{ opacity: 0, x: -30, filter: "blur(10px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              transition={{ duration: 1.2, ease: ease.citadel, delay: 0.25 }}
+              className="font-sans font-black text-4xl sm:text-7xl md:text-8xl lg:text-[7.5rem] xl:text-[8.5rem] uppercase tracking-[-0.04em] text-[#c9894e]/90 drop-shadow-[0_4px_35px_rgba(201,137,78,0.45)] leading-none"
+            >
+              DESERT
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0, x: 30, filter: "blur(10px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              transition={{ duration: 1.2, ease: ease.citadel, delay: 0.35 }}
+              className="font-sans font-black text-4xl sm:text-7xl md:text-8xl lg:text-[7.5rem] xl:text-[8.5rem] uppercase tracking-[-0.04em] text-[#c9894e]/90 drop-shadow-[0_4px_35px_rgba(201,137,78,0.45)] leading-none"
+            >
+              VALOUR
+            </motion.span>
+          </div>
+        </h1>
+      </div>
+
+      {/* Bottom Editorial & Outlined Pill Button matching reference screenshot */}
+      <div className="relative z-25 w-full pb-10 sm:pb-14 px-6 flex flex-col items-center text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: ease.citadel, delay: 0.6 }}
+          className="max-w-2xl text-[0.7rem] sm:text-xs md:text-sm font-sans uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#faf7f0]/85 leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]"
+        >
+          DISCOVER THE CORPS OF VALOUR THROUGH RIGOROUS CADET DOCTRINE ACROSS GOLDEN DUNES,
+          SOVEREIGN MOUNTED DRILLS, AND UNBENDING HORSEMANSHIP. HOURS EARNED, NAMES REMEMBERED,
+          AND CHARACTER SEALED IN BRASS.
+        </motion.p>
+
+        {/* Outlined Glowing Pill Button */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: ease.citadel, delay: 0.8 }}
+          className="mt-6 sm:mt-7"
+        >
+          <button
+            type="button"
+            onClick={scrollToSpotlights}
+            className="group relative inline-flex items-center justify-center px-9 sm:px-11 py-2.5 sm:py-3 rounded-full border border-[#c9894e]/70 bg-black/40 text-[#faf7f0] text-xs font-mono uppercase tracking-[0.28em] backdrop-blur-md transition-all duration-300 hover:border-[#faf7f0] hover:bg-[#c9894e]/20 hover:text-white hover:shadow-[0_0_30px_rgba(201,137,78,0.55)] hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <span>DISCOVER</span>
+          </button>
         </motion.div>
       </div>
     </section>
@@ -104,27 +195,16 @@ export function CadetDrillShowcase() {
   ];
 
   return (
-    <section aria-labelledby="cadet-gallery-h" className="relative py-[clamp(4rem,10vh,8rem)] bg-umber/30 border-y border-line/60">
-      <div className="gutter">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div>
-            <Label>Tactical field reels</Label>
-            <Headline id="cadet-gallery-h" className="mt-4" inscription="The sovereign stride," voice="in liquid motion." />
-          </div>
-          <p className="max-w-md text-sand text-sm">
-            Experience the cadet cohort in action through real-time WebGL simplex noise transitions. Toggle between cadets to inspect verified form and field discipline.
-          </p>
-        </div>
-
-        <WebGLNoiseTransition
-          slides={slides}
-          aspectRatio="aspect-[16/10]"
-          showTabs
-          showControls
-          showDots
-          autoplayInterval={6500}
-        />
-      </div>
+    <section aria-labelledby="cadet-gallery-h" className="relative w-full h-[100svh] min-h-[100svh] overflow-hidden bg-night tone-dark border-y border-line/40">
+      <h2 id="cadet-gallery-h" className="sr-only">Tactical field reels — The sovereign stride, in liquid motion.</h2>
+      <WebGLNoiseTransition
+        slides={slides}
+        fullScreen
+        showTabs
+        showControls
+        showDots
+        autoplayInterval={6500}
+      />
     </section>
   );
 }

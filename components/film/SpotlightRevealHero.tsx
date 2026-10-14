@@ -14,6 +14,7 @@ export interface SpotlightRevealHeroProps {
   rightDek?: string;
   ctaText?: string;
   ctaHref?: string;
+  ctaVariant?: "accent" | "gold" | "outline";
   spotlightRadius?: number;
   heightClass?: string;
   className?: string;
@@ -29,8 +30,9 @@ export function SpotlightRevealHero({
   rightDek,
   ctaText,
   ctaHref,
+  ctaVariant = "gold",
   spotlightRadius = 260,
-  heightClass = "h-screen min-h-[640px] max-h-[1080px]",
+  heightClass = "h-[100svh] min-h-[100svh]",
   className = "",
 }: SpotlightRevealHeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -110,13 +112,13 @@ export function SpotlightRevealHero({
     >
       {/* Layer 1: Base Background Image (z-10) with subtle cinematic zoom */}
       <div
-        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-10 hero-zoom brightness-[0.68]"
+        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-10 hero-zoom brightness-[0.72]"
         style={{ backgroundImage: `url(${baseImage})` }}
       />
 
       {/* Layer 2: Reveal Image with Spotlight Mask (z-20) */}
       <div
-        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-20 pointer-events-none brightness-[1.05]"
+        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-20 pointer-events-none brightness-[1.12]"
         style={{
           backgroundImage: `url(${revealImage})`,
           ...maskStyle,
@@ -143,7 +145,7 @@ export function SpotlightRevealHero({
       />
 
       {/* Layer 3: Central Headline (z-30) */}
-      <div className="absolute top-[14%] sm:top-[16%] left-0 right-0 flex flex-col items-center text-center px-6 pointer-events-none z-30">
+      <div className="absolute top-[16%] sm:top-[18%] left-0 right-0 flex flex-col items-center text-center px-6 pointer-events-none z-30">
         {tagline && (
           <p
             className="font-mono text-[0.68rem] tracking-[0.3em] uppercase text-gold/90 mb-3 hero-anim hero-fade"
@@ -155,20 +157,18 @@ export function SpotlightRevealHero({
 
         <h1 className="text-white leading-[0.95] max-w-5xl">
           <span
-            className="block font-serif italic font-normal text-4xl sm:text-7xl md:text-8xl hero-anim hero-reveal tracking-tight text-[#FAF7F0]"
+            className="block font-serif font-playfair italic font-normal text-4xl sm:text-7xl md:text-8xl hero-anim hero-reveal tracking-tight text-[#FAF7F0]"
             style={{
-              fontFamily: 'var(--font-kalnia), var(--font-newsreader), "Playfair Display", Georgia, serif',
-              letterSpacing: "-0.03em",
+              letterSpacing: "-0.05em",
               animationDelay: "0.25s",
             }}
           >
             {titleItalic}
           </span>
           <span
-            className="block font-serif font-light text-4xl sm:text-7xl md:text-8xl -mt-1 sm:-mt-2 hero-anim hero-reveal uppercase tracking-tight text-white/95"
+            className="block font-sans font-normal text-4xl sm:text-7xl md:text-8xl -mt-1 sm:-mt-2 hero-anim hero-reveal tracking-tight text-white/95"
             style={{
-              fontFamily: 'var(--font-kalnia), var(--font-newsreader), "Playfair Display", serif',
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.08em",
               animationDelay: "0.42s",
             }}
           >
@@ -183,7 +183,7 @@ export function SpotlightRevealHero({
           className="hidden sm:block absolute bottom-12 left-8 md:left-14 max-w-[280px] md:max-w-[320px] z-30 hero-anim hero-fade pointer-events-none"
           style={{ animationDelay: "0.7s" }}
         >
-          <p className="font-serif text-xs sm:text-sm text-sand/85 leading-relaxed drop-shadow">
+          <p className="text-xs sm:text-sm text-white/85 leading-relaxed drop-shadow-md">
             {leftDek}
           </p>
         </div>
@@ -196,7 +196,7 @@ export function SpotlightRevealHero({
           style={{ animationDelay: "0.85s" }}
         >
           {rightDek && (
-            <p className="font-serif text-xs sm:text-sm text-sand/80 leading-relaxed drop-shadow">
+            <p className="text-xs sm:text-sm text-white/85 leading-relaxed drop-shadow-md">
               {rightDek}
             </p>
           )}
@@ -204,7 +204,13 @@ export function SpotlightRevealHero({
           {ctaText && ctaHref && (
             <Link
               href={ctaHref}
-              className="group inline-flex items-center gap-3 rounded-full border border-gold/70 bg-black/60 px-6 py-2.5 font-mono text-xs uppercase tracking-widest text-bone backdrop-blur-md transition-all hover:bg-gold hover:text-black hover:border-gold hover:shadow-[0_0_24px_rgba(212,175,55,0.4)] pointer-events-auto"
+              className={`group inline-flex items-center gap-3 rounded-full text-xs font-mono uppercase tracking-widest px-7 py-3 transition-all hover:scale-[1.03] active:scale-95 pointer-events-auto ${
+                ctaVariant === "accent"
+                  ? "bg-[#e8702a] hover:bg-[#d2611f] text-white shadow-lg shadow-[#e8702a]/30 font-medium"
+                  : ctaVariant === "outline"
+                  ? "border border-gold/70 bg-black/60 text-white backdrop-blur-md hover:bg-gold hover:text-black hover:border-gold hover:shadow-[0_0_24px_rgba(212,175,55,0.4)]"
+                  : "bg-[#d4af37] hover:bg-[#e5c158] text-black font-semibold shadow-lg shadow-[#d4af37]/30 hover:shadow-[#d4af37]/50"
+              }`}
             >
               <span>{ctaText}</span>
               <Arrow className="transition-transform group-hover:translate-x-1" />
