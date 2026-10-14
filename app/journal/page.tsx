@@ -4,11 +4,12 @@ import { EndCard } from "@/components/film/EndCard";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Arrow, ReelMark } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { FieldSphereHero } from "@/components/sections/journal/FieldSphereHero";
+import { SpotlightRevealHero } from "@/components/film/SpotlightRevealHero";
+import { mediaSrc } from "@/lib/content/media";
 import { posts } from "@/lib/content/journal";
 
 export const metadata: Metadata = {
-  title: "The Chronicle",
+  title: "The Chronicle · Layers Hold Tales of Time",
   description: "Stories from the stable: the Marwari's legends, the science of the saddle and life on the circuit.",
 };
 
@@ -16,9 +17,24 @@ const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numer
 
 export default function JournalPage() {
   const [featured, ...rest] = posts;
+
+  const baseImage = mediaSrc("bgFort") || "/media/bg-fort.png";
+  const revealImage = mediaSrc("legendCavalry") || mediaSrc("heroDust") || "/media/legend-cavalry.png";
+
   return (
     <>
-      <FieldSphereHero />
+      {/* Top Page Section · Spotlight Dual-Layer Reveal */}
+      <SpotlightRevealHero
+        baseImage={baseImage}
+        revealImage={revealImage}
+        tagline="The Chronicle · Stories From The Stable"
+        titleItalic="Layers hold"
+        titleRegular="tales of time"
+        leftDek="Every layer of desert sand records a chapter of our bloodline, from ancient cavalry battlefields to the national circuit, layered across eight centuries beneath us."
+        rightDek="Our chronicle dispatches let you peel back the dust to uncover how horses, courage, and deep time combine to shape the spirit of Black Stallion Academy."
+        ctaText="Start Exploring"
+        ctaHref="#articles"
+      />
 
       {/* T15 · Masthead */}
       <header id="articles" className="gutter pt-20 md:pt-28 scroll-mt-12">

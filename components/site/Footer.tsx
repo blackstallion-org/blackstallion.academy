@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { corridors, entity, legalNav } from "@/lib/content/site";
+import { mediaSrc } from "@/lib/content/media";
 
 const navLinks = [
   { href: "/legend", label: "The Legend" },
@@ -21,14 +22,22 @@ const navLinks = [
 ];
 
 const COPYRIGHT_YEAR = 2026;
+const SPOTLIGHT_R = 260;
 
 /**
- * Meridian-style cinematic video footer adapted for BSAH.
- * 70% warm natural editorial palette with atmospheric equine footage blend.
+ * Meridian-style cinematic video footer adapted for BSAH with interactive
+ * Spotlight Dual-Layer Reveal ("Layers hold tales of time").
  */
 export function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const [cursorPos, setCursorPos] = useState<{ x: number; y: number }>({ x: -999, y: -999 });
+  const mouse = useRef<{ x: number; y: number }>({ x: -999, y: -999 });
+  const smooth = useRef<{ x: number; y: number }>({ x: -999, y: -999 });
+  const rafRef = useRef<number | null>(null);
+
+  // Background video observer
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -61,9 +70,77 @@ export function Footer() {
     return () => observer.disconnect();
   }, []);
 
+  // Spotlight smooth cursor tracking
+  useEffect(() => {
+    const footer = footerRef.current;
+    if (!footer) return;
+
+    const rect = footer.getBoundingClientRect();
+    const initialX = rect.width * 0.5;
+    const initialY = rect.height * 0.45;
+    mouse.current = { x: initialX, y: initialY };
+    smooth.current = { x: initialX, y: initialY };
+    setCursorPos({ x: initialX, y: initialY });
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const b = footer.getBoundingClientRect();
+      mouse.current = {
+        x: e.clientX - b.left,
+        y: e.clientY - b.top,
+      };
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!e.touches.length) return;
+      const t = e.touches[0];
+      const b = footer.getBoundingClientRect();
+      mouse.current = {
+        x: t.clientX - b.left,
+        y: t.clientY - b.top,
+      };
+    };
+
+    const animate = () => {
+      smooth.current.x += (mouse.current.x - smooth.current.x) * 0.12;
+      smooth.current.y += (mouse.current.y - smooth.current.y) * 0.12;
+
+      setCursorPos({
+        x: Math.round(smooth.current.x * 10) / 10,
+        y: Math.round(smooth.current.y * 10) / 10,
+      });
+
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    footer.addEventListener("touchmove", handleTouchMove, { passive: true });
+    footer.addEventListener("touchstart", handleTouchMove, { passive: true });
+    rafRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      footer.removeEventListener("touchmove", handleTouchMove);
+      footer.removeEventListener("touchstart", handleTouchMove);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
+
+  const revealImageSrc = mediaSrc("rearing") || mediaSrc("heroDust") || "/media/rearing.png";
+
+  const spotlightMask = {
+    WebkitMaskImage: `radial-gradient(circle ${SPOTLIGHT_R}px at ${cursorPos.x}px ${cursorPos.y}px, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0.38) 75%, rgba(0,0,0,0.12) 88%, transparent 100%)`,
+    maskImage: `radial-gradient(circle ${SPOTLIGHT_R}px at ${cursorPos.x}px ${cursorPos.y}px, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0.38) 75%, rgba(0,0,0,0.12) 88%, transparent 100%)`,
+  };
+
   return (
-    <footer className="footer-meridian no-print" aria-label="Site Footer">
-      {/* Background ambient video (rendered first in DOM, visually placed lower via CSS flex order) */}
+    <footer
+      ref={footerRef}
+      className="footer-meridian no-print relative overflow-hidden select-none"
+      aria-label="Site Footer"
+    >
+      {/* Background ambient video */}
       <video
         ref={videoRef}
         className="footer-meridian__video"
@@ -85,8 +162,64 @@ export function Footer() {
         />
       </video>
 
-      {/* Content block: brand emblem, wordmark, tagline, nav and legal copy */}
-      <div className="footer-meridian__content">
+      {/* Spotlight Dual-Layer Reveal: Hidden golden stallion illuminated under torchlight cursor */}
+      <div
+        className="absolute inset-0 bg-center bg-cover bg-no-repeat pointer-events-none z-[1] opacity-90 transition-opacity duration-300"
+        style={{
+          backgroundImage: `url(${revealImageSrc})`,
+          ...spotlightMask,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Subtle Golden Glow Halo following cursor */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute rounded-full z-[2] transition-opacity duration-300"
+        style={{
+          width: `${SPOTLIGHT_R * 2}px`,
+          height: `${SPOTLIGHT_R * 2}px`,
+          left: `${cursorPos.x - SPOTLIGHT_R}px`,
+          top: `${cursorPos.y - SPOTLIGHT_R}px`,
+          background: "radial-gradient(circle, rgba(212,175,55,0.1) 0%, rgba(212,175,55,0.02) 60%, transparent 80%)",
+        }}
+      />
+
+      {/* Dark gradient overlay for pristine contrast */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/60 z-[3]"
+      />
+
+      {/* Content block: Spotlight Callout, brand emblem, wordmark, tagline, nav and legal copy */}
+      <div className="footer-meridian__content relative z-[10]">
+        {/* Spotlight Editorial Heading */}
+        <div className="py-4 sm:py-6 text-center pointer-events-none select-none">
+          <p className="font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.3em] uppercase text-gold/80 mb-2">
+            The Gate Closes · The Legend Remains
+          </p>
+          <h2 className="leading-[0.95] text-white">
+            <span
+              className="block font-serif italic text-3xl sm:text-5xl md:text-6xl text-[#FAF7F0]"
+              style={{
+                fontFamily: 'var(--font-kalnia), var(--font-newsreader), "Playfair Display", Georgia, serif',
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Layers hold
+            </span>
+            <span
+              className="block font-serif font-light text-2xl sm:text-4xl md:text-5xl uppercase tracking-tight text-white/90 -mt-1"
+              style={{
+                fontFamily: 'var(--font-kalnia), var(--font-newsreader), "Playfair Display", serif',
+                letterSpacing: "-0.02em",
+              }}
+            >
+              tales of time
+            </span>
+          </h2>
+        </div>
+
         <div className="footer-meridian__mark" aria-hidden="true">
           <CrestMark size="sm" className="h-12 w-12 object-contain" />
         </div>
