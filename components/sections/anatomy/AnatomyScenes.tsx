@@ -7,7 +7,6 @@ import { Headline } from "@/components/film/Headline";
 import { ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { earLeft } from "@/components/brand/paths";
-import { ease } from "@/lib/motion/tokens";
 import { r3 } from "@/lib/round";
 
 /** Title card · T3 specimen plate. Signature: catalogue lines rule in around the horse like a museum mount. */
@@ -25,15 +24,18 @@ const catalogue: [string, string][] = [
  */
 export function AnatomyTitle() {
   return (
-    <section aria-labelledby="anatomy-h" className="relative min-h-[100svh] overflow-hidden bg-night pb-8 pt-24">
-      <div className="gutter">
-        <ReelMark n={2} act="legend" />
-        <Headline id="anatomy-h" as="h1" size="1" animate="mount" className="mt-6" inscription="The" voice="instrument." />
+    <section aria-labelledby="anatomy-h" className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden bg-night pb-12 pt-24">
+      <div className="absolute inset-0">
+        <FilmImage name="anatomyProfile" priority sizes="100vw" grade="none" />
       </div>
-      <div className="gutter mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-        <div className="max-w-sm">
-          <p className="t-story text-sand">Five hundred kilograms of muscle and nerve that notices your breathing before you do.</p>
-          <dl className="font-mono mt-8 hidden border-t border-line text-xs lg:block">
+      <div className="gutter relative z-10">
+        <ReelMark n={2} act="legend" />
+        <Headline id="anatomy-h" as="h1" size="1" animate="mount" className="mt-6 [text-shadow:0_3px_15px_rgba(0,0,0,0.7)]" inscription="The" voice="instrument." />
+      </div>
+      <div className="gutter relative z-10 mt-auto grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="max-w-md bg-night/85 p-6 backdrop-blur-md border border-line">
+          <p className="t-story text-bone">Five hundred kilograms of muscle and nerve that notices your breathing before you do.</p>
+          <dl className="font-mono mt-6 border-t border-line text-xs">
             {catalogue.map(([k, v]) => (
               <div key={k} className="grid grid-cols-[6.5rem_1fr] gap-3 border-b border-line py-2">
                 <dt className="uppercase tracking-[0.12em] text-dust">{k}</dt>
@@ -42,32 +44,9 @@ export function AnatomyTitle() {
             ))}
           </dl>
         </div>
-        <motion.figure
-          className="w-full lg:w-[min(64vw,calc((100svh-25rem)*16/9))]"
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.6, ease: ease.citadel, delay: 0.3 }}
-        >
-          <div className="relative aspect-[16/9] w-full">
-            <FilmImage name="anatomyProfile" priority sizes="(min-width: 1024px) 64vw, 100vw" grade="none" />
-            {/* Museum mount rulings */}
-            {["top-0 inset-x-0 h-px", "bottom-0 inset-x-0 h-px", "left-0 inset-y-0 w-px", "right-0 inset-y-0 w-px"].map((c, i) => (
-              <motion.span
-                key={c}
-                aria-hidden
-                className={`absolute bg-line ${c}`}
-                initial={{ scaleX: i < 2 ? 0 : 1, scaleY: i >= 2 ? 0 : 1 }}
-                animate={{ scaleX: 1, scaleY: 1 }}
-                transition={{ duration: 1.4, ease: ease.citadel, delay: 0.8 + i * 0.12 }}
-                style={{ originX: 0, originY: 0 }}
-              />
-            ))}
-          </div>
-          <figcaption className="mt-3 flex flex-wrap items-baseline justify-between gap-3">
-            <span className="font-mono text-xs tracking-[0.12em] text-gold">PLATE 02 · EQUUS FERUS CABALLUS · MARWARI</span>
-            <span className="font-mono text-xs text-dust lg:hidden">STALLION · 15.2 HH · DARK BAY · CAT. BSAH-0912</span>
-          </figcaption>
-        </motion.figure>
+        <div className="font-mono text-xs tracking-[0.12em] text-white/90 bg-night/80 px-4 py-2 border border-line backdrop-blur-sm">
+          PLATE 02 · MARWARI · 15.2 HH
+        </div>
       </div>
     </section>
   );

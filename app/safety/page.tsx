@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
+import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { NumberWall, OrdersOfTheDay, People, SafetyTitle, ShieldColumns } from "@/components/sections/safety/SafetyScenes";
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export default function SafetyPage() {
       <SafetyTitle />
       <ShieldColumns />
       <OrdersOfTheDay />
+      <HorseEquipmentSection />
       <NumberWall />
       <People />
       <EndCard current={9} />

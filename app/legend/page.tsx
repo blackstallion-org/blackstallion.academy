@@ -37,7 +37,7 @@ export default function LegendPage() {
           <Reveal as="figure" className="mx-auto w-full max-w-md">
             <div className="relative aspect-[3/4] border border-line p-3">
               <div className="relative h-full w-full">
-                <FilmImage name="legendBlack" sizes="(min-width: 1024px) 30vw, 90vw" />
+                <FilmImage name="legendBlack" sizes="(min-width: 1024px) 30vw, 90vw" grade="none" />
               </div>
             </div>
             <figcaption className="label mt-4 text-dust">
@@ -70,7 +70,7 @@ export default function LegendPage() {
       <section id="bred" aria-labelledby="bred-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           <div className="relative aspect-[16/11] overflow-hidden lg:sticky motion-reduce:lg:static lg:top-24 lg:self-start">
-            <FilmImage name="legendSand" sizes="(min-width: 1024px) 50vw, 100vw" />
+            <FilmImage name="legendSand" sizes="(min-width: 1024px) 50vw, 100vw" grade="none" />
             {[
               [38, 22],
               [52, 58],
@@ -136,15 +136,14 @@ export default function LegendPage() {
         <ol className="no-scrollbar mt-12 flex snap-x snap-mandatory scroll-px-[max(16px,4vw)] gap-6 overflow-x-auto px-[max(16px,4vw)] pb-4" aria-label="Horses remembered">
           {honour.map((h) => (
             <li key={h.name} className="w-[78vw] shrink-0 snap-start sm:w-[46vw] lg:w-[30vw]">
-              <div className="relative aspect-[3/4] overflow-hidden">
-                <FilmImage name={h.image} sizes="(min-width: 1024px) 30vw, 78vw" />
-                <div aria-hidden className="absolute inset-0 shade-b" />
+              <div className="relative aspect-[3/4] overflow-hidden border border-line/40">
+                <FilmImage name={h.image} sizes="(min-width: 1024px) 30vw, 78vw" grade="none" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
-                  <p className="label text-brass">
+                  <p className="label text-gold [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
                     {h.when}
                     {h.legend && <span className="ml-2 text-dust">· legend</span>}
                   </p>
-                  <p className="t-voice mt-1 text-3xl text-bone">{h.name}</p>
+                  <p className="t-voice mt-1 text-3xl text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">{h.name}</p>
                 </div>
               </div>
               <p className="mt-4 text-sand">{h.text}</p>
@@ -161,16 +160,15 @@ export default function LegendPage() {
       <Descent />
 
       {/* IX · The revival — ascent timeline + vignette */}
-      <section id="revival" aria-labelledby="revival-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
-        <FilmImage name="legendRevival" grade="deep" className="opacity-80" />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/70 to-night" />
+      <section id="revival" aria-labelledby="revival-h" className="relative min-h-[100svh] overflow-hidden py-[clamp(6rem,14vh,12rem)]">
+        <FilmImage name="legendRevival" grade="none" className="opacity-100" />
         <div className="gutter relative">
           <ChapterHead id="revival" />
-          <Headline id="revival-h" className="mt-4" inscription={revival.inscription} voice={revival.voice} />
+          <Headline id="revival-h" className="mt-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]" inscription={revival.inscription} voice={revival.voice} />
           <div className="mt-14">
             <Ascent />
           </div>
-          <Reveal className="parchment mx-auto mt-24 max-w-2xl px-8 py-10 md:px-14 md:py-14">
+          <Reveal className="parchment mx-auto mt-24 max-w-2xl px-8 py-10 md:px-14 md:py-14 shadow-2xl">
             <p className="label text-brass">{revival.vignette.note}</p>
             <p className="t-voice mt-3 text-3xl text-ink">{revival.vignette.title}</p>
             <p className="mt-5 text-lg leading-relaxed text-ink/85">{revival.vignette.text}</p>
@@ -180,14 +178,12 @@ export default function LegendPage() {
 
       {/* XI · Every cadet rides one */}
       <section id="today" aria-labelledby="today-h" className="relative min-h-[100svh]">
-        <FilmImage name="legendToday" sizes="100vw" />
-        <div aria-hidden className="absolute inset-0 shade-b" />
-        <div aria-hidden className="absolute inset-0 shade-l opacity-40" />
+        <FilmImage name="legendToday" sizes="100vw" grade="none" />
         <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
           <ChapterHead id="today" />
-          <Headline id="today-h" className="mt-4" size="1" inscription={today.inscription} voice={today.voice} />
+          <Headline id="today-h" className="mt-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]" size="1" inscription={today.inscription} voice={today.voice} />
           <Reveal>
-            <p className="t-story mt-6 max-w-xl text-bone">{today.body}</p>
+            <p className="t-story mt-6 max-w-xl text-bone [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">{today.body}</p>
           </Reveal>
           <p className="t-ui mt-10 max-w-2xl text-xs leading-relaxed text-dust">{today.sources}</p>
         </div>

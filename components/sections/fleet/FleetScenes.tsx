@@ -21,12 +21,11 @@ export function FleetTitle() {
   const scale = useTransform(scrollYProgress, r(0, 1), [1, 1.12]);
   return (
     <section ref={ref} aria-labelledby="fleet-h" className="relative min-h-[100svh] overflow-hidden">
-      <FilmImage name="bgStable" priority scale={scale} grade="deep" />
-      <div aria-hidden className="absolute inset-0 shade-b" />
+      <FilmImage name="bgStable" priority scale={scale} grade="none" />
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={6} act="citadel" />
-        <Headline id="fleet-h" as="h1" size="1" animate="mount" className="mt-6" inscription="Twenty-one stallions." voice="Every one has a name." />
-        <p className="t-story mt-6 max-w-2xl text-sand">Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.</p>
+        <Headline id="fleet-h" as="h1" size="1" animate="mount" className="mt-6 [text-shadow:0_3px_15px_rgba(0,0,0,0.7)]" inscription="Twenty-one stallions." voice="Every one has a name." />
+        <p className="t-story mt-6 max-w-2xl text-bone [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.</p>
       </div>
     </section>
   );
@@ -71,7 +70,7 @@ export function Registry() {
               <tr key={s.id} className="group border-b border-line transition-colors hover:bg-umber/60">
                 <td className="py-3 pr-4">
                   <div className="relative h-14 w-12 overflow-hidden">
-                    <FilmImage name={s.image} sizes="48px" />
+                    <FilmImage name={s.image} sizes="48px" grade="none" />
                   </div>
                 </td>
                 <th scope="row" className="t-voice pr-4 text-2xl font-semibold text-bone">
@@ -189,14 +188,13 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
         data-lenis-prevent
       >
         <div className="relative aspect-[4/5]">
-          <FilmImage name={s.image} sizes="36rem" />
-          <div aria-hidden className="absolute inset-0 shade-b" />
-          <button ref={closeRef} type="button" onClick={onClose} className="label absolute right-4 top-4 bg-night/70 px-3 py-2 text-bone hover:text-gold">
+          <FilmImage name={s.image} sizes="36rem" grade="none" />
+          <button ref={closeRef} type="button" onClick={onClose} className="label absolute right-4 top-4 bg-night/70 px-3 py-2 text-bone hover:text-gold z-10">
             Close ✕
           </button>
-          <div className="absolute inset-x-0 bottom-0 p-6">
-            <p className="label text-brass">{s.character}</p>
-            <p className="t-voice mt-1 text-5xl text-bone">{s.name}</p>
+          <div className="absolute inset-x-0 bottom-0 p-6 z-10">
+            <p className="label text-brass [text-shadow:0_1px_4px_rgba(0,0,0,0.85)]">{s.character}</p>
+            <p className="t-voice mt-1 text-5xl text-bone [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">{s.name}</p>
           </div>
         </div>
         <div className="p-6 md:p-8">

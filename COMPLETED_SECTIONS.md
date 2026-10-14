@@ -84,11 +84,13 @@ The following sections and pages have been completed, verified, and locked. **DO
 ## 10. Curriculum Page Hero (`/curriculum`)
 - **File:** `components/sections/curriculum/CurriculumScenes.tsx` (`CurriculumTitle`), `components/film/SpotlightRevealHero.tsx`
 - **Section:** `CurriculumTitle` (Reel 05 / 15 · Act II The Citadel · The Curriculum Top Hero)
-- **Implementation:** Full-screen cursor-following spotlight reveal hero adapted from the Lithos design architecture with authentic BSAH curriculum context:
-  - Base Image: `currLedger` (leather ledger with quill and seals)
-  - Reveal Image: `currFormation` (mounted cavalry drill revealed under cursor spotlight mask)
-  - Typography: Playfair/serif italic top line (`An athletic curriculum`) with `heroReveal` animation + sans display line (`that builds character.`) with `-0.08em` tracking.
-  - Controls: Bottom-left doctrine statement, bottom-right description, and high-contrast gold pill button (`Inspect Codex` -> `#ranks-h`).
+- **Implementation:** Full-screen cursor-following spotlight reveal hero featuring the Lithos organic tree / sediment layers design:
+  - Base Image: `tree-base.webp` (dark ember-veined organic volcanic rock / bark texture)
+  - Reveal Image: `tree-reveal.webp` (blooming moss and wildflowers unveiled dynamically under the cursor spotlight)
+  - Typography: Clean, unobstructed simple title with `heroReveal` blur-drift entrance:
+    - Top line: Playfair italic (`An athletic curriculum`)
+    - Bottom line: Modern display sans (`that builds character.`)
+  - Clutter-Free: Extra descriptive paragraphs and bottom overlays removed per user instruction so the tree reveal animation is pure, clear, and center-stage.
 - **Status:** **LOCKED · DO NOT MODIFY**
 
 ---

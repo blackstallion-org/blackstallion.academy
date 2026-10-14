@@ -84,7 +84,7 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, className, o
     >
       <FilmImage name={left} grade="cold" sizes="100vw" />
       <motion.div className="absolute inset-0" style={{ clipPath: clip }}>
-        <FilmImage name={right} sizes="100vw" />
+        <FilmImage name={right} sizes="100vw" grade="none" />
       </motion.div>
 
       <span className="label pointer-events-none absolute left-4 top-4 text-frost md:left-6 md:top-6">{leftLabel}</span>

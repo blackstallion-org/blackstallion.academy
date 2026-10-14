@@ -26,23 +26,18 @@ export function LegendTitle() {
 function IrisFrame({ progress, open = false }: { progress?: MotionValue<number>; open?: boolean }) {
   const { scrollYProgress } = useScroll();
   const p = progress ?? scrollYProgress;
-  const radius = useTransform(p, r(0, 0.7), [open ? 150 : 14, 150]);
-  const clip = useTransform(radius, (v) => `circle(${v}% at 50% 48%)`);
-  const scale = useTransform(p, r(0, 1), [1.25, 1]);
-  const textY = useTransform(p, r(0, 1), ["0%", "-12%"]);
-  const ring = useTransform(radius, (v) => `${v * 2}vmax`);
+  const scale = useTransform(p, r(0, 1), [1.1, 1]);
+  const textY = useTransform(p, r(0, 1), ["0%", "-10%"]);
 
   return (
-    <div className={cn("relative h-full w-full bg-night", open && "min-h-[100svh]")}>
-      <motion.div className="absolute inset-0" style={{ clipPath: open ? undefined : clip }}>
-        <FilmImage name="duneSilhouette" priority scale={open ? 1 : scale} grade="film" />
-        <div aria-hidden className="absolute inset-0 shade-b" />
+    <div className="relative h-full w-full min-h-[100svh] bg-night overflow-hidden">
+      <motion.div className="absolute inset-0">
+        <FilmImage name="duneSilhouette" priority scale={open ? 1 : scale} grade="none" />
       </motion.div>
-      <motion.div aria-hidden className="pointer-events-none absolute left-1/2 top-[48%] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full border border-line" style={{ width: ring }} />
       <motion.div className="gutter relative flex h-full min-h-[100svh] flex-col justify-end pb-[10vh]" style={{ y: textY }}>
         <ReelMark n={1} act="legend" />
-        <Headline as="h1" size="poster" animate="mount" className="mt-6" inscription={title.inscription} voice={title.voice} />
-        <p className="t-story mt-6 max-w-2xl text-sand">{title.sub}</p>
+        <Headline as="h1" size="poster" animate="mount" className="mt-6 [text-shadow:0_3px_15px_rgba(0,0,0,0.65)]" inscription={title.inscription} voice={title.voice} />
+        <p className="t-story mt-6 max-w-2xl text-bone [text-shadow:0_2px_10px_rgba(0,0,0,0.55)]">{title.sub}</p>
       </motion.div>
     </div>
   );
@@ -138,11 +133,10 @@ export function RouteMap() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const draw = useTransform(scrollYProgress, r(0.2, 0.6), [0, 1]);
   return (
-    <section id="marwar" ref={ref} aria-labelledby="marwar-h" className="relative overflow-hidden">
-      {/* The map. On phones the copy follows below it; from md up the copy sits over the foot of the map. */}
-      <div className="relative h-[58svh] min-h-[360px] md:h-[90svh] md:min-h-[560px]">
-        <FilmImage name="bgFort" grade="deep" />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/30 to-night" />
+    <section id="marwar" ref={ref} aria-labelledby="marwar-h" className="relative min-h-[100svh] overflow-hidden">
+      {/* The map. Full screen clear view without gradient washes. */}
+      <div className="relative h-[100svh] min-h-[600px] w-full">
+        <FilmImage name="bgFort" grade="none" />
         <svg viewBox="0 0 1000 400" preserveAspectRatio="none" className="absolute inset-x-0 top-[34%] h-[30%] w-full md:top-[38%]" aria-hidden>
           <motion.path
             d="M940 220 C 820 160, 760 260, 640 210 S 440 120, 330 200 S 140 250, 60 180"
@@ -190,17 +184,15 @@ function EarsFrame({ progress }: { progress: MotionValue<number> }) {
   useMotionValueEvent(progress, "change", (v) => setBeat(Math.min(ears.beats.length - 1, Math.floor(v * ears.beats.length * 0.999))));
   return (
     <div className="relative h-full">
-      <FilmImage name="legendEars" scale={scale} y={y} position="50% 30%" bleed />
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,transparent_30%,rgb(var(--shade-rgb)/0.8)_80%)]" />
+      <FilmImage name="legendEars" scale={scale} y={y} position="50% 30%" bleed grade="none" />
       <div className="gutter relative flex h-full flex-col justify-end pb-[10vh]">
         <ChapterHead id="ears" />
-        <Headline className="mt-4" size="1" inscription={ears.inscription} voice={ears.voice} />
+        <Headline className="mt-4 [text-shadow:0_3px_14px_rgba(0,0,0,0.8)]" size="1" inscription={ears.inscription} voice={ears.voice} />
         <div className="relative mt-6 min-h-[6rem] max-w-xl">
           {ears.beats.map((b, i) => (
             <motion.p
               key={b}
-              className={cn("t-story absolute inset-x-0 top-0", i === ears.beats.length - 1 ? "t-voice text-display-3 text-gold" : "text-bone")}
+              className={cn("t-story absolute inset-x-0 top-0 [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]", i === ears.beats.length - 1 ? "t-voice text-display-3 text-gold" : "text-bone")}
               animate={{ opacity: beat === i ? 1 : 0, y: beat === i ? 0 : beat > i ? -16 : 16 }}
               transition={{ duration: 0.6, ease: ease.citadel }}
               aria-hidden={beat !== i}
@@ -222,13 +214,12 @@ function EarsFrame({ progress }: { progress: MotionValue<number> }) {
 function EarsStatic() {
   return (
     <div className="relative min-h-[100svh]">
-      <FilmImage name="legendEars" position="50% 30%" />
-      <div aria-hidden className="absolute inset-0 shade-b" />
+      <FilmImage name="legendEars" position="50% 30%" grade="none" />
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end gap-4 pb-16">
         <ChapterHead id="ears" />
-        <Headline size="1" inscription={ears.inscription} voice={ears.voice} />
+        <Headline size="1" className="[text-shadow:0_3px_14px_rgba(0,0,0,0.8)]" inscription={ears.inscription} voice={ears.voice} />
         {ears.beats.map((b) => (
-          <p key={b} className="max-w-xl text-bone">
+          <p key={b} className="max-w-xl text-bone [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">
             {b}
           </p>
         ))}
@@ -244,13 +235,12 @@ export function ThreeWords() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.45 });
   return (
-    <section id="reasons" aria-label="Three reasons" className="relative overflow-hidden py-[clamp(6rem,16vh,14rem)]">
-      <FilmImage name="legendCavalry" grade="deep" className="opacity-85" />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/40 to-night" />
+    <section id="reasons" aria-label="Three reasons" className="relative min-h-[100svh] overflow-hidden py-[clamp(6rem,16vh,14rem)]">
+      <FilmImage name="legendCavalry" grade="none" className="opacity-100" />
       <div className="gutter relative">
         <ChapterHead id="reasons" />
         <Reveal>
-          <p className="t-story mt-6 max-w-2xl text-sand">{reasons.lead}</p>
+          <p className="t-story mt-6 max-w-2xl text-bone [text-shadow:0_2px_10px_rgba(0,0,0,0.6)]">{reasons.lead}</p>
         </Reveal>
         <div ref={ref} className="mt-12 flex flex-col">
           {reasons.words.map((w, i) => (
@@ -258,8 +248,8 @@ export function ThreeWords() {
               <motion.span
                 className={cn(
                   "block leading-[0.95]",
-                  i === 2 ? "t-voice text-display-2 text-gold" : "t-inscribe text-[clamp(2.2rem,10vw,12.5rem)]",
-                  i === 1 && "text-dust",
+                  i === 2 ? "t-voice text-display-2 text-gold [text-shadow:0_2px_14px_rgba(0,0,0,0.8)]" : "t-inscribe text-[clamp(2.2rem,10vw,12.5rem)] text-white [text-shadow:0_3px_16px_rgba(0,0,0,0.85)]",
+                  i === 1 && "text-gold/90",
                 )}
                 initial={{ y: "110%" }}
                 animate={inView ? { y: "0%" } : {}}
@@ -271,7 +261,7 @@ export function ThreeWords() {
           ))}
         </div>
         <Reveal delay={0.3}>
-          <p className="mt-10 max-w-xl text-sand">{reasons.tail}</p>
+          <p className="mt-10 max-w-xl text-bone [text-shadow:0_2px_10px_rgba(0,0,0,0.6)]">{reasons.tail}</p>
         </Reveal>
       </div>
     </section>
@@ -283,13 +273,10 @@ export function ThreeWords() {
 /** Ch. IX · each line drops in lower than the last while the picture drains to grey. */
 export function Descent() {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const gray = useTransform(scrollYProgress, r(0.15, 0.7), ["grayscale(0) brightness(0.8)", "grayscale(1) brightness(0.45)"]);
   return (
-    <section id="fall" ref={ref} aria-labelledby="fall-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
+    <section id="fall" ref={ref} aria-labelledby="fall-h" className="relative min-h-[100svh] overflow-hidden py-[clamp(6rem,14vh,12rem)]">
       <div className="absolute inset-0">
-        <FilmImage name="legendFall" grade="mono" filter={gray} className="opacity-80" />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-night via-night/80 to-night/40" />
+        <FilmImage name="legendFall" grade="none" className="opacity-100" />
       </div>
       <div className="gutter relative">
         <ChapterHead id="fall" />

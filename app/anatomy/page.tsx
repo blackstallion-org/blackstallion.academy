@@ -3,7 +3,8 @@ import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { AnatomyTitle, EarDial, ScaleBalance } from "@/components/sections/anatomy/AnatomyScenes";
+import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anatomy/AnatomyScenes";
+import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { breedStandard } from "@/lib/content/anatomy";
 
@@ -32,6 +33,9 @@ export default function AnatomyPage() {
 
       {/* §3 · S26 */}
       <EarDial />
+
+      {/* §3b · Horse shoes & equipment */}
+      <HorseEquipmentSection />
 
       {/* §4 · S27 spec sheet */}
       <section aria-labelledby="spec-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">

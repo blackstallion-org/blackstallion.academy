@@ -12,27 +12,16 @@ import { cn } from "@/lib/utils";
 import { r3 } from "@/lib/round";
 import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
 import { SpotlightRevealHero } from "@/components/film/SpotlightRevealHero";
-import { mediaSrc } from "@/lib/content/media";
-
-/** Title card · T6 ledger page with cursor-following spotlight reveal. */
+/** Title card · Lithos tree spotlight reveal hero with clean simple title. */
 export function CurriculumTitle() {
-  const baseImg = mediaSrc("currLedger") || "/media/curr-ledger.png";
-  const revealImg = mediaSrc("currFormation") || "/media/curr-formation.png";
-
   return (
     <div className="relative">
       <h1 id="curr-h" className="sr-only">An athletic curriculum that builds character.</h1>
       <SpotlightRevealHero
-        baseImage={baseImg}
-        revealImage={revealImg}
-        tagline="Reel 05 / 15 · Act II The Citadel · The Curriculum"
+        baseImage="/images/lithos/tree-base.webp"
+        revealImage="/images/lithos/tree-reveal.webp"
         titleItalic="An athletic curriculum"
         titleRegular="that builds character."
-        leftDek="Every mounted drill maps to a trait a leader needs in a boardroom, a negotiation or a crisis. Four ranks, thirteen sovereign pillars."
-        rightDek="Peel back the ledger to inspect live mounted drills, biomechanical session protocols, and national STPCI standards."
-        ctaText="Inspect Codex"
-        ctaHref="#ranks-h"
-        ctaVariant="gold"
         spotlightRadius={260}
       />
     </div>

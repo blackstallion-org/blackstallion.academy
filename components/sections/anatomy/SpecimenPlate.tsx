@@ -35,11 +35,8 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
         <FilmImage
           name="anatomyProfile"
           sizes="(min-width: 1024px) 62vw, 100vw"
+          grade="none"
           className="bg-none"
-        />
-        <div
-          aria-hidden
-          className="cinematic-vignette absolute inset-0 opacity-70"
         />
         {/* Plate rulings */}
         <div aria-hidden className="absolute inset-3 border border-line" />

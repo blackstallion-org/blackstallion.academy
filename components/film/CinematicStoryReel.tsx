@@ -386,19 +386,13 @@ export function CinematicStoryReel({
                 visibility: idx === 0 ? "visible" : "hidden",
               }}
             >
-              {/* Drifting Background Image */}
+              {/* Drifting Background Image - Full screen clear with zero fade */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={resolvedSrc}
                 alt={slide.alt}
-                className="slide-bg absolute inset-0 w-full h-full object-cover brightness-[0.72] will-change-transform"
+                className="slide-bg absolute inset-0 w-full h-full object-cover will-change-transform"
                 style={{ transform: "scale(1.05)" }}
-              />
-
-              {/* Cinematic Vignette Overlay */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/55 z-[1]"
               />
 
               {/* Vertically Centered Text Container */}
@@ -409,7 +403,7 @@ export function CinematicStoryReel({
               >
                 {/* Subtitle with wide letter spacing */}
                 <p
-                  className="slide-subtitle text-[clamp(0.72rem,1.1vw,0.95rem)] tracking-[0.35em] uppercase text-white/75 mb-3 sm:mb-5 will-change-transform"
+                  className="slide-subtitle text-[clamp(0.72rem,1.1vw,0.95rem)] tracking-[0.35em] uppercase text-white mb-3 sm:mb-5 will-change-transform [text-shadow:0_2px_8px_rgba(0,0,0,0.85)]"
                   style={{
                     transformOrigin: isLeft ? "left center" : "right center",
                   }}
@@ -419,7 +413,7 @@ export function CinematicStoryReel({
 
                 {/* Giant Headline scaling forward toward viewer */}
                 <h2
-                  className="slide-title font-serif text-[clamp(2.7rem,7vw,7.2rem)] font-light leading-[1.04] tracking-[-0.02em] uppercase text-[#FAF7F0] will-change-transform inline-block w-fit max-w-none m-0"
+                  className="slide-title font-serif text-[clamp(2.7rem,7vw,7.2rem)] font-light leading-[1.04] tracking-[-0.02em] uppercase text-[#FAF7F0] will-change-transform inline-block w-fit max-w-none m-0 [text-shadow:0_4px_24px_rgba(0,0,0,0.9)]"
                   style={{
                     fontFamily:
                       'var(--font-kalnia), var(--font-newsreader), "Playfair Display", "Didot", "Cinzel", serif',
@@ -438,7 +432,7 @@ export function CinematicStoryReel({
                 {/* Sub-caption brief */}
                 {slide.caption && (
                   <p
-                    className="hidden md:block font-serif text-sm sm:text-base text-sand/70 max-w-md mt-6 leading-relaxed opacity-80"
+                    className="hidden md:block font-serif text-sm sm:text-base text-bone max-w-md mt-6 leading-relaxed [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]"
                     style={{
                       textAlign: isLeft ? "left" : "right",
                     }}

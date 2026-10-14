@@ -21,9 +21,8 @@ export function ScienceTitle() {
   return (
     <section aria-labelledby="science-h" className="relative min-h-[100svh] overflow-hidden">
       <motion.div className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2.2, delay: 1.2 }}>
-        <FilmImage name="scienceRider" priority grade="deep" />
+        <FilmImage name="scienceRider" priority grade="none" />
       </motion.div>
-      <div aria-hidden className="absolute inset-0 shade-l" />
       {/*
         Motion-capture overlay, registered to science-rider.png (rider's spine at x≈54.6 of 100, seat at y≈23.6 of 56.25).
         The SVG slices exactly as the photo covers, so the marks stay on the rider at any desktop size. Hidden on phones,
@@ -53,8 +52,8 @@ export function ScienceTitle() {
       </svg>
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={3} act="citadel" />
-        <Headline id="science-h" as="h1" size="poster" animate="mount" className="mt-6 max-w-[4.7em]" inscription="What the saddle" voice="does to a child." />
-        <p className="t-story mt-6 max-w-xl text-sand">Four systems, one twenty-minute session. Here is what we can show, and how sure we are.</p>
+        <Headline id="science-h" as="h1" size="poster" animate="mount" className="mt-6 max-w-[4.7em] [text-shadow:0_3px_15px_rgba(0,0,0,0.7)]" inscription="What the saddle" voice="does to a child." />
+        <p className="t-story mt-6 max-w-xl text-bone [text-shadow:0_2px_10px_rgba(0,0,0,0.6)]">Four systems, one twenty-minute session. Here is what we can show, and how sure we are.</p>
       </div>
     </section>
   );

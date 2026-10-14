@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 };
 
 /** One visual identity per component: its own plate, numeral and image. */
-const plates: { image: MediaKey; numeral: string; grade: "film" | "mono" | "deep"; position?: string }[] = [
-  { image: "kalaPortrait", numeral: "I", grade: "mono" },
-  { image: "legendGrey", numeral: "II", grade: "film" },
-  { image: "nukraPortrait", numeral: "III", grade: "film" },
-  { image: "legendNachni", numeral: "IV", grade: "deep" },
+const plates: { image: MediaKey; numeral: string; grade: "film" | "mono" | "deep" | "none"; position?: string }[] = [
+  { image: "kalaPortrait", numeral: "I", grade: "none" },
+  { image: "legendGrey", numeral: "II", grade: "none" },
+  { image: "nukraPortrait", numeral: "III", grade: "none" },
+  { image: "legendNachni", numeral: "IV", grade: "none" },
 ];
 
 /**

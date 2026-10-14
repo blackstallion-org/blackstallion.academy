@@ -110,26 +110,28 @@ export function SpotlightRevealHero({
       ref={containerRef}
       className={`relative w-full overflow-hidden bg-black select-none isolate ${heightClass} ${className}`}
     >
-      {/* Layer 1: Base Background Image (z-10) with subtle cinematic zoom */}
+      {/* Layer 1: Base Background Image (z-10) with subtle cinematic zoom - full clarity */}
       <div
-        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-10 hero-zoom brightness-[0.72]"
+        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-10 hero-zoom"
         style={{ backgroundImage: `url(${baseImage})` }}
       />
 
       {/* Layer 2: Reveal Image with Spotlight Mask (z-20) */}
       <div
-        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-20 pointer-events-none brightness-[1.12]"
+        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-20 pointer-events-none"
         style={{
           backgroundImage: `url(${revealImage})`,
           ...maskStyle,
         }}
       />
 
-      {/* Subtle vignette shade for contrast */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/55 z-25"
-      />
+      {/* Subtle bottom edge scrim for button contrast only if text exists */}
+      {(leftDek || rightDek || ctaText) && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/50 to-transparent z-25"
+        />
+      )}
 
       {/* Subtle Spotlight Glow Halo following cursor */}
       <div
@@ -144,8 +146,8 @@ export function SpotlightRevealHero({
         }}
       />
 
-      {/* Layer 3: Central Headline (z-30) */}
-      <div className="absolute top-[16%] sm:top-[18%] left-0 right-0 flex flex-col items-center text-center px-6 pointer-events-none z-30">
+      {/* Layer 3: Central Headline (z-50) */}
+      <div className="absolute top-[14%] left-0 right-0 flex flex-col items-center text-center px-5 pointer-events-none z-50">
         {tagline && (
           <p
             className="font-mono text-[0.68rem] tracking-[0.3em] uppercase text-gold/90 mb-3 hero-anim hero-fade"
@@ -157,7 +159,7 @@ export function SpotlightRevealHero({
 
         <h1 className="text-white leading-[0.95] max-w-5xl">
           <span
-            className="block font-serif font-playfair italic font-normal text-4xl sm:text-7xl md:text-8xl hero-anim hero-reveal tracking-tight text-[#FAF7F0]"
+            className="block font-serif font-playfair italic font-normal text-5xl sm:text-7xl md:text-8xl hero-anim hero-reveal tracking-tight text-[#FAF7F0]"
             style={{
               letterSpacing: "-0.05em",
               animationDelay: "0.25s",
@@ -166,7 +168,7 @@ export function SpotlightRevealHero({
             {titleItalic}
           </span>
           <span
-            className="block font-sans font-normal text-4xl sm:text-7xl md:text-8xl -mt-1 sm:-mt-2 hero-anim hero-reveal tracking-tight text-white/95"
+            className="block font-sans font-normal text-5xl sm:text-7xl md:text-8xl -mt-1 sm:-mt-2 hero-anim hero-reveal tracking-tight text-white/95"
             style={{
               letterSpacing: "-0.08em",
               animationDelay: "0.42s",
