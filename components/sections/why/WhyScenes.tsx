@@ -2,8 +2,7 @@
 
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
-import { useRef, useState } from "react";
-import { FilmImage } from "@/components/film/FilmImage";
+import { useEffect, useRef, useState } from "react";
 import { Headline } from "@/components/film/Headline";
 import { Hoof, Label, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
@@ -14,34 +13,136 @@ import { crucible, why } from "@/lib/content/science";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
-/** Title card · T5 split cold/warm. Signature: the cold half and the warm half slide in and meet at a seam of light. */
+/** Title card · The Sovereign Truth. Features the monolithic glowing portal video plate with cinematic rising text and the central seam of light. */
 export function WhyTitle() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (reducedMotion) {
+      video.pause();
+    } else {
+      video.play().catch(() => {});
+    }
+  }, [reducedMotion]);
+
   return (
-    <section aria-labelledby="why-h" className="relative min-h-[100svh] overflow-hidden">
-      <div className="absolute inset-0 grid grid-cols-2">
-        <motion.div className="relative overflow-hidden" initial={{ x: "-20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
-          <FilmImage name="whyCrisis" grade="cold" priority position="40% 50%" />
-          <div aria-hidden className="absolute inset-0 bg-charcoal/10" />
-        </motion.div>
-        <motion.div className="relative overflow-hidden" initial={{ x: "20%", opacity: 0 }} animate={{ x: "0%", opacity: 1 }} transition={{ duration: 1.8, ease: ease.citadel }}>
-          <FilmImage name="whyCure" priority position="30% 50%" />
-        </motion.div>
+    <section aria-labelledby="why-h" className="relative min-h-[100svh] overflow-hidden bg-[#050505]">
+      {/* Background Plate: Looping Monolithic Portal Video */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <video
+          ref={videoRef}
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{ objectPosition: "50% 50%" }}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/video/portal-loop-poster.jpg"
+          aria-label="Monolithic illuminated doorway background film"
+        >
+          <source src="/video/portal-loop.mp4" type="video/mp4" />
+          <source
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_112712_da9d53df-6d27-4b12-bdf6-aa9dc2622bdf.mp4"
+            type="video/mp4"
+          />
+        </video>
+
+        {/* Dual-layer vignette & shading to blend seamlessly into deep night */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `
+              linear-gradient(to bottom,
+                rgba(5,5,5,0.75) 0%,
+                rgba(5,5,5,0.2) 20%,
+                rgba(5,5,5,0) 50%,
+                rgba(5,5,5,0.4) 75%,
+                rgba(5,5,5,0.85) 90%,
+                #050505 100%),
+              linear-gradient(to right,
+                #050505 0%,
+                rgba(5,5,5,0.5) 12%,
+                transparent 30%,
+                transparent 70%,
+                rgba(5,5,5,0.5) 88%,
+                #050505 100%)
+            `,
+          }}
+        />
       </div>
+
+      {/* Center golden seam of light standing at the portal threshold */}
       <motion.span
         aria-hidden
-        className="absolute inset-y-0 left-1/2 w-px bg-gold"
-        initial={{ scaleY: 0 }}
+        className="absolute inset-y-0 left-1/2 w-px bg-gold/90 shadow-[0_0_12px_rgba(212,175,55,0.5)] z-10"
+        initial={reducedMotion ? { scaleY: 1 } : { scaleY: 0 }}
         animate={{ scaleY: 1 }}
-        transition={{ duration: 1.4, ease: ease.citadel, delay: 1 }}
+        transition={{ duration: 1.4, ease: ease.citadel, delay: 0.8 }}
       />
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div aria-hidden className="absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-night/85 via-night/40 to-transparent" />
-      <span className="label absolute left-[max(16px,4vw)] top-24 text-frost">The crisis</span>
-      <span className="label absolute right-[max(16px,4vw)] top-24 text-gold">The cure</span>
-      <div className="gutter relative flex min-h-[100svh] flex-col items-center justify-end pb-[10vh] text-center">
-        <ReelMark n={4} act="citadel" className="justify-center" />
-        <Headline id="why-h" as="h1" size="poster" animate="mount" delay={0.8} className="mt-6" inscription={why.title.inscription} voice={why.title.voice} />
-        <p className="t-story mt-6 text-sand">{why.title.sub}</p>
+
+      {/* Top veil keeps the site navigation legible */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-night/90 via-night/50 to-transparent z-10"
+      />
+
+      {/* Section badges: The crisis (left) & The cure (right) */}
+      <motion.span
+        className="label absolute left-[max(16px,4vw)] top-24 text-frost z-20"
+        initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: ease.citadel, delay: 0.2 }}
+      >
+        The crisis
+      </motion.span>
+      <motion.span
+        className="label absolute right-[max(16px,4vw)] top-24 text-gold z-20"
+        initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: ease.citadel, delay: 0.2 }}
+      >
+        The cure
+      </motion.span>
+
+      {/* Editorial Content: Rising typography matching the animation reference */}
+      <div className="gutter relative flex min-h-[100svh] flex-col items-center justify-end pb-[10vh] text-center z-20">
+        <motion.div
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: ease.citadel, delay: 0.1 }}
+        >
+          <ReelMark n={4} act="citadel" className="justify-center" />
+        </motion.div>
+
+        <motion.div
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.95, ease: ease.citadel, delay: 0.25 }}
+          className="mt-6 w-full"
+        >
+          <Headline
+            id="why-h"
+            as="h1"
+            size="poster"
+            animate="mount"
+            delay={0.3}
+            inscription={why.title.inscription}
+            voice={why.title.voice}
+          />
+        </motion.div>
+
+        <motion.p
+          className="t-story mt-6 text-sand max-w-xl mx-auto"
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: ease.citadel, delay: 0.4 }}
+        >
+          {why.title.sub}
+        </motion.p>
       </div>
     </section>
   );
