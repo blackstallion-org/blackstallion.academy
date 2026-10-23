@@ -1,0 +1,31 @@
+# Uptime check: every 30 minutes GitHub requests a few public pages of the site named in the repository variable
+# UPTIME_URL (Settings → Secrets and variables → Actions → Variables, e.g. https://blackstallion-academy.vercel.app).
+# A failed run is e-mailed by GitHub to the person who last changed this schedule. Nothing runs while UPTIME_URL is
+# unset (before launch). Note: GitHub pauses scheduled workflows after 60 days without repository activity.
+name: uptime
+
+on:
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    if: ${{ vars.UPTIME_URL != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Request key pages
+        env:
+          BASE: ${{ vars.UPTIME_URL }}
+        run: |
+          fail=0
+          for path in / /verify /schools/mou /robots.txt; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 25 -A "bsah-uptime/1.0" "${BASE%/}$path" || echo 000)
+            echo "$path -> $code"
+            [ "$code" = "200" ] || fail=1
+          done
+          exit $fail
