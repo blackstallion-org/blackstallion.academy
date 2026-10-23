@@ -43,6 +43,8 @@ export async function lookupCredentialCore(rawCode: unknown, clientKey: string, 
       return { kind: "registry", status: "valid", rank: body.rank, credentialType: body.credential_type ?? "passport", issuedAt: body.issued_at };
     }
     if (body.status === "revoked" || body.status === "expired") return { kind: "registry", status: body.status };
+    // The operations team switched public verification off (site_settings.verify_public = false).
+    if (body.status === "unavailable") return { kind: "unavailable", reason: "not_configured" };
     return { kind: "registry", status: "unknown" };
   } catch {
     return { kind: "unavailable", reason: "error" };

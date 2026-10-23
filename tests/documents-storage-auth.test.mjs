@@ -127,11 +127,21 @@ test("MOU storage is skipped (not failed) without the secret key", async () => {
   delete process.env.SUPABASE_URL; delete process.env.SUPABASE_PUBLISHABLE_KEY;
 });
 
-test("staff roles: only operations and executive_admin may use the console", async () => {
+test("staff roles: SUPER_ADMIN (live) or operations/executive_admin (website schema); nobody else", async () => {
   const { isStaffRole } = await loadTs("lib/auth/admin.ts");
-  assert.equal(isStaffRole("operations"), true);
-  assert.equal(isStaffRole("executive_admin"), true);
-  for (const r of ["cadet", "parent_guardian", "instructor", "school_partner", "", null, undefined, "admin"]) assert.equal(isStaffRole(r), false, String(r));
+  for (const r of ["SUPER_ADMIN", "operations", "executive_admin"]) assert.equal(isStaffRole(r), true, r);
+  for (const r of ["SCHOOL_ADMIN", "INSTRUCTOR", "GROOM", "PARENT", "super_admin", "cadet", "parent_guardian", "", null, undefined, "admin"]) assert.equal(isStaffRole(r), false, String(r));
+});
+
+test("staff profile: live users table first, website profiles second, otherwise none", async () => {
+  const { fetchStaffProfile } = await loadTs("lib/auth/admin.ts");
+  const fake = (tables) => ({
+    from: (t) => ({ select: () => ({ eq: (_c, id) => ({ maybeSingle: async () => (t in tables ? { data: tables[t][id] ?? null, error: null } : { data: null, error: { code: "42P01" } }) }) }) }),
+  });
+  assert.deepEqual(await fetchStaffProfile(fake({ users: { u1: { full_name: "Admin", role: "SUPER_ADMIN" } } }), "u1"), { display_name: "Admin", role: "SUPER_ADMIN" });
+  assert.deepEqual(await fetchStaffProfile(fake({ profiles: { u2: { display_name: "Ops", role: "operations" } } }), "u2"), { display_name: "Ops", role: "operations" });
+  assert.equal(await fetchStaffProfile(fake({ users: {} }), "nobody"), null);
+  assert.equal(await fetchStaffProfile(fake({}), "nobody"), null);
 });
 
 test("proxy: signed-out visitors are sent to login; login stays reachable and is never indexed or cached", async () => {

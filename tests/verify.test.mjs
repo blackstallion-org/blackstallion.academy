@@ -31,6 +31,7 @@ test("registry statuses: valid (minimal fields), revoked, expired, unknown; outa
     "BP-REVOKED000000": { status: "revoked" },
     "BP-EXPIRED000000": { status: "expired" },
     "BP-NOTHING000000": { status: "unknown" },
+    "BP-SWITCHOFF0000": { status: "unavailable" },
   };
   const db = await loopback((req) => ({ reply: answers[req.body.p_code] ?? { status: "unknown" } }));
   try {
@@ -40,6 +41,7 @@ test("registry statuses: valid (minimal fields), revoked, expired, unknown; outa
     assert.deepEqual(await lookup("BP-REVOKED000000", "c2"), { kind: "registry", status: "revoked" });
     assert.deepEqual(await lookup("BP-EXPIRED000000", "c2"), { kind: "registry", status: "expired" });
     assert.deepEqual(await lookup("BP-NOTHING000000", "c2"), { kind: "registry", status: "unknown" });
+    assert.deepEqual(await lookup("BP-SWITCHOFF0000", "c2"), { kind: "unavailable", reason: "not_configured" }, "verification switched off by the operations team");
     assert.ok(db.requests.some((r) => r.url === "/rest/v1/rpc/verify_passport"));
     assert.ok(db.requests.some((r) => r.url === "/rest/v1/rpc/consume_rate_limit"), "shared database limiter consulted");
   } finally {

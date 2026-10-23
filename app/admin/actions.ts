@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { isStaffRole, requireStaff } from "@/lib/auth/admin";
+import { fetchStaffProfile, isStaffRole, requireStaff } from "@/lib/auth/admin";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { objectPath, validateUpload } from "@/lib/storage/validate";
@@ -28,7 +28,7 @@ export async function signIn(_prev: FormState, data: FormData): Promise<FormStat
   if (!supabase) return { error: "Sign-in is not configured yet." };
   const { data: auth, error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error || !auth.user) return { error: "Those details did not match a staff account." };
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", auth.user.id).maybeSingle();
+  const profile = await fetchStaffProfile(supabase as unknown as Parameters<typeof fetchStaffProfile>[0], auth.user.id);
   if (!isStaffRole(profile?.role)) {
     await supabase.auth.signOut();
     return { error: "This account does not have staff access." };
