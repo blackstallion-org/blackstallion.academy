@@ -108,7 +108,7 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
         <div data-home-detail className="mt-8 flex flex-wrap justify-center gap-3">
           {finale.ctas.map((c, i) =>
             i === 0 ? (
-              <BrassBorder key={c.href} as={Link} href={c.href} className="tone-dark group bg-night text-bone">
+              <BrassBorder key={c.href} as={Link} href={c.href} className="tone-dark group bg-night px-5 py-3 text-bone sm:px-7 sm:py-4">
                 <span>{c.label}</span>
                 <Arrow className="transition-transform group-hover:translate-x-1" />
               </BrassBorder>
@@ -116,7 +116,7 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
               <Link
                 key={c.href}
                 href={c.href}
-                className="tone-dark label group inline-flex items-center gap-3 border border-line bg-night/85 px-7 py-4 text-sand transition-colors hover:border-gold hover:text-bone"
+                className="tone-dark label group inline-flex items-center gap-3 border border-line bg-night/85 px-5 py-3 text-sand transition-colors hover:border-gold hover:text-bone sm:px-7 sm:py-4"
               >
                 <span>{c.label}</span>
                 <Arrow className="transition-transform group-hover:translate-x-1" />
@@ -126,12 +126,12 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
         </div>
 
         {/* Email Corridors - Clean Compact Micro Pills */}
-        <ul className="mt-5 flex flex-wrap items-center justify-center gap-2">
+        <ul className="mt-5 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
           {corridors.map((c) => (
             <li key={c.id}>
               <a
                 href={`mailto:${c.email}`}
-                className="inline-block border-b border-line py-1 font-mono text-[0.66rem] tracking-wider text-sand transition-colors hover:border-gold hover:text-gold"
+                className="inline-block border border-line bg-night/80 px-3 py-1 font-mono text-[0.66rem] tracking-wider text-sand transition-colors hover:border-gold hover:text-gold"
               >
                 {c.email}
               </a>
@@ -145,7 +145,7 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
         </p>
         <Link
           href="/legend"
-          className="mt-3 inline-flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-gold hover:text-bone transition-colors"
+          className="mt-2 inline-flex min-h-6 items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-gold hover:text-bone transition-colors"
         >
           <span>Begin at reel one</span>
           <Arrow />

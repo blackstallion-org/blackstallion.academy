@@ -19,7 +19,7 @@ export const campusOpening = {
 
 export const morningCurtain = {
   label: "A morning at the academy",
-  note: "Sample timings; each hub publishes its own.",
+  note: "Sample timings, set on the Dawn Patrol batch (06:15–07:00); each hub publishes its own.",
 };
 
 export const ribbon = {

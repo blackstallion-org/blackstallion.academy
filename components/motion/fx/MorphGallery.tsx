@@ -11,6 +11,8 @@ import { cn } from "@/lib/utils";
  * Controlled only: the parent owns `index` (the peg-run stages drive it). Images that cannot be uploaded
  * to WebGL (no CORS, no WebGL) fall back to a plain opacity cross-fade. Reduced motion: instant swap.
  * The canvas is decorative; the parent supplies the text equivalent for the current frame.
+ * Cost control: frames are drawn only while a dissolve runs (no idle loop); the canvas is created here and released
+ * (context lost, element removed) on unmount or when the gallery falls back to the cross-fade.
  */
 export type MorphItem = { src: string; alt: string };
 
@@ -80,7 +82,7 @@ function loadImage(src: string) {
 const noop = () => () => {};
 
 export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, edge = 0.15, drift = 0.5, className }: MorphGalleryProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
   // Stills mount only after hydration, so a load error is always seen by onError (no broken-image icon).
   const hydrated = useSyncExternalStore(noop, () => true, () => false);
@@ -104,6 +106,7 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
   }, []);
   const [ready, setReady] = useState(false);
   const request = useRef<{ from: number; to: number } | null>(null);
+  const wake = useRef<(() => void) | null>(null);
   const previous = useRef(index);
   const initial = useRef(index);
   const sources = items.map((i) => i.src).join("\n");
@@ -112,13 +115,18 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
     if (previous.current === index) return;
     request.current = { from: previous.current, to: index };
     previous.current = index;
+    wake.current?.();
   }, [index]);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!near || !canvas || !items.length) return;
+    const host = hostRef.current;
+    if (!near || failed || !host || !items.length) return;
+    const canvas = document.createElement("canvas");
+    canvas.className = "absolute inset-0 block h-full w-full";
+    host.appendChild(canvas);
     const gl = canvas.getContext("webgl", { alpha: false, antialias: false });
     if (!gl) {
+      canvas.remove();
       queueMicrotask(() => setFailed(true));
       return;
     }
@@ -127,6 +135,7 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
     const aspects = items.map(() => 1);
     let raf = 0;
     let disposed = false;
+    let running = false;
     let from = initial.current;
     let to = initial.current;
     let progress = 1;
@@ -144,18 +153,6 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
       if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(String(gl.getShaderInfoLog(s)));
       return s;
     };
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = Math.round(canvas.clientWidth * dpr);
-      const h = Math.round(canvas.clientHeight * dpr);
-      if (!w || !h || (canvas.width === w && canvas.height === h)) return;
-      canvas.width = w;
-      canvas.height = h;
-      gl.viewport(0, 0, w, h);
-      dirty = true;
-    };
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
     const pick = (i: number) => textures[i] ?? textures.find((t) => t) ?? null;
 
     const draw = () => {
@@ -190,15 +187,33 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
       gl.uniform1f(u.drift, drift);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
-    // Draw only while a dissolve runs or a request is waiting; idle frames cost one check.
+    // Frames are requested only while a dissolve runs, a request waits or the canvas was resized; idle costs nothing.
     const frame = () => {
+      raf = 0;
       if (disposed) return;
       if (progress < 1 || request.current || dirty) {
         dirty = false;
         draw();
       }
-      raf = requestAnimationFrame(frame);
+      if (progress < 1 || request.current) raf = requestAnimationFrame(frame);
     };
+    const kick = () => {
+      if (running && !raf && !disposed) raf = requestAnimationFrame(frame);
+    };
+    wake.current = kick;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.round(canvas.clientWidth * dpr);
+      const h = Math.round(canvas.clientHeight * dpr);
+      if (!w || !h || (canvas.width === w && canvas.height === h)) return;
+      canvas.width = w;
+      canvas.height = h;
+      gl.viewport(0, 0, w, h);
+      dirty = true;
+      kick();
+    };
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
 
     (async () => {
       try {
@@ -218,7 +233,6 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
           u[name] = gl.getUniformLocation(program, `u_${name}`);
         }
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-        let running = false;
         let refused = 0;
         await Promise.all(
           items.map((item, i) =>
@@ -234,23 +248,24 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
                 textures[i] = tex;
                 aspects[i] = img.naturalWidth / Math.max(img.naturalHeight, 1);
-                if (i === from || i === to) draw();
                 if (!running) {
                   running = true;
                   resize();
                   draw();
                   setReady(true);
-                  raf = requestAnimationFrame(frame);
+                } else if (i === from || i === to) {
+                  dirty = true;
+                  kick();
                 }
               },
               () => {
                 refused += 1;
-                if (refused === items.length && !disposed) setFailed(true);
               },
             ),
           ),
         );
-        // Any frame that could not be uploaded breaks the morph for that step; cross-fade instead.
+        // Any frame that could not be uploaded breaks the morph for that step; cross-fade instead (this effect's
+        // cleanup then releases the context and removes the canvas).
         if (!disposed && refused > 0) setFailed(true);
       } catch {
         if (!disposed) setFailed(true);
@@ -259,15 +274,18 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
 
     return () => {
       disposed = true;
+      wake.current = null;
       cancelAnimationFrame(raf);
       ro.disconnect();
       textures.forEach((t) => t && gl.deleteTexture(t));
       if (buffer) gl.deleteBuffer(buffer);
       if (program) gl.deleteProgram(program);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      canvas.remove();
     };
     // index is read through `request`; sources keys the rebuild
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [near, sources, duration, noiseScale, edge, drift]);
+  }, [near, failed, sources, duration, noiseScale, edge, drift]);
 
   return (
     <div ref={rootRef} className={cn("film-placeholder relative overflow-hidden bg-night", className)}>
@@ -288,7 +306,7 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
         />
       ))}
       {failed ? null : (
-        <canvas ref={canvasRef} aria-hidden className="absolute inset-0 block h-full w-full" style={{ opacity: ready ? 1 : 0, transition: "opacity 400ms ease" }} />
+        <div ref={hostRef} aria-hidden className="absolute inset-0" style={{ opacity: ready ? 1 : 0, transition: "opacity 400ms ease" }} />
       )}
     </div>
   );

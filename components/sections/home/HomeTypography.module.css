@@ -23,6 +23,7 @@
 .home [data-home-final-copy] > p:not([data-home-final-intro]) { color: var(--color-ink); font-size: clamp(0.9rem, 1vw, 1.1rem); text-shadow: none; }
 .home [data-home-final-copy] > a { color: var(--color-ink); text-shadow: none; }
 .home [data-home-final-copy] ul a { color: var(--color-offwhite); }
+.home [data-home-final-copy] ul a:hover, .home [data-home-final-copy] ul a:focus-visible { color: var(--color-gold); }
 .home [data-home-detail] { text-wrap: pretty; }
 .home [data-home-story] :global(.slide-title) { font-size: clamp(2.6rem, 6.5vw, 6.8rem); font-family: var(--font-newsreader), Georgia, serif; letter-spacing: -0.025em; text-transform: none; }
 .home [data-home-story] :global(.slide-subtitle) { letter-spacing: 0.16em; }

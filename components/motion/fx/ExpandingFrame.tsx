@@ -81,10 +81,11 @@ export function ExpandingFrame({
       if (hintRef.current) hintRef.current.style.opacity = String(1 - smooth(0, 0.12, p));
       if (scrimRef.current) scrimRef.current.style.opacity = String(smooth(0.5, 1, p));
       if (overlayRef.current) {
+        // Opacity only (never visibility): the copy stays in the accessibility tree before the frame opens.
         const inn = smooth(0.7, 1, p);
         overlayRef.current.style.opacity = String(inn);
         overlayRef.current.style.transform = `translate3d(0, ${18 * (1 - inn)}px, 0)`;
-        overlayRef.current.style.visibility = inn < 0.01 ? "hidden" : "visible";
+        overlayRef.current.style.pointerEvents = inn < 0.5 ? "none" : "";
       }
     };
     const read = () => clamp(-track.getBoundingClientRect().top / (window.innerHeight * scrollDistance), 0, 1);
@@ -136,7 +137,7 @@ export function ExpandingFrame({
           </div>
           <div aria-hidden className="shade-b absolute inset-0" />
           <div ref={scrimRef} aria-hidden className="shade-l absolute inset-0" style={{ opacity: 0 }} />
-          <div ref={overlayRef} className="gutter absolute inset-0 flex flex-col justify-end pb-[10vh]" style={{ opacity: 0, visibility: "hidden" }}>
+          <div ref={overlayRef} className="gutter absolute inset-0 flex flex-col justify-end pb-[10vh]" style={{ opacity: 0, pointerEvents: "none" }}>
             {children}
           </div>
         </div>
@@ -146,7 +147,7 @@ export function ExpandingFrame({
           </div>
         ) : null}
         {hint ? (
-          <p ref={hintRef} className="label absolute inset-x-0 bottom-6 text-center text-dust">
+          <p ref={hintRef} aria-hidden className="label absolute inset-x-0 bottom-6 text-center text-dust">
             {hint}
           </p>
         ) : null}

@@ -521,6 +521,11 @@ export function createGlowTrail(container: HTMLElement, canvas: HTMLCanvasElemen
   };
   const onMove = (e: PointerEvent) => {
     if (e.pointerType !== "mouse") return;
+    // Offscreen: no layout read on every mouse move anywhere on the page.
+    if (!visible) {
+      state.ready = false;
+      return;
+    }
     const { x, y, inside } = local(e);
     if (!inside) {
       state.ready = false;
@@ -535,7 +540,7 @@ export function createGlowTrail(container: HTMLElement, canvas: HTMLCanvasElemen
     wake();
   };
   const onDown = (e: PointerEvent) => {
-    if (e.pointerType !== "mouse") return;
+    if (e.pointerType !== "mouse" || !visible) return;
     const { x, y, inside } = local(e);
     if (!inside) return;
     state.bursts.push([x, y]);

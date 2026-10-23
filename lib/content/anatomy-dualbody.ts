@@ -1,7 +1,8 @@
 /**
  * "One conversation. Two bodies." — the rider ↔ horse connections shown on the 3D dual-body stage
  * (components/sections/anatomy/DualBody.tsx). Copy only; the engine owns geometry and camera framing.
- * Claims: anatomical names only, no physiological numbers (Blueprint Part 9).
+ * Claims: anatomical names only, no physiological numbers (Blueprint Part 9). Muscle notes corrected 24 Oct 2026
+ * (hip extensors, thoracic sling, splenius attachments); have an equine vet or anatomist sign them off before launch.
  */
 
 export type MuscleRegion = "poll_cervical" | "withers_thorax" | "thoracolumbar" | "lumbosacral_pelvis";
@@ -29,7 +30,7 @@ export const dualBodyIntro = {
   label: "Rider and horse",
   inscription: "One conversation.",
   voice: "two bodies.",
-  body: "Every change in the rider's body arrives in the horse's body. Choose a connection to see where it starts and where it lands.",
+  body: "What the rider's body does, the horse's body feels. Choose a connection to see where it starts and where it lands.",
   canvasNote: "Drag to turn the horse. Choose a connection to move closer.",
 };
 
@@ -53,7 +54,7 @@ export const dualBodyConnections: DualBodyConnection[] = [
     rider: "Ribcage stacked over the seat bones",
     horse: "Withers, scapula and longissimus dorsi",
     lesson:
-      "Ribcage over seat bones puts the rider's weight where the horse can carry it. Collapse forward and the back hollows under the saddle.",
+      "Ribcage over seat bones puts the rider's weight where the horse can carry it. Collapse forward and the horse tends to hollow its back under the saddle.",
     pinRider: "Cadet · core and seat",
     pinHorse: "Marwari · withers",
     regions: ["withers_thorax", "thoracolumbar"],
@@ -75,19 +76,19 @@ export const dualBodyConnections: DualBodyConnection[] = [
 export const muscleGroups: Record<MuscleRegion, { title: string; note: string }> = {
   poll_cervical: {
     title: "Splenius and brachiocephalicus",
-    note: "Run from the poll down the neck to the shoulder. They lift and lengthen the neck when the hand allows it.",
+    note: "The splenius runs from the poll to the withers, the brachiocephalicus from the poll to the upper foreleg. They raise and turn the head and neck; the brachiocephalicus also draws the foreleg forward.",
   },
   withers_thorax: {
     title: "Trapezius, deltoideus and triceps",
-    note: "Hold the shoulder blade in a sling and lift the base of the neck and the withers.",
+    note: "Over and behind the shoulder blade. They steady the blade and swing the foreleg; beneath them, the serratus ventralis and the pectorals hold the chest in a sling that lifts the withers.",
   },
   thoracolumbar: {
     title: "Longissimus dorsi",
-    note: "The long back muscle under the saddle. It carries the push from behind forward to the neck.",
+    note: "The long back muscle under the saddle. It steadies and extends the back, the bridge the push from behind crosses on its way forward.",
   },
   lumbosacral_pelvis: {
     title: "Gluteus medius and biceps femoris",
-    note: "The hindquarter engine. They flex the hip, stifle and hock and push the horse forward.",
+    note: "The hindquarter engine. They straighten the hip and help straighten the hock: that extension drives the horse forward.",
   },
 };
 

@@ -245,7 +245,7 @@ export function DualBody() {
                   </div>
                   <div role="group" aria-label="Gait" className="flex flex-wrap items-center gap-2">
                     <span className="label mr-2 w-full text-dust sm:w-auto">Gait</span>
-                    <button type="button" className={toggle} aria-pressed={playing} onClick={() => setPlaying((v) => !v)} disabled={!ready}>
+                    <button type="button" className={toggle} onClick={() => setPlaying((v) => !v)} disabled={!ready}>
                       <svg aria-hidden viewBox="0 0 12 12" className="h-3 w-3 fill-current">
                         {playing ? <path d="M2 1h3v10H2zM7 1h3v10H7z" /> : <path d="M2.5 1l8 5-8 5z" />}
                       </svg>

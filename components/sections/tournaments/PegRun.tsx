@@ -73,7 +73,8 @@ export function PegRun() {
       <div className="gutter mt-12 grid gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.55fr)]">
         <figure className="relative">
           <MorphGallery items={items} index={index} className="aspect-[16/9] w-full border border-line" />
-          <figcaption className="sr-only" aria-live="polite">
+          {/* Announced only while the run plays by itself; a chosen tab already exposes its panel. */}
+          <figcaption className="sr-only" aria-live={playing ? "polite" : "off"}>
             Stage {stage.n}, {stage.name}: {stage.text}
           </figcaption>
           {/* the lane: 100 m, rider mark travels with the stage */}
@@ -120,10 +121,10 @@ export function PegRun() {
               </button>
             ))}
           </div>
-          <div id="peg-panel" role="tabpanel" aria-labelledby={`peg-tab-${stage.key}`} className="mt-6 min-h-[7.5rem]">
+          <div id="peg-panel" role="tabpanel" aria-labelledby={`peg-tab-${stage.key}`} tabIndex={0} className="mt-6 min-h-[7.5rem]">
             <p className="t-story text-lede text-sand">{stage.text}</p>
           </div>
-          <button type="button" onClick={play} aria-pressed={playing} className="label mt-6 inline-flex items-center gap-3 border border-line px-5 py-3 text-sand transition-colors hover:border-gold hover:text-bone">
+          <button type="button" onClick={play} className="label mt-6 inline-flex items-center gap-3 border border-line px-5 py-3 text-sand transition-colors hover:border-gold hover:text-bone">
             <span aria-hidden className="font-mono text-gold">{playing ? "❚❚" : "▶"}</span>
             {playing ? "Pause the run" : "Play the run"}
           </button>

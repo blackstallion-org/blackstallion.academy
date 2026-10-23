@@ -114,3 +114,11 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
 - Not adopted: Spline (off-brand demo scene, new deps), framer-motion (motion already installed), React Bits Pro registry, the Apple image-sequence demo (`HorseSequence` already covers it).
 - 8 new Higgsfield stills (Blueprint 8.3), CDN-only until `sh scripts/fetch-media.sh` is run on the Mac (now also writes WebP); then switch `cdnOnly` → `m` in media.ts and commit the WebPs.
 - Blueprint Part 4: S63–S69 added. Verified in the cloud sandbox: lint (0 errors), typecheck, `next build`; 390/1440 + reduced-motion screenshots of every touched section; keyboard focus on peg tabs and finale CTAs. Unit tests pass except the media test, which fails only in the sandbox because `public/images/*` were not copied there. Photos rendered as gradients in the sandbox (CDN blocked); judge the real stills on the Mac.
+
+- [x] **Session 24 Oct 2026 · Effects review** (same branch, on top of the effects commit). Independent code review +
+  browser audit of every new section (320–1920 px, reduced motion, keyboard). Fixed: unreadable finale e-mails; copy
+  hidden from screen readers in the expanding frame and the curtain day; SAMPLE on every curtain-day time (now on the
+  published 06:15 Dawn Patrol); ember trail and peg-run gallery no longer do WebGL work while offscreen or idle (and
+  release their contexts); marquee pauses offscreen; lazy masked-word still; reduced-motion gaps in the brass border and
+  ember trail; tab-panel focus and play-button semantics; three anatomy notes corrected. Verified: lint 0 errors,
+  typecheck, 79/79 unit tests, build, 18/18 browser smoke. Details: `docs/IMPLEMENTATION_PROGRESS.md` (F17).

@@ -1,14 +1,15 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from "react";
-import { motion, useAnimationFrame, useMotionValue, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { motion, useMotionValue, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { useOnScreen } from "@/lib/motion/use-near-viewport";
 import { cn } from "@/lib/utils";
 
 /**
  * Rows of words that drift sideways and speed up with the reader's scroll (adapted from React Bits "ScrollVelocity").
  * Rows alternate direction; every other row can be outlined. The repeated copies are aria-hidden, so a screen
- * reader hears each row once. Reduced motion: rows sit still.
+ * reader hears each row once. Reduced motion: rows sit still. Offscreen: the frame loop stops.
  */
 type VelocityMarqueeProps = {
   rows: string[];
@@ -40,7 +41,7 @@ function useWidth(ref: RefObject<HTMLElement | null>) {
   return width;
 }
 
-function Row({ text, base, skew, separator, outline, reduced, className }: { text: string; base: number; skew: number; separator: ReactNode; outline: boolean; reduced: boolean; className?: string }) {
+function Row({ text, base, skew, separator, outline, active, className }: { text: string; base: number; skew: number; separator: ReactNode; outline: boolean; active: boolean; className?: string }) {
   const baseX = useMotionValue(0);
   const skewX = useMotionValue(0);
   const { scrollY } = useScroll();
@@ -51,20 +52,30 @@ function Row({ text, base, skew, separator, outline, reduced, className }: { tex
   const x = useTransform(baseX, (v) => (width ? `${wrap(-width, 0, v)}px` : "0px"));
   const direction = useRef(1);
 
-  useAnimationFrame((_, delta) => {
-    if (reduced) return;
-    const f = factor.get();
-    if (f < 0) direction.current = -1;
-    else if (f > 0) direction.current = 1;
-    let move = direction.current * base * (delta / 1000);
-    move += direction.current * move * f;
-    baseX.set(baseX.get() + move);
-    if (skew) {
-      const surge = Math.tanh(Math.abs(smooth.get()) / 1600);
-      const ease = 1 - Math.exp(-delta / 110);
-      skewX.set(skewX.get() + (-Math.sign(move || base) * skew * surge - skewX.get()) * ease);
-    }
-  });
+  // Runs only while the marquee is on screen (and never with reduced motion).
+  useEffect(() => {
+    if (!active) return;
+    let raf = 0;
+    let last = 0;
+    const tick = (now: number) => {
+      const delta = last ? Math.min(now - last, 100) : 16;
+      last = now;
+      const f = factor.get();
+      if (f < 0) direction.current = -1;
+      else if (f > 0) direction.current = 1;
+      let move = direction.current * base * (delta / 1000);
+      move += direction.current * move * f;
+      baseX.set(baseX.get() + move);
+      if (skew) {
+        const surge = Math.tanh(Math.abs(smooth.get()) / 1600);
+        const ease = 1 - Math.exp(-delta / 110);
+        skewX.set(skewX.get() + (-Math.sign(move || base) * skew * surge - skewX.get()) * ease);
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [active, base, skew, factor, smooth, baseX, skewX]);
 
   return (
     <div className="overflow-hidden">
@@ -82,8 +93,10 @@ function Row({ text, base, skew, separator, outline, reduced, className }: { tex
 
 export function VelocityMarquee({ rows, velocity = 40, skew = 6, separator = "·", outlineAlternate = true, className, rowClassName }: VelocityMarqueeProps) {
   const reduced = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const onScreen = useOnScreen(rootRef, "50px");
   return (
-    <div className={cn("w-full", className)} style={{ maskImage: FADE, WebkitMaskImage: FADE }}>
+    <div ref={rootRef} className={cn("w-full", className)} style={{ maskImage: FADE, WebkitMaskImage: FADE }}>
       {rows.map((text, i) => (
         <Row
           key={text}
@@ -92,7 +105,7 @@ export function VelocityMarquee({ rows, velocity = 40, skew = 6, separator = "·
           skew={skew}
           separator={separator}
           outline={outlineAlternate && i % 2 === 1}
-          reduced={reduced}
+          active={onScreen && !reduced}
           className={rowClassName}
         />
       ))}

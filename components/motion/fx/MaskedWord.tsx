@@ -235,7 +235,7 @@ export function MaskedWord({ text, image, as: Tag = "h2", textScale = 0.16, para
       <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden bg-brass" style={{ clipPath: `url(#${clipId})` }}>
         {src ? (
           // eslint-disable-next-line @next/next/no-img-element -- clipped, transformed every frame; next/image adds nothing here
-          <img ref={mediaRef} src={src} alt="" draggable={false} className="absolute inset-0 h-full w-full object-cover [filter:var(--grade-film)]" />
+          <img ref={mediaRef} src={src} alt="" draggable={false} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover [filter:var(--grade-film)]" />
         ) : null}
       </span>
     </Tag>

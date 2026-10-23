@@ -56,12 +56,15 @@ export const pegIntro = {
 
 export const pegVirtues = ["Speed · Timing · Control · Precision", "Seat · Eye · Hand · Nerve"];
 
-/** A cadet's day in four chapters (Cadets, S68 Curtain day). Times are SAMPLE; each hub sets its own. */
+/**
+ * A cadet's morning in four chapters (Parents, S68 Curtain day). Times are SAMPLE, laid on the published Dawn Patrol
+ * batch (06:15–07:00, 45-minute session protocol in lib/content/curriculum.ts); each hub sets its own.
+ */
 export const academyDay = [
-  { image: "dayTack" as MediaKey, time: "06:10", title: "Tack up before the sun.", line: "Every cadet saddles their own horse. Girth, stirrups, bridle: checked twice, then checked by an instructor." },
-  { image: "dayWalk" as MediaKey, time: "06:30", title: "Walk them in.", line: "Horses are led to the arena, never hurried. The walk is where the horse and the rider settle." },
-  { image: "dayBrief" as MediaKey, time: "06:40", title: "Hear the plan.", line: "A former cavalry instructor sets the drill and the one thing to fix today. Then the cadets mount." },
-  { image: "dayGroom" as MediaKey, time: "07:30", title: "Thank the horse.", line: "The session ends where it began, in the stable. Brush, water, a hand on the neck." },
+  { image: "dayTack" as MediaKey, time: "06:15", title: "Tack up before the sun.", line: "Every cadet saddles their own horse. Girth, stirrups, bridle: checked twice, then checked by an instructor." },
+  { image: "dayWalk" as MediaKey, time: "06:20", title: "Walk them in.", line: "Horses are led to the arena, never hurried. The walk is where the horse and the rider settle." },
+  { image: "dayBrief" as MediaKey, time: "06:25", title: "Hear the plan.", line: "A former cavalry instructor sets the drill and the one thing to fix today. Then the cadets mount." },
+  { image: "dayGroom" as MediaKey, time: "06:50", title: "Thank the horse.", line: "The session ends where it began, in the stable. Brush, water, a hand on the neck." },
 ];
 
 /** The academy in frames (About, S69 Depth ribbon). */

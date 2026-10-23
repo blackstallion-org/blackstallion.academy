@@ -13,19 +13,28 @@ import type { MediaKey } from "@/lib/content/media";
  * scroll threshold brings in the next chapter: the outer and inner wrappers counter-slide so the photo
  * appears to be uncovered in place, and the heading's letters rise in a random order.
  * Scrolling back reverses the direction. Reduced motion: stacked chapters, no pin, no travel.
+ * Accessibility: the animated stage is visual only (aria-hidden); every chapter is also rendered once as plain text for
+ * screen readers, so no chapter depends on the scroll position to be read.
  */
 export type Chapter = { image: MediaKey; time: string; title: string; line: string };
 
-type CurtainChaptersProps = { id?: string; label: string; chapters: Chapter[] };
+type CurtainChaptersProps = {
+  id?: string;
+  label: string;
+  chapters: Chapter[];
+  /** Shown after each time, e.g. "Sample" when the times are illustrative. */
+  timeNote?: string;
+};
 
-function Frame({ c, i, total }: { c: Chapter; i: number; total: number }) {
+function Frame({ c, i, total, timeNote }: { c: Chapter; i: number; total: number; timeNote?: string }) {
   return (
     <>
       <FilmImage name={c.image} grade="deep" sizes="100vw" />
       <div aria-hidden className="shade-b absolute inset-0" />
       <div className="gutter absolute inset-x-0 bottom-0 pb-[12vh]">
         <p className="label text-brass">
-          <span className="font-mono text-gold">{c.time}</span> · {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          <span className="font-mono text-gold">{c.time}</span>
+          {timeNote ? ` · ${timeNote}` : null} · {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </p>
         <h3 className="t-voice mt-4 max-w-[14ch] text-display-2 text-bone" data-curtain-heading>
           {c.title}
@@ -60,7 +69,7 @@ function split(el: HTMLElement) {
   return Array.from(el.querySelectorAll<HTMLElement>("[data-ch]"));
 }
 
-function Stage({ chapters, progress }: { chapters: Chapter[]; progress: MotionValue<number> }) {
+function Stage({ chapters, progress, timeNote }: { chapters: Chapter[]; progress: MotionValue<number>; timeNote?: string }) {
   const [index, setIndex] = useState(0);
   const sections = useRef<(HTMLDivElement | null)[]>([]);
   const outers = useRef<(HTMLDivElement | null)[]>([]);
@@ -77,7 +86,11 @@ function Stage({ chapters, progress }: { chapters: Chapter[]; progress: MotionVa
   useEffect(() => {
     const prev = current.current;
     if (prev === index) return;
-    const dir = prev === -1 || index > prev ? 1 : -1;
+    current.current = index;
+    // The first chapter is shown as rendered (its title would otherwise rise at hydration, long before it is on screen);
+    // titles rise from the second chapter on.
+    if (prev === -1) return;
+    const dir = index > prev ? 1 : -1;
     tl.current?.progress(1);
     const t = gsap.timeline({ defaults: { duration: 1.1, ease: "power2.inOut" } });
     if (prev >= 0) {
@@ -94,13 +107,12 @@ function Stage({ chapters, progress }: { chapters: Chapter[]; progress: MotionVa
       t.fromTo(split(heading), { autoAlpha: 0, yPercent: 120 * dir }, { autoAlpha: 1, yPercent: 0, duration: 0.9, ease: "power2.out", stagger: { each: 0.025, from: "random" } }, 0.2);
     }
     tl.current = t;
-    current.current = index;
   }, [index]);
 
   useEffect(() => () => void tl.current?.kill(), []);
 
   return (
-    <div className="relative h-full overflow-hidden">
+    <div aria-hidden className="relative h-full overflow-hidden">
       {chapters.map((c, i) => (
         <div
           key={c.title}
@@ -109,12 +121,11 @@ function Stage({ chapters, progress }: { chapters: Chapter[]; progress: MotionVa
           }}
           className="absolute inset-0"
           style={{ visibility: i === 0 ? "visible" : "hidden" }}
-          aria-hidden={i !== index}
         >
           <div ref={(el) => { outers.current[i] = el; }} className="h-full w-full overflow-hidden">
             <div ref={(el) => { inners.current[i] = el; }} className="h-full w-full overflow-hidden">
               <div ref={(el) => { images.current[i] = el; }} className="absolute inset-0">
-                <Frame c={c} i={i} total={chapters.length} />
+                <Frame c={c} i={i} total={chapters.length} timeNote={timeNote} />
               </div>
             </div>
           </div>
@@ -124,19 +135,38 @@ function Stage({ chapters, progress }: { chapters: Chapter[]; progress: MotionVa
   );
 }
 
-export function CurtainChapters({ id, label, chapters }: CurtainChaptersProps) {
+export function CurtainChapters({ id, label, chapters, timeNote }: CurtainChaptersProps) {
   const reducedFallback = (
     <div>
+      <h2 className="sr-only">{label}</h2>
       {chapters.map((c, i) => (
         <div key={c.title} className="tone-dark relative h-[80svh] min-h-[480px] overflow-hidden bg-night">
-          <Frame c={c} i={i} total={chapters.length} />
+          <Frame c={c} i={i} total={chapters.length} timeNote={timeNote} />
         </div>
       ))}
     </div>
   );
   return (
     <PinnedScene id={id} label={label} length={chapters.length + 0.5} className="tone-dark bg-night" reducedFallback={reducedFallback}>
-      {(progress) => <Stage chapters={chapters} progress={progress} />}
+      {(progress) => (
+        <>
+          <div className="sr-only">
+            <h2>{label}</h2>
+            <ol>
+              {chapters.map((c) => (
+                <li key={c.title}>
+                  <h3>{c.title}</h3>
+                  <p>
+                    {c.time}
+                    {timeNote ? ` (${timeNote.toLowerCase()})` : ""}: {c.line}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <Stage chapters={chapters} progress={progress} timeNote={timeNote} />
+        </>
+      )}
     </PinnedScene>
   );
 }

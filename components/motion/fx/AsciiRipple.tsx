@@ -55,8 +55,8 @@ export function AsciiRipple({ image, cell = 11, ramp = " .·:-=+*%#@", gamma = 0
     const rings: Ring[] = [];
     let lastDrop = 0;
     const style = getComputedStyle(wrap);
-    const dim = style.getPropertyValue(dimVar).trim() || "#a8957f";
-    const hot = style.getPropertyValue(hotVar).trim() || "#c9a66b";
+    const dim = style.getPropertyValue(dimVar).trim() || style.color;
+    const hot = style.getPropertyValue(hotVar).trim() || style.color;
     const font = style.getPropertyValue("--font-mono").trim() || "monospace";
     const img = new Image();
 
@@ -82,7 +82,12 @@ export function AsciiRipple({ image, cell = 11, ramp = " .·:-=+*%#@", gamma = 0
       if (imgAspect > boxAspect) sw = sh * boxAspect;
       else sh = sw / boxAspect;
       sample.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, 0, 0, cols, rows);
-      const data = sample.getImageData(0, 0, cols, rows).data;
+      let data: Uint8ClampedArray;
+      try {
+        data = sample.getImageData(0, 0, cols, rows).data;
+      } catch {
+        return; // a cross-origin still without CORS cannot be sampled: the photograph underneath stays as it is
+      }
       lum = new Float32Array(cols * rows);
       for (let i = 0; i < cols * rows; i++) {
         lum[i] = (0.2126 * data[i * 4] + 0.7152 * data[i * 4 + 1] + 0.0722 * data[i * 4 + 2]) / 255;
@@ -163,6 +168,7 @@ export function AsciiRipple({ image, cell = 11, ramp = " .·:-=+*%#@", gamma = 0
     io.observe(wrap);
     wrap.addEventListener("pointermove", onMove);
     return () => {
+      img.onload = null;
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();

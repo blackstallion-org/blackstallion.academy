@@ -180,7 +180,8 @@ export class DualBodyEngine {
     host.appendChild(this.canvas);
 
     // Throws when WebGL is unavailable; DualBody catches it and shows the still.
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+    // Default power preference: a decorative scene should not wake the discrete GPU on dual-GPU laptops.
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -201,6 +202,8 @@ export class DualBodyEngine {
       controls.maxAzimuthAngle = Math.PI * 0.36;
       controls.addEventListener("change", () => (this.dirty = true));
       controls.addEventListener("start", () => (this.tween = null));
+      // OrbitControls sets touch-action: none; keep vertical page scrolling for a finger on a touch-screen laptop.
+      this.canvas.style.touchAction = "pan-y";
       this.controls = controls;
     }
 
@@ -972,6 +975,7 @@ export class DualBodyEngine {
   /* ------------------------------------------------------------------ loop */
 
   private tmp = new THREE.Vector3();
+  private idleFrame = 0;
 
   private project(local: THREE.Vector3): PinPoint {
     this.tmp.copy(local);
@@ -1018,6 +1022,10 @@ export class DualBodyEngine {
     if (!this.reduced) for (const u of this.pulseUniforms) u.uTime.value = this.elapsed;
 
     if (animating || this.dirty) {
+      // Idle sway only (nothing playing, tweening or fading, no input): render every other frame.
+      const idleOnly = !this.dirty && !this.playing && !this.tween && this.trunkOpacity === this.trunkTarget && this.riderOpacity === this.riderTarget;
+      this.idleFrame = (this.idleFrame + 1) % 2;
+      if (idleOnly && this.idleFrame === 1) return;
       this.renderer.render(this.scene, this.camera);
       this.dirty = false;
       const f = CONNECTION_FRAMES[this.connection];

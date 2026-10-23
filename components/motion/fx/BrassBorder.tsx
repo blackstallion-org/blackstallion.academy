@@ -75,7 +75,8 @@ export function BrassBorder<T extends ElementType = "button">({ as, children, cl
     const ctx = canvas?.getContext("2d");
     if (!root || !canvas || !ctx) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let rgb = toRgb(getComputedStyle(root).getPropertyValue("--color-gold").trim() || "#c9a66b");
+    const gold = () => { const cs = getComputedStyle(root); return cs.getPropertyValue("--color-gold").trim() || cs.color; };
+    let rgb = toRgb(gold());
     const st = { w: 0, h: 0, dpr: 1, phase: 0, lap: -1, flash: 0, visible: true, hover: false };
     const pulses: { origin: number; age: number }[] = [];
     let raf = 0;
@@ -87,7 +88,7 @@ export function BrassBorder<T extends ElementType = "button">({ as, children, cl
       st.dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round((st.w + BLEED * 2) * st.dpr);
       canvas.height = Math.round((st.h + BLEED * 2) * st.dpr);
-      rgb = toRgb(getComputedStyle(root).getPropertyValue("--color-gold").trim() || "#c9a66b");
+      rgb = toRgb(gold());
       wake();
     };
     const rgba = (a: number) => `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, ${clamp(a, 0, 1).toFixed(3)})`;
@@ -182,8 +183,11 @@ export function BrassBorder<T extends ElementType = "button">({ as, children, cl
       wake();
     };
     const onDown = (e: PointerEvent) => {
-      const rect = root.getBoundingClientRect();
-      pulses.push({ origin: project(st.w - 1, st.h - 1, e.clientX - rect.left, e.clientY - rect.top), age: 0 });
+      // Reduced motion: the border brightens and fades; no light travels.
+      if (!reduce) {
+        const rect = root.getBoundingClientRect();
+        pulses.push({ origin: project(st.w - 1, st.h - 1, e.clientX - rect.left, e.clientY - rect.top), age: 0 });
+      }
       st.flash = 1;
       wake();
     };

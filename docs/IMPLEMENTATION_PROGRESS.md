@@ -348,7 +348,7 @@ Branch `session/2026-10-24-final-completion` (rollback tag `checkpoint/pre-final
   - [x] 41 routes × 8 widths + reduced motion
   - [x] 12 major + 11 minor fixed
   - [~] 3 minor open (m2, m10, part of m9)
-  - [x] HTML prototypes "The Art of the Peg" / "One Conversation. Two Bodies" stay reference-only (not part of the agreed routes)
+  - [x] HTML prototypes "The Art of the Peg" / "One Conversation. Two Bodies": integrated by the effects session (commit `2812e70`) as `PegRun` (`/tournaments` §3) and `DualBody` (`/anatomy` §1b); reviewed and hardened here (F17)
 - 11 SEO/monitoring
   - [x] metadata, canonical (incl. `/lithos` → `/statue`), sitemap, robots, OG image, JSON-LD
   - [x] server error reporting
@@ -362,3 +362,30 @@ Branch `session/2026-10-24-final-completion` (rollback tag `checkpoint/pre-final
   - [ ] DNS (A)
 - 14–16 Audit, handover, mobile contracts
   - [x] `PRODUCTION_READINESS.md`, `docs/*.md` (9 handover documents + `MOBILE_BACKEND_CONTRACTS.md`)
+
+### F17 · Effects integration (24 Oct 2026), reviewed with this session's work
+
+Another session committed `2812e70` (React Bits / 21st.dev effects, `PegRun`, `DualBody`, eight CDN stills) on top of
+`a05f398`. Both lines of work are now one branch (`56fee69` + the fixes below). Checks on the combined code: lint 0 errors,
+types pass, 79/79 unit tests, build passes, 18/18 browser smoke tests. An independent code review and a browser audit of
+every new section (320–1920 px, reduced motion, keyboard) found 2 high, 6 medium and 15 low issues. Fixed:
+
+- [x] Finale e-mails were unreadable on the photograph (contrast about 1.6:1): dark backing restored; hover colour works.
+- [x] `/schools` expanding frame hid its headline from screen readers until scrolled (and without JavaScript): opacity only.
+- [x] `/parents` curtain day: chapters 2–4 hidden from screen readers; now one plain-text copy of all four chapters + an
+  `h2`; every chapter label says "Sample"; times aligned with the published Dawn Patrol batch (06:15–07:00).
+- [x] Ember trail: no WebGL work until the act card is within a screen; WebGL code loaded only then (separate chunk);
+  nothing under reduced motion or on touch devices; context released on unmount.
+- [x] Peg-run gallery: no idle 60 fps loop; stops and releases its context when it falls back to the cross-fade.
+- [x] Virtues marquee stops offscreen; `/legend` masked word loads its still lazily (was 878 KB at page load).
+- [x] Brass border: no travelling light under reduced motion. Peg-run tab panel focusable, live caption only while
+  playing, play buttons without contradictory `aria-pressed`.
+- [x] Dual-body 3D: default GPU power preference, vertical touch scrolling on touch-screen laptops, idle sway at half rate.
+- [x] Anatomy copy: three incorrect muscle notes corrected (hip extensors, thoracic sling, splenius); absolute claims
+  softened. Expert sign-off still recommended (C3 in `PRODUCTION_READINESS.md`).
+- [x] Duplicate eyebrow label on the `/about` ribbon removed; colour fallbacks no longer hard-coded hex.
+- [ ] Eight new stills load as 2K PNGs from the Higgsfield CDN (not reachable from this sandbox): run
+  `sh scripts/fetch-media.sh` on the Mac, commit the WebPs, switch `cdnOnly` → `m` in `lib/content/media.ts`.
+- [ ] Pre-existing: on phones ≤ 430 px the finale motto and "Begin at reel one" sit over the horse silhouette (design
+  decision: shorter copy, different crop or a darker band).
+

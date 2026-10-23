@@ -9,7 +9,7 @@ import { academyDay } from "@/lib/content/peg";
 export function MorningCurtain() {
   return (
     <>
-      <CurtainChapters id="morning" label={morningCurtain.label} chapters={academyDay} />
+      <CurtainChapters id="morning" label={morningCurtain.label} chapters={academyDay} timeNote="Sample" />
       <p className="gutter t-ui pt-4 text-xs text-dust">{morningCurtain.note} (SAMPLE)</p>
     </>
   );
