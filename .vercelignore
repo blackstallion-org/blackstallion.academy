@@ -20,3 +20,11 @@ output
 bsah-platform
 public/models/rossbandiger (1).glb
 public/models/rossbandiger-1/rossbandiger.glb
+# never upload local secrets, snapshots or git-ignored placeholder stills (the site loads stills from the CDN copy)
+.env*
+!.env.example
+_session_snapshots
+_to_delete
+.playwright-cli
+public/media/*.png
+public/media/*.jpg
