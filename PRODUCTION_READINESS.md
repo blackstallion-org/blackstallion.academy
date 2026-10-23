@@ -36,7 +36,7 @@ session does not have) · **DEFERRED** (deliberately not built yet).
 | 07 Documents | MOU draft → A4 PDF (pdf-lib) with the same six paragraphs as the on-page draft, unsigned signature lines and a "draft only" footer. No invented clauses, figures or signatures | TESTED (text extracted from the PDF) | `lib/content/mou.ts`, `lib/documents/mou-pdf.ts`, `lib/documents/store.ts`, `app/schools/mou/actions.ts`, `MouGenerator.tsx` |
 | 08 Real data | No cadet progress, ranking, certificate or verification result is fabricated. `/verify` answers "registry not connected" until the database is live; demo codes stay labelled SAMPLE | TESTED | `lib/verify/lookup.ts` |
 | 09 Security | Supabase new-format keys sent only as `apikey`; the secret key is server-only and used only for private-bucket writes. CSP updated for the Supabase origin. `robots.txt` blocks `/admin` and `/auth/`. Login and document actions rate-limited | TESTED | `next.config.mjs`, `app/robots.ts`, `lib/security/rate-limit.ts` |
-| 10 Vercel/GitHub | See section 5 | IN PROGRESS / BLOCKED_EXTERNAL | — |
+| 10 Vercel/GitHub | See section 5. `.vercelignore` now also excludes env files, snapshots and local placeholder stills | BLOCKED_EXTERNAL (approval + push) | `.vercelignore` |
 | 11 Performance | Self-hosted fonts (removed the Google Fonts `@import` and `<link>`s), unused faces no longer preloaded. GSAP, Lenis and 3D kept | TESTED (build) | `lib/fonts.ts`, `app/globals.css`, `Matrix.tsx` |
 | 12 Monitoring | Structured, PII-free server logs for each delivery channel. Error tracking (Sentry) and uptime checks are not set up | PARTIAL / BLOCKED_EXTERNAL | — |
 | 13 Testing | See section 4 | TESTED | `tests/`, `supabase/tests/`, `scripts/e2e-smoke.mjs` |
@@ -84,8 +84,12 @@ issued), Turnstile keys (no account), payment keys (deferred).
 
 ## 5. Deployment status
 
-- Vercel team: `stingrajx7-8034s-projects`. Project `blackstallion-academy` (Next.js). Target: production on the free
-  `*.vercel.app` address, indexing off, **no DNS change**, no custom domain.
+- Vercel team: `stingrajx7-8034s-projects`. Planned project `blackstallion-academy` (Next.js). Target: production on the
+  free `*.vercel.app` address, indexing off, **no DNS change**, no custom domain.
+- **Not created yet:** the Vercel connection can read the team but needs one more approval (team write access) before it
+  can create the project and add the sensitive variables. Approval links were sent in the chat; they expire after 10 minutes.
+- Local commits (not pushed): branch `session/2026-10-23-production-integration`. A clean copy of that commit was
+  checked separately: lint 0 errors, types pass, 43/43 tests, 176/176 database checks, build passes (57 pages).
 - The code is not on GitHub yet (the repo `blackstallion-org/blackstallion.academy` has one boilerplate commit and is
   **public** — anything pushed there can be read by anyone). Vercel's GitHub app is installed only on the personal
   `Stingraj` account, not on `blackstallion-org`.

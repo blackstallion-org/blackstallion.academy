@@ -12,14 +12,14 @@
 
 - **Entities:** Vicarius Infinitum Holdings Pvt Ltd (parent) → The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH, operator) → School Tent Pegging Council of India (STPCI, governing council).
 - **Domain:** blackstallion.academy
-- **Stack:** Next.js 16 (App Router, `cacheComponents` + `partialPrefetching`), React 19, TypeScript strict, Tailwind CSS 4 (tokens in `app/globals.css`), `motion` (import from `motion/react`), Lenis, zod. React Three Fiber is installed for the optional 3D stallion. Supabase not set up yet.
+- **Stack:** Next.js 16 (App Router, `cacheComponents` + `partialPrefetching`), React 19, TypeScript strict, Tailwind CSS 4 (tokens in `app/globals.css`), `motion` (import from `motion/react`), Lenis, zod. React Three Fiber is installed for the optional 3D stallion. Supabase (staff auth, storage, lead intake) is coded; schema in `supabase/migrations/`, status in `PRODUCTION_READINESS.md`.
 - **Big idea:** "An 800-year lineage, handed to your child." Three acts: **Legend** (hook) → **Citadel** (proof) → **Ledger** (convert).
 
 ## Direction: a film in fifteen reels
 
 - The home page `/` is the **trailer**: 15 sections in three zones (Hook / Proof / Convert), each teasing one page.
 - Every other page is a **reel** (`lib/content/site.ts` → `reels`), with the same grammar: **title card** (unique opening move) → **scenes** (each a different layout archetype, one signature moment) → **end card** (`components/film/EndCard.tsx`, hands off to the next reel).
-- Two-voice headlines via `components/film/Headline.tsx`: INSCRIPTION (Kalnia wide hairline caps) + war voice (Kalnia heavy lowercase, gold).
+- Two-voice headlines via `components/film/Headline.tsx`: INSCRIPTION (Noto Serif Display upright caps) + voice (Noto Serif Display italic, gold).
 - Archetypes may appear once per page and at most twice across the site (Blueprint Part 4).
 
 ### Colour (tokens in `app/globals.css`, Blueprint 3.1)

@@ -251,5 +251,5 @@ Full detail, evidence and blockers: **`PRODUCTION_READINESS.md`**. Summary:
 | Security | 8 | 62 | 66 | Upload validation, private bucket, admin rate limits, noindex; key rotation pending |
 | Performance | 6 | 32 | 34 | Fonts self-hosted, Google Fonts removed |
 | Testing | 6 | 55 | 65 | 43 unit + 176 SQL + 18 E2E |
-| Production readiness | 4 | 30 | 40 | Readiness file, env plan, Vercel project; deployment pending |
-| **Public website** | 100 | **54.3** | **62.6** | |
+| Production readiness | 4 | 30 | 36 | Readiness file, env plan, clean-clone build verified; Vercel project and deploy pending |
+| **Public website** | 100 | **54.3** | **62.4** | |
