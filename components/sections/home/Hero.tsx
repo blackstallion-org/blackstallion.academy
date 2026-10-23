@@ -1,9 +1,11 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import { motion, useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { HeroFilm } from "./HeroFilm";
+import { AcademyStats } from "./AcademyStats";
 import { Crest } from "@/components/brand/Crest";
-import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
 import { hero } from "@/lib/content/home";
 import { ease } from "@/lib/motion/tokens";
@@ -22,139 +24,12 @@ export function Hero() {
 }
 
 function HeroVideoSection() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const reducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (reducedMotion) {
-      video.pause();
-      return;
-    }
-    video.play().catch(() => {
-      // Autoplay with sound might be blocked; browser requires muted
-      video.muted = true;
-      video.play().catch(() => {});
-    });
-  }, [reducedMotion]);
-
-  const toggleSound = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = !video.muted;
-    setIsMuted(video.muted);
-  };
-
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  };
-
-  const scrollToContent = () => {
-    document.getElementById("doctrine")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
-    <section
-      id="top"
-      aria-label="Opening Film"
-      className="tone-dark relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-night flex items-center justify-center"
-    >
-      <video
-        ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
-        style={{ objectPosition: "50% 50%" }}
-        muted
-        loop
-        playsInline
-        autoPlay
-        preload="auto"
-        poster="/video/hero-main-poster.jpg"
-        aria-label="The Marwari Stallion opening film"
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onVolumeChange={(e) => setIsMuted(e.currentTarget.muted)}
-      >
-        <source src="/video/hero-main.mp4" type="video/mp4" />
-      </video>
-
-      {/* Top veil keeps the navigation legible over bright frames */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-charcoal/55 to-transparent" />
-
-      {/* Center scroll prompt */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <button
-          type="button"
-          onClick={scrollToContent}
-          className="group flex flex-col items-center gap-2 text-[#FAF7F0] transition-colors hover:text-gold focus-visible:text-gold drop-shadow-md"
-          aria-label="Scroll down to academy doctrine"
-        >
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-[#FAF7F0] group-hover:text-gold">
-            Explore
-          </span>
-          <span className="block h-5 w-[1px] bg-gold transition-transform group-hover:scale-y-125 animate-pulse" />
-        </button>
-      </div>
-
-      {/* Bottom right floating controls (Sound & Playback) */}
-      <div className="no-print absolute bottom-6 right-6 z-20 flex items-center gap-2">
-        <button
-          type="button"
-          onClick={toggleSound}
-          aria-pressed={!isMuted}
-          aria-label={isMuted ? "Unmute video sound" : "Mute video sound"}
-          className="group flex items-center gap-2 rounded-full border border-brass/50 bg-night/80 px-3.5 py-2 text-[0.68rem] font-mono uppercase tracking-[0.12em] text-sand backdrop-blur-md transition-all hover:border-gold hover:text-gold"
-        >
-          {isMuted ? (
-            <>
-              <svg className="h-3.5 w-3.5 text-dust group-hover:text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-              </svg>
-              <span>Sound OFF</span>
-            </>
-          ) : (
-            <>
-              <svg className="h-3.5 w-3.5 text-gold animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-              </svg>
-              <span className="text-gold">Sound ON</span>
-            </>
-          )}
-        </button>
-
-        <button
-          type="button"
-          onClick={togglePlay}
-          aria-label={isPlaying ? "Pause video" : "Play video"}
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-brass/50 bg-night/80 text-sand backdrop-blur-md transition-all hover:border-gold hover:text-gold"
-        >
-          {isPlaying ? (
-            <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
-              <path fillRule="evenodd" d="M6.75 5.25a.75.75 0 01.75.75v12a.75.75 0 01-1.5 0v-12a.75.75 0 01.75-.75zm10.5 0a.75.75 0 01.75.75v12a.75.75 0 01-1.5 0v-12a.75.75 0 01.75-.75z" clipRule="evenodd" />
-            </svg>
-          ) : (
-            <svg className="h-3.5 w-3.5 translate-x-0.5" fill="currentColor" viewBox="0 0 24 24">
-              <path fillRule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.99A1.875 1.875 0 014.5 18.338V5.653z" clipRule="evenodd" />
-            </svg>
-          )}
-        </button>
-      </div>
-    </section>
-  );
+  return <HeroFilm />;
 }
 
 function HeroContentSection() {
   return (
-    <section id="doctrine" aria-label="Institutional Doctrine" className="relative bg-night py-16 md:py-24">
+    <section id="doctrine" tabIndex={-1} aria-label="Institutional Doctrine" className="relative bg-night py-16 md:py-24">
       <div className="gutter space-y-12 md:space-y-16">
         {/* Crest & Council badge */}
         <motion.p
@@ -168,19 +43,31 @@ function HeroContentSection() {
           <span className="max-w-[16rem] sm:max-w-none">{hero.badge}</span>
         </motion.p>
 
-        {/* Dual Headline statements */}
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <Headline as="h1" size="2" animate="inView" voiceColor="bone" {...hero.frames[0]} />
-          </div>
-          <div className="lg:border-l lg:border-brass/35 lg:pl-12">
-            <Headline as="p" size="2" animate="inView" voiceColor="gold" {...hero.frames[1]} />
-          </div>
-        </div>
+        {/* The doctrine: one confident statement. Each sentence is its own line so "We" never dangles at a break;
+            text-wrap: balance evens the lines on narrow phones. */}
+        {/* The observer sits on the h1 (not the masked lines, which start clipped and would never intersect). */}
+        <motion.h1
+          className="doctrine-statement max-w-[17ch] text-balance sm:max-w-[19ch] lg:max-w-none"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
+          {hero.statement.map((sentence, i) => (
+            <span key={sentence} className="block overflow-hidden pb-[0.08em]">
+              <motion.span
+                className={i === 0 ? "block text-bone" : "block italic text-gold"}
+                variants={{ hidden: { y: "105%" }, visible: { y: "0%", transition: { duration: 1.3, ease: ease.citadel, delay: i * 0.18 } } }}
+              >
+                {sentence}
+              </motion.span>
+              {i === 0 && " "}
+            </span>
+          ))}
+        </motion.h1>
 
         {/* Lede & CTAs */}
         <div className="grid gap-8 border-t border-brass/25 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-          <p className="max-w-2xl text-lede text-sand leading-relaxed">{hero.sub}</p>
+          <ScrollRevealText className="max-w-2xl text-lede text-sand leading-relaxed">{hero.sub}</ScrollRevealText>
           <div className="flex flex-wrap gap-4">
             <Cta href={hero.ctas[0].href} variant="solid">
               {hero.ctas[0].label}
@@ -191,18 +78,7 @@ function HeroContentSection() {
 
         {/* Stats and Ticker */}
         <div className="pt-4">
-          <dl className="grid grid-cols-1 border-t border-brass sm:grid-cols-3">
-            {hero.stats.map((s, i) => (
-              <div
-                key={s.value}
-                className={i > 0 ? "border-t border-brass pt-6 sm:border-l sm:border-t-0 sm:pl-6 md:pl-8 sm:pt-4" : "pt-6 sm:pt-4 sm:pr-4"}
-              >
-                <dt className="sr-only">{s.label}</dt>
-                <dd className="t-voice text-[clamp(1.85rem,3.4vw,2.8rem)] leading-none text-gold">{s.value}</dd>
-                <dd className="label mt-3 text-[0.65rem] text-dust md:text-[0.72rem]">{s.label}</dd>
-              </div>
-            ))}
-          </dl>
+          <AcademyStats />
           <Ticker />
         </div>
       </div>

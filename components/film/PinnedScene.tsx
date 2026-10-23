@@ -36,7 +36,7 @@ export function PinnedScene({
 
   if (reduced && reducedFallback) {
     return (
-      <section id={id} aria-label={label} className={cn("relative", className)}>
+      <section ref={ref} id={id} aria-label={label} className={cn("relative", className)}>
         {reducedFallback}
       </section>
     );

@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { CrestMark } from "@/components/brand/CrestMark";
 
 /* ================= Field Shots Data ================= */
@@ -13,7 +15,6 @@ interface Shot {
 }
 
 const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/";
-const FILM_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260922_195107_ed3f055a-3a13-4a71-b743-e10310454246.mp4";
 
 const SHOTS: Shot[] = [
   {
@@ -161,14 +162,20 @@ for (let i = 0; i < N; i++) {
 }
 
 export function FieldSphereHero() {
-  const [isRevealed, setIsRevealed] = useState(false);
+  const reduced = useReducedMotion();
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const introTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [showIntro, setShowIntro] = useState(true);
+  const [introClosing, setIntroClosing] = useState(false);
   const [isGridView, setIsGridView] = useState(false);
   const [activeLightbox, setActiveLightbox] = useState<number | null>(null);
-  const [showSplash, setShowSplash] = useState(true);
-  const [showIntro, setShowIntro] = useState(true);
-  const [splashProgress, setSplashProgress] = useState(0);
 
   const rootRef = useRef<HTMLElement>(null);
+  useDialogFocus(activeLightbox !== null, rootRef);
+  useEffect(() => () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    if (introTimerRef.current) clearTimeout(introTimerRef.current);
+  }, []);
   const stageRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -310,7 +317,8 @@ export function FieldSphereHero() {
       plate.style.transform = `translate(${dx}px,${dy}px) scale(${scale})`;
       plate.style.opacity = "0";
 
-      setTimeout(() => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = setTimeout(() => {
         animRef.current.focused = -1;
         setActiveLightbox(null);
         if (plate) {
@@ -326,30 +334,41 @@ export function FieldSphereHero() {
   }, [isGridView]);
 
   const revealSphere = useCallback(() => {
-    if (typeof window !== "undefined") {
-      try {
-        sessionStorage.setItem("bsah_field_sphere_revealed", "true");
-      } catch {}
-    }
-    setShowIntro(false);
-    setShowSplash(false);
-    setIsRevealed(true);
-    computeLayout();
-    setTimeout(() => {
+    if (introClosing) return;
+    setIntroClosing(true);
+    if (introTimerRef.current) clearTimeout(introTimerRef.current);
+    introTimerRef.current = setTimeout(() => {
+      setShowIntro(false);
+      setIntroClosing(false);
       computeLayout();
-      cardsRef.current.forEach((c) => c?.classList.add("in"));
-    }, 250);
-  }, [computeLayout]);
+    }, 650);
+  }, [computeLayout, introClosing]);
+
+  const replayIntro = useCallback(() => {
+    if (introTimerRef.current) clearTimeout(introTimerRef.current);
+    setIntroClosing(false);
+    setShowIntro(true);
+    requestAnimationFrame(() => {
+      const video = filmVideoRef.current;
+      if (!video || reduced) return;
+      video.currentTime = 0;
+      void video.play().catch(() => undefined);
+    });
+  }, [reduced]);
 
   // Main render and physics loop
   useEffect(() => {
     let animId: number;
+    let visible = false;
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
+    if (rootRef.current) observer.observe(rootRef.current);
 
     const renderLoop = (now: number) => {
+      if (!visible || document.hidden) { animId = requestAnimationFrame(renderLoop); return; }
       const a = animRef.current;
       const isLit = a.focused >= 0;
 
-      if (!a.dragging && !isLit) {
+      if (!a.dragging && !isLit && !reduced) {
         // Continuous, silky-smooth planetary floating rotation
         a.spin = (a.spin + 0.065) % 360;
 
@@ -366,7 +385,7 @@ export function FieldSphereHero() {
       }
 
       // Organic subtle vertical breathing wave when untouched
-      const floatY = !a.dragging && !isLit ? Math.sin(now * 0.0012) * 1.5 : 0;
+      const floatY = !a.dragging && !isLit && !reduced ? Math.sin(now * 0.0012) * 1.5 : 0;
 
       // Depth scroll calculation
       const scrollY = window.scrollY;
@@ -444,8 +463,8 @@ export function FieldSphereHero() {
     };
 
     animId = requestAnimationFrame(renderLoop);
-    return () => cancelAnimationFrame(animId);
-  }, []);
+    return () => { observer.disconnect(); cancelAnimationFrame(animId); };
+  }, [reduced]);
 
   // Stage pointer drag handling
   useEffect(() => {
@@ -584,49 +603,15 @@ export function FieldSphereHero() {
     };
   }, [computeLayout, closeLightbox]);
 
-  // Intro video and splash progress orchestration
+  // Immediate mount layout initialization
   useEffect(() => {
-    let isRevealedCached = false;
-    if (typeof window !== "undefined") {
-      try {
-        isRevealedCached = sessionStorage.getItem("bsah_field_sphere_revealed") === "true";
-      } catch {}
-    }
-
-    if (isRevealedCached) {
-      const timer = setTimeout(() => {
-        setShowIntro(false);
-        setShowSplash(false);
-        setIsRevealed(true);
-        computeLayout();
-        setTimeout(() => {
-          computeLayout();
-          cardsRef.current.forEach((c) => c?.classList.add("in"));
-        }, 150);
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-
-    let p = 0;
-    const interval = setInterval(() => {
-      p += 15;
-      setSplashProgress(Math.min(100, p));
-      if (p >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          setShowSplash(false);
-          const vid = filmVideoRef.current;
-          if (vid) {
-            vid.play().catch(() => revealSphere());
-          } else {
-            revealSphere();
-          }
-        }, 400);
-      }
+    computeLayout();
+    const timer = setTimeout(() => {
+      computeLayout();
+      cardsRef.current.forEach((c) => c?.classList.add("in"));
     }, 120);
-
-    return () => clearInterval(interval);
-  }, [revealSphere, computeLayout]);
+    return () => clearTimeout(timer);
+  }, [computeLayout]);
 
   const activeShot = activeLightbox !== null ? SHOTS[activeLightbox] : null;
 
@@ -634,14 +619,14 @@ export function FieldSphereHero() {
     <section
       ref={rootRef}
       aria-label="BSAH Field Archive · Visual Dispatches"
-      className={`fsh-root ${isRevealed ? "revealed" : ""} ${isGridView ? "gridview" : ""} ${
+      className={`fsh-root tone-dark ${showIntro ? "" : "revealed"} ${isGridView ? "gridview" : ""} ${
         activeLightbox !== null ? "lit" : ""
       }`}
     >
       {/* 3D Perspective Stage */}
-      <div ref={stageRef} className="fsh-stage" aria-hidden="true">
+      <div ref={stageRef} className="fsh-stage">
         <div ref={worldRef} className="fsh-world">
-          <div className="fsh-orb">
+          <div className="fsh-orb" aria-hidden="true">
             {SHOTS.map((s, i) => (
               <div
                 key={s.id}
@@ -683,6 +668,8 @@ export function FieldSphereHero() {
               ref={(el) => {
                 gridFiguresRef.current[i] = el;
               }}
+              role="button" tabIndex={0} aria-label={`Open photo: ${s.title}`}
+              onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); const el = gridFiguresRef.current[i]; if (el) openLightbox(i, el.getBoundingClientRect()); } }}
               onClick={() => {
                 const el = gridFiguresRef.current[i];
                 if (el) openLightbox(i, el.getBoundingClientRect());
@@ -697,7 +684,7 @@ export function FieldSphereHero() {
       </div>
 
       {/* Top Header Chrome */}
-      <header className="fsh-chrome top-0 left-0 right-0 flex items-center justify-between px-[clamp(16px,2.8vw,36px)] pt-[clamp(16px,2.6vh,32px)] pointer-events-auto">
+      <header className="fsh-chrome top-16 md:top-20 left-0 right-0 flex flex-wrap items-center justify-between gap-3 px-[clamp(16px,2.8vw,36px)] pt-[clamp(16px,2.6vh,32px)] pointer-events-auto">
         <div className="flex items-center gap-3">
           <CrestMark size="sm" className="h-9 w-9 text-gold" />
           <div className="flex flex-col">
@@ -711,6 +698,13 @@ export function FieldSphereHero() {
         </div>
 
         <nav className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={replayIntro}
+            className="rounded-full border border-gold/40 bg-black/50 backdrop-blur-md px-3.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-wider text-sand hover:text-gold transition-colors"
+          >
+            Replay opening film ⟲
+          </button>
           <button
             type="button"
             onClick={() => setIsGridView((prev) => !prev)}
@@ -776,6 +770,8 @@ export function FieldSphereHero() {
         className={`fsh-lit ${activeLightbox !== null ? "is-active" : ""}`}
         aria-hidden={activeLightbox === null}
         role="dialog"
+        aria-modal={activeLightbox !== null ? true : undefined}
+        aria-label={activeShot ? `Photo: ${activeShot.title}` : "Photo viewer"}
       >
         <div className="fsh-lit-scrim" onClick={closeLightbox} />
         {activeShot && (
@@ -798,41 +794,31 @@ export function FieldSphereHero() {
         )}
       </div>
 
-      {/* Intro Film Sequence */}
       {showIntro && (
-        <div className="fsh-intro">
+        <div className={`fsh-intro ${introClosing ? "closing" : ""}`}>
           <video
             ref={filmVideoRef}
-            src={FILM_URL}
+            autoPlay={!reduced}
             muted
             playsInline
             preload="auto"
-            loop={false}
+            poster="/images/bsah-horse-eye.webp"
+            aria-label="Close-up cinematic film of a Marwari horse's eye"
             onEnded={revealSphere}
-          />
-          <div className="veil" />
+            onError={revealSphere}
+          >
+            <source src="/video/eye-intro-film.webm" type="video/webm" />
+            <source src="/video/eye-intro-film.mp4" type="video/mp4" />
+            Your browser does not support the opening film.
+          </video>
+          <div className="veil" aria-hidden="true" />
           <button
             type="button"
             onClick={revealSphere}
-            className="absolute right-6 bottom-6 z-10 rounded-full border border-gold/40 bg-black/60 px-4 py-2 font-mono text-[0.68rem] uppercase tracking-widest text-sand hover:text-gold hover:border-gold transition-colors"
+            className="absolute right-4 bottom-4 z-10 rounded-full border border-gold/40 bg-black/60 px-4 py-2 font-mono text-[0.68rem] uppercase tracking-widest text-sand transition-colors hover:border-gold hover:text-gold sm:right-6 sm:bottom-6"
           >
-            Skip Film
+            {reduced ? "Enter archive" : "Skip film"}
           </button>
-        </div>
-      )}
-
-      {/* Splash Loading Bar */}
-      {showSplash && (
-        <div className="fsh-splash">
-          <div className="mark">
-            The Chronicle · <em>Field Notes</em>
-          </div>
-          <div className="bar">
-            <s style={{ transform: `scaleX(${splashProgress / 100})` }} />
-          </div>
-          <div className="font-mono text-[0.64rem] tracking-[0.24em] uppercase text-sand/60">
-            Calibrating Field Constellation…
-          </div>
         </div>
       )}
 

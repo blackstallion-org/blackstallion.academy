@@ -3,10 +3,14 @@ import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
 import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
+import { CadetAdmissionPortal } from "@/components/sections/parents/CadetAdmissionPortal";
+import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
+import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/parents" },
   title: "The Guardian",
-  description: "For parents: the stall-cam, gate alerts and milestone reels, admissions in five steps, fees and answers.",
+  description: "For parents: admissions in five steps, fees and answers, and the planned parent app (stall-cam, gate alerts, milestone reels).",
 };
 
 export default function ParentsPage() {
@@ -15,9 +19,11 @@ export default function ParentsPage() {
       <ParentsTitle />
       <PinnedPhone />
       <ParentVantageGallery />
+      <HorizontalChapter typeface="elegant" chapter="A parent's view" text="Watch who they are becoming." />
       <HoofPath />
       <Receipt />
       <StandingOrders />
+      <CadetAdmissionPortal />
 
       {/* §5 · CTA */}
       <section aria-labelledby="enrol-h" className="gutter relative pb-[clamp(6rem,14vh,12rem)] text-center">
@@ -29,8 +35,8 @@ export default function ParentsPage() {
           <Cta href="/schools#hubs">Find your campus</Cta>
         </div>
       </section>
-
-      <EndCard current={8} />
+      <ReplayHeadline typeface="brush" id="parents-replay" label="The guardian vow" text="You watch them discover who they are." tone="dark" defaultMode="lines" />
+      <EndCard current={9} />
     </>
   );
 }

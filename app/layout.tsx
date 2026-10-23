@@ -1,12 +1,16 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import "lenis/dist/lenis.css";
 import "./globals.css";
+import "./editorial.css";
 import { Atmosphere } from "@/components/film/Atmosphere";
 import { Loader, loaderBootScript } from "@/components/motion/Loader";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { SiteParallax } from "@/components/motion/SiteParallax";
 import { Footer } from "@/components/site/Footer";
 import { SiteNav } from "@/components/site/SiteNav";
+import { Soundscape } from "@/components/site/Soundscape";
 import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
@@ -49,8 +53,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </a>
             <Loader />
             <SiteNav />
+            <Soundscape />
             <Atmosphere />
             <main id="main">{children}</main>
+            <Suspense fallback={null}><SiteParallax /></Suspense>
             <Footer />
           </SmoothScroll>
         </MotionProvider>

@@ -1,8 +1,10 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import { useEffect, useRef, useState } from "react";
 import { playEffect } from "@/lib/audio/engine";
-import { Headline } from "@/components/film/Headline";
+import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label } from "@/components/film/Marks";
 import { CompareSlider } from "@/components/sections/shared/CompareSlider";
 import { crisis } from "@/lib/content/home";
@@ -29,7 +31,7 @@ export function CrisisCure() {
           <Label reel={4}>Crisis &amp; Cure</Label>
           <Headline id="crisis-h" className="mt-4" inscription={crisis.inscription} voice={crisis.voice} />
         </div>
-        <p className="text-sand">{crisis.body}</p>
+        <ScrollRevealText data-home-detail className="text-sand">{crisis.body}</ScrollRevealText>
       </div>
 
       <div className="gutter">
@@ -49,7 +51,7 @@ export function CrisisCure() {
 
       <ul className="gutter mt-12 grid gap-px bg-line/10 sm:grid-cols-2 lg:grid-cols-4">
         {crisis.pairs.map(([from, to]) => (
-          <li key={from} className="flex flex-col gap-2 bg-night py-6 pr-6 sm:pl-6 sm:first:pl-0">
+          <li data-home-detail key={from} className="flex flex-col gap-2 bg-night py-6 pr-6 sm:pl-6 sm:first:pl-0">
             <span className={cn("t-ui text-sm line-through decoration-1 transition-colors duration-700", cured ? "text-frost/40" : "text-frost")}>
               {from}
             </span>

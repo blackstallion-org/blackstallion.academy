@@ -3,10 +3,15 @@ import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { ConfiguratorAndSimulator, HubMap, ModelFlow, PanIndiaNetwork, SchoolArenaShowcase, SchoolsTitle } from "@/components/sections/schools/SchoolScenes";
+import { HubMap, ModelFlow, PanIndiaNetwork, SchoolArenaShowcase, SchoolsTitle } from "@/components/sections/schools/SchoolScenes";
+import { CitadelConfigurator } from "@/components/sections/schools/CitadelConfigurator";
+import { SovereignCouncil } from "@/components/sections/schools/SovereignCouncil";
+import { TrojanBox } from "@/components/sections/schools/TrojanBox";
 import { seals } from "@/lib/content/schools";
+import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/schools" },
   title: "The Citadel · For school boards",
   description: "A zero-CapEx equestrian hub on your campus: BSAH funds, builds and operates; your school earns 25–30% of tuition. Three tiers, the Pan-India network and a draft MOU.",
 };
@@ -16,10 +21,13 @@ export default function SchoolsPage() {
     <>
       <SchoolsTitle />
       <ModelFlow />
-      <ConfiguratorAndSimulator />
+      <CitadelConfigurator />
       <SchoolArenaShowcase />
+      <HorizontalChapter typeface="elegant" chapter="Space to grow" text="A school can give courage room to grow." tone="light" />
       <HubMap />
       <PanIndiaNetwork />
+      <SovereignCouncil />
+      <TrojanBox />
 
       {/* §5 · S56 seal row */}
       <section aria-labelledby="seals-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
@@ -48,11 +56,11 @@ export default function SchoolsPage() {
             Request a draft MOU
           </Cta>
           <Cta href="/contact?gate=audit">Schedule a board audit</Cta>
-          <Cta href="/command">Ask Command AI</Cta>
+          <Cta href="/command">Information desk</Cta>
         </div>
       </section>
 
-      <EndCard current={10} />
+      <EndCard current={11} />
     </>
   );
 }

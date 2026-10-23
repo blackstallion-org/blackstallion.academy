@@ -56,7 +56,7 @@ export function FilmImage({
   position,
   bleed = false,
   sizes = "100vw",
-  grade = "film",
+  grade = "none",
   className,
   imgClassName,
 }: FilmImageProps) {
@@ -79,20 +79,19 @@ export function FilmImage({
           <Image
             src={src}
             unoptimized={!LOCAL_MEDIA}
-            alt={isLayer ? "" : item.alt}
+            alt={isLayer ? "" : (item?.alt ?? "")}
             fill
             sizes={sizes}
-            quality={75}
+            quality={95}
             priority={priority}
             onLoad={() => setState("ok")}
             onError={() => setState("missing")}
             className={cn(
-              "object-cover transition-opacity duration-[1400ms] ease-[var(--ease-film)]",
-              state === "ok" ? "opacity-100" : "opacity-0",
+              "object-cover transition-opacity duration-200 ease-out opacity-100",
               !isLayer && grades[grade],
               imgClassName,
             )}
-            style={{ objectPosition: position ?? item.focus ?? "50% 50%" }}
+            style={{ objectPosition: position ?? item?.focus ?? "50% 50%" }}
           />
         </motion.div>
       )}

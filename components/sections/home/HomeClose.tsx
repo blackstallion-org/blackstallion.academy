@@ -1,15 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion, useTransform } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
-import { Headline } from "@/components/film/Headline";
+import { HomeHeadline as Headline } from "./HomeTypography";
 import { Arrow, Cta, Label } from "@/components/film/Marks";
-import { PinnedScene } from "@/components/film/PinnedScene";
-import { r } from "@/components/film/range";
-import { Terminal } from "@/components/sections/command/Terminal";
-import { chronicle, command, finale } from "@/lib/content/home";
+import { CommandTeaser } from "@/components/sections/command/CommandExperience";
+import { chronicle, finale } from "@/lib/content/home";
 import { posts } from "@/lib/content/journal";
 import { corridors, entity } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
@@ -17,21 +15,7 @@ import { cn } from "@/lib/utils";
 
 /** §13 Command AI · S13 terminal. Signature: the question types itself, the answer streams in. */
 export function HomeCommand() {
-  return (
-    <section aria-labelledby="command-h" className="relative py-[clamp(6rem,14vh,12rem)]">
-      <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
-        <div>
-          <Label reel={13}>Command AI</Label>
-          <Headline id="command-h" className="mt-4" inscription={command.inscription} voice={command.voice} />
-          <p className="mt-6 max-w-md text-sand">For principals and trustees: returns, insurance, safety and curriculum, answered on the spot.</p>
-          <div className="mt-10">
-            <Cta href="/command">Open the terminal</Cta>
-          </div>
-        </div>
-        <Terminal opening={command.question} chips={command.chips} />
-      </div>
-    </section>
-  );
+  return <CommandTeaser />;
 }
 
 /** §14 The Chronicle · S14 editorial index. Signature: the cover swaps as you move down the headlines. */
@@ -47,14 +31,15 @@ export function HomeChronicle() {
         <Headline id="chronicle-h" className="mt-4" inscription={chronicle.inscription} voice={chronicle.voice} />
       </div>
       <div className="gutter mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-        <Link href={`/journal/${p.slug}`} className="group relative block aspect-[4/3] overflow-hidden" aria-label={`${p.title.join(" ")} — read`}>
+        <Link href={`/journal/${p.slug}`} className="group relative block">
+          <div className="relative aspect-[4/3] overflow-hidden">
           <AnimatePresence mode="popLayout">
             <motion.div key={p.slug} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8, ease: ease.citadel }}>
               <FilmImage name={p.cover} sizes="(min-width: 1024px) 55vw, 100vw" />
             </motion.div>
           </AnimatePresence>
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+          </div>
+          <div className="relative py-6">
             <p className="label text-brass">
               {p.category} · {p.minutes} min read
             </p>
@@ -63,7 +48,7 @@ export function HomeChronicle() {
         </Link>
         <ol className="border-t border-line">
           {list.map((post, k) => (
-            <li key={post.slug}>
+            <li data-home-detail key={post.slug}>
               <Link
                 href={`/journal/${post.slug}`}
                 onMouseEnter={() => setI(k)}
@@ -91,74 +76,76 @@ export function HomeChronicle() {
   );
 }
 
-/** §15 Finale · S15 credits roll. Signature: credits roll up past the three held calls to action. */
+/** §15 Finale · S15 The Arena is Open · Stealth Bomber & Snow Gallop Finale */
 export function Finale() {
   return (
-    <PinnedScene length={3} label="The arena is open" className="tone-dark surface-leather" reducedFallback={<FinaleFrame />}>
-      {(p) => <FinaleRolling progress={p} />}
-    </PinnedScene>
-  );
-}
-
-const credits: [string, string][] = [
-  ["A production of", entity.parent],
-  ["Operated by", entity.operator],
-  ["Sanctioned by", entity.council],
-  ["Starring", "Twenty-one Marwari and Kathiawari stallions"],
-  ["And", "Every cadet who has earned a seal"],
-  ["Filmed on location", "Hyderabad, Telangana"],
-];
-
-function FinaleRolling({ progress }: { progress: import("motion/react").MotionValue<number> }) {
-  const y = useTransform(progress, r(0, 0.62), ["75%", "-110%"]);
-  const creditsOpacity = useTransform(progress, r(0, 0.05, 0.5, 0.6), [0, 1, 1, 0]);
-  const ctaOpacity = useTransform(progress, r(0.58, 0.74), [0, 1]);
-  const ctaY = useTransform(progress, r(0.58, 0.74), [30, 0]);
-  return (
-    <div className="relative h-full">
-      <FilmImage name="duneSilhouette" grade="deep" className="opacity-100" />
-      <motion.ul className="gutter absolute inset-x-0 top-0 flex flex-col items-center gap-10 text-center" style={{ y, opacity: creditsOpacity }} aria-hidden>
-        {credits.map(([k, v]) => (
-          <li key={k}>
-            <p className="label text-dust">{k}</p>
-            <p className="t-inscribe mt-2 text-[clamp(0.9rem,1.6vw,1.3rem)] text-sand">{v}</p>
-          </li>
-        ))}
-      </motion.ul>
-      <motion.div className="relative flex h-full items-center" style={{ opacity: ctaOpacity, y: ctaY }}>
-        <FinaleFrame inline />
-      </motion.div>
-    </div>
+    <section aria-label="The arena is open" className="relative tone-dark surface-leather min-h-[100svh] overflow-hidden bg-night">
+      <FinaleFrame />
+    </section>
   );
 }
 
 function FinaleFrame({ inline = false }: { inline?: boolean }) {
   return (
-    <div className={cn("gutter w-full text-center", !inline && "relative py-32")}>
-      {!inline && <FilmImage name="duneSilhouette" grade="deep" className="opacity-100" />}
-      <div className="relative mx-auto max-w-5xl py-10">
-        <Headline as="h2" size="1" inscription={finale.inscription} voice={finale.voice} className="mx-auto" />
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
+    <div className={cn("relative min-h-[100svh] w-full flex items-center justify-center py-12 md:py-16 overflow-hidden bg-night", inline && "min-h-full py-0")}>
+      {/* Edge-to-edge full screen cinematic background image */}
+      <FilmImage name="duneSilhouette" grade="deep" className="opacity-100" />
+
+      {/* Minimized, Elegant Editorial Content */}
+      <div data-home-final-copy className="relative mx-auto max-w-3xl px-6 py-8 text-center z-20 flex flex-col items-center">
+        {/* Minimized Inscription */}
+        <p data-home-final-intro className="font-mono text-[0.68rem] sm:text-xs tracking-[0.3em] uppercase text-gold/90 mb-2 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+          {finale.inscription}
+        </p>
+
+        {/* Minimized, Refined Headline */}
+        <h2 data-home-phrase data-home-final-title className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-[#FAF7F0] tracking-tight leading-snug [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] max-w-xl mx-auto">
+          {finale.voice}
+        </h2>
+
+        {/* Action Buttons - Sleek, Compact Luxury Pills */}
+        <div data-home-detail className="mt-8 flex flex-wrap justify-center gap-2.5 sm:gap-3">
           {finale.ctas.map((c, i) => (
-            <Cta key={c.href} href={c.href} variant={i === 0 ? "solid" : "ghost"}>
-              {c.label}
-            </Cta>
+            <Link
+              key={c.href}
+              href={c.href}
+              className={cn(
+                "group inline-flex items-center gap-2 rounded-full px-5 py-2 font-mono text-[0.72rem] uppercase tracking-wider backdrop-blur-md transition-all duration-300 shadow-md",
+                i === 0
+                  ? "bg-gold text-black font-semibold hover:bg-gold/90 hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+                  : "bg-black/60 text-[#FAF7F0] border border-white/20 hover:border-gold hover:text-gold hover:bg-black/80 hover:scale-105"
+              )}
+            >
+              <span>{c.label}</span>
+              <Arrow className="transition-transform group-hover:translate-x-1" />
+            </Link>
           ))}
         </div>
-        <ul className="mt-10 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-8">
+
+        {/* Email Corridors - Clean Compact Micro Pills */}
+        <ul className="mt-5 flex flex-wrap items-center justify-center gap-2">
           {corridors.map((c) => (
             <li key={c.id}>
-              <a href={`mailto:${c.email}`} className="t-ui text-sm text-sand hover:text-gold">
+              <a
+                href={`mailto:${c.email}`}
+                className="inline-block rounded-full bg-black/50 px-3.5 py-1 font-mono text-[0.66rem] tracking-wider text-sand/80 backdrop-blur-sm border border-white/10 transition-colors hover:border-gold/50 hover:text-gold"
+              >
                 {c.email}
               </a>
             </li>
           ))}
         </ul>
-        <p className="t-story mt-8 italic text-dust">
+
+        {/* Motto & Reel One Link */}
+        <p className="mt-5 font-serif italic text-xs sm:text-sm text-sand/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
           {entity.motto}. {entity.mottoEn}.
         </p>
-        <Link href="/legend" className="label mt-6 inline-flex items-center gap-2 text-gold/80 hover:text-gold">
-          Begin at reel one <Arrow />
+        <Link
+          href="/legend"
+          className="mt-3 inline-flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-gold/90 hover:text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.8)] transition-colors"
+        >
+          <span>Begin at reel one</span>
+          <Arrow />
         </Link>
       </div>
     </div>

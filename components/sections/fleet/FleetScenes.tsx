@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import { AnimatePresence, motion, useInView, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -20,14 +22,18 @@ export function FleetTitle() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const scale = useTransform(scrollYProgress, r(0, 1), [1, 1.12]);
   return (
-    <section ref={ref} aria-labelledby="fleet-h" className="relative min-h-[100svh] overflow-hidden">
+    <section ref={ref} aria-labelledby="fleet-h" className="editorial-scene">
+<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden">
       <FilmImage name="bgStable" priority scale={scale} grade="none" />
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
-        <ReelMark n={6} act="citadel" />
+        
         <Headline id="fleet-h" as="h1" size="1" animate="mount" className="mt-6 [text-shadow:0_3px_15px_rgba(0,0,0,0.7)]" inscription="Twenty-one stallions." voice="Every one has a name." />
-        <p className="t-story mt-6 max-w-2xl text-bone [text-shadow:0_1px_8px_rgba(0,0,0,0.6)]">Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.</p>
+        
       </div>
-    </section>
+    </div>
+<div className="tone-light editorial-details gutter"><ReelMark n={6} act="citadel" />
+<ScrollRevealText className="t-story mt-6 max-w-2xl text-bone ">Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.</ScrollRevealText></div>
+</section>
   );
 }
 
@@ -44,7 +50,7 @@ export function Registry() {
           <Label>The registry</Label>
           <Headline id="registry-h" className="mt-4" inscription="The" voice="studbook." />
         </div>
-        <div className="flex gap-2" role="radiogroup" aria-label="Filter by breed">
+        <div className="flex gap-2" role="radiogroup" aria-label="Filter by breed" data-sound="snort">
           {(["All", "Marwari", "Kathiawari"] as const).map((f) => (
             <button key={f} type="button" role="radio" aria-checked={filter === f} onClick={() => setFilter(f)} className={cn("label border px-4 py-2.5", filter === f ? "border-gold text-gold" : "border-line text-sand hover:text-bone")}>
               {f}
@@ -53,7 +59,7 @@ export function Registry() {
         </div>
       </div>
 
-      <div className="relative mt-10 overflow-x-auto">
+      <div tabIndex={0} role="region" aria-label="Fleet comparison table" className="relative mt-10 overflow-x-auto">
         <table className="w-full min-w-[760px] border-collapse text-left">
           <caption className="sr-only">Stallion registry (sample records)</caption>
           <thead>
@@ -86,7 +92,7 @@ export function Registry() {
                   </span>
                 </td>
                 <td className="text-right">
-                  <button type="button" onClick={() => setOpen(s)} className="label border border-line px-3 py-2 text-gold hover:border-gold">
+                  <button type="button" data-sound="neigh" onClick={() => setOpen(s)} className="label border border-line px-3 py-2 text-gold hover:border-gold">
                     Open
                     <span className="sr-only"> {s.name}</span>
                   </button>
@@ -233,7 +239,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
             </g>
           </svg>
           <button type="button" disabled className="label mt-8 w-full border border-line py-3 text-dust">
-            Watch stall-cam · parents only, in the app
+            Stall-cam · planned for the parent app
           </button>
         </div>
       </motion.aside>
@@ -262,12 +268,12 @@ export function CctvGrid() {
           <Label>Stall-cam</Label>
           <Headline id="cctv-h" className="mt-4" inscription="On camera" voice="all night." />
         </div>
-        <p className="text-sand">Every stall has a camera. Parents can watch their child&rsquo;s assigned stallion rest, eat and sleep from the app.</p>
+        <p className="text-sand">Planned: a camera in every stall, so parents can watch their child&rsquo;s assigned stallion rest, eat and sleep from the parent app (in development).</p>
       </div>
       <div className="gutter mt-12 grid gap-2 sm:grid-cols-2">
         {feeds.map((f, i) => (
           <figure key={f.cam} className="relative aspect-video overflow-hidden bg-black">
-            <FilmImage name="fleetStallcam" grade="none" position={positions[i]} scale={1.2 + i * 0.08} imgClassName="[filter:grayscale(1)_contrast(1.1)]" />
+            <FilmImage name="fleetStallcam" grade="none" position={positions[i]} scale={1.2 + i * 0.08} />
             <div aria-hidden className="absolute inset-0 bg-[repeating-linear-gradient(0deg,rgb(0_0_0/0.25)_0_1px,transparent_1px_3px)]" />
             <figcaption className="font-mono absolute inset-0 flex flex-col justify-between p-3 text-[0.68rem] uppercase tracking-[0.1em] text-[#D9D5CD]">
               <span className="flex justify-between">

@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import { AnimatePresence, motion, useInView, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useId, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -20,20 +22,24 @@ export function ParentsTitle() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const railY = useTransform(scrollYProgress, r(0, 1), ["0%", "60%"]);
   return (
-    <section ref={ref} aria-labelledby="parents-h" className="relative min-h-[100svh] overflow-hidden">
+    <section ref={ref} aria-labelledby="parents-h" className="editorial-scene">
+<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden">
       <FilmImage name="parentsRail" priority />
-      <div aria-hidden className="absolute inset-0 shade-b" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
       {/* The rail runs along the foot of the frame, under the copy, and drops away as you scroll. */}
-      <motion.div aria-hidden className="absolute inset-x-0 bottom-[3vh] flex flex-col gap-5" style={{ y: railY }}>
+      <motion.div aria-hidden className="widget-hud absolute inset-x-0 bottom-[3vh] flex flex-col gap-5" style={{ y: railY }}>
         <span className="h-5 w-full bg-gradient-to-b from-[#6a4631] to-leather shadow-[0_10px_30px_rgb(73_49_38/0.35)]" />
         <span className="h-4 w-full bg-gradient-to-b from-[#6a4631] to-leather" />
       </motion.div>
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[calc(3vh+5.5rem)]">
-        <ReelMark n={8} act="citadel" />
+        
         <Headline id="parents-h" as="h1" size="1" animate="mount" className="mt-6" inscription="The guardian" voice="sees every stride." />
-        <p className="t-story mt-6 max-w-xl text-sand">You can&rsquo;t be in the arena every day. You can see everything that happens there.</p>
+        
       </div>
-    </section>
+    </div>
+<div className="tone-light editorial-details gutter"><ReelMark n={8} act="citadel" />
+<ScrollRevealText className="t-story mt-6 max-w-xl text-sand">You can&rsquo;t be in the arena every day. You can see everything that happens there.</ScrollRevealText></div>
+</section>
   );
 }
 
@@ -56,7 +62,7 @@ function Screen({ id }: { id: string }) {
   if (id === "cam")
     return (
       <div className="relative h-full">
-        <FilmImage name="fleetStallcam" grade="none" imgClassName="[filter:grayscale(1)_contrast(1.1)]" />
+        <FilmImage name="fleetStallcam" grade="none" />
         <div className="font-mono absolute inset-x-0 top-0 flex justify-between p-3 text-[0.6rem] text-[#D9D5CD]">
           <span>CHETAK IX · STALL 3</span>
           <span className="flex items-center gap-1">
@@ -158,11 +164,11 @@ export function ParentVantageGallery() {
     {
       id: "stallcam",
       imageKey: "fleetStallcam",
-      subtitle: "REEL 02 · 24/7 NIGHT-VISION",
+      subtitle: "REEL 02 · PLANNED · 24/7 NIGHT-VISION",
       titleLine1: "LIVE STALL",
       titleLine2: "OPTICS",
       alt: "Night-vision stall camera feed of Marwari resting in stall",
-      caption: "Dedicated night-vision optics into the stall. Monitored resting cycles, feed times, and quiet nocturnal wellness.",
+      caption: "Planned for the parent app (in development): night-vision optics into the stall, with resting cycles, feed times and quiet nocturnal wellness.",
       align: "right",
     },
     {
@@ -267,7 +273,7 @@ export function Receipt() {
         <div>
           <Label>Fees</Label>
           <Headline id="fees-h" className="mt-4" inscription="Fees," voice="plainly." />
-          <p className="mt-6 max-w-sm text-sand">No hidden costs. Choose Core Cadets or Sovereign Elite; tuition is billed monthly by UPI Autopay and the onboarding kit is paid once.</p>
+          <p className="mt-6 max-w-sm text-sand">No hidden costs. Choose Core Cadets or Sovereign Elite; tuition is billed monthly and the onboarding kit is paid once. Online payment is being set up; no payment is taken on this website yet.</p>
         </div>
         <div ref={ref} className="overflow-hidden">
           <motion.div
@@ -303,7 +309,7 @@ export function Receipt() {
               <span>Each month after · Sovereign Elite</span>
               <span>{inr(withGst(price.elite))}</span>
             </p>
-            <p className="font-mono mt-6 text-center text-[0.6rem] text-[#6b5130]">PAYMENTS VIA RAZORPAY · UPI AUTOPAY ON THE 1ST</p>
+            <p className="font-mono mt-6 text-center text-[0.6rem] text-[#6b5130]">ONLINE PAYMENT NOT YET LIVE · NO PAYMENT IS TAKEN ON THIS SITE</p>
           </motion.div>
         </div>
       </div>

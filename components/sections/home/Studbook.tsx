@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
-import { Headline } from "@/components/film/Headline";
+import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label, StatusDot } from "@/components/film/Marks";
 import { fleet, FLEET_TOTAL, statusLabel } from "@/lib/content/fleet";
 import { studbook } from "@/lib/content/home";

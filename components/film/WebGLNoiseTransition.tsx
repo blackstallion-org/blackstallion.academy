@@ -428,7 +428,7 @@ export function WebGLNoiseTransition({
       return;
     }
     s.renderer = renderer;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
 
@@ -598,7 +598,7 @@ export function WebGLNoiseTransition({
     <div
       className={cn(
         fullScreen
-          ? "relative w-full h-[100svh] min-h-[100svh] overflow-hidden bg-night select-none"
+          ? "relative w-full bg-night select-none"
           : "relative flex flex-col",
         className
       )}
@@ -642,7 +642,7 @@ export function WebGLNoiseTransition({
       <div
         className={cn(
           fullScreen
-            ? "absolute inset-0 h-full w-full overflow-hidden bg-night"
+            ? "relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-night"
             : cn("relative w-full overflow-hidden border border-line/70 bg-night", aspectRatio),
           stageClassName
         )}
@@ -660,21 +660,16 @@ export function WebGLNoiseTransition({
           />
         )}
 
-        {/* Cinematic Vignette / Shading */}
+        {/* Minimal light bottom gradient (max 25% opacity) */}
         <div
           aria-hidden
-          className={cn(
-            "pointer-events-none absolute inset-0",
-            fullScreen
-              ? "bg-gradient-to-t from-black/95 via-black/35 to-black/60"
-              : "bg-gradient-to-t from-night/90 via-night/20 to-transparent"
-          )}
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"
         />
 
-        {/* Top Badges / Index Metadata */}
+        {/* Top Badges / Index Metadata - tucked into widget-hud */}
         <div
           className={cn(
-            "pointer-events-none absolute inset-x-0 flex items-center justify-between text-xs font-mono z-20",
+            "widget-hud pointer-events-none absolute inset-x-0 flex items-center justify-between text-xs font-mono z-20",
             fullScreen ? "top-36 sm:top-36 left-6 sm:left-12 right-6 sm:right-12" : "top-0 p-5"
           )}
         >
@@ -709,33 +704,6 @@ export function WebGLNoiseTransition({
               {String(activeIdx + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
             </span>
           </div>
-        </div>
-
-        {/* Bottom Slide Info Overlay */}
-        <div
-          className={cn(
-            "pointer-events-none absolute bottom-0 left-0 z-20",
-            fullScreen
-              ? "p-6 sm:p-12 pb-10 sm:pb-14 max-w-2xl"
-              : "inset-x-0 p-5 md:p-7"
-          )}
-        >
-          {activeSlide?.tag && (
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">{activeSlide.tag}</p>
-          )}
-          {activeSlide?.title && (
-            <h3 className="t-voice mt-1.5 text-3xl sm:text-4xl text-bone drop-shadow-md">
-              {activeSlide.title}
-            </h3>
-          )}
-          {activeSlide?.subtitle && (
-            <p className="mt-2 text-sm sm:text-base text-sand/90 leading-relaxed max-w-xl">
-              {activeSlide.subtitle}
-            </p>
-          )}
-          {activeSlide?.caption && (
-            <p className="t-ui mt-2 text-xs text-dust/90 font-mono tracking-wide">{activeSlide.caption}</p>
-          )}
         </div>
 
         {/* Subtle Wave Dissolve Activity Indicator */}
@@ -804,6 +772,13 @@ export function WebGLNoiseTransition({
             )}
           </div>
         )}
+      </div>
+
+      <div className="editorial-details" aria-live="polite">
+        {activeSlide?.tag && <p className="label text-brass">{activeSlide.tag}</p>}
+        {activeSlide?.title && <h3 className="t-voice text-3xl sm:text-4xl text-bone">{activeSlide.title}</h3>}
+        {activeSlide?.subtitle && <p className="text-sand">{activeSlide.subtitle}</p>}
+        {activeSlide?.caption && <p className="text-dust">{activeSlide.caption}</p>}
       </div>
 
       {/* Non-fullscreen Controls & Dots */}

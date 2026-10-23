@@ -1,15 +1,21 @@
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+import { EditorialScrollSync, EditorialImage } from "@/components/motion/EditorialMotion";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BreathCue } from "@/components/film/BreathCue";
 import { EndCard } from "@/components/film/EndCard";
 import { FilmImage } from "@/components/film/FilmImage";
-import { Headline } from "@/components/film/Headline";
-import { Reveal } from "@/components/film/Reveal";
-import { Ascent, ChapterHead, ChapterRail, Descent, EarsZoom, LegendTitle, RouteMap, ThreeWords } from "@/components/sections/legend/LegendScenes";
+import { EditorialHeadline as Headline } from "@/components/motion/EditorialMotion";
+import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
+import { Ascent, ChapterHead, ChapterRail, Descent, EarsZoom, LegendTitle, RouteMap, TharGallopReel, ThreeWords } from "@/components/sections/legend/LegendScenes";
+import { MarwariInterlude } from "@/components/sections/editorial/ReferencePanels";
+import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
+import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { bred, honour, honourClose, lore, ocean, revival, today } from "@/lib/content/legend";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/legend" },
   title: "The Marwari",
   description: "Eight hundred years of the horse that would not leave the field: born of legend, bred in the Thar, nearly lost, revived. Every BSAH cadet rides one.",
 };
@@ -17,16 +23,19 @@ export const metadata: Metadata = {
 export default function LegendPage() {
   return (
     <>
+      <EditorialScrollSync />
       <LegendTitle />
+      <MarwariInterlude />
       <ChapterRail />
+      <TharGallopReel />
 
       {/* I · One bloodline — overview + miniature plate + three theories of origin */}
       <section id="ocean" aria-labelledby="ocean-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
         <BreathCue />
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-center">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.75fr)] lg:items-center">
           <div>
             <ChapterHead id="ocean" />
-            <Headline id="ocean-h" className="mt-4" inscription={ocean.inscription} voice={ocean.voice} />
+            <Headline id="ocean-h" technique="words" className="mt-4 max-w-[16ch]" inscription={ocean.inscription} voice={ocean.voice} />
             <p className="t-story mt-4 italic text-bone">{ocean.sub}</p>
             <Reveal>
               <p className="t-story mt-8 max-w-2xl text-sand first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:[font-family:var(--font-kalnia)] first-letter:font-semibold first-letter:text-[4.2em] first-letter:leading-[0.8] first-letter:text-gold">
@@ -37,7 +46,7 @@ export default function LegendPage() {
           <Reveal as="figure" className="mx-auto w-full max-w-md">
             <div className="relative aspect-[3/4] border border-line p-3">
               <div className="relative h-full w-full">
-                <FilmImage name="legendBlack" sizes="(min-width: 1024px) 30vw, 90vw" grade="none" />
+                <EditorialImage><FilmImage name="legendBlack" sizes="(min-width: 1024px) 30vw, 90vw" grade="none" /></EditorialImage>
               </div>
             </div>
             <figcaption className="label mt-4 text-dust">
@@ -70,19 +79,19 @@ export default function LegendPage() {
       <section id="bred" aria-labelledby="bred-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           <div className="relative aspect-[16/11] overflow-hidden lg:sticky motion-reduce:lg:static lg:top-24 lg:self-start">
-            <FilmImage name="legendSand" sizes="(min-width: 1024px) 50vw, 100vw" grade="none" />
+            <EditorialImage><FilmImage name="legendSand" sizes="(min-width: 1024px) 50vw, 100vw" grade="none" /></EditorialImage>
             {[
-              [38, 22],
-              [52, 58],
-              [70, 30],
-              [30, 70],
-              [82, 62],
-              [60, 82],
+              [60, 42], // 1: Upright shoulder
+              [58, 72], // 2: Slim, hard legs
+              [44, 34], // 3: Fine, silky coat
+              [50, 52], // 4: Endurance
+              [74, 18], // 5: The homing sense
+              [32, 60], // 6: The revaal
             ].map(([x, y], i) => (
               <span
                 key={i}
                 aria-hidden
-                className="font-mono absolute grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-gold bg-night/70 text-[0.65rem] text-gold"
+                className="widget-hud font-mono absolute grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-gold bg-night/70 text-[0.65rem] text-gold"
                 style={{ left: `${x}%`, top: `${y}%` }}
               >
                 {i + 1}
@@ -92,7 +101,7 @@ export default function LegendPage() {
           <div>
             <ChapterHead id="bred" />
             <Headline id="bred-h" className="mt-4" inscription={bred.inscription} voice={bred.voice} />
-            <p className="t-story mt-6 text-sand">{bred.body}</p>
+            <ScrollRevealText className="t-story mt-6 text-sand">{bred.body}</ScrollRevealText>
             <ol className="mt-10 border-t border-line">
               {bred.traits.map((t, i) => (
                 <Reveal as="li" key={t.name} className="grid grid-cols-[2.5rem_1fr] gap-4 border-b border-line py-5">
@@ -115,7 +124,7 @@ export default function LegendPage() {
       <section id="omens" aria-labelledby="omens-h" className="gutter relative py-[clamp(5rem,12vh,10rem)]">
         <ChapterHead id="omens" />
         <Headline id="omens-h" className="mt-4" inscription={lore.inscription} voice={lore.voice} size="2" />
-        <p className="t-story mt-6 max-w-2xl text-sand">{lore.sub}</p>
+        <ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">{lore.sub}</ScrollRevealText>
         <p className="mt-4 max-w-2xl text-sm text-dust">
           Folklore is kept in a reel of its own, apart from this history and from the science: Kala, the hair whorls, the Nukra lineage and the Nachni heritage.
         </p>
@@ -126,26 +135,28 @@ export default function LegendPage() {
 
       {/* VI · Three reasons */}
       <ThreeWords />
+      <HorizontalChapter typeface="heritage" chapter="The living legacy" text="A horse carried centuries of memory." tone="light" />
 
       {/* VII · Roll of honour — native horizontal reel */}
       <section id="honour" aria-labelledby="honour-h" className="relative py-[clamp(6rem,14vh,12rem)]">
         <div className="gutter">
           <ChapterHead id="honour" />
-          <Headline id="honour-h" className="mt-4" inscription="The roll" voice="of honour." />
+          <Headline id="honour-h" technique="words" className="mt-4" inscription="The roll" voice="of honour." />
         </div>
-        <ol className="no-scrollbar mt-12 flex snap-x snap-mandatory scroll-px-[max(16px,4vw)] gap-6 overflow-x-auto px-[max(16px,4vw)] pb-4" aria-label="Horses remembered">
+        <ol tabIndex={0} className="no-scrollbar mt-12 flex snap-x snap-mandatory scroll-px-[max(16px,4vw)] gap-6 overflow-x-auto px-[max(16px,4vw)] pb-4" aria-label="Horses remembered">
           {honour.map((h) => (
             <li key={h.name} className="w-[78vw] shrink-0 snap-start sm:w-[46vw] lg:w-[30vw]">
               <div className="relative aspect-[3/4] overflow-hidden border border-line/40">
-                <FilmImage name={h.image} sizes="(min-width: 1024px) 30vw, 78vw" grade="none" />
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <p className="label text-gold [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+                <EditorialImage depth={false}><FilmImage name={h.image} sizes="(min-width: 1024px) 30vw, 78vw" grade="none" /></EditorialImage>
+
+              </div>
+                <div className="relative mt-5">
+                  <p className="label text-gold ">
                     {h.when}
                     {h.legend && <span className="ml-2 text-dust">· legend</span>}
                   </p>
-                  <p className="t-voice mt-1 text-3xl text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">{h.name}</p>
+                  <p className="t-voice mt-1 text-3xl text-bone ">{h.name}</p>
                 </div>
-              </div>
               <p className="mt-4 text-sand">{h.text}</p>
             </li>
           ))}
@@ -161,7 +172,7 @@ export default function LegendPage() {
 
       {/* IX · The revival — ascent timeline + vignette */}
       <section id="revival" aria-labelledby="revival-h" className="relative min-h-[100svh] overflow-hidden py-[clamp(6rem,14vh,12rem)]">
-        <FilmImage name="legendRevival" grade="none" className="opacity-100" />
+        <div className="relative h-[65svh] min-h-[360px] mb-12"><EditorialImage><FilmImage name="legendRevival" grade="none" className="opacity-100" /></EditorialImage></div>
         <div className="gutter relative">
           <ChapterHead id="revival" />
           <Headline id="revival-h" className="mt-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]" inscription={revival.inscription} voice={revival.voice} />
@@ -178,8 +189,8 @@ export default function LegendPage() {
 
       {/* XI · Every cadet rides one */}
       <section id="today" aria-labelledby="today-h" className="relative min-h-[100svh]">
-        <FilmImage name="legendToday" sizes="100vw" grade="none" />
-        <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
+        <div className="relative h-[75svh] min-h-[400px]"><EditorialImage><FilmImage name="legendToday" sizes="100vw" grade="none" /></EditorialImage></div>
+        <div className="gutter editorial-reading relative">
           <ChapterHead id="today" />
           <Headline id="today-h" className="mt-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]" size="1" inscription={today.inscription} voice={today.voice} />
           <Reveal>
@@ -189,6 +200,7 @@ export default function LegendPage() {
         </div>
       </section>
 
+      <ReplayHeadline typeface="elegant" id="legend-replay" label="The story continues" text="The story stays with the horse." tone="dark" defaultMode="words" />
       <EndCard current={1} />
     </>
   );

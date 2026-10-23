@@ -54,3 +54,11 @@ next-env.d.ts
 /public/video/hf_*
 /_to_delete/
 !.env.example
+
+# session rollback snapshots (local only)
+/_session_snapshots/
+
+# local verification artefacts and capture experiments (not application source; see docs/REPOSITORY_HYGIENE.md)
+/scratch/
+/output/
+/.playwright-cli/

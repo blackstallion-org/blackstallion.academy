@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import { AnimatePresence, motion } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { useRef, useState, type KeyboardEvent } from "react";
@@ -120,7 +122,7 @@ export function CodexVault() {
                       <dd className="t-voice text-xl text-gold">{p.trait}</dd>
                     </div>
                   </dl>
-                  <p className="t-story mt-4 text-sand">{p.sub}</p>
+                  <ScrollRevealText className="t-story mt-4 text-sand">{p.sub}</ScrollRevealText>
                   <p className="font-mono mt-4 text-[0.68rem] text-dust">
                     LEDGER {String(p.n).padStart(2, "0")}/13 · DRILLED AT {rank.name.toUpperCase()}
                   </p>
@@ -138,9 +140,9 @@ export function CodexVault() {
       <div className="gutter">
         <Label>The Sovereign Codex</Label>
         <Headline id="codex-h" className="mt-4" inscription="Thirteen pillars," voice="one sovereign ledger." />
-        <p className="t-story mt-6 max-w-2xl text-sand">
+        <ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">
           Nine foundations every rider on earth has learned the hard way, and four tactical disciplines that belong to BSAH. Open a tile.
-        </p>
+        </ScrollRevealText>
         <div role="tablist" aria-label="Filter the pillars by phase" className="no-scrollbar mt-10 flex gap-2 overflow-x-auto">
           {tabs.map((t, i) => {
             const active = phaseIx === t.ix;
@@ -169,7 +171,7 @@ export function CodexVault() {
             );
           })}
         </div>
-        {phaseIx !== null && <p className="t-story mt-5 text-sand">{phases[phaseIx].line}</p>}
+        {phaseIx !== null && <ScrollRevealText className="t-story mt-5 text-sand">{phases[phaseIx].line}</ScrollRevealText>}
         <div id="codex-panel" role="tabpanel" aria-labelledby={`codex-tab-${phaseIx === null ? 0 : phaseIx + 1}`} className="mt-10 grid gap-4 md:grid-cols-2 md:gap-6">
           <ul className="flex flex-col gap-4 md:gap-6">{colA.map(tile)}</ul>
           <ul className="flex flex-col gap-4 md:gap-6 md:mt-20">{colB.map(tile)}</ul>

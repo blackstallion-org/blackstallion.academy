@@ -1,12 +1,69 @@
 "use client";
 
+import { Suspense, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import { motion } from "motion/react";
+import * as THREE from "three";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { ease } from "@/lib/motion/tokens";
+import { useReducedMotion } from "@/lib/motion/reduced";
+import { ModelBoundary } from "@/components/three/ModelBoundary";
 
+export const RIDING_GEAR_MODEL_URL = "/models/riding-gear-draco.glb";
+
+/* ------------------------------------------------------------------
+   1. Interactive 3D Composite Riding Gear Model Component
+   ------------------------------------------------------------------ */
+function RidingGearModel() {
+  const { scene } = useGLTF(RIDING_GEAR_MODEL_URL, "/draco/");
+  const groupRef = useRef<THREE.Group>(null);
+  const reduced = useReducedMotion();
+
+  // Center model and enhance luxury leather & brass materials
+  const centeredModel = useMemo(() => {
+    const root = scene.clone(true);
+    root.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+        if (child.material instanceof THREE.MeshStandardMaterial) {
+          child.material.roughness = 0.72;
+          child.material.metalness = 0.18;
+          child.material.envMapIntensity = 1.25;
+        }
+      }
+    });
+
+    const box = new THREE.Box3().setFromObject(root);
+    const boxCenter = box.getCenter(new THREE.Vector3());
+    root.position.set(-boxCenter.x, -boxCenter.y, -boxCenter.z);
+
+    const wrapper = new THREE.Group();
+    wrapper.add(root);
+    return wrapper;
+  }, [scene]);
+
+  // Subtle natural breathing float
+  useFrame(({ clock }) => {
+    if (!groupRef.current) return;
+    const t = clock.elapsedTime;
+    const floatY = reduced ? 0 : Math.sin(t * 0.9) * 0.015;
+    groupRef.current.position.y = floatY;
+  });
+
+  return (
+    <group ref={groupRef} scale={1.85}>
+      <primitive object={centeredModel} />
+    </group>
+  );
+}
+
+/* ------------------------------------------------------------------
+   2. Specimen Data for the 4-Card Luxury Grid
+   ------------------------------------------------------------------ */
 interface EquipmentItem {
   id: string;
   name: string;
@@ -27,7 +84,7 @@ const EQUIPMENT_ITEMS: EquipmentItem[] = [
     hex: "#844628",
     colorName: "Chestnut Leather",
     spec: "Studded cantle · fur-lined seat · brass hardware",
-    detail: "Handcrafted Marwari cavalry saddle engineered with high cantle support for lance momentum and extended desert patrol.",
+    detail: "Handcrafted Marwari cavalry saddle engineered with high cantle support for desert endurance and riding equilibrium.",
   },
   {
     id: "stirrup",
@@ -47,7 +104,7 @@ const EQUIPMENT_ITEMS: EquipmentItem[] = [
     hex: "#b87467",
     colorName: "Terracotta Webbing",
     spec: "Triple-ply reinforced canvas · cast-iron rings · brass snaps",
-    detail: "Daily stable headstalls and lead lines stationed in the tack room for morning turnout, veterinary inspection, and grooming.",
+    detail: "Reinforced stable headstalls and lead lines stationed in the tack room for morning turnout, inspection, and grooming.",
   },
   {
     id: "horseshoe",
@@ -57,10 +114,13 @@ const EQUIPMENT_ITEMS: EquipmentItem[] = [
     hex: "#271c17",
     colorName: "Forged Iron Horn",
     spec: "Drop-forged steel · hot-fitted · balanced desert angle",
-    detail: "Custom farrier fitting balancing the 50-degree desert hoof angle, protecting sensitive soles across limestone and arena gravel.",
+    detail: "Custom farrier fitting balancing the 50-degree desert hoof angle, protecting sensitive soles across arena gravel.",
   },
 ];
 
+/* ------------------------------------------------------------------
+   3. Main HorseEquipmentSection Component
+   ------------------------------------------------------------------ */
 export function HorseEquipmentSection() {
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
 
@@ -74,39 +134,101 @@ export function HorseEquipmentSection() {
     <section
       id="equipment"
       aria-labelledby="equipment-h"
-      className="relative w-full border-t border-line/40 bg-night py-[clamp(5rem,12vh,10rem)] overflow-hidden"
+      className="relative w-full border-t border-line/40 bg-[#0a0908] py-[clamp(4rem,10vh,8rem)] overflow-hidden text-white"
     >
       <div className="gutter relative z-10">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-line/30">
+        {/* Section Header with Minimal, Clear Copy */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-line/30">
           <div>
             <Label>The Armoury · Tack &amp; Farrier</Label>
             <Headline
               id="equipment-h"
-              className="mt-4"
+              className="mt-3"
               inscription="Horse shoes"
               voice="and equipment."
             />
           </div>
-          <p className="max-w-md text-sm text-sand leading-relaxed">
-            Every saddle, stirrup iron, halter and shoe is checked daily in the tack room. 
-            Balanced weight, hand-forged steel, and tailored fit for both horse and rider.
+          <p className="max-w-md text-sm text-[#d4c3ad] font-light leading-relaxed">
+            Checked daily in the tack room. Balanced weight, hand-forged steel, and tailored fit for both steed and rider.
           </p>
         </div>
 
-        {/* 4-Card Luxury Grid matching reference image */}
+        {/* 3D Interactive Riding Gear Stage */}
+        <div className="mt-12 relative w-full h-[520px] sm:h-[600px] lg:h-[680px] rounded-lg border border-line/40 bg-[#100e0c] overflow-hidden shadow-2xl">
+          {/* 3D WebGL Canvas */}
+          <div className="absolute inset-0 z-0">
+            <Canvas
+              camera={{ position: [0, 0.2, 2.2], fov: 32, near: 0.1, far: 50 }}
+              dpr={[1, Math.min(typeof window !== "undefined" ? window.devicePixelRatio : 2, 2)]}
+              gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+              style={{ touchAction: "none" }}
+            >
+              <PerspectiveCamera makeDefault position={[0, 0.2, 2.2]} fov={32} />
+
+              {/* Three-Point Studio Lighting on Deep Black */}
+              <ambientLight intensity={1.1} color="#fbf4ea" />
+              <directionalLight position={[-4, 5, 4]} color="#fff0db" intensity={3.2} />
+              <directionalLight position={[4, 2, -3]} color="#e8c898" intensity={2.2} />
+              <directionalLight position={[0, -4, 3]} color="#334455" intensity={0.9} />
+              <pointLight position={[0, 0.8, 1.2]} intensity={1.5} color="#ffd494" distance={4} />
+
+              <ModelBoundary>
+                <Suspense fallback={null}>
+                  <RidingGearModel />
+                </Suspense>
+              </ModelBoundary>
+
+              {/* Intuitive 360° Drag Orbit Interaction */}
+              <OrbitControls
+                enableZoom={false}
+                enablePan={false}
+                autoRotate
+                autoRotateSpeed={0.9}
+                minPolarAngle={Math.PI / 3.5}
+                maxPolarAngle={Math.PI / 1.7}
+              />
+            </Canvas>
+          </div>
+
+          {/* Minimal Editorial Badges Over 3D Scene */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 p-6 flex flex-wrap items-center justify-between gap-4 z-10">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-gold border border-gold/30 px-3 py-1 rounded bg-black/60 backdrop-blur-sm">
+              3D SPECIMEN · RIDING TACK
+            </span>
+            <span className="font-mono text-[0.65rem] uppercase tracking-widest text-[#a89584] bg-black/50 px-3 py-1 rounded border border-white/10">
+              Drag to Rotate 360°
+            </span>
+          </div>
+
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <h3 className="font-serif text-xl sm:text-2xl font-light text-[#f5efe6] tracking-tight">
+                The Complete Cavalry Kit
+              </h3>
+              <p className="mt-1 text-xs text-[#c4b5a3] font-light max-w-[42ch]">
+                Archival saddle, drop-forged stirrup irons, reinforced headstall, and riding boots fitted for desert endurance.
+              </p>
+            </div>
+            <div className="font-mono text-[0.62rem] uppercase tracking-wider text-gold/80 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
+              <span>Full-Grain Leather · Solid Brass · Tempered Steel</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 4-Card Luxury Grid */}
         <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {EQUIPMENT_ITEMS.map((item, idx) => (
             <motion.div
               key={item.id}
               className="group flex flex-col"
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, ease: ease.citadel, delay: idx * 0.12 }}
+              transition={{ duration: 0.7, ease: ease.citadel, delay: idx * 0.1 }}
             >
               {/* Card Image Container */}
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md border border-line/40 bg-umber shadow-lg transition-all duration-500 group-hover:border-gold/60 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.35)]">
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-md border border-line/40 bg-[#161311] shadow-lg transition-all duration-500 group-hover:border-gold/60 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)]">
                 <Image
                   src={item.image}
                   alt={item.name}
@@ -116,45 +238,48 @@ export function HorseEquipmentSection() {
                   quality={90}
                 />
                 {/* Subtle sheen highlight */}
-                <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity"
+                />
               </div>
 
-              {/* Color Swatch Bar (Matching reference image) */}
+              {/* Minimal Color Swatch Bar */}
               <div
-                className="mt-4 h-9 sm:h-11 w-full rounded-sm border border-black/10 shadow-inner transition-transform group-hover:scale-[1.02]"
+                className="mt-3.5 h-8 sm:h-9 w-full rounded-sm border border-black/30 shadow-inner transition-transform group-hover:scale-[1.01]"
                 style={{ backgroundColor: item.hex }}
                 aria-label={`Color swatch for ${item.name}: ${item.colorName}`}
               />
 
-              {/* Hex Code (Matching reference image) */}
-              <div className="mt-2.5 flex items-center justify-between">
+              {/* Minimal Hex Code & Index */}
+              <div className="mt-2 flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => handleCopy(item.hex)}
                   title="Click to copy hex code"
-                  className="font-serif text-sm sm:text-base tracking-wide text-sand hover:text-gold transition-colors flex items-center gap-1.5"
+                  className="font-mono text-xs text-[#d4c3ad] hover:text-gold transition-colors flex items-center gap-1.5 focus:outline-none"
                 >
-                  <span className="font-medium">{item.hex}</span>
+                  <span className="font-medium tracking-wide">{item.hex}</span>
                   {copiedHex === item.hex && (
-                    <span className="font-mono text-[0.62rem] uppercase tracking-wider text-gold bg-black/70 px-1.5 py-0.5 rounded">
+                    <span className="font-mono text-[0.6rem] uppercase tracking-wider text-gold bg-black/80 px-1.5 py-0.5 rounded border border-gold/30">
                       Copied
                     </span>
                   )}
                 </button>
-                <span className="font-mono text-[0.62rem] uppercase tracking-widest text-dust">
+                <span className="font-mono text-[0.65rem] uppercase tracking-widest text-[#8c7b6c]">
                   0{idx + 1}
                 </span>
               </div>
 
-              {/* Equipment Editorial Info */}
-              <div className="mt-3 pt-3 border-t border-line/25 flex flex-col gap-1">
-                <h3 className="t-voice text-lg sm:text-xl text-bone group-hover:text-gold transition-colors">
+              {/* Clear, Minimal Equipment Editorial Info */}
+              <div className="mt-2.5 pt-2.5 border-t border-line/25 flex flex-col gap-1">
+                <h3 className="font-serif text-lg sm:text-xl font-normal text-[#f5efe6] group-hover:text-gold transition-colors">
                   {item.name}
                 </h3>
-                <p className="font-mono text-[0.68rem] uppercase tracking-wider text-dust">
+                <p className="font-mono text-[0.65rem] uppercase tracking-wider text-gold/80">
                   {item.spec}
                 </p>
-                <p className="mt-1 text-xs text-sand/85 leading-relaxed line-clamp-3">
+                <p className="mt-1 text-xs text-[#c4b5a3] font-light leading-relaxed line-clamp-3">
                   {item.detail}
                 </p>
               </div>
@@ -162,17 +287,17 @@ export function HorseEquipmentSection() {
           ))}
         </div>
 
-        {/* Ethereal Watermark matching reference image ("Hoof & Mane" / "Hoof & Tack") */}
-        <div className="mt-20 pt-10 text-center pointer-events-none select-none">
+        {/* Ethereal Watermark ("Hoof & Tack") */}
+        <div className="mt-16 pt-8 text-center pointer-events-none select-none">
           <p
-            className="font-playfair text-[clamp(2.8rem,7vw,6.5rem)] italic font-light tracking-tight text-bone/[0.12] leading-none transition-colors"
+            className="font-playfair text-[clamp(2.5rem,6vw,5.5rem)] italic font-light tracking-tight text-[#f5efe6]/[0.08] leading-none transition-colors"
             style={{
-              fontFamily: 'var(--font-kalnia), var(--font-playfair), "Playfair Display", Georgia, serif',
+              fontFamily: 'var(--font-display)',
             }}
           >
-            Hoof <span className="font-serif font-normal not-italic text-gold/25">&amp;</span> Tack
+            Hoof <span className="font-serif font-normal not-italic text-gold/20">&amp;</span> Tack
           </p>
-          <p className="font-mono text-[0.65rem] sm:text-[0.72rem] uppercase tracking-[0.35em] text-dust/60 mt-2">
+          <p className="font-mono text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.3em] text-[#8c7b6c] mt-2">
             The Sovereign Armoury · Fitted by Hand
           </p>
         </div>
@@ -180,3 +305,5 @@ export function HorseEquipmentSection() {
     </section>
   );
 }
+
+useGLTF.preload(RIDING_GEAR_MODEL_URL, "/draco/");

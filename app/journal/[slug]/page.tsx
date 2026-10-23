@@ -1,3 +1,4 @@
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/journal/[slug]">)
   const { slug } = await params;
   const post = postBySlug(slug);
   if (!post) return {};
-  return { title: post.title.join(" "), description: post.dek };
+  return { title: post.title.join(" "), description: post.dek, alternates: { canonical: `/journal/${slug}` } };
 }
 
 const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
@@ -28,23 +29,23 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
 
   return (
     <article>
-      <header className="relative min-h-[88svh]">
+      <header className="editorial-scene"><div className="tone-dark editorial-visual relative min-h-[88svh] overflow-hidden">
         <FilmImage name={post.cover} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
           <Link href="/journal" className="label text-sand hover:text-gold">
             ← The Chronicle
           </Link>
-          <p className="label mt-8 text-brass">
-            {post.category} · {post.minutes} min read · {fmt(post.date)}
-          </p>
+
           <h1 className="mt-4 max-w-5xl text-display-1">
             <span className="t-inscribe block text-[0.5em] text-bone">{post.title[0]}</span>
             <span className="t-voice block text-gold">{post.title[1]}</span>
           </h1>
-          <p className="t-story mt-6 max-w-2xl text-sand">{post.dek}</p>
+
         </div>
-      </header>
+      </div><div className="tone-light editorial-details gutter">          <p className="label mt-8 text-brass">
+            {post.category} · {post.minutes} min read · {fmt(post.date)}
+          </p>          <ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">{post.dek}</ScrollRevealText></div></header>
 
       <div className="gutter py-20">
         <div className="mx-auto max-w-[66ch]">

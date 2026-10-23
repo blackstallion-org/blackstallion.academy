@@ -1,8 +1,11 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { useEffect, useRef, useState } from "react";
+import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Hoof, Label, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
@@ -29,7 +32,8 @@ export function WhyTitle() {
   }, [reducedMotion]);
 
   return (
-    <section aria-labelledby="why-h" className="relative min-h-[100svh] overflow-hidden bg-[#050505]">
+    <section aria-labelledby="why-h" className="editorial-scene">
+<div className="tone-dark editorial-visual tone-dark relative min-h-[100svh] overflow-hidden bg-black text-bone">
       {/* Background Plate: Looping Monolithic Portal Video */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <video
@@ -51,48 +55,21 @@ export function WhyTitle() {
           />
         </video>
 
-        {/* Dual-layer vignette & shading to blend seamlessly into deep night */}
+        {/* Deep bottom gradient for strong text contrast on screen */}
         <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `
-              linear-gradient(to bottom,
-                rgba(5,5,5,0.75) 0%,
-                rgba(5,5,5,0.2) 20%,
-                rgba(5,5,5,0) 50%,
-                rgba(5,5,5,0.4) 75%,
-                rgba(5,5,5,0.85) 90%,
-                #050505 100%),
-              linear-gradient(to right,
-                #050505 0%,
-                rgba(5,5,5,0.5) 12%,
-                transparent 30%,
-                transparent 70%,
-                rgba(5,5,5,0.5) 88%,
-                #050505 100%)
-            `,
-          }}
+          className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/90 via-black/45 to-transparent z-[1]"
         />
       </div>
 
-      {/* Center golden seam of light standing at the portal threshold */}
-      <motion.span
-        aria-hidden
-        className="absolute inset-y-0 left-1/2 w-px bg-gold/90 shadow-[0_0_12px_rgba(212,175,55,0.5)] z-10"
-        initial={reducedMotion ? { scaleY: 1 } : { scaleY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ duration: 1.4, ease: ease.citadel, delay: 0.8 }}
-      />
-
-      {/* Top veil keeps the site navigation legible */}
+      {/* Top veil keeps the site navigation legible without white fade */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-night/90 via-night/50 to-transparent z-10"
+        className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/75 via-black/25 to-transparent z-10"
       />
 
       {/* Section badges: The crisis (left) & The cure (right) */}
       <motion.span
-        className="label absolute left-[max(16px,4vw)] top-24 text-frost z-20"
+        className="label absolute left-[max(16px,4vw)] top-24 text-frost z-20 [text-shadow:0_2px_10px_rgba(0,0,0,0.9)]"
         initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: ease.citadel, delay: 0.2 }}
@@ -100,7 +77,7 @@ export function WhyTitle() {
         The crisis
       </motion.span>
       <motion.span
-        className="label absolute right-[max(16px,4vw)] top-24 text-gold z-20"
+        className="label absolute right-[max(16px,4vw)] top-24 text-gold z-20 [text-shadow:0_2px_10px_rgba(0,0,0,0.9)]"
         initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: ease.citadel, delay: 0.2 }}
@@ -108,44 +85,49 @@ export function WhyTitle() {
         The cure
       </motion.span>
 
-      {/* Editorial Content: Minimized, sleek rising typography allowing portal video to breathe */}
-      <div className="gutter relative flex min-h-[100svh] flex-col items-center justify-end pb-6 sm:pb-8 text-center z-20">
+      {/* Editorial Content: Highly visible rising typography allowing portal video to breathe */}
+      <div className="gutter relative flex min-h-[100svh] flex-col items-center justify-end pb-12 sm:pb-16 text-center z-20">
         <motion.div
           initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: ease.citadel, delay: 0.1 }}
         >
-          <ReelMark n={4} act="citadel" className="justify-center scale-90" />
+          
         </motion.div>
 
         <motion.div
           initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.95, ease: ease.citadel, delay: 0.25 }}
-          className="mt-2 max-w-xl mx-auto"
+          className="mt-4 max-w-2xl mx-auto"
         >
           <Headline
             id="why-h"
             as="h1"
-            size="3"
+            size="2"
             animate="mount"
             delay={0.3}
             inscription={why.title.inscription}
             voice={why.title.voice}
-            inscriptionClassName="text-bone/90 tracking-[0.2em]"
+            className="[text-shadow:0_4px_24px_rgba(0,0,0,0.95)]"
+            inscriptionClassName="text-bone font-medium tracking-[0.2em]"
+            voiceClassName="text-gold"
           />
         </motion.div>
 
-        <motion.p
-          className="t-ui mt-2 text-xs text-sand/75 max-w-md mx-auto tracking-wide"
+        
+      </div>
+    </div>
+<div className="tone-light editorial-details gutter"><ReelMark n={4} act="citadel" className="justify-center " />
+<motion.p
+          className="t-story mt-3 text-sm sm:text-base text-bone/90 max-w-lg mx-auto "
           initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: ease.citadel, delay: 0.4 }}
         >
           {why.title.sub}
-        </motion.p>
-      </div>
-    </section>
+        </motion.p></div>
+</section>
   );
 }
 
@@ -160,7 +142,7 @@ export function Glass() {
           <Label>The crisis</Label>
           <Headline id="glass-h" className="mt-4" inscription={why.glass.inscription} voice={why.glass.voice} voiceColor="bone" voiceClassName="text-frost" />
           <Reveal>
-            <p className="t-story mt-6 max-w-lg text-sand">{why.glass.body}</p>
+            <ScrollRevealText className="t-story mt-6 max-w-lg text-sand">{why.glass.body}</ScrollRevealText>
           </Reveal>
         </div>
         <div className="tone-dark relative mx-auto h-[560px] w-[280px] rounded-[44px] border border-frost/30 bg-charcoal p-3 shadow-[0_40px_100px_-20px_rgb(73_49_38/0.55)]">
@@ -217,32 +199,110 @@ export function BigSlider() {
   );
 }
 
-/** §3 · S32 quote monolith. Signature: each word lights as the scroll passes it. */
+/** §3 · S32 The Sanctuary of Unpowered Truth · The Human & Horse Bond */
 export function Monolith({ lines, coda, label }: { lines: string[]; coda?: string; label?: string }) {
   const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.45"] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.35"] });
   const words = lines.join(" ¶ ").split(" ");
+
   return (
-    <section ref={ref} aria-label={label ?? "The sanctuary of unpowered truth"} className="gutter relative py-[clamp(8rem,20vh,16rem)]">
-      {label && <Label className="mb-8">{label}</Label>}
-      <p className="t-voice max-w-[22ch] text-display-2 leading-[1.05] sm:max-w-none">
-        {words.map((w, k) =>
-          w === "¶" ? (
-            <span key={k} className="block h-6" />
-          ) : (
-            <Word key={k} progress={scrollYProgress} range={[k / words.length, (k + 1) / words.length]}>
-              {w}
-            </Word>
-          ),
-        )}
-      </p>
-      {coda && <p className="t-story mt-12 italic text-gold">{coda}</p>}
+    <section
+      ref={ref}
+      aria-label={label ?? "The sanctuary of unpowered truth"}
+      className="gutter relative py-[clamp(6rem,16vh,14rem)] overflow-hidden"
+    >
+      {/* Section Header */}
+      <div className="flex flex-col gap-2">
+        <Label className="text-gold">
+          {label ?? "The sanctuary of unpowered truth"}
+        </Label>
+        <p className="font-mono text-xs uppercase tracking-[0.24em] text-sand">
+          The Human &amp; Horse Bond · Sacred Trust
+        </p>
+      </div>
+
+      {/* Main Showcase Layout */}
+      <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
+        {/* Left Column: Scroll-illuminated Monolith text + Wide pasture plate */}
+        <div>
+          <p className="t-voice text-display-2 leading-[1.08] text-bone">
+            {words.map((w, k) =>
+              w === "¶" ? (
+                <span key={k} className="block h-8" />
+              ) : (
+                <Word key={k} progress={scrollYProgress} range={[k / words.length, (k + 1) / words.length]}>
+                  {w}
+                </Word>
+              ),
+            )}
+          </p>
+
+          {coda && (
+            <p className="t-story mt-10 text-xl italic text-gold font-normal [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">
+              {coda}
+            </p>
+          )}
+
+          {/* Wide Landscape Plate: Kneeling in pasture */}
+          <div className="mt-14 overflow-hidden border border-brass/25 bg-night shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+            <div className="relative aspect-[16/10] overflow-hidden">
+              <FilmImage
+                name="bondField"
+                grade="none"
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="opacity-100 transition-transform duration-700 hover:scale-[1.02]"
+              />
+            </div>
+            <div className="border-t border-brass/20 bg-night/95 p-5 flex items-baseline justify-between gap-4">
+              <div>
+                <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-gold">
+                  02 · Field Communion
+                </span>
+                <p className="t-voice mt-1 text-lg text-bone">
+                  Kneeling eye-to-eye in open pasture
+                </p>
+              </div>
+              <span className="font-mono text-xs text-dust">
+                Untethered
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Vertical Intimate Portrait */}
+        <div className="flex flex-col gap-4">
+          <div className="relative overflow-hidden border border-brass/30 bg-night shadow-[0_24px_60px_rgba(0,0,0,0.7)] group">
+            <div className="relative aspect-[2/3] overflow-hidden">
+              <FilmImage
+                name="bondIntimacy"
+                grade="none"
+                priority
+                position="50% 30%"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="opacity-100 transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+            </div>
+            <div className="border-t border-brass/25 bg-night/95 p-6">
+              <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-gold">
+                01 · The Unbroken Covenant
+              </span>
+              <p className="t-voice mt-1.5 text-xl text-bone">
+                Reverence, surrender and mutual truth
+              </p>
+              <p className="t-story mt-2 text-sm text-sand/80 leading-relaxed">
+                A 500-kilogram partner that answers only the reality of how you feel. The cadet masters themselves to earn the stallion&apos;s peace.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
 
 function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, r(...range), [0.14, 1]);
+  const opacity = useTransform(progress, r(...range), [0.65, 1]);
   return (
     <motion.span className="mr-[0.25em] inline-block text-bone" style={{ opacity }}>
       {children}
@@ -289,11 +349,11 @@ export function SovereignCrucible() {
           <div>
             {crucible.paras.map((t) => (
               <Reveal key={t.slice(0, 24)}>
-                <p className="t-story mt-6 max-w-xl text-sand first:mt-0">{t}</p>
+                <ScrollRevealText className="t-story mt-6 max-w-xl text-sand first:mt-0">{t}</ScrollRevealText>
               </Reveal>
             ))}
             <Reveal>
-              <p className="t-story mt-10 max-w-xl text-bone">{crucible.stallion}</p>
+              <ScrollRevealText className="t-story mt-10 max-w-xl text-bone">{crucible.stallion}</ScrollRevealText>
             </Reveal>
           </div>
           <ol className="self-start border-t border-frost/25">

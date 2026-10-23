@@ -1,0 +1,4 @@
+.text { display: inline-block; padding: 0; margin: 0; border: 0; background: none; color: inherit; font: inherit; line-height: inherit; letter-spacing: inherit; text-align: inherit; cursor: pointer; pointer-events: auto; }
+.text:focus-visible { outline: 1px solid currentColor; outline-offset: .15em; }
+.char { position: relative; }
+.char[data-detail]::after { content: attr(data-detail); position: absolute; left: 0; bottom: calc(100% + 3px); font-family: var(--font-mono); font-size: 8px; font-weight: 400; letter-spacing: 0; line-height: 1; white-space: nowrap; pointer-events: none; }

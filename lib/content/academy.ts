@@ -58,7 +58,7 @@ export const reels: { title: string; who: string; image: MediaKey }[] = [
 /* ------------------------------------------------------------------ R08 · Parents */
 
 export const phoneSteps = [
-  { id: "cam", label: "Stall-cam", title: "Watch Chetak IX at night feed, live.", text: "Every stall has a camera. Open the app and see your child's stallion rest, eat and sleep." },
+  { id: "cam", label: "Stall-cam", title: "Watch Chetak IX at night feed, live.", text: "Planned for the parent app (in development): a camera in every stall, so you can see your child's stallion rest, eat and sleep." },
   { id: "gate", label: "Gate alert", title: "Bravo checked in at 15:52 · Zone 01A Hub.", text: "The moment the passport is scanned at the stable gate, you know your child has arrived." },
   { id: "reel", label: "Milestone reel", title: "Today: first canter without stirrups · 0:10.", text: "After each milestone, a ten-second reel lands on your phone, with a posture overlay." },
   { id: "passport", label: "Passport", title: "Cadet Rider · 24 hrs · next seal at 30 hrs.", text: "Rank, hours and the next seal, the same record a university can verify." },
@@ -74,8 +74,8 @@ export const admissions = [
 
 /** Institutional pricing (Master Refinement §9.1). GST added at billing. */
 export const fees = [
-  { item: "Core Cadets (monthly)", detail: `Two sessions a week · ${priceLabel.core.replace("+ GST", "+ 18% GST")}, by UPI Autopay on the 1st`, amount: price.core },
-  { item: "Sovereign Elite (monthly)", detail: `Three sessions a week + skill-at-arms + STPCI registration + 24/7 stall-cam · ${priceLabel.elite.replace("+ GST", "+ 18% GST")}`, amount: price.elite },
+  { item: "Core Cadets (monthly)", detail: `Two sessions a week · ${priceLabel.core.replace("+ GST", "+ 18% GST")}, billed monthly (online payment not yet live)`, amount: price.core },
+  { item: "Sovereign Elite (monthly)", detail: `Three sessions a week + skill-at-arms + STPCI registration + 24/7 stall-cam (planned) · ${priceLabel.elite.replace("+ GST", "+ 18% GST")}`, amount: price.elite },
   { item: "Onboarding kit (one-time)", detail: `Bandhgala tunic, helmet, boots, handcrafted Sovereign Passport · ${priceLabel.kit}`, amount: price.kit },
 ];
 
@@ -85,8 +85,8 @@ export const faq = [
   { q: "Is it safe?", a: "Safety is the first promise: ex-cavalry instructors, a spotter on every mounted drill, certified helmets and vests, daily vet checks. Accident-insurance terms are being confirmed. See the Shield for the full protocol." },
   { q: "Will it clash with school?", a: "Sessions run on your child's own campus, before or after school hours." },
   { q: "What if my child falls?", a: "Falls are part of riding. Cadets wear certified helmets and vests, and learn how to fall before they canter. Accident-insurance terms are being confirmed and will be published." },
-  { q: "Can I watch?", a: "From the rail during sessions, and any time on the stall-cam." },
-  { q: "How do I pay?", a: "Monthly UPI Autopay on the 1st. Onboarding and the kit are paid once." },
+  { q: "Can I watch?", a: "From the rail during sessions. A stall-cam in the parent app is planned." },
+  { q: "How do I pay?", a: "Monthly, with the onboarding kit paid once. Online payment (including UPI Autopay) is being set up; no payment is taken on this website yet." },
   { q: "Can we pause?", a: "Yes, with 30 days' notice. (Sample policy; final terms at enrolment.)" },
 ];
 

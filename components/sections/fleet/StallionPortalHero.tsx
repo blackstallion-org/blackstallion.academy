@@ -208,7 +208,7 @@ export function StallionPortalHero() {
           const sCanvas = sceneCanvasRef.current;
           if (sCanvas && containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect();
-            const d = Math.min(window.devicePixelRatio || 1, 2);
+            const d = Math.min(window.devicePixelRatio || 1, 1.5);
             sCanvas.width = Math.round(rect.width * d);
             sCanvas.height = Math.round(rect.height * d);
             const sctx = sCanvas.getContext("2d");
@@ -289,7 +289,7 @@ export function StallionPortalHero() {
 
     const resize = () => {
       const rect = container.getBoundingClientRect();
-      const d = Math.min(window.devicePixelRatio || 1, 2);
+      const d = Math.min(window.devicePixelRatio || 1, 1.5);
       pCanvas.width = Math.round(rect.width * d);
       pCanvas.height = Math.round(rect.height * d);
       pCanvas.style.width = `${rect.width}px`;
@@ -434,10 +434,11 @@ export function StallionPortalHero() {
   };
 
   return (
+    <>
     <section
       ref={containerRef}
       aria-label="BSAH Sovereign Studbook Portal"
-      className="stallion-portal-experience relative w-full h-[100svh] min-h-[640px] overflow-hidden bg-[#0F0E0D] text-white isolate select-none"
+      className="tone-dark stallion-portal-experience relative w-full h-[100svh] min-h-[640px] overflow-hidden bg-[#0F0E0D] text-white isolate select-none"
     >
       {/* Background stallion videos */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -459,14 +460,14 @@ export function StallionPortalHero() {
         ))}
       </div>
 
-      {/* Atmospheric shading & vignette */}
+      {/* Minimal light bottom gradient (max 25% opacity) */}
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-black/60 via-transparent to-[#0F0E0D]/90"
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-[#0F0E0D]/25 via-transparent to-transparent"
         aria-hidden="true"
       />
 
       {/* Top Header Badge */}
-      <header className="absolute left-[clamp(20px,2.5vw,40px)] right-[clamp(20px,2.5vw,40px)] top-[clamp(20px,3vh,36px)] z-10 flex items-center justify-between pointer-events-auto">
+      <header className="absolute left-[clamp(20px,2.5vw,40px)] right-[clamp(20px,2.5vw,40px)] top-[clamp(88px,12vh,120px)] z-10 flex items-center justify-between pointer-events-auto">
         <div className="flex items-center gap-4">
           <CrestMark size="sm" className="h-10 w-10 text-gold" />
           <div className="flex flex-col">
@@ -531,7 +532,7 @@ export function StallionPortalHero() {
 
       {/* Portal Trigger Button and Heading */}
       <section
-        className={`portal-wrap absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[52%] z-[4] w-[min(320px,31vw)] transition-opacity duration-300 ${
+        className={`portal-wrap absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[52%] z-[4] w-[min(260px,62vw)] sm:w-[min(320px,31vw)] transition-opacity duration-300 ${
           isTransitioning ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
         aria-label="Inspect next stallion"
@@ -584,22 +585,12 @@ export function StallionPortalHero() {
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-gold font-bold">
             Stallion Dossier {cur.number}
           </span>
-          <h1 className="font-display text-[clamp(72px,16vw,220px)] leading-[0.74] tracking-tight text-[#FAF7F0] m-0 -ml-2">
+          <h1 className="font-display text-[clamp(52px,12vw,180px)] leading-[1.05] tracking-tight text-[#FAF7F0] m-0 -ml-2">
             {cur.shortName}
           </h1>
         </div>
 
-        <dl className="w-full md:w-[min(460px,36vw)] m-0 font-sans text-xs sm:text-sm border-t border-gold/30">
-          {cur.facts.map(([k, v], idx) => (
-            <div
-              key={idx}
-              className="grid grid-cols-[110px_1fr] sm:grid-cols-[130px_1fr] gap-3 py-2 border-b border-gold/20"
-            >
-              <dt className="font-mono text-gold/90 font-medium">{k}</dt>
-              <dd className="m-0 text-sand/90 font-serif leading-relaxed">{v}</dd>
-            </div>
-          ))}
-        </dl>
+
       </section>
 
       {/* Loading indicator */}
@@ -631,5 +622,17 @@ export function StallionPortalHero() {
         </span>
       </div>
     </section>
+    <div className="tone-light editorial-details gutter" aria-live="polite"><h2 className="t-voice text-3xl">{cur.shortName} · Stallion dossier {cur.number}</h2>        <dl className="w-full max-w-4xl m-0 font-sans text-base border-t border-gold/30">
+          {cur.facts.map(([k, v], idx) => (
+            <div
+              key={idx}
+              className="grid grid-cols-[110px_1fr] sm:grid-cols-[130px_1fr] gap-3 py-4 border-b border-gold/20"
+            >
+              <dt className="font-mono text-gold/90 font-medium">{k}</dt>
+              <dd className="m-0 text-sand font-serif leading-relaxed">{v}</dd>
+            </div>
+          ))}
+        </dl></div>
+    </>
   );
 }

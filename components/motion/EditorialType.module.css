@@ -1,0 +1,6 @@
+/* Scoped to display text in the existing motion exhibits, never UI/body copy. */
+/* 23 Oct 2026: every chapter variant uses the editorial display serif (was a condensed blackletter). */
+.western, .heritage, .brush, .condensed, .elegant { --chapter-font: var(--font-display); --chapter-leading: 1.06; --chapter-tracking: -.015em; --chapter-measure: 20ch; }
+
+/* The scramble button otherwise inherits the surrounding headline font. */
+.accent.accent { font-family: var(--chapter-font, var(--font-display)); font-weight: 400; font-style: normal; font-variation-settings: normal; letter-spacing: var(--chapter-tracking); line-height: var(--chapter-leading); }

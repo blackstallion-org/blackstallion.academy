@@ -1,12 +1,15 @@
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { GridScrollSection } from "@/components/sections/home/GridScrollSection";
+import { ExpandableText } from "@/components/ui/ExpandableText";
 import { lore } from "@/lib/content/legend";
 import type { MediaKey } from "@/lib/content/media";
+import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
+import { WillemExpandingHero } from "@/components/sections/shared/WillemExpandingHero";
 
 export const metadata: Metadata = {
   title: "The Traditional Lore of the Bards",
@@ -30,16 +33,28 @@ const plates: { image: MediaKey; numeral: string; grade: "film" | "mono" | "deep
 export default function LorePage() {
   return (
     <>
-      {/* Opening Visual Prologue: The Sovereign Arsenal & Living Warhorse Bloodlines */}
-      <GridScrollSection />
+      <WillemExpandingHero
+        id="lore-willem-hero"
+        startWord="MAR"
+        endWord="WARI"
+        fullWord="MARWARI"
+        tagline="THE TRADITIONAL LORE OF THE BARDS"
+        subtitle="Eight hundred years of oral tradition: the curl of the ear, the hair whorls, and the sovereign horse that would not leave the field."
+        images={[
+          "/images/fleet/fleet-chetak.webp",
+          "/images/fleet/fleet-veer.webp",
+          "/images/legend/legend-bahadur.webp",
+          "/images/black-marwari-stallion.webp",
+        ]}
+      />
 
-      <section aria-labelledby="lore-h" className="gutter relative flex min-h-[60svh] flex-col justify-end pb-[10vh] pt-20 border-t border-line/40">
+      <section aria-labelledby="lore-h" className="gutter relative flex min-h-[50svh] flex-col justify-end pb-[10vh] pt-20">
         <Label>Folklore · a reel of its own</Label>
         <h1 id="lore-h" className="mt-6 text-display-1">
           <span className="t-inscribe block text-[0.55em] text-bone">{lore.inscription}</span>
           <span className="t-voice block text-gold">{lore.voice}</span>
         </h1>
-        <p className="t-story mt-8 max-w-2xl text-sand">{lore.sub}</p>
+        <ScrollRevealText className="t-story mt-8 max-w-2xl text-sand">{lore.sub}</ScrollRevealText>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-dust">{lore.note}</p>
         <nav aria-label="Lore components" className="mt-10 flex flex-wrap gap-2">
           {lore.items.map((t, i) => (
@@ -66,16 +81,20 @@ export default function LorePage() {
                 <span aria-hidden className="t-inscribe absolute left-4 top-3 text-5xl text-ivory/90 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)]">{plate.numeral}</span>
               </Reveal>
               <div>
-                <p className="font-mono text-xs text-gold">COMPONENT {String(i + 1).padStart(2, "0")}</p>
-                <h2 id={`lore-${i + 1}-h`} className="t-voice mt-2 text-display-3 text-bone">{t.name}</h2>
-                <p className="label mt-2 text-dust">{t.tag}</p>
-                <div className="mt-8 border-l border-line pl-5">
-                  <p className="label text-dust">Traditional lore · folklore</p>
-                  <p className="t-story mt-3 italic text-sand">{t.lore}</p>
+                <p className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-[#844628]">COMPONENT {String(i + 1).padStart(2, "0")}</p>
+                <h2 id={`lore-${i + 1}-h`} className="font-serif font-light mt-1.5 text-3xl sm:text-4xl text-bone">{t.name}</h2>
+                <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] mt-1 text-dust">{t.tag}</p>
+                <div className="mt-6 border-l border-line pl-4">
+                  <p className="font-mono text-[0.62rem] uppercase tracking-wider text-dust">Traditional lore · folklore</p>
+                  <ExpandableText lines={2} className="mt-2 text-sm italic text-sand/90 leading-relaxed">
+                    <p>{t.lore}</p>
+                  </ExpandableText>
                 </div>
-                <div className="mt-8 border-l border-gold/60 pl-5">
-                  <p className="label text-brass">BSAH interpretation</p>
-                  <p className="mt-3 text-sand">{t.insight}</p>
+                <div className="mt-6 border-l border-[#844628]/60 pl-4">
+                  <p className="font-mono text-[0.62rem] uppercase tracking-wider text-[#844628]">BSAH interpretation</p>
+                  <ExpandableText lines={2} className="mt-2 text-sm text-sand/90 leading-relaxed">
+                    <p>{t.insight}</p>
+                  </ExpandableText>
                 </div>
               </div>
             </div>
@@ -83,10 +102,11 @@ export default function LorePage() {
         );
       })}
 
+      <HorizontalChapter typeface="heritage" chapter="Stories and memory" text="Stories travel further than hoofprints." />
       <section aria-labelledby="vow-h" className="gutter relative border-t border-line py-[clamp(6rem,14vh,12rem)]">
         <Headline id="vow-h" inscription={lore.vow.inscription} voice={lore.vow.voice} voiceColor="blood" size="2" />
         <Reveal>
-          <p className="t-story mt-6 max-w-xl text-sand">{lore.vow.text}</p>
+          <ScrollRevealText className="t-story mt-6 max-w-xl text-sand">{lore.vow.text}</ScrollRevealText>
         </Reveal>
         <p className="font-mono mt-10 text-xs text-dust">FOLKLORE · VARIES BY BREEDER AND REGION · NOT A SCIENTIFIC CLAIM</p>
         <div className="mt-12 flex flex-wrap gap-6">

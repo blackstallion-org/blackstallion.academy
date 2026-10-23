@@ -6,6 +6,7 @@ import { Chain, VerifyTitle } from "@/components/sections/verify/VerifyScenes";
 import { Verifier } from "@/components/sections/verify/Verifier";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/verify" },
   title: "The Seal · Verify a passport",
   description: "Verify a BSAH cadet's rank, riding hours, hub and EFI registration from their Sovereign Passport code.",
 };
@@ -41,7 +42,7 @@ export default function VerifyPage() {
             <p className="label text-blood">Never shown</p>
             <ul className="mt-5 flex flex-col gap-3">
               {["Contact details", "Address", "Medical notes", "Payments"].map((x) => (
-                <li key={x} className="t-voice text-xl text-sand/50 line-through decoration-1">
+                <li key={x} className="t-voice text-xl text-sand line-through decoration-1">
                   {x}
                 </li>
               ))}
@@ -50,7 +51,7 @@ export default function VerifyPage() {
         </div>
       </section>
 
-      <EndCard current={11} />
+      <EndCard current={12} />
     </>
   );
 }

@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
+import { AnimatedMenuText } from "@/components/ui/animated-menu";
 import { acts, corridors, navCta, primaryNav, reelFor, reels, TOTAL_REELS, type Act } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -25,8 +26,9 @@ export function SiteNav() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
-  /* Over the home film the bar reads light-on-dark; everywhere else it is ivory and ink. */
-  const overFilm = pathname === "/" && !solid;
+  /* Over dark hero scenes (home, science, why, schools, cadets, statue, equipment), the bar reads light-on-dark; everywhere else it is ivory and ink. */
+  const isDarkHero = ["/", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment"].includes(pathname);
+  const overFilm = isDarkHero && !solid;
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -69,13 +71,7 @@ export function SiteNav() {
                 const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
                 return (
                   <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      className={cn("label transition-colors hover:text-gold", active ? "text-gold" : "text-sand")}
-                    >
-                      {item.label}
-                    </Link>
+                    <TopNavLink href={item.href} label={item.label} active={active} />
                   </li>
                 );
               })}
@@ -184,25 +180,17 @@ function Menu({ onClose }: { onClose: () => void }) {
             </p>
             <ul className="mt-4">
               {byAct(act).map((r) => {
-                const active = pathname === r.href || pathname.startsWith(`${r.href}/`);
+                const isStatueLink = r.href === "/statue";
+                const active = pathname === r.href || pathname.startsWith(`${r.href}/`) || (isStatueLink && pathname === "/lithos");
                 return (
                   <li key={r.href}>
-                    <Link
-                      href={r.href}
-                      onClick={onClose}
-                      aria-current={active ? "page" : undefined}
-                      className="group flex items-baseline gap-4 border-b border-line py-3"
-                    >
-                      <span className="font-mono text-xs text-gold/80">{pad(r.n)}</span>
-                      <span
-                        className={cn(
-                          "t-voice text-[clamp(1.35rem,2.4vw,2rem)] leading-tight transition-colors group-hover:text-gold",
-                          active ? "text-gold" : "text-bone",
-                        )}
-                      >
-                        {r.title}
-                      </span>
-                    </Link>
+                    <ReelLink href={r.href} onClose={onClose} active={active} n={r.n} title={r.title}>
+                      {isStatueLink && (
+                        <span className="rounded-full border border-gold/50 bg-gold/15 px-2.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-widest text-gold shadow-[0_0_12px_rgba(201,166,107,0.3)] transition-colors group-hover:bg-gold group-hover:text-black">
+                          3D Model
+                        </span>
+                      )}
+                    </ReelLink>
                   </li>
                 );
               })}
@@ -232,5 +220,52 @@ function Menu({ onClose }: { onClose: () => void }) {
         </div>
       </div>
     </motion.div>
+  );
+}
+
+/** One row of the reels menu: the title rolls letter by letter on hover and on keyboard focus. */
+function ReelLink({ href, onClose, active, n, title, children }: { href: string; onClose: () => void; active: boolean; n: number; title: string; children?: React.ReactNode }) {
+  const [hot, setHot] = useState(false);
+  return (
+    <Link
+      href={href}
+      onClick={onClose}
+      aria-current={active ? "page" : undefined}
+      onMouseEnter={() => setHot(true)}
+      onMouseLeave={() => setHot(false)}
+      onFocus={() => setHot(true)}
+      onBlur={() => setHot(false)}
+      className="group flex items-center justify-between gap-4 border-b border-line py-3"
+    >
+      <div className="flex items-baseline gap-4">
+        <span className="font-mono text-xs text-gold/80">{pad(n)}</span>
+        <AnimatedMenuText
+          center
+          active={hot}
+          className={cn("t-voice text-[clamp(1.35rem,2.4vw,2rem)] transition-colors group-hover:text-gold group-focus-visible:text-gold", active ? "text-gold" : "text-bone")}
+        >
+          {title}
+        </AnimatedMenuText>
+      </div>
+      {children}
+    </Link>
+  );
+}
+
+/** Desktop primary link with the same letter roll (hover and focus). */
+function TopNavLink({ href, label, active }: { href: string; label: string; active: boolean }) {
+  const [hot, setHot] = useState(false);
+  return (
+    <Link
+      href={href}
+      aria-current={active ? "page" : undefined}
+      onMouseEnter={() => setHot(true)}
+      onMouseLeave={() => setHot(false)}
+      onFocus={() => setHot(true)}
+      onBlur={() => setHot(false)}
+      className={cn("label block py-1 transition-colors hover:text-gold", active ? "text-gold" : "text-sand")}
+    >
+      <AnimatedMenuText center active={hot}>{label}</AnimatedMenuText>
+    </Link>
   );
 }

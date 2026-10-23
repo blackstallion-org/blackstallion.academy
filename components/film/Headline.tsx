@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "motion/react";
-import type { ElementType } from "react";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { editorialFontVariables } from "@/lib/editorial-type";
+import editorialTypeStyles from "@/components/motion/EditorialType.module.css";
 
 const sizes = {
   poster: "text-poster",
@@ -25,7 +26,7 @@ type HeadlineProps = {
   inscription: string;
   /** Line 2: heavy lowercase. */
   voice: string;
-  as?: ElementType;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "div" | "span";
   size?: keyof typeof sizes;
   voiceColor?: keyof typeof voiceColors;
   /** "mount" above the fold, "inView" elsewhere, "none" when a parent animates it. */
@@ -45,7 +46,7 @@ type HeadlineProps = {
 export function Headline({
   inscription,
   voice,
-  as: Tag = "h2",
+  as = "h2",
   size = "2",
   voiceColor = "gold",
   animate = "inView",
@@ -64,11 +65,13 @@ export function Headline({
 
   const line = (i: number) => ({
     hidden: { y: "105%" },
-    visible: { y: "0%", transition: { duration: 1.1, ease: ease.citadel, delay: delay + i * 0.14 } },
+    visible: { y: "0%", transition: { duration: 1.55, ease: ease.citadel, delay: delay + i * 0.22 } },
   });
 
+  const Tag = as;
+
   return (
-    <Tag id={id} className={cn(sizes[size], "text-balance", className)}>
+    <Tag id={id} className={cn(sizes[size], "headline-motion-font text-balance", editorialFontVariables, editorialTypeStyles.heritage, className)}>
       <motion.span className="block" {...trigger}>
         <span className="block overflow-hidden pb-[0.06em]">
           <motion.span

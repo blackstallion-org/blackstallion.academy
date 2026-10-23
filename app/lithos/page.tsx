@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { LithosHero } from "@/components/sections/lithos/LithosHero";
+import { CinematicStatueScroll } from "@/components/sections/statue/CinematicStatueScroll";
 
 export const metadata: Metadata = {
-  title: "Lithos · Layers hold tales of time",
+  alternates: { canonical: "/lithos" },
+  title: "Rossbändiger · The 3D Equestrian Monument",
   description:
-    "Every layer of sediment records a chapter of our planet. Explore our interactive geology spotlight maps.",
+    "A six-chapter cinematic 3D journey through the Rossbändiger equestrian statue: Origin, The Steed, The Rider, Craft & Stone, Archive, and the 360° Sovereign Orbit.",
 };
 
 export default function LithosPage() {
-  return <LithosHero />;
+  return <CinematicStatueScroll />;
 }

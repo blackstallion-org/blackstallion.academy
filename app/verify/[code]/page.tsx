@@ -17,7 +17,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/verify/[code]">): Promise<Metadata> {
   const { code } = await params;
   const c = credentialByCode(code);
-  return { title: c ? `${c.name} · Verified record` : "Record not found", robots: { index: false } };
+  return { alternates: { canonical: `/verify/${encodeURIComponent(code)}` }, title: c ? `${c.name} · Verified record` : "Record not found", robots: { index: false } };
 }
 
 const fmt = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });

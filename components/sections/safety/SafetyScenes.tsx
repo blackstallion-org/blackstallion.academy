@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -12,30 +14,33 @@ import { ease } from "@/lib/motion/tokens";
 /** Title card · T10 still life. Signature: numbered labels pin themselves to each piece of kit. */
 export function SafetyTitle() {
   return (
-    <section aria-labelledby="safety-h" className="relative min-h-[100svh] overflow-hidden">
+    <section aria-labelledby="safety-h" className="editorial-scene">
+<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden">
       <FilmImage name="safetyKit" priority />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-      <ul className="absolute inset-0 hidden md:block">
+
+      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
+        
+        <Headline id="safety-h" as="h1" size="poster" animate="mount" className="mt-6" inscription="Safety" voice="before speed." />
+        
+      </div>
+    </div>
+<div className="tone-light editorial-details gutter"><ReelMark n={9} act="citadel" />
+<ScrollRevealText className="t-story mt-6 max-w-xl text-sand">No lance is lowered until the basics are second nature.</ScrollRevealText>      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kitLabels.map((k, i) => (
           <motion.li
             key={k.n}
-            className="absolute flex items-center gap-2"
-            style={{ left: `${k.x}%`, top: `${k.y}%` }}
+            className="flex items-center gap-3"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: ease.citadel, delay: 1 + i * 0.2 }}
           >
             <span className="font-mono grid h-7 w-7 place-items-center rounded-full border border-gold bg-night/70 text-[0.65rem] text-gold">{k.n}</span>
-            <span className="label bg-night/60 px-2 py-1 text-bone">{k.name}</span>
+            <span className="text-base text-bone">{k.name}</span>
           </motion.li>
         ))}
-      </ul>
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
-        <ReelMark n={9} act="citadel" />
-        <Headline id="safety-h" as="h1" size="poster" animate="mount" className="mt-6" inscription="Safety" voice="before speed." />
-        <p className="t-story mt-6 max-w-xl text-sand">No lance is lowered until the basics are second nature.</p>
-      </div>
-    </section>
+      </ul></div>
+</section>
   );
 }
 

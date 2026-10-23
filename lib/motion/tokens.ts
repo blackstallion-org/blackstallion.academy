@@ -18,13 +18,13 @@ export const dur = {
   /** Drawers, modals, tabs */
   ui: 0.4,
   /** Text and image reveals */
-  reveal: 0.8,
+  reveal: 1.2,
   /** Page curtain, chapter changes */
-  cinematic: 1.4,
+  cinematic: 1.8,
 } as const;
 
 /** Delay between lines or list items */
-export const stagger = 0.06;
+export const stagger = 0.12;
 
 export const transition = {
   micro: { duration: dur.micro, ease: ease.citadel },
@@ -68,7 +68,7 @@ export const sealStamp: Variants = {
     opacity: 1,
     scale: 1,
     rotate: 0,
-    transition: { duration: 0.5, ease: ease.citadel },
+    transition: { duration: 0.75, ease: ease.citadel },
   },
 };
 

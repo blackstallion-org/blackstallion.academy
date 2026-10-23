@@ -297,7 +297,7 @@ export function WebGLTransitionSlider({
 
     // 2. Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
 
@@ -469,7 +469,7 @@ export function WebGLTransitionSlider({
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="font-mono text-xs text-sand/70 tracking-widest mr-2">
+          <span className="font-mono text-xs text-sand tracking-widest mr-2">
             FRAME {String(currentIdx + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
           </span>
           <button
@@ -497,40 +497,11 @@ export function WebGLTransitionSlider({
       >
         <div ref={containerRef} className="absolute inset-0 h-full w-full" />
 
-        {/* Subtle cinematic gradient vignette */}
+        {/* Minimal light bottom gradient (max 25% opacity) */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"
         />
-
-        {/* Bottom Captions Overlay */}
-        {showCaption && activeSlide && (
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 p-6 md:p-8 flex items-end justify-between z-10">
-            <div className="space-y-2 max-w-xl">
-              {activeSlide.tag && (
-                <span className="font-mono text-[0.68rem] uppercase tracking-widest text-gold block">
-                  {activeSlide.tag}
-                </span>
-              )}
-              <h4 className="font-display text-2xl md:text-4xl text-[#FAF7F0] m-0 tracking-tight">
-                {activeSlide.title}
-              </h4>
-              {activeSlide.subtitle && (
-                <p className="font-serif text-sm text-sand/90 m-0">
-                  {activeSlide.subtitle}
-                </p>
-              )}
-            </div>
-
-            {/* Click hint badge */}
-            <div className="hidden sm:flex items-center gap-2 rounded-full border border-gold/30 bg-black/60 px-3.5 py-1.5 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold animate-ping" />
-              <span className="font-mono text-[0.65rem] tracking-wider uppercase text-sand">
-                Click canvas to cycle
-              </span>
-            </div>
-          </div>
-        )}
 
         {/* Loading shimmer before textures ready */}
         {!isLoaded && (
@@ -544,6 +515,13 @@ export function WebGLTransitionSlider({
           </div>
         )}
       </div>
+
+      {showCaption && activeSlide && <div className="editorial-details" aria-live="polite">
+        {activeSlide.tag && <p className="label text-brass">{activeSlide.tag}</p>}
+        <h4 className="t-voice text-3xl text-bone">{activeSlide.title}</h4>
+        {activeSlide.subtitle && <p className="text-sand">{activeSlide.subtitle}</p>}
+        <p className="label text-dust">Click canvas to cycle</p>
+      </div>}
 
       {/* Frame indicator pill row */}
       <div className="flex items-center gap-2 mt-4 px-1" role="tablist" aria-label="Slides">

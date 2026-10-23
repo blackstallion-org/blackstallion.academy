@@ -8,6 +8,8 @@ export const hero = {
     { inscription: "We do not teach", voice: "children to ride." },
     { inscription: "We forge them", voice: "to lead." },
   ],
+  /** The doctrine as one statement (two sentences, read together). */
+  statement: ["We do not teach children to ride.", "We forge them to lead."],
   sub: "The interscholastic equestrian leadership academy and national tent pegging circuit for India's schools. Indigenous Marwari stallions, ex-cavalry instructors and a ledger of every hour, on your child's own campus.",
   ctas: [
     { label: "Watch the legend", href: "/legend" },
@@ -16,7 +18,7 @@ export const hero = {
   stats: [
     { value: "13", label: "pillars of character, drilled in the saddle" },
     { value: "25–30%", label: "of tuition back to partner schools" },
-    { value: "24/7", label: "stall-cam for every parent" },
+    { value: "24/7", label: "stall-cam planned for every parent" },
   ],
   /** SAMPLE live figures. */
   ticker: ["BSAH National Command (demo data)", "Hours logged 14,800 (sample)", "Canter transitions passed 342 (sample)", "Active stallions 21 (sample)", "Hubs live 3 (sample)", "Next: Governor's Cup · 14 Nov"],
@@ -70,7 +72,7 @@ export const doors = {
   items: [
     {
       who: "Parents", title: "The Guardian", image: "parentsRail" as MediaKey, href: "/parents", cta: "For parents",
-      points: ["Watch your child's stallion on a 24/7 stall-cam", "An alert the second their passport is scanned at the gate", "A 10-second milestone reel after every session"],
+      points: ["Planned for the parent app: your child's stallion on a 24/7 stall-cam", "An alert when their passport is scanned at the gate (planned)", "A 10-second milestone reel after every session (planned)"],
     },
     {
       who: "Cadets", title: "The Hall of Valour", image: "cadetZayd" as MediaKey, href: "/cadets", cta: "For cadets",
@@ -132,5 +134,28 @@ export const finale = {
     { label: "Enrol a cadet", href: "/contact?gate=parents" },
     { label: "Partner your campus", href: "/contact?gate=schools" },
     { label: "Schedule a board audit", href: "/contact?gate=audit" },
+  ],
+};
+
+/** Atelier moodboard: the academy's materials and colours (art direction, not a claim). */
+export const atelier = {
+  label: "The house palette",
+  inscription: "Leather, brass,",
+  voice: "and the horse.",
+  body: "Every colour on this site comes from the stable: ivory linen, parchment, saddle leather, chestnut coats and the charcoal of a stall at night.",
+  tiles: [
+    { key: "journalReins" as MediaKey, slot: "a" },
+    { key: "eye" as MediaKey, slot: "b" },
+    { key: "legendChetak" as MediaKey, slot: "c" },
+    { key: "rearing" as MediaKey, slot: "d" },
+    { key: "cadetRohan" as MediaKey, slot: "e" },
+  ],
+  /** Brand colours (tokens in app/globals.css). */
+  swatches: [
+    { name: "Ivory", className: "bg-ivory" },
+    { name: "Leather", className: "bg-leather" },
+    { name: "Charcoal", className: "bg-charcoal" },
+    { name: "Chestnut", className: "bg-chestnut" },
+    { name: "Caramel", className: "bg-caramel" },
   ],
 };

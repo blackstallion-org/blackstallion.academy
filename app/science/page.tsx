@@ -3,11 +3,13 @@ import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { ComparisonLedger, PulseLine, ScienceTitle, SystemsConsole } from "@/components/sections/science/ScienceScenes";
+import { ComparisonLedger, PulseLine, ScienceTitle } from "@/components/sections/science/ScienceScenes";
+import { Matrix } from "@/components/sections/home/Matrix";
 import { claims, comparison, statusColor } from "@/lib/content/science";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/science" },
   title: "The Matrix",
   description: "What twenty minutes in the saddle asks of a child's brain, spine, muscles and heart, and how sure we are of each claim.",
 };
@@ -16,7 +18,7 @@ export default function SciencePage() {
   return (
     <>
       <ScienceTitle />
-      <SystemsConsole />
+      <Matrix />
       <PulseLine />
       <ComparisonLedger cols={comparison.cols} rows={comparison.rows} note={comparison.note} />
 
@@ -51,7 +53,7 @@ export default function SciencePage() {
         </div>
       </section>
 
-      <EndCard current={3} />
+      <EndCard current={4} />
     </>
   );
 }

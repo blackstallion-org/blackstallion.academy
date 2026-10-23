@@ -1,3 +1,4 @@
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -15,7 +16,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/schools/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const hub = hubBySlug(slug);
-  return hub ? { title: hub.name, description: `${hub.name}: batches, stallions and enrolment at the BSAH hub on your campus.` } : {};
+  return hub ? { alternates: { canonical: `/schools/${slug}` }, title: hub.name, description: `${hub.name}: batches, stallions and enrolment at the BSAH hub on your campus.` } : {};
 }
 
 /** Hub landing: the page a parent reaches by scanning the flyer at their school. */
@@ -29,7 +30,8 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
 
   return (
     <>
-      <section aria-labelledby="hub-h" className="relative min-h-[88svh] overflow-hidden">
+      <section aria-labelledby="hub-h" className="editorial-scene">
+<div className="tone-dark editorial-visual relative min-h-[88svh] overflow-hidden">
         <FilmImage name={hub.image} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
@@ -40,9 +42,11 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
             BSAH hub · {hub.area} · {tier.name}
           </p>
           <Headline id="hub-h" as="h1" size="1" animate="mount" className="mt-4" inscription={first} voice={rest.join(" ")} />
-          <p className="t-story mt-6 max-w-xl text-sand">{hub.note}</p>
+          
         </div>
-      </section>
+      </div>
+<div className="tone-light editorial-details gutter"><ScrollRevealText className="t-story mt-6 max-w-xl text-sand">{hub.note}</ScrollRevealText></div>
+</section>
 
       <section aria-label="At this hub" className="gutter relative py-16">
         <dl className="grid grid-cols-2 gap-px bg-line md:grid-cols-5">
@@ -116,7 +120,7 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
           <LeadForm
             gate="hub"
             fallbackEmail="parents@blackstallion.academy"
-            hidden={{ organisation: hub.name }}
+            hidden={{ organisation: hub.name, hub: hub.slug }}
             submitLabel="Request a visit"
             fields={[
               { name: "name", label: "Parent's name", required: true, autoComplete: "name" },

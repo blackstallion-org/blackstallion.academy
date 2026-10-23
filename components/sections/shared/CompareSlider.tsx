@@ -74,6 +74,7 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, className, o
 
   return (
     <div
+      data-parallax-skip
       ref={ref}
       className={cn("relative touch-pan-y select-none overflow-hidden", className)}
       onPointerDown={(e) => {
@@ -82,7 +83,7 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, className, o
       }}
       onPointerMove={(e) => e.buttons === 1 && fromPointer(e)}
     >
-      <FilmImage name={left} grade="cold" sizes="100vw" />
+      <FilmImage name={left} grade="none" sizes="100vw" />
       <motion.div className="absolute inset-0" style={{ clipPath: clip }}>
         <FilmImage name={right} sizes="100vw" grade="none" />
       </motion.div>

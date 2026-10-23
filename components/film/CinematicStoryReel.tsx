@@ -30,12 +30,6 @@ export interface CinematicStoryReelProps {
   className?: string;
 }
 
-// Exact timing constants from StoryStrip.tsx (in seconds)
-const HOLD_TIME = 1.8; // Time to hold text at normal readable size
-const ZOOM_TIME = 2.4; // Time to zoom forward from scale 1 to 4.2
-const FADE_TIME = 0.7; // Final fade out at the end of the zoom
-const WAIT_TIME = 2.0; // EXACTLY 2.0 seconds clear screen wait before next slide
-const ENTRANCE_TIME = 1.2; // Fade-in duration for incoming slide
 
 export function CinematicStoryReel({
   sectionId,
@@ -96,32 +90,36 @@ export function CinematicStoryReel({
         activeTlRef.current.kill();
       }
 
-      const prefersReducedMotion =
-        typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
       const tl = gsap.timeline({
         onComplete: () => {
-          // Reset previous slide transforms cleanly
+          // Reset previous slide cleanly
           currentSlide.classList.remove("is-active");
           gsap.set(currentSlide, { visibility: "hidden", opacity: 0 });
           gsap.set(currentTitle, { scale: 1, opacity: 0 });
           gsap.set(currentSub, { scale: 1, opacity: 0 });
-          gsap.set(currentBg, { scale: 1.05, opacity: 0 });
+          gsap.set(currentBg, { scale: 1, opacity: 0 });
 
           // Promote next slide to active
           nextSlide.classList.add("is-active");
           setActiveIndex(nextIndex);
           isAnimatingRef.current = false;
 
-          // Loop seamlessly to next slide
+          // Loop cleanly to next slide
           playSlideSequenceRef.current(nextIndex);
         },
       });
 
       activeTlRef.current = tl;
 
+      const HOLD_TIME = 2.4;
+      const ZOOM_TIME = 1.8;
+      const FADE_TIME = 0.7;
+      const activeDuration = HOLD_TIME + ZOOM_TIME; // 4.2s
+
+      const prefersReducedMotion =
+        typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
       if (prefersReducedMotion) {
-        // Accessible fallback: smooth gentle cross-fade without rapid scaling
         tl.to(currentSlide, { opacity: 0, duration: 1.0, delay: 3.5 });
         tl.set(currentSlide, { visibility: "hidden" });
         tl.set(nextSlide, { visibility: "visible", opacity: 0 });
@@ -129,11 +127,7 @@ export function CinematicStoryReel({
         return;
       }
 
-      // -------------------------------------------------------------
-      // 1. READABLE PHASE & PROGRESS BAR
-      // Text displays at normal scale (1.0). Subtle background drift.
-      // -------------------------------------------------------------
-      const activeDuration = HOLD_TIME + ZOOM_TIME; // 4.2s
+      // 1. Readable Hold Phase & Progress Bar
       if (progressLine) {
         tl.fromTo(
           progressLine,
@@ -143,42 +137,21 @@ export function CinematicStoryReel({
         );
       }
 
-      // Subtle initial drift during readable hold
+      // Subtle initial background drift during readable hold
       tl.to(currentBg, { scale: 1.08, duration: HOLD_TIME, ease: "sine.out" }, 0);
 
-      // -------------------------------------------------------------
-      // 2. FORWARD-ZOOM EFFECT: BOTH TEXT & IMAGE SCALE FORWARD TOGETHER
-      // Straight forward zoom along viewer's z-axis (no horizontal drift)
-      // Text scales from 1.0 to 4.2.
-      // Background image scales from 1.08 to 1.48.
-      // -------------------------------------------------------------
+      // 2. Forward-Zoom Effect: text and image scale forward together toward viewer
       tl.to(currentTitle, { scale: 4.2, duration: ZOOM_TIME, ease: "power2.in" }, HOLD_TIME);
       tl.to(currentSub, { scale: 2.2, duration: ZOOM_TIME, ease: "power2.in" }, HOLD_TIME);
       tl.to(currentBg, { scale: 1.48, duration: ZOOM_TIME, ease: "power2.in" }, HOLD_TIME);
 
-      // -------------------------------------------------------------
-      // 3. FADE OUT NEAR THE END OF THE ZOOM
-      // -------------------------------------------------------------
-      const fadeStartTime = HOLD_TIME + ZOOM_TIME - FADE_TIME; // 3.5s
+      // 3. Fade out near end of zoom
+      const fadeStartTime = HOLD_TIME + ZOOM_TIME - FADE_TIME;
       tl.to([currentTitle, currentSub], { opacity: 0, duration: FADE_TIME, ease: "power2.in" }, fadeStartTime);
       tl.to(currentBg, { opacity: 0, duration: FADE_TIME, ease: "power2.inOut" }, fadeStartTime);
 
-      // Outgoing slide is completely invisible at 4.2s
-      const clearStartTime = activeDuration; // 4.2s
-      tl.set(currentSlide, { visibility: "hidden", opacity: 0 }, clearStartTime);
-      if (progressLine) {
-        tl.set(progressLine, { width: "0%" }, clearStartTime);
-      }
-
-      // -------------------------------------------------------------
-      // 4. EXACTLY 2-SECOND CLEAR SCREEN WAITING PERIOD
-      // Completely clear screen from 4.2s to 6.2s. Zero overlap.
-      // -------------------------------------------------------------
-      const nextEntranceTime = clearStartTime + WAIT_TIME; // 6.2s
-
-      // -------------------------------------------------------------
-      // 5. INTRODUCE NEXT SLIDE AT NORMAL SIZE (Starts at 6.2s)
-      // -------------------------------------------------------------
+      // 4. Fluid handoff to next slide
+      const handoffTime = activeDuration - 0.35;
       tl.call(
         () => {
           if (counterEl) {
@@ -186,20 +159,21 @@ export function CinematicStoryReel({
           }
         },
         undefined,
-        nextEntranceTime
+        handoffTime
       );
 
-      // Prep next slide elements at normal size (scale: 1)
-      tl.set(nextSlide, { visibility: "visible", opacity: 1 }, nextEntranceTime);
-      tl.set(nextBg, { scale: 1.05, opacity: 0 }, nextEntranceTime);
-      tl.set(nextTitle, { scale: 1, opacity: 0 }, nextEntranceTime);
-      tl.set(nextSub, { scale: 1, opacity: 0 }, nextEntranceTime);
+      tl.set(nextSlide, { visibility: "visible", opacity: 0 }, handoffTime);
+      tl.set(nextBg, { scale: 1.05, opacity: 0 }, handoffTime);
+      tl.set(nextTitle, { scale: 0.96, opacity: 0 }, handoffTime);
+      tl.set(nextSub, { scale: 0.96, opacity: 0 }, handoffTime);
 
-      // Fade in next background
-      tl.to(nextBg, { opacity: 1, duration: ENTRANCE_TIME, ease: "power2.out" }, nextEntranceTime);
-
-      // Introduce next text at readable normal size
-      tl.to([nextTitle, nextSub], { opacity: 1, duration: ENTRANCE_TIME, ease: "power2.out" }, nextEntranceTime);
+      tl.to(nextSlide, { opacity: 1, duration: 0.55, ease: "power2.out" }, handoffTime);
+      tl.to(nextBg, { opacity: 1, duration: 0.55, ease: "power2.out" }, handoffTime);
+      tl.to(
+        [nextTitle, nextSub],
+        { scale: 1.0, opacity: 1, duration: 0.65, ease: "power2.out" },
+        handoffTime + 0.05
+      );
     },
     [totalSlides]
   );
@@ -324,9 +298,10 @@ export function CinematicStoryReel({
 
   return (
     <section
+      data-parallax-skip
       id={sectionId}
       aria-label={sectionLabel}
-      className={`relative w-full bg-black overflow-hidden select-none isolate text-white ${className}`}
+      className={`tone-dark relative w-full bg-black overflow-hidden select-none isolate text-white ${className}`}
     >
       {/* Viewport Container */}
       <div
@@ -336,7 +311,7 @@ export function CinematicStoryReel({
         className={`relative w-full ${heightClass} overflow-hidden bg-black`}
       >
         {/* Top Minimal Editorial Bar */}
-        <div className="pointer-events-none absolute top-6 left-6 right-6 sm:top-10 sm:left-10 sm:right-10 z-20 flex items-center justify-between">
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-4 bg-charcoal px-6 py-5 sm:px-10">
           <div className="flex items-center gap-3">
             <Label className="tracking-[0.28em] text-[0.68rem] text-gold/90">{sectionLabel}</Label>
             {sectionSubLabel && (
@@ -392,7 +367,7 @@ export function CinematicStoryReel({
                 src={resolvedSrc}
                 alt={slide.alt}
                 className="slide-bg absolute inset-0 w-full h-full object-cover will-change-transform"
-                style={{ transform: "scale(1.05)" }}
+                style={{ transform: "scale(1.0)" }}
               />
 
               {/* Vertically Centered Text Container */}
@@ -401,22 +376,14 @@ export function CinematicStoryReel({
                   isLeft ? "items-start text-left" : "items-end text-right"
                 }`}
               >
-                {/* Subtitle with wide letter spacing */}
-                <p
-                  className="slide-subtitle text-[clamp(0.72rem,1.1vw,0.95rem)] tracking-[0.35em] uppercase text-white mb-3 sm:mb-5 will-change-transform [text-shadow:0_2px_8px_rgba(0,0,0,0.85)]"
-                  style={{
-                    transformOrigin: isLeft ? "left center" : "right center",
-                  }}
-                >
-                  {slide.subtitle}
-                </p>
+                <span className="slide-subtitle" aria-hidden="true" />
 
-                {/* Giant Headline scaling forward toward viewer */}
+                {/* Light Editorial Headline */}
                 <h2
-                  className="slide-title font-serif text-[clamp(2.7rem,7vw,7.2rem)] font-light leading-[1.04] tracking-[-0.02em] uppercase text-[#FAF7F0] will-change-transform inline-block w-fit max-w-none m-0 [text-shadow:0_4px_24px_rgba(0,0,0,0.9)]"
+                  className="slide-title font-serif font-light text-[clamp(2rem,4.5vw,4.2rem)] leading-[1.08] tracking-[-0.01em] uppercase text-[#FAF7F0] [text-shadow:0_2px_14px_rgba(0,0,0,0.75)] will-change-transform inline-block w-fit max-w-3xl m-0"
                   style={{
                     fontFamily:
-                      'var(--font-kalnia), var(--font-newsreader), "Playfair Display", "Didot", "Cinzel", serif',
+                      'var(--font-display)',
                     transformOrigin: isLeft ? "left center" : "right center",
                   }}
                 >
@@ -429,17 +396,7 @@ export function CinematicStoryReel({
                   )}
                 </h2>
 
-                {/* Sub-caption brief */}
-                {slide.caption && (
-                  <p
-                    className="hidden md:block font-serif text-sm sm:text-base text-bone max-w-md mt-6 leading-relaxed [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]"
-                    style={{
-                      textAlign: isLeft ? "left" : "right",
-                    }}
-                  >
-                    {slide.caption}
-                  </p>
-                )}
+
               </div>
             </div>
           );
@@ -485,6 +442,16 @@ export function CinematicStoryReel({
             Swipe or use arrows to cycle
           </span>
         </div>
+      </div>
+      <div className="tone-light editorial-reel-notes gutter">
+        {slides.map((slide, index) => (
+          <article key={slide.id} aria-current={activeIndex === index ? "true" : undefined}>
+            <h3>{slide.titleLine1} {slide.titleLine2}</h3>
+            <p>{slide.subtitle}</p>
+            {slide.caption && <p>{slide.caption}</p>}
+            {(slide.badge || slide.reelNum) && <small>{slide.reelNum} {slide.badge}</small>}
+          </article>
+        ))}
       </div>
     </section>
   );

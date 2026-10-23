@@ -8,6 +8,7 @@ import { corridors, entity, legalNav } from "@/lib/content/site";
 const navLinks = [
   { href: "/legend", label: "The Legend" },
   { href: "/anatomy", label: "The Instrument" },
+  { href: "/statue", label: "3D Monument" },
   { href: "/science", label: "Science & Matrix" },
   { href: "/why", label: "Crucible & Cure" },
   { href: "/curriculum", label: "Curriculum" },
@@ -16,7 +17,7 @@ const navLinks = [
   { href: "/cadets", label: "Cadets" },
   { href: "/parents", label: "Parents" },
   { href: "/tournaments", label: "The Circuit" },
-  { href: "/command", label: "Command AI" },
+  { href: "/command", label: "Information desk" },
   { href: "/contact", label: "The Gate" },
 ];
 
@@ -67,11 +68,10 @@ export function Footer() {
       <video
         ref={videoRef}
         className="footer-meridian__video"
-        autoPlay
         muted
         loop
         playsInline
-        preload="auto"
+        preload="none"
         poster="/video/footer-ambient-poster.jpg"
         aria-hidden="true"
         tabIndex={-1}

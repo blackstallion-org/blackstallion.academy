@@ -1,3 +1,4 @@
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { EndCard } from "@/components/film/EndCard";
@@ -5,9 +6,11 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Arrow, ReelMark } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { FieldSphereHero } from "@/components/sections/journal/FieldSphereHero";
+import { ViscousLiquidCanvas } from "@/components/sections/shared/ViscousLiquidCanvas";
 import { posts } from "@/lib/content/journal";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/journal" },
   title: "The Chronicle",
   description: "Stories from the stable: the Marwari's legends, the science of the saddle and life on the circuit.",
 };
@@ -31,7 +34,7 @@ export default function JournalPage() {
       </header>
 
       {/* Featured */}
-      <section aria-label="Featured story" className="gutter mt-12">
+      <section aria-label="Featured story" className="gutter mt-12 pb-[clamp(5rem,10vw,9rem)]">
         <Link href={`/journal/${featured.slug}`} className="group grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end">
           <div className="relative aspect-[4/3] overflow-hidden lg:aspect-[16/11]">
             <FilmImage name={featured.cover} grade="none" priority sizes="(min-width: 1024px) 60vw, 100vw" className="transition-transform duration-[1600ms] group-hover:scale-[1.03]" />
@@ -44,7 +47,7 @@ export default function JournalPage() {
               <span className="t-inscribe block text-[0.5em] text-bone">{featured.title[0]}</span>
               <span className="t-voice block text-gold transition-colors group-hover:text-bone">{featured.title[1]}</span>
             </h2>
-            <p className="t-story mt-6 text-sand">{featured.dek}</p>
+            <ScrollRevealText className="t-story mt-6 text-sand">{featured.dek}</ScrollRevealText>
             <span className="label mt-8 inline-flex items-center gap-3 text-gold">
               Read the story <Arrow className="transition-transform group-hover:translate-x-1" />
             </span>
@@ -52,36 +55,16 @@ export default function JournalPage() {
         </Link>
       </section>
 
-      {/* Field Dispatch Motion Reel */}
-      <section aria-label="Field motion dispatch" className="gutter mt-16 md:mt-24">
-        <div className="relative overflow-hidden rounded-[2px] border border-gold/30 bg-[#0F0E0D] shadow-[0_24px_60px_-15px_rgba(0,0,0,0.7)]">
-          <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden">
-            <video
-              src="https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002919_571f23fa-14a9-4d0b-bbe3-19f4311054d8.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              className="h-full w-full object-cover"
-            />
-            <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-            <div className="absolute left-6 right-6 bottom-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div>
-                <span className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-gold font-bold">
-                  Field Dispatch · Cinema Reel
-                </span>
-                <h3 className="font-display text-2xl md:text-3xl text-bone mt-1 m-0">
-                  The Sovereign Gallop across the Thar
-                </h3>
-              </div>
-              <p className="font-serif text-xs md:text-sm text-sand/90 max-w-md m-0 leading-relaxed">
-                A purebred Marwari stallion at full gallop in Rajasthan. Eight hundred years of desert agility captured in golden hour dust.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Interactive Viscous Liquid Simulation Canvas */}
+      <ViscousLiquidCanvas
+        id="journal-viscous-liquid"
+        label="REEL 14B · INTERACTIVE ARENA LIQUID DYNAMICS"
+        title="The Viscous Fluid Sovereign"
+        subtitle="Hover and sweep across the canvas to interact with Navier-Stokes fluid tension, chromatic dispersion, and viscous return mechanics."
+        imageUrl="/images/black-marwari-stallion.webp"
+        fullScreen={true}
+        tone="dark"
+      />
 
       {/* Editorial list: alternating image side, no cards */}
       <section aria-label="All stories" className="gutter mt-24 pb-[clamp(6rem,14vh,12rem)]">
@@ -106,7 +89,7 @@ export default function JournalPage() {
         </ol>
       </section>
 
-      <EndCard current={14} />
+      <EndCard current={15} />
     </>
   );
 }

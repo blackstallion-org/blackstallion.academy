@@ -1,6 +1,7 @@
 declare module "ogl" {
   export class Renderer {
-    constructor(options?: { dpr?: number; alpha?: boolean; premultipliedAlpha?: boolean; antialias?: boolean });
+    constructor(options?: { canvas?: HTMLCanvasElement; dpr?: number; alpha?: boolean; premultipliedAlpha?: boolean; antialias?: boolean; powerPreference?: string });
+    dpr: number;
     gl: WebGLRenderingContext & { renderer: { width: number; height: number } };
     setSize(width: number, height: number): void;
     render(options: { scene: Mesh | Mesh[]; camera?: unknown }): void;
@@ -17,11 +18,13 @@ declare module "ogl" {
 
   export class Geometry {
     constructor(gl: WebGLRenderingContext, attributes: Record<string, { size: number; data: Float32Array }>);
+    remove(): void;
   }
 
   export class Texture {
-    constructor(gl: WebGLRenderingContext, options?: { minFilter?: number; magFilter?: number; premultiplyAlpha?: boolean });
+    constructor(gl: WebGLRenderingContext, options?: { minFilter?: number; magFilter?: number; premultiplyAlpha?: boolean; generateMipmaps?: boolean });
     image: HTMLImageElement | HTMLCanvasElement;
+    texture: WebGLTexture;
   }
 
   export class Program {
@@ -33,13 +36,16 @@ declare module "ogl" {
         uniforms?: Record<string, { value: unknown }>;
         transparent?: boolean;
         cullFace?: unknown;
+        depthTest?: boolean;
+        depthWrite?: boolean;
       }
     );
     uniforms: Record<string, { value: unknown }>;
+    remove(): void;
   }
 
   export class Mesh {
-    constructor(gl: WebGLRenderingContext, options: { geometry: Geometry; program: Program });
+    constructor(gl: WebGLRenderingContext, options: { geometry: Geometry; program: Program; mode?: number; frustumCulled?: boolean });
     program: Program;
   }
 

@@ -1,8 +1,10 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import { useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
-import { Headline } from "@/components/film/Headline";
+import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label } from "@/components/film/Marks";
 import { BlueprintPlan } from "@/components/sections/schools/BlueprintPlan";
 import { schoolsTeaser } from "@/lib/content/home";
@@ -19,14 +21,13 @@ export function SchoolsTeaser() {
 
   return (
     <section aria-labelledby="schools-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
-      <FilmImage name="bgPavilion" grade="deep" className="opacity-80" />
-      <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-night/80 to-night" />
+      <div className="relative h-[55svh] min-h-[300px] mb-12"><FilmImage name="bgPavilion" grade="deep" className="opacity-100" /></div>
 
       <div className="gutter relative grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:items-center">
         <div>
           <Label reel={10}>For school boards</Label>
           <Headline id="schools-h" className="mt-4" inscription={schoolsTeaser.inscription} voice={schoolsTeaser.voice} />
-          <p className="mt-6 max-w-md text-sand">{schoolsTeaser.body}</p>
+          <ScrollRevealText data-home-detail className="mt-6 max-w-md text-sand">{schoolsTeaser.body}</ScrollRevealText>
 
           <div className="mt-10 flex flex-col border-t border-line" role="radiogroup" aria-label="Hub tier">
             {tiers.map((t) => (

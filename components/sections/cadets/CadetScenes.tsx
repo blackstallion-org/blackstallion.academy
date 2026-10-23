@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import Link from "next/link";
 import { motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
@@ -7,7 +9,7 @@ import { useRef, useState } from "react";
 import { Monogram } from "@/components/brand/Monogram";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
-import { Arrow, Label, ReelMark } from "@/components/film/Marks";
+import { Arrow, Label } from "@/components/film/Marks";
 import { PinnedScene } from "@/components/film/PinnedScene";
 import { r } from "@/components/film/range";
 import { Reveal } from "@/components/film/Reveal";
@@ -15,11 +17,19 @@ import { creed, day, passport, reels, spotlights, uniform } from "@/lib/content/
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { QrSeal } from "@/components/brand/QrSeal";
-import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
-
-/** Title card · T8 portrait upgraded to Full-Screen Desert Valour Cinematic Video Hero matching reference */
+import { ViscousLiquidCanvas, type ViscousSlide } from "@/components/sections/shared/ViscousLiquidCanvas";
+/** Title card · Editorial hero with DESERT AURA in transparent liquid font and 1.9s decelerating pop animation */
 export function CadetsTitle() {
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Scroll animations: fade out UI chrome
+  const uiOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
 
   const scrollToSpotlights = () => {
     document.getElementById("spot-h")?.scrollIntoView({ behavior: "smooth" });
@@ -27,10 +37,11 @@ export function CadetsTitle() {
 
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="cadets-h"
-      className="tone-dark relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-black select-none isolate flex flex-col justify-between"
+      className="tone-dark relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-black select-none isolate flex flex-col justify-between items-center"
     >
-      {/* Background Seamless Looping Video */}
+      {/* Background Seamless Looping Video (Ambient desert with glowing circular portal) */}
       <video
         ref={videoRef}
         autoPlay
@@ -39,8 +50,8 @@ export function CadetsTitle() {
         playsInline
         preload="auto"
         poster="/video/cadets-desert-poster.jpg"
-        aria-label="Cadet desert horsemanship and golden halo loop"
-        className="absolute inset-0 h-full w-full object-cover object-center z-10 brightness-[0.92] contrast-[1.05]"
+        aria-label="Ambient desert scene with glowing circular portal"
+        className="absolute inset-0 h-full w-full object-cover object-center z-10 brightness-[0.95] contrast-[1.05]"
       >
         <source src="/video/cadets-desert-loop.mp4" type="video/mp4" />
         <source
@@ -49,81 +60,75 @@ export function CadetsTitle() {
         />
       </video>
 
-      {/* Atmospheric Vignette Gradients */}
+      {/* Subtle atmospheric radial vignette */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-15 bg-gradient-to-b from-black/85 via-transparent to-black/90"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-15 [background:radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.65)_100%)]"
+        className="pointer-events-none absolute inset-0 z-15 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.35)_75%,rgba(0,0,0,0.75)_100%)]"
       />
 
-      {/* Top Banner & Monumental Wordmark matching reference screenshot */}
-      <div className="relative z-25 w-full pt-20 sm:pt-24 px-6 sm:px-12 md:px-16 flex flex-col items-center">
-        {/* Reel Tagline */}
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: ease.citadel, delay: 0.15 }}
-          className="mb-3"
-        >
-          <ReelMark n={7} act="citadel" />
-        </motion.div>
-
-        {/* Monumental Flanking Display Title matching reference screenshot */}
-        <h1 id="cadets-h" className="w-full max-w-7xl">
-          <span className="sr-only">The Hall of Valour · Desert Cadet Horsemanship</span>
-          <div className="flex items-center justify-between w-full pointer-events-none select-none">
-            <motion.span
-              initial={{ opacity: 0, x: -30, filter: "blur(10px)" }}
-              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1.2, ease: ease.citadel, delay: 0.25 }}
-              className="font-sans font-black text-4xl sm:text-7xl md:text-8xl lg:text-[7.5rem] xl:text-[8.5rem] uppercase tracking-[-0.04em] text-[#c9894e]/90 drop-shadow-[0_4px_35px_rgba(201,137,78,0.45)] leading-none"
-            >
-              DESERT
-            </motion.span>
-            <motion.span
-              initial={{ opacity: 0, x: 30, filter: "blur(10px)" }}
-              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1.2, ease: ease.citadel, delay: 0.35 }}
-              className="font-sans font-black text-4xl sm:text-7xl md:text-8xl lg:text-[7.5rem] xl:text-[8.5rem] uppercase tracking-[-0.04em] text-[#c9894e]/90 drop-shadow-[0_4px_35px_rgba(201,137,78,0.45)] leading-none"
-            >
-              VALOUR
-            </motion.span>
-          </div>
+      {/* Top Header & Navigation Chrome (clears SiteNav) */}
+      <div className="relative z-25 w-full flex flex-col items-center pt-20 sm:pt-24 md:pt-26 px-6 sm:px-12 md:px-16">
+        <h1 id="cadets-h" className="sr-only">
+          The Hall of Valour · Desert Cadet Horsemanship
         </h1>
-      </div>
-
-      {/* Bottom Editorial & Outlined Pill Button matching reference screenshot */}
-      <div className="relative z-25 w-full pb-10 sm:pb-14 px-6 flex flex-col items-center text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: ease.citadel, delay: 0.6 }}
-          className="max-w-2xl text-[0.7rem] sm:text-xs md:text-sm font-sans uppercase tracking-[0.16em] sm:tracking-[0.22em] text-[#faf7f0]/85 leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]"
-        >
-          DISCOVER THE CORPS OF VALOUR THROUGH RIGOROUS CADET DOCTRINE ACROSS GOLDEN DUNES,
-          SOVEREIGN MOUNTED DRILLS, AND UNBENDING HORSEMANSHIP. HOURS EARNED, NAMES REMEMBERED,
-          AND CHARACTER SEALED IN BRASS.
-        </motion.p>
-
-        {/* Outlined Glowing Pill Button */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: ease.citadel, delay: 0.8 }}
-          className="mt-6 sm:mt-7"
+          style={{ opacity: uiOpacity }}
+          className="w-full flex items-center justify-between pointer-events-auto"
         >
           <button
             type="button"
             onClick={scrollToSpotlights}
-            className="group relative inline-flex items-center justify-center px-9 sm:px-11 py-2.5 sm:py-3 rounded-full border border-[#c9894e]/70 bg-black/40 text-[#faf7f0] text-xs font-mono uppercase tracking-[0.28em] backdrop-blur-md transition-all duration-300 hover:border-[#faf7f0] hover:bg-[#c9894e]/20 hover:text-white hover:shadow-[0_0_30px_rgba(201,137,78,0.55)] hover:scale-105 active:scale-95 cursor-pointer"
+            className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#d8cfc4]/70 hover:text-white transition-colors cursor-pointer"
           >
-            <span>DISCOVER</span>
+            Explore Craft
           </button>
+          <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.28em] text-[#d8cfc4]/70">
+            FULL WEBSITE PRODUCTION
+          </span>
+          <Link
+            href="/contact"
+            className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#d8cfc4]/70 hover:text-white transition-colors cursor-pointer"
+          >
+            Why Producers / Contact
+          </Link>
         </motion.div>
       </div>
+
+      {/* Bottom Metadata Chrome & Capsule Pill Buttons */}
+      <motion.div
+        style={{ opacity: uiOpacity }}
+        className="absolute bottom-6 sm:bottom-10 inset-x-0 px-6 sm:px-12 md:px-16 flex flex-col sm:flex-row items-center justify-between gap-4 z-30 pointer-events-auto"
+      >
+        <div className="flex items-center gap-3">
+          <div className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-black/70 text-[10px] font-mono text-white/80 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+            N
+          </div>
+          <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.22em] text-[#d8cfc4]/60">
+            © 2026 BLACK STALLION · CADET VALOUR
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={scrollToSpotlights}
+            className="rounded-full border border-white/20 bg-black/40 px-4 sm:px-5 py-1.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#EDE8E1]/85 backdrop-blur-md transition-all hover:border-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            CONCEPT
+          </button>
+          <button
+            type="button"
+            onClick={scrollToSpotlights}
+            className="rounded-full border border-white/20 bg-black/40 px-4 sm:px-5 py-1.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#EDE8E1]/85 backdrop-blur-md transition-all hover:border-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            DESIGN
+          </button>
+        </div>
+
+        <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.22em] text-[#d8cfc4]/60">
+          IMMERSIVE CINEMATIC ARCHITECTURE
+        </span>
+      </motion.div>
     </section>
   );
 }
@@ -140,9 +145,9 @@ export function Spotlights() {
             <div className="relative aspect-[3/4] overflow-hidden">
               <FilmImage name={s.image} sizes="(min-width: 768px) 30vw, 100vw" />
               <div aria-hidden className="absolute inset-0 shade-b" />
-              <span className="font-mono absolute left-4 top-4 text-xs text-gold">{s.hours} HRS</span>
+
             </div>
-            <p className="label mt-5 text-brass">{s.rank}</p>
+            <p className="label mt-5 text-brass">{s.rank} · {s.hours} HRS</p>
             <p className="t-voice mt-1 text-3xl text-bone">{s.name}</p>
             <p className="mt-2 text-sand">{s.honour}</p>
             <p className="t-ui mt-1 text-sm text-dust">{s.hub}</p>
@@ -152,60 +157,66 @@ export function Spotlights() {
           </Reveal>
         ))}
       </ol>
-      <p className="t-ui mt-12 text-xs text-dust">Spotlights are sample records with invented callsigns, not real cadets; portraits are AI placeholders.</p>
+      <p className="t-ui mt-12 text-xs text-dust">Spotlights are sample records with invented callsigns, not real cadets; authentic training and equestrian discipline photography.</p>
     </section>
   );
 }
 
-/** §1b · WebGL 4D Simplex Noise Cadet Action Gallery */
+/** §1b · Fullscreen Navier-Stokes Fluid Cadet Action Gallery */
 export function CadetDrillShowcase() {
-  const slides = [
+  const cadetSlides: ViscousSlide[] = [
     {
       image: "cadetZayd",
-      badge: "Cadet Knight · Sample",
-      tag: "Tent-Pegging · 210 Hours",
+      badge: "01 · TENT-PEGGING",
+      tag: "Tent-Pegging",
       title: "Cadet Alpha (Zayd)",
       subtitle: "Target interception at full gallop with lowered lance. First rider in Zone 01 to record clean pegs across six consecutive passes.",
       caption: "BSAH Sovereign Cadet Record · Zone 01A Hub",
+      ctaText: "Explore Curriculum",
+      ctaHref: "/curriculum",
     },
     {
       image: "cadetAnanya",
-      badge: "Cadet Lancer · Sample",
-      tag: "Mounted Archery · 340 Hours",
+      badge: "02 · MOUNTED ARCHERY",
+      tag: "Mounted Archery",
       title: "Cadet Bravo (Ananya)",
       subtitle: "Recurve release at the sitting canter. National Junior STPCI qualifier with 88 points on the Hungarian target run.",
       caption: "BSAH Sovereign Cadet Record · Zone 01B Hub",
+      ctaText: "Tournament Records",
+      ctaHref: "/tournaments",
     },
     {
       image: "cadetRohan",
-      badge: "Cadet Cavalier · Sample",
-      tag: "Arena Stride · 120 Hours",
+      badge: "03 · ARENA STRIDE",
+      tag: "Arena Stride",
       title: "Cadet Echo (Rohan)",
       subtitle: "First unassisted canter without stirrups. Biomechanically tracked posture with 92% vertical spine alignment.",
       caption: "BSAH Sovereign Cadet Record · Zone 01A Hub",
+      ctaText: "Science of the Seat",
+      ctaHref: "/science",
     },
     {
       image: "currBatch",
-      badge: "Squadron Drills · Sample",
-      tag: "Line Formation · 400+ Hours Combined",
+      badge: "04 · SQUADRON DRILLS",
+      tag: "Line Maneuver",
       title: "The Sovereign Cohort",
       subtitle: "Synchronized cavalry line maneuvers at dusk. Cadets learn troop cohesion, distance control, and absolute quiet in the saddle.",
       caption: "BSAH Field Academy · Collective Formations",
+      ctaText: "Cadet Admissions",
+      ctaHref: "/parents",
     },
   ];
 
   return (
-    <section aria-labelledby="cadet-gallery-h" className="relative w-full h-[100svh] min-h-[100svh] overflow-hidden bg-night tone-dark border-y border-line/40">
-      <h2 id="cadet-gallery-h" className="sr-only">Tactical field reels — The sovereign stride, in liquid motion.</h2>
-      <WebGLNoiseTransition
-        slides={slides}
-        fullScreen
-        showTabs
-        showControls
-        showDots
-        autoplayInterval={6500}
-      />
-    </section>
+    <ViscousLiquidCanvas
+      id="cadet-gallery"
+      label="REEL 07 · CADET FIELD REELS"
+      title="Cadet Alpha (Zayd)"
+      subtitle="Target interception at full gallop with lowered lance."
+      fullScreen={true}
+      slides={cadetSlides}
+      showTabs={true}
+    />
   );
 }
 
@@ -234,7 +245,7 @@ function PassportFrame({ progress, open = false }: { progress?: MotionValue<numb
         <div>
           <Label>The passport</Label>
           <Headline className="mt-4" inscription={passport.inscription} voice={passport.voice} />
-          <p className="t-story mt-6 max-w-md text-sand">{passport.body}</p>
+          <ScrollRevealText className="t-story mt-6 max-w-md text-sand">{passport.body}</ScrollRevealText>
         </div>
         <div className="mx-auto w-full max-w-[34rem] [perspective:1800px]">
           <div className="relative ml-[50%] aspect-[3/4] w-1/2">
@@ -349,11 +360,11 @@ export function MilestoneReels() {
         <Label>Milestone reels</Label>
         <Headline id="reels-h" className="mt-4" inscription="Ten seconds" voice="that prove it." />
       </div>
-      <ol className="no-scrollbar mt-12 flex snap-x scroll-pl-[max(16px,4vw)] gap-0 overflow-x-auto bg-ember/60 py-5 pl-[max(16px,4vw)]">
+      <ol tabIndex={0} aria-label="Cadet field reels" className="no-scrollbar mt-12 flex snap-x scroll-pl-[max(16px,4vw)] gap-0 overflow-x-auto bg-ember/60 py-5 pl-[max(16px,4vw)]">
         {reels.map((rl, i) => (
           <li key={rl.title} className="relative w-[80vw] shrink-0 snap-start border-x-8 border-ember/80 sm:w-[46vw] lg:w-[30vw]">
             <div className="relative aspect-[9/12] overflow-hidden">
-              <FilmImage name={rl.image} sizes="(min-width: 1024px) 30vw, 80vw" />
+              <FilmImage name={rl.image} sizes="(min-width: 1024px) 30vw, 80vw" priority />
               <svg viewBox="0 0 100 133" className="absolute inset-0 h-full w-full" aria-hidden>
                 <motion.path
                   d="M50 30 L50 62 M50 40 L40 56 M50 40 L60 54 M50 62 L42 86 M50 62 L58 84"

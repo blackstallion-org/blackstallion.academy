@@ -1,0 +1,7 @@
+.headline { display: contents; }
+/* Split masks need room for Kalnia's descenders without changing the baseline. */
+.headline :global(.t-inscribe), .headline :global(.t-voice) { overflow-wrap: anywhere; }
+.headline :global(.t-inscribe) > div, .headline :global(.t-voice) > div {
+  padding-block: 0.08em;
+  margin-block: -0.08em;
+}

@@ -54,7 +54,7 @@ export const knowledge: Entry[] = [
     ask: "What does it cost a parent?",
     keywords: ["fee", "fees", "cost", "price", "tuition", "pay", "gst", "upi", "elite", "kit"],
     answer:
-      `Core Cadets: ${priceLabel.core} a month, two sessions a week. Sovereign Elite: ${priceLabel.elite} a month, three sessions a week plus skill-at-arms, STPCI registration and the 24/7 stall-cam. The one-time onboarding kit is ${priceLabel.kit} (tunic, helmet, boots, Sovereign Passport). UPI Autopay on the 1st.`,
+      `Core Cadets: ${priceLabel.core} a month, two sessions a week. Sovereign Elite: ${priceLabel.elite} a month, three sessions a week plus skill-at-arms, STPCI registration and, once the parent app launches, the 24/7 stall-cam. The one-time onboarding kit is ${priceLabel.kit} (tunic, helmet, boots, Sovereign Passport). Online payment, including UPI Autopay, is being set up; no payment is taken on this website yet.`,
   },
   {
     id: "tiers",
@@ -74,7 +74,7 @@ export const knowledge: Entry[] = [
     ask: "Which horses do cadets ride?",
     keywords: ["horse", "horses", "marwari", "kathiawari", "stallion", "fleet", "breed"],
     answer:
-      "The planned fleet: indigenous Marwari and Kathiawari stallions, each microchipped (ISO 11784), vet-checked daily and on a 24/7 stall camera, with each cadet assigned a stallion for the long term. Fleet numbers on the site are sample figures.",
+      "The planned fleet: indigenous Marwari and Kathiawari stallions, each microchipped (ISO 11784), vet-checked daily, with a 24/7 stall camera planned, with each cadet assigned a stallion for the long term. Fleet numbers on the site are sample figures.",
   },
   {
     id: "tournaments",

@@ -6,9 +6,13 @@ import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { CodexVault } from "@/components/sections/curriculum/CodexVault";
 import { ClockRing, CurriculumTitle, DisciplineActionGallery, DisciplinePanels, Staircase, ThreeStamps } from "@/components/sections/curriculum/CurriculumScenes";
+import { CurriculumPhaseReel } from "@/components/sections/curriculum/CurriculumPhaseReel";
 import { batches } from "@/lib/content/curriculum";
+import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
+import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/curriculum" },
   title: "The Ledger",
   description: "Four ranks, thirteen pillars, a 45-minute military session protocol and batches on your child's own campus: the BSAH curriculum.",
 };
@@ -18,8 +22,10 @@ export default function CurriculumPage() {
     <>
       <CurriculumTitle />
       <Staircase />
+      <CurriculumPhaseReel />
       <CodexVault />
       <ClockRing />
+      <HorizontalChapter typeface="condensed" chapter="The work of learning" text="Discipline grows one quiet hour at a time." tone="light" />
 
       {/* §4 · S37 timetable board */}
       <section aria-labelledby="batches-h" className="relative py-[clamp(6rem,14vh,12rem)]">
@@ -30,7 +36,7 @@ export default function CurriculumPage() {
         <div className="gutter -mt-16 relative">
           <Label>Batches</Label>
           <Headline id="batches-h" className="mt-4" inscription="Before school." voice="After school. Weekends." />
-          <div className="relative mt-10 overflow-x-auto">
+          <div tabIndex={0} role="region" aria-label="Curriculum progression table" className="relative mt-10 overflow-x-auto">
             <table className="w-full min-w-[760px] border-collapse text-left">
               <caption className="sr-only">Batch timetable (sample, confirm per hub)</caption>
               <thead>
@@ -66,7 +72,8 @@ export default function CurriculumPage() {
       <ThreeStamps />
       <DisciplineActionGallery />
       <DisciplinePanels />
-      <EndCard current={5} />
+      <ReplayHeadline typeface="heritage" id="curriculum-replay" label="The warrior trait" text="Every drill maps to a character a leader needs." tone="dark" defaultMode="lines" />
+      <EndCard current={6} />
     </>
   );
 }

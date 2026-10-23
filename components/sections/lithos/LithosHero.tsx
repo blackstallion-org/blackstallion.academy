@@ -234,7 +234,7 @@ export function LithosHero() {
   return (
     <div
       className="min-h-screen bg-white tracking-[-0.02em]"
-      style={{ fontFamily: "'Inter', sans-serif" }}
+      style={{ fontFamily: "var(--font-sans)" }}
     >
       {/* Navigation */}
       <Navigation />

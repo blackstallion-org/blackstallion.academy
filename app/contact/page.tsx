@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GateTitle, Gates } from "@/components/sections/contact/Gates";
+import { GateBondScene } from "@/components/sections/contact/GateBondScene";
 import { entity } from "@/lib/content/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "The Gate · Contact",
   description: "Enrol a cadet, partner your campus or schedule a board audit with The Black Stallion Academy of Horsemanship.",
 };
@@ -13,6 +15,7 @@ export default function ContactPage() {
     <>
       <GateTitle />
       <Gates />
+      <GateBondScene />
 
       {/* §2 · Coordinates */}
       <section aria-label="Coordinates" className="gutter relative pb-[clamp(6rem,14vh,12rem)]">

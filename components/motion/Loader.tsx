@@ -1,10 +1,9 @@
 "use client";
 
-import { motion } from "motion/react";
-import { useEffect, useState } from "react";
-import { MONOGRAM_VIEWBOX, blaze, earLeft, earRight } from "@/components/brand/paths";
-import { ease } from "@/lib/motion/tokens";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
+import { PixelHorse } from "./PixelHorse";
+import { usePathname } from "next/navigation";
+import styles from "./Loader.module.css";
 
 const SESSION_KEY = "bsah-loaded";
 
@@ -12,91 +11,73 @@ const SESSION_KEY = "bsah-loaded";
  * Runs before first paint (see app/layout.tsx). Marks <html> when the loader
  * should not show: already seen this session, or reduced motion.
  */
-export const loaderBootScript = `try{if(sessionStorage.getItem("${SESSION_KEY}")||matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.dataset.bsahLoaded="1"}}catch(e){}`;
+export const loaderBootScript = `try{if(sessionStorage.getItem("${SESSION_KEY}")||matchMedia("(prefers-reduced-motion: reduce)").matches||location.search.indexOf("noload")!==-1){document.documentElement.dataset.bsahLoaded="1"}}catch(e){}`;
 
-const fill = {
-  pathLength: { duration: 0.8, ease: ease.citadel },
-  fillOpacity: { duration: 0.35, delay: 0.55, ease: ease.citadel },
-};
-
-/**
- * The loader mark on its own: the ears draw in brass line, fill, then turn
- * inward as if listening (signature move 4). About 1.2 s.
- * Used by <Loader>.
- */
-export function LoaderMark({ className, onDone }: { className?: string; onDone?: () => void }) {
-  const part = { hidden: { pathLength: 0, fillOpacity: 0 }, visible: { pathLength: 1, fillOpacity: 1, transition: fill } };
-  // Ears start splayed outward and turn in to the resting mark, as if listening.
-  const ear = (splay: number) => ({
-    hidden: { pathLength: 0, fillOpacity: 0, rotate: splay },
-    visible: {
-      pathLength: 1,
-      fillOpacity: 1,
-      rotate: 0,
-      transition: { ...fill, rotate: { duration: 0.45, delay: 0.75, ease: ease.citadel } },
-    },
-  });
-
-  return (
-    <motion.svg
-      viewBox={MONOGRAM_VIEWBOX}
-      className={cn("h-20 w-20 text-brass", className)}
-      initial="hidden"
-      animate="visible"
-      aria-hidden
-      onAnimationComplete={() => onDone?.()}
-    >
-      <g fill="currentColor" stroke="currentColor" strokeWidth="0.6" strokeLinejoin="round">
-        <motion.path d={earLeft} variants={ear(-7)} style={{ originX: "60%", originY: "100%" }} />
-        <motion.path d={earRight} variants={ear(7)} style={{ originX: "40%", originY: "100%" }} />
-        <motion.path d={blaze} variants={part} />
-      </g>
-    </motion.svg>
-  );
-}
-
-/**
- * First-visit loader (≤ 1.5 s): the brass ears draw, the crest name fades in,
- * the obsidian lifts. Skipped for repeat visits in the session and under reduced motion.
- */
+/** One controller for first hydration and internal route handoffs. Uses only the pixel running horse. */
 export function Loader() {
-  const [state, setState] = useState<"show" | "leaving" | "gone">("show");
+  const pathname = usePathname();
+  const lastPath = useRef(pathname);
+  const [load, setLoad] = useState({ id: 0, phase: "running" as "running" | "settling" | "fading" | "gone" });
+  const fallback = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const readyFrames = useRef<number[]>([]);
+  const settle = () => setLoad((current) => current.phase === "running" ? { ...current, phase: "settling" } : current);
 
   useEffect(() => {
     if (document.documentElement.dataset.bsahLoaded) {
-      // Already hidden by CSS before paint; unmount on the next frame.
-      const id = requestAnimationFrame(() => setState("gone"));
-      return () => cancelAnimationFrame(id);
+      const frame = requestAnimationFrame(() => setLoad((current) => ({ ...current, phase: "gone" })));
+      return () => cancelAnimationFrame(frame);
     }
-    try {
-      sessionStorage.setItem(SESSION_KEY, "1");
-    } catch {}
-    const leave = window.setTimeout(() => setState("leaving"), 1150);
-    return () => window.clearTimeout(leave);
+    try { sessionStorage.setItem(SESSION_KEY, "1"); } catch {}
+    // Hydration + first DOM paint are essential; below-fold media stays lazy.
+    const frames = readyFrames.current;
+    const poster = document.querySelector<HTMLImageElement>("[data-hero-poster]");
+    const ready = () => { frames.push(requestAnimationFrame(settle)); };
+    const frame = requestAnimationFrame(() => {
+      if (!poster || poster.complete) ready();
+      else { poster.addEventListener("load", ready, { once: true }); poster.addEventListener("error", ready, { once: true }); }
+    });
+    const deadline = setTimeout(settle, 3500);
+    return () => { cancelAnimationFrame(frame); frames.forEach(cancelAnimationFrame); clearTimeout(deadline); poster?.removeEventListener("load", ready); poster?.removeEventListener("error", ready); };
   }, []);
 
-  if (state === "gone") return null;
+  useEffect(() => {
+    const start = (event: MouseEvent) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("a[href]") : null;
+      if (!anchor || anchor.target === "_blank" || anchor.hasAttribute("download")) return;
+      const destination = new URL(anchor.href, location.href);
+      if (destination.origin !== location.origin || destination.pathname === location.pathname) return;
+      if (fallback.current) clearTimeout(fallback.current);
+      document.documentElement.removeAttribute("data-bsah-loaded");
+      setLoad((current) => ({ id: current.id + 1, phase: "running" }));
+      // Failed, cancelled and interrupted navigation must never leave an overlay behind.
+      fallback.current = setTimeout(settle, 4500);
+    };
+    document.addEventListener("click", start, true);
+    return () => { document.removeEventListener("click", start, true); if (fallback.current) clearTimeout(fallback.current); };
+  }, []);
 
-  return (
-    <motion.div
-      className="bsah-loader tone-dark surface-leather fixed inset-0 z-[100] grid place-items-center"
-      initial={{ opacity: 1 }}
-      animate={{ opacity: state === "leaving" ? 0 : 1 }}
-      transition={{ duration: 0.35, ease: ease.citadel }}
-      onAnimationComplete={() => state === "leaving" && setState("gone")}
-      aria-hidden
-    >
-      <div className="flex flex-col items-center gap-6">
-        <LoaderMark className="h-16 w-16 sm:h-20 sm:w-20" />
-        <motion.p
-          className="t-inscribe text-xs tracking-[0.2em] text-brass/80"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.55, ease: ease.citadel }}
-        >
-          BLACK STALLION
-        </motion.p>
-      </div>
-    </motion.div>
-  );
+  useEffect(() => {
+    if (lastPath.current === pathname) return;
+    lastPath.current = pathname;
+    const frame = requestAnimationFrame(settle);
+    return () => cancelAnimationFrame(frame);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (load.phase !== "running" && load.phase !== "settling") return;
+    const hardDeadline = setTimeout(() => setLoad((current) => ({ ...current, phase: "fading" })), 6000);
+    return () => clearTimeout(hardDeadline);
+  }, [load.id, load.phase]);
+
+  useEffect(() => {
+    if (load.phase !== "fading") return;
+    const timer = setTimeout(() => setLoad((current) => ({ ...current, phase: "gone" })), 260);
+    return () => clearTimeout(timer);
+  }, [load.phase]);
+
+  if (load.phase === "gone") return null;
+  return <div key={load.id} className={`bsah-loader ${styles.overlay}`} data-loading-phase={load.phase} aria-hidden>
+    <PixelHorse settling={load.phase === "settling"} onSettled={() => setLoad((current) => current.phase === "settling" ? { ...current, phase: "fading" } : current)} />
+  </div>;
 }

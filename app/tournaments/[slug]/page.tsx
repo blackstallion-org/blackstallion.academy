@@ -1,3 +1,4 @@
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -12,7 +13,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/tournaments/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const t = tournamentBySlug(slug);
-  return t ? { title: t.name, description: `${t.name} · ${t.dateLabel} · ${t.venue}. ${t.format}.` } : {};
+  return t ? { alternates: { canonical: `/tournaments/${slug}` }, title: t.name, description: `${t.name} · ${t.dateLabel} · ${t.venue}. ${t.format}.` } : {};
 }
 
 export default async function TournamentPage({ params }: PageProps<"/tournaments/[slug]">) {
@@ -24,7 +25,8 @@ export default async function TournamentPage({ params }: PageProps<"/tournaments
 
   return (
     <>
-      <section aria-labelledby="t-h" className="relative min-h-[88svh] overflow-hidden">
+      <section aria-labelledby="t-h" className="editorial-scene">
+<div className="tone-dark editorial-visual relative min-h-[88svh] overflow-hidden">
         <FilmImage name={t.image} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
@@ -36,11 +38,13 @@ export default async function TournamentPage({ params }: PageProps<"/tournaments
             <span className="t-inscribe block text-[0.5em] text-bone">{words.slice(0, cut).join(" ")}</span>
             <span className="t-voice block text-gold">{words.slice(cut).join(" ")}</span>
           </h1>
-          <p className="t-story mt-4 text-sand">
-            {t.format} · {t.venue}
-          </p>
+          
         </div>
-      </section>
+      </div>
+<div className="tone-light editorial-details gutter"><ScrollRevealText className="t-story mt-4 text-sand">
+            {t.format} · {t.venue}
+          </ScrollRevealText></div>
+</section>
 
       <section aria-label="Details" className="gutter py-16">
         <dl className="grid grid-cols-2 gap-px bg-line md:grid-cols-4">

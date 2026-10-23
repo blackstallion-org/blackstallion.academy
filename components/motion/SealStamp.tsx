@@ -63,7 +63,7 @@ export function SealStamp({
           visible: {
             opacity: [0, 0.7, 0.45],
             scaleX: [0.4, 1.12, 1],
-            transition: { duration: 0.55, ease: ease.citadel, times: [0, 0.6, 1] },
+            transition: { duration: 0.9, ease: ease.citadel, times: [0, 0.6, 1] },
           },
         }}
       />
@@ -76,7 +76,7 @@ export function SealStamp({
           visible: {
             opacity: [0, 0.8, 0],
             scale: [0.9, 1, 1.35],
-            transition: { duration: 0.9, ease: ease.citadel, delay: 0.3 },
+            transition: { duration: 1.3, ease: ease.citadel, delay: 0.4 },
           },
         }}
       />

@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -11,19 +12,15 @@ import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { r3 } from "@/lib/round";
 import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
-import { SpotlightRevealHero } from "@/components/film/SpotlightRevealHero";
-/** Title card · Lithos tree spotlight reveal hero with clean simple title. */
+
+const BondHero = dynamic(() => import("./BondHero"), { ssr: false, loading: () => <div className="h-[85svh] bg-[#f2ece1]" /> });
+
+/** Title card · A quiet close-up leaves the curriculum introduction unobstructed. */
 export function CurriculumTitle() {
   return (
-    <div className="relative">
+    <div>
       <h1 id="curr-h" className="sr-only">An athletic curriculum that builds character.</h1>
-      <SpotlightRevealHero
-        baseImage="/images/lithos/tree-base.webp"
-        revealImage="/images/lithos/tree-reveal.webp"
-        titleItalic="An athletic curriculum"
-        titleRegular="that builds character."
-        spotlightRadius={260}
-      />
+      <BondHero />
     </div>
   );
 }
@@ -71,7 +68,7 @@ export function Staircase() {
         <div>
           <p className="font-mono text-xs text-dust">RANK {rk.numeral} OF IV</p>
           <p className="t-voice mt-1 text-3xl text-gold">{rk.name}</p>
-          <div className="mt-4 flex gap-1.5" aria-label={`Progress: rank ${sel + 1} of 4`}>
+          <div role="img" className="mt-4 flex gap-1.5" aria-label={`Progress: rank ${sel + 1} of 4`}>
             {ranks.map((_, i) => (
               <span key={i} className={cn("h-1.5 w-10", i <= sel ? "bg-gold" : "bg-line")} />
             ))}
@@ -273,15 +270,14 @@ export function DisciplinePanels() {
       </div>
       <ul className="mt-12 grid gap-1 sm:grid-cols-2 lg:grid-cols-4">
         {disciplines.map((d, i) => (
-          <li key={d.name} tabIndex={0} className="group relative h-[70svh] overflow-hidden focus-visible:outline-offset-[-6px]">
-            <FilmImage name={d.image} sizes="(min-width: 1024px) 25vw, 50vw" />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-6">
-              <p className="font-mono text-xs text-gold">0{i + 1}</p>
-              <p className="t-voice mt-2 text-3xl text-bone">{d.name}</p>
-              <p className="mt-3 max-w-xs text-sand">
-                {d.line}
-              </p>
+          <li key={d.name} className="editorial-card">
+            <div className="editorial-card-image">
+              <FilmImage name={d.image} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+            </div>
+            <div className="editorial-card-copy">
+              <span className="editorial-card-number">0{i + 1}</span>
+              <h3>{d.name}</h3>
+              <p>{d.line}</p>
             </div>
           </li>
         ))}

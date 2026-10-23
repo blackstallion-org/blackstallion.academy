@@ -1,4 +1,5 @@
-import { Headline } from "@/components/film/Headline";
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label } from "@/components/film/Marks";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { instrument } from "@/lib/content/home";
@@ -12,7 +13,7 @@ export function Instrument() {
           <Label reel={2}>The Instrument</Label>
           <Headline id="instrument-h" className="mt-4" inscription={instrument.inscription} voice={instrument.voice} />
         </div>
-        <p className="max-w-sm text-sand">{instrument.body}</p>
+        <ScrollRevealText data-home-detail className="max-w-sm text-sand">{instrument.body}</ScrollRevealText>
       </div>
       <SpecimenPlate only={instrument.points} />
       <div className="mt-12">

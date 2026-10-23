@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import Link from "next/link";
 import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
@@ -15,11 +17,12 @@ import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicS
 /** Title card · T13 charge. Signature: speed streaks rake across the frame as the title lands. */
 export function CircuitTitle() {
   return (
-    <section aria-labelledby="circuit-title" className="relative min-h-[100svh] overflow-hidden">
+    <section aria-labelledby="circuit-title" className="editorial-scene">
+<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden">
       <motion.div className="absolute inset-0" initial={{ x: "4%" }} animate={{ x: "0%" }} transition={{ duration: 2.4, ease: ease.citadel }}>
         <FilmImage name="bgCharge" priority bleed />
       </motion.div>
-      <div aria-hidden className="absolute inset-0 overflow-hidden">
+      <div aria-hidden className="widget-hud absolute inset-0 overflow-hidden">
         {Array.from({ length: 9 }, (_, i) => (
           <motion.span
             key={i}
@@ -33,11 +36,14 @@ export function CircuitTitle() {
       </div>
       <div aria-hidden className="absolute inset-0 shade-b" />
       <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
-        <ReelMark n={12} act="ledger" />
+        
         <Headline id="circuit-title" as="h1" size="poster" animate="mount" delay={0.4} className="mt-6" inscription="Lances down." voice="Zones on the circuit." />
-        <p className="t-story mt-6 max-w-2xl text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</p>
+        
       </div>
-    </section>
+    </div>
+<div className="tone-light editorial-details gutter"><ReelMark n={12} act="ledger" />
+<ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText></div>
+</section>
   );
 }
 
@@ -50,7 +56,7 @@ export function StandingsLanes() {
     <section aria-labelledby="standings-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>Season 2026–27 · sample</Label>
       <Headline id="standings-h" className="mt-4" inscription="STPCI" voice="standings." />
-      <div ref={ref} className="relative mt-12 overflow-x-auto">
+      <div ref={ref} tabIndex={0} role="region" aria-label="Tournament standings table" className="relative mt-12 overflow-x-auto">
         <table className="w-full min-w-[720px] border-collapse text-left">
           <caption className="sr-only">STPCI league standings (sample, from the client brief)</caption>
           <thead>
@@ -97,7 +103,7 @@ function Flip({ text, delay = 0 }: { text: string; delay?: number }) {
     if (!inView || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let frame = 0;
     const total = 14;
-    const id = window.setTimeout(function tick() {
+    let id = window.setTimeout(function tick() {
       frame++;
       setShown(
         text
@@ -105,7 +111,7 @@ function Flip({ text, delay = 0 }: { text: string; delay?: number }) {
           .map((ch, i) => (ch === " " || frame > total - (text.length - i) * 0.2 ? ch : ALPHA[Math.floor(Math.random() * ALPHA.length)]))
           .join(""),
       );
-      if (frame < total + 4) window.setTimeout(tick, 45);
+      if (frame < total + 4) id = window.setTimeout(tick, 45);
       else setShown(text);
     }, delay);
     return () => window.clearTimeout(id);
@@ -163,9 +169,9 @@ export function CourseDiagram() {
         <div>
           <Label>The discipline</Label>
           <Headline id="course-h" className="mt-4" inscription="The art of" voice="the peg." />
-          <p className="t-story mt-6 text-sand">
+          <ScrollRevealText className="t-story mt-6 text-sand">
             Tent pegging is an old cavalry skill. Riders galloped at an enemy camp and lifted its wooden tent pegs on the point of a lance, bringing the tents down on the sleepers. Today it is a sport of nerve and timing.
-          </p>
+          </ScrollRevealText>
         </div>
         <div ref={ref} className="plate relative p-4 md:p-6">
           <svg viewBox="0 0 600 220" className="w-full" role="img" aria-label="Tent pegging course: 100 metre run-up, peg about 6 centimetres wide, 9-foot lance, gallop around 35 km/h">

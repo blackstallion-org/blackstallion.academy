@@ -89,7 +89,7 @@ export function StallionStage({ className, onStatus }: Props) {
     const t0 = performance.now();
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const { clientWidth: w, clientHeight: h } = canvas;
       canvas.width = Math.max(1, Math.round(w * dpr));
       canvas.height = Math.max(1, Math.round(h * dpr));

@@ -1,117 +1,41 @@
 "use client";
 
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+
 import Link from "next/link";
 import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
+import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Cta, Label, ReelMark } from "@/components/film/Marks";
+import { schoolsTeaser } from "@/lib/content/home";
 import { benchmark, formatINR, hubs, model, network, simulate, tierById, tiers, TUITION_PER_MONTH, type TierId } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { BlueprintPlan } from "./BlueprintPlan";
 import { r3 } from "@/lib/round";
-import { WebGLNoiseTransition } from "@/components/film/WebGLNoiseTransition";
+import { ViscousLiquidCanvas, type ViscousSlide } from "@/components/sections/shared/ViscousLiquidCanvas";
+import { India3DMap } from "./India3DMap";
+import { Hyderabad3DMap } from "./Hyderabad3DMap";
 
-/** Title card · T11 Pan-India Sovereign Hub Network Orbital Satellite Flyover Hero */
+/** Title card · T11 Pan-India Sovereign Hub Network 3D India Map Hero */
 export function SchoolsTitle() {
   const ref = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-
-  const toggleSound = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = !video.muted;
-    setIsMuted(video.muted);
-  };
-
   return (
-    <section
-      ref={ref}
-      aria-labelledby="schools-title"
-      className="tone-dark relative min-h-[100svh] h-[100svh] w-full overflow-hidden bg-black select-none isolate flex flex-col justify-between"
-    >
-      {/* Background Pan-India Satellite Flyover Video */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted={isMuted}
-        playsInline
-        preload="auto"
-        poster="/video/bsah-pan-india-poster.jpg"
-        aria-label="BSAH Sovereign Pan-India Hub Network orbital satellite flyover"
-        className="absolute inset-0 h-full w-full object-cover object-center z-10 brightness-[0.88] contrast-[1.08]"
-      >
-        <source src="/video/bsah-pan-india-hub.mp4" type="video/mp4" />
-        <source
-          src="/video/bsah_sovereign_pan_india_hub_network_20s (1).mp4"
-          type="video/mp4"
-        />
-      </video>
-
-      {/* Cinematic Shadow Overlays for text legibility */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-15 bg-gradient-to-t from-black via-black/40 to-black/60"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-15 [background:radial-gradient(circle_at_70%_40%,transparent_30%,rgba(0,0,0,0.65)_100%)]"
-      />
-
-      {/* Top HUD Telemetry Bar */}
-      <div className="relative z-25 w-full pt-20 sm:pt-24 px-6 sm:px-12 flex items-center justify-between pointer-events-auto">
-        <div className="flex items-center gap-3">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gold" />
-          </span>
-          <span className="font-mono text-[0.65rem] sm:text-xs uppercase tracking-[0.25em] text-gold/90">
-            ORBITAL TELEMETRY · PAN-INDIA SOVEREIGN NETWORK
-          </span>
-        </div>
-
-        {/* Ambient Sound Toggle */}
-        <button
-          type="button"
-          onClick={toggleSound}
-          className="flex items-center gap-2 rounded-full border border-gold/40 bg-black/60 px-3.5 py-1.5 text-[0.65rem] font-mono uppercase tracking-[0.2em] text-[#faf7f0] backdrop-blur-md transition-all hover:border-gold hover:bg-gold/20 cursor-pointer"
-          aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-        >
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-gold" />
-          <span>SOUND {isMuted ? "OFF" : "ON"}</span>
-        </button>
+    <section ref={ref} aria-labelledby="schools-title" className="editorial-scene">
+      <div className="tone-dark relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-black isolate">
+        <India3DMap className="absolute inset-0 h-full w-full z-10" />
       </div>
-
-      {/* Bottom Editorial Content & High-Impact CTAs */}
-      <div className="gutter relative z-25 flex flex-col justify-end pb-[10vh] max-w-4xl">
+      <div className="tone-light editorial-details gutter">
         <ReelMark n={10} act="ledger" />
-        <Headline
-          id="schools-title"
-          as="h1"
-          size="1"
-          animate="mount"
-          className="mt-6 text-[#faf7f0]"
-          inscription="Your campus"
-          voice="becomes a citadel."
-        />
-        <p className="t-story mt-6 max-w-2xl text-[#faf7f0]/85 drop-shadow-md">
-          A turnkey equestrian hub, funded, built and run by BSAH at zero capital expenditure to the school board, returning 25–30% of tuition to your institution.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
-          <Cta href="/schools/mou" variant="solid">
-            Request a draft MOU
-          </Cta>
+        <Headline id="schools-title" as="h1" size="1" animate="mount" inscription="Your campus" voice="becomes a citadel." />
+        <ScrollRevealText className="t-story text-sand">A turnkey equestrian hub, funded, built and run by BSAH at zero capital expenditure to the school board, returning 25–30% of tuition to your institution.</ScrollRevealText>
+        <div className="flex flex-wrap items-center gap-4">
+          <Cta href="/schools/mou" variant="solid">Request a draft MOU</Cta>
           <Cta href="#simulator">Run the numbers</Cta>
-          <a
-            href="#network"
-            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-gold hover:text-white transition-colors"
-          >
-            <span>28 Hubs Mapped</span>
-            <Arrow />
-          </a>
+          <a href="#network" className="label inline-flex items-center gap-2 text-gold"><span>28 Hubs Mapped</span><Arrow /></a>
         </div>
+        <p className="label text-brass">Orbital telemetry · Pan-India sovereign network · 6 sovereign circuits · 3D relief</p>
       </div>
     </section>
   );
@@ -153,38 +77,48 @@ export function ConfiguratorAndSimulator() {
 
   return (
     <>
-      <section aria-labelledby="tiers-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
-        <div className="gutter">
-          <Label>Three tiers</Label>
-          <Headline id="tiers-h" className="mt-4" inscription="Choose" voice="your arena." />
-          <div className="mt-12 grid gap-px bg-line md:grid-cols-3" role="radiogroup" aria-label="Hub tier">
-            {tiers.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                role="radio"
-                aria-checked={tierId === t.id}
-                onClick={() => setTierId(t.id)}
-                className={cn("bg-night p-6 text-left transition-colors md:p-8", tierId === t.id ? "bg-ember/80" : "hover:bg-umber")}
-              >
-                <span className={cn("font-mono text-sm", tierId === t.id ? "text-gold" : "text-dust")}>BSAH funds · {t.capexLabel}</span>
-                <span className={cn("t-voice mt-2 block text-3xl", tierId === t.id ? "text-gold" : "text-bone")}>{t.name}</span>
-                <span className="t-ui mt-2 block text-sm text-sand">
-                  {t.acres} · {t.cadets} cadets
-                </span>
-                <ul className="mt-5 flex flex-wrap gap-2">
-                  {t.includes.map((x) => (
-                    <li key={x} className="label border border-line px-2 py-1 text-[0.6rem] text-sand">
-                      {x}
-                    </li>
-                  ))}
-                </ul>
-              </button>
-            ))}
+      <section aria-labelledby="tiers-h" className="relative overflow-hidden py-[clamp(6rem,14vh,12rem)]">
+        <div className="relative h-[55svh] min-h-[300px] mb-12"><FilmImage name="bgPavilion" grade="deep" className="opacity-100" /></div>
+
+        <div className="gutter relative grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:items-center">
+          <div>
+            <Label reel={10}>For school boards</Label>
+            <Headline id="tiers-h" className="mt-4" inscription={schoolsTeaser.inscription} voice={schoolsTeaser.voice} />
+            <p className="mt-6 max-w-md text-sand">{schoolsTeaser.body}</p>
+
+            <div className="mt-10 flex flex-col border-t border-line" role="radiogroup" aria-label="Hub tier">
+              {tiers.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={tierId === t.id}
+                  onClick={() => setTierId(t.id)}
+                  className="group grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-line py-4 text-left transition-colors cursor-pointer"
+                >
+                  <span>
+                    <span className={cn("t-voice block text-2xl transition-colors", tierId === t.id ? "text-gold" : "text-sand group-hover:text-bone")}>{t.name}</span>
+                    <span className="t-ui mt-1 block text-sm text-dust">
+                      {t.stables} stables · {t.acres} · {t.cadets} cadets
+                    </span>
+                  </span>
+                  <span className={cn("font-mono text-sm", tierId === t.id ? "text-gold" : "text-dust")}>{t.capexLabel}</span>
+                </button>
+              ))}
+            </div>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Cta href="/schools/mou" variant="solid">
+                Request a draft MOU
+              </Cta>
+              <Cta href="#simulator">
+                Run the numbers
+              </Cta>
+            </div>
           </div>
-          <div className="plate relative mt-8 aspect-[800/460] w-full p-2 md:p-4">
+
+          <div className="plate relative aspect-[800/460] w-full p-2">
             <BlueprintPlan tier={tier} />
-            <p className="font-mono absolute bottom-3 right-4 text-[0.6rem] text-dust">DRAWING {tier.id.toUpperCase()} · INDICATIVE · NOT TO SCALE</p>
+            <p className="font-mono absolute bottom-3 right-4 text-[0.6rem] text-dust">DRAWING {tier.id.toUpperCase()} · NOT TO SCALE</p>
           </div>
         </div>
       </section>
@@ -266,113 +200,143 @@ export function ConfiguratorAndSimulator() {
   );
 }
 
-/** §3b · WebGL 4D Simplex Noise School Arena Architectural Showcase */
+/** §3b · Fullscreen Navier-Stokes Fluid School Arena Architectural Showcase */
 export function SchoolArenaShowcase() {
-  const slides = [
+  const arenaSlides: ViscousSlide[] = [
     {
       image: "schoolAerial",
-      badge: "Zero CapEx Campus",
+      badge: "01 · CAMPUS PLAN",
       tag: "Master Plan",
       title: "Campus Master Plan",
       subtitle: "Turnkey 3-acre layout financed, built, and operated at zero capital expenditure.",
       caption: "Turnkey 1.5–3.0 Acre Arena & Pavilion",
+      ctaText: "Campus Specifications",
+      ctaHref: "/schools/mou",
     },
     {
       image: "schoolArenaNight",
-      badge: "Regulation Arena",
-      tag: "All-Weather Silica",
+      badge: "02 · REGULATION ARENA",
+      tag: "Silica Arena",
       title: "Regulation Silica Arena",
       subtitle: "Laser-graded geotextile sand engineered for evening floodlit sessions.",
       caption: "60m × 20m Standard Dressage Ring",
+      ctaText: "Arena Specifications",
+      ctaHref: "/schools/access",
     },
     {
       image: "tournCrowd",
-      badge: "Circuit Host",
-      tag: "National Circuit",
+      badge: "03 · CIRCUIT HOST",
+      tag: "National Hub",
       title: "National Circuit Hub",
       subtitle: "Official host venue for regional equestrian championships.",
       caption: "Spectator Railings & Scoring Pavilion",
+      ctaText: "Circuit Calendar",
+      ctaHref: "/tournaments",
     },
     {
       image: "bgStable",
-      badge: "Biometric Care",
-      tag: "Equine Quarters",
+      badge: "04 · EQUINE QUARTERS",
+      tag: "Biometric Stalls",
       title: "Biometric Equine Stalls",
       subtitle: "Handcrafted timber stabling with automated watering and 24/7 care.",
       caption: "Stabling for 16 Marwari Stallions",
+      ctaText: "Studbook Registry",
+      ctaHref: "/fleet",
     },
   ];
 
   return (
-    <section aria-labelledby="arena-showcase-h" className="relative w-full h-[100svh] min-h-[100svh] overflow-hidden bg-night tone-dark border-y border-line/40">
-      <h2 id="arena-showcase-h" className="sr-only">Architectural visualizer — The campus arena, in liquid detail.</h2>
-      <WebGLNoiseTransition
-        slides={slides}
-        fullScreen
-        showTabs
-        showControls
-        showDots
-        showEffectToggle
-        initialEffect="slice"
-        autoplayInterval={7000}
-      />
-    </section>
+    <ViscousLiquidCanvas
+      id="arena-showcase"
+      label="REEL 09 · CAMPUS ARCHITECTURAL REEL"
+      title="Campus Master Plan"
+      subtitle="Turnkey 3-acre layout financed, built, and operated at zero capital expenditure."
+      fullScreen={true}
+      slides={arenaSlides}
+      showTabs={true}
+    />
   );
 }
 
-/** §4 · S55 map pins. An abstract sketch of Hyderabad: the Musi, the ring road, three hubs. */
+/** §4 · S55 3D Hyderabad Architectural Diorama Map. The 3 flagship hubs: 01A Narsingi, 01B Begumpet, 01C Gachibowli. */
 export function HubMap() {
+  const [activeHubId, setActiveHubId] = useState<"01A" | "01B" | "01C">("01A");
   const [hover, setHover] = useState<string | null>(null);
+
+  const slugToIdMap: Record<string, "01A" | "01B" | "01C"> = {
+    "zone-01a-financial-district": "01A",
+    "zone-01c-gachibowli": "01C",
+    "zone-01b-begumpet": "01B",
+  };
+
+  const idToSlugMap: Record<"01A" | "01B" | "01C", string> = {
+    "01A": "zone-01a-financial-district",
+    "01C": "zone-01c-gachibowli",
+    "01B": "zone-01b-begumpet",
+  };
+
+  const handleSelectFrom3D = (hubId: "01A" | "01B" | "01C") => {
+    setActiveHubId(hubId);
+    setHover(idToSlugMap[hubId]);
+  };
+
   return (
     <section id="hubs" aria-labelledby="hubs-h" className="relative scroll-mt-20 py-[clamp(6rem,14vh,12rem)]">
-      <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center">
-        <div className="plate relative aspect-square w-full overflow-hidden sm:aspect-[4/3]">
-          <svg viewBox="0 0 100 75" className="absolute inset-0 h-full w-full" aria-hidden>
-            <circle cx="50" cy="40" r="30" fill="none" stroke="color-mix(in srgb, var(--color-brass) 25%, transparent)" strokeWidth="0.4" strokeDasharray="1 1.2" />
-            <path d="M8 46 C 25 42, 35 50, 50 46 S 75 38, 94 44" fill="none" stroke="color-mix(in srgb, var(--color-dust) 35%, transparent)" strokeWidth="0.8" />
-            <text x="80" y="41" className="font-mono" fontSize="1.8" fill="color-mix(in srgb, var(--color-dust) 60%, transparent)">MUSI</text>
-            <text x="62" y="12" className="font-mono" fontSize="1.8" fill="var(--color-dust)">OUTER RING ROAD</text>
-            <text x="4" y="72" className="font-mono" fontSize="1.8" fill="var(--color-dust)">HYDERABAD · SKETCH, NOT TO SCALE</text>
-          </svg>
-          {hubs.map((h) => (
-            <Link
-              key={h.slug}
-              href={`/schools/${h.slug}`}
-              onMouseEnter={() => setHover(h.slug)}
-              onMouseLeave={() => setHover(null)}
-              onFocus={() => setHover(h.slug)}
-              onBlur={() => setHover(null)}
-              className="group absolute -translate-x-1/2 -translate-y-full"
-              style={{ left: `${h.pin.x}%`, top: `${h.pin.y}%` }}
-              aria-label={`${h.name}, ${tierById(h.tier).name}`}
-            >
-              <svg viewBox="0 0 20 28" className={cn("h-8 w-6 transition-transform", hover === h.slug && "-translate-y-1")} aria-hidden>
-                <path d="M10 27 C10 27 2 16 2 10 a8 8 0 0 1 16 0 C18 16 10 27 10 27 Z" fill="var(--color-gold)" />
-                <circle cx="10" cy="10" r="3" fill="var(--color-night)" />
-              </svg>
-              <span className={cn("label absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap bg-night/80 px-2 py-1 text-[0.6rem] transition-colors", hover === h.slug ? "text-gold" : "text-sand")}>{h.short}</span>
-            </Link>
-          ))}
+      <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:items-center">
+        {/* 3D Hyderabad Architectural Diorama Map Viewport */}
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line/60 shadow-xl min-h-[500px] lg:min-h-[620px]">
+          <Hyderabad3DMap
+            activeHubId={activeHubId}
+            onSelectHub={handleSelectFrom3D}
+            className="w-full h-full"
+          />
         </div>
+
+        {/* Right Editorial Hub List & Navigation */}
         <div>
           <Label>Hubs</Label>
           <Headline id="hubs-h" className="mt-4" inscription="Zone 01," voice="live in Hyderabad." />
           <ul className="mt-10 border-t border-line">
-            {hubs.map((h) => (
-              <li key={h.slug}>
-                <Link href={`/schools/${h.slug}`} onMouseEnter={() => setHover(h.slug)} onMouseLeave={() => setHover(null)} className="group grid grid-cols-[1fr_auto] items-center gap-4 border-b border-line py-5">
-                  <span>
-                    <span className={cn("t-voice block text-xl transition-colors md:text-2xl", hover === h.slug ? "text-gold" : "text-bone")}>{h.name}</span>
-                    <span className="t-ui mt-1 block text-sm text-dust">
-                      {tierById(h.tier).name} · {h.stallions} stallions
+            {hubs.map((h) => {
+              const hubCode = slugToIdMap[h.slug];
+              const isActive = activeHubId === hubCode || hover === h.slug;
+              return (
+                <li key={h.slug}>
+                  <Link
+                    href={`/schools/${h.slug}`}
+                    onMouseEnter={() => {
+                      setHover(h.slug);
+                      if (hubCode) setActiveHubId(hubCode);
+                    }}
+                    onMouseLeave={() => setHover(null)}
+                    onClick={() => {
+                      if (hubCode) setActiveHubId(hubCode);
+                    }}
+                    className={cn(
+                      "group grid grid-cols-[1fr_auto] items-center gap-4 border-b border-line py-5 px-3 -mx-3 rounded-xl transition-all duration-300",
+                      isActive ? "bg-umber/40 border-gold/40" : "hover:bg-umber/20"
+                    )}
+                  >
+                    <span>
+                      <span className="font-mono text-xs uppercase tracking-wider text-copper">
+                        {hubCode || "HUB"}
+                      </span>
+                      <span className={cn("t-voice block text-xl transition-colors md:text-2xl mt-0.5", isActive ? "text-gold" : "text-bone")}>
+                        {h.name}
+                      </span>
+                      <span className="t-ui mt-1 block text-sm text-dust">
+                        {tierById(h.tier).name} · {h.stallions} stallions
+                      </span>
                     </span>
-                  </span>
-                  <Arrow className="text-gold transition-transform group-hover:translate-x-1" />
-                </Link>
-              </li>
-            ))}
+                    <Arrow className={cn("text-gold transition-transform", isActive ? "translate-x-1" : "group-hover:translate-x-1")} />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-          <p className="t-ui mt-6 text-sm text-dust">Zones 02–06 — NCR, Mumbai–Pune, Bengaluru, the northern boarding corridor and the east — open for campus surveys (sample status).</p>
+          <p className="t-ui mt-6 text-sm text-dust">
+            Zones 02–06 — NCR, Mumbai–Pune, Bengaluru, the northern boarding corridor and the east — open for campus surveys (sample planning figures, not operational campuses).
+          </p>
         </div>
       </div>
     </section>
@@ -383,13 +347,13 @@ export function HubMap() {
 /** §4b · S57 the Pan-India network. Six sovereign circuits; target corridors, not signed partners. */
 export function PanIndiaNetwork() {
   return (
-    <section aria-labelledby="network-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
+    <section id="network" aria-labelledby="network-h" className="relative scroll-mt-20 bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter">
         <Label>The Sovereign Pan-India Regional Hub Network</Label>
         <Headline id="network-h" className="mt-4" inscription="Six circuits," voice="one national standard." />
         <div className="mt-8 max-w-3xl">
-          <p className="t-story text-sand">{benchmark.lines[0]}</p>
-          <p className="t-story mt-4 text-sand">{benchmark.lines[1]}</p>
+          <ScrollRevealText className="t-story text-sand">{benchmark.lines[0]}</ScrollRevealText>
+          <ScrollRevealText className="t-story mt-4 text-sand">{benchmark.lines[1]}</ScrollRevealText>
         </div>
         <div className="mt-14 grid gap-px bg-line md:grid-cols-2 xl:grid-cols-3">
           {network.map((z) => (

@@ -1,13 +1,16 @@
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import type { Metadata } from "next";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { LoaderMark } from "@/components/motion/Loader";
+import { Monogram } from "@/components/brand/Monogram";
 import { Monolith } from "@/components/sections/why/WhyScenes";
+import { MandateKineticStage } from "@/components/sections/about/MandateKineticStage";
 import { house, letter, truths } from "@/lib/content/academy";
 import { entity } from "@/lib/content/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/about" },
   title: "The Mandate",
   description: "Dominus Sui, Dominus Equi. The Chairman's letter, the six truths behind the academy, and the house it belongs to.",
 };
@@ -17,10 +20,10 @@ export default function AboutPage() {
     <>
       {/* T17 · Monogram drawn in brass */}
       <section aria-labelledby="about-h" className="gutter relative flex min-h-[100svh] flex-col items-center justify-center pt-24 text-center">
-        <LoaderMark className="h-28 w-28 md:h-36 md:w-36" />
+        <Monogram className="h-28 w-28 text-brass md:h-36 md:w-36" />
         <p className="label mt-10 text-brass">Credits · Behind the camera</p>
         <Headline id="about-h" as="h1" size="1" animate="mount" delay={0.8} className="mx-auto mt-4" inscription="Dominus Sui," voice="dominus equi." />
-        <p className="t-story mt-6 text-sand">{entity.mottoEn}.</p>
+        <ScrollRevealText className="t-story mt-6 text-sand">{entity.mottoEn}.</ScrollRevealText>
       </section>
 
       {/* §1 · S61 letter */}
@@ -44,6 +47,9 @@ export default function AboutPage() {
 
       {/* §2 · S32 six truths (second use) */}
       <Monolith label="Six truths we stand behind" lines={truths} />
+
+      {/* §2b · Masked line reveal & sequenced kinetic telemetry stage */}
+      <MandateKineticStage />
 
       {/* §3 · S62 org tree */}
       <section aria-labelledby="house-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
