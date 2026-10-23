@@ -12,6 +12,7 @@ import { Footer } from "@/components/site/Footer";
 import { SiteNav } from "@/components/site/SiteNav";
 import { Soundscape } from "@/components/site/Soundscape";
 import { fontVariables } from "@/lib/fonts";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://blackstallion.academy"),
@@ -60,6 +61,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </SmoothScroll>
         </MotionProvider>
+        {/* Cookieless Vercel Web Analytics, off unless NEXT_PUBLIC_VERCEL_ANALYTICS=1 (and Analytics is enabled for the
+            project in Vercel). Same-origin script and endpoint, so the CSP needs no change. Owner/legal decision. */}
+        {process.env.NEXT_PUBLIC_VERCEL_ANALYTICS === "1" && <Script src="/_vercel/insights/script.js" strategy="afterInteractive" />}
       </body>
     </html>
   );

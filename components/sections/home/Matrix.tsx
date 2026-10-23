@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
 import { SomaticMap } from "./SomaticMap";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 
 export type AnatomicalPart = "brain" | "spine" | "muscle" | "heart";
 
@@ -388,13 +389,23 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
     [selectedPart, reduceMotion]
   );
 
-  // Trigger layer and callout animation whenever selection or composite changes
+  // Trigger layer and callout animation whenever selection or composite changes. The opening reveal waits until the
+  // stage approaches the viewport (it used to play, unseen, during hydration); later changes run immediately.
+  const armedRef = useRef(false);
   useEffect(() => {
-    const context = gsap.context(() => {
-      updateCalloutStyles(selectedPart);
-      animateLayers(selectedPart);
-    }, containerRef);
-    return () => context.revert();
+    const container = containerRef.current;
+    let context: gsap.Context | undefined;
+    const run = () => {
+      armedRef.current = true;
+      context = gsap.context(() => {
+        updateCalloutStyles(selectedPart);
+        animateLayers(selectedPart);
+      }, containerRef);
+    };
+    let cancel = () => {};
+    if (armedRef.current || !container) run();
+    else cancel = whenNearViewport(container, run);
+    return () => { cancel(); context?.revert(); };
   }, [selectedPart, compositeMode, updateCalloutStyles, animateLayers]);
 
   // Handle global Escape key for modals
@@ -678,6 +689,8 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 <div className="w-11 h-11 rounded-full overflow-hidden border border-[#C5B9A5] shrink-0">
                   <img
                     src="/images/matrix/child-rider-thumb.webp"
+                    loading="lazy"
+                    decoding="async"
                     alt="Equestrian child rider thumbnail"
                     className="w-full h-full object-cover scale-125"
                   />
@@ -705,6 +718,8 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
               {/* LAYER 0: Base Rider & Horse Image (Stationary, 1600x1200 Coordinate Space) */}
               <img
                 src="/images/matrix/rider-base.webp"
+                loading="lazy"
+                decoding="async"
                 alt="Realistic child equestrian rider in side-profile composition on a dapple-grey horse facing right"
                 width={1600}
                 height={1200}
@@ -1070,7 +1085,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                     onClick={() => selectPart(id)}
                     aria-label={`Select ${DATA[id].label} view`}
                     aria-pressed={selectedPart === id}
-                    className={`relative aspect-square overflow-hidden border transition-all cursor-pointer focus:outline-none ${
+                    className={`relative aspect-square overflow-hidden border transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                       selectedPart === id
                         ? "border-[#4A3525] ring-1 ring-[#4A3525] opacity-100"
                         : "border-[#C9BEA9] opacity-60 hover:opacity-90"
@@ -1078,6 +1093,8 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                   >
                     <img
                       src={`/images/matrix/${id}-thumb.webp`}
+                      loading="lazy"
+                      decoding="async"
                       alt={`${DATA[id].label} anatomical detail`}
                       className="w-full h-full object-cover"
                     />

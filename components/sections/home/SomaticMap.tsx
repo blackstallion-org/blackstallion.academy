@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 
 const pathways = [
@@ -13,11 +13,24 @@ export function SomaticMap() {
   const [active, setActive] = useState(1);
   const id = useId();
   const reduced = useReducedMotion();
+  // The travelling pulse is an SVG (SMIL) animation, which runs on the main thread every frame; it now pauses while
+  // the map is off screen and carries on from the same point when it returns.
+  const svgRef = useRef<SVGSVGElement>(null);
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) svg.unpauseAnimations();
+      else svg.pauseAnimations();
+    });
+    observer.observe(svg);
+    return () => observer.disconnect();
+  }, []);
   return (
     <div className="mt-12 border border-line bg-night p-4 sm:p-8">
       <h3 className="t-voice text-2xl text-gold">One conversation. Two bodies.</h3>
       <p className="mt-2 max-w-xl text-sm text-sand">Select a connection to explore how balanced riding cues reach the horse.</p>
-      <svg viewBox="0 0 600 290" className="mt-6 w-full" role="group" aria-label="Interactive rider and horse pathways">
+      <svg ref={svgRef} viewBox="0 0 600 290" className="mt-6 w-full" role="group" aria-label="Interactive rider and horse pathways">
         <title>{`Cadet to equine connection: ${pathways[active].name} to ${pathways[active].target}`}</title>
         <text x="45" y="30" fill="#c9a66b" fontSize="16">CADET SPINE</text>
         <text x="380" y="30" fill="#c9a66b" fontSize="16">MARWARI EQUINE</text>

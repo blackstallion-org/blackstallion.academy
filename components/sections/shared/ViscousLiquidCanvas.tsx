@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import * as THREE from "three";
+import type * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
@@ -403,13 +403,24 @@ export function ViscousLiquidCanvas({
       if (entry.isIntersecting) { setNearViewport(true); observer.disconnect(); }
     }, { rootMargin: "250px" });
     observer.observe(section);
-    return () => { observer.disconnect(); typographyRef.current?.kill(); };
+    // Fetch three.js a couple of screens ahead, so the fluid is ready by the time the plate is reached.
+    const prefetch = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { prefetch.disconnect(); void import("three").catch(() => {}); }
+    }, { rootMargin: "1600px 0px" });
+    prefetch.observe(section);
+    return () => { observer.disconnect(); prefetch.disconnect(); typographyRef.current?.kill(); };
   }, []);
 
-  // Delay GPU allocation until this plate is near the viewport.
+  // Delay GPU allocation until this plate is near the viewport. three.js itself is fetched only then, so it is no
+  // longer part of the page's start-up bundle.
   useEffect(() => {
     const container = mountRef.current;
     if (!container || !nearViewport || reduced) return;
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+    // (The set-up below keeps its original indentation so the diff stays reviewable.)
+    void import("three").then((THREE) => {
+    if (cancelled) return;
     let disposed = false;
 
     gsap.registerPlugin(ScrollTrigger);
@@ -851,7 +862,7 @@ export function ViscousLiquidCanvas({
 
     animate();
 
-    return () => {
+    cleanup = () => {
       disposed = true;
       visibilityObserver.disconnect();
       loadTextureRef.current = null;
@@ -876,6 +887,8 @@ export function ViscousLiquidCanvas({
         container.removeChild(renderer.domElement);
       }
     };
+    }).catch(() => { /* Without WebGL the still image and copy remain. */ });
+    return () => { cancelled = true; cleanup?.(); };
   }, [fullScreen, playTypographySequence, nearViewport, reduced]);
 
   // Handle slide change dynamically without rebuilding WebGL context

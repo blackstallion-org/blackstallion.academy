@@ -6,6 +6,10 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Cta, Hoof, Label } from "@/components/film/Marks";
 import { tournamentBySlug, tournaments } from "@/lib/content/records";
 
+// Unknown slugs: wait for the static result (which calls notFound()) instead of streaming the fallback shell with a
+// 200 status first. Next 16 docs: route-segment-config/ensureStatic → "Dynamic route parameters".
+export const ensureStatic = "navigation";
+
 export function generateStaticParams() {
   return tournaments.map((t) => ({ slug: t.slug }));
 }

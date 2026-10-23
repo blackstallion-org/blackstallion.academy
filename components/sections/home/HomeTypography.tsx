@@ -8,6 +8,7 @@ import { EditorialHeadline, EditorialScrollSync } from "@/components/motion/Edit
 import { LanceRule } from "@/components/film/Marks";
 import { BreathCue } from "@/components/film/BreathCue";
 import { acts, type Act } from "@/lib/content/site";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 import styles from "./HomeTypography.module.css";
 
 /** Homepage-only art direction; interactive components retain their own motion. */
@@ -25,37 +26,36 @@ export function HomeTypography({ children }: { children: ReactNode }) {
         if (!conditions?.motion) return;
         const ctx = gsap.context(() => {}, root);
         const splits: SplitText[] = [];
-        try {
-          ctx.add(() => {
-            root.querySelectorAll<HTMLElement>("[data-home-detail]:not([data-scroll-text-reveal])").forEach((node) => {
-              gsap.from(node, { y: 18, opacity: 0, duration: 0.75, ease: "power3.out",
-                scrollTrigger: { trigger: node, start: "top 94%", once: true } });
-            });
-            root.querySelectorAll<HTMLElement>("[data-home-figure]").forEach((node, index) => {
-              gsap.from(node, { yPercent: 105, duration: 1.05, delay: (index % 3) * 0.09, ease: "power4.out",
-                scrollTrigger: { trigger: node.parentElement, start: "top 92%", once: true } });
-            });
-            root.querySelectorAll<HTMLElement>("[data-home-phrase]").forEach((node) => {
-              let revealed = false;
-              splits.push(SplitText.create(node, { type: "lines,words", mask: "lines", autoSplit: true, aria: "auto",
-                onSplit(self) {
-                  if (revealed) return;
-                  return gsap.from(self.words, { yPercent: 105, opacity: 0, duration: 1, stagger: 0.05, ease: "power3.out",
-                    onComplete: () => { revealed = true; },
-                    scrollTrigger: { trigger: node, start: "top 92%", once: true } });
-                },
-              }));
-            });
-            if (conditions.desktop) root.querySelectorAll<HTMLElement>("[data-home-drift]").forEach((node) => {
-              gsap.fromTo(node, { y: 14 }, { y: -14, ease: "none",
-                scrollTrigger: { trigger: node.closest("section"), start: "top bottom", end: "bottom top", scrub: 0.5 } });
-            });
-          });
-        } catch {
-          splits.forEach((split) => split.revert());
-          ctx.revert();
-        }
-        return () => { splits.forEach((split) => split.revert()); ctx.revert(); };
+        const cancels: Array<() => void> = [];
+        // Each reveal is created as its node approaches the viewport (all of them are offscreen until then), so the
+        // home page no longer splits and measures every block during hydration.
+        const near = (node: Element, create: () => void) => cancels.push(whenNearViewport(node, () => {
+          try { ctx.add(create); } catch { /* A failed reveal leaves the text as server-rendered. */ }
+        }));
+        root.querySelectorAll<HTMLElement>("[data-home-detail]:not([data-scroll-text-reveal])").forEach((node) => near(node, () => {
+          gsap.from(node, { y: 18, opacity: 0, duration: 0.75, ease: "power3.out",
+            scrollTrigger: { trigger: node, start: "top 94%", once: true } });
+        }));
+        root.querySelectorAll<HTMLElement>("[data-home-figure]").forEach((node, index) => near(node.parentElement ?? node, () => {
+          gsap.from(node, { yPercent: 105, duration: 1.05, delay: (index % 3) * 0.09, ease: "power4.out",
+            scrollTrigger: { trigger: node.parentElement, start: "top 92%", once: true } });
+        }));
+        root.querySelectorAll<HTMLElement>("[data-home-phrase]").forEach((node) => near(node, () => {
+          let revealed = false;
+          splits.push(SplitText.create(node, { type: "lines,words", mask: "lines", autoSplit: true, aria: "auto",
+            onSplit(self) {
+              if (revealed) return;
+              return gsap.from(self.words, { yPercent: 105, opacity: 0, duration: 1, stagger: 0.05, ease: "power3.out",
+                onComplete: () => { revealed = true; },
+                scrollTrigger: { trigger: node, start: "top 92%", once: true } });
+            },
+          }));
+        }));
+        if (conditions.desktop) root.querySelectorAll<HTMLElement>("[data-home-drift]").forEach((node) => near(node, () => {
+          gsap.fromTo(node, { y: 14 }, { y: -14, ease: "none",
+            scrollTrigger: { trigger: node.closest("section"), start: "top bottom", end: "bottom top", scrub: 0.5 } });
+        }));
+        return () => { cancels.forEach((cancel) => cancel()); splits.forEach((split) => split.revert()); ctx.revert(); };
       });
     });
     return () => { disposed = true; mm.revert(); };

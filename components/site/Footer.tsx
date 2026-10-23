@@ -72,7 +72,7 @@ export function Footer() {
         loop
         playsInline
         preload="none"
-        poster="/video/footer-ambient-poster.jpg"
+        poster="/video/footer-ambient-poster.webp"
         aria-hidden="true"
         tabIndex={-1}
         disablePictureInPicture

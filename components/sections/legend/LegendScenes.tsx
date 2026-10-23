@@ -14,6 +14,7 @@ import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
 import { chapters, ears, fall, marwar, reasons, revival, title } from "@/lib/content/legend";
 import { ease } from "@/lib/motion/tokens";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ T2 · Iris */
@@ -327,16 +328,30 @@ export function Ascent() {
 
 /** Full-bleed Thar Gallop Cinema Reel · Golden hour stallion gallop */
 export function TharGallopReel() {
+  // The reel used to autoplay (and download) with the page. It now starts buffering one screen before it is reached
+  // and plays while on screen, as before; offscreen it pauses instead of decoding unseen frames.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const cancel = whenNearViewport(video, () => { video.preload = "auto"; });
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) video.play().catch(() => {});
+      else video.pause();
+    });
+    observer.observe(video);
+    return () => { cancel(); observer.disconnect(); };
+  }, []);
   return (
     <section aria-label="The Sovereign Gallop across the Thar" className="relative w-full overflow-hidden bg-[#0A0908] tone-dark border-y border-line/30">
       <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full min-h-[460px] lg:min-h-[620px] overflow-hidden">
         <video
+          ref={videoRef}
           src="https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002919_571f23fa-14a9-4d0b-bbe3-19f4311054d8.mp4"
-          autoPlay
           loop
           muted
           playsInline
-          preload="auto"
+          preload="none"
           className="h-full w-full object-cover"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-night/35 to-transparent pointer-events-none" />

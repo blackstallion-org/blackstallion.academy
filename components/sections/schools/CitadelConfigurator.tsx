@@ -796,6 +796,7 @@ export function CitadelConfigurator() {
                     onChange={(e) => setLayerVisibility({ ...layerVisibility, ground: e.target.checked })}
                     className="w-4 h-4 accent-[#6B3A24] cursor-pointer"
                     title="Toggle Ground Layer in 3D"
+                    aria-label="Show the Ground layer in the 3D view"
                   />
                 </div>
                 <h4 className="font-serif font-bold text-lg text-[#1A1512] mb-1">Realistic Miniature Campus</h4>
@@ -819,6 +820,7 @@ export function CitadelConfigurator() {
                     onChange={(e) => setLayerVisibility({ ...layerVisibility, architecture: e.target.checked })}
                     className="w-4 h-4 accent-[#6B3A24] cursor-pointer"
                     title="Toggle Architecture Layer in 3D"
+                    aria-label="Show the Architecture layer in the 3D view"
                   />
                 </div>
                 <h4 className="font-serif font-bold text-lg text-[#1A1512] mb-1">Detailed Visualization</h4>
@@ -842,6 +844,7 @@ export function CitadelConfigurator() {
                     onChange={(e) => setLayerVisibility({ ...layerVisibility, environment: e.target.checked })}
                     className="w-4 h-4 accent-[#6B3A24] cursor-pointer"
                     title="Toggle Environment Layer in 3D"
+                    aria-label="Show the Environment layer in the 3D view"
                   />
                 </div>
                 <h4 className="font-serif font-bold text-lg text-[#1A1512] mb-1">Cinematic Depth</h4>
@@ -865,6 +868,7 @@ export function CitadelConfigurator() {
                     onChange={(e) => setLayerVisibility({ ...layerVisibility, lighting: e.target.checked })}
                     className="w-4 h-4 accent-[#6B3A24] cursor-pointer"
                     title="Toggle Warm Interior & Sun Lighting"
+                    aria-label="Show the warm interior and sun lighting in the 3D view"
                   />
                 </div>
                 <h4 className="font-serif font-bold text-lg text-[#1A1512] mb-1">Luxury Rendering</h4>
@@ -917,6 +921,7 @@ export function CitadelConfigurator() {
                     onChange={(e) => setLayerVisibility({ ...layerVisibility, interface: e.target.checked })}
                     className="w-4 h-4 accent-[#6B3A24] cursor-pointer"
                     title="Toggle 3D Floating Pins"
+                    aria-label="Show the floating pins in the 3D view"
                   />
                 </div>
                 <h4 className="font-serif font-bold text-lg text-[#1A1512] mb-1">Premium Configurator</h4>

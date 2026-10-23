@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { Headline } from "@/components/film/Headline";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 import styles from "./EditorialMotion.module.css";
 
 /** Only mounted by the three approved routes. Lenis retains its existing RAF owner. */
@@ -37,11 +38,13 @@ export function EditorialHeadline({ technique = "lines", ...props }: ComponentPr
   useEffect(() => {
     const root = ref.current;
     if (!root) return;
-    gsap.registerPlugin(ScrollTrigger, SplitText);
     const mm = gsap.matchMedia();
     let cancelled = false;
-    void document.fonts.ready.then(() => {
+    // Split (a forced layout per line) only as the headline approaches the viewport; until then it is plain text.
+    // The wrapper is display: contents, so the heading itself is observed.
+    const cancelNear = whenNearViewport(root.firstElementChild ?? root, () => void document.fonts.ready.then(() => {
       if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger, SplitText);
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const splits: SplitText[] = [];
         try {
@@ -74,8 +77,8 @@ export function EditorialHeadline({ technique = "lines", ...props }: ComponentPr
         }
         return () => splits.forEach((split) => split.revert());
       });
-    });
-    return () => { cancelled = true; mm.revert(); };
+    }));
+    return () => { cancelled = true; cancelNear(); mm.revert(); };
   }, [technique, props.inscription, props.voice]);
   return <div ref={ref} className={styles.headline} data-editorial-headline={technique}>
     <Headline {...props} animate="none" />
@@ -89,13 +92,17 @@ export function EditorialReveal({ children, as: Tag = "div", className, delay = 
 }) {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    const node = ref.current;
+    if (!node) return;
     const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-    gsap.from(ref.current, { y, opacity: 0, duration: 1.55, delay: Math.min(delay, 0.45), ease: "power3.out",
-        scrollTrigger: { trigger: ref.current, start: "top 94%", once: true } });
+    const cancel = whenNearViewport(node, () => {
+      gsap.registerPlugin(ScrollTrigger);
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(node, { y, opacity: 0, duration: 1.55, delay: Math.min(delay, 0.45), ease: "power3.out",
+          scrollTrigger: { trigger: node, start: "top 94%", once: true } });
+      });
     });
-    return () => mm.revert();
+    return () => { cancel(); mm.revert(); };
   }, [delay, y]);
   // The chosen semantic tag and its DOM ref always move together.
   return <Tag ref={(node: HTMLElement | null) => { ref.current = node; }} className={className}>{children}</Tag>;
@@ -108,18 +115,22 @@ export function EditorialImage({ children, className = "", depth = true }: {
   const ref = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    const frame = ref.current;
+    if (!frame) return;
     const mm = gsap.matchMedia();
-    mm.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1024px)" }, (context) => {
-      if (!context.conditions?.motion) return;
-      gsap.from(ref.current, { clipPath: "inset(8% 0% 8% 0%)", duration: 1.45, ease: "power3.out",
-        scrollTrigger: { trigger: ref.current, start: "top 94%", once: true } });
-      if (depth && context.conditions.desktop) gsap.fromTo(imageRef.current, { scale: 1.07, yPercent: -2 }, {
-        scale: 1.02, yPercent: 1, ease: "none",
-        scrollTrigger: { trigger: ref.current, start: "top bottom", end: "bottom top", scrub: 0.8 },
+    const cancel = whenNearViewport(frame, () => {
+      gsap.registerPlugin(ScrollTrigger);
+      mm.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1024px)" }, (context) => {
+        if (!context.conditions?.motion) return;
+        gsap.from(frame, { clipPath: "inset(8% 0% 8% 0%)", duration: 1.45, ease: "power3.out",
+          scrollTrigger: { trigger: frame, start: "top 94%", once: true } });
+        if (depth && context.conditions.desktop) gsap.fromTo(imageRef.current, { scale: 1.07, yPercent: -2 }, {
+          scale: 1.02, yPercent: 1, ease: "none",
+          scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: 0.8 },
+        });
       });
     });
-    return () => mm.revert();
+    return () => { cancel(); mm.revert(); };
   }, [depth]);
   return <div ref={ref} className={`absolute inset-0 overflow-hidden ${className}`} data-editorial-image>
     <div ref={imageRef} className="absolute inset-0">{children}</div>

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Arrow, Label } from "@/components/film/Marks";
 import { mediaSrc, type MediaKey } from "@/lib/content/media";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 
 export interface ReelSlide {
   id: string;
@@ -52,6 +53,13 @@ export function CinematicStoryReel({
   const isAnimatingRef = useRef(false);
   const touchStartXRef = useRef<number | null>(null);
   const playSlideSequenceRef = useRef<(index: number) => void>(() => {});
+  // The loop only runs while the reel is on screen: it starts the first time the section is visible and pauses
+  // whenever it scrolls away (an offscreen loop kept the main thread busy on every frame since page load).
+  const visibleRef = useRef(false);
+  const startedRef = useRef(false);
+  // Only the first slide's photograph is in the server HTML; the hidden slides (2 and 3, up to ~1 MB of 2K stills)
+  // receive theirs once the reel is about a screen away, well before the loop first hands over to them.
+  const [armed, setArmed] = useState(false);
 
   const totalSlides = slides.length;
 
@@ -110,6 +118,7 @@ export function CinematicStoryReel({
       });
 
       activeTlRef.current = tl;
+      if (!visibleRef.current) tl.pause();
 
       const HOLD_TIME = 2.4;
       const ZOOM_TIME = 1.8;
@@ -120,10 +129,16 @@ export function CinematicStoryReel({
         typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (prefersReducedMotion) {
-        tl.to(currentSlide, { opacity: 0, duration: 1.0, delay: 3.5 });
-        tl.set(currentSlide, { visibility: "hidden" });
-        tl.set(nextSlide, { visibility: "visible", opacity: 0 });
-        tl.to(nextSlide, { opacity: 1, duration: 1.0 });
+        // Reduced motion: no zoom and no automatic advance (WCAG 2.2.2). The shown slide is fully visible (title and
+        // photograph included; the old cross-fade left them at opacity 0) and the visitor changes slides with the
+        // arrows or a swipe.
+        tl.kill();
+        activeTlRef.current = null;
+        gsap.set(currentSlide, { visibility: "visible", opacity: 1 });
+        gsap.set([currentTitle, currentSub], { scale: 1, opacity: 1 });
+        gsap.set(currentBg, { scale: 1.05, opacity: 1 });
+        if (progressLine) gsap.set(progressLine, { width: "0%" });
+        isAnimatingRef.current = false;
         return;
       }
 
@@ -218,6 +233,7 @@ export function CinematicStoryReel({
       isAnimatingRef.current = false;
 
       // Resume cinematic loop from chosen slide
+      startedRef.current = true;
       playSlideSequence(targetIndex);
     },
     [playSlideSequence, totalSlides]
@@ -260,35 +276,57 @@ export function CinematicStoryReel({
     const slideEls = slidesRef.current;
     if (!slideEls.length) return;
 
-    slideEls.forEach((slide, idx) => {
-      if (!slide) return;
-      const title = slide.querySelector<HTMLElement>(".slide-title");
-      const sub = slide.querySelector<HTMLElement>(".slide-subtitle");
-      const bg = slide.querySelector<HTMLElement>(".slide-bg");
+    // The slide states are applied when the reel approaches the viewport (the server HTML already shows slide 1 and
+    // hides the others); doing it during hydration cost a style recalculation per element on every page using it.
+    let prepared = false;
+    const prepare = () => {
+      if (prepared) return;
+      prepared = true;
+      slideEls.forEach((slide, idx) => {
+        if (!slide) return;
+        const title = slide.querySelector<HTMLElement>(".slide-title");
+        const sub = slide.querySelector<HTMLElement>(".slide-subtitle");
+        const bg = slide.querySelector<HTMLElement>(".slide-bg");
 
-      if (idx === 0) {
-        slide.classList.add("is-active");
-        gsap.set(slide, { visibility: "visible", opacity: 1 });
-        if (title) gsap.set(title, { scale: 1, opacity: 1 });
-        if (sub) gsap.set(sub, { scale: 1, opacity: 1 });
-        if (bg) gsap.set(bg, { scale: 1.05, opacity: 1 });
-      } else {
-        slide.classList.remove("is-active");
-        gsap.set(slide, { visibility: "hidden", opacity: 0 });
-        if (title) gsap.set(title, { scale: 1, opacity: 0 });
-        if (sub) gsap.set(sub, { scale: 1, opacity: 0 });
-        if (bg) gsap.set(bg, { scale: 1.05, opacity: 0 });
+        if (idx === 0) {
+          slide.classList.add("is-active");
+          gsap.set(slide, { visibility: "visible", opacity: 1 });
+          if (title) gsap.set(title, { scale: 1, opacity: 1 });
+          if (sub) gsap.set(sub, { scale: 1, opacity: 1 });
+          if (bg) gsap.set(bg, { scale: 1.05, opacity: 1 });
+        } else {
+          slide.classList.remove("is-active");
+          gsap.set(slide, { visibility: "hidden", opacity: 0 });
+          if (title) gsap.set(title, { scale: 1, opacity: 0 });
+          if (sub) gsap.set(sub, { scale: 1, opacity: 0 });
+          if (bg) gsap.set(bg, { scale: 1.05, opacity: 0 });
+        }
+      });
+
+      if (counterRef.current) {
+        counterRef.current.textContent = `01 / 0${totalSlides}`;
       }
-    });
+    };
 
-    if (counterRef.current) {
-      counterRef.current.textContent = `01 / 0${totalSlides}`;
-    }
-
-    // Start playback sequence on slide 0
-    playSlideSequence(0);
+    // Start the playback sequence on slide 0 once the reel is visible; pause it while it is offscreen.
+    const section = containerRef.current;
+    const cancelArm = section ? whenNearViewport(section, () => { prepare(); setArmed(true); }) : () => {};
+    const observer = section && typeof IntersectionObserver !== "undefined"
+      ? new IntersectionObserver(([entry]) => {
+          visibleRef.current = entry.isIntersecting;
+          if (!entry.isIntersecting) { activeTlRef.current?.pause(); return; }
+          prepare();
+          if (!startedRef.current) { startedRef.current = true; playSlideSequence(0); }
+          else activeTlRef.current?.resume();
+        })
+      : null;
+    if (observer && section) observer.observe(section);
+    else { prepare(); visibleRef.current = true; startedRef.current = true; playSlideSequence(0); }
 
     return () => {
+      cancelArm();
+      observer?.disconnect();
+      startedRef.current = false;
       if (activeTlRef.current) {
         activeTlRef.current.kill();
         activeTlRef.current = null;
@@ -364,8 +402,10 @@ export function CinematicStoryReel({
               {/* Drifting Background Image - Full screen clear with zero fade */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={resolvedSrc}
+                src={idx === 0 || armed ? resolvedSrc : undefined}
                 alt={slide.alt}
+                loading="lazy"
+                decoding="async"
                 className="slide-bg absolute inset-0 w-full h-full object-cover will-change-transform"
                 style={{ transform: "scale(1.0)" }}
               />
@@ -436,7 +476,8 @@ export function CinematicStoryReel({
         </div>
 
         {/* Bottom-Left Context Indicator */}
-        <div className="pointer-events-none absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-20 flex items-center gap-3">
+        {/* Hidden below 640 px, where it ran into the slide counter (the arrows and swipe still work). */}
+        <div className="pointer-events-none absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-20 hidden items-center gap-3 sm:flex">
           <span className="h-1.5 w-1.5 rounded-full bg-gold/80 animate-pulse" />
           <span className="font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.22em] uppercase text-sand/60">
             Swipe or use arrows to cycle

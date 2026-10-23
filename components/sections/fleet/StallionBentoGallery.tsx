@@ -319,7 +319,7 @@ export function StallionBentoGallery() {
           className="gallery gallery--bento gallery--switch"
           id="gallery-8"
         >
-          {STALLIONS.map((s, index) => (
+          {STALLIONS.map((s) => (
             <div
               key={s.id}
               className="gallery__item group cursor-pointer"
@@ -339,7 +339,9 @@ export function StallionBentoGallery() {
               <img
                 src={s.image}
                 alt={s.alt}
-                loading={index < 4 ? "eager" : "lazy"}
+                // The gallery sits far below the title card; the first four (~820 kB) used to load eagerly with the page.
+                loading="lazy"
+                decoding="async"
                 className="transition-transform duration-700 ease-out group-hover:scale-105"
               />
 

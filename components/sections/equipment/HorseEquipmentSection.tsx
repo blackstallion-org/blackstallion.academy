@@ -1,65 +1,18 @@
 "use client";
 
-import { Suspense, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import { motion } from "motion/react";
-import * as THREE from "three";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { ease } from "@/lib/motion/tokens";
-import { useReducedMotion } from "@/lib/motion/reduced";
-import { ModelBoundary } from "@/components/three/ModelBoundary";
-
-export const RIDING_GEAR_MODEL_URL = "/models/riding-gear-draco.glb";
+import { useNearViewport, useOnScreen } from "@/lib/motion/use-near-viewport";
 
 /* ------------------------------------------------------------------
-   1. Interactive 3D Composite Riding Gear Model Component
+   1. Interactive 3D Composite Riding Gear Model (lazy: see RidingGearStage)
    ------------------------------------------------------------------ */
-function RidingGearModel() {
-  const { scene } = useGLTF(RIDING_GEAR_MODEL_URL, "/draco/");
-  const groupRef = useRef<THREE.Group>(null);
-  const reduced = useReducedMotion();
-
-  // Center model and enhance luxury leather & brass materials
-  const centeredModel = useMemo(() => {
-    const root = scene.clone(true);
-    root.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
-        if (child.material instanceof THREE.MeshStandardMaterial) {
-          child.material.roughness = 0.72;
-          child.material.metalness = 0.18;
-          child.material.envMapIntensity = 1.25;
-        }
-      }
-    });
-
-    const box = new THREE.Box3().setFromObject(root);
-    const boxCenter = box.getCenter(new THREE.Vector3());
-    root.position.set(-boxCenter.x, -boxCenter.y, -boxCenter.z);
-
-    const wrapper = new THREE.Group();
-    wrapper.add(root);
-    return wrapper;
-  }, [scene]);
-
-  // Subtle natural breathing float
-  useFrame(({ clock }) => {
-    if (!groupRef.current) return;
-    const t = clock.elapsedTime;
-    const floatY = reduced ? 0 : Math.sin(t * 0.9) * 0.015;
-    groupRef.current.position.y = floatY;
-  });
-
-  return (
-    <group ref={groupRef} scale={1.85}>
-      <primitive object={centeredModel} />
-    </group>
-  );
-}
+const RidingGearStage = dynamic(() => import("./RidingGearStage").then((mod) => mod.RidingGearStage), { ssr: false });
 
 /* ------------------------------------------------------------------
    2. Specimen Data for the 4-Card Luxury Grid
@@ -123,6 +76,14 @@ const EQUIPMENT_ITEMS: EquipmentItem[] = [
    ------------------------------------------------------------------ */
 export function HorseEquipmentSection() {
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
+  // The WebGL stage mounts one screen before it is reached and only renders while visible; the stage frame keeps its
+  // size meanwhile. Its module (libraries + model download and decode) is fetched three screens ahead, so the model
+  // is ready by the time the stage is seen.
+  const stageRef = useRef<HTMLDivElement>(null);
+  const stageNear = useNearViewport(stageRef);
+  const stageOnScreen = useOnScreen(stageRef);
+  const stageSoon = useNearViewport(stageRef, "300% 0px");
+  useEffect(() => { if (stageSoon) void import("./RidingGearStage").catch(() => {}); }, [stageSoon]);
 
   const handleCopy = (hex: string) => {
     navigator.clipboard?.writeText(hex);
@@ -134,7 +95,7 @@ export function HorseEquipmentSection() {
     <section
       id="equipment"
       aria-labelledby="equipment-h"
-      className="relative w-full border-t border-line/40 bg-[#0a0908] py-[clamp(4rem,10vh,8rem)] overflow-hidden text-white"
+      className="tone-dark relative w-full border-t border-line/40 bg-[#0a0908] py-[clamp(4rem,10vh,8rem)] overflow-hidden text-white"
     >
       <div className="gutter relative z-10">
         {/* Section Header with Minimal, Clear Copy */}
@@ -154,40 +115,10 @@ export function HorseEquipmentSection() {
         </div>
 
         {/* 3D Interactive Riding Gear Stage */}
-        <div className="mt-12 relative w-full h-[520px] sm:h-[600px] lg:h-[680px] rounded-lg border border-line/40 bg-[#100e0c] overflow-hidden shadow-2xl">
+        <div ref={stageRef} className="mt-12 relative w-full h-[520px] sm:h-[600px] lg:h-[680px] rounded-lg border border-line/40 bg-[#100e0c] overflow-hidden shadow-2xl">
           {/* 3D WebGL Canvas */}
           <div className="absolute inset-0 z-0">
-            <Canvas
-              camera={{ position: [0, 0.2, 2.2], fov: 32, near: 0.1, far: 50 }}
-              dpr={[1, Math.min(typeof window !== "undefined" ? window.devicePixelRatio : 2, 2)]}
-              gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-              style={{ touchAction: "none" }}
-            >
-              <PerspectiveCamera makeDefault position={[0, 0.2, 2.2]} fov={32} />
-
-              {/* Three-Point Studio Lighting on Deep Black */}
-              <ambientLight intensity={1.1} color="#fbf4ea" />
-              <directionalLight position={[-4, 5, 4]} color="#fff0db" intensity={3.2} />
-              <directionalLight position={[4, 2, -3]} color="#e8c898" intensity={2.2} />
-              <directionalLight position={[0, -4, 3]} color="#334455" intensity={0.9} />
-              <pointLight position={[0, 0.8, 1.2]} intensity={1.5} color="#ffd494" distance={4} />
-
-              <ModelBoundary>
-                <Suspense fallback={null}>
-                  <RidingGearModel />
-                </Suspense>
-              </ModelBoundary>
-
-              {/* Intuitive 360° Drag Orbit Interaction */}
-              <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                autoRotate
-                autoRotateSpeed={0.9}
-                minPolarAngle={Math.PI / 3.5}
-                maxPolarAngle={Math.PI / 1.7}
-              />
-            </Canvas>
+            {stageNear && <RidingGearStage active={stageOnScreen} />}
           </div>
 
           {/* Minimal Editorial Badges Over 3D Scene */}
@@ -248,6 +179,7 @@ export function HorseEquipmentSection() {
               <div
                 className="mt-3.5 h-8 sm:h-9 w-full rounded-sm border border-black/30 shadow-inner transition-transform group-hover:scale-[1.01]"
                 style={{ backgroundColor: item.hex }}
+                role="img"
                 aria-label={`Color swatch for ${item.name}: ${item.colorName}`}
               />
 
@@ -306,4 +238,3 @@ export function HorseEquipmentSection() {
   );
 }
 
-useGLTF.preload(RIDING_GEAR_MODEL_URL, "/draco/");

@@ -66,7 +66,7 @@ export function Registry() {
             <tr className="border-b border-line">
               {["", "Name", "Breed", "Microchip (ISO 11784)", "Hub", "Status", ""].map((h, k) => (
                 <th key={k} scope="col" className="label py-3 pr-4 font-semibold text-dust">
-                  {h}
+                  {h || <span className="sr-only">{k === 0 ? "Photograph" : "Details"}</span>}
                 </th>
               ))}
             </tr>

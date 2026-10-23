@@ -2,8 +2,9 @@
 
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
+import Link from "next/link";
 import { motion, useInView } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label } from "@/components/film/Marks";
@@ -12,9 +13,19 @@ import { Verifier } from "@/components/sections/verify/Verifier";
 import { circuit, shield, verifier } from "@/lib/content/home";
 import { standings } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
-
-import { CrumpledPaperReveal } from "@/components/motion/CrumpledPaperReveal";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { cn } from "@/lib/utils";
+
+/*
+ * The tactile paper (a ~200 kB vendored WebGL component) is still server-rendered as its still sheet, but its code is
+ * only fetched, and the sheet hydrated, when the plate approaches the viewport. Until then React leaves the server
+ * HTML in place (a dehydrated Suspense boundary), so nothing on screen changes. On the server the gate is open.
+ */
+let openPaperGate: (() => void) | undefined;
+const paperGate = typeof window === "undefined" ? Promise.resolve() : new Promise<void>((resolve) => { openPaperGate = resolve; });
+const CrumpledPaperReveal = lazy(() => paperGate
+  .then(() => import("@/components/motion/CrumpledPaperReveal"))
+  .then((mod) => ({ default: mod.CrumpledPaperReveal })));
 
 /** §10 Verifier · S10 seal verifier. Featuring tactile CrumpledPaperReveal on the Sovereign Commission. */
 export function HomeVerifier() {
@@ -25,8 +36,14 @@ export function HomeVerifier() {
 
   const imageSrc =
     doc === "deed"
-      ? "/images/bsah-commission-deed.jpg"
+      ? "/images/bsah-commission-deed.webp"
       : "/images/archival-handwritten-letter.jpg";
+  const stageRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    return whenNearViewport(stage, () => openPaperGate?.());
+  }, []);
 
   return (
     <section aria-labelledby="verify-h" className="tone-dark relative overflow-hidden bg-night py-[clamp(6rem,14vh,12rem)]">
@@ -180,7 +197,8 @@ export function HomeVerifier() {
             </div>
 
             {/* The 3D Crumpled Paper Stage */}
-            <div className="relative flex items-center justify-center p-6 md:p-8">
+            <div ref={stageRef} className="relative flex items-center justify-center p-6 md:p-8">
+              <Suspense fallback={<PaperPlaceholder />}>
               <CrumpledPaperReveal
                 image={imageSrc}
                 alt="BSAH Sovereign Commission Archival Document"
@@ -197,6 +215,7 @@ export function HomeVerifier() {
                 link="/verify/BSAH-2026-HYD-042"
                 style={{ width: "100%", maxWidth: 360 }}
               />
+              </Suspense>
             </div>
 
             {/* Instruction / Tactile Hint */}
@@ -217,6 +236,18 @@ export function HomeVerifier() {
       </div>
     </section>
   );
+}
+
+/** Same box as the still sheet's first render; without JavaScript it still shows the deed and its link. */
+function PaperPlaceholder() {
+  return <div style={{ position: "relative", width: "100%", maxWidth: 360, height: 375 }}>
+    <noscript>
+      <Link href="/verify/BSAH-2026-HYD-042" prefetch={false} aria-label="BSAH Sovereign Commission Archival Document" style={{ position: "absolute", inset: 0, display: "block", background: "#F4F0E7" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/bsah-commission-deed.webp" alt="" style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} />
+      </Link>
+    </noscript>
+  </div>;
 }
 
 function Countdown({ to }: { to: string }) {

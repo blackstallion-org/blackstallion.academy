@@ -10,6 +10,7 @@ import { EditorialHeadline as Headline } from "@/components/motion/EditorialMoti
 import { ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 
 /** Title card · T3 specimen plate. Signature: catalogue lines rule in around the horse like a museum mount. */
 const catalogue: [string, string][] = [
@@ -109,6 +110,13 @@ export function EarDial() {
   const containerRef = useRef<HTMLDivElement>(null);
   const inView = useInView(containerRef, { amount: 0.3 });
 
+  // The 7 MB film starts downloading one screen before the plate is reached (it was fetched with the page).
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    return whenNearViewport(video, () => { video.preload = "auto"; });
+  }, []);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -130,11 +138,10 @@ export function EarDial() {
             <video
               ref={videoRef}
               className="h-full w-full object-cover"
-              autoPlay
               muted
               loop
               playsInline
-              preload="auto"
+              preload="none"
               poster="/video/marwari-ear-poster.jpg"
               aria-label="Marwari horse ear movement and independent 180-degree listening biomechanics film"
             >
@@ -156,7 +163,8 @@ export function EarDial() {
             </div>
 
             {/* Bottom Left Specimen Marker */}
-            <div className="absolute bottom-4 left-4 flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] text-[#FAF7F0]/80">
+            {/* Sits above the arc chip below 390 px wide frames, where the two shared one row and overlapped. */}
+            <div className="absolute bottom-11 left-4 flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] text-[#FAF7F0]/80 min-[390px]:bottom-4">
               <span className="h-px w-4 bg-brass" />
               <span>AURICULAR BIOMECHANICS</span>
             </div>

@@ -617,8 +617,16 @@
 
 .footer-meridian__corridor-item {
   display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 2px 6px;
+  max-width: 100%;
+}
+
+/* Long addresses may break at 320 px instead of being clipped at the footer's edge. */
+.footer-meridian__corridor-link {
+  overflow-wrap: anywhere;
 }
 
 .footer-meridian__corridor-label {
@@ -1724,9 +1732,11 @@ canvas { touch-action: pan-y; }
   justify-content: center;
   align-items: center;
   width: 0;
+  /* Stretch to the line height of the split title so the aperture photo has a real height (it was 0 px tall and the
+     photos never showed); no overflow clip, so the photo can grow to fill the hero at the end of the intro. */
+  align-self: stretch;
   display: flex;
   position: relative;
-  overflow: hidden;
 }
 
 .willem-loader__box-inner {
@@ -1779,10 +1789,12 @@ canvas { touch-action: pan-y; }
   align-items: center;
   width: 100%;
   min-height: 100svh;
-  padding: clamp(1.5rem, 4vw, 3.5rem);
+  /* Top padding clears the fixed site navigation (AGENTS.md rule 1); the folio bar used to sit inside it. */
+  padding: clamp(5.5rem, 9vh, 7.5rem) clamp(1.5rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
   display: flex;
   position: relative;
-  z-index: 5;
+  /* Above the loader layer (z-index 10), so the folio and the closing title sit on top of the expanded photograph. */
+  z-index: 20;
 }
 
 .willem-header__top {

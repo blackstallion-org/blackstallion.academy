@@ -159,6 +159,11 @@ export function CrispHeaderSlideshow({
     }
 
     timelineRef.current = tl;
+    // Reduced motion: no card marquee, zoom or title travel; show the finished header at once.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      tl.progress(1);
+      setIsPlaying(false);
+    }
   }, []);
 
   // Initialize on mount
@@ -175,6 +180,8 @@ export function CrispHeaderSlideshow({
   // Slideshow auto-advance timer
   useEffect(() => {
     if (!isAutoPlaying || isPlaying) return;
+    // No automatic slide changes with reduced motion (WCAG 2.2.2); the slide controls still work.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % slides.length);
@@ -296,7 +303,7 @@ export function CrispHeaderSlideshow({
                 onClick={runAnimation}
                 disabled={isPlaying}
                 className="inline-flex items-center gap-2 rounded border border-[#c9a66b]/40 bg-black/70 px-3.5 py-1.5 text-xs font-mono uppercase tracking-widest text-[#c9a66b] hover:border-[#c9a66b] hover:bg-[#c9a66b]/20 transition-all backdrop-blur-sm disabled:opacity-50"
-                aria-label="Replay Crisp aperture sequence"
+                aria-label="Replay aperture sequence"
               >
                 <span>Replay Aperture</span>
                 <span aria-hidden="true">↺</span>

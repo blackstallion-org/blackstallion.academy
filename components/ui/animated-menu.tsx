@@ -1,7 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+// Hydration-safe flag: motion's own hook read the media query during hydration, so under reduced motion the client
+// rendered plain text over the server's letter rows (React #418) and re-rendered the whole page from scratch.
+import { useReducedMotion } from "@/lib/motion/reduced";
 
 /**
  * Letter-roll text (from the supplied "animated menu" component, adapted to this codebase):

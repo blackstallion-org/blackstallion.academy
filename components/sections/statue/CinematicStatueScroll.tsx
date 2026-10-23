@@ -513,7 +513,10 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false }:
                     // Desktop alignment
                     sec.textAlign === "right" ? "lg:text-right" : "lg:text-left",
                     // Active pointer interaction
-                    activeIdx === i ? "pointer-events-auto" : "pointer-events-none"
+                    activeIdx === i ? "pointer-events-auto" : "pointer-events-none",
+                    // Without the scroll-driven timeline (reduced motion, no WebGL, model failed) nothing hides the
+                    // other chapters, so only the active one is shown (all six are listed in the notes below).
+                    !cinematic && activeIdx !== i && "hidden"
                   )}
                 >
                   {/* Small Uppercase Chapter Number & Tag */}
@@ -629,7 +632,9 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false }:
               ============================================================== */}
           <div
             ref={scrollHintRef}
-            className="absolute bottom-16 md:bottom-20 inset-x-0 z-20 flex justify-center pointer-events-none"
+            // Desktop and scroll-driven mode only: below 1024 px it collided with the chapter text, and without the
+            // scroll timeline there is nothing to "scroll to explore".
+            className={cn("absolute bottom-16 md:bottom-20 inset-x-0 z-20 hidden justify-center pointer-events-none", cinematic && "lg:flex")}
           >
             <div className="flex flex-col items-center gap-2">
               <span className="font-mono text-[0.62rem] tracking-[0.3em] uppercase text-[#FAF7F0]/60 [text-shadow:0_1px_8px_rgba(0,0,0,0.9)]">

@@ -275,3 +275,18 @@ Full status and evidence: **`PRODUCTION_READINESS.md`** (rewritten for this pass
   accessibility 94 → 97); 24 reel labels renumbered after `/statue` became reel 03.
 - **Owner approvals pending:** production promotion, Supabase Auth URLs, first staff sign-in, deleting the synthetic QA
   rows, DNS + Resend domain, indexing, key rotation; optional operations-schema fixes, Turnstile, monitoring, backups.
+
+## Session 23–24 October 2026 · Mobile performance pass (branch `perf/mobile-lighthouse`)
+
+Full method, numbers, visible changes, remaining options and risks: **`PERF_NOTES.md`** (commits `44d1fcf..HEAD`).
+
+- Hero LCP fixed (the `<video>` replaced the poster as LCP after hydration): home LCP 17.5 → 6.5 s in Lighthouse,
+  poster painted from the first frame.
+- Scroll set-ups (SplitText, ScrollTrigger, parallax), story reels, the cube gallery, three.js, the R3F stages and
+  below-the-fold media now start as they approach the viewport; statue renders on demand; offscreen loops pause.
+- Bytes at load: `/` 6.68 → 3.00 MB, `/parents` 3.73 → 1.53, `/legend` 1.84 → 1.42, `/anatomy` 13.59 → 1.04 MB.
+  Main-thread CPU blocking (×4, from the traces): `/` 2,300 → 455 ms, `/legend` 1,490 → 145, `/parents` 462 → 55.
+- Fixed on the way: loader opt-out CSS lost to the loader's own CSS; reduced motion re-mounted the site and threw
+  React #418. Per-section `<Suspense>` boundaries were tried and removed (they hid content without JavaScript).
+- Checked: lint (0 errors), typecheck, tests (46/46), build; 390/1440 + reduced-motion screenshots in `output/perf/`.
+  Lighthouse TBT on this shared sandbox is dominated by CPU contention — see the notes before quoting scores.

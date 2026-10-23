@@ -73,23 +73,23 @@ export function CadetsTitle() {
         </h1>
         <motion.div
           style={{ opacity: uiOpacity }}
-          className="w-full flex items-center justify-between pointer-events-auto"
+          className="w-full flex flex-wrap items-center justify-between gap-x-6 gap-y-2 pointer-events-auto"
         >
           <button
             type="button"
             onClick={scrollToSpotlights}
             className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#d8cfc4]/70 hover:text-white transition-colors cursor-pointer"
           >
-            Explore Craft
+            Meet the cadets
           </button>
           <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.28em] text-[#d8cfc4]/70">
-            FULL WEBSITE PRODUCTION
+            Reel 08 · The Hall of Valour
           </span>
           <Link
             href="/contact"
             className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#d8cfc4]/70 hover:text-white transition-colors cursor-pointer"
           >
-            Why Producers / Contact
+            Enrol / Contact
           </Link>
         </motion.div>
       </div>
@@ -114,19 +114,18 @@ export function CadetsTitle() {
             onClick={scrollToSpotlights}
             className="rounded-full border border-white/20 bg-black/40 px-4 sm:px-5 py-1.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#EDE8E1]/85 backdrop-blur-md transition-all hover:border-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
           >
-            CONCEPT
+            Cadet spotlights
           </button>
-          <button
-            type="button"
-            onClick={scrollToSpotlights}
+          <Link
+            href="/verify"
             className="rounded-full border border-white/20 bg-black/40 px-4 sm:px-5 py-1.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#EDE8E1]/85 backdrop-blur-md transition-all hover:border-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
           >
-            DESIGN
-          </button>
+            Verify a passport
+          </Link>
         </div>
 
         <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.22em] text-[#d8cfc4]/60">
-          IMMERSIVE CINEMATIC ARCHITECTURE
+          Hour by hour, rank by rank
         </span>
       </motion.div>
     </section>

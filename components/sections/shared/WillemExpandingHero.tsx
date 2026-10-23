@@ -182,6 +182,11 @@ export function WillemExpandingHero({
     }
 
     timelineRef.current = tl;
+    // Reduced motion: no letter travel or zoom; show the finished hero (photograph, title, folio) at once.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      tl.progress(1);
+      setIsPlaying(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -199,7 +204,7 @@ export function WillemExpandingHero({
     <section
       id={id}
       ref={containerRef}
-      className="willem-header relative min-h-[100svh] w-full overflow-hidden bg-[#0e0d0c] text-white"
+      className="willem-header tone-dark relative min-h-[100svh] w-full overflow-hidden bg-[#0e0d0c] text-white"
     >
       {/* Central Split Letter Aperture Loader */}
       <div className="willem-loader pointer-events-none">

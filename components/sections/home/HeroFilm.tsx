@@ -17,6 +17,21 @@ export function HeroFilm() {
   const [state, setState] = useState<Playback>("loading");
   const [muted, setMuted] = useState(true);
   const [hasFrame, setHasFrame] = useState(false);
+  // The film opens on its title card (2.8 s). Seeking there before the first frame plays would replace the poster,
+  // so the jump happens only when playback starts, and the video stays hidden from that seek until it is playing
+  // (the <picture> poster underneath shows meanwhile, exactly as before). Until then the <video> shows its own
+  // poster, which is the same still: the hero is painted from the first frame instead of only once the film plays
+  // (that late reveal used to be the page's LCP).
+  const primed = useRef(false);
+  const [seeked, setSeeked] = useState(false);
+  // On phones the status line takes its own row, so every brief stall (common while the page is still starting)
+  // used to push the page down and back up (layout shift). It now appears only if buffering lasts over a second.
+  const [longStall, setLongStall] = useState(false);
+  useEffect(() => {
+    if (state !== "buffering") return;
+    const timer = window.setTimeout(() => setLongStall(true), 1000);
+    return () => { window.clearTimeout(timer); setLongStall(false); };
+  }, [state]);
   const reduced = useReducedMotion();
   const lenis = useLenis();
 
@@ -35,7 +50,7 @@ export function HeroFilm() {
     }, 200);
     const sync = () => {
       if (document.hidden || !inView.current || userPaused.current || preference.matches) video.pause();
-      else video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); });
+      else { prime(); video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); }); }
     };
     const observer = new IntersectionObserver(([entry]) => { inView.current = entry.isIntersecting; sync(); }, { threshold: 0.05 });
     observer.observe(video);
@@ -45,6 +60,13 @@ export function HeroFilm() {
     return () => { disposed = true; clearInterval(watchdog); observer.disconnect(); document.removeEventListener("visibilitychange", sync); preference.removeEventListener("change", sync); video.pause(); };
   }, []);
 
+  /** Jump to the title card once, just before the first playback (needs metadata; otherwise onLoadedMetadata does it). */
+  function prime() {
+    const video = videoRef.current;
+    if (!video || primed.current || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+    primed.current = true;
+    if (video.currentTime < 2.8) { setSeeked(true); video.currentTime = Math.min(2.8, video.duration || 2.8); }
+  }
   const updateProgress = () => {
     const video = videoRef.current;
     if (!video || !Number.isFinite(video.duration) || video.duration <= 0) return;
@@ -55,7 +77,7 @@ export function HeroFilm() {
     const video = videoRef.current;
     if (!video) return;
     userPaused.current = !video.paused;
-    if (video.paused) video.play().catch(() => setState((previous) => previous === "failed" ? previous : "blocked"));
+    if (video.paused) { prime(); video.play().catch(() => setState((previous) => previous === "failed" ? previous : "blocked")); }
     else video.pause();
   };
   const skip = () => {
@@ -81,13 +103,16 @@ export function HeroFilm() {
         {/* Native picture is deliberately available before JS and video decoding. */}
         <img data-hero-poster src="/video/hero-main-poster.webp" alt="Marwari stallions in the academy opening film" fetchPriority="high" className="h-full w-full object-cover" style={{ objectPosition: "50% 51.5%" }} />
       </picture>
-      <video ref={videoRef} className={`absolute inset-0 h-full w-full object-cover ${hasFrame && state !== "failed" ? "opacity-100" : "opacity-0"}`} style={{ objectPosition: "50% 51.5%" }} muted loop playsInline preload="metadata" poster="/video/hero-main-poster.webp" aria-label="The Marwari Stallion opening film"
-        onLoadedMetadata={() => { const video = videoRef.current; if (video && video.currentTime < 2.8) video.currentTime = Math.min(2.8, video.duration || 2.8); updateProgress(); }}
+      <video ref={videoRef} className={`absolute inset-0 h-full w-full object-cover ${state !== "failed" && (hasFrame || !seeked) ? "opacity-100" : "opacity-0"}`} style={{ objectPosition: "50% 51.5%" }} muted loop playsInline preload="metadata" poster="/video/hero-main-poster.webp" aria-label="The Marwari Stallion opening film"
+        onLoadedMetadata={() => { if (videoRef.current && !videoRef.current.paused) prime(); updateProgress(); }}
         onPlaying={() => { failed.current = false; setHasFrame(true); setState("playing"); }} onPause={() => setState((previous) => previous === "skipped" || previous === "failed" ? previous : "paused")}
         onWaiting={() => setState((previous) => failed.current || previous === "failed" ? "failed" : "buffering")} onStalled={() => setState((previous) => previous === "playing" ? "buffering" : previous)} onEnded={() => setState("ended")}
         onError={() => { failed.current = true; setState("failed"); }} onTimeUpdate={updateProgress} onProgress={updateProgress} onVolumeChange={(event) => setMuted(event.currentTarget.muted)}>
-        <source media="(max-width: 767px)" src="/video/hero-main-mobile.mp4" type="video/mp4" onError={() => { failed.current = true; setState("failed"); }} />
-        <source src="/video/hero-main-desktop.mp4" type="video/mp4" onError={() => { failed.current = true; setState("failed"); }} />
+        {/* No onError on <source>: a source whose media query does not match fires "error" when it is skipped, which
+            wrongly marked the film as failed on wide screens. Real failures are caught by the video's own error
+            event and by the NETWORK_NO_SOURCE watchdog above. */}
+        <source media="(max-width: 767px)" src="/video/hero-main-mobile.mp4" type="video/mp4" />
+        <source src="/video/hero-main-desktop.mp4" type="video/mp4" />
       </video>
       {/* Progress sits on the frame's bottom edge. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-night/50" aria-hidden><span ref={bufferedRef} className="absolute inset-0 origin-left bg-brass/40" style={{ transform: "scaleX(0)" }} /><span ref={progressRef} className="absolute inset-0 origin-left bg-gold" style={{ transform: "scaleX(0)" }} /></div>
@@ -96,7 +121,7 @@ export function HeroFilm() {
     <div data-sound="off" className="no-print gutter flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-brass/20 py-3">
       <button type="button" onClick={skip} className="label min-h-11 rounded-full border border-brass/50 px-4 text-sand hover:text-gold">Skip intro</button>
       <p className="order-last w-full text-xs text-sand sm:order-none sm:w-auto sm:flex-1 sm:text-center" role="status" aria-live="polite">
-        {state === "buffering" ? "Buffering film…" : state === "failed" ? "The film is unavailable. Continue to explore the academy." : state === "blocked" ? "Press play to watch the opening film." : null}
+        {state === "buffering" ? (longStall ? "Buffering film…" : null) : state === "failed" ? "The film is unavailable. Continue to explore the academy." : state === "blocked" ? "Press play to watch the opening film." : null}
       </p>
       <div className="flex items-center gap-2">
         <button type="button" disabled={state === "failed"} onClick={() => { if (videoRef.current) videoRef.current.muted = !videoRef.current.muted; }} aria-pressed={!muted} aria-label={muted ? "Sound off. Unmute the film" : "Sound on. Mute the film"} className="label min-h-11 rounded-full border border-brass/50 px-4 text-sand hover:text-gold disabled:opacity-50">Sound {muted ? "off" : "on"}</button>

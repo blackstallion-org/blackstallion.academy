@@ -9,9 +9,11 @@ const SESSION_KEY = "bsah-loaded";
 
 /**
  * Runs before first paint (see app/layout.tsx). Marks <html> when the loader
- * should not show: already seen this session, or reduced motion.
+ * should not show: already seen this session, or reduced motion. When it will show, the pixel-horse engine is
+ * requested straight away, so the horse is ready to gallop as soon as the page hydrates (now that hydration is
+ * quicker, waiting for the effect to fetch it could let the overlay settle before the horse ever appeared).
  */
-export const loaderBootScript = `try{if(sessionStorage.getItem("${SESSION_KEY}")||matchMedia("(prefers-reduced-motion: reduce)").matches||location.search.indexOf("noload")!==-1){document.documentElement.dataset.bsahLoaded="1"}}catch(e){}`;
+export const loaderBootScript = `try{if(sessionStorage.getItem("${SESSION_KEY}")||matchMedia("(prefers-reduced-motion: reduce)").matches||location.search.indexOf("noload")!==-1){document.documentElement.dataset.bsahLoaded="1"}else{var l=document.createElement("link");l.rel="preload";l.as="script";l.href="/animations/pixel-horse.js";document.head.appendChild(l)}}catch(e){}`;
 
 /** One controller for first hydration and internal route handoffs. Uses only the pixel running horse. */
 export function Loader() {

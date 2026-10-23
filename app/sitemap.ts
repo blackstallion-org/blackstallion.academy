@@ -10,7 +10,7 @@ const BASE = "https://blackstallion.academy";
  * records, noindex). Hub and tournament pages are included because they are public, but they carry SAMPLE data.
  */
 const STATIC_ROUTES = [
-  "/", "/legend", "/lore", "/anatomy", "/statue", "/lithos", "/science", "/why", "/curriculum", "/fleet", "/cadets",
+  "/", "/legend", "/lore", "/anatomy", "/statue", "/science", "/why", "/curriculum", "/fleet", "/cadets",
   "/parents", "/safety", "/equipment", "/schools", "/schools/mou", "/verify", "/tournaments", "/command", "/journal",
   "/about", "/contact", "/privacy",
 ];

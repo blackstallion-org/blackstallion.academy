@@ -24,7 +24,7 @@ export function WalkStudy() {
     <section ref={ref} id="the-walk" aria-labelledby="pulse-h" className={styles.study} data-moving={moving}>
       <header className={styles.topline}>
         <span>The Matrix <i /> Movement study</span>
-        <button type="button" aria-label={playing ? "Pause movement study" : "Play movement study"} aria-pressed={playing} onClick={() => setPlaying(!playing)}>
+        <button type="button" aria-label={playing ? "Pause study (movement)" : "Play study (movement)"} aria-pressed={playing} onClick={() => setPlaying(!playing)}>
           <span>{playing ? "Pause study" : "Play study"}</span><b aria-hidden="true">{playing ? "Ⅱ" : "▷"}</b>
         </button>
       </header>

@@ -92,3 +92,6 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
   headers; error boundaries; 3D failure resilience; sitemap/robots; payment core (not connected); website-intake
   migration (tested, not applied); CI workflow; 29 unit + 147 SQL + 12 E2E checks passing. Details and blockers:
   `docs/IMPLEMENTATION_PROGRESS.md` (now the canonical progress file).
+
+- [x] **Session 23–24 Oct 2026 · Mobile performance pass** (branch `perf/mobile-lighthouse`). Results, visible changes
+  and open options: `PERF_NOTES.md`; summary in `docs/IMPLEMENTATION_PROGRESS.md`.

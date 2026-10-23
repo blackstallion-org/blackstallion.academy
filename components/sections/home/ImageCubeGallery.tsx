@@ -24,6 +24,9 @@ export function ImageCubeGallery() {
   const touchX = useRef<number | null>(null);
   const [selected, setSelected] = useState(0);
   const [ready, setReady] = useState(false);
+  // The 144 cube faces only receive their (multi-megabyte) photographs once the gallery approaches the viewport;
+  // as CSS backgrounds in the server HTML they were all downloaded with the page, hidden grid or not.
+  const [near, setNear] = useState(false);
   const reduced = useReducedMotion();
 
   useEffect(() => {
@@ -31,9 +34,18 @@ export function ImageCubeGallery() {
     if (!grid || reduced || !CSS.supports("transform-style", "preserve-3d")) return;
     let disposed = false;
     const sources: HTMLImageElement[] = [];
+    let resize: ResizeObserver | undefined;
     const observer = new IntersectionObserver((entries) => {
       if (!entries[0]?.isIntersecting) return;
       observer.disconnect();
+      setNear(true);
+      resize = new ResizeObserver(() => {
+        const columns = window.innerWidth < 700 ? 4 : 6;
+        const depth = grid.clientWidth / columns / 2;
+        grid.style.setProperty("--depth", `${depth}px`);
+        gsap.set(grid.children, { z: -depth });
+      });
+      resize.observe(grid);
       void Promise.all(photographs.map((photo) => new Promise<void>((resolve, reject) => {
         const image = new window.Image();
         sources.push(image);
@@ -43,17 +55,10 @@ export function ImageCubeGallery() {
       }))).then(() => { if (!disposed) setReady(true); }).catch(() => { /* Keep the ordinary photograph if any face cannot load. */ });
     }, { rootMargin: "500px" });
     observer.observe(grid);
-    const resize = new ResizeObserver(() => {
-      const columns = window.innerWidth < 700 ? 4 : 6;
-      const depth = grid.clientWidth / columns / 2;
-      grid.style.setProperty("--depth", `${depth}px`);
-      gsap.set(grid.children, { z: -depth });
-    });
-    resize.observe(grid);
     return () => {
       disposed = true;
       observer.disconnect();
-      resize.disconnect();
+      resize?.disconnect();
       sources.forEach((image) => { image.onload = null; image.onerror = null; });
       gsap.killTweensOf(grid.children);
     };
@@ -87,7 +92,7 @@ export function ImageCubeGallery() {
         {Array.from({ length: 24 }, (_, index) => <div key={index} className={styles.cube} style={{
           "--col": index % 6, "--row": Math.floor(index / 6), "--mobile-col": index % 4, "--mobile-row": Math.floor(index / 4),
         } as CSSProperties}>
-          {photographs.map((image, face) => <span key={image.src} className={`${styles.face} ${styles[`face${face}`]}`}><span style={{ backgroundImage: `url("${image.src}")` }} /></span>)}
+          {photographs.map((image, face) => <span key={image.src} className={`${styles.face} ${styles[`face${face}`]}`}><span style={near ? { backgroundImage: `url("${image.src}")` } : undefined} /></span>)}
         </div>)}
       </div>
     </div>

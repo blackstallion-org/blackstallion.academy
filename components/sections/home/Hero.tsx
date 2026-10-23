@@ -2,7 +2,8 @@
 
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/motion/reduced";
 import { HeroFilm } from "./HeroFilm";
 import { AcademyStats } from "./AcademyStats";
 import { Crest } from "@/components/brand/Crest";
@@ -88,10 +89,11 @@ function HeroContentSection() {
 
 function Ticker() {
   const reduced = useReducedMotion();
-  const items = [...hero.ticker, ...hero.ticker];
+  // Reduced motion: one static set that wraps, so every figure is visible (a single cut-off row hid most of them).
+  const items = reduced ? hero.ticker : [...hero.ticker, ...hero.ticker];
   return (
     <div className="mt-8 overflow-hidden border-y border-brass py-2.5" aria-label="Live command figures (sample)">
-      <div className={reduced ? "flex gap-10" : "animate-marquee flex w-max gap-10"}>
+      <div className={reduced ? "flex flex-wrap gap-x-10 gap-y-2" : "animate-marquee flex w-max gap-10"}>
         {items.map((t, i) => (
           <span key={i} className="font-mono flex items-center gap-10 whitespace-nowrap text-[0.68rem] uppercase tracking-[0.12em] text-sand/80">
             {i % hero.ticker.length === 0 && <span className="h-1.5 w-1.5 rounded-full bg-blood" aria-hidden />}

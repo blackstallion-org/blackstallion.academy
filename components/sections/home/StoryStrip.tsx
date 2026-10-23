@@ -45,7 +45,7 @@ export function StoryStrip() {
       sectionLabel="The Legend Reel"
       sectionSubLabel="800 Years of the Marwari"
       slides={STORY_SLIDES}
-      exploreHref="/history"
+      exploreHref="/legend"
       exploreLabel="Explore chronicle"
       heightClass="h-screen min-h-[640px] max-h-[1100px]"
     />

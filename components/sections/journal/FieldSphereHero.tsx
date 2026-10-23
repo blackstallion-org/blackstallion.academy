@@ -178,7 +178,7 @@ export function FieldSphereHero() {
   }, []);
   const stageRef = useRef<HTMLDivElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const headlineRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const gridFiguresRef = useRef<(HTMLElement | null)[]>([]);
   const plateRef = useRef<HTMLDivElement>(null);
@@ -644,7 +644,8 @@ export function FieldSphereHero() {
             ))}
           </div>
 
-          <h1 ref={headlineRef} className="fsh-headline">
+          {/* A display line, not the page heading: the masthead "The Chronicle" is the one <h1> on /journal. */}
+          <p ref={headlineRef} className="fsh-headline">
             <span className="inner">
               <span style={{ "--i": 0 } as React.CSSProperties}>I</span>{" "}
               <span style={{ "--i": 1 } as React.CSSProperties}>See</span>{" "}
@@ -652,7 +653,7 @@ export function FieldSphereHero() {
               <span style={{ "--i": 3 } as React.CSSProperties}>the</span>{" "}
               <span style={{ "--i": 4 } as React.CSSProperties}>Wild</span>
             </span>
-          </h1>
+          </p>
         </div>
       </div>
 
@@ -660,7 +661,8 @@ export function FieldSphereHero() {
       <div className="fsh-vig" aria-hidden="true" />
 
       {/* 2D Gallery Grid View Toggle */}
-      <div className="fsh-grid" aria-label="Visual Dispatches Grid">
+      {/* inert while closed: the grid is invisible until "Grid View", but its 21 photo buttons were in the Tab order. */}
+      <div className="fsh-grid" aria-label="Visual Dispatches Grid" inert={!isGridView} aria-hidden={!isGridView || undefined}>
         <div className="rows">
           {SHOTS.map((s, i) => (
             <figure

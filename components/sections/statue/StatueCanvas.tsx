@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, ContactShadows } from "@react-three/drei";
 
 export const STATUE_MODEL_URL = "/models/horse-statue-monument.glb";
@@ -349,6 +349,32 @@ function CameraController({ scrollProgressRef, statueX, isMobile }: CameraContro
   return null;
 }
 
+/**
+ * Frames are rendered on demand: every frame while the scroll-driven camera and lights move, and ten times a second at
+ * rest, which is all the halo's slow breath needs (its opacity moves by under 0.002 between two such frames). The
+ * scene used to re-render 60 times a second while nothing moved.
+ */
+function DemandDriver({ scrollProgressRef }: { scrollProgressRef: React.MutableRefObject<number> }) {
+  const invalidate = useThree((state) => state.invalidate);
+  useEffect(() => {
+    let frame = 0;
+    let last = Number.NaN;
+    let lastRender = 0;
+    const tick = (now: number) => {
+      frame = requestAnimationFrame(tick);
+      const progress = scrollProgressRef.current;
+      if (progress !== last || now - lastRender >= 100) {
+        last = progress;
+        lastRender = now;
+        invalidate();
+      }
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [invalidate, scrollProgressRef]);
+  return null;
+}
+
 interface StatueCanvasProps {
   scrollProgressRef: React.MutableRefObject<number>;
   statueX: number;
@@ -375,7 +401,7 @@ export function StatueCanvas({
   return (
     <div ref={containerRef} className="h-full w-full" style={{ touchAction: "pan-y" }}>
     <Canvas
-      frameloop={active ? "always" : "never"}
+      frameloop={active ? "demand" : "never"}
       dpr={[1, 1.5]}
       style={{ touchAction: "pan-y" }}
       shadows
@@ -416,6 +442,8 @@ export function StatueCanvas({
 
       {/* The Statue Model */}
       <StatueModel statueX={statueX} />
+
+      <DemandDriver scrollProgressRef={scrollProgressRef} />
 
       {/* Active Camera Trajectory Controller */}
       <CameraController

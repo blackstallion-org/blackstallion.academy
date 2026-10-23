@@ -6,6 +6,10 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Arrow, Horseshoe } from "@/components/film/Marks";
 import { postBySlug, posts } from "@/lib/content/journal";
 
+// Unknown slugs: wait for the static result (which calls notFound()) instead of streaming the fallback shell with a
+// 200 status first. Next 16 docs: route-segment-config/ensureStatic → "Dynamic route parameters".
+export const ensureStatic = "navigation";
+
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }

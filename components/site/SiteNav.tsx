@@ -51,22 +51,23 @@ export function SiteNav() {
       >
         <div className="gutter flex h-16 items-center justify-between gap-6 md:h-20">
           <div className="flex min-w-0 items-center gap-4">
-            <Link href="/" className="flex items-center gap-3" aria-label="Black Stallion Academy, home">
+            <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap" aria-label="Black Stallion Academy, home">
               <CrestMark className="h-10 w-10" decorative />
               <Wordmark layout="inline" className="hidden sm:inline" />
             </Link>
             {reel && (
-              <span className="label hidden items-center gap-2 border-l border-line pl-4 text-dust lg:flex">
+              // Only where the primary links leave room (from 1536 px); between 1280 and 1440 px it made the bar wrap.
+              <span className="label hidden min-w-0 items-center gap-2 whitespace-nowrap border-l border-line pl-4 text-dust 2xl:flex">
                 <span className="font-mono tracking-[0.1em] text-gold">
                   {pad(reel.n)}/{TOTAL_REELS}
                 </span>
-                {reel.title}
+                <span className="truncate">{reel.title}</span>
               </span>
             )}
           </div>
 
           <nav aria-label="Primary" className="hidden xl:block">
-            <ul className="flex items-center gap-8">
+            <ul className="flex items-center gap-6 whitespace-nowrap 2xl:gap-8">
               {primaryNav.map((item) => {
                 const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
                 return (
@@ -82,7 +83,7 @@ export function SiteNav() {
             <SoundToggle />
             <Link
               href={navCta.href}
-              className="label hidden border border-line/45 px-4 py-2.5 text-bone transition-colors hover:border-gold hover:text-gold md:inline-block"
+              className="label hidden whitespace-nowrap border border-line/45 px-4 py-2.5 text-bone transition-colors hover:border-gold hover:text-gold md:inline-block"
             >
               {navCta.label}
             </Link>
@@ -186,7 +187,8 @@ function Menu({ onClose }: { onClose: () => void }) {
                   <li key={r.href}>
                     <ReelLink href={r.href} onClose={onClose} active={active} n={r.n} title={r.title}>
                       {isStatueLink && (
-                        <span className="rounded-full border border-gold/50 bg-gold/15 px-2.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-widest text-gold shadow-[0_0_12px_rgba(201,166,107,0.3)] transition-colors group-hover:bg-gold group-hover:text-black">
+                        // From 1280 px only: in the narrower three-column menu it ran into the next column.
+                        <span className="hidden rounded-full border border-gold/50 bg-gold/15 px-2.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-widest text-gold shadow-[0_0_12px_rgba(201,166,107,0.3)] transition-colors group-hover:bg-gold group-hover:text-black xl:inline-block">
                           3D Model
                         </span>
                       )}
@@ -199,8 +201,9 @@ function Menu({ onClose }: { onClose: () => void }) {
         ))}
       </div>
 
-      <div className="gutter flex flex-col gap-6 border-t border-line py-8 md:flex-row md:items-center md:justify-between">
-        <ul className="flex flex-col gap-2 md:flex-row md:gap-8">
+      {/* Contacts stay stacked until 1280 px: in one row they ran past the dialog at 768 and 1024 px. */}
+      <div className="gutter flex flex-col gap-6 border-t border-line py-8 xl:flex-row xl:items-center xl:justify-between">
+        <ul className="flex flex-col gap-2 xl:flex-row xl:flex-wrap xl:gap-x-8">
           {corridors.map((c) => (
             <li key={c.id} className="t-ui text-sm text-sand">
               <span className="label mr-2 text-dust">{c.title}</span>
@@ -210,7 +213,7 @@ function Menu({ onClose }: { onClose: () => void }) {
             </li>
           ))}
         </ul>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap gap-6">
           <Link href="/about" onClick={onClose} className="label text-sand hover:text-gold">
             About
           </Link>

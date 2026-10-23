@@ -9,6 +9,10 @@ import { LeadForm } from "@/components/sections/shared/LeadForm";
 import { fleet, statusLabel } from "@/lib/content/fleet";
 import { hubBySlug, hubStatusLabel, hubs, tierById } from "@/lib/content/schools";
 
+// Unknown slugs: wait for the static result (which calls notFound()) instead of streaming the fallback shell with a
+// 200 status first. Next 16 docs: route-segment-config/ensureStatic → "Dynamic route parameters".
+export const ensureStatic = "navigation";
+
 export function generateStaticParams() {
   return hubs.map((h) => ({ slug: h.slug }));
 }
