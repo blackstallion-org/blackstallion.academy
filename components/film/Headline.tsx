@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { motion } from "motion/react";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -69,6 +70,31 @@ export function Headline({
   });
 
   const Tag = as;
+
+  // Title cards ("mount") rise with a CSS animation that starts at first paint instead of after hydration: the same
+  // 1.55 s house-curve rise, but the headline no longer waits for the JavaScript bundle (it was the page's Largest
+  // Contentful Paint and stayed hidden for several seconds on phones), and it still shows without JavaScript.
+  // Reduced motion: no rise (app/globals.css → .headline-rise).
+  if (animate === "mount") {
+    const rise = (i: number) => ({ "--rise-delay": `${delay + i * 0.22}s` }) as CSSProperties;
+    return (
+      <Tag id={id} className={cn(sizes[size], "headline-motion-font text-balance", editorialFontVariables, editorialTypeStyles.heritage, className)}>
+        <span className="block">
+          <span className="block overflow-hidden pb-[0.06em]">
+            <span className={cn("headline-rise t-inscribe block text-[0.5em] leading-[1.02] text-bone", inscriptionClassName)} style={rise(0)}>
+              {inscription}
+            </span>
+          </span>
+          {" "}
+          <span className="block overflow-hidden pb-[0.12em]">
+            <span className={cn("headline-rise t-voice block", voiceColors[voiceColor], voiceClassName)} style={rise(1)}>
+              {voice}
+            </span>
+          </span>
+        </span>
+      </Tag>
+    );
+  }
 
   return (
     <Tag id={id} className={cn(sizes[size], "headline-motion-font text-balance", editorialFontVariables, editorialTypeStyles.heritage, className)}>

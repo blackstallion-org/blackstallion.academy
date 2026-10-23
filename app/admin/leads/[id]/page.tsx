@@ -17,7 +17,7 @@ import { Fields, LoadError, QrBadge, Tag, type FieldItem } from "../../ui";
 /*
  * Rendered whole per request (see app/admin/layout.tsx). An unknown or malformed id calls notFound(): the not-found
  * UI with noindex. Next answers it with status 200 here, because a dynamic segment is resumed from its partial
- * prerender shell (the same as /journal/[slug] on the public site); see ADMIN_NOTES.md.
+ * prerender shell (the same as /journal/[slug] on the public site); see docs/ADMIN_CONSOLE.md.
  */
 
 type LeadRow = {

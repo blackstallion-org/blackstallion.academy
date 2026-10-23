@@ -1,8 +1,8 @@
 # Staff console (`/admin`): pages, queries, RLS and live checks
 
-Status 23 Oct 2026: built and verified locally only, using unit tests and a production build rendered against a
-temporary Supabase stub with synthetic data. **Nothing here has run against the live project yet.** The live checks are
-at the end of this file.
+Status 24 Oct 2026: merged in commit `aa11096`. Built and verified locally only, using unit tests and a production
+build rendered against a temporary Supabase stub with synthetic data. **Nothing here has run against the live project
+yet** — it needs a signed-in `SUPER_ADMIN` on a deployment; the live checks are at the end of this file.
 
 ## How access works (every page and action)
 

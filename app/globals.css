@@ -2212,3 +2212,16 @@ canvas { touch-action: pan-y; }
   border-color: rgba(244, 239, 228, 0.55);
 }
 
+
+/* Title-card headline rise (components/film/Headline.tsx, animate="mount"): CSS, so it starts at first paint rather
+   than after hydration. Same motion as before: 1.55 s on the house curve, lines staggered by 0.22 s. */
+@keyframes headline-rise {
+  from { transform: translateY(105%); }
+  to { transform: translateY(0); }
+}
+.headline-rise {
+  animation: headline-rise 1.55s cubic-bezier(0.16, 1, 0.3, 1) var(--rise-delay, 0s) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .headline-rise { animation: none; }
+}

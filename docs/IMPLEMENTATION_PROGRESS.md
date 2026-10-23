@@ -278,7 +278,7 @@ Full status and evidence: **`PRODUCTION_READINESS.md`** (rewritten for this pass
 
 ## Session 23–24 October 2026 · Mobile performance pass (branch `perf/mobile-lighthouse`)
 
-Full method, numbers, visible changes, remaining options and risks: **`PERF_NOTES.md`** (commits `44d1fcf..HEAD`).
+Full method, numbers, visible changes, remaining options and risks: **`docs/PERF_NOTES.md`**.
 
 - Hero LCP fixed (the `<video>` replaced the poster as LCP after hydration): home LCP 17.5 → 6.5 s in Lighthouse,
   poster painted from the first frame.
@@ -290,3 +290,75 @@ Full method, numbers, visible changes, remaining options and risks: **`PERF_NOTE
   React #418. Per-section `<Suspense>` boundaries were tried and removed (they hid content without JavaScript).
 - Checked: lint (0 errors), typecheck, tests (46/46), build; 390/1440 + reduced-motion screenshots in `output/perf/`.
   Lighthouse TBT on this shared sandbox is dominated by CPU contention — see the notes before quoting scores.
+
+## Session 24 October 2026 · Final Master Execution Directive (layers 01–20) — active checklist
+
+Branch `session/2026-10-24-final-completion` (rollback tag `checkpoint/pre-final-2026-10-23`). Final audit and score:
+`PRODUCTION_READINESS.md`. Legend: [x] done and verified · [~] partial · [ ] open · (A) needs owner approval ·
+(B) blocked by an external account/service.
+
+- 01 Inventory and safety
+  - [x] repository, branch, commits, remote, Vercel, Supabase and env names recorded
+  - [x] rollback tag created
+  - [x] no user work lost (pre-existing untracked `index.html` and `bsah-platform` changes left untouched)
+- 02 GitHub/CI
+  - [x] secret scan of all history (placeholders only)
+  - [x] CI: lint, types, unit, build, audit, both DB suites, browser smoke (new `e2e` job)
+  - [x] uptime workflow
+  - [ ] push of this branch (B: GitHub identity check for the token)
+  - [ ] branch protection on `main` (after the push)
+- 03 Supabase
+  - [x] live schema reconciled (`docs/DATABASE_ARCHITECTURE.md`)
+  - [x] website layer + F1/F2 live
+  - [x] anon hardening prepared and tested (179/179)
+  - [ ] apply it (A)
+  - [ ] backups (A: paid plan or manual dump routine)
+- 04 Auth
+  - [x] redirect allow-list for previews / production / domain (Site URL unchanged)
+  - [x] server-side role checks
+  - [x] generic errors and reset
+  - [ ] staff sign-in on a deployment (owner)
+- 05 Admin console
+  - [x] search/filters, detail, assign, MOU, QR, audit, documents, media
+  - [x] 30 new tests
+  - [ ] live check by a SUPER_ADMIN (owner)
+- 06 Enquiries
+  - [x] all gates validated
+  - [x] consent, honeypot, idempotency, rate limits
+  - [x] live MOU + QR parent enquiry through Supabase, Formspree and Resend
+  - [ ] Turnstile (B)
+  - [ ] Resend domain (A: DNS)
+- 07 Business features
+  - [x] MOU PDF (live)
+  - [x] `/verify` + `/verify/[code]` on the live registry (QR target)
+  - [~] ROI calculator and campus configurator unchanged (assumptions need business sign-off)
+  - [x] payments deferred and labelled
+- 08 Security
+  - [x] critical S1/S2 live
+  - [x] zod CVE fixed
+  - [x] headers, upload, storage, logging reviewed (`docs/SECURITY_AUDIT.md`)
+  - [ ] S3–S6 (A)
+  - [ ] S7 role policies (needs the apps team)
+  - [ ] S8 seed accounts (A)
+  - [ ] S9 key rotation (A)
+- 09 Performance
+  - [x] lazy start of heavy work, WebP stills, hero LCP, CSS title rise; home 40 → 66, reel pages 70–76 (lab)
+  - [~] 80+ not reached; options documented (`docs/PERFORMANCE_REPORT.md`)
+- 10 Frontend audit
+  - [x] 41 routes × 8 widths + reduced motion
+  - [x] 12 major + 11 minor fixed
+  - [~] 3 minor open (m2, m10, part of m9)
+  - [x] HTML prototypes "The Art of the Peg" / "One Conversation. Two Bodies" stay reference-only (not part of the agreed routes)
+- 11 SEO/monitoring
+  - [x] metadata, canonical (incl. `/lithos` → `/statue`), sitemap, robots, OG image, JSON-LD
+  - [x] server error reporting
+  - [x] uptime workflow
+  - [x] consent-free analytics behind a flag (A: switch on)
+- 12 Tests
+  - [x] 79 unit, 176 + 179 SQL, 18 browser, 410 audit runs, targeted re-checks
+- 13 Infrastructure
+  - [x] Vercel project, env, previews
+  - [ ] production (A)
+  - [ ] DNS (A)
+- 14–16 Audit, handover, mobile contracts
+  - [x] `PRODUCTION_READINESS.md`, `docs/*.md` (9 handover documents + `MOBILE_BACKEND_CONTRACTS.md`)

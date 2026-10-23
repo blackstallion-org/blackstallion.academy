@@ -1,6 +1,8 @@
 # Mobile performance pass — notes
 
-Branch `perf/mobile-lighthouse`, commit range **`44d1fcf..HEAD`** (on top of the `baseline` commit `44d1fcf`).
+Work done in an isolated copy (local branch `perf/mobile-lighthouse`, sandbox commits `44d1fcf..b931489`) and merged into
+the repository in commit `a05f398` on branch `session/2026-10-24-final-completion`. Summary and the final before/after
+measurement: `docs/PERFORMANCE_REPORT.md`.
 No dependency, `package.json`, lockfile, `next.config.mjs` or `node_modules` change. Two new image files (WebP copies);
 every original asset is kept. `productionBrowserSourceMaps` was only ever enabled in a scratch copy, never here.
 

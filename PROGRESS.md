@@ -94,7 +94,7 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
   `docs/IMPLEMENTATION_PROGRESS.md` (now the canonical progress file).
 
 - [x] **Session 23–24 Oct 2026 · Mobile performance pass** (branch `perf/mobile-lighthouse`). Results, visible changes
-  and open options: `PERF_NOTES.md`; summary in `docs/IMPLEMENTATION_PROGRESS.md`.
+  and open options: `docs/PERF_NOTES.md`; summary in `docs/IMPLEMENTATION_PROGRESS.md`.
 
 ## Session 24 Oct 2026 · Effects integration (React Bits / 21st.dev pieces, on-brand)
 Branch `session/2026-10-24-fx-integration`. New shared primitives in `components/motion/fx/` (all TS, tokens only, reduced-motion safe, no new dependencies — gsap/motion/three were already installed):
