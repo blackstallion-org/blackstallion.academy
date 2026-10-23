@@ -1,0 +1,63 @@
+[
+  {
+    "name": "gallop",
+    "source": "pwlpl-horses-galloping-sound-effect-359255.mp3",
+    "startSeconds": 1,
+    "durationSeconds": 2.6,
+    "bytes": 32018
+  },
+  {
+    "name": "neigh",
+    "source": "mixkit-scared-horse-neighing-85.wav",
+    "startSeconds": 0,
+    "durationSeconds": 2.48,
+    "bytes": 30451
+  },
+  {
+    "name": "snort",
+    "source": "mixkit-horse-stallion-snore-75.wav",
+    "startSeconds": 0,
+    "durationSeconds": 1.386,
+    "bytes": 17599
+  },
+  {
+    "name": "desert-chase",
+    "source": "ElevenLabs_Fast_cinematic_horse_chase_in_open_desert_Multiple_horses_galloping_on_dry_dirt_road,_strong_layere.mp3",
+    "startSeconds": 2,
+    "durationSeconds": 3.2,
+    "bytes": 39228
+  },
+  {
+    "name": "herd",
+    "source": "ElevenLabs_A_herd_of_racing_horses_galloping_fast,_multiple_horses_neighing_and_whinnying_at_the_same_time,_dir.mp3",
+    "startSeconds": 0.2,
+    "durationSeconds": 2.8,
+    "bytes": 34526
+  },
+  {
+    "name": "chariot",
+    "source": "freesound_community-horse-and-chariot-30-sec-73615.mp3",
+    "startSeconds": 4,
+    "durationSeconds": 3,
+    "bytes": 36720
+  },
+  {
+    "name": "horse-call",
+    "source": "freesound_community-081739_horse-88614.mp3",
+    "startSeconds": 0,
+    "durationSeconds": 1.77,
+    "bytes": 21987
+  },
+  {
+    "name": "leather",
+    "source": "Original synthetic UI foley; generated locally, no third-party material",
+    "durationSeconds": 0.16,
+    "bytes": 14156
+  },
+  {
+    "name": "tack",
+    "source": "Original synthetic UI foley; generated locally, no third-party material",
+    "durationSeconds": 0.22,
+    "bytes": 19448
+  }
+]
