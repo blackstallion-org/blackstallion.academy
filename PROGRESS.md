@@ -86,3 +86,9 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
   - ~60 hard-coded copper/sand/dust/white colours in SVG diagrams moved to tokens (`var(--color-…)` / `color-mix`), so diagrams read on both tones. Seal metal, QR, passport cover, parents rail and contact gates re-coloured to antique gold / leather.
   - Contrast: every text token pair checked ≥ 4.5:1 on canvas, surface and raised panel in both tones.
   - Verified: lint, typecheck, build pass. Every route screenshotted at 1440 and 390, plus reduced motion, menu, loader, solid nav and keyboard focus. Caveat: the Higgsfield CDN and hero mp4s were unreachable from the review sandbox, so photographs were checked against stand-in frames from the hero poster; re-check with real media.
+
+- [x] **Session 23 Oct 2026 · Completion Master Directive.** Lint 0 errors; Next.js 16.4.2 security patch; consent,
+  attribution, idempotency and rate limits on every enquiry; server-side `/verify` with real statuses; CSP and security
+  headers; error boundaries; 3D failure resilience; sitemap/robots; payment core (not connected); website-intake
+  migration (tested, not applied); CI workflow; 29 unit + 147 SQL + 12 E2E checks passing. Details and blockers:
+  `docs/IMPLEMENTATION_PROGRESS.md` (now the canonical progress file).

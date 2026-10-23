@@ -33,12 +33,15 @@ Never hard-code a hex for UI; use the role tokens (SVG attributes accept `var(--
 
 | Role | Font | Class |
 | --- | --- | --- |
-| Headline line 1 | Kalnia 200, wdth 125, caps | `.t-inscribe` |
-| Headline line 2 | Kalnia 600, wdth 100 | `.t-voice` |
+| Headline line 1 | Noto Serif Display 400, upright tracked caps | `.t-inscribe` |
+| Headline line 2 | Noto Serif Display ~420, italic | `.t-voice` |
 | Story / body | Newsreader (italic = documentary voice) | default, `.t-story` |
-| Labels, nav, buttons | Mona Sans 600, wdth 75, caps, tracked | `.label` |
-| UI text | Mona Sans 450 | `.t-ui` |
+| Labels, nav, buttons | Plus Jakarta Sans 600, normal width, caps, tracked | `.label` |
+| UI text | Plus Jakarta Sans 450 | `.t-ui` |
 | Numbers, codes | Martian Mono | `font-mono` |
+
+Since 23 Oct 2026 (owner's request) the display face is Noto Serif Display and the UI face Plus Jakarta Sans; the
+condensed blackletter (Pirata One) and condensed label width are retired. Kalnia and Mona Sans files remain but are unused.
 
 Never use Cinzel, Cormorant, Playfair, Inter, Bodoni or Space Grotesk.
 
