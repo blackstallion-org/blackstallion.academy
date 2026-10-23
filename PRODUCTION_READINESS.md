@@ -59,7 +59,7 @@ documents; a real passport code verifies (rank and issue date only); unknown cod
 | Parent enquiry with QR attribution (`/parents?qr=qa-live-test`) | "Received"; lead stored with `qr` attribution; mirrored into `qr_lead_captures` (source `website-qr`); Formspree accepted; Resend sent |
 | `/verify` | Sample code → record labelled "SAMPLE RECORD · DEMO DATA"; unknown code → "No sealed record matches this code" (answer from the live registry) |
 | Password reset form | Unknown address → the same generic answer as a real one (no account discovery) |
-| Images | **Defect found and fixed in this pass:** stills pointed at PNG masters that are not in git, so they were blank on Vercel. Stills now load their shipped WebP copies; `tests/media.test.mjs` guards it. Needs the next preview to confirm |
+| Images | **Defect found and fixed in this pass:** stills pointed at PNG masters that are not in git, so they were blank on Vercel. Stills now load their shipped WebP copies; `tests/media.test.mjs` guards it. Confirmed on the next preview (commit `03e8d2b`): `/`, `/legend`, `/fleet`, `/verify` load with no failed requests and no broken images |
 
 Synthetic test rows are still in the live tables (two leads, one MOU request, one QR capture, one document row and its
 PDF). Deleting them needs the owner's approval (section 7).
@@ -74,7 +74,7 @@ PDF). Deleting them needs the owner's approval (section 7).
 | `bash supabase/tests/run.sh` | 176/176 (website schema, kept for a fresh project) |
 | `bash supabase/live/tests/run.sh` | 75/75 (replica of the live operations schema + website layer + fixes + rollback) |
 | `npm run build` | pass |
-| GitHub Actions | `verify` and `database` jobs green on the pushed branch |
+| GitHub Actions | runs #1–#4 green on the pushed branch (`verify` + `database` jobs) |
 
 Lighthouse 12 against a local production build (indicative only: no CDN, lab throttling, some media absent locally):
 
@@ -112,8 +112,8 @@ Open quality items (not changed, design decisions for the owner):
   public, open anonymous inserts on some tables, hub revenue figures public. Fixes are ready to draft on request.
 - No bot challenge (Turnstile) yet: forms rely on the honeypot, consent, idempotency and per-IP rate limits.
 - The Resend API key and Supabase secret key were pasted into a chat earlier; rotate them (owner approval, section 7).
-- A temporary fine-grained GitHub token was used for the push; local copies are deleted and the token itself should be
-  deleted in GitHub settings.
+- A temporary fine-grained GitHub token was used for the pushes; its local copies are deleted. Delete the token itself
+  in GitHub → Settings → Developer settings → Fine-grained tokens ("claude-bsah-push-2026-10-23").
 
 ## 7. Owner approvals still required
 
