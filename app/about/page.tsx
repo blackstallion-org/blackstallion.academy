@@ -1,4 +1,5 @@
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
+import { AcademyRibbon } from "@/components/sections/about/AcademyRibbon";
 import type { Metadata } from "next";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
@@ -47,6 +48,9 @@ export default function AboutPage() {
 
       {/* §2 · S32 six truths (second use) */}
       <Monolith label="Six truths we stand behind" lines={truths} />
+
+      {/* §2a · S69 depth ribbon */}
+      <AcademyRibbon />
 
       {/* §2b · Masked line reveal & sequenced kinetic telemetry stage */}
       <MandateKineticStage />

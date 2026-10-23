@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
+import { SealRing } from "@/components/motion/fx/SealRing";
 import { corridors, entity, legalNav } from "@/lib/content/site";
+
+const sealLegend = "THE BLACK STALLION ACADEMY · DOMINUS SUI · DOMINUS EQUI · ";
 
 const navLinks = [
   { href: "/legend", label: "The Legend" },
@@ -87,8 +90,11 @@ export function Footer() {
 
       {/* Content block: brand emblem, wordmark, tagline, nav and legal copy */}
       <div className="footer-meridian__content">
-        <div className="footer-meridian__mark" aria-hidden="true">
-          <CrestMark size="sm" className="h-12 w-12 object-contain" />
+        <div className="footer-meridian__mark">
+          {/* The crest inside a slowly turning seal legend (decorative; the brand name follows as text). */}
+          <SealRing decorative text={sealLegend} size={132} fontSize={9.5} className="text-gold">
+            <span aria-hidden="true"><CrestMark size="sm" className="h-12 w-12 object-contain" /></span>
+          </SealRing>
         </div>
 
         <p className="footer-meridian__brand">

@@ -506,7 +506,7 @@
 }
 
 .footer-meridian__mark {
-  width: clamp(44px, 4.1vw, 54px);
+  width: auto; /* holds the turning seal ring (SealRing), 24 Oct 2026 */
   height: auto;
   display: flex;
   justify-content: center;

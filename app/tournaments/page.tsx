@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
-import { CircuitTitle, CourseDiagram, FixtureBoard, Podium, StandingsLanes, TournamentActionGallery } from "@/components/sections/tournaments/TournamentScenes";
+import { CircuitTitle, FixtureBoard, Podium, StandingsLanes, TournamentActionGallery } from "@/components/sections/tournaments/TournamentScenes";
+import { PegRun } from "@/components/sections/tournaments/PegRun";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 
@@ -16,7 +17,7 @@ export default function TournamentsPage() {
       <CircuitTitle />
       <StandingsLanes />
       <FixtureBoard />
-      <CourseDiagram />
+      <PegRun />
       <HorizontalChapter typeface="western" chapter="Before the field" text="Precision begins before the starting line." />
       <TournamentActionGallery />
       <Podium />

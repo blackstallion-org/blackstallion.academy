@@ -78,7 +78,7 @@ export function FilmImage({
         >
           <Image
             src={src}
-            unoptimized={!LOCAL_MEDIA}
+            unoptimized={!LOCAL_MEDIA || /^https?:/.test(src)}
             alt={isLayer ? "" : (item?.alt ?? "")}
             fill
             sizes={sizes}

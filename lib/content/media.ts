@@ -19,6 +19,9 @@ const m = (file: string, id: string | null, alt: string, focus?: string): Media 
   focus,
 });
 
+/** A still that exists only on the CDN so far (no local master, no shipped WebP yet). */
+const cdnOnly = (id: string, alt: string, focus?: string): Media => ({ file: "", remote: `${CDN}${id}`, alt, focus });
+
 export const media = {
   /* ---------------------------------------------------- first set (9 Oct 2026) */
   heroDust: m("hero-dust.png", "hf_20261009_002316_a9ac0234-9080-4a64-8d92-cf0705055f6b.png", "A Marwari stallion emerging from a towering cloud of golden dust", "62% 45%"),
@@ -83,6 +86,18 @@ export const media = {
   journalReins: m("journal-reins.png", "hf_20261009_141653_ed15a453-da1c-4f1a-9507-25f09b028615.png", "Gloved hands holding leather reins lightly"),
   contactGate: m("contact-gate.png", "hf_20261009_142018_b4e92a4f-3602-4c04-85ce-1c80dfda6af5.png", "A studded Rajput fort gate at night between two lanterns"),
 
+  /* Session 24 Oct 2026: peg-run stages and the academy day. CDN-only until localised: run
+     `sh scripts/fetch-media.sh` on the Mac, convert to WebP (scripts/fetch-media.sh prints the command),
+     then swap `cdnOnly(...)` for `m("<file>.png", ...)` so deployments ship the WebP copy. */
+  pegApproach: cdnOnly("hf_20261023_203352_e8ba0198-d482-4933-a75b-6b1277dffe5f.png", "A cadet gallops a dark bay Marwari down the tent-pegging lane, lance upright, the peg far ahead"),
+  pegAlign: cdnOnly("hf_20261023_203028_a192fbb2-a4f6-4bcd-b77c-9c126cc488a4.png", "Cadets at the gallop lower their lances toward the peg", "55% 50%"),
+  pegLift: cdnOnly("hf_20261023_203028_999c71d9-6310-441e-8b1f-0612814875d5.png", "A lance point lifts a wooden peg out of the sand in a burst of dust"),
+  pegCarry: cdnOnly("hf_20261023_203352_3ddac800-53eb-477e-b08b-e1e7de08d11f.png", "A cadet rides past the line with the peg carried high on the lance", "60% 50%"),
+  dayTack: cdnOnly("hf_20261023_203352_a7760386-3847-4ed6-bc9f-3d7efe70d9da.png", "A girl cadet tightens the girth on a bay Marwari at dawn", "55% 40%"),
+  dayWalk: cdnOnly("hf_20261023_203351_4fc9f9c0-0a42-440b-aa8b-4af5cc6777cc.png", "Cadets lead their horses along a sandy path to the arena in the early morning"),
+  dayBrief: cdnOnly("hf_20261023_203029_e66b7be6-0324-4bc9-b409-5bc170280fea.png", "A former cavalry instructor points down the lane while cadets stand by their horses", "45% 40%"),
+  dayGroom: cdnOnly("hf_20261023_203028_bea6d903-f6d7-45e0-82fd-b9a0ca3cf91a.png", "A young cadet brushes the neck of a black Marwari in the stable", "40% 40%"),
+
   /* Preserved supplemental assets */
   curriculumHeroStatue: {
     file: "/images/curriculum-hero-statue.webp",
@@ -121,6 +136,6 @@ export const shippedFile = (file: string) => file.replace(/^(\/media\/[^/]+)\.(p
 export function mediaSrc(key: MediaKey): string | null {
   const item: Media = media[key];
   if (!item) return null;
-  if (LOCAL_MEDIA) return item.file;
+  if (LOCAL_MEDIA) return item.file || item.remote;
   return item.file ? shippedFile(item.file) : item.remote;
 }

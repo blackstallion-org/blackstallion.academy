@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AsciiChild } from "@/components/sections/why/AsciiChild";
 import { BreathCue } from "@/components/film/BreathCue";
 import { EndCard } from "@/components/film/EndCard";
 import { BigSlider, Glass, Monolith, SovereignCrucible, TrainList, WhyTitle } from "@/components/sections/why/WhyScenes";
@@ -18,6 +19,7 @@ export default function WhyPage() {
     <>
       <WhyTitle />
       <Glass />
+      <AsciiChild />
       <BreathCue />
       <SovereignCrucible />
       <BigSlider />

@@ -63,5 +63,22 @@ get journal-reins.png        "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32P
 get contact-gate.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_142018_b4e92a4f-3602-4c04-85ce-1c80dfda6af5.png"
 get lore-kala.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261011_142335_cc424b5d-501a-4bc6-9af2-edce6dba169a.png"
 get lore-nukra.png           "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261011_142423_18de8c55-e9b9-4415-970e-a1d04f0176ce.png"
+# Session 24 Oct 2026 (peg run + academy day). Shipped WebP copies: see the loop at the end.
+get peg-approach.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203352_e8ba0198-d482-4933-a75b-6b1277dffe5f.png"
+get peg-align.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203028_a192fbb2-a4f6-4bcd-b77c-9c126cc488a4.png"
+get peg-lift.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203028_999c71d9-6310-441e-8b1f-0612814875d5.png"
+get peg-carry.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203352_3ddac800-53eb-477e-b08b-e1e7de08d11f.png"
+get day-tack.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203352_a7760386-3847-4ed6-bc9f-3d7efe70d9da.png"
+get day-walk.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203351_4fc9f9c0-0a42-440b-aa8b-4af5cc6777cc.png"
+get day-brief.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203029_e66b7be6-0324-4bc9-b409-5bc170280fea.png"
+get day-groom.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203028_bea6d903-f6d7-45e0-82fd-b9a0ca3cf91a.png"
 get hero-loop.mp4             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002919_571f23fa-14a9-4d0b-bbe3-19f4311054d8.mp4"
 echo "Done: $(ls -1 | grep -c -E '\.(png|mp4)$') files. Restart npm run dev if it is running."
+
+# WebP copies for deployment (PNG masters stay git-ignored). Needs cwebp (brew install webp) or Python Pillow.
+for f in peg-approach peg-align peg-lift peg-carry day-tack day-walk day-brief day-groom; do
+  [ -s "$f.png" ] || continue; [ -s "$f.webp" ] && continue
+  if command -v cwebp >/dev/null; then cwebp -quiet -q 82 -resize 2048 0 "$f.png" -o "$f.webp";
+  else python3 -c "from PIL import Image;import sys;i=Image.open(sys.argv[1]).convert('RGB');i.thumbnail((2048,2048));i.save(sys.argv[2],'WEBP',quality=82)" "$f.png" "$f.webp"; fi
+  echo "webp $f.webp"
+done

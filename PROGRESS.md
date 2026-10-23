@@ -95,3 +95,22 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 
 - [x] **Session 23–24 Oct 2026 · Mobile performance pass** (branch `perf/mobile-lighthouse`). Results, visible changes
   and open options: `PERF_NOTES.md`; summary in `docs/IMPLEMENTATION_PROGRESS.md`.
+
+## Session 24 Oct 2026 · Effects integration (React Bits / 21st.dev pieces, on-brand)
+Branch `session/2026-10-24-fx-integration`. New shared primitives in `components/motion/fx/` (all TS, tokens only, reduced-motion safe, no new dependencies — gsap/motion/three were already installed):
+- `FilmNoise` (React Bits Noise) — home act cards + Legend ch. VIII (1950s) as worn archive film.
+- `EmberTrail` + `glow-cursor-gl.ts` (React Bits GlowCursor) — mouse-only ember trail on the dark home act cards.
+- `BrassBorder` (React Bits StarBorder) — travelling point of light on the home finale's primary CTA; finale pills/glass/hex replaced with square tokenised buttons.
+- `SealRing` (React Bits CircularText) — turning seal legend around the crest in the footer (decorative).
+- `VelocityMarquee` (React Bits ScrollVelocity) — virtues marquee inside the new peg run.
+- `MorphGallery` (21st.dev Morph Gallery, controlled) — noise dissolve between peg-run stages; cross-fade fallback.
+- `MaskedWord` (React Bits MaskedHeading) — "REVIVAL" cut out of the herd photograph, Legend ch. IX.
+- `ExpandingFrame` (React Bits ScrollExpand) — Schools §2b "Room to ride".
+- `AsciiRipple` (own build in place of React Bits Pro ASCII Ripple; no licence) — Why §1b.
+- `CurtainChapters` (GSAP "Animated Sections", scroll-driven, no wheel hijack) — Parents §1b morning session (times SAMPLE).
+- `DepthRibbon` (own CSS-3D build in place of React Bits Pro Depth Ribbon) — About §2a.
+- Tournaments §3: `PegRun` replaces the static course diagram (adapted from the uploaded "Art of the Peg" prototype; its unsourced "18 ms window" dropped).
+- Anatomy §1b: `DualBody` 3D rider+horse section ported from the uploaded "One conversation. Two bodies." prototype to three r186 (no CDN, report modals/GLB upload/audio removed).
+- Not adopted: Spline (off-brand demo scene, new deps), framer-motion (motion already installed), React Bits Pro registry, the Apple image-sequence demo (`HorseSequence` already covers it).
+- 8 new Higgsfield stills (Blueprint 8.3), CDN-only until `sh scripts/fetch-media.sh` is run on the Mac (now also writes WebP); then switch `cdnOnly` → `m` in media.ts and commit the WebPs.
+- Blueprint Part 4: S63–S69 added. Verified in the cloud sandbox: lint (0 errors), typecheck, `next build`; 390/1440 + reduced-motion screenshots of every touched section; keyboard focus on peg tabs and finale CTAs. Unit tests pass except the media test, which fails only in the sandbox because `public/images/*` were not copied there. Photos rendered as gradients in the sandbox (CDN blocked); judge the real stills on the Mac.

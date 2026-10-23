@@ -1,5 +1,6 @@
 "use client";
 
+import { FilmNoise } from "@/components/motion/fx/FilmNoise";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import { motion, useInView, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "motion/react";
@@ -260,6 +261,8 @@ export function Descent() {
       <div className="tone-dark editorial-photo-title">
       <div className="absolute inset-0">
         <EditorialImage><FilmImage name="legendFall" grade="none" className="opacity-100" /></EditorialImage>
+        {/* The 1950s frame plays as worn archive film: grain, dust, hairs, scratches. */}
+        <FilmNoise opacity={0.22} dust={0.6} scratches={0.8} flicker={0.45} blendMode="overlay" />
       </div>
       <div className="gutter relative">
         <ChapterHead id="fall" />

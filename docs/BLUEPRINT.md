@@ -262,6 +262,15 @@ Each section is built from one archetype. **Rule:** an archetype may appear once
 | S60 | Three gates | Three arches; choosing one opens its form | Contact §1 |
 | S61 | Letter | Chairman's letter on parchment | About §2 |
 | S62 | Org tree | Entity hierarchy | About §3 |
+| S63 | Peg run | Four stages of one run; stills dissolve through noise (MorphGallery), rider mark travels the 100 m lane; virtues marquee coda | Tournaments §3 (replaces S59) |
+| S64 | Dual body | 3D Marwari + cadet; pick a rider↔horse connection, view Coat/Bone/Muscle/Posture, walk/trot/canter | Anatomy §1b |
+| S65 | Masked word | A giant word cut out of a photograph that drifts behind the letters | Legend ch. IX |
+| S66 | Expanding frame | Small framed photo opens to full bleed on scroll; promise lands on it | Schools §2b |
+| S67 | ASCII ripple | Photo re-set as characters; the pointer ripples it (frost, crisis side) | Why §1b |
+| S68 | Curtain day | Pinned chapters that slide over one another; titles rise letter by letter | Parents §1b |
+| S69 | Depth ribbon | Frames winding past in 3D depth as you scroll | About §2a |
+
+Treatments (not archetypes; may repeat): **FilmNoise** (projected-film grain/dust/scratches: home act cards, Legend ch. VIII), **EmberTrail** (mouse-only ember trail: home act cards only), **BrassBorder** (travelling point of light on the one primary CTA: home finale), **SealRing** (turning seal legend around the crest: footer), **VelocityMarquee** (inside S63). All live in `components/motion/fx/` and honour reduced motion.
 
 ---
 
@@ -1145,6 +1154,21 @@ Model: **Cinema Studio Image 2.5** (`cinematic_studio_2_5`), 2K, 2 credits each.
 ### 8.1 Existing placeholders (generated 9 Oct 2026)
 
 heroDust · rearing · gallop · eye · riderLance · duneSilhouette · bgFort · bgArena · bgStable · bgPavilion · bgPassport · bgCharge · dustPlume · dustWall · heroLoop (video). See `public/media/PLACEHOLDERS.md`.
+
+### 8.3 Session 24 Oct 2026 (8 stills, PHOTO suffix + uniform line, 2K)
+
+| Key | File | Ratio | Prompt (abridged) |
+| --- | --- | --- | --- |
+| pegApproach | peg-approach.png | 16:9 | Side-on tracking shot, cadet galloping a dark bay Marwari down a tent-pegging lane, lance upright, peg far ahead |
+| pegAlign | peg-align.png | 16:9 | Three-quarter front, cadet at full gallop lowering the lance toward an angled peg |
+| pegLift | peg-lift.png | 16:9 | Ground-level close: lance tip lifting a wooden peg out of packed sand, burst of sand |
+| pegCarry | peg-carry.png | 16:9 | Cadet galloping past a white line marker, peg carried high on the lance |
+| dayTack | day-tack.png | 3:4 | Girl cadet tightening a girth in a stable at dawn, light through slats |
+| dayWalk | day-walk.png | 3:4 | Four cadets leading horses in single file to the arena, early morning |
+| dayBrief | day-brief.png | 3:4 | Former cavalry instructor briefing cadets beside their horses at dusk |
+| dayGroom | day-groom.png | 3:4 | Young cadet brushing a black Marwari in a lantern-lit stable |
+
+These are CDN-only until `scripts/fetch-media.sh` is run on the Mac (it now also writes WebP copies); then swap `cdnOnly(...)` for `m(...)` in `lib/content/media.ts` and commit the WebPs.
 
 ### 8.2 New set (43 stills)
 

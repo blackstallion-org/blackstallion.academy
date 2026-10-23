@@ -160,60 +160,6 @@ export function FixtureBoard() {
 }
 
 /** §3 · S59 course diagram. Signature: the rider marker gallops down the lane to the peg. */
-export function CourseDiagram() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
-  return (
-    <section aria-labelledby="course-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
-        <div>
-          <Label>The discipline</Label>
-          <Headline id="course-h" className="mt-4" inscription="The art of" voice="the peg." />
-          <ScrollRevealText className="t-story mt-6 text-sand">
-            Tent pegging is an old cavalry skill. Riders galloped at an enemy camp and lifted its wooden tent pegs on the point of a lance, bringing the tents down on the sleepers. Today it is a sport of nerve and timing.
-          </ScrollRevealText>
-        </div>
-        <div ref={ref} className="plate relative p-4 md:p-6">
-          <svg viewBox="0 0 600 220" className="w-full" role="img" aria-label="Tent pegging course: 100 metre run-up, peg about 6 centimetres wide, 9-foot lance, gallop around 35 km/h">
-            <rect x="20" y="90" width="560" height="40" fill="color-mix(in srgb, var(--color-brass) 8%, transparent)" stroke="color-mix(in srgb, var(--color-brass) 40%, transparent)" />
-            {Array.from({ length: 11 }, (_, i) => (
-              <g key={i}>
-                <line x1={20 + i * 50} x2={20 + i * 50} y1="130" y2="140" stroke="color-mix(in srgb, var(--color-brass) 40%, transparent)" />
-                <text x={20 + i * 50} y="156" textAnchor="middle" fontSize="10" className="font-mono" fill="var(--color-dust)">
-                  {i * 10}
-                </text>
-              </g>
-            ))}
-            <text x="300" y="176" textAnchor="middle" fontSize="11" className="label" fill="var(--color-sand)" letterSpacing="2">
-              100 M RUN-UP
-            </text>
-            <rect x="514" y="104" width="8" height="12" fill="var(--color-gold)" />
-            <line x1="518" x2="518" y1="60" y2="100" stroke="var(--color-gold)" strokeDasharray="2 3" />
-            <text x="518" y="52" textAnchor="middle" fontSize="11" className="font-mono" fill="var(--color-gold)">
-              PEG ≈ 6 CM
-            </text>
-            <line x1="540" x2="540" y1="80" y2="140" stroke="var(--color-blood)" strokeWidth="2" />
-            <text x="548" y="76" fontSize="10" className="label" fill="var(--color-blood)" letterSpacing="1.5">
-              LINE
-            </text>
-            <motion.g initial={{ x: 0 }} animate={inView ? { x: 470 } : {}} transition={{ duration: 2.6, ease: [0.45, 0, 0.9, 0.6], delay: 0.4 }}>
-              <circle cx="40" cy="110" r="8" fill="var(--color-bone)" />
-              <line x1="40" y1="110" x2="78" y2="118" stroke="var(--color-bone)" strokeWidth="2" />
-              <text x="40" y="78" textAnchor="middle" fontSize="10" className="font-mono" fill="var(--color-sand)">
-                ≈35 KM/H
-              </text>
-            </motion.g>
-            <text x="24" y="30" fontSize="10" className="font-mono" fill="var(--color-dust)">
-              LANCE · 9 FT
-            </text>
-          </svg>
-          <p className="t-ui mt-3 text-xs text-dust">Carry the peg past the line for full points. Distances indicative.</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /** §3b · Cinematic Forward-Zoom Tournament Circuit Action Showcase */
 export function TournamentActionGallery() {
   const slides: ReelSlide[] = [

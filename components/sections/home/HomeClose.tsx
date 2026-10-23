@@ -12,6 +12,7 @@ import { posts } from "@/lib/content/journal";
 import { corridors, entity } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { BrassBorder } from "@/components/motion/fx/BrassBorder";
 
 /** §13 Command AI · S13 terminal. Signature: the question types itself, the answer streams in. */
 export function HomeCommand() {
@@ -99,27 +100,29 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
         </p>
 
         {/* Minimized, Refined Headline */}
-        <h2 data-home-phrase data-home-final-title className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-[#FAF7F0] tracking-tight leading-snug [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] max-w-xl mx-auto">
+        <h2 data-home-phrase data-home-final-title className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-bone tracking-tight leading-snug [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] max-w-xl mx-auto">
           {finale.voice}
         </h2>
 
         {/* Action Buttons - Sleek, Compact Luxury Pills */}
-        <div data-home-detail className="mt-8 flex flex-wrap justify-center gap-2.5 sm:gap-3">
-          {finale.ctas.map((c, i) => (
-            <Link
-              key={c.href}
-              href={c.href}
-              className={cn(
-                "group inline-flex items-center gap-2 rounded-full px-5 py-2 font-mono text-[0.72rem] uppercase tracking-wider backdrop-blur-md transition-all duration-300 shadow-md",
-                i === 0
-                  ? "bg-gold text-black font-semibold hover:bg-gold/90 hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)]"
-                  : "bg-black/60 text-[#FAF7F0] border border-white/20 hover:border-gold hover:text-gold hover:bg-black/80 hover:scale-105"
-              )}
-            >
-              <span>{c.label}</span>
-              <Arrow className="transition-transform group-hover:translate-x-1" />
-            </Link>
-          ))}
+        <div data-home-detail className="mt-8 flex flex-wrap justify-center gap-3">
+          {finale.ctas.map((c, i) =>
+            i === 0 ? (
+              <BrassBorder key={c.href} as={Link} href={c.href} className="tone-dark group bg-night text-bone">
+                <span>{c.label}</span>
+                <Arrow className="transition-transform group-hover:translate-x-1" />
+              </BrassBorder>
+            ) : (
+              <Link
+                key={c.href}
+                href={c.href}
+                className="tone-dark label group inline-flex items-center gap-3 border border-line bg-night/85 px-7 py-4 text-sand transition-colors hover:border-gold hover:text-bone"
+              >
+                <span>{c.label}</span>
+                <Arrow className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            ),
+          )}
         </div>
 
         {/* Email Corridors - Clean Compact Micro Pills */}
@@ -128,7 +131,7 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
             <li key={c.id}>
               <a
                 href={`mailto:${c.email}`}
-                className="inline-block rounded-full bg-black/50 px-3.5 py-1 font-mono text-[0.66rem] tracking-wider text-sand/80 backdrop-blur-sm border border-white/10 transition-colors hover:border-gold/50 hover:text-gold"
+                className="inline-block border-b border-line py-1 font-mono text-[0.66rem] tracking-wider text-sand transition-colors hover:border-gold hover:text-gold"
               >
                 {c.email}
               </a>
@@ -142,7 +145,7 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
         </p>
         <Link
           href="/legend"
-          className="mt-3 inline-flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-gold/90 hover:text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.8)] transition-colors"
+          className="mt-3 inline-flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-gold hover:text-bone transition-colors"
         >
           <span>Begin at reel one</span>
           <Arrow />

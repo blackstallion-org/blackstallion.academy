@@ -1,6 +1,7 @@
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import { EditorialScrollSync, EditorialImage } from "@/components/motion/EditorialMotion";
 import type { Metadata } from "next";
+import { MaskedWord } from "@/components/motion/fx/MaskedWord";
 import Link from "next/link";
 import { BreathCue } from "@/components/film/BreathCue";
 import { EndCard } from "@/components/film/EndCard";
@@ -172,7 +173,10 @@ export default function LegendPage() {
 
       {/* IX · The revival — ascent timeline + vignette */}
       <section id="revival" aria-labelledby="revival-h" className="relative min-h-[100svh] overflow-hidden py-[clamp(6rem,14vh,12rem)]">
-        <div className="relative h-[65svh] min-h-[360px] mb-12"><EditorialImage><FilmImage name="legendRevival" grade="none" className="opacity-100" /></EditorialImage></div>
+        {/* S65 Masked word: the herd photograph seen only through the word. Signature: letters rise, the herd drifts behind them. */}
+        <div aria-hidden className="gutter mb-12">
+          <MaskedWord as="p" text="Revival" image="legendRevival" textScale={0.2} />
+        </div>
         <div className="gutter relative">
           <ChapterHead id="revival" />
           <Headline id="revival-h" className="mt-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]" inscription={revival.inscription} voice={revival.voice} />

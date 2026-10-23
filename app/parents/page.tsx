@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MorningCurtain } from "@/components/sections/parents/MorningCurtain";
 import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
@@ -19,6 +20,7 @@ export default function ParentsPage() {
       <ParentsTitle />
       <PinnedPhone />
       <ParentVantageGallery />
+      <MorningCurtain />
       <HorizontalChapter typeface="elegant" chapter="A parent's view" text="Watch who they are becoming." />
       <HoofPath />
       <Receipt />

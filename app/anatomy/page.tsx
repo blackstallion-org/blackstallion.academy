@@ -8,6 +8,7 @@ import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
 import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anatomy/AnatomyScenes";
 import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
+import { DualBody } from "@/components/sections/anatomy/DualBody";
 import { breedStandard } from "@/lib/content/anatomy";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
@@ -32,6 +33,9 @@ export default function AnatomyPage() {
         </ScrollRevealText>
         <SpecimenPlate mode="full" className="mt-12" />
       </section>
+
+      {/* §1b · one conversation, two bodies (3D rider and horse) */}
+      <DualBody />
 
       {/* §2 · S25 */}
       <HorizontalChapter typeface="condensed" chapter="The living form" text="Read the horse before asking it to move." tone="light" />
