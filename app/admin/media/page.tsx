@@ -1,18 +1,15 @@
-import { Suspense } from "react";
 import { connection } from "next/server";
 import { requireStaff } from "@/lib/auth/admin";
+import { logAdminError } from "@/lib/admin/server";
 import { deleteMedia } from "../actions";
 import { AdminNav } from "../AdminNav";
 import { UploadForm } from "../forms";
 
-export default function MediaPage() {
-  return <Suspense fallback={<p role="status" className="text-sand">Loading images…</p>}><Media /></Suspense>;
-}
-
-async function Media() {
+export default async function MediaPage() {
   await connection();
   const { supabase, profile } = await requireStaff();
   const { data, error } = await supabase.from("media_assets").select("id, storage_path, alt_text, mime_type, bytes, created_at").order("created_at", { ascending: false }).limit(60);
+  if (error) logAdminError("admin.media_load_failed", error);
   const items = data ?? [];
   return (
     <div>

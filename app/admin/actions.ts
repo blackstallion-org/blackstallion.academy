@@ -4,6 +4,9 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { LEAD_STATUSES } from "@/lib/admin/constants";
+import { uuidSchema } from "@/lib/admin/filters";
+import { logAdminError } from "@/lib/admin/server";
 import { fetchStaffProfile, isStaffRole, requireStaff } from "@/lib/auth/admin";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -70,16 +73,44 @@ export async function updatePassword(_prev: FormState, data: FormData): Promise<
   redirect("/admin");
 }
 
-const statuses = ["new", "reviewing", "contacted", "qualified", "closed", "rejected"] as const;
+const NOT_UPDATED = "Nothing was saved: this enquiry was not found, or your account can no longer change it.";
 
-/** Lead status change: staff only; RLS + column grants allow only status/assignee; the change is audited in the database. */
-export async function setLeadStatus(data: FormData) {
+/**
+ * Lead status change: staff only (checked first, before any input is read); RLS + column grants allow only
+ * status/assignee; the change is audited in the database. `.select("id")` returns the updated rows, so a row hidden
+ * by RLS reports "nothing saved" instead of a false success.
+ */
+export async function setLeadStatus(_prev: FormState, data: FormData): Promise<FormState> {
   const { supabase } = await requireStaff();
-  const id = z.string().uuid().safeParse(data.get("id"));
-  const status = z.enum(statuses).safeParse(data.get("status"));
-  if (!id.success || !status.success) return;
-  await supabase.from("onboarding_leads").update({ status: status.data }).eq("id", id.data);
-  revalidatePath("/admin");
+  const id = uuidSchema.safeParse(data.get("id"));
+  const status = z.enum(LEAD_STATUSES).safeParse(data.get("status"));
+  if (!id.success || !status.success) return { error: "Choose one of the listed statuses." };
+  const { data: rows, error } = await supabase.from("onboarding_leads").update({ status: status.data }).eq("id", id.data).select("id");
+  if (error) {
+    logAdminError("admin.lead_status_failed", error);
+    return { error: "The status was not saved. Please try again." };
+  }
+  if (!rows?.length) return { error: NOT_UPDATED };
+  revalidatePath("/admin", "layout"); // list, detail and audit log all show it
+  return { notice: `Status saved: ${status.data}.` };
+}
+
+/**
+ * "Assign to me": updates ONLY assigned_to, and only ever to the signed-in staff member's own id (taken from the
+ * verified session, never from the form). Staff check first.
+ */
+export async function assignLeadToMe(_prev: FormState, data: FormData): Promise<FormState> {
+  const { supabase, user } = await requireStaff();
+  const id = uuidSchema.safeParse(data.get("id"));
+  if (!id.success) return { error: "That enquiry reference is not valid." };
+  const { data: rows, error } = await supabase.from("onboarding_leads").update({ assigned_to: user.id }).eq("id", id.data).select("id");
+  if (error) {
+    logAdminError("admin.lead_assign_failed", error);
+    return { error: "The enquiry was not assigned. Please try again." };
+  }
+  if (!rows?.length) return { error: NOT_UPDATED };
+  revalidatePath("/admin", "layout");
+  return { notice: "Assigned to you." };
 }
 
 /** Website image upload to the public `website-assets` bucket (staff only; type sniffed from the bytes). */

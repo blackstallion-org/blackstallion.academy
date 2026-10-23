@@ -12,6 +12,16 @@ export function loadTs(relativePath) {
   return jiti.import(path.join(root, relativePath));
 }
 
+/**
+ * Fresh import with some modules swapped for test stand-ins, e.g. `{ "@/lib/auth/admin": "tests/helpers/fake-staff.mjs" }`.
+ * The application code is loaded unchanged; only the named imports resolve elsewhere (no test hooks in the app).
+ */
+export function loadTsWith(relativePath, aliases) {
+  const swapped = Object.fromEntries(Object.entries(aliases).map(([id, file]) => [id, path.join(root, file)]));
+  const scoped = createJiti(import.meta.url, { alias: { ...swapped, "@": root }, moduleCache: false, fsCache: false });
+  return scoped.import(path.join(root, relativePath));
+}
+
 /** Minimal loopback HTTP receiver that records JSON bodies and replies with a scripted response. */
 export async function loopback(handler) {
   const { createServer } = await import("node:http");
