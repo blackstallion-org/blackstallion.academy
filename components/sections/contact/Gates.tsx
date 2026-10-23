@@ -20,7 +20,7 @@ export function GateTitle() {
       <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-line bg-[linear-gradient(90deg,#2a1d15,#493126)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 2.25, ease: ease.inOut, delay: 0.45 }} />
       <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-line bg-[linear-gradient(270deg,#2a1d15,#493126)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 2.25, ease: ease.inOut, delay: 0.45 }} />
       <div className="gutter relative flex min-h-[92svh] flex-col justify-end pb-[10vh]">
-        <ReelMark n={15} act="ledger" />
+        <ReelMark n={16} act="ledger" />
         <Headline id="gate-h" as="h1" size="poster" animate="mount" delay={1.2} className="mt-6" inscription="The arena" voice="is open." />
         <p className="t-story mt-6 text-sand">Three corridors. Choose yours.</p>
       </div>

@@ -118,7 +118,7 @@ export function WhyTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={4} act="citadel" className="justify-center " />
+<div className="tone-light editorial-details gutter"><ReelMark n={5} act="citadel" className="justify-center " />
 <motion.p
           className="t-story mt-3 text-sm sm:text-base text-bone/90 max-w-lg mx-auto "
           initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}

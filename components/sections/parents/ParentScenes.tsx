@@ -37,7 +37,7 @@ export function ParentsTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={8} act="citadel" />
+<div className="tone-light editorial-details gutter"><ReelMark n={9} act="citadel" />
 <ScrollRevealText className="t-story mt-6 max-w-xl text-sand">You can&rsquo;t be in the arena every day. You can see everything that happens there.</ScrollRevealText></div>
 </section>
   );

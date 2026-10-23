@@ -46,7 +46,7 @@ export function ScienceTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={3} act="citadel" />
+<div className="tone-light editorial-details gutter"><ReelMark n={4} act="citadel" />
 <ScrollRevealText className="t-story mt-6 max-w-xl text-sand">Four systems, one twenty-minute session. Here is what we can show, and how sure we are.</ScrollRevealText><p className="label text-dust">Axis 0.0° · Pelvis ≈100/min · Stride</p></div>
 </section>
   );

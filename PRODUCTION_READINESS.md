@@ -1,117 +1,130 @@
-# BSAH website — production readiness (23 October 2026)
+# BSAH website — production readiness (23 October 2026, evening)
 
-Written for the Master Production Integration Directive (Layers 00–15). Each statement is backed by a test run or an
-explicit status. **Nothing below claims a live result that was not observed.** No credential appears in this file, in
-git, or in any log. The only places that hold them are the git-ignored `.env.local` on the Mac and the Vercel project's
-encrypted (sensitive) environment variables.
+Written for the "Full Autonomous Production Setup" directive (Layers 01–06). Every statement is backed by an observed
+result or an explicit status. **Nothing below claims a live result that was not observed.** No credential appears in
+this file, in git or in any log; they live only in the git-ignored `.env.local` on the Mac and in the Vercel project's
+sensitive environment variables.
 
-Status words: **LIVE** (observed working against the real service) · **TESTED** (automated tests pass against
-local stand-ins) · **CODED** (written, not exercised) · **BLOCKED_EXTERNAL** (needs an owner action or access this
-session does not have) · **DEFERRED** (deliberately not built yet).
+Status words: **LIVE** (observed working against the real service) · **TESTED** (automated tests pass against local
+stand-ins) · **CODED** (written, not exercised) · **OWNER** (needs an owner action or approval) · **DEFERRED**.
 
 ## 1. Verdict
 
-| Surface | Readiness | Why |
+| Surface | Status | Evidence |
 | --- | --- | --- |
-| Public website (marketing reels, forms, MOU, verify) | **Ready for a soft launch on `*.vercel.app` with indexing off.** | Build, lint, types, 43 unit, 176 database and 18 browser checks pass. Every enquiry is delivered through Formspree even if Supabase is not live; failures are shown honestly. |
-| Staff console (`/admin`: enquiries, documents, media) | **Code complete, not live.** | Needs the Supabase schema applied to the new project and a first staff account. Until then sign-in fails closed. |
-| Database (Supabase `tgwadczrfbljnepoaqtb`) | **Not applied.** BLOCKED_EXTERNAL | This session could not reach the project: the network proxy denies `*.supabase.co` and the Supabase connector only sees the old organisation. One-shot SQL is ready. |
-| E-mail (Resend) | **Coded and tested, not live.** | `api.resend.com` is blocked from this session. The sending domain is not verified, so only the Resend account owner can receive mail for now. |
-| Payments | **DEFERRED** by instruction | `lib/payments/core.ts` is tested but not connected. No live payment code path exists. |
-| Apps / Command Center / streaming | Out of scope | Not part of the website build. |
+| Public website on a Vercel **preview** | **LIVE (preview, protected, noindex)** | Preview built from the session branch; pages, headers, forms, `/verify` and e-mail checked on it (section 4) |
+| Enquiries (all gates) | **LIVE** | Synthetic MOU and parent enquiries reached Supabase, Formspree and Resend; MOU PDF stored privately |
+| Database (Supabase `tgwadczrfbljnepoaqtb`) | **LIVE** | Website layer + security fixes applied with approval; rolled-back live checks passed |
+| E-mail (Resend) | **LIVE, limited** | Staff notifications delivered. Sender domain not verified, so only the account owner's address can receive mail |
+| Formspree | **LIVE** | Server log shows `channels: ["database","formspree"]` for both test enquiries |
+| Staff console `/admin` | **CODED + partly LIVE** | Guard, noindex and the reset form's generic answer verified. Sign-in not exercised (owner's password). Reset links will not work until the Auth URL settings are changed (OWNER, section 6) |
+| Production (`blackstallion-academy.vercel.app`) | **Not deployed** | Waiting for launch approval. One accidental API production deployment was cancelled before it built |
+| Payments | **DEFERRED** by instruction | No live payment path exists |
+| Mobile apps, standalone Command Center | Out of scope | Not touched |
 
-**Stage: beta-ready for the public site once deployed; staff features are beta-ready once the schema is applied.**
+**Stage: preview-verified. Ready for production promotion once the owner approves (section 7).**
 
-## 2. What changed this session, by layer
+## 2. Where everything is
 
-| Layer | Work | Status | Files |
-| --- | --- | --- | --- |
-| 00 Audit | Full re-read of the stack, routes, env use and the prior audit | DONE | — |
-| 01 Safety | Pre-session archive and patch on the Mac (`_session_snapshots/2026-10-23-pre-session/`); every sync to the Mac is hash-guarded against the last known version so no user edit can be overwritten | DONE | — |
-| 02 Database | Additive migration `20261023000800_auth_storage_documents.sql`: profile-on-signup trigger (least-privilege `cadet` role), `generated_documents`, `media_assets`, RLS on both, three storage buckets with size/type limits and per-bucket policies, audit triggers. `supabase/combined/bsah_website_schema.sql` = all eight migrations for a new empty project | TESTED (176/176, re-apply idempotent); **not applied** | `supabase/migrations/…0800…`, `supabase/combined/`, `supabase/tests/40_*.sql` |
-| 03 Storage | `website-assets` (public read, staff write; PNG/JPEG/WebP ≤ 4 MB), `user-uploads` (owner folder only; + PDF), `private-documents` (staff only; PDF ≤ 20 MB). Magic-byte type detection, size checks, `prefix/yyyy/mm/uuid.ext` names, 5-minute signed URLs for private files. Existing images and 3D models are untouched | TESTED | `lib/storage/validate.ts`, `app/admin/media/`, `app/admin/documents/` |
-| 04 Auth | Supabase Auth for staff only: sign-in, sign-out, password reset by e-mail, new-password form (12+ chars, letters and a number), `/auth/confirm` callback, role check (`operations`, `executive_admin`) via RLS. `proxy.ts` guards `/admin/*`, adds `noindex` and `no-store`. No login on public pages. **No account is created by code** | TESTED (unit + browser redirect) | `proxy.ts`, `lib/auth/admin.ts`, `lib/supabase/{server,admin,rest}.ts`, `app/admin/**`, `app/auth/confirm/route.ts` |
-| 05 Forms | All six gates: zod validation, consent, honeypot, idempotency key, memory + database rate limits. Delivery order: Supabase → Formspree (server-side forward of the validated fields) → optional webhook → Resend notification. Success is shown only when at least one channel confirmed. MOU drafts are also stored as a private PDF when the database is live | TESTED | `app/actions.ts`, `lib/leads/formspree.ts` |
-| 06 E-mail | Resend client with idempotency keys, escaped HTML templates in the house palette, staff notification, optional applicant receipt (off by default). Logs carry event and status only, never addresses | TESTED (loopback) | `lib/email/resend.ts`, `lib/email/templates.ts` |
-| 07 Documents | MOU draft → A4 PDF (pdf-lib) with the same six paragraphs as the on-page draft, unsigned signature lines and a "draft only" footer. No invented clauses, figures or signatures | TESTED (text extracted from the PDF) | `lib/content/mou.ts`, `lib/documents/mou-pdf.ts`, `lib/documents/store.ts`, `app/schools/mou/actions.ts`, `MouGenerator.tsx` |
-| 08 Real data | No cadet progress, ranking, certificate or verification result is fabricated. `/verify` answers "registry not connected" until the database is live; demo codes stay labelled SAMPLE | TESTED | `lib/verify/lookup.ts` |
-| 09 Security | Supabase new-format keys sent only as `apikey`; the secret key is server-only and used only for private-bucket writes. CSP updated for the Supabase origin. `robots.txt` blocks `/admin` and `/auth/`. Login and document actions rate-limited | TESTED | `next.config.mjs`, `app/robots.ts`, `lib/security/rate-limit.ts` |
-| 10 Vercel/GitHub | See section 5. `.vercelignore` now also excludes env files, snapshots and local placeholder stills | BLOCKED_EXTERNAL (approval + push) | `.vercelignore` |
-| 11 Performance | Self-hosted fonts (removed the Google Fonts `@import` and `<link>`s), unused faces no longer preloaded. GSAP, Lenis and 3D kept | TESTED (build) | `lib/fonts.ts`, `app/globals.css`, `Matrix.tsx` |
-| 12 Monitoring | Structured, PII-free server logs for each delivery channel. Error tracking (Sentry) and uptime checks are not set up | PARTIAL / BLOCKED_EXTERNAL | — |
-| 13 Testing | See section 4 | TESTED | `tests/`, `supabase/tests/`, `scripts/e2e-smoke.mjs` |
-| 14–15 Readiness | This file; runbook and progress log updated | DONE | `PRODUCTION_READINESS.md`, `docs/DEPLOYMENT_RUNBOOK.md`, `docs/IMPLEMENTATION_PROGRESS.md` |
+| Item | Value |
+| --- | --- |
+| GitHub | `blackstallion-org/blackstallion.academy` (**public**, owner decision). Branch `session/2026-10-23-production-integration` pushed; `main` is still the original boilerplate commit |
+| CI | `.github/workflows/ci.yml`: `verify` (lint, types, unit tests, build, `npm audit`) and `database` (website-schema tests + live-replica tests on Postgres 16). Runs on every push |
+| Vercel | Team `blackstallion`, project `blackstallion-academy`, Next.js, Node 22.x, Git-connected, production branch `main`, Vercel Authentication on previews |
+| Vercel variables (sensitive, production + preview) | `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `RESEND_API_KEY`, `LEAD_NOTIFY_EMAIL`, `FORMSPREE_ENDPOINT`, `RATE_LIMIT_SALT`, `TRUSTEE_SESSION_SECRET` |
+| Deliberately unset | `NEXT_PUBLIC_ALLOW_INDEXING` (search engines stay out), `NEXT_PUBLIC_SITE_URL` (auth links use the request origin), `RESEND_FROM` / `RESEND_CONFIRMATIONS` (until the domain is verified), Turnstile keys (no account), payment keys, `NEXT_PUBLIC_LOCAL_MEDIA` |
+| Supabase | Project `tgwadczrfbljnepoaqtb`. It already runs the **operations schema** (users with roles PARENT … SUPER_ADMIN, cadets, hubs, MOU requests, QR leads). The website is an additive layer on top: `supabase/live/` (see its README). **Never apply `supabase/migrations/` or `supabase/combined/` to this project** |
 
-Owner-requested design work (no redesign of anything else):
+## 3. Database changes applied to the live project (owner-approved)
 
-- **Typography:** Noto Serif Display (display) + Plus Jakarta Sans (UI), both SIL OFL, self-hosted with licences in
-  `app/fonts/`. The doctrine line now reads as one statement, "We do not teach children to ride. *We forge them to lead.*",
-  balanced across 2–4 lines with no collisions from 320 px to 1920 px.
-- **Hero film:** the frame now matches the footage's true scope ratio (≈ 2.48 : 1), sits full-width under the
-  navigation, has no black bands, and the controls sit directly under the picture. Measured frame heights: 145 px
-  (360 px wide), 157 px (390), 173 px (430), 581 px (1440).
-- **Letter-roll menu animation** (AlignUI pattern, rebuilt on the site's `motion/react` and tokens; reduced motion =
-  plain text) on the desktop navigation and the Reels menu.
-- **House palette moodboard** section on the home page (after the image gallery): five existing stills in a collage on
-  ivory with the palette circles down the seam, plus a text column and swatch list. Built from the site's own images
-  and tokens, not copied from the reference.
-- **Not done:** the two uploaded HTML prototypes ("The Art of the Peg", "One Conversation. Two Bodies") are reference
-  only and are not integrated.
+| Migration | What it adds | Tests |
+| --- | --- | --- |
+| `supabase/live/migrations/20261023001000_website_layer.sql` | `onboarding_leads`, append-only `audit_events`, `generated_documents`, `media_assets`; `submit_lead_v2` (consent, idempotency, best-effort mirror into `mou_requests` / `executive_appointments` / `qr_lead_captures`), `consume_rate_limit`, `verify_passport` (minimal disclosure, honours `site_settings.verify_public`); three buckets with nine storage policies. Website staff = `SUPER_ADMIN` | 75/75 on a replica of the live schema (`bash supabase/live/tests/run.sh`) |
+| `supabase/live/migrations/20261023001100_security_fixes.sql` | F1: users can no longer change their own role, hub or active flag (trigger `users_guard_privileges`). F2: sign-up can no longer choose a role through user metadata; new accounts default to `PARENT` | Same suite; live sign-up injection check returned `PARENT` |
+| Rollback | `supabase/live/rollback/20261023001000_website_layer_rollback.sql` (drops only the layer's objects) | Tested on the replica |
 
-## 3. Environment variables
+Live verification (wrapped in a transaction that was rolled back, output in
+`docs/evidence/2026-10-23-live-supabase-check.md`): RLS on all four tables; anonymous submit stored and mirrored;
+duplicate detected; anonymous read denied; rate limit allows then blocks; no-consent refused; a parent account reads
+nothing, cannot promote itself and cannot write private files; a super admin reads and updates leads, uploads and records
+documents; a real passport code verifies (rank and issue date only); unknown codes answer "unknown".
 
-Set in Vercel as **sensitive** (production + preview) — values are never printed:
-
-`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `RESEND_API_KEY`, `FORMSPREE_ENDPOINT`,
-`LEAD_NOTIFY_EMAIL`, `RATE_LIMIT_SALT`, `TRUSTEE_SESSION_SECRET` (both random, generated for this project).
-
-Deliberately left empty: `NEXT_PUBLIC_ALLOW_INDEXING` (search engines stay out), `RESEND_CONFIRMATIONS` (no mail to
-applicants until the sending domain is verified), `RESEND_FROM` (defaults to Resend's test sender),
-`NEXT_PUBLIC_SITE_URL` (auth links fall back to the request origin), `TRUSTEE_INVITATIONS_JSON` (no invitations
-issued), Turnstile keys (no account), payment keys (deferred).
-
-## 4. Test evidence (cloud build copy, Linux, 23 Oct 2026)
+## 4. Live checks on the preview deployment
 
 | Check | Result |
 | --- | --- |
-| `npm run lint` | 0 errors, 8 warnings (pre-existing, in untouched files) |
+| Headers | CSP, HSTS, `X-Frame-Options: DENY`, `nosniff`, strict referrer policy, `x-robots-tag: noindex`; `robots.txt` = `Disallow: /` |
+| `/admin` | Redirects to sign-in; sign-in and reset pages are `noindex`, `private, no-store` |
+| MOU enquiry (`/schools/mou`, synthetic "QA Synthetic School (live test)") | "Received" shown; `onboarding_leads` row with consent and UTM; `mou_requests` mirror (PENDING); MOU PDF in `private-documents` with a `generated_documents` row; audit rows; Formspree accepted; Resend notification delivered |
+| Parent enquiry with QR attribution (`/parents?qr=qa-live-test`) | "Received"; lead stored with `qr` attribution; mirrored into `qr_lead_captures` (source `website-qr`); Formspree accepted; Resend sent |
+| `/verify` | Sample code → record labelled "SAMPLE RECORD · DEMO DATA"; unknown code → "No sealed record matches this code" (answer from the live registry) |
+| Password reset form | Unknown address → the same generic answer as a real one (no account discovery) |
+| Images | **Defect found and fixed in this pass:** stills pointed at PNG masters that are not in git, so they were blank on Vercel. Stills now load their shipped WebP copies; `tests/media.test.mjs` guards it. Needs the next preview to confirm |
+
+Synthetic test rows are still in the live tables (two leads, one MOU request, one QR capture, one document row and its
+PDF). Deleting them needs the owner's approval (section 7).
+
+## 5. Quality evidence
+
+| Check | Result |
+| --- | --- |
+| `npm run lint` | 0 errors, 8 pre-existing warnings |
 | `npm run typecheck` | pass |
-| `npm test` | trustee crypto script pass; **43/43** node tests (leads incl. Formspree-only and database-down paths, Resend escaping and idempotency, storage validation, MOU PDF content, storage upload/rollback, staff roles, proxy redirects and headers, payments core, verify) |
-| `bash supabase/tests/run.sh` | **176 passed, 0 failed** (all 8 migrations, RLS, storage policies, re-apply) |
-| `npm run build` | pass; all routes including `/admin/*` and the Proxy |
-| `npm run test:e2e` | **18/18** in Chromium: headers/CSP, 39 routes without CSP violations, hero frame ratio at 360/390/430/1440, doctrine statement, letter-roll hover, moodboard, lead double-click → one delivery, consent, verify, MOU PDF download, `/admin` redirect + `noindex` |
-| Live Supabase / Resend / Formspree calls | **Not run** — hosts blocked from this session (403 at the network proxy) |
+| `npm test` | trustee crypto script + **46/46** node tests (adds the media-path guard) |
+| `bash supabase/tests/run.sh` | 176/176 (website schema, kept for a fresh project) |
+| `bash supabase/live/tests/run.sh` | 75/75 (replica of the live operations schema + website layer + fixes + rollback) |
+| `npm run build` | pass |
+| GitHub Actions | `verify` and `database` jobs green on the pushed branch |
 
-## 5. Deployment status
+Lighthouse 12 against a local production build (indicative only: no CDN, lab throttling, some media absent locally):
 
-- Vercel team: `stingrajx7-8034s-projects`. Planned project `blackstallion-academy` (Next.js). Target: production on the
-  free `*.vercel.app` address, indexing off, **no DNS change**, no custom domain.
-- **Not created yet:** the Vercel connection can read the team but needs one more approval (team write access) before it
-  can create the project and add the sensitive variables. Approval links were sent in the chat; they expire after 10 minutes.
-- Local commits (not pushed): branch `session/2026-10-23-production-integration`. A clean copy of that commit was
-  checked separately: lint 0 errors, types pass, 43/43 tests, 176/176 database checks, build passes (57 pages).
-- The code is not on GitHub yet (the repo `blackstallion-org/blackstallion.academy` has one boilerplate commit and is
-  **public** — anything pushed there can be read by anyone). Vercel's GitHub app is installed only on the personal
-  `Stingraj` account, not on `blackstallion-org`.
-- Media: about 549 MB of files under `public/` would be committed (largest: `public/video/hero-main.mp4` 34.5 MB,
-  `public/models/rossbandiger-1/statue.glb` 33 MB). All are under GitHub's 100 MB limit. About 297 MB are unreferenced
-  (`docs/MEDIA_INVENTORY.md`) and could be moved out before pushing.
+| Page | Mobile perf | Desktop perf | Accessibility | Best practices | SEO |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `/` | 37 (TBT 3.8 s) | 78 | 94 → **97** after the fix below | 96 | 69* |
+| `/parents` | 63 | 95 | 96 | 96 | 69* |
+| `/schools/mou` | 68 | 97 | 96 | 96 | 69* |
+| `/verify` | 67 | 93 | 96 | 96 | 69* |
+| `/admin/login` | 68 | 98 | 100 | 93–96 | 69* |
 
-## 6. Blockers and the owner action that clears each
+\* SEO is capped only by "page is blocked from indexing", which is deliberate until launch.
 
-| # | Blocker | Owner action |
-| --- | --- | --- |
-| P1 | Database not applied | Supabase dashboard → project `tgwadczrfbljnepoaqtb` → SQL editor → run `supabase/combined/bsah_website_schema.sql` once (new, empty project only). Or reconnect the Supabase connector to that organisation and ask Claude to apply the migrations |
-| P2 | No staff account | Supabase → Authentication → Add user (your own e-mail). Then in SQL: `update public.profiles set role = 'executive_admin' where id = (select id from auth.users where email = '<your e-mail>');` |
-| P3 | Auth e-mail links | Supabase → Authentication → URL configuration: Site URL = the Vercel production address; add `<that address>/auth/confirm` to redirect URLs. Optional: Resend SMTP |
-| P4 | Resend sending domain | Verify `blackstallion.academy` in Resend (DNS records — needs your approval), then set `RESEND_FROM` and, if wanted, `RESEND_CONFIRMATIONS=1` |
-| P5 | Code on GitHub | Push the session branch from the Mac (command in the final report), and install the Vercel GitHub app on `blackstallion-org` — or deploy with `npx vercel --prod` from the Mac |
-| P6 | **Exposed credentials** | The Resend API key and the Supabase secret key were pasted into a chat. After the site is live, rotate both (Resend → API keys; Supabase → Settings → API keys) and update `.env.local` and the Vercel variables |
-| P7 | Monitoring | Choose an error tracker (e.g. Sentry) and an uptime check; neither is set up |
-| P8 | Legal | Privacy notice and minors' consent still marked "draft, pending legal review" (B06) |
-| P9 | Media licences | Higgsfield placeholder art, vendored components and 3D models need licence confirmation before a public launch (B04) |
+Fixed in this pass: editorial headline lines no longer carry an `aria-label` on a plain `<span>` (axe
+`aria-prohibited-attr`, 14 instances on the home page); reel numbers on 24 labels now match the reel list (they were
+one behind since `/statue` became reel 03; `/verify` showed "REEL 11" while its end card said reel 12).
 
-## 7. Approvals still required before a full public launch
+Open quality items (not changed, design decisions for the owner):
 
-DNS for `blackstallion.academy`, turning on search indexing, live payments (gateway account + sign-off), sending
-e-mail to applicants, and any change to production records. None of these has been done.
+- Mobile performance on `/` is held back by JavaScript (GSAP, Lenis, 3D, WebGL): 3.8 s total blocking time in the lab.
+  Options: lazy-mount the 3D/WebGL scenes below the fold, defer the loader, trim GSAP plugins per route.
+- Lighthouse flags the scroll "text reveal" words that sit at 35 % opacity before they are scrolled into view (colour
+  contrast). Screen readers get the full text; sighted users see full contrast once revealed. Raising the resting
+  opacity would change the effect, so it is left as designed.
+- About 140 MB of media in `public/` is unreferenced (`docs/MEDIA_INVENTORY.md`); removing it would speed up builds.
+
+## 6. Security notes
+
+- Secrets only in Vercel (sensitive) and `.env.local`; nothing in git, CI or logs. Logs record event names and statuses only.
+- The public repository contains no secrets; `.env.example` holds placeholders only.
+- Supabase Auth URL configuration is still the default: Site URL `http://localhost:3000`, no redirect URLs. Password
+  reset links would therefore point at localhost. Changing it is an owner decision because other apps on this project
+  may rely on the Site URL.
+- Other operations-schema findings (not changed; not part of the website): CCTV stream URLs readable by anyone, achievements
+  public, open anonymous inserts on some tables, hub revenue figures public. Fixes are ready to draft on request.
+- No bot challenge (Turnstile) yet: forms rely on the honeypot, consent, idempotency and per-IP rate limits.
+- The Resend API key and Supabase secret key were pasted into a chat earlier; rotate them (owner approval, section 7).
+- A temporary fine-grained GitHub token was used for the push; local copies are deleted and the token itself should be
+  deleted in GitHub settings.
+
+## 7. Owner approvals still required
+
+1. **Production promotion** to `blackstallion-academy.vercel.app` (merge the session branch into `main`, which Vercel
+   deploys to production). Indexing stays off unless approved separately.
+2. **Supabase Auth URL configuration**: Site URL and redirect URLs (`https://blackstallion-academy.vercel.app/**`,
+   `https://blackstallion-academy-*-blackstallion.vercel.app/**`, later `https://blackstallion.academy/**`).
+3. **First staff account**: the owner signs in (or sets `users.role = 'SUPER_ADMIN'` for their own user) and tests `/admin`.
+4. **Delete the synthetic QA rows** listed in section 4.
+5. **DNS** for `blackstallion.academy` and **Resend domain verification**, then `RESEND_FROM` and applicant receipts.
+6. **Search indexing** (`NEXT_PUBLIC_ALLOW_INDEXING=1`) after launch.
+7. **Key rotation** for the pasted Resend and Supabase secret keys (affects other services using them).
+8. Optional: fixes for the operations-schema findings in section 6; Turnstile; error tracking and uptime monitoring;
+   Supabase backups (the free plan has no point-in-time recovery).

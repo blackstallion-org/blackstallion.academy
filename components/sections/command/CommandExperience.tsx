@@ -28,7 +28,7 @@ export function CommandTeaser() {
   return <section id="home-command" aria-labelledby="command-h" className={styles.teaser} data-parallax-skip>
     <div className={styles.teaserBackground} aria-hidden><Image src="/images/admissions/academy-gate-backdrop.webp" alt="" fill sizes="100vw" /></div>
     <div className={styles.teaserIntro}>
-      <p className={styles.eyebrow}>Reel 13 / Information desk</p>
+      <p className={styles.eyebrow}>Reel 14 / Information desk</p>
       <h2 id="command-h">{command.inscription}<br /><span>{command.voice}</span></h2>
       <p>For principals and trustees: returns, insurance, safety and curriculum, answered on the spot.</p>
       <Link href="/command">Find an answer <ArrowRight size={20} strokeWidth={1} /></Link>

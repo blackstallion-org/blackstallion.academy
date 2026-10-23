@@ -25,7 +25,7 @@ export function SafetyTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={9} act="citadel" />
+<div className="tone-light editorial-details gutter"><ReelMark n={10} act="citadel" />
 <ScrollRevealText className="t-story mt-6 max-w-xl text-sand">No lance is lowered until the basics are second nature.</ScrollRevealText>      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kitLabels.map((k, i) => (
           <motion.li

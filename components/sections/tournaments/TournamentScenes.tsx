@@ -41,7 +41,7 @@ export function CircuitTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={12} act="ledger" />
+<div className="tone-light editorial-details gutter"><ReelMark n={13} act="ledger" />
 <ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText></div>
 </section>
   );

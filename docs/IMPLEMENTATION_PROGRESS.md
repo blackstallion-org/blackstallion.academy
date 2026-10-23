@@ -253,3 +253,25 @@ Full detail, evidence and blockers: **`PRODUCTION_READINESS.md`**. Summary:
 | Testing | 6 | 55 | 65 | 43 unit + 176 SQL + 18 E2E |
 | Production readiness | 4 | 30 | 36 | Readiness file, env plan, clean-clone build verified; Vercel project and deploy pending |
 | **Public website** | 100 | **54.3** | **62.4** | |
+
+## Session 23 October 2026 (third directive: Full Autonomous Production Setup, Layers 01–06)
+
+Full status and evidence: **`PRODUCTION_READINESS.md`** (rewritten for this pass). Summary:
+
+- **GitHub:** session branch pushed to the public `blackstallion-org/blackstallion.academy` (owner kept it public);
+  CI now also runs the database suites (`database` job). `main` untouched.
+- **Supabase (live, owner-approved):** the project already runs the operations schema, so the website was added as an
+  additive layer (`supabase/live/`): intake table with consent/idempotency/attribution, mirrors into the operations
+  tables, rate limiter, minimal-disclosure passport verification, documents/media records, three buckets, append-only
+  audit. Two security fixes for the operations schema (self-promotion and sign-up role injection). Replica suite 75/75;
+  live checks rolled back. `lib/auth/admin.ts` reads staff roles from `public.users` (SUPER_ADMIN) with the old
+  `profiles` table as fallback; `/verify` handles "verification switched off".
+- **Vercel:** project `blackstallion-academy` (team `blackstallion`), Git-connected, eight sensitive variables on
+  production + preview, protected preview deployed from the branch. No production deployment.
+- **Live on the preview:** MOU and QR-attributed parent enquiries reached Supabase, Formspree and Resend; MOU PDF stored
+  privately; `/verify` sample and unknown answers; reset form gives the generic answer; headers and noindex in place.
+- **Fixed in this pass:** stills were blank on Vercel because `mediaSrc` returned git-ignored PNG masters (now the
+  shipped WebP copies; `tests/media.test.mjs`); headline spans no longer carry a prohibited `aria-label` (home
+  accessibility 94 → 97); 24 reel labels renumbered after `/statue` became reel 03.
+- **Owner approvals pending:** production promotion, Supabase Auth URLs, first staff sign-in, deleting the synthetic QA
+  rows, DNS + Resend domain, indexing, key rotation; optional operations-schema fixes, Turnstile, monitoring, backups.

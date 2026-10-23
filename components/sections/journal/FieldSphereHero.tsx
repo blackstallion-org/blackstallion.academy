@@ -692,7 +692,7 @@ export function FieldSphereHero() {
               BSAH Field Archive
             </span>
             <span className="font-mono text-[0.62rem] tracking-[0.14em] uppercase text-sand/70">
-              Reel 14 · Visual Chronicle
+              Reel 15 · Visual Chronicle
             </span>
           </div>
         </div>
@@ -743,7 +743,7 @@ export function FieldSphereHero() {
 
       {/* Colophon (Bottom Right) */}
       <div className="fsh-chrome fsh-hide-in-grid right-[clamp(16px,2.8vw,36px)] bottom-[clamp(16px,2.6vh,32px)] font-mono text-[0.68rem] tracking-widest uppercase text-sand/60 hidden md:block">
-        Field Notes 2026 · Reel 14
+        Field Notes 2026 · Reel 15
       </div>
 
       {/* Grid Mode Toggle Button */}

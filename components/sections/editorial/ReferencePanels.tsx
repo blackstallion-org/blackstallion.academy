@@ -111,7 +111,7 @@ export function MarwariPortrait() {
   return (
     <ViscousLiquidCanvas
       id="marwari-portrait"
-      label="REEL 06A · STUDBOOK VISUAL STUDY"
+      label="REEL 07A · STUDBOOK VISUAL STUDY"
       title="The Sovereign Marwari"
       subtitle="Indigenous Rajasthani warhorse lineage. Microchipped under ISO 11784 telemetry with distinct lyre-curved ears and unyielding composure."
       imageUrl="/images/editorial/marwari-study.webp"

@@ -35,7 +35,7 @@ export function VerifyTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={11} act="ledger" />
+<div className="tone-light editorial-details gutter"><ReelMark n={12} act="ledger" />
 <ScrollRevealText className="t-story mt-6 max-w-xl text-sand pointer-events-auto">A public record of every cadet&rsquo;s rank and hours. Nothing private, nothing editable.</ScrollRevealText></div>
 </section>
   );

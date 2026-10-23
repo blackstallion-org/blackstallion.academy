@@ -31,7 +31,7 @@ export function FleetTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={6} act="citadel" />
+<div className="tone-light editorial-details gutter"><ReelMark n={7} act="citadel" />
 <ScrollRevealText className="t-story mt-6 max-w-2xl text-bone ">Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.</ScrollRevealText></div>
 </section>
   );

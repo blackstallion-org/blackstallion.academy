@@ -47,9 +47,12 @@ export function EditorialHeadline({ technique = "lines", ...props }: ComponentPr
         try {
           root.querySelectorAll<HTMLElement>(".t-inscribe, .t-voice").forEach((line, index) => {
             let revealed = false;
+            // aria "none": the line is a plain <span> inside the heading, where aria-label is not allowed (axe:
+            // aria-prohibited-attr) and its hidden children could leave the heading without a name. The split words
+            // stay as real text, so the heading reads exactly as before.
             splits.push(SplitText.create(line, {
               type: "lines,words",
-              mask: "lines", autoSplit: true, aria: "auto",
+              mask: "lines", autoSplit: true, aria: "none",
               onSplit(self) {
                 if (revealed) return;
                 const targets = technique === "words" ? self.words : self.lines;

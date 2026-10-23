@@ -40,7 +40,7 @@ export function HomeVerifier() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16 items-center">
           {/* Left Column: Editorial & Verifier Form */}
           <div className="lg:col-span-6 flex flex-col">
-            <Label reel={11}>The Seal · Tactile Dispatch</Label>
+            <Label reel={12}>The Seal · Tactile Dispatch</Label>
             <Headline
               id="verify-h"
               className="mt-4"
@@ -262,7 +262,7 @@ export function HomeStandings() {
       </div>
       <div className="gutter -mt-10 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
         <div className="relative">
-          <Label reel={12}>The Circuit</Label>
+          <Label reel={13}>The Circuit</Label>
           <Headline id="circuit-h" className="mt-4" inscription={circuit.inscription} voice={circuit.voice} />
         </div>
         <p className="label text-sand">
@@ -313,7 +313,7 @@ export function HomeShield() {
 
   return (
     <section aria-labelledby="shield-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
-      <Label reel={9}>The Shield</Label>
+      <Label reel={10}>The Shield</Label>
       <Headline id="shield-h" className="mt-4" inscription={shield.inscription} voice={shield.voice} />
       <div ref={ref} className="mt-14 grid lg:grid-cols-3">
         {shield.columns.map((c, i) => (

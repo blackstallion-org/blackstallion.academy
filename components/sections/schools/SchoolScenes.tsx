@@ -27,7 +27,7 @@ export function SchoolsTitle() {
         <India3DMap className="absolute inset-0 h-full w-full z-10" />
       </div>
       <div className="tone-light editorial-details gutter">
-        <ReelMark n={10} act="ledger" />
+        <ReelMark n={11} act="ledger" />
         <Headline id="schools-title" as="h1" size="1" animate="mount" inscription="Your campus" voice="becomes a citadel." />
         <ScrollRevealText className="t-story text-sand">A turnkey equestrian hub, funded, built and run by BSAH at zero capital expenditure to the school board, returning 25–30% of tuition to your institution.</ScrollRevealText>
         <div className="flex flex-wrap items-center gap-4">
@@ -82,7 +82,7 @@ export function ConfiguratorAndSimulator() {
 
         <div className="gutter relative grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:items-center">
           <div>
-            <Label reel={10}>For school boards</Label>
+            <Label reel={11}>For school boards</Label>
             <Headline id="tiers-h" className="mt-4" inscription={schoolsTeaser.inscription} voice={schoolsTeaser.voice} />
             <p className="mt-6 max-w-md text-sand">{schoolsTeaser.body}</p>
 

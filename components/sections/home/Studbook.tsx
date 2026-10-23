@@ -21,7 +21,7 @@ export function Studbook() {
   return (
     <section aria-labelledby="studbook-h" className="relative py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter">
-        <Label reel={6}>The Studbook</Label>
+        <Label reel={7}>The Studbook</Label>
         <Headline id="studbook-h" className="mt-4" inscription={studbook.inscription} voice={studbook.voice} />
       </div>
 

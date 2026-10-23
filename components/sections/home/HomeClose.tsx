@@ -27,7 +27,7 @@ export function HomeChronicle() {
   return (
     <section aria-labelledby="chronicle-h" className="relative py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter">
-        <Label reel={14}>The Chronicle</Label>
+        <Label reel={15}>The Chronicle</Label>
         <Headline id="chronicle-h" className="mt-4" inscription={chronicle.inscription} voice={chronicle.voice} />
       </div>
       <div className="gutter mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">

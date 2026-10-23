@@ -110,10 +110,17 @@ export const heroVideo = { file: "/media/hero-loop.mp4", remote: `${CDN}hf_20261
 
 export const LOCAL_MEDIA = process.env.NEXT_PUBLIC_LOCAL_MEDIA === "1";
 
+/**
+ * Deployed builds ship the WebP copy of every still (public/media/*.webp, tracked in git). The PNG masters are
+ * git-ignored and exist only on the Mac, so they are used only when NEXT_PUBLIC_LOCAL_MEDIA=1.
+ * tests/media.test.mjs checks that every key resolves to a file that is in the repository.
+ */
+export const shippedFile = (file: string) => file.replace(/^(\/media\/[^/]+)\.(png|jpe?g)$/i, "$1.webp");
+
 /** The URL the browser should load for a key, or null if nothing exists yet. */
 export function mediaSrc(key: MediaKey): string | null {
   const item: Media = media[key];
   if (!item) return null;
   if (LOCAL_MEDIA) return item.file;
-  return item.file || item.remote;
+  return item.file ? shippedFile(item.file) : item.remote;
 }

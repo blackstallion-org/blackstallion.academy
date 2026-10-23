@@ -439,7 +439,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
   return (
     <section
       id="matrix-h"
-      aria-label="Reel 03 · The Matrix"
+      aria-label="Reel 04 · The Matrix"
       ref={containerRef}
       className="relative w-full overflow-hidden bg-[#EBE5D7] text-[#3B291D] py-6 sm:py-10 transition-colors duration-300 font-sans"
     >
