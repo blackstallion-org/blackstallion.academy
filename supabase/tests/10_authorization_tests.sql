@@ -59,7 +59,14 @@ declare
   c2  uuid := '00000000-0000-0000-0000-00000000f002';
   hub uuid;
 begin
+  -- fixtures create their own profiles, so the sign-up trigger (migration 20261023000800) is paused here when present
+  if exists (select 1 from pg_trigger where tgname = 'on_auth_user_created_profile') then
+    execute 'alter table auth.users disable trigger on_auth_user_created_profile';
+  end if;
   insert into auth.users (id, email) select x, x::text || '@test.invalid' from unnest(array[ops,exe,ia,ib,g1,g2,cp1,sp]) x;
+  if exists (select 1 from pg_trigger where tgname = 'on_auth_user_created_profile') then
+    execute 'alter table auth.users enable trigger on_auth_user_created_profile';
+  end if;
   insert into public.profiles (id, display_name, role) values
     (ops,'Ops Test','operations'),(exe,'Exec Test','executive_admin'),(ia,'Instructor A','instructor'),
     (ib,'Instructor B','instructor'),(g1,'Guardian 1','parent_guardian'),(g2,'Guardian 2','parent_guardian'),

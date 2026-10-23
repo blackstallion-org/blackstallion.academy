@@ -1,0 +1,46 @@
+# BSAH website CI: lint, typecheck, unit/server tests, production build and a dependency audit.
+# Runs on Linux with no production secrets. Supabase/webhook/Turnstile variables are deliberately empty so every
+# test exercises the "not configured" paths; no external system is contacted.
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      SUPABASE_URL: ""
+      SUPABASE_PUBLISHABLE_KEY: ""
+      LEAD_WEBHOOK_URL: ""
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci --no-audit --no-fund
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit and server tests
+        run: npm test
+      - name: Production build
+        run: npm run build
+      - name: Dependency audit (production, high and above)
+        run: npm audit --omit=dev --audit-level=high
