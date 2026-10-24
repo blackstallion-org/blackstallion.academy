@@ -262,3 +262,35 @@ enquiries from parents of children, treat every suspected exposure as reportable
 
 **After the incident:** write what happened, the timeline, what worked, what failed and the changes made (no secrets,
 no personal data) in `docs/` under the date; update this runbook if a step was wrong.
+
+## 10. Function region and database latency
+
+**Where things run.** The Supabase project is in Seoul (`ap-northeast-2`). Vercel runs server code (server actions,
+admin pages, `/verify`, `/api/*`) in one *function region*, which defaulted to `iad1` (Washington, D.C.). Static files
+and pages served from the CDN are not affected by this setting. The Hobby plan allows one function region; `vercel.json`
+pins it to `icn1` (Seoul) and takes precedence over the dashboard default.
+
+**Measured, 24 Oct 2026.** `GET /api/health?deep=1` makes one read-only call to the database (`verify_passport`, with a
+code that cannot exist) and reports how long it took as `dbMs`. Eight samples per setting, 16.5 s apart (the endpoint
+reuses a result for 15 s), requested from a browser in India (path: Mumbai edge `bom1`, then the function):
+
+| Function region | Deployment (commit) | `dbMs` min / median / max |
+| --- | --- | --- |
+| `iad1` (before) | `8e6652d` | 587 / 635 / 685 |
+| `icn1` (after, first run; a site crawl was loading the preview at the same time) | `ea4e8e4` | 45 / 54 / 227 |
+| `icn1` (after, clean run) | `ea4e8e4` | 39 / 45 / 179 |
+
+The database leg of the health check is about 14 times shorter. The whole request as the browser saw it (one location,
+background browser pane, so indicative only) took a median of 1.35 s before and 0.31 s after.
+
+**What this shows and what it does not.** An enquiry makes two database calls in a row (the rate-limit check, then the
+save) plus the Formspree and Resend calls; only the database share shrinks, by roughly the saving above for each call
+(the second call may reuse the first call's connection, so the saving is not exactly doubled). That was not timed
+separately. Admin pages were not timed because no staff session existed yet; after the first staff sign-in, time them
+(browser network panel) and add the figures here. To reproduce the "before", deploy a branch whose `vercel.json` says
+`"regions": ["iad1"]`.
+
+**Rules.** Keep the function region next to the database. If the database moves (decision D5 in
+`docs/BUSINESS_LEGAL_REVIEW.md`: Mumbai instead of Seoul), change `vercel.json` in the same pull request (`bom1`).
+Several function regions need the Pro plan. To roll back, delete `vercel.json` (the project default `iad1` returns) or
+edit the region and push.

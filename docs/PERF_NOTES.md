@@ -299,11 +299,13 @@ round); where a number belongs to a group of commits it says so.
 10. **Hero status row (pre-existing):** on phones "Buffering film…" takes its own row under the film, so a stall
     longer than a second still moves the page (two 0.0122 shifts, in one home run in three on both sides). Reserving
     the row's height would remove it but adds a permanent empty line under the controls — a layout decision.
-11. **Pre-existing:** the home story reel's "Explore chronicle" link points to `/history`, which 404s (its prefetch
-    shows in the console; baseline too). The four Matrix thumbnails (`/images/matrix/{brain,spine,muscle,heart}-thumb.webp`)
-    404 **only in the sandbox integration copy**, which was assembled from an incomplete media copy; they are tracked in
-    the owner's repository (commit `487e683`) and return 200 on the Vercel preview (checked 24 Oct, preview of
-    `d219262`). They are not a site defect and must not be deleted from the repository.
+11. **Checked on the final tree:** the home story reel's "Explore chronicle" link goes to `/legend` (changed from
+    `/history` in `cca22b3`; an earlier version of this note said it still 404ed). A crawl of the preview of `ea4e8e4`
+    (38 pages, every internal link followed, 160 images and files requested) found no 404. The four Matrix thumbnails
+    (`/images/matrix/{brain,spine,muscle,heart}-thumb.webp`) 404 **only in the sandbox integration copy**, which was
+    assembled from an incomplete media copy; they are tracked in the owner's repository (commit `487e683`) and return
+    200 on the Vercel preview (checked 24 Oct, previews of `d219262` and `ea4e8e4`). They are not a site defect and
+    must not be deleted from the repository.
 
 ## 7. Risks
 

@@ -70,6 +70,14 @@ The real saving is 267 KB less before the first paint and 0.27 MB less per visit
 because it is limited by main-thread work, not by bytes (an offline model with every font and image removed still
 scores only 71: `docs/PERF_NOTES.md` 8a). Run-to-run noise is about ±5 points.
 
+## 2d. Server region (24 Oct, after the request-hygiene pass)
+
+The database is in Seoul; the Vercel functions defaulted to Washington, D.C. (`iad1`). `vercel.json` now pins them to
+Seoul (`icn1`). The read-only database probe behind `GET /api/health?deep=1`, eight samples each, from a browser in
+India: median **635 ms before, 45 ms after** (clean run; range 39–179 ms). This is the server-to-database leg only; it
+does not change the Lighthouse scores above (which measure the statically served home page) but applies to every
+enquiry, passport lookup and admin page. Method, all samples and limits: `docs/DEPLOYMENT_RUNBOOK.md` section 10.
+
 ## 3. What changed
 
 - The hero poster paints from the first frame (home LCP 17.4 s → 6.5 s).

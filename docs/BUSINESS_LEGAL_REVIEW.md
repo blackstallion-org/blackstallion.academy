@@ -147,7 +147,7 @@ now (sources: section 11; counsel to confirm dates and applicability). Practical
   connected. At present it shows only labelled SAMPLE codes and says "the registry is not connected". Before real
   records go live the page needs guardian opt-in and a decision on what a public lookup may reveal.
 - Photographs or video of children (the site uses AI placeholders now) will need parental image consent.
-- Service providers named nowhere in the notice but used: Supabase (database, Seoul), Vercel (hosting, USA by default),
+- Service providers named nowhere in the notice but used: Supabase (database, Seoul), Vercel (hosting; the server functions run in Seoul, `icn1`, since `vercel.json` was added on 24 Oct, and were in the USA before; static files come from a worldwide CDN),
   Resend (e-mail), Formspree (form relay), Cloudflare Turnstile (optional, not enabled). The notice only says "hosting,
   e-mail" providers.
 - Cookies: the notice says there are no advertising or tracking cookies. Optional Vercel Web Analytics is controlled by
