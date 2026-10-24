@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ComponentPropsWithoutRef, type ElementType, type FC, type ReactNode, type Ref } from "react";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,6 +11,8 @@ import { cn } from "@/lib/utils";
  * once around the border; a press sends light both ways from the press point.
  * Reduced motion: the light rests at the top-left corner and never travels.
  * Square corners, no fill glow: this is a brass inlay, not a neon button.
+ * Cost control: nothing is measured or drawn until the button is within a screen of the viewport (no forced layout
+ * during hydration); the frame loop runs only while it is on screen.
  */
 type BrassBorderProps<T extends ElementType> = {
   as?: T;
@@ -76,8 +79,8 @@ export function BrassBorder<T extends ElementType = "button">({ as, children, cl
     if (!root || !canvas || !ctx) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const gold = () => { const cs = getComputedStyle(root); return cs.getPropertyValue("--color-gold").trim() || cs.color; };
-    let rgb = toRgb(gold());
-    const st = { w: 0, h: 0, dpr: 1, phase: 0, lap: -1, flash: 0, visible: true, hover: false };
+    let rgb: [number, number, number] = [0, 0, 0];
+    const st = { w: 0, h: 0, dpr: 1, phase: 0, lap: -1, flash: 0, visible: false, hover: false };
     const pulses: { origin: number; age: number }[] = [];
     let raf = 0;
     let last = performance.now();
@@ -197,18 +200,20 @@ export function BrassBorder<T extends ElementType = "button">({ as, children, cl
     const onVis = () => wake();
 
     const ro = new ResizeObserver(measure);
-    ro.observe(root);
     const io = new IntersectionObserver((entries) => {
       st.visible = entries.some((en) => en.isIntersecting);
       if (st.visible) wake();
     });
-    io.observe(root);
-    root.addEventListener("pointerenter", lap);
-    root.addEventListener("pointerdown", onDown);
-    root.addEventListener("focus", onFocus);
-    document.addEventListener("visibilitychange", onVis);
-    measure();
+    const stop = whenNearViewport(root, () => {
+      ro.observe(root);
+      io.observe(root);
+      root.addEventListener("pointerenter", lap);
+      root.addEventListener("pointerdown", onDown);
+      root.addEventListener("focus", onFocus);
+      document.addEventListener("visibilitychange", onVis);
+    });
     return () => {
+      stop();
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();

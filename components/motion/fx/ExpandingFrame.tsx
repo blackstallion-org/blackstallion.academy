@@ -3,6 +3,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import type { MediaKey } from "@/lib/content/media";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
 
@@ -99,11 +100,15 @@ export function ExpandingFrame({
       target = read();
       if (!raf) raf = requestAnimationFrame(tick);
     };
-    target = current = read();
-    apply(current);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    // Measured and wired only when the scene is within a screen of the viewport (no forced layout during hydration).
+    const stop = whenNearViewport(track, () => {
+      target = current = read();
+      apply(current);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+    });
     return () => {
+      stop();
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);

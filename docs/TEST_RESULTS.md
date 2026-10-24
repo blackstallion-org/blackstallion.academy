@@ -4,7 +4,10 @@ All numbers below were observed in this session. "Local" = the integrated branch
 (Linux, Node 22, production build, Postgres 16, Chromium). "Preview" = the protected Vercel preview of the pushed
 branch. "Live DB" = the Supabase project, inside transactions that were rolled back unless stated.
 
-## 1. Automated suites (local, branch `session/2026-10-24-final-completion`)
+## 1. Automated suites (local, branch `session/2026-10-24-final-completion` = this session's work + the effects integration)
+
+Re-run on the combined branch after the effects integration (`2812e70`) and the review fixes: same results as below
+(lint 0 errors, types pass, 79/79, build passes, 18/18 browser smoke).
 
 | Suite | Command | Result |
 | --- | --- | --- |
@@ -71,6 +74,29 @@ Targeted re-verification after the fixes (local, Playwright):
 - home with reduced motion: film usable, no page errors
 - title-card rise: animates in normal motion, static in reduced motion, no console errors
 
+## 4b. Effects integration audit (local, 24 Oct)
+
+Commit `2812e70` (another session) added 11 effects and 2 interactive scenes. Checked with an independent code review
+and two browser audits of every new section (320, 390, 768, 1024, 1440, 1920 px; reduced motion at 390/1440; keyboard):
+horizontal overflow, text collisions, small targets, frames changing under reduced motion, page errors, keyboard focus.
+Found 2 high, 6 medium, 15 low (list in `docs/IMPLEMENTATION_PROGRESS.md` F17). After the fixes, targeted checks
+(Playwright, production build):
+- finale e-mails on a dark backing at 360/390/1440/1920; no headline/button collision at 1280/1920
+- `/schools` frame headline and `/parents` chapters 1–4 present in the accessibility tree before scrolling; one `h2`;
+  every chapter label reads "· Sample ·"
+- ember trail: no WebGL context at load, 2 once the act cards are near (desktop mouse), 0 on a touch phone profile,
+  0 with reduced motion; grain tiles generated only near the act cards
+- peg-run gallery (stills served locally with CORS so WebGL really runs): no animation frames while idle on screen or
+  scrolled away; marquee transform unchanged while offscreen
+- `/legend` revival still not requested at the top of the page, requested near chapter IX; `/why` crisis still fetched
+  only near its panel, which then draws
+- peg-run panel focusable, live caption `off` unless playing; Arrow keys move the tabs (peg run, dual body)
+- dual-body 3D mounts; corrected muscle note shown; no page errors on any checked route
+Remaining audit flags were checked by eye and are not defects: the two lines of every two-voice headline and the
+split letters of the curtain titles have overlapping line boxes (tight leading, glyphs clear), screen-reader-only copy,
+and missing stills in the sandbox (the matrix thumbnails exist in git and load on the preview; the eight new CDN stills
+are blocked by this sandbox's network and have not yet been seen on a preview).
+
 ## 5. Performance (local Lighthouse, mobile)
 
 Summary in `docs/PERFORMANCE_REPORT.md`:
@@ -93,3 +119,4 @@ Summary in `docs/PERFORMANCE_REPORT.md`:
 | Payments | deferred by instruction; only unit-tested helpers exist |
 | Real phones, Safari/Firefox, real GPU | sandbox has Chromium only, software WebGL |
 | Production deployment | not approved yet |
+| Effects on a deployment (eight CDN stills, peg-run WebGL morph with real CORS headers, real GPUs) | push pending; the sandbox cannot reach the Higgsfield CDN |

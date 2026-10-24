@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { mediaSrc, type MediaKey } from "@/lib/content/media";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { cn } from "@/lib/utils";
 
 /**
@@ -11,6 +12,7 @@ import { cn } from "@/lib/utils";
  * sampling coordinates and lifts the glyphs it passes. Colours come from the role tokens
  * (`--color-dust` → `--color-gold`), so it reads on light or dark scenes.
  * Decorative: aria-hidden; give the scene a text caption. Reduced motion: a still, unrippled frame.
+ * Cost control: the photograph is fetched and set as characters only when the panel is within a screen of the viewport.
  */
 type AsciiRippleProps = {
   image: MediaKey;
@@ -54,10 +56,9 @@ export function AsciiRipple({ image, cell = 11, ramp = " .·:-=+*%#@", gamma = 0
     let last = 0;
     const rings: Ring[] = [];
     let lastDrop = 0;
-    const style = getComputedStyle(wrap);
-    const dim = style.getPropertyValue(dimVar).trim() || style.color;
-    const hot = style.getPropertyValue(hotVar).trim() || style.color;
-    const font = style.getPropertyValue("--font-mono").trim() || "monospace";
+    let dim = "";
+    let hot = "";
+    let font = "monospace";
     const img = new Image();
 
     const build = () => {
@@ -161,13 +162,20 @@ export function AsciiRipple({ image, cell = 11, ramp = " .·:-=+*%#@", gamma = 0
       loaded = true;
       build();
     };
-    img.src = src;
     const ro = new ResizeObserver(build);
-    ro.observe(wrap);
     const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
-    io.observe(wrap);
-    wrap.addEventListener("pointermove", onMove);
+    const stop = whenNearViewport(wrap, () => {
+      const style = getComputedStyle(wrap);
+      dim = style.getPropertyValue(dimVar).trim() || style.color;
+      hot = style.getPropertyValue(hotVar).trim() || style.color;
+      font = style.getPropertyValue("--font-mono").trim() || "monospace";
+      img.src = src;
+      ro.observe(wrap);
+      io.observe(wrap);
+      wrap.addEventListener("pointermove", onMove);
+    });
     return () => {
+      stop();
       img.onload = null;
       cancelAnimationFrame(raf);
       ro.disconnect();

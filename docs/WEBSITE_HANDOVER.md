@@ -24,6 +24,14 @@ For whoever runs, changes or builds on the website next (including the mobile-ap
 - **Performance architecture:** heavy client work starts when its section approaches the viewport
   (`lib/motion/near-viewport.ts`, `use-near-viewport.ts`); offscreen loops pause; stills ship as WebP
   (`lib/content/media.ts` → `mediaSrc`). Reduced motion is honoured everywhere (no zoom, parallax, auto-advance).
+- **Effects** (24 Oct 2026): shared primitives in `components/motion/fx/` (film grain, ember trail, brass border, seal
+  ring, velocity marquee, morph gallery, masked word, expanding frame, ASCII ripple, curtain chapters, depth ribbon) and
+  two 3D/interactive scenes (`components/sections/tournaments/PegRun.tsx`, `components/sections/anatomy/DualBody.tsx`
+  with its three.js engine in `dual-body/`). Rules they follow: role tokens only, decorative layers `aria-hidden`, a
+  still or static layout under reduced motion, WebGL started only near the viewport and its context released on unmount.
+- **Stills on the CDN:** eight stills (`cdnOnly` in `lib/content/media.ts`: peg-run stages and the academy morning) are
+  still served as 2K PNGs from the Higgsfield CDN. Run `sh scripts/fetch-media.sh` on the Mac, commit the WebPs and
+  switch them to `m(...)` before launch.
 
 ## 2. How the backend works
 
@@ -107,6 +115,7 @@ commit (never force-push). Local pre-session snapshots: `_session_snapshots/` an
 | Reset link opens localhost / fails | Supabase → Auth → URL configuration | address missing from the redirect allow-list |
 | 500 error | Vercel → Logs: `server.error` (route, digest, redacted message); alert e-mail if configured | code or data error |
 | Blank stills on a deployment | `tests/media.test.mjs`; request `/media/<name>.webp` | a key points at a git-ignored PNG master |
+| A 3D or WebGL scene shows only its still | browser console (WebGL errors), `chrome://gpu` | no WebGL, too many live contexts, a CDN still without CORS (the peg-run gallery then cross-fades) |
 | Slow page | `docs/PERFORMANCE_REPORT.md` method; Vercel Speed Insights if enabled | new eager client work, large media |
 
 ## 11. Mobile apps

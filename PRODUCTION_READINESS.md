@@ -1,4 +1,4 @@
-# BSAH website — production readiness (24 October 2026, final audit)
+# BSAH website — production readiness (24 October 2026, final audit, updated after the effects integration)
 
 Fresh audit after the "Final Master Execution Directive". Every status is backed by evidence observed this session;
 nothing is claimed live that was not observed. No credential appears in this file, in git or in any log.
@@ -20,7 +20,7 @@ external account/approval) · **Deferred** (excluded from launch scope by instru
 
 | Item | Value |
 | --- | --- |
-| Code | GitHub `blackstallion-org/blackstallion.academy` (public). Working branch `session/2026-10-24-final-completion` (local commits `aa11096`, `4db10f8`, `866f77a`, `a05f398` + docs; push pending). Previous branch `session/2026-10-23-production-integration` pushed. `main` = original boilerplate. Rollback tag `checkpoint/pre-final-2026-10-23` |
+| Code | GitHub `blackstallion-org/blackstallion.academy` (public). Working branch `session/2026-10-24-final-completion` (local commits `aa11096`, `4db10f8`, `866f77a`, `a05f398`, `2812e70` effects (another session), `56fee69` docs, `116222a` effects review + one performance follow-up; push pending). `session/2026-10-24-fx-integration` points at the same commit. Previous branch `session/2026-10-23-production-integration` pushed. `main` = original boilerplate. Rollback tag `checkpoint/pre-final-2026-10-23` |
 | CI | `.github/workflows/ci.yml` (`verify`, `database`, `e2e`), `.github/workflows/uptime.yml` |
 | Hosting | Vercel team `blackstallion`, project `blackstallion-academy` (Git-connected, production branch `main`, protected previews). Last preview: commit `03e8d2b`. No production deployment |
 | Database | Supabase `tgwadczrfbljnepoaqtb` (shared with the operations apps). Website layer + F1/F2 live; hardening 001200 prepared |
@@ -31,10 +31,10 @@ external account/approval) · **Deferred** (excluded from launch scope by instru
 
 | # | Area | Status | Score | Weight | Evidence / remaining |
 | --- | --- | --- | ---: | ---: | --- |
-| 1 | Frontend | Complete | 95 | 8 | 41 routes; audit (410 runs) → 12 major + 11 minor fixed and re-checked; new code not yet on a preview |
+| 1 | Frontend | Complete | 94 | 8 | 41 routes; audit (410 runs) → 12 major + 11 minor fixed and re-checked; effects integration (11 effects, 2 scenes) reviewed → 2 high + 6 medium fixed; new code not yet on a preview |
 | 2 | UI/UX | Complete | 92 | 6 | design preserved; nav, menu, footer, reels fixed; 3 minor items open (m2, m10, part of m9) |
-| 3 | Animations | Complete | 95 | 5 | GSAP/Motion/Lenis/3D kept; reduced motion fixed site-wide (#418 gone, reels, /lore, /statue, /equipment) |
-| 4 | Mobile performance | Partial | 65 | 6 | lab: home 40 → 66, reels 70–76; 80+ not reached; options in `docs/PERFORMANCE_REPORT.md` |
+| 3 | Animations | Complete | 95 | 5 | GSAP/Motion/Lenis/3D kept; reduced motion fixed site-wide (#418 gone, reels, /lore, /statue, /equipment); new effects still under reduced motion (checked) |
+| 4 | Mobile performance | Partial | 65 | 6 | lab: home 40 → 66, reels 70–77; effects add no measurable cost after the review (§2b of the report); 80+ not reached; options in `docs/PERFORMANCE_REPORT.md` |
 | 5 | Backend | Complete | 92 | 6 | server actions validated and tested; live enquiries on preview |
 | 6 | Supabase | Partial | 80 | 7 | layer + F1/F2 live; 001200 needs approval; no backups on the current plan |
 | 7 | Authentication | Partial | 70 | 6 | server-side role checks, redirect allow-list, generic errors (live); staff sign-in not yet exercised (owner) |
@@ -48,10 +48,10 @@ external account/approval) · **Deferred** (excluded from launch scope by instru
 | 15 | QR tracking | Complete | 100 | 3 | live attribution + `qr_lead_captures` mirror |
 | 16 | Payments | Deferred | — | 0 | not in launch scope; helpers tested, nothing live, clearly labelled |
 | 17 | Security | Partial | 72 | 8 | critical S1/S2 fixed live; zod CVE fixed; S3–S9 open/approval (`docs/SECURITY_AUDIT.md`) |
-| 18 | Accessibility | Complete | 90 | 4 | Lighthouse 96–100; ARIA, labels, focus, inert, one h1 fixed; m10 contrast is a design decision |
+| 18 | Accessibility | Complete | 90 | 4 | Lighthouse 96–100; ARIA, labels, focus, inert, one h1 fixed; effects: hidden copy exposed, panel focus, live region; m10 contrast is a design decision |
 | 19 | SEO | Complete | 90 | 3 | metadata, canonicals, sitemap, robots, OG, JSON-LD, 404s; indexing waits for launch approval |
 | 20 | Monitoring | Partial | 65 | 3 | redacted server-error logs + optional alerts, uptime workflow, deployment emails; not yet configured on production |
-| 21 | Testing | Complete | 92 | 5 | 79 unit, 176 + 179 SQL, 18 browser, 410 audit runs, CI |
+| 21 | Testing | Complete | 92 | 5 | 79 unit, 176 + 179 SQL, 18 browser, 410 audit runs + effects audit, CI |
 | 22 | Deployment readiness | Partial | 70 | 6 | previews work; push blocked on GitHub identity check; branch protection after push; production needs approval |
 | | **Weighted total** | | **83** | 103 | |
 
@@ -69,6 +69,8 @@ external account/approval) · **Deferred** (excluded from launch scope by instru
 - **Security**: zod 4.6.7 (high CVE).
 - **Auth**: redirect allow-list (live).
 - **Handover**: nine documents + mobile backend contracts.
+- **Effects integration** (another session's commit `2812e70`): merged with this work, reviewed (code + browser), 2 high,
+  6 medium and the useful low findings fixed; effects now cost nothing measurable on mobile (deferred until near).
 
 ## 5. Blockers and approvals (exact asks in the final message)
 
@@ -85,11 +87,15 @@ external account/approval) · **Deferred** (excluded from launch scope by instru
 | A7 | Search indexing, analytics switch | A (+ privacy notice) |
 | C1 | ROI calculator assumptions: fee slider ₹24k–₹72k/year vs published ₹8,500/month + GST; "zero CapEx / zero overhead" claims | C (business) |
 | C2 | Privacy notice and minors' consent wording (still "draft, pending legal review") | C (legal) |
+| C3 | Equine anatomy notes in the `/anatomy` dual-body scene: corrected here, but should be signed off by an equine vet or anatomist | C (expert) |
+| D2 | Eight new stills (peg run, academy morning) are served as 2K PNGs from the Higgsfield CDN, which this sandbox and the Mac's Linux VM cannot reach: run `sh scripts/fetch-media.sh` on the Mac, then they can be switched to WebP and committed | D (owner's machine) |
 | D1 | Turnstile (Cloudflare account), backups (paid plan) | B/D |
 
 ## 6. Not done on purpose
 
 - Mobile apps, Field Ops app, standalone Command Center (out of scope).
-- The HTML prototypes "The Art of the Peg" and "One Conversation. Two Bodies" stay reference material (not part of
-  the agreed routes); they do not block launch.
+- The HTML prototypes "The Art of the Peg" and "One Conversation. Two Bodies" were integrated by the effects session as
+  `PegRun` (`/tournaments` §3) and `DualBody` (`/anatomy` §1b); this session reviewed and fixed them.
+- Pre-existing, left for a design decision: on phones ≤ 430 px the home finale's motto and "Begin at reel one" sit over
+  the horse silhouette (options: shorter copy on phones, a different crop, a darker band).
 - Unreferenced media (~280 MB) not deleted (needs approval; no effect on page speed).

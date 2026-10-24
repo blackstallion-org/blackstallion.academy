@@ -384,6 +384,10 @@ every new section (320–1920 px, reduced motion, keyboard) found 2 high, 6 medi
 - [x] Anatomy copy: three incorrect muscle notes corrected (hip extensors, thoracic sling, splenius); absolute claims
   softened. Expert sign-off still recommended (C3 in `PRODUCTION_READINESS.md`).
 - [x] Duplicate eyebrow label on the `/about` ribbon removed; colour fallbacks no longer hard-coded hex.
+- [x] Performance follow-up: film grain, brass border, ASCII panel and expanding frame now set up only near the viewport
+  (no forced layouts or still downloads during hydration). Lighthouse mobile, without → with effects: `/` 67 → 66,
+  `/why` 69 → 70, `/tournaments` 75 → 75, `/legend` 74 → 75, `/parents` 72 → 74 (before the fixes `/` and `/why` lost
+  5 points each). Details: `docs/PERFORMANCE_REPORT.md` §2b.
 - [ ] Eight new stills load as 2K PNGs from the Higgsfield CDN (not reachable from this sandbox): run
   `sh scripts/fetch-media.sh` on the Mac, commit the WebPs, switch `cdnOnly` → `m` in `lib/content/media.ts`.
 - [ ] Pre-existing: on phones ≤ 430 px the finale motto and "Begin at reel one" sit over the horse silhouette (design

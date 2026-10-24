@@ -120,5 +120,7 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   hidden from screen readers in the expanding frame and the curtain day; SAMPLE on every curtain-day time (now on the
   published 06:15 Dawn Patrol); ember trail and peg-run gallery no longer do WebGL work while offscreen or idle (and
   release their contexts); marquee pauses offscreen; lazy masked-word still; reduced-motion gaps in the brass border and
-  ember trail; tab-panel focus and play-button semantics; three anatomy notes corrected. Verified: lint 0 errors,
-  typecheck, 79/79 unit tests, build, 18/18 browser smoke. Details: `docs/IMPLEMENTATION_PROGRESS.md` (F17).
+  ember trail; tab-panel focus and play-button semantics; three anatomy notes corrected; grain, brass border, ASCII
+  panel and expanding frame set up only near the viewport (effects now cost nothing measurable in mobile Lighthouse).
+  Verified: lint 0 errors, typecheck, 79/79 unit tests, build, 18/18 browser smoke. Details:
+  `docs/IMPLEMENTATION_PROGRESS.md` (F17).

@@ -33,6 +33,27 @@ work at load.
 CLS is 0 everywhere except `/schools` (0.103, pre-existing, from the configurator panel). Accessibility 96–100 on the
 measured pages after the fixes (home 94 → 97).
 
+## 2b. Effects integration (24 Oct, after the review fixes)
+
+Same method; three interleaved runs per route (two where marked); **without** = this branch before the effects commit,
+**with** = effects + review fixes.
+
+| Route | Perf without → with | TBT without → with | Note |
+| --- | --- | --- | --- |
+| `/` | 67 → 66 | 261 → 285 ms | grain, ember trail, brass border, seal ring |
+| `/why` | 69 → 70 | 255 → 204 ms | ASCII ripple (byte totals differ only by how much hero video buffered) |
+| `/tournaments` | 75 → 75 | 186 → 153 ms | peg run (gallery, marquee) |
+| `/legend` | 74 → 75 | 105 → 108 ms | masked word, film grain |
+| `/parents` | 72 → 74 | 192 → 161 ms | curtain day |
+| `/anatomy` | 74 → 75 (2 runs) | 141 → 120 ms | dual-body 3D (separate chunk, loads near the section) |
+| `/about` | 76 → 76 (2 runs) | 117 → 127 ms | depth ribbon |
+| `/schools` | 33 → 32 (2 runs) | — | expanding frame; page dominated by software WebGL as before |
+
+As committed by the effects session, the home page and `/why` each lost 5 points (68 → 63; TBT +110–190 ms): grain
+tiles, canvas measurements (forced layouts during hydration), the ASCII panel fetching and drawing its still, and the
+ember trail's WebGL set-up all ran at page load, screens away from their sections. All of that now starts only when the
+section is within a screen of the viewport; the remaining differences are within run-to-run noise (about ±3 points).
+
 ## 3. What changed
 
 - The hero poster paints from the first frame (home LCP 17.4 s → 6.5 s).

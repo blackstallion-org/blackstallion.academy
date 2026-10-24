@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
 
@@ -8,6 +9,8 @@ import { cn } from "@/lib/utils";
  * Projected-film grain with optional dust, hairs and vertical scratches (adapted from React Bits "Noise").
  * Sits over a positioned parent as a decorative layer. Under reduced motion it paints one still frame.
  * Colours are fixed greys/ink because the layer is blended (overlay / soft-light) onto whatever is beneath.
+ * Cost control: nothing is generated or drawn until the layer is within a screen of the viewport; the grain tile is
+ * generated once per contrast value and shared by every instance; the frame loop runs only while the layer is on screen.
  */
 type FilmNoiseProps = {
   opacity?: number;
@@ -58,6 +61,22 @@ function paintTile(contrast: number) {
   }
   ctx.putImageData(image, 0, 0);
   return canvas;
+}
+
+/** One shared grain tile (object URL) per contrast value. */
+const tiles = new Map<number, Promise<string | null>>();
+function tileUrl(contrast: number) {
+  const key = Math.round(contrast * 100);
+  let pending = tiles.get(key);
+  if (!pending) {
+    pending = new Promise((resolve) => {
+      const canvas = paintTile(key / 100);
+      if (!canvas) return resolve(null);
+      canvas.toBlob((blob) => resolve(blob ? URL.createObjectURL(blob) : null));
+    });
+    tiles.set(key, pending);
+  }
+  return pending;
 }
 
 function drawSpeck(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number, tone: string, alpha: number) {
@@ -125,18 +144,18 @@ export function FilmNoise({
   }, [opacity, fps, dust, scratches, flicker, size]);
 
   useEffect(() => {
+    const root = rootRef.current;
     const grain = grainRef.current;
-    if (!grain) return;
+    if (!root || !grain) return;
     let alive = true;
-    let url = "";
-    paintTile(clamp(contrast, 0, 1))?.toBlob((blob) => {
-      if (!alive || !blob) return;
-      url = URL.createObjectURL(blob);
-      grain.style.backgroundImage = `url("${url}")`;
+    const stop = whenNearViewport(root, () => {
+      void tileUrl(clamp(contrast, 0, 1)).then((url) => {
+        if (alive && url) grain.style.backgroundImage = `url("${url}")`;
+      });
     });
     return () => {
       alive = false;
-      if (url) URL.revokeObjectURL(url);
+      stop();
     };
   }, [contrast]);
 
@@ -149,7 +168,7 @@ export function FilmNoise({
     const list: Scratch[] = [];
     let raf = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
     let width = 1;
     let height = 1;
 
@@ -222,17 +241,18 @@ export function FilmNoise({
     };
 
     const ro = new ResizeObserver(resize);
-    ro.observe(root);
     const io = new IntersectionObserver((entries) => {
       visible = entries.some((e) => e.isIntersecting);
       if (visible) wake();
     });
-    io.observe(root);
     const onVis = () => wake();
-    document.addEventListener("visibilitychange", onVis);
-    resize();
-    wake();
+    const stop = whenNearViewport(root, () => {
+      ro.observe(root);
+      io.observe(root);
+      document.addEventListener("visibilitychange", onVis);
+    });
     return () => {
+      stop();
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
