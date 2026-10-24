@@ -8,6 +8,7 @@ import { Reveal } from "@/components/film/Reveal";
 import { FieldSphereHero } from "@/components/sections/journal/FieldSphereHero";
 import { ViscousLiquidCanvas } from "@/components/sections/shared/ViscousLiquidCanvas";
 import { posts } from "@/lib/content/journal";
+import { asset } from "@/lib/content/asset";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/journal" },
@@ -61,7 +62,7 @@ export default function JournalPage() {
         label="REEL 14B · INTERACTIVE ARENA LIQUID DYNAMICS"
         title="The Viscous Fluid Sovereign"
         subtitle="Hover and sweep across the canvas to interact with Navier-Stokes fluid tension, chromatic dispersion, and viscous return mechanics."
-        imageUrl="/images/black-marwari-stallion.webp"
+        imageUrl={asset("/images/black-marwari-stallion.webp")}
         fullScreen={true}
         tone="dark"
       />

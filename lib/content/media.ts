@@ -8,6 +8,8 @@
  * `focus` is the CSS object-position that keeps the subject in frame on narrow screens.
  */
 
+import { asset, MEDIA_REMOTE } from "./asset";
+
 const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/";
 
 type Media = { file: string; remote: string | null; alt: string; focus?: string };
@@ -144,10 +146,14 @@ export const LOCAL_MEDIA = process.env.NEXT_PUBLIC_LOCAL_MEDIA === "1";
  */
 export const shippedFile = (file: string) => file.replace(/^(\/media\/[^/]+)\.(png|jpe?g)$/i, "$1.webp");
 
-/** The URL the browser should load for a key, or null if nothing exists yet. */
+/**
+ * The URL the browser should load for a key, or null if nothing exists yet.
+ * With NEXT_PUBLIC_MEDIA_BASE_URL set, site paths come from the media bucket (lib/content/asset.ts). That bucket mirrors
+ * the shipped WebP copies, never the PNG masters, so the masters are used only when the media stays on this site.
+ */
 export function mediaSrc(key: MediaKey): string | null {
   const item: Media = media[key];
   if (!item) return null;
-  if (LOCAL_MEDIA) return item.file || item.remote;
-  return item.file ? shippedFile(item.file) : item.remote;
+  const path = LOCAL_MEDIA && !MEDIA_REMOTE ? item.file || item.remote : item.file ? shippedFile(item.file) : item.remote;
+  return path ? asset(path) : null;
 }

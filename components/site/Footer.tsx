@@ -6,9 +6,10 @@ import { CrestMark } from "@/components/brand/CrestMark";
 import { SealRing } from "@/components/motion/fx/SealRing";
 import { corridors, entity, legalNav } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
+import { asset } from "@/lib/content/asset";
 
 /** A 76 kB still that only matters once the footer is about to be seen (it sits ~23,000 px down the home page). */
-const FOOTER_POSTER = "/video/footer-ambient-poster.webp";
+const FOOTER_POSTER = asset("/video/footer-ambient-poster.webp");
 
 const sealLegend = "THE BLACK STALLION ACADEMY · DOMINUS SUI · DOMINUS EQUI · ";
 
@@ -93,8 +94,8 @@ export function Footer() {
         tabIndex={-1}
         disablePictureInPicture
       >
-        <source src="/video/footer-ambient-h264.mp4" type="video/mp4" />
-        <source src="/video/footer-ambient.mp4" type="video/mp4" />
+        <source src={asset("/video/footer-ambient-h264.mp4")} type="video/mp4" />
+        <source src={asset("/video/footer-ambient.mp4")} type="video/mp4" />
         <source
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260928_144832_2b6b23aa-4416-4fcb-9df4-132349c59edc.mp4"
           type="video/mp4"

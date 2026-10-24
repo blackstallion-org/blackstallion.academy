@@ -32,6 +32,7 @@ when the feature is wanted.
 | `NEXT_PUBLIC_VERCEL_ANALYTICS` | build | Unset | `1` loads cookieless Vercel Web Analytics (enable Analytics in Vercel first; owner/privacy decision) |
 | `ERROR_ALERT_EMAIL` | server | Unset (optional) | alert e-mail for server errors, throttled to one per route/error every 15 minutes |
 | `NEXT_PUBLIC_LOCAL_MEDIA` | build | Unset | `1` serves the PNG masters (Mac only); deployments use the WebP copies in git |
+| `NEXT_PUBLIC_MEDIA_BASE_URL` | build | Unset (the switch is off) | `https://<project>.supabase.co/storage/v1/object/public/website-media`: stills, 3D models, video and audio load from that public bucket instead of from this site (`/images`, `/media`, `/models`, `/video`, `/audio`). Public address, not a secret (do not mark Sensitive). Read at build time: redeploy after changing it; remove it and redeploy to go back. An invalid value (not a clean `https://` address) is ignored. Steps and costs: `docs/MEDIA_HOSTING.md` |
 | `NEXT_PUBLIC_STALLION_MODEL` | build | Unset (optional) | commissioned 3D model URL for the hero |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` | build + server | Unset | Cloudflare Turnstile bot check on all forms; set both or neither (needs a Cloudflare account) |
 | `LEAD_WEBHOOK_URL` + `LEAD_WEBHOOK_SECRET` | server | Unset (optional) | extra POST per enquiry (CRM/Zapier); receiver must de-duplicate on `idempotency-key` |
@@ -45,6 +46,17 @@ when the feature is wanted.
 
 `BSAH_PLAYWRIGHT_MODULE`, `BSAH_E2E_PORT`, `BSAH_TEST_URL`, `BSAH_TEST_PORT`, `BSAH_TEST_OUTPUT`, `BSAH_CHECK`,
 `BSAH_BROWSER_CHANNEL`, `BSAH_MOTION_*`, `BASE_URL` — used by `scripts/` and CI.
+
+`BSAH_ALLOW_LOCAL_IMAGE_HOST=1` lets the image optimizer fetch from a stand-in media bucket on `127.0.0.1`
+(`scripts/e2e-media.mjs`, `tests/asset.test.mjs`). It switches on Next's `dangerouslyAllowLocalIP`, so it must never be set
+in Vercel.
+
+## Used by the media upload tool (on the owner's Mac, never in Vercel)
+
+`scripts/upload-media.mjs` reads `SUPABASE_URL` (or `NEXT_PUBLIC_SUPABASE_URL`) and `SUPABASE_SECRET_KEY` (or the older
+`SUPABASE_SERVICE_ROLE_KEY`) from the environment or from `.env.local`, and otherwise asks for the key at a hidden prompt.
+The key is sent only to the project's own address, never printed and never saved. `BSAH_UPLOAD_BACKOFF_MS` (tests only)
+shortens the retry delays.
 
 ## GitHub repository settings (not env vars)
 

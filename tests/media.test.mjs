@@ -8,6 +8,7 @@ import { loadTs, root } from "./helpers/load-ts.mjs";
 // public/media are git-ignored, so every still must resolve to its shipped WebP copy or to a remote URL.
 test("every media key resolves to a shipped file or a remote URL when local media is off", async () => {
   delete process.env.NEXT_PUBLIC_LOCAL_MEDIA;
+  delete process.env.NEXT_PUBLIC_MEDIA_BASE_URL;
   const { media, mediaSrc } = await loadTs("lib/content/media.ts");
   const missing = [];
   for (const key of Object.keys(media)) {
@@ -24,6 +25,7 @@ test("every media key resolves to a shipped file or a remote URL when local medi
 // downloaded and shipped as WebP they must go through the provider's resizer (about 0.2 MB), never straight to the master.
 test("CDN-only stills are requested through the resizer as WebP, not as the PNG master", async () => {
   delete process.env.NEXT_PUBLIC_LOCAL_MEDIA;
+  delete process.env.NEXT_PUBLIC_MEDIA_BASE_URL;
   const { media, mediaSrc } = await loadTs("lib/content/media.ts");
   const cdnOnly = Object.keys(media).filter((k) => media[k].file === "" && /^https:\/\//.test(media[k].remote || ""));
   assert.ok(cdnOnly.length >= 8, `expected the eight new stills, found ${cdnOnly.length}`);

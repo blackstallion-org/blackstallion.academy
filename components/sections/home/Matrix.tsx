@@ -6,6 +6,7 @@ import { useReducedMotion } from "@/lib/motion/reduced";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
 import { SomaticMap } from "./SomaticMap";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
+import { asset } from "@/lib/content/asset";
 
 export type AnatomicalPart = "brain" | "spine" | "muscle" | "heart";
 
@@ -697,7 +698,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
               <div className="flex items-center gap-3.5">
                 <div className="w-11 h-11 rounded-full overflow-hidden border border-[#C5B9A5] shrink-0">
                   <img
-                    src="/images/matrix/child-rider-thumb.webp"
+                    src={asset("/images/matrix/child-rider-thumb.webp")}
                     loading="lazy"
                     decoding="async"
                     alt="Equestrian child rider thumbnail"
@@ -726,7 +727,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
             <div className="bsah-stage-wrapper max-w-[880px] w-full">
               {/* LAYER 0: Base Rider & Horse Image (Stationary, 1600x1200 Coordinate Space) */}
               <img
-                src="/images/matrix/rider-base.webp"
+                src={asset("/images/matrix/rider-base.webp")}
                 loading="lazy"
                 decoding="async"
                 alt="Realistic child equestrian rider in side-profile composition on a dapple-grey horse facing right"
@@ -793,7 +794,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 01: BRAIN */}
                 <g id="bsah-overlay-layer-brain" opacity={selectedPart === "brain" || compositeMode ? 1 : 0}>
                   <image
-                    href={layersNear ? "/images/matrix/brain-overlay.webp" : undefined}
+                    href={layersNear ? asset("/images/matrix/brain-overlay.webp") : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -815,7 +816,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 02: SPINE */}
                 <g id="bsah-overlay-layer-spine" opacity={selectedPart === "spine" || compositeMode ? 1 : 0}>
                   <image
-                    href={layersNear ? "/images/matrix/spine-overlay.webp" : undefined}
+                    href={layersNear ? asset("/images/matrix/spine-overlay.webp") : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -837,7 +838,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 03: MUSCLE */}
                 <g id="bsah-overlay-layer-muscle" opacity={selectedPart === "muscle" || compositeMode ? 1 : 0}>
                   <image
-                    href={layersNear ? "/images/matrix/muscle-overlay.webp" : undefined}
+                    href={layersNear ? asset("/images/matrix/muscle-overlay.webp") : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -899,7 +900,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 04: HEART */}
                 <g id="bsah-overlay-layer-heart" opacity={selectedPart === "heart" || compositeMode ? 1 : 0}>
                   <image
-                    href={layersNear ? "/images/matrix/heart-overlay.webp" : undefined}
+                    href={layersNear ? asset("/images/matrix/heart-overlay.webp") : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -1101,7 +1102,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                     }`}
                   >
                     <img
-                      src={`/images/matrix/${id}-thumb.webp`}
+                      src={asset(`/images/matrix/${id}-thumb.webp`)}
                       loading="lazy"
                       decoding="async"
                       alt={`${DATA[id].label} anatomical detail`}

@@ -4,8 +4,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, ContactShadows } from "@react-three/drei";
+import { asset } from "@/lib/content/asset";
 
-export const STATUE_MODEL_URL = "/models/horse-statue-monument.glb";
+export const STATUE_MODEL_URL = asset("/models/horse-statue-monument.glb");
 
 // Preload the model asset
 useGLTF.preload(STATUE_MODEL_URL, "/draco/");

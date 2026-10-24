@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { asset } from "@/lib/content/asset";
 
 type Playback = "loading" | "buffering" | "playing" | "paused" | "blocked" | "failed" | "ended" | "skipped";
 
@@ -99,11 +100,11 @@ export function HeroFilm() {
   return <section id="top" aria-label="Opening Film" data-playback={state} className="tone-dark relative w-full bg-night pt-16 md:pt-20">
     <div className="relative w-full overflow-hidden bg-night" style={{ aspectRatio: "1284 / 518" }}>
       <picture className="absolute inset-0">
-        <source media="(max-width: 767px)" srcSet="/video/hero-main-poster-mobile.webp" />
+        <source media="(max-width: 767px)" srcSet={asset("/video/hero-main-poster-mobile.webp")} />
         {/* Native picture is deliberately available before JS and video decoding. */}
-        <img data-hero-poster src="/video/hero-main-poster.webp" alt="Marwari stallions in the academy opening film" fetchPriority="high" className="h-full w-full object-cover" style={{ objectPosition: "50% 51.5%" }} />
+        <img data-hero-poster src={asset("/video/hero-main-poster.webp")} alt="Marwari stallions in the academy opening film" fetchPriority="high" className="h-full w-full object-cover" style={{ objectPosition: "50% 51.5%" }} />
       </picture>
-      <video ref={videoRef} className={`absolute inset-0 h-full w-full object-cover ${state !== "failed" && (hasFrame || !seeked) ? "opacity-100" : "opacity-0"}`} style={{ objectPosition: "50% 51.5%" }} muted loop playsInline preload="metadata" poster="/video/hero-main-poster.webp" aria-label="The Marwari Stallion opening film"
+      <video ref={videoRef} className={`absolute inset-0 h-full w-full object-cover ${state !== "failed" && (hasFrame || !seeked) ? "opacity-100" : "opacity-0"}`} style={{ objectPosition: "50% 51.5%" }} muted loop playsInline preload="metadata" poster={asset("/video/hero-main-poster.webp")} aria-label="The Marwari Stallion opening film"
         onLoadedMetadata={() => { if (videoRef.current && !videoRef.current.paused) prime(); updateProgress(); }}
         onPlaying={() => { failed.current = false; setHasFrame(true); setState("playing"); }} onPause={() => setState((previous) => previous === "skipped" || previous === "failed" ? previous : "paused")}
         onWaiting={() => setState((previous) => failed.current || previous === "failed" ? "failed" : "buffering")} onStalled={() => setState((previous) => previous === "playing" ? "buffering" : previous)} onEnded={() => setState("ended")}
@@ -111,8 +112,8 @@ export function HeroFilm() {
         {/* No onError on <source>: a source whose media query does not match fires "error" when it is skipped, which
             wrongly marked the film as failed on wide screens. Real failures are caught by the video's own error
             event and by the NETWORK_NO_SOURCE watchdog above. */}
-        <source media="(max-width: 767px)" src="/video/hero-main-mobile.mp4" type="video/mp4" />
-        <source src="/video/hero-main-desktop.mp4" type="video/mp4" />
+        <source media="(max-width: 767px)" src={asset("/video/hero-main-mobile.mp4")} type="video/mp4" />
+        <source src={asset("/video/hero-main-desktop.mp4")} type="video/mp4" />
       </video>
       {/* Progress sits on the frame's bottom edge. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-night/50" aria-hidden><span ref={bufferedRef} className="absolute inset-0 origin-left bg-brass/40" style={{ transform: "scaleX(0)" }} /><span ref={progressRef} className="absolute inset-0 origin-left bg-gold" style={{ transform: "scaleX(0)" }} /></div>

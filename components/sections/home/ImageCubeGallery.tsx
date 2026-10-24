@@ -6,14 +6,15 @@ import gsap from "gsap";
 import { ScrambleText } from "@/components/motion/ScrambleText";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import styles from "./ImageCubeGallery.module.css";
+import { asset } from "@/lib/content/asset";
 
 const photographs = [
-  { title: "First contact", src: "/images/cinematic-images/pexels-v-marin-701396667-29487828.webp", alt: "A quiet encounter between a person and a horse", copy: "The story begins with a moment of attention." },
-  { title: "The first bond", src: "/images/bond-field-horizontal.webp", alt: "Horse and rider together in the field", copy: "A shared space. A relationship taking shape." },
-  { title: "The details", src: "/images/cinematic-images/pexels-cristian-rojas-8064265.webp", alt: "A close study of equestrian tack and a stirrup", copy: "Leather, iron, and the small details of a ride." },
-  { title: "In balance", src: "/images/science-rider-posture.webp", alt: "A rider seated on a horse in profile", copy: "A quieter frame, with horse and rider in focus." },
-  { title: "The Marwari", src: "/images/black-marwari-stallion.webp", alt: "A dark Marwari stallion", copy: "A distinctive silhouette. A presence of its own." },
-  { title: "Up close", src: "/images/bond-intimacy-vertical.webp", alt: "A close encounter between a rider and a horse", copy: "The moments between the larger ones." },
+  { title: "First contact", src: asset("/images/cinematic-images/pexels-v-marin-701396667-29487828.webp"), alt: "A quiet encounter between a person and a horse", copy: "The story begins with a moment of attention." },
+  { title: "The first bond", src: asset("/images/bond-field-horizontal.webp"), alt: "Horse and rider together in the field", copy: "A shared space. A relationship taking shape." },
+  { title: "The details", src: asset("/images/cinematic-images/pexels-cristian-rojas-8064265.webp"), alt: "A close study of equestrian tack and a stirrup", copy: "Leather, iron, and the small details of a ride." },
+  { title: "In balance", src: asset("/images/science-rider-posture.webp"), alt: "A rider seated on a horse in profile", copy: "A quieter frame, with horse and rider in focus." },
+  { title: "The Marwari", src: asset("/images/black-marwari-stallion.webp"), alt: "A dark Marwari stallion", copy: "A distinctive silhouette. A presence of its own." },
+  { title: "Up close", src: asset("/images/bond-intimacy-vertical.webp"), alt: "A close encounter between a rider and a horse", copy: "The moments between the larger ones." },
 ];
 const rotations = [{ x: 0, y: 0 }, { x: 0, y: -90 }, { x: 0, y: -180 }, { x: 0, y: -270 }, { x: -90, y: 0 }, { x: 90, y: 0 }];
 

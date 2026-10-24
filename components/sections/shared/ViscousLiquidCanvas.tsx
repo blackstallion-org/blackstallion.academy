@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Arrow } from "@/components/film/Marks";
 import { mediaSrc, type MediaKey } from "@/lib/content/media";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { asset } from "@/lib/content/asset";
 
 export interface ViscousSlide {
   image: string;
@@ -320,7 +321,7 @@ export function ViscousLiquidCanvas({
   label,
   title = "The Viscous Fluid Sovereign",
   subtitle = "Hover and drag across the plate to displace Navier-Stokes fluid tension and chromatic dispersion.",
-  imageUrl = "/images/black-marwari-stallion.webp",
+  imageUrl = asset("/images/black-marwari-stallion.webp"),
   heightClass = "h-[500px] sm:h-[620px] md:h-[720px]",
   tone = "dark",
   fullScreen = true,

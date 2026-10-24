@@ -10,6 +10,7 @@ import { lore } from "@/lib/content/legend";
 import type { MediaKey } from "@/lib/content/media";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { WillemExpandingHero } from "@/components/sections/shared/WillemExpandingHero";
+import { asset } from "@/lib/content/asset";
 
 export const metadata: Metadata = {
   title: "The Traditional Lore of the Bards",
@@ -41,10 +42,10 @@ export default function LorePage() {
         tagline="THE TRADITIONAL LORE OF THE BARDS"
         subtitle="Eight hundred years of oral tradition: the curl of the ear, the hair whorls, and the sovereign horse that would not leave the field."
         images={[
-          "/images/fleet/fleet-chetak.webp",
-          "/images/fleet/fleet-veer.webp",
-          "/images/legend/legend-bahadur.webp",
-          "/images/black-marwari-stallion.webp",
+          asset("/images/fleet/fleet-chetak.webp"),
+          asset("/images/fleet/fleet-veer.webp"),
+          asset("/images/legend/legend-bahadur.webp"),
+          asset("/images/black-marwari-stallion.webp"),
         ]}
       />
 

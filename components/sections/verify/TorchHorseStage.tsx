@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { asset } from "@/lib/content/asset";
 
 interface TorchHorseStageProps {
   className?: string;
@@ -132,7 +133,7 @@ export function TorchHorseStage({ className = "" }: TorchHorseStageProps) {
     const draco = new DRACOLoader();
     draco.setDecoderPath("/draco/");
     loader.setDRACOLoader(draco);
-    const modelUrl = "/models/statue-mobile.glb";
+    const modelUrl = asset("/models/statue-mobile.glb");
 
     loader.load(
       modelUrl,
@@ -185,7 +186,7 @@ export function TorchHorseStage({ className = "" }: TorchHorseStageProps) {
       (error) => {
         console.warn(`Failed to load ${modelUrl}, trying fallback /models/rossbandiger.glb:`, error);
         // Fallback to /models/rossbandiger.glb if needed
-        loader.load("/models/rossbandiger.glb", (fallbackGltf) => {
+        loader.load(asset("/models/rossbandiger.glb"), (fallbackGltf) => {
           const fallbackRoot = fallbackGltf.scene;
           const box = new THREE.Box3().setFromObject(fallbackRoot);
           const center = box.getCenter(new THREE.Vector3());

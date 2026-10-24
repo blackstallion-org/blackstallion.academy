@@ -6,6 +6,7 @@ import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { asset } from "@/lib/content/asset";
 
 interface Anatomy3DHorseProps {
   activeId: string;
@@ -238,7 +239,7 @@ export function Anatomy3DHorse({ activeId, onSelectHotspot, onUnavailable, class
     const loader = new GLTFLoader(loadingManager);
     loader.setDRACOLoader(draco);
     loader.load(
-      "/models/marwari-animated-home.glb",
+      asset("/models/marwari-animated-home.glb"),
       (gltf) => {
         loadSettled = true;
         const root = gltf.scene;

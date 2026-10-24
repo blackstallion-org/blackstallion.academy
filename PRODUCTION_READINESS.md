@@ -122,7 +122,7 @@ Type: **A** approval, **B** owner signs in or enters a secret personally, **C** 
 | D1 | Turnstile (a free Cloudflare account) and backups (paid plan) | B/D |
 | D2 | Self-host the media: run `sh scripts/fetch-media.sh` on the Mac in the project folder (the sandbox cannot reach the CDN), or allow the CDN host for the assistant; then the eight stills are committed as WebP | D |
 | D3 | The original image for the `royal` hub thumbnail on `/schools` (the embedded copy is damaged) | D |
-| A11 | Supabase Pro (from $25 per organisation per month; the owner buys it) and the media move: images, video, audio and 3D models into Supabase Storage with one upload command the owner runs; approved in principle on 24 Oct 2026 ("Move all to Supabase after upgrading"), not started | A (cost) + D |
+| A11 | Supabase Pro ($25 per organisation per month, plus about $10 per month for each further active project in it; the owner buys it) and the media move: images, video, audio and 3D models into Supabase Storage. Approved in principle on 24 Oct 2026 ("Move all to Supabase after upgrading"). **Built and tested 25 Oct 2026, switched off**: the owner (1) upgrades the plan, (2) runs `output/media-upload/upload-media.command` on the Mac, (3) sets `NEXT_PUBLIC_MEDIA_BASE_URL` in Vercel and redeploys; undo = remove the variable and redeploy. Steps and costs: `docs/MEDIA_HOSTING.md` | A (cost) + D |
 
 ## 6. Not done on purpose
 
