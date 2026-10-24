@@ -90,7 +90,8 @@ Service:   Supabase (organization that owns project tgwadczrfbljnepoaqtb)
 Action:    change the organization's plan from Free to Pro
 Reason:    the media (118.1 MB, with video and 3D models) would be downloaded straight from Supabase on every visit; the
            Free plan's monthly download allowance (5 GB uncached plus 5 GB cached) is shared by every application in the
-           organization and covers only about 200 first visits to the home page (section 9 gives measured page weights)
+           organization, and its 5 GB uncached part alone is used up by about 200 first visits to the home page (section 9
+           gives the measured page weights)
 What I must approve: $25 per month for the organization (the plan fee is charged up front each month); it includes $10 of
            compute credit, which covers one project at the default size; every further ACTIVE project in the same
            organization is about $10 per month more (paused projects are not charged); possible tax from your billing
@@ -241,8 +242,9 @@ downloads, until a visitor uses the feature that needs them (section 11).
 
 **Against Supabase's monthly allowance.** The allowance belongs to the whole organization (section 2). The figures are those on
 Supabase's pricing page on 24–25 Oct 2026; the Billing page shows the current ones. The last two columns are plain
-arithmetic on the upper bounds above (first visits with nothing cached), to show the scale; they are not a forecast of
-how many people will visit.
+arithmetic on the upper bounds above, to show the scale: the **uncached** allowance divided by the page weight, which is the
+cautious reading (every download served from storage itself; downloads served from the cache draw on their own allowance).
+They are not a forecast of how many people will visit.
 
 | Plan | Included download traffic per month | First visits to the heaviest page (24 MB) | First visits to a middle page (4 MB) |
 | --- | --- | ---: | ---: |
