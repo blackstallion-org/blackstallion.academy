@@ -19,8 +19,20 @@ const m = (file: string, id: string | null, alt: string, focus?: string): Media 
   focus,
 });
 
+/**
+ * The provider's own image resizer (already allowed by the CSP and used by LithosHero). The CDN master of each of the
+ * eight new stills is a ~7.5 MB 2K PNG; through the resizer the same still is a ~0.2 MB WebP at 1920 px. Interim only:
+ * the real fix is to download the masters, ship WebP copies in git and switch to `m(...)` (docs/LAUNCH_INSTRUCTIONS.md, G13).
+ */
+const RESIZER = "https://images.higgs.ai/?default=1&output=webp&q=82&w=1920&url=";
+
 /** A still that exists only on the CDN so far (no local master, no shipped WebP yet). */
-const cdnOnly = (id: string, alt: string, focus?: string): Media => ({ file: "", remote: `${CDN}${id}`, alt, focus });
+const cdnOnly = (id: string, alt: string, focus?: string): Media => ({
+  file: "",
+  remote: `${RESIZER}${encodeURIComponent(`${CDN}${id}`)}`,
+  alt,
+  focus,
+});
 
 export const media = {
   /* ---------------------------------------------------- first set (9 Oct 2026) */
