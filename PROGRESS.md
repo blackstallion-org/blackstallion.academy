@@ -135,3 +135,12 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   Verified: typecheck, build, touched files lint-clean (47 lint errors are all in untracked `public/anatomy/vendor`),
   390/1440 screenshots, reduced motion. Open: Tripo licence plan to confirm; not photorealistic (see report).
   Report: `docs/reference/3d/marwari/README.md`.
+- [x] **Session 24 Oct 2026 (later) · Marwari 3D production pass** (branch `feature/marwari-3d-production`, rollback tag
+  `checkpoint/pre-marwari-production`). Hybrid retopology (Quadriflow quad body; ears as detail pieces; tail and mane as
+  hair cards), Cycles bakes (2048 colour/normal/ORM), 46-bone rig with mane bones, eye domes, ten clips (adds
+  Attention_Response, Mane_Sway), hero 1.03 MB / mobile 0.65 MB / anatomy 1.2 MB. Hero: layered gaze over clips, mobile
+  model, dynamic resolution, attention on pointer entry; plate: hotspot labels per brief, Full Screen, ears → attention,
+  hooves → walk. Fixed a route-cache bug (stale dolly state on return from /cadets). Verified: 79/79 tests, typecheck,
+  lint 0 errors, build, axe (hero clean), keyboard, reduced motion, no-WebGL, denied motion permission (stubbed),
+  7-cycle mount test. Not done: hand retopo of head/ears, KTX2, Safari/real devices, Lighthouse.
+  Report: `docs/MARWARI_3D_PRODUCTION_REPORT.md`.

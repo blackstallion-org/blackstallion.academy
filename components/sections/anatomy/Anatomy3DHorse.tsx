@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import { ANATOMY_MODEL, addLights, contactShadow, daylight, disposeObject, loadMarwari, type Marwari } from "@/components/3d/marwari";
+import { ANATOMY_MODEL, addLights, contactShadow, createTimer, daylight, disposeObject, loadMarwari, type Marwari } from "@/components/3d/marwari";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +21,8 @@ interface Anatomy3DHorseProps {
 }
 
 type Gait = "stand" | "walk" | "trot";
+
+const motionQuery_reduced = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /**
  * Where each hotspot lives on the skeleton (so the glow, the marker and the camera follow the pose),
@@ -73,6 +75,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     requestRenderRef.current();
   }, [autoRotate]);
   const gaitRef = useRef<(g: Gait) => void>(() => {});
+  const attentionRef = useRef<() => void>(() => {});
   useEffect(() => { gaitRef.current(gait); }, [gait]);
   // The markers mount after the first frame; with motion reduced nothing else would draw them in place.
   useEffect(() => { if (isLoaded) requestRenderRef.current(); }, [isLoaded]);
@@ -88,6 +91,10 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
   useEffect(() => {
     if (!focusKey) return;
     activeRef.current = activeId;
+    if (!motionQuery_reduced()) {
+      if (activeId === "ears") attentionRef.current();
+      if (activeId === "hoof") queueMicrotask(() => setGait("walk"));
+    }
     // turn the horse back to the angle the hotspot views were composed for (shortest way round)
     const r = rotationRef.current;
     r.targetY = Math.round(r.y / (Math.PI * 2)) * Math.PI * 2;
@@ -129,7 +136,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     let mixer: THREE.AnimationMixer | null = null;
     const actions: Partial<Record<string, THREE.AnimationAction>> = {};
     let blinkAt = 2;
-    const clock = new THREE.Clock();
+    const clock = createTimer();
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const cancelRender = () => {
       if (animId !== null) cancelAnimationFrame(animId);
@@ -190,7 +197,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
 
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      if (visible) { clock.getDelta(); requestRender(); }
+      if (visible) { clock.delta(); requestRender(); }
       else cancelRender();
     });
     observer.observe(container);
@@ -226,11 +233,12 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
         m.root.updateMatrixWorld(true);
         muzzleLocal = m.bones.Head?.worldToLocal(MUZZLE_REST.clone()) ?? null;
         mixer = new THREE.AnimationMixer(m.root);
-        for (const name of ["Idle_Breathing", "Tail_Sway", "Ear_Rotate", "Walk", "Trot", "Blink"]) {
+        for (const name of ["Idle_Breathing", "Tail_Sway", "Ear_Rotate", "Mane_Sway", "Walk", "Trot", "Blink", "Attention_Response"]) {
           const clip = m.clips.get(name);
           if (clip) actions[name] = mixer.clipAction(clip);
         }
         actions.Blink?.setLoop(THREE.LoopOnce, 1);
+        actions.Attention_Response?.setLoop(THREE.LoopOnce, 1);
         applyGait("stand", 0);
         mixer.update(0);
         ready = true;
@@ -241,14 +249,14 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       .finally(disposeLoader);
 
     const GAITS: Record<Gait, string[]> = {
-      stand: ["Idle_Breathing", "Tail_Sway", "Ear_Rotate"],
-      walk: ["Walk", "Idle_Breathing"],
-      trot: ["Trot"],
+      stand: ["Idle_Breathing", "Tail_Sway", "Ear_Rotate", "Mane_Sway"],
+      walk: ["Walk", "Idle_Breathing", "Mane_Sway"],
+      trot: ["Trot", "Mane_Sway"],
     };
     function applyGait(g: Gait, fade = 0.6) {
       if (!mixer) return;
       const on = new Set(GAITS[g]);
-      for (const name of ["Idle_Breathing", "Tail_Sway", "Ear_Rotate", "Walk", "Trot"]) {
+      for (const name of ["Idle_Breathing", "Tail_Sway", "Ear_Rotate", "Mane_Sway", "Walk", "Trot"]) {
         const a = actions[name];
         if (!a) continue;
         if (on.has(name)) {
@@ -258,6 +266,10 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       requestRender();
     }
     gaitRef.current = (g) => applyGait(g);
+    attentionRef.current = () => {
+      if (actions.Attention_Response) actions.Attention_Response.reset().play();
+      requestRender();
+    };
 
     const handleResize = () => {
       const w = container.clientWidth;
@@ -302,10 +314,10 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       animId = null;
       if (disposed || failed || !ready || !visible || document.hidden) return;
       const still = motionQuery.matches;
-      const delta = Math.min(clock.getDelta(), 0.05);
+      const delta = Math.min(clock.delta(), 0.05);
       if (!still && mixer) {
         mixer.update(delta);
-        const t = clock.elapsedTime;
+        const t = clock.elapsed;
         if (t > blinkAt && actions.Blink) {
           actions.Blink.reset().play();
           blinkAt = t + 3 + Math.random() * 4;
@@ -331,7 +343,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       }
       const glowTarget = region ? 1 : 0;
       glow += (glowTarget - glow) * (still ? 1 : 0.08);
-      if (marwari) marwari.highlight.strength.value = glow * (0.75 + 0.25 * Math.sin(clock.elapsedTime * 2.4) * (still ? 0 : 1));
+      if (marwari) marwari.highlight.strength.value = glow * (0.75 + 0.25 * Math.sin(clock.elapsed * 2.4) * (still ? 0 : 1));
       camPos.lerp(targetPos, still ? 1 : 0.06);
       camLook.lerp(targetLook, still ? 1 : 0.06);
       camera.position.copy(camPos);
@@ -352,7 +364,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
 
     const handleVisibility = () => {
       if (document.hidden) cancelRender();
-      else { clock.getDelta(); requestRender(); }
+      else { clock.delta(); requestRender(); }
     };
     const handleContextLost = (event: Event) => {
       event.preventDefault();
@@ -373,6 +385,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       window.clearTimeout(loadTimeout);
       requestRenderRef.current = () => {};
       gaitRef.current = () => {};
+      attentionRef.current = () => {};
       document.removeEventListener("visibilitychange", handleVisibility);
       motionQuery.removeEventListener("change", requestRender);
       canvas.removeEventListener("webglcontextlost", handleContextLost);

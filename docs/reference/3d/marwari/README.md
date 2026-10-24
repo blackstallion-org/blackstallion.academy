@@ -1,3 +1,5 @@
+> **Superseded in part (24 Oct 2026, later):** the hero and plate now use a hybrid quad-retopo mesh with hair cards, eye domes and ten clips. See `docs/MARWARI_3D_PRODUCTION_REPORT.md`; scripts live in `tools/blender/`. This file documents the first, single-mesh rig (stages 1–6).
+
 # Rigged Marwari stallion: build and verification report (24 Oct 2026)
 
 ## What was delivered

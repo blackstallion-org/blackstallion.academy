@@ -51,16 +51,34 @@ function prepare(gltf: GLTF): Marwari {
   let mesh: THREE.SkinnedMesh | null = null;
   const bones: Record<string, THREE.Bone> = {};
   root.traverse((o) => {
-    if ((o as THREE.SkinnedMesh).isSkinnedMesh) mesh = o as THREE.SkinnedMesh;
+    const sm = o as THREE.SkinnedMesh;
+    if (sm.isSkinnedMesh) {
+      sm.frustumCulled = false; // skinned bounds move with the gait
+      const m = sm.material as THREE.MeshStandardMaterial;
+      if (m.name === "Marwari_Coat") mesh = sm;
+      // hair cards: alpha-tested, double-sided, no sorting problems; eyes: wet, high reflection
+      if (m.name === "Marwari_Hair") {
+        m.alphaTest = 0.45;
+        m.transparent = false;
+        m.depthWrite = true;
+        m.side = THREE.DoubleSide;
+        m.roughness = 0.45;
+        m.envMapIntensity = 0.7;
+      }
+      if (m.name === "Marwari_Eye") {
+        m.roughness = 0.05;
+        m.envMapIntensity = 1.6;
+      }
+    }
     if ((o as THREE.Bone).isBone) bones[o.name] = o as THREE.Bone;
   });
-  if (!mesh) throw new Error("Marwari: no skinned mesh");
+  if (!mesh) throw new Error("Marwari: no coat mesh");
   const skinned = mesh as THREE.SkinnedMesh;
-  skinned.frustumCulled = false; // the skinned bounds move with the gait
   const material = skinned.material as THREE.MeshStandardMaterial;
-  // Kala coat: a fine short coat over black skin, a satin sheen rather than plastic.
+  // Kala coat: a fine short coat over black skin, a satin sheen rather than plastic (no metal, baked AO in the R channel).
   material.metalness = 0;
   material.envMapIntensity = 0.9;
+  material.side = THREE.FrontSide; // the body is a closed shell: no need to shade its inside
   const highlight = installHighlight(material);
   return { root, mesh: skinned, bones, clips: new Map(gltf.animations.map((c) => [c.name, c])), material, highlight };
 }
@@ -111,37 +129,65 @@ function installHighlight(material: THREE.MeshStandardMaterial): Highlight {
   };
 }
 
+/** Frame timer (THREE.Clock is deprecated): `delta()` seconds since the last call, `elapsed` seconds since creation. */
+export function createTimer() {
+  const t0 = performance.now();
+  let last = t0;
+  return {
+    delta() {
+      const now = performance.now();
+      const d = (now - last) / 1000;
+      last = now;
+      return d;
+    },
+    get elapsed() {
+      return (performance.now() - t0) / 1000;
+    },
+  };
+}
+
 /* ---------------------------------------------------------------- gaze */
 const GAZE_SHARE: [string, number][] = [["Neck_2", 0.28], ["Neck_3", 0.34], ["Head", 0.38]];
 
 /**
- * Turns the neck and head toward a target after the mixer has posed the skeleton.
- * yaw > 0 turns toward the horse's left (+X), pitch > 0 lowers the nose. Radians.
- * Bones the clips do not animate are reset to their rest rotation first, so nothing accumulates.
+ * Turns the neck and head toward a target ON TOP of whatever the clips are doing (so Attention_Response and
+ * Head_Turn still read). Call `undo()` before `mixer.update()` and `apply(yaw, pitch)` after it; the offset applied
+ * last frame is removed first, so nothing accumulates. yaw > 0 turns toward the horse's left (+X), pitch > 0 lowers
+ * the nose (radians).
  */
 export function createGaze(m: Marwari) {
-  const rest = new Map(GAZE_SHARE.map(([n]) => [n, m.bones[n]?.quaternion.clone()]));
+  const applied = new Map<string, THREE.Quaternion>();
   const up = new THREE.Vector3(0, 1, 0);
   const side = new THREE.Vector3(1, 0, 0);
   const q = new THREE.Quaternion();
+  const rq = new THREE.Quaternion();
   const pq = new THREE.Quaternion();
   const axis = new THREE.Vector3();
-  return (yaw: number, pitch: number) => {
+  const undo = () => {
+    for (const [name, d] of applied) {
+      const bone = m.bones[name];
+      if (bone) bone.quaternion.premultiply(q.copy(d).invert());
+    }
+    applied.clear();
+  };
+  const apply = (yaw: number, pitch: number) => {
+    m.root.updateWorldMatrix(true, true);
+    m.root.getWorldQuaternion(rq);
     for (const [name, share] of GAZE_SHARE) {
       const bone = m.bones[name];
-      const r = rest.get(name);
-      if (!bone || !r || !bone.parent) continue;
-      bone.quaternion.copy(r);
-      bone.parent.updateWorldMatrix(true, false);
+      if (!bone?.parent) continue;
       bone.parent.getWorldQuaternion(pq).invert();
-      axis.copy(up).applyQuaternion(pq);
-      bone.quaternion.premultiply(q.setFromAxisAngle(axis, yaw * share));
-      m.root.getWorldQuaternion(q);
-      axis.copy(side).applyQuaternion(q).applyQuaternion(pq);
-      bone.quaternion.premultiply(q.setFromAxisAngle(axis, pitch * share));
+      const d = new THREE.Quaternion();
+      axis.copy(up).applyQuaternion(rq).applyQuaternion(pq);
+      d.setFromAxisAngle(axis, yaw * share);
+      axis.copy(side).applyQuaternion(rq).applyQuaternion(pq);
+      d.premultiply(q.setFromAxisAngle(axis, pitch * share));
+      bone.quaternion.premultiply(d);
+      applied.set(name, d);
       bone.updateMatrixWorld(true);
     }
   };
+  return { undo, apply };
 }
 
 /* ---------------------------------------------------------------- time of day */
