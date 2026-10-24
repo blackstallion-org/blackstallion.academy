@@ -177,5 +177,7 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
     without a visible difference (the other five: video frame, rotating sphere, navigation caught mid-slide). Heaviest page
     view 24.0 MB (home, laptop), middle one 4.1 MB. Limits (stand-in, 62 files never asked for, software 3D) are in
     `docs/MEDIA_HOSTING.md` §11.
-  - **Waiting for the owner:** upgrade Supabase to Pro (approval block: `docs/MEDIA_HOSTING.md` §3), double-click
-    `upload-media.command`, then add the variable in Vercel and redeploy (or say "go" and I do the Vercel step).
+  - **Waiting for the owner:** the code is only on this branch (no GitHub write path yet), and Vercel builds from `main`, so
+    first it must be pushed and merged (`docs/MEDIA_HOSTING.md` §0; the merge is the owner's approval). Then: upgrade
+    Supabase to Pro (approval block §3), double-click `upload-media.command`, and add the variable in Vercel and redeploy
+    (or say "go" and I do the Vercel step).

@@ -60,7 +60,8 @@ indexing is off. Nothing is on the custom domain, no payment is live, and the la
   `NEXT_PUBLIC_MEDIA_BASE_URL`. Every media path in the code goes through `asset()` (`lib/content/asset.ts`; a test enforces
   it), the list of files is `scripts/media-manifest.json`, the owner uploads them with `scripts/upload-media.mjs`, and
   `scripts/e2e-media.mjs` proves page by page that the same files load. Not part of it: the provider-CDN content in the
-  table above. Needs Supabase Pro and the owner's upload; steps, costs and the undo are in `docs/MEDIA_HOSTING.md`.
+  table above. Lives on the branch `feat/media-on-supabase` until it is merged into `main`; then needs Supabase Pro and the
+  owner's upload; steps, costs and the undo are in `docs/MEDIA_HOSTING.md`.
 
 ## 2. How the backend works
 

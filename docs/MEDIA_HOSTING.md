@@ -2,15 +2,36 @@
 
 **Status.** The website serves every picture, 3D model, video and audio file from its own folder on Vercel. The code that can
 serve the same files from a public Supabase Storage bucket is built and tested, and it is **off**: nothing exists in
-Supabase yet (no bucket, no upload), and the live site has not changed. Turning it on needs three actions that only the
-owner can take, in this order:
+Supabase yet (no bucket, no upload), the live site has not changed, and the code is not on GitHub's `main` branch yet, so
+the production site does not contain the switch at all. Turning it on needs these steps, in this order; the first needs a
+GitHub write path, the others are yours to take:
 
+0. **Publish the code** (section 0): the branch `feat/media-on-supabase` has to reach GitHub and be merged into `main`,
+   because Vercel builds from `main`. Safe to do first: with the variable unset the site loads its media exactly as before.
 1. **Approve and buy the Supabase Pro plan** (section 3).
-2. **Run the upload on your Mac** (section 4): one double-click; you paste a key that only you see.
-3. **Add one variable in Vercel and redeploy** (section 5).
+2. **Run the upload on your Mac** (section 4): one double-click; if the key is not already in `.env.local` you paste it, and
+   only you see it.
+3. **Add one variable in Vercel and redeploy** (section 5). It does nothing until step 0 is done.
 
 Going back is one step: delete the variable and redeploy (section 8). The files stay inside the site, so nothing is lost and
 the undo does not depend on Supabase.
+
+## 0. Step 0 — get the code onto `main`
+
+Vercel builds the site from the `main` branch on GitHub (pull request #1 was merged there on 24 Oct 2026). The switch exists
+only on the branch `feat/media-on-supabase` (one commit on top of the launch notes), so setting the Vercel variable today would
+change nothing.
+
+- **Where the branch is:** in my working copy and as the patch `output/patches/0007-Media-on-Supabase-Storage-…patch` in your
+  project folder (it applies on top of the launch-notes patches `0004`–`0006`). Nothing of it is on GitHub: I have no GitHub
+  write access, and no token has been saved.
+- **What publishing needs:** a way for me to push, which is a one-day token for this one repository (Contents and Pull
+  requests: write) that you create on GitHub and save to a file, never in a chat; or your own `git push`. I then open a pull
+  request, the launch-notes branch first and the media branch on top of it. **The merge into `main` is your approval**, as with
+  pull request #1; I do not merge on my own.
+- **Why it is safe before Supabase exists:** with `NEXT_PUBLIC_MEDIA_BASE_URL` unset, `asset()` returns every path unchanged (a
+  unit test pins that), and the switch-off build passes the site's 19-check browser test and the media crawl (section 11).
+  The merged code therefore serves the same files from the same places as today.
 
 ## 1. What moves and what does not
 
@@ -152,6 +173,8 @@ bucket named in the list. The key is held in memory, sent only to your own proje
 never written to a file or a log), and it is replaced by `***` in any error message.
 
 ## 5. Step 3 — switch the website over (Vercel)
+
+Do this only after the branch is merged into `main` (section 0) and the upload has succeeded (section 4).
 
 Vercel → project `blackstallion-academy` → Settings → Environment Variables → Add:
 

@@ -69,8 +69,9 @@ on the Hobby plan (non-commercial use); a commercial launch needs Pro.
    b. **Resend domain:** verify `blackstallion.academy` in Resend (DNS records), then `RESEND_FROM`, optional
       `RESEND_CONFIRMATIONS=1` and a receipt test.
    c. **Indexing:** `NEXT_PUBLIC_ALLOW_INDEXING=1` on Production only, redeploy, submit `/sitemap.xml`.
-   d. **Media on Supabase Storage** (built, off): Supabase Pro, the owner's one upload command, then
-      `NEXT_PUBLIC_MEDIA_BASE_URL` in Vercel and a redeploy without the build cache. Full steps, costs, checks and the undo:
+   d. **Media on Supabase Storage** (built, off, on the branch `feat/media-on-supabase`, not yet in `main`): merge the branch
+      into `main` (needs a GitHub write path; the merge is the owner's approval), Supabase Pro, the owner's one upload
+      command, then `NEXT_PUBLIC_MEDIA_BASE_URL` in Vercel and a redeploy without the build cache. Full steps, costs, checks and the undo:
       `docs/MEDIA_HOSTING.md`. After a redeploy that changes media, the check is `scripts/e2e-media.mjs` (section 11 of that
       document).
 
