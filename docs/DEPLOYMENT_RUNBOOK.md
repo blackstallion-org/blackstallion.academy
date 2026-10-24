@@ -1,15 +1,16 @@
 # Deployment runbook (24 Oct 2026)
 
-Current state: protected Vercel **previews** only; no production deployment, indexing off, no DNS change. Production
-promotion, DNS, search indexing, live payments and e-mail to applicants each need the owner's explicit approval.
+Current state (24 Oct 2026, evening): the production deployment of `main` (`b76131b`) is live and public at
+`https://project-t9r95.vercel.app` by the owner's choice; indexing off, no DNS change, no live payment. DNS, search
+indexing, live payments and e-mail to applicants each still need the owner's explicit approval.
 Status and blockers: `PRODUCTION_READINESS.md`. Variables: `docs/ENVIRONMENT_VARIABLES.md`.
 
 **Going live is planned in `docs/LAUNCH_INSTRUCTIONS.md`** (five separate approvals, gates G1 to G16, what to check after
 each step, how to undo it). This runbook is the reference for the individual procedures; the release vehicle is the draft
-pull request #1 (`session/2026-10-24-final-completion` into `main`). **Before merging, set Vercel → Project → Settings →
-Deployment Protection to "All Deployments"** (Standard Protection leaves production domains public, so the merge would
-publish the site); the plan is in `LAUNCH_INSTRUCTIONS.md` §2.1. The Vercel team is on the Hobby plan (non-commercial
-use); a commercial launch needs Pro.
+pull request #1 (`session/2026-10-24-final-completion` into `main`), which was merged on 24 Oct 2026. For a private
+release set Vercel → Project → Settings → Deployment Protection to "All Deployments" before merging (Standard Protection
+leaves production domains public, as it did for the first launch); see `LAUNCH_INSTRUCTIONS.md` §2.1. The Vercel team is
+on the Hobby plan (non-commercial use); a commercial launch needs Pro.
 
 ## 1. Release checklist (all must pass on the release commit)
 
@@ -45,12 +46,15 @@ use); a commercial launch needs Pro.
 
 ## 3. Production release (after approval)
 
+*Done once, on 24 Oct 2026 (pull request #1, merge commit `b76131b`, public by the owner's choice; the record is in
+`docs/LAUNCH_INSTRUCTIONS.md` §3). Use this section for every later release.*
+
 0. Set Deployment Protection to "All Deployments" first (see the top of this file), so the new production deployment is
    not public until you decide.
 1. Record the approval (who, when, which commit).
 2. Use the open draft pull request #1 (or a new one) from the release branch into `main`: mark it ready, wait for CI,
    merge (no force-push). Vercel deploys
-   production to `blackstallion-academy.vercel.app`. With the section 6 rule in place this is the only way in.
+   production (the project's default domain is `project-t9r95.vercel.app`). With the section 6 rule in place this is the only way in.
 3. Smoke test production with the §2 steps 2–7. With "All Deployments" production is visible only to signed-in members
    of the Vercel team, so use the browser that is signed in to Vercel; once it has been opened to the public (launch
    step 4) use one synthetic enquiry only.

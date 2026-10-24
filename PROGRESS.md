@@ -148,3 +148,11 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   - **Waiting for the owner:** the staff account (so the admin console can be tested), approvals for 001200, the seed
     accounts, QA data clean-up, key rotation, plans, domain and indexing; the media download; branch protection;
     revoking the temporary GitHub token. Exact list: `PRODUCTION_READINESS.md` §5.
+
+- [x] **24 Oct 2026, evening · Public launch on the vercel.app address.** The owner approved ("Make it public on the
+  vercel.app address"); pull request #1 was marked ready and merged into `main` at 19:25 UTC (merge commit `b76131b`,
+  owner's signed-in browser session, no token). Vercel built production; it is public at `https://project-t9r95.vercel.app`.
+  Checked: 34 routes 200, database up, robots `Disallow: /`, models and hero video served, security headers (record:
+  `docs/LAUNCH_INSTRUCTIONS.md` §3, `docs/TEST_RESULTS.md` §3a). Not done: custom domain and DNS, Resend domain,
+  indexing, payments, analytics, a live enquiry test, staff sign-in. Open and approved in principle: move the images,
+  video, audio and 3D models to Supabase Storage after the owner upgrades to Supabase Pro.

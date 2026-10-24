@@ -83,6 +83,27 @@ What the 85 node tests cover (by file, 9 files):
 The synthetic enquiries were sent once, on the earlier preview; they were not repeated for every commit because the
 enquiry code did not change in between (the unit tests cover it).
 
+## 3a. Production deployment (public vercel.app address, 24 Oct 2026, 19:27 to 19:35 UTC)
+
+Commit `b76131b` (merge of pull request #1), served at `https://project-t9r95.vercel.app`; checked from the owner's
+signed-in browser pane (`fetch` of each path, no login needed because production is public).
+
+| Check | Result |
+| --- | --- |
+| Sitemap routes (34) | all 200; one `h1` each |
+| `/admin/login`, `/schools/access` | 200, `noindex` in the page |
+| `/admin` signed out | redirects (opaque redirect to the login page) |
+| Unknown path | 404 with `noindex` |
+| `/api/health?deep=1` | `{"ok":true,"service":"bsah-web","region":"icn1","db":"up","dbMs":1349}` (first call, cold start) |
+| `/robots.txt`, `/sitemap.xml` | `User-Agent: *` `Disallow: /` (indexing off); sitemap lists 34 URLs on the canonical host |
+| Models | the eight `.glb` files answer 200 as `model/gltf-binary` with `Cache-Control: public, max-age=86400, stale-while-revalidate=604800`; `/draco/draco_decoder.wasm` 200 (`/draco/draco_decoder.js` is not shipped and 404s, as expected: the WASM decoder is used) |
+| Hero | `hero-main-mobile.mp4` answers 206; poster, fonts, CSS and JS chunks 200 |
+| Headers on `/` | CSP, `Strict-Transport-Security`, `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, referrer and permissions policies |
+| CI on `main` | `verify`, `database`, `e2e` completed successfully |
+
+Not tested on production: a live enquiry (it would add a row to the shared database and send an e-mail; the same code
+passed on the previews, §3), staff sign-in (no account yet), the password-reset e-mail, the Formspree inbox.
+
 ## 4. Browser audits (local, Playwright, production build)
 
 ### 4a. Route audit, first pass

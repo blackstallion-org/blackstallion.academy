@@ -443,7 +443,8 @@ request #1 into `main`. Legend as above: [x] done and verified · [~] partial ·
   - [ ] admin flows, password-reset e-mail, Formspree inbox, real devices (see §6 of that document)
 - L12 Production release preparation
   - [x] `docs/LAUNCH_INSTRUCTIONS.md` (five separate approvals, gates G1–G16, undo table), draft pull request #1
-  - [ ] merge, DNS, Resend domain, indexing, payments: none done, each needs its own approval
+  - [x] merge into `main`: 24 Oct 2026, 19:25 UTC, merge commit `b76131b`, on the owner's approval ("Make it public on the vercel.app address"); production is public at `https://project-t9r95.vercel.app`
+  - [ ] DNS, Resend domain, indexing, payments: none done, each needs its own approval
 - L13 Final handover
   - [x] this checklist, `PRODUCTION_READINESS.md`, `PROGRESS.md`, `docs/WEBSITE_HANDOVER.md`, `docs/DATABASE_ARCHITECTURE.md`,
     `docs/SECURITY_AUDIT.md`, `docs/PERFORMANCE_REPORT.md`, `docs/TEST_RESULTS.md`, `docs/DEPLOYMENT_RUNBOOK.md`,

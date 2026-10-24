@@ -7,10 +7,11 @@ For whoever runs, changes or builds on the website next (including the mobile-ap
 `SECURITY_AUDIT.md`, `PERFORMANCE_REPORT.md`, `TEST_RESULTS.md`, `DEPLOYMENT_RUNBOOK.md`, `ENVIRONMENT_VARIABLES.md`,
 `MOBILE_BACKEND_CONTRACTS.md`, `ADMIN_CONSOLE.md`, `PERF_NOTES.md`, and the design source of truth `BLUEPRINT.md`.
 
-**Where things stand (24 Oct 2026).** The integrated branch `session/2026-10-24-final-completion` is on GitHub with a
-draft pull request #1 into `main`; CI is green; Vercel built previews of it against the real database. Nothing is merged,
-nothing is on the public domain, and no live data was changed in the final pass. Read `PRODUCTION_READINESS.md` §5 for
-the owner-only items.
+**Where things stand (24 Oct 2026, evening).** The integrated branch `session/2026-10-24-final-completion` was merged
+into `main` (pull request #1, merge commit `b76131b`, 19:25 UTC) on the owner's approval, and Vercel's production
+deployment is public at `https://project-t9r95.vercel.app`. CI is green on `main`, the database is up and search
+indexing is off. Nothing is on the custom domain, no payment is live, and the launch changed no live data. Read
+`PRODUCTION_READINESS.md` §5 for the owner-only items.
 
 ## 1. How the website is structured
 
@@ -122,10 +123,10 @@ the order of the launch steps and the gates: `docs/LAUNCH_INSTRUCTIONS.md`.
 
 Facts that matter before launch: the Vercel team is on the **Hobby plan**, which is for non-commercial use (a commercial
 site needs Pro, $20 per user per month, an owner decision). Deployment Protection is "Standard", which protects previews
-only, so the first merge into `main` would publish the site on `blackstallion-academy.vercel.app`; set it to "All
-Deployments" first and open the site as a separate step (`LAUNCH_INSTRUCTIONS.md` §2.1). `vercel.json` pins the functions
-to Seoul (`icn1`), next to the database. `main` has no branch protection yet (runbook §6). The release vehicle is the
-draft pull request #1; do not merge it before the launch approval.
+only, so the merge of 24 Oct 2026 published the site on `project-t9r95.vercel.app` (the owner's choice); setting it to
+"All Deployments" makes production private again (`LAUNCH_INSTRUCTIONS.md` §2.1). `vercel.json` pins the functions
+to Seoul (`icn1`), next to the database. `main` has no branch protection yet (runbook §6). The release vehicle, pull
+request #1, has been merged.
 
 ## 9. How to restore from a backup
 
