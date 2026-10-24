@@ -36,6 +36,9 @@ const securityHeaders = [
   ...(isDev ? [] : [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" }]),
 ];
 
+/** Directories of static files under public/ that pages load (media, video, models, brand art, audio, decoders). */
+const assetDirs = ["animations", "audio", "brand", "draco", "images", "media", "models", "textures", "video"];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Next 16 defaults for new projects
@@ -50,7 +53,13 @@ const nextConfig = {
   // Admin media uploads go through a server action; Vercel caps request bodies at about 4.5 MB.
   experimental: { serverActions: { bodySizeLimit: "4.5mb" } },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // Files under public/ keep their names when they change, so they are not marked immutable; a day in the browser's
+      // cache plus a week of revalidate-in-the-background spares repeat visitors a round trip for every still, clip and
+      // model (the platform default for public files is max-age=0, must-revalidate).
+      ...assetDirs.map((dir) => ({ source: `/${dir}/:path*`, headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] })),
+    ];
   },
   async redirects() {
     return [

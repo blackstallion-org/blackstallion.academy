@@ -54,6 +54,22 @@ tiles, canvas measurements (forced layouts during hydration), the ASCII panel fe
 ember trail's WebGL set-up all ran at page load, screens away from their sections. All of that now starts only when the
 section is within a screen of the viewport; the remaining differences are within run-to-run noise (about ±3 points).
 
+## 2c. Request hygiene (24 Oct, last pass before the preview was re-checked)
+
+Four additive edits (details and verification: `docs/PERF_NOTES.md` section 8): the paper "deed" still, the footer
+poster and the four anatomy overlay plates are requested when they are about to be seen instead of at load, and
+`public/` media now carries `Cache-Control: public, max-age=86400, stale-while-revalidate=604800` (it was
+`max-age=0, must-revalidate`). Home, mobile, 4 interleaved runs each on a quiet machine:
+
+| `/` | Perf | LCP | Speed Index | TBT | Requests | Bytes |
+| --- | --- | --- | --- | --- | --- | --- |
+| before | 60 (58–64) | 7.21 s | 5.15 s | 477 ms | 64 | 3.16 MB |
+| after | 60 (55–70) | **6.00 s** | **4.62 s** | 540 ms (noisy: 226–695) | 58 | **2.89 MB** |
+
+The real saving is 267 KB less before the first paint and 0.27 MB less per visit; the lab *score* is unchanged
+because it is limited by main-thread work, not by bytes (an offline model with every font and image removed still
+scores only 71: `docs/PERF_NOTES.md` 8a). Run-to-run noise is about ±5 points.
+
 ## 3. What changed
 
 - The hero poster paints from the first frame (home LCP 17.4 s → 6.5 s).
@@ -67,7 +83,12 @@ section is within a screen of the viewport; the remaining differences are within
 
 ## 4. Target and what remains
 
-Target 80+ (stretch 90+) on mobile is **not reached** in this lab (66–76 on the reel pages). Measured bottlenecks:
+Target 80+ (stretch 90+) on mobile is **not reached** in this lab (home 60–67 depending on machine load, reels 70–77,
+`/schools` 32–33). Home cannot get there without removing fonts, images or effects the brief says to keep (offline
+what-if: `docs/PERF_NOTES.md` 8a), and `/schools` is dominated by software rendering of its WebGL opening (the
+page does continuous GPU work that a phone's GPU is expected to absorb; not yet confirmed on a device). The honest
+verdict is "as good as the design allows in the lab; re-measure on a real device and PageSpeed Insights after the
+production deploy". Measured bottlenecks:
 1. **Bytes before first paint on slow 4G** — ~0.4–0.7 MB of JavaScript (React, GSAP, motion, Lenis on every page) and
    six preloaded font files (~265 KB). Options: preload only the two Noto Serif Display faces and Plus Jakarta Sans
    normal (≈ −120 KB at high priority, small risk of a font swap on body text); split GSAP plugins per route.

@@ -125,6 +125,9 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
   const [compositeMode, setCompositeMode] = useState<boolean>(false);
   const [showRegGrid, setShowRegGrid] = useState<boolean>(false);
   const [forceReducedMotion, setForceReducedMotion] = useState<boolean>(false);
+  // The four overlay plates (about 100 kB) are first seen when the stage is on screen: they are requested a screen and
+  // a half ahead of it instead of at load (they used to be fetched with the page although the stage sits far down).
+  const [layersNear, setLayersNear] = useState<boolean>(false);
 
   // Deep links (#part or ?part=) are read after hydration, in a frame callback rather than synchronously in the effect.
   useEffect(() => {
@@ -407,6 +410,12 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
     else cancel = whenNearViewport(container, run);
     return () => { cancel(); context?.revert(); };
   }, [selectedPart, compositeMode, updateCalloutStyles, animateLayers]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    return whenNearViewport(container, () => setLayersNear(true), "150% 0px");
+  }, []);
 
   // Handle global Escape key for modals
   useEffect(() => {
@@ -784,7 +793,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 01: BRAIN */}
                 <g id="bsah-overlay-layer-brain" opacity={selectedPart === "brain" || compositeMode ? 1 : 0}>
                   <image
-                    href="/images/matrix/brain-overlay.webp"
+                    href={layersNear ? "/images/matrix/brain-overlay.webp" : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -806,7 +815,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 02: SPINE */}
                 <g id="bsah-overlay-layer-spine" opacity={selectedPart === "spine" || compositeMode ? 1 : 0}>
                   <image
-                    href="/images/matrix/spine-overlay.webp"
+                    href={layersNear ? "/images/matrix/spine-overlay.webp" : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -828,7 +837,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 03: MUSCLE */}
                 <g id="bsah-overlay-layer-muscle" opacity={selectedPart === "muscle" || compositeMode ? 1 : 0}>
                   <image
-                    href="/images/matrix/muscle-overlay.webp"
+                    href={layersNear ? "/images/matrix/muscle-overlay.webp" : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -890,7 +899,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 04: HEART */}
                 <g id="bsah-overlay-layer-heart" opacity={selectedPart === "heart" || compositeMode ? 1 : 0}>
                   <image
-                    href="/images/matrix/heart-overlay.webp"
+                    href={layersNear ? "/images/matrix/heart-overlay.webp" : undefined}
                     x="0"
                     y="0"
                     width="1600"
