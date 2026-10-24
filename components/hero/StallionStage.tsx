@@ -1,30 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { daylight, loadGlb, lookAt, perspective, StallionRenderer, type GazeTarget } from "./stallion-gl";
+import { useCallback, useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import { addLights, contactShadow, createGaze, daylight, disposeObject, loadMarwari } from "@/components/3d/marwari";
+import { MODEL_URL, PASSPORT_HREF } from "./stallion-flags";
 import { cn } from "@/lib/utils";
 
-/** Where the camera dolly lands: the digital Sovereign Passport. */
-export const PASSPORT_HREF = "/cadets#passport";
-/** The commissioned sculpt, when supplied, is set with NEXT_PUBLIC_STALLION_MODEL (e.g. /models/marwari.glb). */
-export const MODEL_URL = process.env.NEXT_PUBLIC_STALLION_MODEL || "/models/marwari-proxy.glb";
-
 type Status = "loading" | "ready" | "failed";
-
-const MODEL_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_STALLION_MODEL);
-const noSubscribe = () => () => {};
-/**
- * The 3D centrepiece is on when the commissioned model is configured (NEXT_PUBLIC_STALLION_MODEL).
- * Until then the hero keeps its photograph and film; `?stallion=preview` shows the stand-in proxy for review.
- */
-export function useStallionEnabled() {
-  return useSyncExternalStore(
-    noSubscribe,
-    () => MODEL_CONFIGURED || new URLSearchParams(window.location.search).get("stallion") === "preview",
-    () => MODEL_CONFIGURED,
-  );
-}
 
 type Props = {
   className?: string;
@@ -36,21 +20,23 @@ const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const ease = (t: number) => 1 - Math.pow(1 - t, 3);
 
 /**
- * The hero centrepiece: an interactive Marwari stallion rendered with WebGL2.
+ * The hero centrepiece: the rigged Marwari stallion (three.js, skinned, Draco).
  * Cursor gaze on fine pointers, device tilt on phones (permission asked on iOS), touch-drag otherwise,
- * ribcage breathing, light that follows the local time of day, and a click that dollies the camera
- * toward the head and opens the Sovereign Passport. Reduced motion: a still frame and a plain link.
- * The model is a stand-in proxy until the commissioned sculpt is supplied (see docs/BSAH_IMPLEMENTATION_CHECKLIST.md).
+ * ribcage breathing, tail, ear and blink clips, an occasional weight shift, light that follows the local
+ * time of day, and a click that dollies the camera to the head and opens the Sovereign Passport.
+ * Reduced motion: one still frame, no gaze, and the click goes straight to the passport.
  */
 export function StallionStage({ className, onStatus }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const router = useRouter();
   const [status, setStatus] = useState<Status>("loading");
   const [needsMotionPermission, setNeedsMotionPermission] = useState(false);
-  const target = useRef<GazeTarget>({ yaw: 0, pitch: 0 });
+  const target = useRef({ yaw: 0, pitch: 0 });
   const dolly = useRef<{ start: number } | null>(null);
   const navigated = useRef(false);
   const reduced = useRef(false);
+  const tiltRef = useRef<((e: DeviceOrientationEvent) => void) | null>(null);
+  const wake = useRef<() => void>(() => {});
 
   const report = useCallback(
     (s: Status) => {
@@ -68,130 +54,224 @@ export function StallionStage({ className, onStatus }: Props) {
       return;
     }
     dolly.current = { start: performance.now() };
+    wake.current();
   }, [router, status]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let r: StallionRenderer;
+    let renderer: THREE.WebGLRenderer;
     try {
-      r = new StallionRenderer(canvas);
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
     } catch {
       queueMicrotask(() => report("failed"));
       return;
     }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.45;
+    renderer.setClearColor(0x000000, 0);
+
+    const scene = new THREE.Scene();
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const room = new RoomEnvironment();
+    const env = pmrem.fromScene(room, 0.04);
+    room.dispose();
+    pmrem.dispose();
+    scene.environment = env.texture;
+    scene.environmentIntensity = 0.45;
+    const applyLight = addLights(scene);
+    const hour = () => new Date().getHours() + new Date().getMinutes() / 60;
+    applyLight(daylight(hour()));
+    scene.add(contactShadow());
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
+
     let alive = true;
     let raf = 0;
     let visible = true;
-    const gaze: GazeTarget = { yaw: 0, pitch: 0 };
-    const light = daylight(new Date().getHours() + new Date().getMinutes() / 60);
+    let ready = false;
+    let mixer: THREE.AnimationMixer | null = null;
+    let gaze: ((yaw: number, pitch: number) => void) | null = null;
+    let nextBlink = 2;
+    let nextShift = 14;
+    let blink: THREE.AnimationAction | null = null;
+    let shift: THREE.AnimationAction | null = null;
+    let lastLight = 0;
+    const g = { yaw: 0, pitch: 0 };
+    const clock = new THREE.Clock();
     const t0 = performance.now();
+    const eye = new THREE.Vector3();
+    const look = new THREE.Vector3();
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const { clientWidth: w, clientHeight: h } = canvas;
-      canvas.width = Math.max(1, Math.round(w * dpr));
-      canvas.height = Math.max(1, Math.round(h * dpr));
-      r.gl.viewport(0, 0, canvas.width, canvas.height);
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.fov = camera.aspect < 0.9 ? 40 : 30; // narrow screens: a wider lens so the whole horse fits
+      camera.updateProjectionMatrix();
     };
 
     const frame = (now: number) => {
-      if (!alive) return;
+      raf = 0;
+      if (!alive || !ready) return;
+      const dt = Math.min(clock.getDelta(), 0.05);
       const t = (now - t0) / 1000;
-      const aspect = canvas.width / canvas.height;
-      // follow the target softly; a slow idle sway when nothing is steering
-      const idle = reduced.current ? 0 : Math.sin(t * 0.35) * 0.06;
-      gaze.yaw += (target.current.yaw + idle - gaze.yaw) * 0.06;
-      gaze.pitch += (target.current.pitch - gaze.pitch) * 0.06;
-      // camera: three-quarter view from the horse's left front; narrower screens step back
-      const back = aspect < 0.9 ? 1.35 : 1;
-      let eye = [4.4 * back, 1.6, 4.0 * back];
-      let look = [0, 1.18, 0.1];
+      if (!reduced.current && mixer) {
+        mixer.update(dt);
+        if (t > nextBlink && blink) {
+          blink.reset().play();
+          nextBlink = t + 2.5 + Math.random() * 4.5;
+        }
+        if (t > nextShift && shift) {
+          shift.reset().play();
+          nextShift = t + 18 + Math.random() * 14;
+        }
+      }
+      // follow the target softly; a slow idle drift when nothing is steering
+      const idle = reduced.current ? 0 : Math.sin(t * 0.3) * 0.08;
+      g.yaw += (target.current.yaw + idle - g.yaw) * 0.05;
+      g.pitch += (target.current.pitch - g.pitch) * 0.05;
+      gaze?.(g.yaw, g.pitch);
+      if (now - lastLight > 60_000) {
+        applyLight(daylight(hour()));
+        lastLight = now;
+      }
+      // camera: three-quarter view from the horse's left front; narrow screens step back
+      const back = camera.aspect < 0.9 ? 1.25 : 1;
+      eye.set(3.1 * back, 1.55, 3.7 * back);
+      look.set(0, 1.08, 0.2);
       if (dolly.current) {
         const k = ease(clamp((now - dolly.current.start) / 1300, 0, 1));
-        const head = [0, 1.95, 1.45];
-        eye = eye.map((v, i) => v + ([0.9, 2.05, 2.75][i] - v) * k);
-        look = look.map((v, i) => v + (head[i] - v) * k);
+        eye.lerp(new THREE.Vector3(0.85, 1.95, 2.35), k);
+        look.lerp(new THREE.Vector3(0, 1.82, 1.1), k);
         if (k >= 1 && !navigated.current) {
           navigated.current = true;
           router.push(PASSPORT_HREF);
         }
       }
-      const breath = reduced.current ? 0 : 0.014 * (0.5 - 0.5 * Math.cos((t * Math.PI * 2) / 4.4));
-      r.draw({ proj: perspective(aspect < 0.9 ? 0.62 : 0.5, aspect, 0.1, 50), view: lookAt(eye, look), cam: eye, breath, gaze, light });
+      camera.position.copy(eye);
+      camera.lookAt(look);
+      try {
+        renderer.render(scene, camera);
+      } catch {
+        report("failed");
+        return;
+      }
       if (!reduced.current && visible) raf = requestAnimationFrame(frame);
     };
+    const request = () => {
+      if (!raf && alive && ready && (visible || dolly.current)) raf = requestAnimationFrame(frame);
+    };
+    wake.current = request;
 
-    loadGlb(MODEL_URL)
-      .then((glb) => {
-        if (!alive) return;
-        r.upload(glb);
+    const { promise, dispose: disposeLoader } = loadMarwari(MODEL_URL);
+    promise
+      .then((m) => {
+        if (!alive) return disposeObject(m.root);
+        scene.add(m.root);
+        mixer = new THREE.AnimationMixer(m.root);
+        const loop = (name: string, weight = 1) => {
+          const clip = m.clips.get(name);
+          if (clip) mixer!.clipAction(clip).setEffectiveWeight(weight).play();
+        };
+        loop("Idle_Breathing");
+        loop("Tail_Sway", 0.8);
+        loop("Ear_Rotate", 0.7);
+        const once = (name: string) => {
+          const clip = m.clips.get(name);
+          if (!clip) return null;
+          const a = mixer!.clipAction(clip);
+          a.setLoop(THREE.LoopOnce, 1);
+          return a;
+        };
+        blink = once("Blink");
+        shift = once("Weight_Shift");
+        mixer.update(0);
+        gaze = createGaze(m);
+        ready = true;
         resize();
         report("ready");
-        raf = requestAnimationFrame(frame);
+        request();
       })
-      .catch(() => alive && report("failed"));
+      .catch(() => alive && report("failed"))
+      .finally(disposeLoader);
 
     // pointer gaze (fine pointers): the horse turns its head a few degrees toward the cursor
     const onMove = (e: PointerEvent) => {
       if (e.pointerType === "touch") return;
       const rect = canvas.getBoundingClientRect();
-      const cx = rect.left + rect.width * 0.62;
+      const cx = rect.left + rect.width * 0.55;
       const cy = rect.top + rect.height * 0.3;
-      target.current.yaw = clamp((e.clientX - cx) / window.innerWidth, -0.5, 0.5) * 0.9;
-      target.current.pitch = clamp((e.clientY - cy) / window.innerHeight, -0.5, 0.5) * 0.45;
+      target.current.yaw = clamp((e.clientX - cx) / window.innerWidth, -0.5, 0.5) * 1.1;
+      target.current.pitch = clamp((e.clientY - cy) / window.innerHeight, -0.5, 0.5) * 0.5;
     };
     // touch drag on the canvas, a fallback when tilt is unavailable or declined
     const onTouch = (e: PointerEvent) => {
       if (e.pointerType !== "touch" || e.buttons === 0) return;
       const rect = canvas.getBoundingClientRect();
-      target.current.yaw = clamp((e.clientX - rect.left) / rect.width - 0.5, -0.5, 0.5) * 0.9;
-      target.current.pitch = clamp((e.clientY - rect.top) / rect.height - 0.4, -0.5, 0.5) * 0.45;
+      target.current.yaw = clamp((e.clientX - rect.left) / rect.width - 0.5, -0.5, 0.5) * 1.1;
+      target.current.pitch = clamp((e.clientY - rect.top) / rect.height - 0.4, -0.5, 0.5) * 0.5;
     };
     // device tilt
     const onTilt = (e: DeviceOrientationEvent) => {
       if (e.gamma == null || e.beta == null) return;
-      target.current.yaw = clamp(e.gamma / 45, -1, 1) * 0.42;
-      target.current.pitch = clamp((e.beta - 45) / 45, -1, 1) * 0.2;
+      target.current.yaw = clamp(e.gamma / 45, -1, 1) * 0.5;
+      target.current.pitch = clamp((e.beta - 45) / 45, -1, 1) * 0.22;
     };
+    tiltRef.current = onTilt;
     const DOE = (window as unknown as { DeviceOrientationEvent?: { requestPermission?: () => Promise<string> } }).DeviceOrientationEvent;
     const coarse = window.matchMedia("(pointer: coarse)").matches;
-    if (coarse && DOE) {
+    if (coarse && DOE && !reduced.current) {
       if (typeof DOE.requestPermission === "function") queueMicrotask(() => setNeedsMotionPermission(true));
       else window.addEventListener("deviceorientation", onTilt);
     }
 
     const io = new IntersectionObserver(([en]) => {
-      const was = visible;
       visible = en.isIntersecting && document.visibilityState === "visible";
-      if (visible && !was && !reduced.current && r.prims.length) raf = requestAnimationFrame(frame);
+      if (visible) {
+        clock.getDelta(); // no jump after a pause
+        request();
+      }
     });
     io.observe(canvas);
     const onVis = () => {
-      const was = visible;
       visible = document.visibilityState === "visible";
-      if (visible && !was && !reduced.current && r.prims.length) raf = requestAnimationFrame(frame);
+      if (visible) {
+        clock.getDelta();
+        request();
+      }
     };
     const onResize = () => {
       resize();
-      if (reduced.current && r.prims.length) requestAnimationFrame(frame);
+      request();
+    };
+    const onLost = (e: Event) => {
+      e.preventDefault();
+      report("failed");
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     canvas.addEventListener("pointermove", onTouch, { passive: true });
+    canvas.addEventListener("webglcontextlost", onLost);
     window.addEventListener("resize", onResize);
     document.addEventListener("visibilitychange", onVis);
-    (canvas as unknown as { __tilt?: typeof onTilt }).__tilt = onTilt;
 
     return () => {
       alive = false;
       cancelAnimationFrame(raf);
       io.disconnect();
+      mixer?.stopAllAction();
       window.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointermove", onTouch);
+      canvas.removeEventListener("webglcontextlost", onLost);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("deviceorientation", onTilt);
       document.removeEventListener("visibilitychange", onVis);
+      wake.current = () => {};
+      disposeObject(scene);
+      env.dispose();
+      renderer.dispose();
     };
   }, [report, router]);
 
@@ -199,8 +279,7 @@ export function StallionStage({ className, onStatus }: Props) {
     const DOE = (window as unknown as { DeviceOrientationEvent?: { requestPermission?: () => Promise<string> } }).DeviceOrientationEvent;
     try {
       const res = await DOE?.requestPermission?.();
-      const tilt = (canvasRef.current as unknown as { __tilt?: (e: DeviceOrientationEvent) => void })?.__tilt;
-      if (res === "granted" && tilt) window.addEventListener("deviceorientation", tilt);
+      if (res === "granted" && tiltRef.current) window.addEventListener("deviceorientation", tiltRef.current);
     } catch {
       /* declined: touch-drag remains */
     }
@@ -225,12 +304,12 @@ export function StallionStage({ className, onStatus }: Props) {
         </p>
       )}
       {status !== "failed" && (
-        <div className="absolute bottom-[14%] right-4 flex flex-col items-end gap-2 sm:right-[6%]">
-          <button type="button" onClick={enterPassport} className="label border border-line bg-night/70 px-3 py-2 text-sand hover:text-bone">
+        <div className="absolute bottom-[8%] right-4 flex flex-col items-end gap-2 sm:right-[6%]">
+          <button type="button" onClick={enterPassport} className="label min-h-11 border border-line bg-night/70 px-3 py-2 text-sand hover:text-bone">
             Open the Sovereign Passport →
           </button>
           {needsMotionPermission && (
-            <button type="button" onClick={askMotion} className="label border border-line bg-night/70 px-3 py-2 text-dust hover:text-bone">
+            <button type="button" onClick={askMotion} className="label min-h-11 border border-line bg-night/70 px-3 py-2 text-dust hover:text-bone">
               Enable tilt
             </button>
           )}

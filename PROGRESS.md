@@ -124,3 +124,14 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   panel and expanding frame set up only near the viewport (effects now cost nothing measurable in mobile Lighthouse).
   Verified: lint 0 errors, typecheck, 79/79 unit tests, build, 18/18 browser smoke. Details:
   `docs/IMPLEMENTATION_PROGRESS.md` (F17).
+- [x] **Session 24 Oct 2026 · Rigged Marwari stallion (Blender) for the hero and the anatomy plate.**
+  Built from the owner-supplied Tripo sculpt in Blender 5.2, headless: welded, decimated, coat repainted Kala black,
+  42-bone rig weighted via a voxel proxy, head straightened, eight clips (Idle_Breathing, Head_Turn, Ear_Rotate, Blink,
+  Weight_Shift, Walk, Trot, Tail_Sway; legs by planar IK, hooves planted). Exports: `marwari-hero.glb` (77k tris, 619 KB)
+  and `marwari-anatomy.glb` (214k tris, 1.07 MB), Draco + WebP. `StallionStage` rewritten on three.js (gaze, tilt with
+  permission, touch drag, breathing, time-of-day light, dolly to `/cadets#passport`, reduced-motion still, poster
+  fallback); old `stallion-gl.ts` removed; shown only at `/?stallion=preview` until approved. `Anatomy3DHorse`: new model,
+  five bone-anchored hotspots with region glow, camera focus, keyboard-focusable markers, Stand/Walk/Trot; 2D plate kept.
+  Verified: typecheck, build, touched files lint-clean (47 lint errors are all in untracked `public/anatomy/vendor`),
+  390/1440 screenshots, reduced motion. Open: Tripo licence plan to confirm; not photorealistic (see report).
+  Report: `docs/reference/3d/marwari/README.md`.
