@@ -73,7 +73,7 @@ What the 85 node tests cover (by file, 9 files):
 | `/tournaments` peg run (561c8c8) | the four stills load through the resizer (213, 255, 281, 225 KB), stage switching and the WebGL transition work, no console errors except Vercel's own feedback toolbar being refused by the CSP (expected on previews) |
 | `/parents` (561c8c8) | the four morning stills load (417 to 778 KB each, decode at 1920 x 2571) instead of 7.8 MB each |
 | Fonts (preview built after `aa8e627`) | the home anatomy labels and numerals resolve to the house fonts (see §4c) |
-| Synthetic MOU enquiry (`/schools/mou`, earlier preview `03e8d2b`) | stored + `mou_requests` mirror + private PDF + audit row; Formspree accepted (HTTP 200); Resend delivered |
+| Synthetic MOU enquiry (`/schools/mou`, earlier preview `03e8d2b`) | stored + `mou_requests` mirror + private PDF + audit row; accepted by Formspree's endpoint (logged channel `formspree`); Resend delivered |
 | Synthetic parent enquiry with `?qr=` (`03e8d2b`) | stored with QR attribution; `qr_lead_captures` mirror (`website-qr`); Formspree + Resend |
 | `/verify` (`03e8d2b`) | sample record labelled SAMPLE; unknown code shows "No sealed record" from the live registry |
 | `/admin/reset` (`03e8d2b`) | the same generic answer for an unknown address |
@@ -113,8 +113,8 @@ defects (tight leading on two-voice headlines, screen-reader-only copy).
 
 40 routes (every page, the six journal articles, three hub pages, three tournaments, three QR codes, MOU, access,
 admin login and reset) x 6 widths (320, 390, 768, 1024, 1440, 1920) = **240 full-scroll runs**, reduced motion (static
-layout), plus a WCAG 2.2 target-size check and a font check. This run was made before the font fix below; the font
-and target results were re-run on the fixed build.
+layout), plus a WCAG 2.2 target-size check and a font check. The matrix and the target-size check ran on the build
+before the font fix below; the font check was re-run on the fixed build.
 
 Zero-count results: all 240 runs loaded with HTTP 200; no horizontal scrolling at any width; exactly one `h1` and one
 `main` on every page; `lang` set everywhere; 0 controls without an accessible name; 0 inputs without a label; 0 images
@@ -126,7 +126,7 @@ Findings and what was done with them:
 | Finding | Disposition |
 | --- | --- |
 | Forbidden font `Inter` (12 page-widths: `/` and `/science`) hard-coded in the home anatomy "matrix" SVG labels, `DM Mono` in its numerals, and `Inter` in two canvas textures (the Hyderabad diorama and the Citadel site plan). None of these faces is loaded by the site, so the text rendered in the browser's fallback face | **Fixed** (GitHub `aa8e627`): labels and numerals use `var(--font-sans)` / `var(--font-mono)`; the canvases read `--font-sans` from the body when they draw. Re-checked on the production build with a computed-style crawl (no forbidden face on `/` or `/science` at 390 and 1440 px, labels fit their badges) and on the preview |
-| `/schools`: two console errors `ERR_INVALID_URL` at every width | **Open, minor.** Traced to the embedded `royal` hub thumbnail in `CitadelConfigurator.tsx`: its base64 JPEG has one character missing (14,799 characters, not a multiple of 4), so the browser refuses the data URL and the picture is not shown. A one-character brute-force repair was tried but its result is a guess, so nothing was committed; the owner should supply the original image |
+| `/schools`: two console errors `ERR_INVALID_URL` at every width | **Open, minor.** Traced to the embedded `royal` hub thumbnail in `CitadelConfigurator.tsx`: its base64 JPEG has one character missing (14,799 characters, not a multiple of 4), so the browser refuses the data URL; `CitadelHubImage` then shows the illustrative site plan in its place, so nothing looks broken. A one-character brute-force repair was tried but its result is a guess, so nothing was committed; no original file is in git, so the owner should supply the image |
 | `/verify` at 320 and 390 px: nine boxes extend 4 px past the left edge (the two-ring illustration and the "Issued" heading) | **No change**: it is the scenes' optical offset; the glyphs are inside the viewport (screenshot at 320 px) and the page has no horizontal scroll |
 | Skip link flagged as "clipped" and "under the nav" on all 240 runs | **Expected**: it is visually hidden until focused (and verified as the first Tab stop in the browser smoke test) |
 | 35 requests failed with `ERR_TUNNEL_CONNECTION_FAILED` (`/tournaments`, `/journal` and others) | **Sandbox artefact**: the sandbox's proxy refuses the image provider's CDN. The same images load on the preview (§3) |

@@ -147,7 +147,7 @@ commit (never force-push). Local pre-session snapshots: `_session_snapshots/` an
 | 500 error | Vercel → Logs: `server.error` (route, digest, redacted message); alert e-mail if configured | code or data error |
 | Blank stills on a deployment | `tests/media.test.mjs`; request `/media/<name>.webp` | a key points at a git-ignored PNG master |
 | A still or video stays a gradient although the file name is right | browser network tab for the CDN host; the media table in §1 | the image provider removed or renamed the file, its host is missing from the CSP (`next.config.mjs`), or the sandbox/network blocks it |
-| Two `ERR_INVALID_URL` console errors on `/schools` | `components/sections/schools/CitadelConfigurator.tsx`, the `royal` entry | its embedded base64 thumbnail has a missing character; replace it with the original image (known, minor) |
+| Two `ERR_INVALID_URL` console errors on `/schools` | `components/sections/schools/CitadelConfigurator.tsx`, the `royal` entry | its embedded base64 thumbnail has a missing character; `CitadelHubImage` falls back to the plan drawing, so nothing looks broken; replace the thumbnail with the original image (known, minor) |
 | A 3D or WebGL scene shows only its still | browser console (WebGL errors), `chrome://gpu` | no WebGL, too many live contexts, a CDN still without CORS (the peg-run gallery then cross-fades) |
 | Slow page | `docs/PERFORMANCE_REPORT.md` method; Vercel Speed Insights if enabled | new eager client work, large media |
 

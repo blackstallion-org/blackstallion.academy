@@ -51,7 +51,7 @@ the evidence column, not measurements; the weights are the earlier ones plus one
 | 8 | Admin dashboard | Partial | 70 | 6 | complete feature set, 30 tests, no-JS safe; never run by a signed-in `SUPER_ADMIN` |
 | 9 | Enquiry pipeline | Complete | 92 | 6 | live MOU and QR parent enquiries reached Supabase, Formspree and Resend on a preview; other gates covered by tests |
 | 10 | Resend | Partial | 70 | 3 | live staff notifications; sending domain unverified, so no branded sender or receipts (DNS approval) |
-| 11 | Formspree | Partial | 90 | 2 | submissions accepted (HTTP 200, `channels: ["database","formspree"]`); nobody has looked at the Formspree inbox (owner sign-in) |
+| 11 | Formspree | Partial | 90 | 2 | submissions accepted by Formspree's endpoint (logged `channels: ["database","formspree"]`); nobody has looked at the Formspree inbox (owner sign-in) |
 | 12 | Storage | Partial | 80 | 3 | private PDF storage live; staff media upload untested live |
 | 13 | MOU PDF | Complete | 100 | 3 | download and private copy live; content parity tested |
 | 14 | Certificate verification | Complete | 85 | 4 | `/verify` and `/verify/[code]` use the live registry; no revocation fields in the schema |
