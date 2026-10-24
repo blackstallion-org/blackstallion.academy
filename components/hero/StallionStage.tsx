@@ -140,8 +140,8 @@ export function StallionStage({ className, onStatus }: Props) {
       }
       // camera: three-quarter view from the horse's left front; narrow screens step back
       const back = camera.aspect < 0.9 ? 1.25 : 1;
-      eye.set(3.1 * back, 1.55, 3.7 * back);
-      look.set(0, 1.08, 0.2);
+      eye.set(2.45 * back, 1.45, 2.95 * back);
+      look.set(0, 1.0, 0.15);
       if (dolly.current) {
         const k = ease(clamp((now - dolly.current.start) / 1300, 0, 1));
         eye.lerp(new THREE.Vector3(0.85, 1.95, 2.35), k);

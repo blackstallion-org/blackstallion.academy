@@ -381,6 +381,17 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     };
   }, []);
 
+  const [fullscreen, setFullscreen] = useState(false);
+  useEffect(() => {
+    const sync = () => setFullscreen(document.fullscreenElement === containerRef.current);
+    document.addEventListener("fullscreenchange", sync);
+    return () => document.removeEventListener("fullscreenchange", sync);
+  }, []);
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) void document.exitFullscreen();
+    else void containerRef.current?.requestFullscreen?.().catch(() => {});
+  };
+
   const select = (id: string) => {
     setAutoRotate(false);
     activeRef.current = id;
@@ -501,6 +512,14 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
           className="min-h-11 rounded-full border border-line bg-night/70 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-wider text-sand backdrop-blur-md transition-colors hover:text-bone"
         >
           Reset View
+        </button>
+        <button
+          type="button"
+          onClick={toggleFullscreen}
+          aria-pressed={fullscreen}
+          className="min-h-11 rounded-full border border-line bg-night/70 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-wider text-sand backdrop-blur-md transition-colors hover:text-bone"
+        >
+          {fullscreen ? "Exit Full Screen" : "Full Screen"}
         </button>
       </div>
 
