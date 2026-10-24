@@ -3,8 +3,12 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.js
-.yarn/install-state.gz
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # testing
 /coverage
@@ -24,9 +28,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# local env files
-.env*.local
+# env files (can opt-in for committing if needed)
+.env*
 
 # vercel
 .vercel
@@ -34,3 +39,26 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local media and reference material (not source; see scripts/fetch-media.sh and docs/)
+/public/media/*.png
+/public/media/*.jpg
+/public/media/*.mp4
+/hf_*.mp4
+/Claude outputs/
+/blackstallion images/
+/instructions/
+/*.pdf
+
+# large local video files (not source)
+/public/video/hf_*
+/_to_delete/
+!.env.example
+
+# session rollback snapshots (local only)
+/_session_snapshots/
+
+# local verification artefacts and capture experiments (not application source; see docs/REPOSITORY_HYGIENE.md)
+/scratch/
+/output/
+/.playwright-cli/

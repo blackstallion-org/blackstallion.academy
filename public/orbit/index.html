@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="en" class="anim">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#161616">
+  <title>Orbit — Secure system</title>
+  <style>
+    :root {
+      --ink: #ffffff;
+      --surface: #161616;
+      --orb-reveal: cubic-bezier(.16, 1, .3, 1);
+      --orb-soft: cubic-bezier(.25, .8, .28, 1);
+    }
+
+    /* Embedded TrueType Fonts with exact fallbacks */
+    @font-face {
+      font-family: "Orbit Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: local("Orbit Sans"), local("Arial"), local("Helvetica");
+    }
+
+    @font-face {
+      font-family: "Orbit Display";
+      font-style: normal;
+      font-weight: 400;
+      font-display: block;
+      src: local("Orbit Display"), local("Times New Roman"), local("Times");
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: "Orbit Sans", Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Document Structure */
+    main.viewport {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      background: #000000;
+      overflow: hidden;
+    }
+
+    section.stage {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      contain: strict;
+      isolation: isolate;
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    /* Brand mark */
+    .brand-mark {
+      position: absolute;
+      top: 2.141745dvh;
+      left: 3.854167vw;
+      width: clamp(34px, min(3.4375vw, 5.2dvh), 66px);
+      height: auto;
+      z-index: 4;
+      pointer-events: auto;
+      display: block;
+    }
+
+    /* Primary Nav */
+    .primary-nav {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .primary-nav li {
+      position: absolute;
+      top: 3.426791dvh;
+      font-family: "Orbit Sans", Arial, Helvetica, sans-serif;
+      font-size: clamp(13px, min(1.302083vw, 2.05dvh), 25px);
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .primary-nav li a {
+      color: var(--ink);
+      text-decoration: none;
+      pointer-events: auto;
+      display: inline-block;
+      transition: opacity 0.2s ease;
+    }
+
+    .primary-nav li a:hover {
+      opacity: 0.72;
+    }
+
+    .primary-nav li:nth-child(1) {
+      left: 10.104167vw;
+      transform: scaleX(1.165);
+      transform-origin: left center;
+    }
+
+    .primary-nav li:nth-child(2) {
+      left: 17.526042vw;
+      transform: scaleX(1.052);
+      transform-origin: left center;
+    }
+
+    .primary-nav li:nth-child(3) {
+      left: 27.578125vw;
+      transform: scaleX(1.126);
+      transform-origin: left center;
+    }
+
+    .primary-nav li:nth-child(4) {
+      left: 36.171875vw;
+      transform: scaleX(1.168);
+      transform-origin: left center;
+    }
+
+    /* Secure system pill */
+    .secure-pill {
+      position: absolute;
+      top: 2.336449dvh;
+      right: 7.5vw;
+      height: clamp(34px, 4.439252dvh, 57px);
+      border-radius: 999px;
+      background: #ffffff;
+      color: #161616;
+      padding: 0 clamp(18px, 1.8vw, 36px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Orbit Sans", Arial, Helvetica, sans-serif;
+      font-size: clamp(12px, min(1.1vw, 1.85dvh), 18px);
+      font-weight: 400;
+      letter-spacing: 0.026923em;
+      text-decoration: none;
+      z-index: 4;
+      pointer-events: auto;
+      white-space: nowrap;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .secure-pill:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Wordmark ORBIT */
+    .orbit-word {
+      position: absolute;
+      top: 11.565421dvh;
+      left: 4.348958vw;
+      z-index: 1;
+      margin: 0;
+      pointer-events: none;
+      font-family: "Orbit Display", "Times New Roman", Times, serif;
+      font-size: min(27.8125vw, 55dvh);
+      font-weight: 400;
+      letter-spacing: 0.033708em;
+      line-height: 0.85;
+      white-space: nowrap;
+    }
+
+    .orbit-word__mask {
+      display: inline-block;
+      overflow: visible;
+    }
+
+    html.anim .orbit-word__mask {
+      overflow: hidden;
+      padding-bottom: 0.12em;
+      margin-bottom: -0.12em;
+    }
+
+    .orbit-word__inner {
+      display: inline-block;
+      will-change: transform;
+    }
+
+    .orbit-word__white {
+      color: #ffffff;
+    }
+
+    .orbit-word__o {
+      display: inline-block;
+      transform: scaleX(1.0866);
+      transform-origin: left center;
+      margin-right: 0.042135em;
+    }
+
+    .orbit-word__pink {
+      background: linear-gradient(180deg, #ffc5dc 0%, #fd86db 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      display: inline-block;
+    }
+
+    /* Flower stack */
+    .flower {
+      position: absolute;
+      top: 14.749065dvh;
+      left: 49.121328vw;
+      height: 106.109034dvh;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .flower__sizer {
+      height: 100%;
+      width: auto;
+      display: block;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .flower__layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .flower__layer img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    .flower__layer--top {
+      mask-image: linear-gradient(#0000, #0000);
+      -webkit-mask-image: linear-gradient(#0000, #0000);
+      mask-size: 100% 100%;
+      -webkit-mask-size: 100% 100%;
+      mask-repeat: no-repeat;
+      -webkit-mask-repeat: no-repeat;
+    }
+
+    .flower__layer--bg {
+      mask-size: 100% 100%;
+      -webkit-mask-size: 100% 100%;
+      mask-repeat: no-repeat;
+      -webkit-mask-repeat: no-repeat;
+    }
+
+    /* Corner copy */
+    .support-copy {
+      position: absolute;
+      bottom: 4.361371dvh;
+      z-index: 3;
+      margin: 0;
+      pointer-events: none;
+      font-family: "Orbit Sans", Arial, Helvetica, sans-serif;
+      font-size: clamp(14px, min(1.40625vw, 2.102804dvh), 27px);
+      font-weight: 400;
+      line-height: 1.35;
+      color: #f7f7f7;
+      white-space: nowrap;
+    }
+
+    .support-copy--left {
+      left: 3.177083vw;
+      transform: scaleX(1.073);
+      transform-origin: left bottom;
+    }
+
+    .support-copy--right {
+      left: 78.28125vw;
+      transform: scaleX(1.058);
+      transform-origin: left bottom;
+    }
+
+    .support-copy__inner {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+
+    /* Mobile Chrome (hidden on desktop) */
+    .burger-btn {
+      display: none;
+      position: absolute;
+      top: 2.141745dvh;
+      right: 5vw;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: none;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      z-index: 12;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .burger-icon {
+      position: relative;
+      width: 18px;
+      height: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .burger-line {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #161616;
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .burger-btn[aria-expanded="true"] .burger-line:nth-child(1) {
+      transform: translateY(5px) rotate(45deg);
+    }
+
+    .burger-btn[aria-expanded="true"] .burger-line:nth-child(2) {
+      transform: translateY(-5px) rotate(-45deg);
+    }
+
+    .mobile-scrim {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 9;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .mobile-scrim.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-sheet {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(320px, 85vw);
+      height: 100dvh;
+      background: rgba(22, 22, 22, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 10;
+      transform: translateX(100%);
+      transition: transform 0.4s var(--orb-reveal);
+      padding: 6rem 2rem 2.5rem;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .mobile-sheet.is-open {
+      transform: translateX(0);
+    }
+
+    .mobile-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mobile-nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.35rem;
+      font-family: "Orbit Sans", Arial, Helvetica, sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .mobile-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 48px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #161616;
+      font-family: "Orbit Sans", Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.026em;
+      text-decoration: none;
+      font-weight: 400;
+    }
+
+    /* ==========================================================================
+       5. Entrance Animation (Pure CSS while html.anim)
+       ========================================================================== */
+    @keyframes orb-word {
+      from { transform: translateY(118%); }
+      to { transform: translateY(0); }
+    }
+
+    @keyframes orb-subject {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(3.4dvh);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    @keyframes orb-corner {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes orb-quiet {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes orb-dim {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    html.anim .brand-mark {
+      opacity: 0;
+      animation: orb-quiet 620ms var(--orb-soft) 100ms forwards;
+    }
+
+    html.anim .primary-nav li:nth-child(1) {
+      opacity: 0;
+      animation: orb-dim 550ms var(--orb-soft) 180ms forwards;
+    }
+
+    html.anim .primary-nav li:nth-child(2) {
+      opacity: 0;
+      animation: orb-dim 550ms var(--orb-soft) 225ms forwards;
+    }
+
+    html.anim .primary-nav li:nth-child(3) {
+      opacity: 0;
+      animation: orb-dim 550ms var(--orb-soft) 270ms forwards;
+    }
+
+    html.anim .primary-nav li:nth-child(4) {
+      opacity: 0;
+      animation: orb-dim 550ms var(--orb-soft) 315ms forwards;
+    }
+
+    html.anim .secure-pill {
+      opacity: 0;
+      animation: orb-quiet 620ms var(--orb-soft) 340ms forwards;
+    }
+
+    html.anim .burger-btn {
+      opacity: 0;
+      animation: orb-quiet 520ms var(--orb-soft) 200ms forwards;
+    }
+
+    html.anim .orbit-word__inner {
+      transform: translateY(118%);
+      animation: orb-word 1150ms var(--orb-reveal) 300ms forwards;
+    }
+
+    html.anim .flower {
+      opacity: 0;
+      animation: orb-subject 1150ms var(--orb-reveal) 660ms forwards;
+    }
+
+    html.anim .support-copy__inner {
+      opacity: 0;
+      animation: orb-corner 720ms var(--orb-soft) 980ms forwards;
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      html.anim .brand-mark,
+      html.anim .primary-nav li,
+      html.anim .secure-pill,
+      html.anim .burger-btn,
+      html.anim .orbit-word__inner,
+      html.anim .flower,
+      html.anim .support-copy__inner {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      html.anim .flower {
+        transform: translateX(-50%) !important;
+      }
+
+      html.anim section.stage {
+        animation: orb-dim 280ms ease forwards;
+      }
+    }
+
+    /* ==========================================================================
+       6. Responsive Essentials
+       ========================================================================== */
+    @media (max-width: 1200px), (orientation: portrait) {
+      .orbit-word {
+        left: 0;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-aspect-ratio: 4/5) {
+      .flower {
+        height: min(55dvh, 110vw);
+        top: 25dvh;
+      }
+
+      .orbit-word {
+        font-size: min(27.5vw, 18dvh);
+        top: 10dvh;
+      }
+
+      .support-copy {
+        font-size: clamp(12px, 3.2vw, 16px);
+        white-space: normal;
+        max-width: 44vw;
+      }
+
+      .support-copy--right {
+        left: auto;
+        right: 3.177083vw;
+        text-align: right;
+      }
+    }
+
+    @media (max-width: 900px), (max-aspect-ratio: 4/5) {
+      .primary-nav,
+      .secure-pill {
+        display: none !important;
+      }
+
+      .burger-btn {
+        display: flex;
+      }
+
+      .mobile-scrim {
+        display: block;
+      }
+
+      .mobile-sheet {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="viewport">
+    <section class="stage">
+      <!-- Brand mark -->
+      <svg class="brand-mark" viewBox="0 0 66 62" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Orbit Brand Mark">
+        <line x1="33" y1="1" x2="33" y2="61" stroke="#ffffff" stroke-width="5" stroke-linecap="square"/>
+        <line x1="3" y1="31" x2="63" y2="31" stroke="#ffffff" stroke-width="5" stroke-linecap="square"/>
+        <line x1="11.8" y1="9.8" x2="54.2" y2="52.2" stroke="#ffffff" stroke-width="5" stroke-linecap="square"/>
+        <line x1="54.2" y1="9.8" x2="11.8" y2="52.2" stroke="#ffffff" stroke-width="5" stroke-linecap="square"/>
+      </svg>
+
+      <!-- Primary nav -->
+      <ul class="primary-nav">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#benefits">Benefits</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <!-- Secure system pill -->
+      <a href="#secure" class="secure-pill">Secure system</a>
+
+      <!-- Mobile burger button -->
+      <button type="button" class="burger-btn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-sheet">
+        <span class="burger-icon">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </span>
+      </button>
+
+      <!-- Wordmark ORBIT -->
+      <h1 class="orbit-word" id="orbit-title" aria-label="Orbit">
+        <span class="orbit-word__mask">
+          <span class="orbit-word__inner">
+            <span class="orbit-word__white"><span class="orbit-word__o">O</span>R</span>
+            <span class="orbit-word__pink">BIT</span>
+          </span>
+        </span>
+      </h1>
+
+      <!-- Flower stack -->
+      <div class="flower">
+        <img class="flower__sizer" src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260808_192942_e1086505-d7da-433b-a59b-8220f4e6c808.png&w=1280&q=85" alt="" aria-hidden="true">
+        <div class="flower__layer flower__layer--bg">
+          <img src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260808_192942_e1086505-d7da-433b-a59b-8220f4e6c808.png&w=1280&q=85" alt="Pixel-art pink and violet lily">
+        </div>
+        <div class="flower__layer flower__layer--top" aria-hidden="true">
+          <img src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260808_151324_bf318a5f-5525-4fc7-aab5-e9a341018828.png&w=1280&q=85" alt="">
+        </div>
+      </div>
+
+      <!-- Corner copy -->
+      <p class="support-copy support-copy--left">
+        <span class="support-copy__inner">Every workflow,<br>intelligently connected.</span>
+      </p>
+
+      <p class="support-copy support-copy--right">
+        <span class="support-copy__inner">Less manual work.<br>More meaningful output.</span>
+      </p>
+
+      <!-- Mobile drawer -->
+      <div class="mobile-scrim" id="mobile-scrim" aria-hidden="true"></div>
+      <div class="mobile-sheet" id="mobile-sheet" role="dialog" aria-modal="true" aria-label="Mobile Navigation" inert>
+        <ul class="mobile-nav">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#resources">Resources</a></li>
+          <li><a href="#benefits">Benefits</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#secure" class="mobile-pill">Secure system</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // 1. Entrance Animation Cleanup
+      const htmlEl = document.documentElement;
+      let animCleaned = false;
+
+      function cleanAnim() {
+        if (animCleaned) return;
+        animCleaned = true;
+        htmlEl.classList.remove("anim");
+      }
+
+      // Safety timeout after all animations complete (6000ms max)
+      const safetyTimer = setTimeout(cleanAnim, 6000);
+
+      // Listen for last animation (corner copy: 980ms + 720ms = 1700ms)
+      const lastAnimEl = document.querySelector(".support-copy__inner");
+      if (lastAnimEl) {
+        lastAnimEl.addEventListener("animationend", () => {
+          clearTimeout(safetyTimer);
+          cleanAnim();
+        }, { once: true });
+      }
+
+      // 2. Mobile Menu (Drawer + Scrim + Accessibility)
+      const burgerBtn = document.querySelector(".burger-btn");
+      const mobileScrim = document.getElementById("mobile-scrim");
+      const mobileSheet = document.getElementById("mobile-sheet");
+      const mobileLinks = mobileSheet.querySelectorAll("a");
+
+      function toggleMenu(open) {
+        const isOpen = open !== undefined ? open : burgerBtn.getAttribute("aria-expanded") !== "true";
+        burgerBtn.setAttribute("aria-expanded", String(isOpen));
+
+        if (isOpen) {
+          mobileScrim.classList.add("is-open");
+          mobileSheet.classList.add("is-open");
+          mobileSheet.removeAttribute("inert");
+          const firstLink = mobileSheet.querySelector("a");
+          if (firstLink) firstLink.focus();
+        } else {
+          mobileScrim.classList.remove("is-open");
+          mobileSheet.classList.remove("is-open");
+          mobileSheet.setAttribute("inert", "");
+          burgerBtn.focus();
+        }
+      }
+
+      if (burgerBtn && mobileSheet && mobileScrim) {
+        burgerBtn.addEventListener("click", () => toggleMenu());
+        mobileScrim.addEventListener("click", () => toggleMenu(false));
+        mobileLinks.forEach((link) => {
+          link.addEventListener("click", () => toggleMenu(false));
+        });
+
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && burgerBtn.getAttribute("aria-expanded") === "true") {
+            toggleMenu(false);
+          }
+        });
+      }
+
+      // 3. Mouse Morph-Reveal Trail Engine
+      const TRAIL_MAX_POINTS  = 60;
+      const TRAIL_HEAD_R      = 140;
+      const TRAIL_NOISE_AMP   = 44;
+      const TRAIL_BLOB_PTS    = 24;
+      const TRAIL_FADE_SPEED  = 0.92;
+      const TRAIL_SAMPLE_DIST = 8;
+
+      const stageEl  = document.querySelector(".stage");
+      const flowerEl = document.querySelector(".flower");
+      const bgLayer  = document.querySelector(".flower__layer--bg");
+      const topLayer = document.querySelector(".flower__layer--top");
+
+      if (!stageEl || !flowerEl || !bgLayer || !topLayer) return;
+
+      // Offscreen Canvases
+      const canvasBg = document.createElement("canvas");
+      canvasBg.style.display = "none";
+      const ctxBg = canvasBg.getContext("2d", { willReadFrequently: false });
+
+      const canvasTop = document.createElement("canvas");
+      canvasTop.style.display = "none";
+      const ctxTop = canvasTop.getContext("2d", { willReadFrequently: false });
+
+      let hovering = false;
+      let mouseX = 0;
+      let mouseY = 0;
+      let headRadius = 0;
+      let time = 0;
+      const trail = [];
+
+      function syncCanvasSize() {
+        const rect = flowerEl.getBoundingClientRect();
+        const w = Math.max(1, Math.round(rect.width));
+        const h = Math.max(1, Math.round(rect.height));
+        if (canvasBg.width !== w || canvasBg.height !== h) {
+          canvasBg.width = w;
+          canvasBg.height = h;
+          canvasTop.width = w;
+          canvasTop.height = h;
+        }
+      }
+
+      syncCanvasSize();
+      window.addEventListener("resize", syncCanvasSize);
+
+      function updateMousePos(e) {
+        const rect = flowerEl.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+      }
+
+      stageEl.addEventListener("mousemove", (e) => {
+        hovering = true;
+        updateMousePos(e);
+      });
+
+      stageEl.addEventListener("mouseenter", (e) => {
+        hovering = true;
+        updateMousePos(e);
+      });
+
+      stageEl.addEventListener("mouseleave", () => {
+        hovering = false;
+      });
+
+      // Organic Morphing Blob Generator (3-Harmonic Noise)
+      function drawMorphBlob(ctx, cx, cy, r, t, seed) {
+        if (r < 2) return;
+
+        const count = TRAIL_BLOB_PTS;
+        const angleStep = (Math.PI * 2) / count;
+        const pts = [];
+
+        for (let i = 0; i < count; i++) {
+          const angle = i * angleStep;
+          const n1 = Math.sin(angle * 3 + t * 1.4 + seed) * 0.45;
+          const n2 = Math.sin(angle * 5 - t * 0.9 + seed * 2.3) * 0.3;
+          const n3 = Math.cos(angle * 2 + t * 1.8 + seed * 0.7) * 0.25;
+          const noise = (n1 + n2 + n3) * TRAIL_NOISE_AMP * (r / TRAIL_HEAD_R);
+          const rad = Math.max(0, r + noise);
+          pts.push({
+            x: cx + Math.cos(angle) * rad,
+            y: cy + Math.sin(angle) * rad,
+          });
+        }
+
+        ctx.beginPath();
+        const len = pts.length;
+        let p0 = pts[len - 1];
+        let p1 = pts[0];
+        let midX = (p0.x + p1.x) / 2;
+        let midY = (p0.y + p1.y) / 2;
+        ctx.moveTo(midX, midY);
+
+        for (let i = 0; i < len; i++) {
+          p0 = pts[i];
+          p1 = pts[(i + 1) % len];
+          midX = (p0.x + p1.x) / 2;
+          midY = (p0.y + p1.y) / 2;
+          ctx.quadraticCurveTo(p0.x, p0.y, midX, midY);
+        }
+
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      let wasIdle = true;
+
+      // Animation Loop
+      function renderFrame() {
+        requestAnimationFrame(renderFrame);
+
+        const targetR = hovering ? TRAIL_HEAD_R : 0;
+        headRadius += (targetR - headRadius) * (hovering ? 0.14 : 0.04);
+
+        if (hovering && headRadius > 5) {
+          const last = trail[trail.length - 1];
+          const dist = last ? Math.hypot(mouseX - last.x, mouseY - last.y) : Infinity;
+          if (dist > TRAIL_SAMPLE_DIST) {
+            trail.push({
+              x: mouseX,
+              y: mouseY,
+              r: headRadius,
+              alpha: 1,
+              seed: Math.random() * 100,
+            });
+            if (trail.length > TRAIL_MAX_POINTS) {
+              trail.shift();
+            }
+          }
+        }
+
+        // Decay trail
+        for (let i = trail.length - 1; i >= 0; i--) {
+          trail[i].alpha *= TRAIL_FADE_SPEED;
+          trail[i].r *= 0.995;
+          if (trail[i].alpha < 0.01) {
+            trail.splice(i, 1);
+          }
+        }
+
+        time += 0.016;
+
+        // Idle state check to avoid idle CPU cycles
+        const hasActiveElements = (hovering && headRadius > 1) || trail.length > 0;
+        if (!hasActiveElements) {
+          if (!wasIdle) {
+            wasIdle = true;
+            bgLayer.style.maskImage = "none";
+            bgLayer.style.webkitMaskImage = "none";
+            topLayer.style.maskImage = "linear-gradient(#0000, #0000)";
+            topLayer.style.webkitMaskImage = "linear-gradient(#0000, #0000)";
+          }
+          return;
+        }
+
+        wasIdle = false;
+        syncCanvasSize();
+
+        const w = canvasBg.width;
+        const h = canvasBg.height;
+
+        // 1. Layer BG (Invert = false): solid white base, cut out holes with destination-out
+        ctxBg.clearRect(0, 0, w, h);
+        ctxBg.fillStyle = "#ffffff";
+        ctxBg.fillRect(0, 0, w, h);
+
+        ctxBg.globalCompositeOperation = "destination-out";
+        ctxBg.fillStyle = "#ffffff";
+
+        if (hovering && headRadius >= 2) {
+          ctxBg.globalAlpha = 1;
+          drawMorphBlob(ctxBg, mouseX, mouseY, headRadius, time, 0);
+        }
+
+        for (let i = 0; i < trail.length; i++) {
+          ctxBg.globalAlpha = trail[i].alpha;
+          drawMorphBlob(ctxBg, trail[i].x, trail[i].y, trail[i].r, time, trail[i].seed);
+        }
+
+        ctxBg.globalCompositeOperation = "source-over";
+        ctxBg.globalAlpha = 1;
+
+        // 2. Layer TOP (Invert = true): clear base, reveal through trail with white blobs
+        ctxTop.clearRect(0, 0, w, h);
+        ctxTop.fillStyle = "#ffffff";
+
+        if (hovering && headRadius >= 2) {
+          ctxTop.globalAlpha = 1;
+          drawMorphBlob(ctxTop, mouseX, mouseY, headRadius, time, 0);
+        }
+
+        for (let i = 0; i < trail.length; i++) {
+          ctxTop.globalAlpha = trail[i].alpha;
+          drawMorphBlob(ctxTop, trail[i].x, trail[i].y, trail[i].r, time, trail[i].seed);
+        }
+
+        ctxTop.globalAlpha = 1;
+
+        // Apply masks
+        const maskBgUrl = `url(${canvasBg.toDataURL()})`;
+        const maskTopUrl = `url(${canvasTop.toDataURL()})`;
+
+        bgLayer.style.maskImage = maskBgUrl;
+        bgLayer.style.webkitMaskImage = maskBgUrl;
+
+        topLayer.style.maskImage = maskTopUrl;
+        topLayer.style.webkitMaskImage = maskTopUrl;
+      }
+
+      requestAnimationFrame(renderFrame);
+    })();
+  </script>
+</body>
+</html>

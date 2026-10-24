@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# blackstallion.academy
 
-## Getting Started
+Website for The Black Stallion Academy of Horsemanship (BSAH). Next.js 16 · React 19 · Tailwind CSS 4 · Motion · Lenis.
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # http://localhost:3000
+npm run lint && npm run typecheck && npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Folder map
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What lives there |
+| --- | --- |
+| `app/` | Routes (one folder per page), `layout.tsx`, `actions.ts` (lead-form server action), self-hosted fonts in `app/fonts/` |
+| `components/film/` | Reel grammar: Headline, PinnedScene, FilmImage, EndCard, Intermission |
+| `components/motion/` | Smooth scroll, loader, count-up, dust, seal stamp |
+| `components/sections/<page>/` | The scenes for each page |
+| `components/site/` | Nav and footer |
+| `components/brand/` | Crest, monogram, wordmark |
+| `lib/content/` | All copy and data, typed (one file per area) |
+| `public/` | `brand/` SVGs and `media/` (local images, optional) |
+| `scripts/fetch-media.sh` | Downloads the placeholder stills into `public/media` |
+| `docs/BLUEPRINT.md` | Source of truth for design, copy and layout |
+| `docs/reference/` | Client specs (PRDs, brand, legal, 3D), not shipped |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Images
 
-## Learn More
+By default images load from the Higgsfield CDN, so the site works on Vercel with no extra step. To self-host them: `sh scripts/fetch-media.sh`, set `NEXT_PUBLIC_LOCAL_MEDIA=1`, restart.
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy (Vercel)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Import the repo (or run `npx vercel`). Framework preset: Next.js. No environment variables are required yet.

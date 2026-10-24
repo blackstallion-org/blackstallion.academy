@@ -1,0 +1,3351 @@
+{
+  "metadata": {
+    "title": "The Black Stallion Academy of Horsemanship (BSAH) Complete Data Export",
+    "generated_at": "2026-10-13T00:33:12.526Z",
+    "total_pages_count": 25,
+    "pages_index": [
+      {
+        "id": 1,
+        "route": "/",
+        "title": "R00 · The Trailer (Cinematic Homepage)",
+        "type": "Core Page"
+      },
+      {
+        "id": 2,
+        "route": "/legend",
+        "title": "Reel 01 · The Marwari",
+        "type": "Core Page"
+      },
+      {
+        "id": 3,
+        "route": "/anatomy",
+        "title": "Reel 02 · The Instrument",
+        "type": "Core Page"
+      },
+      {
+        "id": 4,
+        "route": "/science",
+        "title": "Reel 03 · The Matrix",
+        "type": "Core Page"
+      },
+      {
+        "id": 5,
+        "route": "/why",
+        "title": "Reel 04 · Crisis & Cure",
+        "type": "Core Page"
+      },
+      {
+        "id": 6,
+        "route": "/curriculum",
+        "title": "Reel 05 · The Ledger",
+        "type": "Core Page"
+      },
+      {
+        "id": 7,
+        "route": "/fleet",
+        "title": "Reel 06 · The Studbook",
+        "type": "Core Page"
+      },
+      {
+        "id": 8,
+        "route": "/cadets",
+        "title": "Reel 07 · The Hall of Valour",
+        "type": "Core Page"
+      },
+      {
+        "id": 9,
+        "route": "/parents",
+        "title": "Reel 08 · The Guardian",
+        "type": "Core Page"
+      },
+      {
+        "id": 10,
+        "route": "/safety",
+        "title": "Reel 09 · The Shield",
+        "type": "Core Page"
+      },
+      {
+        "id": 11,
+        "route": "/schools",
+        "title": "Reel 10 · The Citadel",
+        "type": "Core Page"
+      },
+      {
+        "id": 12,
+        "route": "/verify",
+        "title": "Reel 11 · The Seal",
+        "type": "Core Page"
+      },
+      {
+        "id": 13,
+        "route": "/tournaments",
+        "title": "Reel 12 · The Circuit",
+        "type": "Core Page"
+      },
+      {
+        "id": 14,
+        "route": "/command",
+        "title": "Reel 13 · Command AI",
+        "type": "Core Page"
+      },
+      {
+        "id": 15,
+        "route": "/journal",
+        "title": "Reel 14 · The Chronicle",
+        "type": "Core Page"
+      },
+      {
+        "id": 16,
+        "route": "/contact",
+        "title": "Reel 15 · The Gate",
+        "type": "Core Page"
+      },
+      {
+        "id": 17,
+        "route": "/about",
+        "title": "The Mandate",
+        "type": "Secondary Page"
+      },
+      {
+        "id": 18,
+        "route": "/lore",
+        "title": "The Traditional Lore of the Bards",
+        "type": "Secondary Page"
+      },
+      {
+        "id": 19,
+        "route": "/schools/mou",
+        "title": "Draft Memorandum of Understanding",
+        "type": "Secondary Page"
+      },
+      {
+        "id": 20,
+        "route": "/privacy",
+        "title": "Privacy Notice",
+        "type": "Secondary Page"
+      },
+      {
+        "id": 21,
+        "route": "/schools/[slug]",
+        "title": "Campus Hub Portal (Zone 01A, 01B, 01C)",
+        "type": "Dynamic Route"
+      },
+      {
+        "id": 22,
+        "route": "/tournaments/[slug]",
+        "title": "Tournament Dossier (3 Fixtures)",
+        "type": "Dynamic Route"
+      },
+      {
+        "id": 23,
+        "route": "/verify/[code]",
+        "title": "Cadet Credential & Diploma Verifier",
+        "type": "Dynamic Route"
+      },
+      {
+        "id": 24,
+        "route": "/journal/[slug]",
+        "title": "Chronicle Story Detail (6 Articles)",
+        "type": "Dynamic Route"
+      },
+      {
+        "id": 25,
+        "route": "/not-found",
+        "title": "Custom 404 / Reel Cut Fallback",
+        "type": "Special Route"
+      }
+    ],
+    "color_policy": "All color styling, themes, and palettes omitted per user instructions"
+  },
+  "institution": {
+    "entity": {
+      "parent": "Vicarius Infinitum Holdings Pvt Ltd",
+      "operator": "The Black Stallion Academy of Horsemanship Pvt Ltd",
+      "council": "School Tent Pegging Council of India",
+      "councilShort": "STPCI",
+      "motto": "Dominus Sui, Dominus Equi",
+      "mottoEn": "Master of oneself, master of the horse",
+      "city": "Hyderabad, Telangana, India"
+    },
+    "acts": {
+      "legend": {
+        "numeral": "I",
+        "name": "The Legend",
+        "zone": "Hook",
+        "feeling": "Awe"
+      },
+      "citadel": {
+        "numeral": "II",
+        "name": "The Citadel",
+        "zone": "Proof",
+        "feeling": "Trust"
+      },
+      "ledger": {
+        "numeral": "III",
+        "name": "The Ledger",
+        "zone": "Convert",
+        "feeling": "Decision"
+      }
+    },
+    "reels": [
+      {
+        "n": 1,
+        "href": "/legend",
+        "act": "legend",
+        "title": "The Marwari",
+        "inscription": "The land",
+        "voice": "of death.",
+        "blurb": "Eight hundred years of the horse that would not leave the field.",
+        "image": "duneSilhouette"
+      },
+      {
+        "n": 2,
+        "href": "/anatomy",
+        "act": "legend",
+        "title": "The Instrument",
+        "inscription": "The",
+        "voice": "instrument.",
+        "blurb": "Five hundred kilograms that read you first.",
+        "image": "anatomyProfile"
+      },
+      {
+        "n": 3,
+        "href": "/science",
+        "act": "citadel",
+        "title": "The Matrix",
+        "inscription": "What the saddle",
+        "voice": "does to a child.",
+        "blurb": "Four systems, one twenty-minute session.",
+        "image": "scienceRider"
+      },
+      {
+        "n": 4,
+        "href": "/why",
+        "act": "citadel",
+        "title": "Crisis & Cure",
+        "inscription": "Digital fragility",
+        "voice": "is a choice.",
+        "blurb": "Character is forged in the arena.",
+        "image": "whyCure"
+      },
+      {
+        "n": 5,
+        "href": "/curriculum",
+        "act": "citadel",
+        "title": "The Ledger",
+        "inscription": "Four ranks.",
+        "voice": "Thirteen pillars.",
+        "blurb": "An athletic curriculum that builds character.",
+        "image": "currLedger"
+      },
+      {
+        "n": 6,
+        "href": "/fleet",
+        "act": "citadel",
+        "title": "The Studbook",
+        "inscription": "Twenty-one",
+        "voice": "stallions.",
+        "blurb": "Every one has a name.",
+        "image": "bgStable"
+      },
+      {
+        "n": 7,
+        "href": "/cadets",
+        "act": "citadel",
+        "title": "The Hall of Valour",
+        "inscription": "The hall",
+        "voice": "of valour.",
+        "blurb": "Hour by hour, rank by rank, sealed in brass.",
+        "image": "cadetZayd"
+      },
+      {
+        "n": 8,
+        "href": "/parents",
+        "act": "citadel",
+        "title": "The Guardian",
+        "inscription": "The guardian",
+        "voice": "sees every stride.",
+        "blurb": "Admissions, fees and the parent app.",
+        "image": "parentsRail"
+      },
+      {
+        "n": 9,
+        "href": "/safety",
+        "act": "citadel",
+        "title": "The Shield",
+        "inscription": "Safety",
+        "voice": "before speed.",
+        "blurb": "Ex-cavalry faculty, daily vet care, insurance.",
+        "image": "safetyKit"
+      },
+      {
+        "n": 10,
+        "href": "/schools",
+        "act": "ledger",
+        "title": "The Citadel",
+        "inscription": "Your campus",
+        "voice": "becomes a citadel.",
+        "blurb": "Tiers, returns and the draft MOU for school boards.",
+        "image": "schoolAerial"
+      },
+      {
+        "n": 11,
+        "href": "/verify",
+        "act": "ledger",
+        "title": "The Seal",
+        "inscription": "Every hour",
+        "voice": "sealed in brass.",
+        "blurb": "Verify a cadet's passport.",
+        "image": "bgPassport"
+      },
+      {
+        "n": 12,
+        "href": "/tournaments",
+        "act": "ledger",
+        "title": "The Circuit",
+        "inscription": "Lances down.",
+        "voice": "Zones on the circuit.",
+        "blurb": "STPCI standings and fixtures.",
+        "image": "bgCharge"
+      },
+      {
+        "n": 13,
+        "href": "/command",
+        "act": "ledger",
+        "title": "Command AI",
+        "inscription": "Ask the",
+        "voice": "command terminal.",
+        "blurb": "ROI, insurance, safety, curriculum.",
+        "image": "bgArena"
+      },
+      {
+        "n": 14,
+        "href": "/journal",
+        "act": "ledger",
+        "title": "The Chronicle",
+        "inscription": "Stories",
+        "voice": "from the stable.",
+        "blurb": "Legends, science and the circuit.",
+        "image": "journalReins"
+      },
+      {
+        "n": 15,
+        "href": "/contact",
+        "act": "ledger",
+        "title": "The Gate",
+        "inscription": "The arena",
+        "voice": "is open.",
+        "blurb": "Enrol, partner, or book a board audit.",
+        "image": "contactGate"
+      }
+    ],
+    "corridors": [
+      {
+        "id": "schools",
+        "title": "School boards",
+        "email": "boards@blackstallion.academy"
+      },
+      {
+        "id": "parents",
+        "title": "Parent helpdesk",
+        "email": "parents@blackstallion.academy"
+      },
+      {
+        "id": "partners",
+        "title": "Regional partners",
+        "email": "partners@blackstallion.academy"
+      }
+    ],
+    "navigation": {
+      "primaryNav": [
+        {
+          "label": "Legend",
+          "href": "/legend"
+        },
+        {
+          "label": "Curriculum",
+          "href": "/curriculum"
+        },
+        {
+          "label": "Parents",
+          "href": "/parents"
+        },
+        {
+          "label": "Schools",
+          "href": "/schools"
+        },
+        {
+          "label": "Circuit",
+          "href": "/tournaments"
+        },
+        {
+          "label": "Verify",
+          "href": "/verify"
+        }
+      ],
+      "legalNav": [
+        {
+          "label": "About",
+          "href": "/about"
+        },
+        {
+          "label": "Lore of the Bards",
+          "href": "/lore"
+        },
+        {
+          "label": "Journal",
+          "href": "/journal"
+        },
+        {
+          "label": "Command AI",
+          "href": "/command"
+        },
+        {
+          "label": "Privacy",
+          "href": "/privacy"
+        }
+      ],
+      "navCta": {
+        "label": "Enrol a cadet",
+        "href": "/contact?gate=parents"
+      }
+    },
+    "house": {
+      "parent": "Vicarius Infinitum Holdings Pvt Ltd",
+      "children": [
+        {
+          "name": "The Black Stallion Academy of Horsemanship Pvt Ltd",
+          "line": "Operating arm · interscholastic leadership and cavalry sport",
+          "status": "Active"
+        },
+        {
+          "name": "The Black Stallion Order",
+          "line": "Private member society for equestrian connoisseurs",
+          "status": "Invitation only · in development"
+        },
+        {
+          "name": "Stallion Black Coffee",
+          "line": "Micro-lot coffee for focus and endurance",
+          "status": "Coming soon"
+        }
+      ],
+      "council": {
+        "name": "School Tent Pegging Council of India",
+        "line": "Governs the interscholastic circuit"
+      }
+    },
+    "letter": {
+      "note": "Draft for the Chairman's approval",
+      "body": [
+        "We did not set out to build a riding school. We set out to answer a question every parent asks quietly: how do I raise a child who stands tall when no one is watching?",
+        "Our answer is five hundred kilograms of honesty. A Marwari stallion cannot be flattered, bribed or rushed. It asks a child to be calm, clear and brave, and it asks every single day.",
+        "We bring that horse, and the men who served in India's cavalry, inside the school gate, and we write down every hour so the progress is never a promise. That is the mandate."
+      ],
+      "sign": "Saef Ullah Khan",
+      "title": "Founder & Executive Chairman"
+    },
+    "truths": [
+      "A horse cannot be fooled.",
+      "Posture is character made visible.",
+      "Lineage gives discipline a reason.",
+      "Progress is proof, not promise.",
+      "Safety before speed.",
+      "The campus becomes the citadel."
+    ]
+  },
+  "pricing_and_fees": {
+    "gst_rate": 0.18,
+    "prices": {
+      "core": 8500,
+      "elite": 12500,
+      "kit": 5000
+    },
+    "price_labels": {
+      "core": "₹8,500 + GST",
+      "elite": "₹12,500 + GST",
+      "kit": "₹5,000 + GST"
+    },
+    "fees_breakdown": [
+      {
+        "item": "Core Cadets (monthly)",
+        "detail": "Two sessions a week · ₹8,500 + 18% GST, by UPI Autopay on the 1st",
+        "amount": 8500
+      },
+      {
+        "item": "Sovereign Elite (monthly)",
+        "detail": "Three sessions a week + skill-at-arms + STPCI registration + 24/7 stall-cam · ₹12,500 + 18% GST",
+        "amount": 12500
+      },
+      {
+        "item": "Onboarding kit (one-time)",
+        "detail": "Bandhgala tunic, helmet, boots, handcrafted Sovereign Passport · ₹5,000 + GST",
+        "amount": 5000
+      }
+    ]
+  },
+  "homepage_data": {
+    "hero": {
+      "badge": "Governed by the School Tent Pegging Council of India",
+      "frames": [
+        {
+          "inscription": "We do not teach",
+          "voice": "children to ride."
+        },
+        {
+          "inscription": "We forge them",
+          "voice": "to lead."
+        }
+      ],
+      "sub": "The interscholastic equestrian leadership academy and national tent pegging circuit for India's schools. Indigenous Marwari stallions, ex-cavalry instructors and a ledger of every hour, on your child's own campus.",
+      "ctas": [
+        {
+          "label": "Watch the legend",
+          "href": "/legend"
+        },
+        {
+          "label": "Find your campus",
+          "href": "/schools#hubs"
+        }
+      ],
+      "stats": [
+        {
+          "value": "13",
+          "label": "pillars of character, drilled in the saddle"
+        },
+        {
+          "value": "25–30%",
+          "label": "of tuition back to partner schools"
+        },
+        {
+          "value": "24/7",
+          "label": "stall-cam for every parent"
+        }
+      ],
+      "ticker": [
+        "BSAH National Command (demo data)",
+        "Hours logged 14,800 (sample)",
+        "Canter transitions passed 342 (sample)",
+        "Active stallions 21 (sample)",
+        "Hubs live 3 (sample)",
+        "Next: Governor's Cup · 14 Nov"
+      ]
+    },
+    "story": {
+      "inscription": "Eight hundred years",
+      "voice": "in one bloodline.",
+      "frames": [
+        {
+          "kicker": "One bloodline",
+          "text": "For centuries, civilisation was shaped by the partnership between horse and rider. In the Thar Desert that partnership bred a horse unlike any other.",
+          "image": "legendSand"
+        },
+        {
+          "kicker": "Marwar, the Thar",
+          "text": "Driven onto the arid plains of the Thar, the horsemen of Marwar survived on terrain, not ideology. Their horses learned to live on a cup of water.",
+          "image": "bgFort"
+        },
+        {
+          "kicker": "The vow",
+          "text": "A Marwari left the battlefield three ways: in victory, in death, or carrying its wounded rider home.",
+          "image": "legendCavalry"
+        },
+        {
+          "kicker": "Nearly lost",
+          "text": "After 1947 the royal stables emptied. Horses were sold, castrated, shot. A few people refused to let the line end.",
+          "image": "legendRevival"
+        }
+      ],
+      "closing": "Their ears curl inward until the tips touch. That is how you know the blood is pure."
+    },
+    "instrument": {
+      "inscription": "Five hundred kilograms",
+      "voice": "that read you first.",
+      "body": "Every part of the Marwari teaches the rider something. Choose a point on the plate.",
+      "points": [
+        "ears",
+        "neck",
+        "saddle",
+        "reins",
+        "hoof"
+      ]
+    },
+    "matrix": {
+      "inscription": "What twenty minutes",
+      "voice": "does to a child.",
+      "systems": [
+        {
+          "id": "brain",
+          "name": "Brain",
+          "text": "Steering a living animal means reading, deciding and correcting every second, with calm hands and clear intent.",
+          "evidence": "Supported",
+          "note": "In a randomised trial, children in a 12-week horse programme had lower stress-hormone levels than a wait-list group (Pendry et al., 2014)."
+        },
+        {
+          "id": "spine",
+          "name": "Spine",
+          "text": "To stay balanced the rider stacks head over shoulders over hips. Slouch, and the horse feels it.",
+          "evidence": "Supported",
+          "note": "Riding-posture biomechanics."
+        },
+        {
+          "id": "muscle",
+          "name": "Muscle",
+          "text": "Deep core, back and inner-thigh muscles work the whole session to absorb the stride.",
+          "evidence": "Supported",
+          "note": "Hippotherapy research on the horse's walk and the rider's trunk."
+        },
+        {
+          "id": "heart",
+          "name": "Heart",
+          "text": "Trot and canter raise the heart rate into a training zone without the pounding of court sports.",
+          "evidence": "Emerging",
+          "note": "BSAH is collecting session heart-rate data."
+        }
+      ]
+    },
+    "crisis": {
+      "inscription": "Digital fragility",
+      "voice": "is a choice.",
+      "body": "Screens fold a child's spine and scatter attention. A horse asks for the opposite: presence, poise and a quiet mind.",
+      "pairs": [
+        [
+          "Tech-neck slouch",
+          "Regal carriage"
+        ],
+        [
+          "The endless scroll",
+          "Stoic composure"
+        ],
+        [
+          "Alone behind glass",
+          "A living partner"
+        ],
+        [
+          "App badges",
+          "A sealed passport"
+        ]
+      ]
+    },
+    "doors": {
+      "inscription": "Three ways",
+      "voice": "through the gate.",
+      "items": [
+        {
+          "who": "Parents",
+          "title": "The Guardian",
+          "image": "parentsRail",
+          "href": "/parents",
+          "cta": "For parents",
+          "points": [
+            "Watch your child's stallion on a 24/7 stall-cam",
+            "An alert the second their passport is scanned at the gate",
+            "A 10-second milestone reel after every session"
+          ]
+        },
+        {
+          "who": "Cadets",
+          "title": "The Hall of Valour",
+          "image": "cadetZayd",
+          "href": "/cadets",
+          "cta": "For cadets",
+          "points": [
+            "A leather Sovereign Passport, sealed in brass",
+            "Your own Marwari, for years",
+            "The STPCI national circuit"
+          ]
+        },
+        {
+          "who": "Schools",
+          "title": "The Zero-CapEx Engine",
+          "image": "schoolAerial",
+          "href": "/schools",
+          "cta": "For schools",
+          "points": [
+            "A turnkey arena, funded, built and run by BSAH",
+            "25–30% of tuition back to the school, settled quarterly",
+            "Ex-cavalry faculty, no burden on your staff"
+          ]
+        }
+      ]
+    },
+    "ledger": {
+      "inscription": "Four ranks.",
+      "voice": "Thirteen pillars.",
+      "body": "Nine foundations of horsemanship, four BSAH tactical disciplines. Every drill maps to a trait a leader needs, and the ledger records each step from Squire to Sovereign Lancer."
+    },
+    "studbook": {
+      "inscription": "Twenty-one stallions.",
+      "voice": "Every one has a name."
+    },
+    "schoolsTeaser": {
+      "inscription": "Your campus",
+      "voice": "becomes a citadel.",
+      "body": "Zero capital expenditure to the school board. BSAH funds, builds and operates the arena, and returns 25–30% of tuition to the school."
+    },
+    "verifier": {
+      "inscription": "Every hour",
+      "voice": "sealed in brass.",
+      "body": "Admissions officers and federations can check a cadet's rank, hours and EFI registration in seconds."
+    },
+    "circuit": {
+      "inscription": "Lances down.",
+      "voice": "Zones on the circuit.",
+      "cup": {
+        "name": "Sovereign Governor's Cup",
+        "date": "2026-11-14T09:00:00+05:30",
+        "place": "Hyderabad"
+      }
+    },
+    "shield": {
+      "inscription": "Safety",
+      "voice": "before speed.",
+      "columns": [
+        {
+          "big": "Ex-cavalry",
+          "line": "Instructors from Indian Army RVC and NCC cavalry units."
+        },
+        {
+          "big": "Daily",
+          "line": "Hoof, feed and hydration checks for every stallion, every day."
+        },
+        {
+          "big": "Cover",
+          "line": "Accident-insurance terms are being confirmed and will be published here."
+        }
+      ]
+    },
+    "command": {
+      "inscription": "Ask the",
+      "voice": "command terminal.",
+      "question": "What is the safety record for Cadet Lancer drills?",
+      "answer": "BSAH describes certified helmets for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor on every mounted drill. Injury records and insurance cover are not published yet: they are being confirmed, and no figures are shown until they are.",
+      "chips": [
+        "CapEx & revenue share",
+        "STPCI accreditation",
+        "Curriculum & class timings"
+      ]
+    },
+    "chronicle": {
+      "inscription": "Stories",
+      "voice": "from the stable."
+    },
+    "finale": {
+      "inscription": "The arena is open.",
+      "voice": "Your cadet's legacy begins today.",
+      "ctas": [
+        {
+          "label": "Enrol a cadet",
+          "href": "/contact?gate=parents"
+        },
+        {
+          "label": "Partner your campus",
+          "href": "/contact?gate=schools"
+        },
+        {
+          "label": "Schedule a board audit",
+          "href": "/contact?gate=audit"
+        }
+      ]
+    }
+  },
+  "legend_and_history": {
+    "title": {
+      "inscription": "The land",
+      "voice": "of death.",
+      "sub": "Marwar is often translated as “the land of death”. It gave India a horse that would not die easily, and would not leave the field."
+    },
+    "chapters": [
+      {
+        "id": "ocean",
+        "numeral": "I",
+        "name": "One bloodline"
+      },
+      {
+        "id": "marwar",
+        "numeral": "II",
+        "name": "Marwar, 1193"
+      },
+      {
+        "id": "bred",
+        "numeral": "III",
+        "name": "Bred by law"
+      },
+      {
+        "id": "ears",
+        "numeral": "IV",
+        "name": "The ears"
+      },
+      {
+        "id": "omens",
+        "numeral": "V",
+        "name": "The lore of the bards"
+      },
+      {
+        "id": "reasons",
+        "numeral": "VI",
+        "name": "Three reasons"
+      },
+      {
+        "id": "honour",
+        "numeral": "VII",
+        "name": "Roll of honour"
+      },
+      {
+        "id": "fall",
+        "numeral": "VIII",
+        "name": "The fall"
+      },
+      {
+        "id": "revival",
+        "numeral": "IX",
+        "name": "The revival"
+      },
+      {
+        "id": "today",
+        "numeral": "X",
+        "name": "Every cadet rides one"
+      }
+    ],
+    "ocean_one_bloodline": {
+      "inscription": "Eight hundred years",
+      "voice": "in one bloodline.",
+      "sub": "Man saw the world from horseback, and the world expanded.",
+      "body": "For centuries, civilisation was shaped by the partnership between horse and rider, and the world expanded from horseback. The Marwari emerged from a complex historical crucible: native desert stock, infused with influences from Arabian and Central Asian lines, refined through generations of strict selective breeding by the horsemen of Rajasthan. Whatever the exact genetic currents of its origins, the result is an undeniable masterpiece of adaptation. The Thar Desert stripped away weakness; what remained was a sovereign breed unique to Indian soil — compact, fiercely loyal, and structurally engineered for survival, endurance and absolute grace.",
+      "caption": "A stallion of Marwar. Placeholder image.",
+      "theories": [
+        {
+          "name": "The shipwreck",
+          "verdict": "Legend",
+          "text": "Oral histories and early records — later referenced in the sixteenth-century imperial chronicle Ain-i-Akbari — suggest the breed's unique characteristics were influenced by Arabian bloodlines introduced to the west coast. An Arab merchant vessel, the accounts say, was wrecked off the coast of Kutch; seven high-quality horses survived, swam ashore, and were bred with indigenous Marwari and Kathiawari mares, introducing the spirited temperament and fine head shape that became hallmarks of the breed."
+        },
+        {
+          "name": "The steppe",
+          "verdict": "Historical influence",
+          "text": "Over several centuries, military campaigns, migrations and trade networks brought Turkoman, Afghan and Central Asian steppe horses — including lines like the Akhal-Teke — into northern and western India. Bred with local mares, these sturdy warhorses infused the native stock with endurance, bone density and a natural capacity to thrive in hostile, arid environments: the raw stamina that desert horsemen needed simply to survive."
+        },
+        {
+          "name": "The native",
+          "verdict": "Most accepted",
+          "text": "The most widely accepted view is that the Marwari is fundamentally an indigenous horse of India, shaped by natural selection in the harsh Thar Desert. Genetic and phenotypic studies describe it as a distinct population, though its precise ancestry is not settled. Its lyre-shaped ears, curving inward until the tips touch, are the breed's most recognisable trait. For over eight centuries this rugged native bloodline was carefully preserved by the Rathore horsemen of Marwar to produce a horse that is, at its heart, an unbreakable product of Indian soil."
+        }
+      ]
+    },
+    "marwar_desert_origin": {
+      "inscription": "Driven into",
+      "voice": "the desert.",
+      "body": "Driven from fertile river plains into the arid expanse of the Thar, the horsemen of Marwar survived on terrain, not ideology. Little grew there. Water came by the cupful. The horses that lived were the ones that could march for days, through heat by day and cold by night, on scraps of fodder, and still carry a rider. The desert did not yield to rank, title or rhetoric. It rewarded stamina, efficiency and stillness, and in time it had given the people of Marwar a horse."
+    },
+    "bred_by_law": {
+      "inscription": "Bred by",
+      "voice": "law.",
+      "body": "For centuries the horse-breeders of Marwar bred strictly, keeping only the finest stallions. What they chose for is still in the breed.",
+      "traits": [
+        {
+          "name": "Upright shoulder",
+          "text": "Lifts the hoof clean out of soft sand."
+        },
+        {
+          "name": "Slim, hard legs",
+          "text": "Built for distance, not the sprint."
+        },
+        {
+          "name": "Fine, silky coat",
+          "text": "Sheds desert heat."
+        },
+        {
+          "name": "Endurance",
+          "text": "Not the fastest horse alive. One of the hardest to tire."
+        },
+        {
+          "name": "The homing sense",
+          "text": "Lost in the desert, the saying goes, trust your horse to find the way home."
+        },
+        {
+          "name": "The revaal",
+          "text": "A smooth natural ambling gait, easy on a rider over long distances."
+        }
+      ]
+    },
+    "the_ears": {
+      "inscription": "The tips",
+      "voice": "touch.",
+      "beats": [
+        "A Marwari's ears curve inward until the tips meet, like the arms of a lyre.",
+        "They can turn through 180 degrees, and the horse's hearing is famously sharp.",
+        "When the blood is mixed, the curve is the first thing to go. Breeders read the ears as a seal of purity.",
+        "That curve is our monogram."
+      ]
+    },
+    "traditional_lore": {
+      "title": "The Traditional Lore of the Bards",
+      "inscription": "The Traditional Lore",
+      "voice": "of the Bards.",
+      "sub": "The oral histories, markings, and cadence of Marwar.",
+      "note": "What the bards attributed to fate, and how BSAH reads it today. This is folklore, kept apart from the history and the science; it varies by breeder and region, and a horse's colour or markings do not predict its temperament.",
+      "items": [
+        {
+          "name": "Kala, the black horse",
+          "tag": "The omen vs. the vow",
+          "lore": "Bards and traveling traders historically viewed solid black horses (Kala) with superstition, associating dark coats with night, death and unpredictable temperaments.",
+          "insight": "We reject superstition in favour of character. To us, the black coat represents the Vow of Absolute Loyalty: in cavalry history, a Marwari left the battlefield in three ways — in victory, in death, or carrying its wounded rider to safety. The black coat is a visual reminder of unwavering commitment when conditions are at their worst."
+        },
+        {
+          "name": "Hair whorls",
+          "tag": "Devman vs. Anusudhal",
+          "lore": "Traditional horsemen read a horse's destiny in the whorls (bhanwar) of its coat. A long whorl running down the neck (Devman) was cherished as a sign of good fortune and divine protection; a whorl beneath the eye (Anusudhal) was viewed as an ill omen, making the horse difficult to sell.",
+          "insight": "While we honour the rich observational lore of ancient breeders, modern horsemanship looks deeper than coat patterns. Some researchers have explored possible links between whorl position and temperament, but the evidence is limited and no definitive relationship is established. What decides how a horse responds is its handling: a true rider builds trust through consistent pressure-and-release training, regardless of physical whorls."
+        },
+        {
+          "name": "The Nukra lineage",
+          "tag": "Ceremonial durbars vs. institutional protocol",
+          "lore": "Pure white and albino-patterned horses (Nukra) were reserved for royal durbars, high ceremonial processions and spiritual gatherings, revered as embodiments of light and prestige.",
+          "insight": "In institutional horsemanship, coat colour is secondary to structural soundness and training. Nukra is not a separate breed, but the revered white-coat lineage of Marwar representing the excellence of ceremony and protocol. It teaches cadets high-presentation standards, meticulous grooming and ceremonial precision — skills that translate directly into professional executive presence."
+        },
+        {
+          "name": "Born to dance",
+          "tag": "The Nachni heritage",
+          "lore": "Beyond war, the Marwari was celebrated for its natural cadence during regional celebrations. Certain rare lines, known as Nachni (“born to dance”), were trained to step, prance and rise to music with high knee action.",
+          "insight": "We view the Nachni tradition through the lens of neuromuscular coordination and collection. The Marwari possesses an innate cadence; certain legendary lines exhibit a natural affinity for rhythmic footfall — a living reminder that physical discipline, core strength and grace can be cultivated in horse and rider alike."
+        }
+      ],
+      "vow": {
+        "inscription": "They called the black horse an omen.",
+        "voice": "We call it a vow.",
+        "text": "The Black Stallion carries the colour the bards feared, as a promise: we will not leave the field."
+      }
+    },
+    "three_reasons": {
+      "lead": "In the late sixteenth century the horsemen of Marwar faced the ultimate test of terrain and survival, and fielded a cavalry of more than fifty thousand. They held one belief about their horses: a Marwari leaves the battlefield in only three ways.",
+      "words": [
+        "Victory.",
+        "Death.",
+        "Or carrying its rider home."
+      ],
+      "tail": "The bards tell of horses rearing to shield a fallen rider, crossing rivers wounded, and leaping walls no horse should clear."
+    },
+    "roll_of_honour": [
+      {
+        "name": "The stallion at the stream",
+        "when": "The ballads",
+        "text": "A blue-grey stallion, wounded in the leg, would not leave the field until his rider turned him, then carried his rider across a stream to safety before he fell. Ballads across Rajasthan tell the story, and the details differ from teller to teller.",
+        "image": "legendChetak"
+      },
+      {
+        "name": "The leap from the wall",
+        "when": "Folklore",
+        "text": "In one told story, a horse carried its rider up onto a fortress rampart and leapt from the wall to save him. The horse did not survive the fall. Folklore, not record.",
+        "image": "legendBahadur",
+        "legend": true
+      },
+      {
+        "name": "The general's horse",
+        "when": "Marwar, 17th century",
+        "text": "Remembered in ballad as the war horse of a Marwar general who guarded a young heir through years of danger.",
+        "image": "fleetArbudh"
+      },
+      {
+        "name": "And the rest",
+        "when": "The ballads",
+        "text": "Kesar Kalmi, Udal and many more whose names survive only in song.",
+        "image": "legendGrey"
+      }
+    ],
+    "honour_close": "Their courage carried riders home alive. The same quality, calm under pressure, is what the academy teaches.",
+    "the_fall": {
+      "inscription": "From royalty",
+      "voice": "to the cart.",
+      "lines": [
+        "For centuries only royal and Rajput warrior families could own these horses. A Marwari, it was said, stood above a prince.",
+        "The British preferred their Thoroughbreds. Through the colonial years the Marwari went to fewer battles and was bred with less care; by the 1930s the stock was thinning.",
+        "Marwar's lancers still rode for Sir Pratap Singh in the First World War, near the end of the age of cavalry.",
+        "Then came independence. The princes gave up their states and, in the land reforms that followed, their estates.",
+        "The stables had nowhere to go. Thousands of horses were sold as pack animals, castrated or shot. To many, the horse had become a symbol of the old order.",
+        "Crossed with other breeds, the pure line began to disappear."
+      ]
+    },
+    "the_revival": {
+      "inscription": "The line",
+      "voice": "that refused to end.",
+      "milestones": [
+        {
+          "year": "Early 1900s",
+          "text": "Maharaja Umaid Singh of Jodhpur steps in to save the breed; his grandson, Maharaja Gaj Singh II, carries the work on."
+        },
+        {
+          "year": "1995",
+          "text": "British horsewoman Francesca Kelly founds Marwari Bloodlines; a breed society forms in India."
+        },
+        {
+          "year": "1999",
+          "text": "Kelly and Raghuvendra Singh Dundlod lead the founding of the Indigenous Horse Society of India."
+        },
+        {
+          "year": "2000s",
+          "text": "Endurance wins at the national games persuade the Equestrian Federation of India to sanction shows for indigenous horses."
+        },
+        {
+          "year": "2009",
+          "text": "Official registration begins; registered Marwaris are cold-branded."
+        },
+        {
+          "year": "Today",
+          "text": "The breed is no longer at risk, working in endurance, tent pegging, weddings and festivals."
+        }
+      ],
+      "vignette": {
+        "title": "The stallion that stayed",
+        "note": "As told in Marwar",
+        "text": "When Maharaja Gaj Singh II visited the thikana of Badgaon to choose a colt sired by its famous stallion Vangalia, he asked to see the sire himself. The thakur, afraid of losing his best horse, led Vangalia out. The Maharaja admired him and left him where he stood: the stallion served the breed best where the mares of south Marwar could reach him. He chose a colt and rode home."
+      }
+    },
+    "today_bsah": {
+      "inscription": "Every cadet",
+      "voice": "rides one.",
+      "body": "The Marwari survived the desert, the wars and the years when India almost forgot it. At BSAH it does what it was bred for: it carries the next generation, and asks them to be worthy of the ride.",
+      "sources": "Breed history from the Marwari horse literature and breed-society records (see the claims ledger in the site blueprint). Stories marked legend are folklore as told in Marwar; details vary between sources."
+    }
+  },
+  "anatomy_and_specimen": {
+    "hotspots": [
+      {
+        "id": "ears",
+        "name": "Ears",
+        "title": "180° Radar",
+        "x": 71,
+        "y": 10,
+        "metric": "180° Independent Acoustic Swivel",
+        "short": "The lyre-shaped ears swivel independently to track the rider's breathing and ambient shifts. Tense up and they flick back instantly.",
+        "trains": "Composure & Active Environmental Reading",
+        "layers": {
+          "equine": "Lyre-shaped ears turn through 180° and track sound independently.",
+          "rider": "Your breathing and tension are audible to the horse; they force the cadet into total physical stillness and emotional composure.",
+          "builds": "Emotional self-governance",
+          "legend": "Riders trusted the ears to point toward danger in the dark."
+        }
+      },
+      {
+        "id": "neck",
+        "name": "Neck",
+        "title": "The Balancer",
+        "x": 62,
+        "y": 19,
+        "metric": "Cervical Biomechanical Lever",
+        "short": "High-carried and muscularly dense, the neck is a dynamic counterweight across shifting sand, teaching subtle balance shifts over brute force.",
+        "trains": "Poise & Dynamic Weight Distribution",
+        "layers": {
+          "equine": "High-carried, arching and muscularly dense: a dynamic counterweight engineered for rapid weight shifts across shifting dunes.",
+          "rider": "A level, soft neck asks for a level rider: head stacked over spine.",
+          "builds": "Carriage and presence",
+          "legend": "Stablemen judged a horse's readiness by how it carried its neck."
+        }
+      },
+      {
+        "id": "saddle",
+        "name": "Saddle",
+        "title": "The moving floor",
+        "x": 47,
+        "y": 29,
+        "metric": "Pelvic Kinematics: 3D Core Realignment",
+        "short": "At a walk the horse moves your pelvis in three dimensions, close to the pattern of human walking.",
+        "trains": "Core and balance",
+        "layers": {
+          "equine": "The back carries the stride straight into the rider's seat.",
+          "rider": "At a walk, about a hundred rhythmic three-dimensional movements a minute reach the pelvis, close to human walking.",
+          "builds": "Core strength and balance",
+          "legend": "Rajput riders trained bareback to build a seat that never moved."
+        }
+      },
+      {
+        "id": "flank",
+        "name": "Flank",
+        "title": "Legs that steer",
+        "x": 39,
+        "y": 46,
+        "metric": "MICRO-PRESSURE STEERING INTERFACE",
+        "short": "The lightest leg pressure turns the horse. Hands stay free for the lance.",
+        "trains": "Precision without force",
+        "layers": {
+          "equine": "Sensitive skin and muscle answer the lightest leg pressure.",
+          "rider": "Steering with the legs needs inner-thigh strength and quiet control.",
+          "builds": "Precision without force",
+          "legend": "A rider with a lance in one hand steers with the legs alone."
+        }
+      },
+      {
+        "id": "reins",
+        "name": "Reins",
+        "title": "Ten grams",
+        "x": 74,
+        "y": 30,
+        "metric": "10-GRAM CONTACT INTERFACE",
+        "short": "A few grams of pressure turns half a tonne. Shouting does nothing.",
+        "trains": "Precise communication",
+        "layers": {
+          "equine": "A mouth that answers a few grams of contact.",
+          "rider": "Hands, seat and legs must agree; both sides of the body coordinate.",
+          "builds": "Clear, calm communication",
+          "legend": "Ten grams turn half a tonne."
+        }
+      },
+      {
+        "id": "hoof",
+        "name": "Hoof",
+        "title": "Desert feet",
+        "x": 58,
+        "y": 89,
+        "metric": "DESERT-BRED SUSPENSION & CADENCE",
+        "short": "Hard, upright hooves bred to lift clean out of sand.",
+        "trains": "Rhythm and timing",
+        "layers": {
+          "equine": "The fetlock flexes like a spring; desert hooves are hard and upright.",
+          "rider": "Heels down, ankles soft: the rider absorbs the stride through the leg.",
+          "builds": "Rhythm and timing",
+          "legend": "Marwar's horses crossed soft sand on bare hooves."
+        }
+      }
+    ],
+    "layerNames": [
+      {
+        "key": "equine",
+        "label": "Equine science"
+      },
+      {
+        "key": "rider",
+        "label": "Rider"
+      },
+      {
+        "key": "builds",
+        "label": "What it builds"
+      },
+      {
+        "key": "legend",
+        "label": "From the legend"
+      }
+    ],
+    "breedStandard": [
+      {
+        "k": "Origin",
+        "v": "Marwar, Rajasthan, India"
+      },
+      {
+        "k": "Height",
+        "v": "Stallions average about 150 cm (14.3 hands)"
+      },
+      {
+        "k": "Ears",
+        "v": "Medium, curving inward until the tips touch; turn through 180°"
+      },
+      {
+        "k": "Gait",
+        "v": "A natural ambling gait called the revaal"
+      },
+      {
+        "k": "Colours",
+        "v": "All colours; bay most common, grey most prized"
+      },
+      {
+        "k": "Temperament",
+        "v": "Brave, loyal, alert"
+      },
+      {
+        "k": "Registry",
+        "v": "Marwari Horse Society; government-authorised registration since 2009"
+      },
+      {
+        "k": "Status",
+        "v": "Not at risk"
+      }
+    ]
+  },
+  "science_and_crucible": {
+    "systems": [
+      {
+        "id": "brain",
+        "name": "Brain & nerves",
+        "short": "Brain",
+        "points": [
+          "Reading a moving animal at speed means constant small decisions.",
+          "Slow breathing settles the horse, so the rider is rewarded for self-control.",
+          "Hands and legs give different signals at once, coordinating both sides of the body."
+        ],
+        "evidence": [
+          {
+            "status": "Supported",
+            "text": "Lower stress-hormone levels after a 12-week horse programme (randomised trial, Pendry et al., 2014)."
+          },
+          {
+            "status": "Emerging",
+            "text": "Bilateral coordination benefits."
+          }
+        ]
+      },
+      {
+        "id": "spine",
+        "name": "Spine & posture",
+        "short": "Spine",
+        "points": [
+          "Balance on a horse needs head, shoulders and hips on one axis.",
+          "The walk moves the pelvis the way human walking does, without feet striking a hard floor.",
+          "The inner-ear balance system works every stride."
+        ],
+        "evidence": [
+          {
+            "status": "Supported",
+            "text": "Hippotherapy gait research (American Hippotherapy Association)."
+          }
+        ]
+      },
+      {
+        "id": "muscle",
+        "name": "Muscles",
+        "short": "Muscle",
+        "points": [
+          "Deep spinal stabilisers and the abdominal wall work continuously.",
+          "Inner thighs and glutes hold the seat.",
+          "Grip and fine hand control steer."
+        ],
+        "evidence": [
+          {
+            "status": "Supported",
+            "text": "Rider biomechanics literature."
+          }
+        ]
+      },
+      {
+        "id": "heart",
+        "name": "Heart & lungs",
+        "short": "Heart",
+        "points": [
+          "Trot and canter raise the heart rate into a training zone.",
+          "Breath must stay slow and deep or the horse gets anxious.",
+          "Low impact on knees and ankles: the horse takes the ground."
+        ],
+        "evidence": [
+          {
+            "status": "Emerging",
+            "text": "BSAH is collecting session heart-rate data."
+          }
+        ]
+      }
+    ],
+    "comparison": {
+      "cols": [
+        "20-min BSAH session",
+        "40-min court sport"
+      ],
+      "rows": [
+        {
+          "k": "Stress",
+          "a": "Calm is required for the horse to cooperate",
+          "b": "Adrenaline spikes; calm isn't required"
+        },
+        {
+          "k": "Posture",
+          "a": "Upright, stacked spine for the whole session",
+          "b": "Repeated forward hunching and twisting"
+        },
+        {
+          "k": "Core",
+          "a": "Deep stabilisers work continuously",
+          "b": "Major limb muscles; deep core less engaged"
+        },
+        {
+          "k": "Joints",
+          "a": "Low impact; the horse absorbs the ground",
+          "b": "Repeated hard landings on court surfaces"
+        },
+        {
+          "k": "Empathy",
+          "a": "A living partner to read and care for",
+          "b": "Fast reflexes, no partner to read"
+        }
+      ],
+      "note": "This compares what each activity demands, not measured outcomes. BSAH is collecting session data to measure outcomes."
+    },
+    "claims": [
+      {
+        "claim": "Horse programmes can lower children's stress hormones",
+        "status": "Supported",
+        "source": "Pendry, Smith & Roeter, Human-Animal Interaction Bulletin, 2014 (randomised, 12 weeks, grades 5–8)",
+        "href": "https://www.sciencedaily.com/releases/2014/04/140424170556.htm"
+      },
+      {
+        "claim": "A horse's walk moves the rider's pelvis about a hundred times a minute, like human gait",
+        "status": "Supported",
+        "source": "American Hippotherapy Association",
+        "href": "https://www.americanhippotherapyassociation.org/"
+      },
+      {
+        "claim": "Riding demands an upright, stacked posture and continuous core work",
+        "status": "Supported",
+        "source": "Rider biomechanics literature"
+      },
+      {
+        "claim": "Riding is low impact on knees and ankles compared with court sports",
+        "status": "Emerging",
+        "source": "Activity comparison; BSAH data collection under way"
+      },
+      {
+        "claim": "Heart rate reaches a training zone during trot and canter",
+        "status": "Emerging",
+        "source": "BSAH session heart-rate logging (in progress)"
+      },
+      {
+        "claim": "Precise percentage drops in cortisol or counts of muscles activated",
+        "status": "Not yet published",
+        "source": "No source we can stand behind yet; not used on this site"
+      }
+    ],
+    "why_crisis_and_cure": {
+      "title": {
+        "inscription": "Digital fragility",
+        "voice": "is a choice.",
+        "sub": "Character is forged in the arena."
+      },
+      "glass": {
+        "inscription": "The glass",
+        "voice": "that folds a child.",
+        "body": "Hours bent over a screen round the shoulders, push the head forward and train attention to jump every few seconds. None of it asks a child to be calm, brave or present.",
+        "notifications": [
+          "12 new messages",
+          "You've been on for 3 hrs",
+          "Streak lost",
+          "4 new videos",
+          "Battery 9%",
+          "Are you still watching?",
+          "Someone mentioned you",
+          "Your daily summary is ready"
+        ]
+      },
+      "slider": {
+        "inscription": "Drag from",
+        "voice": "crisis to cure.",
+        "table": [
+          {
+            "k": "Physical",
+            "a": "Tech-neck slouch",
+            "b": "Regal spinal posture"
+          },
+          {
+            "k": "Focus",
+            "a": "Dopamine burnout",
+            "b": "Stoic composure"
+          },
+          {
+            "k": "Connection",
+            "a": "Screen isolation",
+            "b": "Equine bond"
+          },
+          {
+            "k": "Credentials",
+            "a": "A generic app log",
+            "b": "An EFI/STPCI-verified passport"
+          }
+        ]
+      },
+      "sanctuary": [
+        "A horse does not care about your title, your marks or your family name. It cannot be bought or flattered. It answers only the truth of how you feel.",
+        "To command the horse, the cadet must first command themselves."
+      ],
+      "train": {
+        "inscription": "What we",
+        "voice": "train for.",
+        "items": [
+          "Standing tall without being told",
+          "Breathing slowly when something goes wrong",
+          "Getting back on after a fall",
+          "Caring for an animal before themselves",
+          "Speaking clearly and quietly",
+          "Showing up at six because a horse is waiting"
+        ]
+      }
+    },
+    "sovereign_crucible": {
+      "label": "The Sovereign Crucible",
+      "inscription": "History is not forged by banners;",
+      "voice": "it is forged by internal command.",
+      "paras": [
+        "In the late sixteenth century, the horsemen of Marwar faced the unforgiving landscape of the Thar Desert. Survival demanded a complete absence of illusion — the desert does not yield to rank, title or rhetoric. It demands absolute physical stamina, metabolic efficiency and mental stillness.",
+        "Today's battlefield is invisible, but no less severe."
+      ],
+      "crises": [
+        {
+          "name": "The crisis of focus",
+          "text": "Attention shattered by rapid algorithmic stimulation, eroding the capacity for deep work, patience and long-term mastery."
+        },
+        {
+          "name": "The crisis of agility",
+          "text": "Passive digital comfort breeding low stress-tolerance, emotionally fragile responses and an instant-gratification mindset."
+        },
+        {
+          "name": "The crisis of agency",
+          "text": "Superficial virtual metrics replacing authentic self-worth, leaving a generation connected to screens, yet disconnected from physical command."
+        }
+      ],
+      "stallion": "A 500 kg Marwari stallion cannot be controlled by a screen swipe, an algorithmic shortcut or an inflated ego. It demands calm authority, emotional regulation, spatial presence and decisive action in real time.",
+      "closing": [
+        "When a cadet masters a horse, they reclaim their focus and emotional poise.",
+        "When a cadet reclaims their mind, they strengthen their family.",
+        "And when families regain their grounding, society builds an unshakeable spine."
+      ]
+    }
+  },
+  "curriculum_and_training": {
+    "ranks": [
+      {
+        "id": "squire",
+        "numeral": "I",
+        "name": "Cadet Squire",
+        "short": "Ground care and trot",
+        "detail": "Stable care, grooming, tack assembly, equine psychology, basic walk and trot.",
+        "insignia": "Bronze rank pin · soft-bound blue passport logbook",
+        "pillars": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "id": "rider",
+        "numeral": "II",
+        "name": "Cadet Rider",
+        "short": "Independent canter",
+        "detail": "Independent canter transitions, 3D pelvic alignment, obstacle trotting.",
+        "insignia": "Silver rank pin · leather passport sleeve",
+        "pillars": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "id": "knight",
+        "numeral": "III",
+        "name": "Cadet Knight",
+        "short": "Lance and bow",
+        "detail": "Advanced equestrian drills, introductory lance grip, mounted archery posture, jump courses.",
+        "insignia": "Gold rank pin · brass belt buckle · official STPCI registration",
+        "pillars": [
+          7,
+          8,
+          9
+        ]
+      },
+      {
+        "id": "lancer",
+        "numeral": "IV",
+        "name": "Sovereign Lancer",
+        "short": "National competition",
+        "detail": "Full-speed tent pegging, mounted archery runs, barrel racing, the national Governor's Cup circuit.",
+        "insignia": "Sovereign brass epaulettes · sealed brass Sovereign Passport",
+        "pillars": [
+          10,
+          11,
+          12,
+          13
+        ]
+      }
+    ],
+    "phases": [
+      {
+        "numeral": "I",
+        "name": "The Foundation",
+        "line": "Authority is earned on the ground.",
+        "pillars": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "numeral": "II",
+        "name": "The Crucible",
+        "line": "Poise is proven in motion.",
+        "pillars": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      {
+        "numeral": "III",
+        "name": "Sovereign Command",
+        "line": "Mastery becomes a discipline.",
+        "pillars": [
+          10,
+          11,
+          12,
+          13
+        ]
+      }
+    ],
+    "thirteen_pillars": [
+      {
+        "n": 1,
+        "name": "Grooming & feeding",
+        "skill": "Responsibility, attention to detail",
+        "trait": "Reliability, conscientiousness",
+        "sub": "Before a leader commands, they must serve. Cadets learn that authority is earned on the ground through meticulous care and zero ego."
+      },
+      {
+        "n": 2,
+        "name": "Mounting & initial handling",
+        "skill": "Patience, focus",
+        "trait": "Self-control, persistence",
+        "sub": "Cultivating emotional calm and steady presence during initial engagement with a 500 kg partner."
+      },
+      {
+        "n": 3,
+        "name": "Learning commands & cues",
+        "skill": "Communication, clarity",
+        "trait": "Empathy, emotional awareness",
+        "sub": "Translating internal intent into clean, readable physical cues that bridge human and equine understanding."
+      },
+      {
+        "n": 4,
+        "name": "Riding at different speeds & terrains",
+        "skill": "Courage, adaptability",
+        "trait": "Confidence, resilience",
+        "sub": "Maintaining poise and dynamic balance as the environment shifts without warning beneath the saddle."
+      },
+      {
+        "n": 5,
+        "name": "Jumping & challenging obstacles",
+        "skill": "Risk assessment, problem-solving",
+        "trait": "Bravery, critical thinking",
+        "sub": "Committing eyes and intent beyond obstacles, teaching the mind to execute decisive action under momentum."
+      },
+      {
+        "n": 6,
+        "name": "Working with a stubborn / unpredictable horse",
+        "skill": "Flexibility, negotiation",
+        "trait": "Emotional intelligence, diplomacy",
+        "sub": "Converting opposition into voluntary cooperation through soft pressure and immediate release."
+      },
+      {
+        "n": 7,
+        "name": "Regular practice & training",
+        "skill": "Discipline, consistency",
+        "trait": "Work ethic, perseverance",
+        "sub": "Mastering the fundamentals daily to build unshakeable structural and mental competence."
+      },
+      {
+        "n": 8,
+        "name": "Building trust with the horse",
+        "skill": "Leadership, gentle authority",
+        "trait": "Integrity, trustworthiness",
+        "sub": "Developing non-verbal command and mutual loyalty that earns respect without coercion."
+      },
+      {
+        "n": 9,
+        "name": "Dealing with mistakes & falls",
+        "skill": "Acceptance, recovery",
+        "trait": "Resilience, humility",
+        "sub": "Analysing errors without panic and getting back in the saddle immediately with renewed focus."
+      },
+      {
+        "n": 10,
+        "name": "Skill-at-arms & tent pegging runs",
+        "skill": "High-speed spatial convergence, absolute kinetic focus",
+        "trait": "Precision under velocity, target execution",
+        "discipline": true,
+        "sub": "Striking a four-inch peg at full gallop permits zero internal chatter: distraction is eliminated to achieve absolute target convergence."
+      },
+      {
+        "n": 11,
+        "name": "Mounted archery & bow release",
+        "skill": "Dual-task coordination, breath-hold stillness",
+        "trait": "Poise under dynamic motion, split-second timing",
+        "discipline": true,
+        "sub": "Maintaining core stability and upper-body stillness while the lower body navigates a moving animal at speed."
+      },
+      {
+        "n": 12,
+        "name": "High-velocity barrel racing",
+        "skill": "Centrifugal balance, split-second geometric agility",
+        "trait": "Calculated risk-taking, razor-sharp reflexes",
+        "discipline": true,
+        "sub": "Executing tight turns at maximum velocity with absolute spatial awareness and dynamic weight distribution."
+      },
+      {
+        "n": 13,
+        "name": "Cavalry squad formation & parade command",
+        "skill": "Strategic synchronization, collective discipline",
+        "trait": "Institutional loyalty, executive leadership presence",
+        "discipline": true,
+        "sub": "Individual mastery unified into squadron discipline: responsibility for the tactical precision and honour of the entire unit."
+      }
+    ],
+    "military_session_protocol_45_min": [
+      {
+        "from": 0,
+        "to": 10,
+        "title": "Ground protocol & tack inspection",
+        "detail": "The cadet arrives in uniform, inspects hooves, adjusts the girth, checks reins and settles the heart rate alongside the assigned stallion.",
+        "mounted": false
+      },
+      {
+        "from": 10,
+        "to": 25,
+        "title": "Core riding & biomechanical alignment",
+        "detail": "Mount up. Five minutes of breath alignment at the walk, then trot and canter posture drills on pelvic kinematics and core engagement.",
+        "mounted": true
+      },
+      {
+        "from": 25,
+        "to": 35,
+        "title": "Tactical skill-at-arms module",
+        "detail": "Progressive rotation: ground targets and vaulting-buck drills for Ranks I–II; mounted lance runs, archery releases or barrel patterns for Ranks III–IV.",
+        "mounted": true
+      },
+      {
+        "from": 35,
+        "to": 45,
+        "title": "Dismount, care & digital logging",
+        "detail": "Wash down and reward the stallion, log the session grades, scan the QR seal into the Sovereign Passport.",
+        "mounted": false
+      }
+    ],
+    "campus_batch_schedule": [
+      {
+        "name": "Dawn Patrol",
+        "time": "06:15 AM–07:00 AM",
+        "days": "Mon · Wed · Fri",
+        "who": "High School / Senior Squad",
+        "focus": "High-intensity drills, zero class conflict"
+      },
+      {
+        "name": "Twilight Batch",
+        "time": "03:45 PM–04:30 PM",
+        "days": "Tue · Thu · Fri",
+        "who": "Primary & Middle School",
+        "focus": "Post-school transition before bus departures"
+      },
+      {
+        "name": "Sunset Command",
+        "time": "04:45 PM–05:30 PM",
+        "days": "Mon–Thu",
+        "who": "Advanced Lancer Squad",
+        "focus": "Skill-at-arms, lance runs, barrel racing"
+      },
+      {
+        "name": "Weekend Circuit",
+        "time": "07:00 AM–07:45 AM · 08:00 AM–08:45 AM",
+        "days": "Sat & Sun",
+        "who": "Open / Parent-Cadet Batches",
+        "focus": "Skill-at-arms, family attendance, monthly trials"
+      }
+    ],
+    "three_way_assessment": [
+      {
+        "name": "Riding",
+        "detail": "Seat, hands, transitions and the discipline of the day."
+      },
+      {
+        "name": "Ground",
+        "detail": "Leading, handling, safety around the horse."
+      },
+      {
+        "name": "Stable",
+        "detail": "Grooming, tack, feed and the care log."
+      }
+    ],
+    "disciplines": [
+      {
+        "name": "Tent pegging",
+        "line": "Lance and sword at the gallop: speed, focus, hand-eye timing.",
+        "image": "currTentpeg"
+      },
+      {
+        "name": "Barrel racing",
+        "line": "Tight turns at speed: seat control and acceleration.",
+        "image": "currBarrel"
+      },
+      {
+        "name": "Mounted archery",
+        "line": "Reins released at the canter to draw and loose.",
+        "image": "currArchery"
+      },
+      {
+        "name": "Formation",
+        "line": "Riding as one: rhythm, spacing and trust in the line.",
+        "image": "currFormation"
+      }
+    ]
+  },
+  "fleet_and_livestock": {
+    "fleet_total_count": 21,
+    "status_labels": {
+      "rest": "Rest",
+      "arena": "Arena session",
+      "feed": "Night feed"
+    },
+    "active_stallions": [
+      {
+        "id": "chetak-ix",
+        "name": "Chetak IX",
+        "breed": "Purebred Marwari",
+        "family": "Marwari",
+        "chip": "356 098 112 004 912",
+        "hub": "zone-01a-financial-district",
+        "character": "The Calm Sovereign",
+        "quote": "A fortress of composure. Chetak grounds anxious first-time cadets.",
+        "specialty": "Breath calibration & beginner canter",
+        "age": 7,
+        "hands": "15.2",
+        "coat": "Dark bay, white blaze",
+        "status": "rest",
+        "image": "fleetChetak",
+        "pedigree": {
+          "sire": "Chetak VIII",
+          "dam": "Rani of Badgaon",
+          "grandsire": "Vangalia line",
+          "granddam": "Kesari"
+        }
+      },
+      {
+        "id": "veer",
+        "name": "Veer",
+        "breed": "Kathiawari cavalry line",
+        "family": "Kathiawari",
+        "chip": "356 098 112 004 988",
+        "hub": "zone-01c-gachibowli",
+        "character": "The High-Velocity Lancer",
+        "quote": "Relentless focus under momentum. Veer answers ten grams of rein.",
+        "specialty": "Tent pegging & lance precision",
+        "age": 6,
+        "hands": "15.0",
+        "coat": "Chestnut gold",
+        "status": "arena",
+        "image": "fleetVeer",
+        "pedigree": {
+          "sire": "Toofan of Gondal",
+          "dam": "Moti",
+          "grandsire": "Sultan",
+          "granddam": "Heera"
+        }
+      },
+      {
+        "id": "zilzal",
+        "name": "Zilzal",
+        "breed": "Purebred Marwari",
+        "family": "Marwari",
+        "chip": "356 098 112 005 011",
+        "hub": "zone-01b-begumpet",
+        "character": "The Stoic Leader",
+        "quote": "Commanding presence, unshakable patience. Notices a rider's nerves instantly.",
+        "specialty": "Formation drills & vaulting",
+        "age": 8,
+        "hands": "15.3",
+        "coat": "Jet black",
+        "status": "rest",
+        "image": "legendBlack",
+        "pedigree": {
+          "sire": "Shyam",
+          "dam": "Raat Rani",
+          "grandsire": "Kala Bhairav",
+          "granddam": "Chandni"
+        }
+      },
+      {
+        "id": "tofan",
+        "name": "Tofan",
+        "breed": "Purebred Marwari",
+        "family": "Marwari",
+        "chip": "356 098 112 004 991",
+        "hub": "zone-01a-financial-district",
+        "character": "The Sensitive One",
+        "quote": "High sensitivity. Demands absolute rider composure.",
+        "specialty": "Advanced lancer speed targets",
+        "age": 9,
+        "hands": "15.1",
+        "coat": "Dappled grey",
+        "status": "feed",
+        "image": "legendGrey",
+        "pedigree": {
+          "sire": "Megh",
+          "dam": "Dhoop",
+          "grandsire": "Indra",
+          "granddam": "Saanjh"
+        }
+      },
+      {
+        "id": "kesar",
+        "name": "Kesar",
+        "breed": "Marwari",
+        "family": "Marwari",
+        "chip": "356 098 112 005 027",
+        "hub": "zone-01c-gachibowli",
+        "character": "The Showman",
+        "quote": "Steps lightly and loves an audience.",
+        "specialty": "Mounted archery",
+        "age": 8,
+        "hands": "14.3",
+        "coat": "Skewbald",
+        "status": "rest",
+        "image": "fleetKesar",
+        "pedigree": {
+          "sire": "Rangeela",
+          "dam": "Kesar Kali",
+          "grandsire": "Nachan",
+          "granddam": "Pari"
+        }
+      },
+      {
+        "id": "arbudh",
+        "name": "Arbudh",
+        "breed": "Marwari",
+        "family": "Marwari",
+        "chip": "356 098 112 005 034",
+        "hub": "zone-01b-begumpet",
+        "character": "The Endurance Horse",
+        "quote": "Never the fastest. Never the first to tire.",
+        "specialty": "Distance & terrain transitions",
+        "age": 10,
+        "hands": "15.0",
+        "coat": "Light bay, four white socks",
+        "status": "arena",
+        "image": "fleetArbudh",
+        "pedigree": {
+          "sire": "Durga",
+          "dam": "Thar Rani",
+          "grandsire": "Abu",
+          "granddam": "Retila"
+        }
+      }
+    ],
+    "coat_registry": [
+      {
+        "n": "01",
+        "name": "Bhanwar / Telia Kumat",
+        "coat": "Dark bay",
+        "line": "Deep mahogany body, dark points. Grounded endurance."
+      },
+      {
+        "n": "02",
+        "name": "Kala",
+        "coat": "Black",
+        "line": "Rare obsidian sheen, white blaze. The sovereign vow of loyalty."
+      },
+      {
+        "n": "03",
+        "name": "Surang / Kumat",
+        "coat": "Chestnut & bay",
+        "line": "Rich copper-brown to the golden-red tones of a Thar sunset."
+      },
+      {
+        "n": "04",
+        "name": "Shwet / Kagra",
+        "coat": "Grey & dappled",
+        "line": "Silver and iron tones maturing into a silver-white coat."
+      },
+      {
+        "n": "05",
+        "name": "Nukra",
+        "coat": "Pure white",
+        "line": "Pure ceremonial white. Formal protocol and precision."
+      },
+      {
+        "n": "06",
+        "name": "Ablak",
+        "coat": "Piebald / skewbald",
+        "line": "Striking two-tone contrast patterns of individuality."
+      }
+    ],
+    "cctv_feeds": [
+      {
+        "cam": "CAM 01",
+        "horse": "Chetak IX",
+        "place": "Stall 3",
+        "status": "REST"
+      },
+      {
+        "cam": "CAM 02",
+        "horse": "Veer",
+        "place": "Arena",
+        "status": "SESSION"
+      },
+      {
+        "cam": "CAM 03",
+        "horse": "Zilzal",
+        "place": "Stall 7",
+        "status": "REST"
+      },
+      {
+        "cam": "CAM 04",
+        "horse": "Tofan",
+        "place": "Stall 1",
+        "status": "NIGHT FEED"
+      }
+    ],
+    "daily_care_log": [
+      {
+        "time": "05:30",
+        "item": "Water check",
+        "detail": "All stalls",
+        "result": "OK"
+      },
+      {
+        "time": "06:00",
+        "item": "Feed",
+        "detail": "Oats, lucerne, salt",
+        "result": "Logged"
+      },
+      {
+        "time": "06:20",
+        "item": "Hoof inspection",
+        "detail": "21 of 21",
+        "result": "Tofan front-left stone bruise · rested"
+      },
+      {
+        "time": "09:00",
+        "item": "Vet round",
+        "detail": "Temperatures, eyes, gait",
+        "result": "Clear"
+      },
+      {
+        "time": "14:00",
+        "item": "Hydration log",
+        "detail": "Afternoon heat protocol",
+        "result": "Logged"
+      },
+      {
+        "time": "15:30",
+        "item": "Tack check",
+        "detail": "Before sessions",
+        "result": "OK"
+      },
+      {
+        "time": "18:30",
+        "item": "Cool-down",
+        "detail": "Walk out, rugs on",
+        "result": "Done"
+      },
+      {
+        "time": "21:00",
+        "item": "Night feed",
+        "detail": "On camera",
+        "result": "Live"
+      }
+    ]
+  },
+  "cadets_and_valour": {
+    "spotlights": [
+      {
+        "name": "Cadet Alpha",
+        "rank": "Cadet Knight",
+        "hub": "Zone 01A · Financial District Hub",
+        "hours": 48,
+        "honour": "National STPCI qualifier",
+        "image": "cadetZayd",
+        "code": "BSAH-2026-HYD-042"
+      },
+      {
+        "name": "Cadet Bravo",
+        "rank": "Cadet Knight",
+        "hub": "Zone 01C · Gachibowli Academic Axis",
+        "hours": 36,
+        "honour": "Mounted archery champion",
+        "image": "cadetAnanya",
+        "code": "BSAH-2026-HYD-017"
+      },
+      {
+        "name": "Cadet Charlie",
+        "rank": "Cadet Rider",
+        "hub": "Zone 01B · Begumpet Heritage Belt",
+        "hours": 24,
+        "honour": "Perfect canter score",
+        "image": "cadetRohan",
+        "code": "BSAH-2026-HYD-088"
+      }
+    ],
+    "passport_description": {
+      "inscription": "The sovereign",
+      "voice": "passport.",
+      "body": "Handcrafted leather, stamped with a heavy brass seal at every rank. It goes wherever the cadet rides, and its code opens a public record."
+    },
+    "daily_schedule": [
+      {
+        "time": "06:00 AM",
+        "title": "Stoic daily spark",
+        "text": "A 30-second audio brief on courage, in the app."
+      },
+      {
+        "time": "07:30 AM",
+        "title": "School",
+        "text": "The ordinary day. Posture travels with them."
+      },
+      {
+        "time": "03:45 PM",
+        "title": "The gate",
+        "text": "Passport scanned at the stable gate; a parent is alerted."
+      },
+      {
+        "time": "04:00 PM",
+        "title": "Ground care",
+        "text": "Grooming, hooves, tack. The horse comes first."
+      },
+      {
+        "time": "04:15 PM",
+        "title": "Mounted session",
+        "text": "Breath, posture, then the discipline of the day."
+      },
+      {
+        "time": "04:45 PM",
+        "title": "Log and debrief",
+        "text": "Graded on riding, ground and stable. The ledger updates."
+      },
+      {
+        "time": "05:00 PM",
+        "title": "The reel",
+        "text": "A ten-second milestone reel goes home."
+      },
+      {
+        "time": "09:00 PM",
+        "title": "Lights out",
+        "text": "The stallion's night feed, on camera."
+      }
+    ],
+    "creed_six_articles": [
+      "I do not ride to conquer the horse; I command to master myself.",
+      "My posture reflects my internal state: unshakable, calm and erect.",
+      "A 500-kilogram living partner feels my heart before I speak; therefore, my composure shall be absolute.",
+      "Excuses vanish in the arena. Fall nine times, mount the tenth without hesitation or fear.",
+      "Leadership is not vocal volume; it is unforced authority, non-verbal empathy and quiet integrity.",
+      "I wear the Sovereign Passport with pride, serving my team, my academy and my nation."
+    ],
+    "cadet_uniform_spec": [
+      {
+        "item": "Bandhgala tunic",
+        "spec": "High-collared, tailor-fitted midnight-black or dark navy wool blend, secured with burnished antique-copper buttons embossed with the BSAH horse crest."
+      },
+      {
+        "item": "Breeches",
+        "spec": "Crisp ivory or cream high-stretch performance breeches, a sharp visual contrast under the tunic."
+      },
+      {
+        "item": "Footwear",
+        "spec": "Tall dark leather riding boots, or structured leather gaiters over paddock boots for younger squires."
+      },
+      {
+        "item": "Headwear",
+        "spec": "Matte-black velvet-finish safety helmet with a subtle metallic copper trim along the front rim."
+      },
+      {
+        "item": "Insignia & accents",
+        "spec": "Right lapel: metal rank bar (Squire, Rider, Knight, Lancer). Left sleeve: embroidered BSAH institutional patch. Formal parades: brass-tipped sash or leather cross-belt."
+      }
+    ],
+    "reels": [
+      {
+        "title": "First canter",
+        "who": "Charlie, 13",
+        "image": "cadetRohan"
+      },
+      {
+        "title": "First peg carried",
+        "who": "Alpha, 15",
+        "image": "currTentpeg"
+      },
+      {
+        "title": "Archery at the canter",
+        "who": "Bravo, 14",
+        "image": "currArchery"
+      },
+      {
+        "title": "Riding without reins",
+        "who": "Knight squad",
+        "image": "currFormation"
+      }
+    ]
+  },
+  "parents_and_guardian": {
+    "phone_features": [
+      {
+        "id": "cam",
+        "label": "Stall-cam",
+        "title": "Watch Chetak IX at night feed, live.",
+        "text": "Every stall has a camera. Open the app and see your child's stallion rest, eat and sleep."
+      },
+      {
+        "id": "gate",
+        "label": "Gate alert",
+        "title": "Bravo checked in at 15:52 · Zone 01A Hub.",
+        "text": "The moment the passport is scanned at the stable gate, you know your child has arrived."
+      },
+      {
+        "id": "reel",
+        "label": "Milestone reel",
+        "title": "Today: first canter without stirrups · 0:10.",
+        "text": "After each milestone, a ten-second reel lands on your phone, with a posture overlay."
+      },
+      {
+        "id": "passport",
+        "label": "Passport",
+        "title": "Cadet Rider · 24 hrs · next seal at 30 hrs.",
+        "text": "Rank, hours and the next seal, the same record a university can verify."
+      }
+    ],
+    "admissions_steps": [
+      {
+        "title": "Enquire",
+        "text": "Fill the form, or scan the flyer at your school."
+      },
+      {
+        "title": "Visit the hub",
+        "text": "Meet the instructor and the stallions."
+      },
+      {
+        "title": "Assessment ride",
+        "text": "Twenty minutes to place your child in the right batch."
+      },
+      {
+        "title": "Onboarding",
+        "text": "Passport stamped, uniform sized, welcome box."
+      },
+      {
+        "title": "First session",
+        "text": "Passport scanned at the gate; you get the first alert."
+      }
+    ],
+    "faq": [
+      {
+        "q": "What age can my child start?",
+        "a": "From 8, in the Junior batch. Everyone starts at Cadet Squire, on the ground. (Minimum age to be confirmed per hub.)"
+      },
+      {
+        "q": "Does my child need riding experience?",
+        "a": "No. Experience moves a cadet faster, never past the rules."
+      },
+      {
+        "q": "Is it safe?",
+        "a": "Safety is the first promise: ex-cavalry instructors, a spotter on every mounted drill, certified helmets and vests, daily vet checks. Accident-insurance terms are being confirmed. See the Shield for the full protocol."
+      },
+      {
+        "q": "Will it clash with school?",
+        "a": "Sessions run on your child's own campus, before or after school hours."
+      },
+      {
+        "q": "What if my child falls?",
+        "a": "Falls are part of riding. Cadets wear certified helmets and vests, and learn how to fall before they canter. Accident-insurance terms are being confirmed and will be published."
+      },
+      {
+        "q": "Can I watch?",
+        "a": "From the rail during sessions, and any time on the stall-cam."
+      },
+      {
+        "q": "How do I pay?",
+        "a": "Monthly UPI Autopay on the 1st. Onboarding and the kit are paid once."
+      },
+      {
+        "q": "Can we pause?",
+        "a": "Yes, with 30 days' notice. (Sample policy; final terms at enrolment.)"
+      }
+    ]
+  },
+  "safety_and_shield": {
+    "kit_labels": [
+      {
+        "n": "01",
+        "name": "Certified helmet",
+        "x": 30,
+        "y": 38
+      },
+      {
+        "n": "02",
+        "name": "Riding gloves",
+        "x": 52,
+        "y": 62
+      },
+      {
+        "n": "03",
+        "name": "Body protector",
+        "x": 66,
+        "y": 36
+      },
+      {
+        "n": "04",
+        "name": "Leather chaps",
+        "x": 80,
+        "y": 66
+      }
+    ],
+    "three_shields": [
+      {
+        "big": "Ex-military",
+        "title": "Instructors",
+        "line": "Recruited from retired Indian Army RVC, 61st Cavalry JCOs/NCOs and NCC Equestrian Wings."
+      },
+      {
+        "big": "Daily",
+        "title": "Veterinary & livestock care",
+        "line": "On-campus equine vet protocols; strict hydration and feeding logs."
+      },
+      {
+        "big": "Cover",
+        "title": "Insurance",
+        "line": "Accident-insurance terms are being confirmed and will be published here."
+      }
+    ],
+    "standing_orders_of_the_day": [
+      "Helmet on before the stable door.",
+      "Vests for jumping and lance work.",
+      "A spotter on every mounted drill.",
+      "The fall is taught before the canter.",
+      "Horses are checked before cadets: hooves, temperature, tack.",
+      "Heat protocol: sessions move to cooler hours; water every session.",
+      "Every stallion gets rest days.",
+      "Incidents are logged the same day and reported to parents."
+    ],
+    "performance_records": [
+      {
+        "value": 14800,
+        "suffix": "",
+        "label": "training hours logged nationally",
+        "sample": true
+      },
+      {
+        "value": 0,
+        "suffix": "",
+        "label": "major injuries",
+        "sample": true
+      },
+      {
+        "value": 21,
+        "suffix": "",
+        "label": "stallions vet-checked daily",
+        "sample": false
+      },
+      {
+        "value": 10,
+        "prefix": "₹",
+        "suffix": " L",
+        "label": "accident cover per cadet",
+        "sample": false
+      }
+    ],
+    "faculty_leadership": [
+      {
+        "role": "Chief Cavalry Instructor",
+        "line": "Ex-Army RVC. Teaches the fall before the canter. (Role shown; name to follow.)",
+        "image": "safetyInstructor"
+      },
+      {
+        "role": "Equine veterinarian",
+        "line": "Daily rounds: temperatures, eyes, gait, hooves.",
+        "image": "safetyVet"
+      }
+    ]
+  },
+  "schools_and_citadel": {
+    "tiers": [
+      {
+        "id": "standard",
+        "name": "Standard Hub",
+        "stables": 4,
+        "acres": "0.5 acre",
+        "cadets": "100–150",
+        "capexLakh": 8.2,
+        "capexLabel": "₹8.20 L",
+        "includes": [
+          "4 stables",
+          "Sand arena",
+          "Fencing",
+          "Tack room"
+        ]
+      },
+      {
+        "id": "signature",
+        "name": "Signature Hub",
+        "stables": 8,
+        "acres": "1 acre",
+        "cadets": "200–300",
+        "capexLakh": 15,
+        "capexLabel": "₹15.00 L",
+        "includes": [
+          "8 stables",
+          "Full arena",
+          "AC lounge",
+          "Floodlights"
+        ]
+      },
+      {
+        "id": "royal",
+        "name": "Royal Pavilion",
+        "stables": 12,
+        "acres": "1.5+ acres",
+        "cadets": "300+",
+        "capexLakh": 25,
+        "capexLabel": "₹25.00 L+",
+        "includes": [
+          "12 stables",
+          "Cavalry arena",
+          "VIP deck",
+          "STPCI host venue"
+        ]
+      }
+    ],
+    "tuition_basis": 8500,
+    "partnership_model": [
+      {
+        "n": "01",
+        "title": "BSAH funds and builds the arena",
+        "line": "Zero capital expenditure to the school board. The school provides land, access and utilities."
+      },
+      {
+        "n": "02",
+        "title": "BSAH operates everything",
+        "line": "Horses, ex-cavalry faculty, vets, insurance, admissions and billing are ours."
+      },
+      {
+        "n": "03",
+        "title": "The school earns 25–30%",
+        "line": "Of gross cadet tuition, returned directly to the institution, settled quarterly."
+      }
+    ],
+    "seals": [
+      {
+        "title": "STPCI hosting rights",
+        "line": "Your arena on the national circuit."
+      },
+      {
+        "title": "EFI junior pathway",
+        "line": "Cadets registered with the federation."
+      },
+      {
+        "title": "Press & national coverage",
+        "line": "Tournament days bring the cameras."
+      },
+      {
+        "title": "Governor's Cup venue",
+        "line": "Royal Pavilion hubs host the finals."
+      }
+    ],
+    "pan_india_regional_network": [
+      {
+        "code": "01",
+        "name": "Telangana & Andhra Pradesh Circuit",
+        "circuit": "Hyderabad hub network",
+        "subzones": [
+          {
+            "code": "01A",
+            "name": "Financial District & Narsingi Corridor",
+            "demographic": "Premium IB & Cambridge international hubs"
+          },
+          {
+            "code": "01B",
+            "name": "Begumpet & Jubilee Hills Heritage Belt",
+            "demographic": "Legacy private & historical day schools"
+          },
+          {
+            "code": "01C",
+            "name": "Gachibowli & Madhapur Academic Axis",
+            "demographic": "Progressive K-12 & STEM institutions"
+          }
+        ]
+      },
+      {
+        "code": "02",
+        "name": "National Capital Region Circuit",
+        "circuit": "NCR",
+        "subzones": [
+          {
+            "code": "02A",
+            "name": "Golf Course Road & Cyber City Belt (Gurugram)",
+            "demographic": "Ultra-premium global & IB world campuses"
+          },
+          {
+            "code": "02B",
+            "name": "Noida Expressway & Knowledge Park Axis (Greater Noida)",
+            "demographic": "Sprawling multi-acre integrated institutional hubs"
+          },
+          {
+            "code": "02C",
+            "name": "Chanakyapuri & Lutyens' Institutional Zone (New Delhi)",
+            "demographic": "Diplomatic & heritage boarding institutions"
+          }
+        ]
+      },
+      {
+        "code": "03",
+        "name": "Maharashtra & Western India Circuit",
+        "circuit": "West",
+        "subzones": [
+          {
+            "code": "03A",
+            "name": "Bandra-Kurla Complex & South Mumbai Hub (Mumbai)",
+            "demographic": "Elite metropolitan day schools & legacy academies"
+          },
+          {
+            "code": "03B",
+            "name": "Baner-Wakad & Pimpri-Chinchwad Axis (Pune)",
+            "demographic": "Technical, IB & global boarding institutions"
+          },
+          {
+            "code": "03C",
+            "name": "Panchgani & Mahabaleshwar Residential Plateau",
+            "demographic": "Legacy heritage boarding schools & hill academies"
+          }
+        ]
+      },
+      {
+        "code": "04",
+        "name": "Karnataka & Southern Metropolitan Circuit",
+        "circuit": "South",
+        "subzones": [
+          {
+            "code": "04A",
+            "name": "Whitefield & Sarjapur Innovation Belt (Bengaluru)",
+            "demographic": "New-age global tech & international residential campuses"
+          },
+          {
+            "code": "04B",
+            "name": "Hebbal & Yelahanka North Corridor (Bengaluru)",
+            "demographic": "Sprawling acreage international academies"
+          },
+          {
+            "code": "04C",
+            "name": "Ooty & Kodaikanal Hill Sanctuary Circuit (Tamil Nadu)",
+            "demographic": "Century-old residential boarding schools"
+          }
+        ]
+      },
+      {
+        "code": "05",
+        "name": "Northern Heritage & Boarding Circuit",
+        "circuit": "Northern corridor",
+        "subzones": [
+          {
+            "code": "05A",
+            "name": "Doon Valley & Mussoorie Foothills Belt (Dehradun)",
+            "demographic": "India's premier legacy residential & all-boys/all-girls boarding academies"
+          },
+          {
+            "code": "05B",
+            "name": "Ajmer & Jaipur Royal Heritage Corridor (Rajasthan)",
+            "demographic": "Historical Rajputana equestrian & boarding institutions"
+          },
+          {
+            "code": "05C",
+            "name": "Shimla Hills & Solan Ridge Circuit (Himachal Pradesh)",
+            "demographic": "Heritage colonial residential boarding campuses"
+          }
+        ]
+      },
+      {
+        "code": "06",
+        "name": "Eastern & Central Regional Circuit",
+        "circuit": "East & Centre",
+        "subzones": [
+          {
+            "code": "06A",
+            "name": "Alipore & Salt Lake Institutional Axis (Kolkata)",
+            "demographic": "Legacy metropolitan heritage schools"
+          },
+          {
+            "code": "06B",
+            "name": "Central Malwa Educational Plateau (Indore / Bhopal)",
+            "demographic": "Sprawling residential & progressive CBSE/ICSE campuses"
+          }
+        ]
+      }
+    ],
+    "benchmark": {
+      "lines": [
+        "Equestrian excellence has historically been the sole privilege of select, century-old heritage academies.",
+        "BSAH democratizes and elevates this sovereign infrastructure: turnkey, ex-cavalry managed arenas, STPCI-sanctioned national competition and zero-CapEx revenue-sharing models, brought directly to prospective premier campuses across India's leading educational corridors."
+      ]
+    },
+    "hubs": [
+      {
+        "slug": "zone-01a-financial-district",
+        "status": "prospect",
+        "name": "Zone 01A · Financial District & Narsingi Corridor",
+        "short": "Zone 01A · Narsingi",
+        "area": "Financial District",
+        "tier": "signature",
+        "stallions": 8,
+        "cadets": 150,
+        "image": "schoolAerial",
+        "note": "Proposed flagship corridor and candidate host venue for the Sovereign Governor's Cup (subject to STPCI confirmation).",
+        "pin": {
+          "x": 58,
+          "y": 66
+        },
+        "batches": [
+          {
+            "name": "Dawn Patrol",
+            "time": "06:15 AM–07:00 AM",
+            "days": "Mon · Wed · Fri"
+          },
+          {
+            "name": "Twilight Batch",
+            "time": "03:45 PM–04:30 PM",
+            "days": "Tue · Thu · Fri"
+          },
+          {
+            "name": "Weekend Circuit",
+            "time": "07:00 AM–07:45 AM",
+            "days": "Sat & Sun"
+          }
+        ]
+      },
+      {
+        "slug": "zone-01c-gachibowli",
+        "status": "prospect",
+        "name": "Zone 01C · Gachibowli & Madhapur Academic Axis",
+        "short": "Zone 01C · Gachibowli",
+        "area": "Gachibowli",
+        "tier": "standard",
+        "stallions": 4,
+        "cadets": 96,
+        "image": "schoolArenaNight",
+        "note": "Proposed corridor planned for floodlit evening batches.",
+        "pin": {
+          "x": 30,
+          "y": 44
+        },
+        "batches": [
+          {
+            "name": "Twilight Batch",
+            "time": "03:45 PM–04:30 PM",
+            "days": "Mon · Wed · Fri"
+          },
+          {
+            "name": "Sunset Command",
+            "time": "04:45 PM–05:30 PM",
+            "days": "Tue · Thu"
+          }
+        ]
+      },
+      {
+        "slug": "zone-01b-begumpet",
+        "status": "prospect",
+        "name": "Zone 01B · Begumpet & Jubilee Hills Heritage Belt",
+        "short": "Zone 01B · Begumpet",
+        "area": "Begumpet",
+        "tier": "royal",
+        "stallions": 12,
+        "cadets": 210,
+        "image": "bgPavilion",
+        "note": "Proposed heritage pavilion; candidate host for the Junior Lancers Invitational.",
+        "pin": {
+          "x": 54,
+          "y": 32
+        },
+        "batches": [
+          {
+            "name": "Dawn Patrol",
+            "time": "06:15 AM–07:00 AM",
+            "days": "Daily"
+          },
+          {
+            "name": "Twilight Batch",
+            "time": "03:45 PM–04:30 PM",
+            "days": "Mon–Fri"
+          },
+          {
+            "name": "Sunset Command",
+            "time": "04:45 PM–05:30 PM",
+            "days": "Mon–Thu"
+          }
+        ]
+      }
+    ]
+  },
+  "tournaments_and_circuit": {
+    "league_standings": [
+      {
+        "pos": 1,
+        "hub": "01 · Financial District Hub",
+        "short": "Zone 01A",
+        "points": 1420,
+        "gold": 12,
+        "cup": "Qualified for national finals"
+      },
+      {
+        "pos": 2,
+        "hub": "02 · Golf Course Road Belt",
+        "short": "Zone 02A",
+        "points": 1280,
+        "gold": 9,
+        "cup": "Semi-finals qualified"
+      },
+      {
+        "pos": 3,
+        "hub": "03 · BKC & South Mumbai Circuit",
+        "short": "Zone 03A",
+        "points": 1150,
+        "gold": 7,
+        "cup": "Regional contender"
+      }
+    ],
+    "tournaments_list": [
+      {
+        "slug": "governors-cup-2026",
+        "name": "Sovereign Governor's Cup",
+        "date": "2026-11-14",
+        "dateLabel": "14 NOV 2026",
+        "venue": "Zone 01A Arena · Financial District",
+        "format": "National qualifier",
+        "ages": "Under-14 · Under-18",
+        "status": "open",
+        "image": "tournCrowd",
+        "events": [
+          "Tent pegging, individual",
+          "Tent pegging, team of four",
+          "Barrel racing",
+          "Mounted archery exhibition"
+        ],
+        "schedule": [
+          {
+            "time": "07:00",
+            "item": "Vet inspection and horse draw"
+          },
+          {
+            "time": "08:30",
+            "item": "Opening parade of hubs"
+          },
+          {
+            "time": "09:00",
+            "item": "Tent pegging, individual rounds"
+          },
+          {
+            "time": "12:30",
+            "item": "Barrel racing"
+          },
+          {
+            "time": "15:00",
+            "item": "Team tent pegging final"
+          },
+          {
+            "time": "17:00",
+            "item": "Governor's Cup presentation"
+          }
+        ]
+      },
+      {
+        "slug": "hyderabad-interschool-2026",
+        "name": "Hyderabad Interschool Tent Pegging",
+        "date": "2026-12-12",
+        "dateLabel": "12 DEC 2026",
+        "venue": "Zone 01C Arena · Gachibowli",
+        "format": "League round",
+        "ages": "Under-16",
+        "status": "open",
+        "image": "schoolArenaNight",
+        "events": [
+          "Tent pegging, lance",
+          "Mounted target (pellet)",
+          "Ring tilting"
+        ],
+        "schedule": [
+          {
+            "time": "15:30",
+            "item": "Vet inspection"
+          },
+          {
+            "time": "16:30",
+            "item": "Lance rounds under lights"
+          },
+          {
+            "time": "18:30",
+            "item": "Mounted target"
+          },
+          {
+            "time": "19:30",
+            "item": "Results and league table"
+          }
+        ]
+      },
+      {
+        "slug": "junior-lancers-2027",
+        "name": "Junior Lancers Invitational",
+        "date": "2027-01-23",
+        "dateLabel": "23 JAN 2027",
+        "venue": "Zone 01B Pavilion · Begumpet",
+        "format": "Invitational",
+        "ages": "Under-14",
+        "status": "soon",
+        "image": "tournCup",
+        "events": [
+          "Walk-trot tent pegging",
+          "Pole bending",
+          "Mounted archery demonstration"
+        ],
+        "schedule": [
+          {
+            "time": "08:00",
+            "item": "Horse draw and warm-up"
+          },
+          {
+            "time": "09:00",
+            "item": "Walk-trot tent pegging"
+          },
+          {
+            "time": "11:00",
+            "item": "Pole bending"
+          },
+          {
+            "time": "12:30",
+            "item": "Presentation in the pavilion"
+          }
+        ]
+      }
+    ],
+    "champions_roll": [
+      {
+        "title": "Governor's Cup 2025–26",
+        "who": "Zone 01A · Financial District Hub"
+      },
+      {
+        "title": "Mounted archery",
+        "who": "Cadet Bravo · Zone 01C"
+      },
+      {
+        "title": "Best young rider",
+        "who": "Cadet Charlie · Zone 01B"
+      }
+    ]
+  },
+  "credentials_and_verification": {
+    "sample_credentials": [
+      {
+        "code": "BSAH-2026-HYD-042",
+        "name": "Cadet Alpha",
+        "rank": "knight",
+        "rankName": "Cadet Knight",
+        "hours": 48,
+        "hub": "zone-01a-financial-district",
+        "hubName": "Zone 01A · Financial District Hub",
+        "efi": "SAMPLE-EFI-0001",
+        "issued": "2026-09-28",
+        "seals": [
+          "squire",
+          "rider",
+          "knight"
+        ],
+        "milestones": [
+          {
+            "date": "2026-03-14",
+            "text": "Seal I · Cadet Squire"
+          },
+          {
+            "date": "2026-05-30",
+            "text": "First independent canter"
+          },
+          {
+            "date": "2026-06-21",
+            "text": "Seal II · Cadet Rider"
+          },
+          {
+            "date": "2026-08-09",
+            "text": "First peg carried at the gallop"
+          },
+          {
+            "date": "2026-09-28",
+            "text": "Seal III · Cadet Knight · National STPCI qualifier"
+          }
+        ]
+      },
+      {
+        "code": "BSAH-2026-HYD-017",
+        "name": "Cadet Bravo",
+        "rank": "knight",
+        "rankName": "Cadet Knight",
+        "hours": 36,
+        "hub": "zone-01c-gachibowli",
+        "hubName": "Zone 01C · Gachibowli Academic Axis",
+        "efi": "SAMPLE-EFI-0002",
+        "issued": "2026-09-12",
+        "seals": [
+          "squire",
+          "rider",
+          "knight"
+        ],
+        "milestones": [
+          {
+            "date": "2026-04-02",
+            "text": "Seal I · Cadet Squire"
+          },
+          {
+            "date": "2026-06-10",
+            "text": "Seal II · Cadet Rider"
+          },
+          {
+            "date": "2026-08-23",
+            "text": "Mounted archery champion, league round 2"
+          },
+          {
+            "date": "2026-09-12",
+            "text": "Seal III · Cadet Knight"
+          }
+        ]
+      },
+      {
+        "code": "BSAH-2026-HYD-088",
+        "name": "Cadet Charlie",
+        "rank": "rider",
+        "rankName": "Cadet Rider",
+        "hours": 24,
+        "hub": "zone-01b-begumpet",
+        "hubName": "Zone 01B · Begumpet Heritage Belt",
+        "efi": null,
+        "issued": "2026-09-05",
+        "seals": [
+          "squire",
+          "rider"
+        ],
+        "milestones": [
+          {
+            "date": "2026-06-01",
+            "text": "Seal I · Cadet Squire"
+          },
+          {
+            "date": "2026-08-15",
+            "text": "Perfect canter score"
+          },
+          {
+            "date": "2026-09-05",
+            "text": "Seal II · Cadet Rider"
+          }
+        ]
+      }
+    ]
+  },
+  "command_ai_knowledge_base": {
+    "knowledge_entries": [
+      {
+        "id": "capex",
+        "ask": "CapEx & revenue share",
+        "query": "What is the financial model for partner school boards?",
+        "keywords": [
+          "roi",
+          "payback",
+          "return",
+          "revenue",
+          "share",
+          "earn",
+          "income",
+          "capex",
+          "financial",
+          "model",
+          "fund"
+        ],
+        "answer": "Proposed model: BSAH funds, constructs and operates a turnkey arena with ex-cavalry faculty at zero capital expenditure to the school board, and 25% to 30% of cadet tuition is returned to the partner institution, settled quarterly. This is an offer, not an existing arrangement: it applies only under a signed agreement, and the MOU sets the final terms. See the model at /schools."
+      },
+      {
+        "id": "insurance",
+        "ask": "Insurance & safety record",
+        "query": "What is the safety record for Cadet Lancer drills?",
+        "keywords": [
+          "insurance",
+          "insured",
+          "cover",
+          "accident",
+          "liability",
+          "safety",
+          "safe",
+          "injury",
+          "injuries",
+          "helmet",
+          "fall",
+          "record",
+          "lancer"
+        ],
+        "answer": "BSAH describes certified helmets for every mounted minute, impact-reduction vests for jumping and lance work, and an ex-cavalry supervisor on every mounted drill. Training-hour totals, injury records and insurance cover are not published yet: the figures and the policy documents are being confirmed, and nothing is shown until they are."
+      },
+      {
+        "id": "stpci",
+        "ask": "STPCI accreditation",
+        "query": "Is this program officially recognized for competitions?",
+        "keywords": [
+          "stpci",
+          "accredit",
+          "recognised",
+          "recognized",
+          "sanction",
+          "official",
+          "council",
+          "federation",
+          "efi"
+        ],
+        "answer": "The School Tent Pegging Council of India (STPCI) is the governing council in the BSAH structure. The intended process: every session's milestones are logged in the cadet's Sovereign Passport, and that record is what the council reviews for registration and competition eligibility. Official recognition, registration terms and Governor's Cup eligibility are being confirmed and will be published with documentation; passport logging is planned, not yet live."
+      },
+      {
+        "id": "timings",
+        "ask": "Curriculum & class timings",
+        "query": "How do riding sessions fit into academic schedules?",
+        "keywords": [
+          "timing",
+          "timings",
+          "schedule",
+          "academic",
+          "class",
+          "clash",
+          "school hours",
+          "batch",
+          "batches",
+          "when"
+        ],
+        "answer": "Sessions are planned for non-academic buffer windows using the 45-minute military session protocol (10 minutes ground protocol and tack inspection, 15 minutes core riding and biomechanical alignment, 10 minutes skill-at-arms, 10 minutes dismount, care and digital logging): Dawn Patrol at 06:15 AM, Twilight Batch at 03:45 PM and Sunset Command at 04:45 PM, with the Weekend Circuit on Saturday and Sunday mornings. Final batch times are set against each campus's own timetable before launch."
+      },
+      {
+        "id": "faculty",
+        "ask": "Who are the instructors?",
+        "keywords": [
+          "instructor",
+          "faculty",
+          "coach",
+          "teacher",
+          "army",
+          "rvc",
+          "ncc",
+          "cavalry",
+          "61st"
+        ],
+        "answer": "BSAH's faculty recruitment pipeline targets retired Indian Army Remount & Veterinary Corps (RVC) personnel, 61st Cavalry JCOs and NCOs, NCC Equestrian Wings and regional equestrian federations across Rajasthan, Punjab, Haryana and Telangana. These are recruitment sources, not confirmed affiliations; no individual is named until appointed. The planned staffing per hub is a chief instructor and a stable master, with daily rounds by an equine veterinarian."
+      },
+      {
+        "id": "fees",
+        "ask": "What does it cost a parent?",
+        "keywords": [
+          "fee",
+          "fees",
+          "cost",
+          "price",
+          "tuition",
+          "pay",
+          "gst",
+          "upi",
+          "elite",
+          "kit"
+        ],
+        "answer": "Core Cadets: ₹8,500 + GST a month, two sessions a week. Sovereign Elite: ₹12,500 + GST a month, three sessions a week plus skill-at-arms, STPCI registration and the 24/7 stall-cam. The one-time onboarding kit is ₹5,000 + GST (tunic, helmet, boots, Sovereign Passport). UPI Autopay on the 1st."
+      },
+      {
+        "id": "tiers",
+        "ask": "What do the three hub tiers include?",
+        "keywords": [
+          "tier",
+          "tiers",
+          "standard",
+          "signature",
+          "royal",
+          "pavilion",
+          "stables",
+          "acre",
+          "land",
+          "build"
+        ],
+        "answer": "Standard Hub: 4 stables, Sand arena, Fencing, Tack room, 0.5 acre, 100–150 cadets, BSAH-funded (₹8.20 L invested). Signature Hub: 8 stables, Full arena, AC lounge, Floodlights, 1 acre, 200–300 cadets, BSAH-funded (₹15.00 L invested). Royal Pavilion: 12 stables, Cavalry arena, VIP deck, STPCI host venue, 1.5+ acres, 300+ cadets, BSAH-funded (₹25.00 L+ invested)."
+      },
+      {
+        "id": "curriculum",
+        "ask": "How does the curriculum work?",
+        "keywords": [
+          "curriculum",
+          "rank",
+          "ranks",
+          "pillar",
+          "pillars",
+          "squire",
+          "rider",
+          "knight",
+          "session"
+        ],
+        "answer": "Four ranks (Cadet Squire, Cadet Rider, Cadet Knight, Sovereign Lancer) and the 13-Pillar Sovereign Ledger: nine foundations of horsemanship and four BSAH tactical disciplines. A session is 45 minutes — ground protocol, core riding, a tactical skill-at-arms module, then care and digital logging — and every session is graded and entered in the ledger the same day."
+      },
+      {
+        "id": "horses",
+        "ask": "Which horses do cadets ride?",
+        "keywords": [
+          "horse",
+          "horses",
+          "marwari",
+          "kathiawari",
+          "stallion",
+          "fleet",
+          "breed"
+        ],
+        "answer": "The planned fleet: indigenous Marwari and Kathiawari stallions, each microchipped (ISO 11784), vet-checked daily and on a 24/7 stall camera, with each cadet assigned a stallion for the long term. Fleet numbers on the site are sample figures."
+      },
+      {
+        "id": "tournaments",
+        "ask": "How do schools compete?",
+        "keywords": [
+          "tournament",
+          "compete",
+          "competition",
+          "cup",
+          "governor",
+          "league",
+          "circuit",
+          "tent pegging"
+        ],
+        "answer": "Hubs compete on the STPCI interscholastic circuit in tent pegging, barrel racing and mounted archery, with standings kept by regional zone. The Sovereign Governor's Cup fixture shown on the site is a sample, pending confirmation. Royal Pavilion hubs are designed to host finals."
+      },
+      {
+        "id": "verify",
+        "ask": "How can a university verify a cadet?",
+        "keywords": [
+          "verify",
+          "verification",
+          "passport",
+          "credential",
+          "university",
+          "admissions",
+          "diploma"
+        ],
+        "answer": "Every cadet's passport carries a code like BSAH-2026-HYD-042. Entering it at /verify shows the sealed record: rank, riding hours, hub, EFI registration and milestones. Nothing private is shown."
+      },
+      {
+        "id": "age",
+        "ask": "What age can a child start?",
+        "keywords": [
+          "age",
+          "old",
+          "start",
+          "join",
+          "enrol",
+          "enroll",
+          "admission",
+          "beginner"
+        ],
+        "answer": "From 8, in the Junior batch (minimum age to be confirmed per hub). Every cadet starts as a Cadet Squire on the ground, with or without riding experience."
+      }
+    ],
+    "fallback_response": "This demo has no scripted answer for that question, and questions are not saved. Try one of the suggested questions, or email the Office of the Chairman."
+  },
+  "journal_chronicle_articles": {
+    "posts": [
+      {
+        "slug": "the-horse-that-would-not-leave-the-field",
+        "title": [
+          "The horse that",
+          "would not leave the field."
+        ],
+        "category": "Legend",
+        "dek": "Victory, death, or the wounded rider: the vow behind the Marwari, and the stallion at the stream.",
+        "minutes": 5,
+        "date": "2026-10-01",
+        "cover": "legendChetak",
+        "body": [
+          {
+            "t": "p",
+            "text": "The horsemen of Marwar held a simple belief about their horses. A Marwari, they said, leaves a battlefield in only three ways: in victory, in death, or carrying its wounded rider to safety. It is the kind of line that sounds like poetry until you read how often the old ballads put it to the test."
+          },
+          {
+            "t": "p",
+            "text": "Their horses had been shaped by centuries of desert life and strict breeding: slim, hard-legged, enduring, and famous for a courage that bordered on stubbornness. The bards tell of Marwaris rearing over fallen riders, crossing rivers wounded, and refusing to turn until a hand on the rein told them to."
+          },
+          {
+            "t": "h",
+            "text": "The stallion at the stream"
+          },
+          {
+            "t": "p",
+            "text": "One ballad, told in many versions, is of a blue-grey stallion wounded in the leg in the middle of a fight. He would not leave the field until his rider turned him."
+          },
+          {
+            "t": "p",
+            "text": "Then he carried his rider away and across a stream before he collapsed. The tellers disagree on the stream's width and the wound's depth. They agree on the horse."
+          },
+          {
+            "t": "quote",
+            "text": "A Marwari leaves the field in victory, in death, or carrying its rider home."
+          },
+          {
+            "t": "p",
+            "text": "Folklorists argue over the details. What nobody argues over is why the story survived: it is a story about loyalty under pressure, and about an animal that would not abandon the person who trusted it."
+          },
+          {
+            "t": "h",
+            "text": "Why it matters in an arena"
+          },
+          {
+            "t": "p",
+            "text": "Nobody asks a cadet to ride into battle. But every cadet meets a smaller version of that stallion's choice. A horse spooks. A jump goes wrong. A lance misses its peg in front of the whole school. The easy response is to leave the field. The Marwari's answer, and the academy's, is to stay, settle, and ride again."
+          },
+          {
+            "t": "p",
+            "text": "That is why the vow sits at the heart of the Black Stallion Academy. We do not tell children the legend so they will admire a horse. We tell it so they will recognise the choice when it arrives, and make the braver one."
+          },
+          {
+            "t": "note",
+            "text": "This is oral tradition, retold without reference to any one conflict, clan or faith; details vary between tellers."
+          }
+        ]
+      },
+      {
+        "slug": "why-the-ears-curl",
+        "title": [
+          "Why the",
+          "ears curl."
+        ],
+        "category": "Legend",
+        "dek": "The lyre-shaped ears that turn 180 degrees, and why breeders read them as a seal of purity.",
+        "minutes": 4,
+        "date": "2026-09-24",
+        "cover": "legendEars",
+        "body": [
+          {
+            "t": "p",
+            "text": "You can pick out a Marwari across a crowded fairground by its ears. They rise, curve inward, and meet at the tips, like the two arms of a lyre or a pair of hands about to touch. Only one other breed in the world shares the shape: its neighbour, the Kathiawari of Gujarat."
+          },
+          {
+            "t": "h",
+            "text": "A hundred and eighty degrees"
+          },
+          {
+            "t": "p",
+            "text": "The ears are not decoration. A Marwari can turn each ear through 180 degrees, independently, and the breed is known for unusually sharp hearing. Desert riders relied on it. In the dark, the ears would swing toward a sound long before a rider heard anything at all."
+          },
+          {
+            "t": "p",
+            "text": "In the arena the same ears read the rider. Tense shoulders, held breath and a racing heart all change how a rider sits and moves, and a sensitive horse answers with flicking, pinned or swivelling ears. Instructors at the academy teach cadets to watch them: they are the most honest feedback a young rider will ever get."
+          },
+          {
+            "t": "quote",
+            "text": "The ears are the first thing to vanish when the blood is mixed."
+          },
+          {
+            "t": "h",
+            "text": "A seal of purity"
+          },
+          {
+            "t": "p",
+            "text": "Breeders in Marwar have a saying that the ears are the first trait to disappear when a Marwari is crossed with another breed. Straighten the curve and you have lost the horse. So the ears became a kind of certificate, read by eye at every horse fair in Rajasthan long before there was a studbook to check."
+          },
+          {
+            "t": "p",
+            "text": "Today the Marwari Horse Society keeps that studbook, with official registration since 2009. The ears are still the first thing anyone looks at."
+          },
+          {
+            "t": "h",
+            "text": "Our monogram"
+          },
+          {
+            "t": "p",
+            "text": "When we designed the academy's mark, there was only one place to start. The monogram is two curling ears and a blaze between them. It stands for the same thing the ears have always stood for in Marwar: you can tell what something is made of by what it pays attention to."
+          }
+        ]
+      },
+      {
+        "slug": "omens-of-the-stable",
+        "title": [
+          "Omens",
+          "of the stable."
+        ],
+        "category": "Legend",
+        "dek": "Greys, blazes, devman whorls and the black horse: how Marwar read a horse's future in its coat.",
+        "minutes": 4,
+        "date": "2026-09-17",
+        "cover": "legendGrey",
+        "body": [
+          {
+            "t": "p",
+            "text": "In old Marwar, buying a horse was part horsemanship and part astrology. Breeders read a horse's colour and the whorls in its coat as a forecast of the luck it would bring its rider, and much of that folklore is still alive in Rajasthan's stables today."
+          },
+          {
+            "t": "h",
+            "text": "The favoured colours"
+          },
+          {
+            "t": "p",
+            "text": "Grey is the most prized colour of all, and grey horses fetch the highest prices. Piebald and skewbald coats, patched with white, come next. A white blaze down the face together with four white socks is considered a lucky set of markings."
+          },
+          {
+            "t": "p",
+            "text": "Pure white is a different matter. A white horse cannot be registered as a Marwari; some call it Nukra and treat it as a type of its own."
+          },
+          {
+            "t": "h",
+            "text": "Reading the whorls"
+          },
+          {
+            "t": "p",
+            "text": "Whorls, the small swirls where the hair changes direction, carry their own meanings. A long whorl running down the neck, called a devman, is a sign of good fortune. A whorl beneath the eye, called an anusudhal, is unpopular with buyers and thought to be unlucky for the rider. Whorls on the fetlocks are said to bring victory."
+          },
+          {
+            "t": "quote",
+            "text": "They called the black horse an omen. We call it a vow."
+          },
+          {
+            "t": "h",
+            "text": "The black horse"
+          },
+          {
+            "t": "p",
+            "text": "Then there is black. In Marwar folklore a black horse stands for night and death, and has long been considered unlucky. Which raises an obvious question for an academy called the Black Stallion."
+          },
+          {
+            "t": "p",
+            "text": "We chose the colour deliberately. The bards feared the black horse because it was the colour of the end. We carry it as a promise about endings: we will not be the ones who leave the field. Every cadet who earns a seal is keeping that promise."
+          },
+          {
+            "t": "note",
+            "text": "Colour and whorl beliefs vary between breeders and regions; these are the most widely reported."
+          }
+        ]
+      },
+      {
+        "slug": "from-royalty-to-cart-horse-and-back",
+        "title": [
+          "From royalty to cart horse,",
+          "and back."
+        ],
+        "category": "Legend",
+        "dek": "How the Marwari nearly vanished after 1947, and the people who brought it back.",
+        "minutes": 6,
+        "date": "2026-09-10",
+        "cover": "legendRevival",
+        "body": [
+          {
+            "t": "p",
+            "text": "For most of its history the Marwari was a royal horse in the most literal sense. Only royal and Rajput warrior families could own one, and the old saying held that a Marwari stood above a prince. Its fall, when it came, was fast."
+          },
+          {
+            "t": "h",
+            "text": "The colonial years"
+          },
+          {
+            "t": "p",
+            "text": "The British preferred their own Thoroughbreds and had little use for the native breeds. Through the colonial period the Marwari was sent to fewer battles and bred with less care, and by the 1930s the quality and numbers of the stock were in decline. Marwar's lancers still rode for Sir Pratap Singh in the First World War, close to the end of the age of cavalry. Maharaja Umaid Singh of Jodhpur stepped in during the first half of the twentieth century to keep the breed from disappearing."
+          },
+          {
+            "t": "h",
+            "text": "Independence, and the empty stables"
+          },
+          {
+            "t": "p",
+            "text": "After 1947 the princely states joined the new republic, and in the land reforms of the 1950s many nobles lost their estates. The great stables had nowhere to go. Thousands of horses were sold as pack animals, castrated or shot. To many people the Marwari had become a symbol of the old order, and few were sorry to see it go."
+          },
+          {
+            "t": "p",
+            "text": "Crossed with other breeds and worked as cart horses, the pure line thinned. By the turn of the century only a few thousand purebred Marwaris were thought to remain."
+          },
+          {
+            "t": "quote",
+            "text": "The line refused to end."
+          },
+          {
+            "t": "h",
+            "text": "The revival"
+          },
+          {
+            "t": "p",
+            "text": "The comeback was led by a handful of people. Maharaja Gaj Singh II of Jodhpur continued his grandfather's work. In 1995 a British horsewoman, Francesca Kelly, founded Marwari Bloodlines to promote the breed, and a breed society formed in India the same year. In 1999 Kelly and Raghuvendra Singh Dundlod led the founding of the Indigenous Horse Society of India."
+          },
+          {
+            "t": "p",
+            "text": "Kelly and Dundlod rode Marwaris to endurance wins at the national games, which helped persuade the Equestrian Federation of India to sanction shows for indigenous horses. Official registration began in 2009. Today the breed is no longer considered at risk."
+          },
+          {
+            "t": "h",
+            "text": "The stallion that stayed"
+          },
+          {
+            "t": "p",
+            "text": "One story from the revival is told often in Marwar. When Maharaja Gaj Singh II visited the thikana of Badgaon to choose a colt sired by its celebrated stallion Vangalia, he asked to see the sire himself. The thakur, afraid of losing his best horse, led Vangalia out. The Maharaja admired him and left him where he stood: the stallion served the breed best where the mares of south Marwar could reach him. He chose a colt and rode home."
+          },
+          {
+            "t": "p",
+            "text": "It is a small story about a big idea. A breed survives when the people who love it think about the next generation, not their own stable. That is the work every BSAH hub now continues, one cadet at a time."
+          }
+        ]
+      },
+      {
+        "slug": "the-dancing-horses-of-marwar",
+        "title": [
+          "The dancing horses",
+          "of Marwar."
+        ],
+        "category": "Legend",
+        "dek": "Nachni, the revaal, and the wedding processions where the warhorse becomes a dancer.",
+        "minutes": 3,
+        "date": "2026-09-03",
+        "cover": "legendNachni",
+        "body": [
+          {
+            "t": "p",
+            "text": "For a horse remembered for war, the Marwari has a surprisingly gentle second life. Walk through a Rajasthani town during wedding season and you may see one at the head of a procession, decked in mirror-work and tassels, stepping in time to the drums."
+          },
+          {
+            "t": "h",
+            "text": "Nachni: born to dance"
+          },
+          {
+            "t": "p",
+            "text": "Some Marwari lines are said to carry a strain called nachni, which simply means born to dance. With a skilled handler, these horses lift their feet, step sideways and rise to the music in a performance that crowds gather to watch. Many breeders believe the true nachni line has almost faded. Glimpses of it remain at weddings and festivals across the state."
+          },
+          {
+            "t": "quote",
+            "text": "The same animal that charged elephants will dance at a wedding."
+          },
+          {
+            "t": "h",
+            "text": "The revaal"
+          },
+          {
+            "t": "p",
+            "text": "Even without music, many Marwaris move differently from other breeds. They often have a natural ambling gait, close to a pace, known as the revaal. It is smooth and easy for a rider to sit for hours, which made it valuable on long desert journeys and makes it comfortable for young riders today."
+          },
+          {
+            "t": "p",
+            "text": "There is a lesson in the contrast. Strength and grace are not opposites. The same horse that would not leave a battlefield can be calm enough, and responsive enough, to dance. We look for both in a cadet."
+          }
+        ]
+      },
+      {
+        "slug": "ten-grams-of-rein",
+        "title": [
+          "Ten grams",
+          "of rein."
+        ],
+        "category": "Academy",
+        "dek": "What a child learns when shouting does nothing and the lightest touch turns half a tonne.",
+        "minutes": 4,
+        "date": "2026-08-27",
+        "cover": "journalReins",
+        "body": [
+          {
+            "t": "p",
+            "text": "Every new cadet tries it once. The horse wanders toward the gate, and the child pulls harder on the reins. The horse braces, lifts its head and keeps going. Then an instructor says something that sounds impossible: let go a little, and ask again."
+          },
+          {
+            "t": "h",
+            "text": "Force fails, clarity works"
+          },
+          {
+            "t": "p",
+            "text": "A well-schooled horse answers a few grams of pressure on the rein, together with the rider's seat and legs. Hard, sudden pulling does the opposite of what the rider wants: it causes discomfort and resistance. The horse is not being stubborn. It is answering exactly what it was told."
+          },
+          {
+            "t": "p",
+            "text": "Children learn this in their hands before they can explain it. Quiet, consistent signals get results; loud, inconsistent ones do not. Hands, seat and legs have to agree. Both sides of the body have to coordinate. And none of it works if the rider is tense, because a horse can feel tension long before it feels a rein."
+          },
+          {
+            "t": "quote",
+            "text": "You cannot shout a horse into trusting you."
+          },
+          {
+            "t": "h",
+            "text": "The lesson outside the arena"
+          },
+          {
+            "t": "p",
+            "text": "It is a skill that travels. Getting a response from someone by being calm and precise rather than loud works at home, in a classroom and on a team, and it is much easier to learn from a horse, which never pretends to be convinced."
+          },
+          {
+            "t": "p",
+            "text": "That is why reins sit beside the ears and the saddle on our anatomy plate. Each part of the horse teaches something. The reins teach the oldest lesson of leadership: authority is quiet, and the lightest touch, given clearly, can move half a tonne."
+          }
+        ]
+      }
+    ]
+  }
+}

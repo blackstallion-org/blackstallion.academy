@@ -1,0 +1,33 @@
+# requirement id -> (route, [all required substrings (case-insensitive)])
+R = {
+ "L1.nav.sound": ("/", ["Sound"]),
+ "L5.crucible.title": ("/why", ["Sovereign Crucible", "History is not forged by banners"]),
+ "L5.crucible.thar": ("/why", ["Thar"]),
+ "L6.reel01.title": ("/legend", ["Eight hundred years in one bloodline", "saw the world from horseback"]),
+ "L6.no.uchchaihshravas": ("/legend", []),
+ "L6.theory1": ("/legend", ["Shipwreck", "Legend"]),
+ "L6.theory2": ("/legend", ["Steppe", "Historical influence"]),
+ "L6.theory3": ("/legend", ["Native", "Most accepted"]),
+ "L7.lore.title": ("/lore", ["Traditional Lore of the Bards", "oral histories, markings, and cadence of Marwar"]),
+ "L7.kala": ("/lore", ["Kala", "Vow of Absolute Loyalty"]),
+ "L7.whorls": ("/lore", ["Devman", "Anusudhal"]),
+ "L7.nukra": ("/lore", ["Nukra"]),
+ "L7.nachni": ("/lore", ["Nachni"]),
+ "L8.registry": ("/fleet", ["Bhanwar", "Telia Kumat", "#2A1D15", "Kala", "#0F0E0D", "Surang", "Kumat", "#593822", "Shwet", "Kagra", "#8C8882", "Nukra", "#D9D5CD", "Ablak", "Piebald", "Dual-tone"]),
+ "L9.crisis": ("/", ["Tech-neck slouch", "Digital fragility", "Regal carriage", "Stoic composure"]),
+ "L11.uniform": ("/cadets", ["Bandhgala", "copper buttons", "breeches", "boots", "helmet", "rank bar", "patch", "cross-belt"]),
+ "L12.ranks": ("/curriculum", ["Cadet Squire", "Cadet Rider", "Cadet Knight", "Sovereign Lancer", "Bronze rank pin", "Soft-bound blue passport", "Silver rank pin", "Leather passport sleeve", "Gold rank pin", "Brass belt buckle", "STPCI registration", "Sovereign brass epaulettes", "Sealed brass Sovereign Passport"]),
+ "L14.zones": ("/schools", ["01A","01B","01C","02A","02B","02C","03A","03B","03C","04A","04B","04C","05A","05B","05C","06A","06B"]),
+ "L14.demo": ("/schools", ["Premium IB & Cambridge", "Century-Old Residential Boarding"]),
+ "L14.benchmark": ("/schools", ["democratizes"]),
+ "L14.standings": ("/tournaments", ["Zone"]),
+ "L15.batches": ("/curriculum", ["Dawn Patrol", "06:15 AM–07:00 AM", "Twilight Batch", "03:45 PM–04:30 PM", "Sunset Command", "04:45 PM–05:30 PM", "Weekend Circuit", "07:00 AM–07:45 AM", "08:00 AM–08:45 AM", "High School / Senior Squad", "Primary & Middle School", "Advanced Lancer Squad", "Open / Parent-Cadet Batches"]),
+ "L15.price": ("/parents", ["8,500", "12,500", "5,000", "GST"]),
+ "L16.protocol": ("/curriculum", ["Ground protocol", "Core riding", "Skill-at-arms module", "Dismount, care"]),
+ "L17.chips": ("/command", ["CapEx", "Insurance", "STPCI", "Curriculum"]),
+ "L18.gate.parents": ("/contact?gate=parents", ["Enrol a Cadet", "Sovereign Character Academy", "SUBMIT CADET APPLICATION", "Parent / Guardian Name", "Student Name & Age", "Target Regional Zone", "Preferred Tier", "₹8,500 + GST", "₹12,500 + GST", "₹5,000 + GST", "06B · Central Malwa"]),
+ "L18.gate.schools": ("/contact?gate=schools", ["Partner Your Campus", "Zero CapEx Infrastructure", "REQUEST CAMPUS BLUEPRINT", "Trustee / Principal Name", "Institution Name & Location", "0.5 Acres", "1.0 Acres", "1.5+ Acres", "100–150", "200–300", "300+", "Official Email", "Official Phone"]),
+ "L18.gate.audit": ("/contact?gate=audit", ["Schedule a Board Audit", "Formal Institutional Presentation", "CONFIRM BOARD AUDIT", "Board Member Name", "Designation", "Target Campus / Circuit", "Proposed Audit Date", "Proposed Audit Slot"]),
+}
+FORBID = ["Uchchaihshravas", "Oakridge", "Gitanjali", "DPS ", "Delhi Public", "40% cortisol", "300+ muscles", "permanently reverses", "zero joint impact", "LATENCY: 12ms", "ENCRYPTED", "₹10 Lakh", "14,800 hours", "zero major injuries", "No major injuries", "Schools at war", "Delhi Public School"]
+ROUTES = ["/lore","/","/legend","/anatomy","/science","/why","/curriculum","/fleet","/cadets","/parents","/safety","/schools","/schools/mou","/verify","/verify/BSAH-2026-HYD-042","/tournaments","/command","/journal","/contact","/about","/admissions","/contact?gate=parents","/contact?gate=schools","/contact?gate=audit"]

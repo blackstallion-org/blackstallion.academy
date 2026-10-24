@@ -1,0 +1,28 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: #151310;
+  opacity: 1;
+  transition: opacity 240ms ease;
+  animation: releaseOverlay 8s step-end forwards;
+}
+.overlay[data-loading-phase="fading"] { opacity: 0; }
+/* The boot script marks <html> before first paint when the loader must not show (already seen this session, reduced
+   motion, ?noload). The equivalent rule in globals.css sits in @layer components, which this unlayered module rule
+   overrode, so the overlay still covered the page until hydration on those visits. */
+:global(html[data-bsah-loaded]) .overlay { display: none; }
+.horse {
+  display: block;
+  width: clamp(122px, 16.2vw, 190px);
+  aspect-ratio: 58 / 38;
+  image-rendering: pixelated;
+  touch-action: pan-y;
+}
+@keyframes releaseOverlay { to { visibility: hidden; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .overlay { transition-duration: 80ms; }
+}

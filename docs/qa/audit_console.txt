@@ -1,0 +1,59 @@
+pages checked: 48
+ISSUE / 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /admissions 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /anatomy 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /cadets 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /command 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /contact 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /curriculum 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /fleet 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /journal 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /journal/the-horse-that-would-not-leave-the-field 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /legend 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /parents 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /safety 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /schools 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /schools/zone-01a-financial-district 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /science 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /tournaments 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /tournaments/governors-cup-2026 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /verify 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /why 390 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /does-not-exist 390 overflow 0 errs ['Failed to load resource: the server responded with a status of 404 (Not Found)'] status 404
+ISSUE / 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /admissions 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /anatomy 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /cadets 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /command 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /contact 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /curriculum 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /fleet 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /journal 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /journal/the-horse-that-would-not-leave-the-field 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /legend 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /parents 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /safety 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /schools 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /schools/zone-01a-financial-district 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /science 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /tournaments 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /tournaments/governors-cup-2026 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /verify 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /why 1440 overflow 0 errs ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED'] status 200
+ISSUE /does-not-exist 1440 overflow 0 errs ['Failed to load resource: the server responded with a status of 404 (Not Found)'] status 404
+h1 counts !=1: []
+KB / tabbed 45 nobad 0 []
+KB /contact tabbed 45 nobad 0 []
+KB /command tabbed 44 nobad 0 []
+KB /curriculum tabbed 45 nobad 0 []
+KB /schools tabbed 45 nobad 0 []
+KB /verify tabbed 44 nobad 0 []
+KB /parents tabbed 44 nobad 0 []
+KB /admissions tabbed 44 nobad 0 []
+RM / lenis False sticky 0 hiddenHeads 0 0 ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED']
+RM /legend lenis False sticky 0 hiddenHeads 0 0 ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED']
+RM /curriculum lenis False sticky 0 hiddenHeads 0 0 ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED']
+RM /why lenis False sticky 0 hiddenHeads 0 0 ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED']
+RM /command lenis False sticky 0 hiddenHeads 0 0 ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED']
+RM /schools lenis False sticky 0 hiddenHeads 0 0 ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED']
+RM /admissions lenis False sticky 0 hiddenHeads 0 0 ['Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED', 'Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED']

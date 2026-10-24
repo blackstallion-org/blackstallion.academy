@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>BSAH pixel horse prototype</title>
+<style>html,body{margin:0;background:#151310;color:#F2EEE4}body{min-height:100svh;display:grid;place-items:center}canvas{width:clamp(148px,19.7vw,230px);aspect-ratio:58/38;image-rendering:pixelated;touch-action:pan-y}</style></head>
+<body><canvas aria-label="An articulated ivory pixel horse galloping in place" role="img"></canvas><script src="/animations/pixel-horse.js"></script><script>
+const horse=new PixelHorseAnimation({canvas:document.querySelector('canvas'),cycleDuration:510});
+const phase=new URLSearchParams(location.search).get('phase');
+if(phase!==null)horse.renderFrame(Number(phase),0,1000);else horse.start();
+window.addEventListener('pagehide',()=>horse.destroy(),{once:true});
+</script></body></html>

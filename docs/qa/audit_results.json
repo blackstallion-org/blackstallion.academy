@@ -1,0 +1,866 @@
+{
+ "viewport": [
+  {
+   "route": "/",
+   "w": 390,
+   "status": 200,
+   "height": 25109,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 23,
+   "failedRequests": 23,
+   "h1": 1
+  },
+  {
+   "route": "/admissions",
+   "w": 390,
+   "status": 200,
+   "height": 9735,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 2,
+   "failedRequests": 2,
+   "h1": 1
+  },
+  {
+   "route": "/about",
+   "w": 390,
+   "status": 200,
+   "height": 5427,
+   "hOverflowPx": 0,
+   "consoleErrors": [],
+   "nErrors": 0,
+   "failedRequests": 0,
+   "h1": 1
+  },
+  {
+   "route": "/anatomy",
+   "w": 390,
+   "status": 200,
+   "height": 7201,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 2,
+   "failedRequests": 2,
+   "h1": 1
+  },
+  {
+   "route": "/cadets",
+   "w": 390,
+   "status": 200,
+   "height": 13105,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 9,
+   "failedRequests": 9,
+   "h1": 1
+  },
+  {
+   "route": "/command",
+   "w": 390,
+   "status": 200,
+   "height": 3539,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 1,
+   "failedRequests": 1,
+   "h1": 1
+  },
+  {
+   "route": "/contact",
+   "w": 390,
+   "status": 200,
+   "height": 5038,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 1,
+   "failedRequests": 1,
+   "h1": 1
+  },
+  {
+   "route": "/curriculum",
+   "w": 390,
+   "status": 200,
+   "height": 13859,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 7,
+   "failedRequests": 7,
+   "h1": 1
+  },
+  {
+   "route": "/fleet",
+   "w": 390,
+   "status": 200,
+   "height": 8040,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 10,
+   "failedRequests": 10,
+   "h1": 1
+  },
+  {
+   "route": "/journal",
+   "w": 390,
+   "status": 200,
+   "height": 5874,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 8,
+   "failedRequests": 8,
+   "h1": 1
+  },
+  {
+   "route": "/journal/the-horse-that-would-not-leave-the-field",
+   "w": 390,
+   "status": 200,
+   "height": 4828,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 3,
+   "failedRequests": 3,
+   "h1": 1
+  },
+  {
+   "route": "/legend",
+   "w": 390,
+   "status": 200,
+   "height": 21330,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 15,
+   "failedRequests": 15,
+   "h1": 1
+  },
+  {
+   "route": "/parents",
+   "w": 390,
+   "status": 200,
+   "height": 9735,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 3,
+   "failedRequests": 3,
+   "h1": 1
+  },
+  {
+   "route": "/safety",
+   "w": 390,
+   "status": 200,
+   "height": 6805,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 4,
+   "failedRequests": 4,
+   "h1": 1
+  },
+  {
+   "route": "/schools",
+   "w": 390,
+   "status": 200,
+   "height": 12232,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 2,
+   "failedRequests": 2,
+   "h1": 1
+  },
+  {
+   "route": "/schools/zone-01a-financial-district",
+   "w": 390,
+   "status": 200,
+   "height": 4798,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 4,
+   "failedRequests": 4,
+   "h1": 1
+  },
+  {
+   "route": "/schools/mou",
+   "w": 390,
+   "status": 200,
+   "height": 4117,
+   "hOverflowPx": 0,
+   "consoleErrors": [],
+   "nErrors": 0,
+   "failedRequests": 0,
+   "h1": 1
+  },
+  {
+   "route": "/science",
+   "w": 390,
+   "status": 200,
+   "height": 7926,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 2,
+   "failedRequests": 2,
+   "h1": 1
+  },
+  {
+   "route": "/tournaments",
+   "w": 390,
+   "status": 200,
+   "height": 6260,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 5,
+   "failedRequests": 5,
+   "h1": 1
+  },
+  {
+   "route": "/tournaments/governors-cup-2026",
+   "w": 390,
+   "status": 200,
+   "height": 3972,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 1,
+   "failedRequests": 1,
+   "h1": 1
+  },
+  {
+   "route": "/verify",
+   "w": 390,
+   "status": 200,
+   "height": 5488,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 2,
+   "failedRequests": 2,
+   "h1": 1
+  },
+  {
+   "route": "/verify/BSAH-2026-HYD-042",
+   "w": 390,
+   "status": 200,
+   "height": 3681,
+   "hOverflowPx": 0,
+   "consoleErrors": [],
+   "nErrors": 0,
+   "failedRequests": 0,
+   "h1": 1
+  },
+  {
+   "route": "/why",
+   "w": 390,
+   "status": 200,
+   "height": 9061,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 4,
+   "failedRequests": 4,
+   "h1": 1
+  },
+  {
+   "route": "/does-not-exist",
+   "w": 390,
+   "status": 404,
+   "height": 2332,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ],
+   "nErrors": 1,
+   "failedRequests": 0,
+   "h1": 1
+  },
+  {
+   "route": "/",
+   "w": 1440,
+   "status": 200,
+   "height": 22696,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 21,
+   "failedRequests": 21,
+   "h1": 1
+  },
+  {
+   "route": "/admissions",
+   "w": 1440,
+   "status": 200,
+   "height": 8791,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 5,
+   "failedRequests": 5,
+   "h1": 1
+  },
+  {
+   "route": "/about",
+   "w": 1440,
+   "status": 200,
+   "height": 4376,
+   "hOverflowPx": 0,
+   "consoleErrors": [],
+   "nErrors": 0,
+   "failedRequests": 0,
+   "h1": 1
+  },
+  {
+   "route": "/anatomy",
+   "w": 1440,
+   "status": 200,
+   "height": 5663,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 3,
+   "failedRequests": 3,
+   "h1": 1
+  },
+  {
+   "route": "/cadets",
+   "w": 1440,
+   "status": 200,
+   "height": 10139,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 9,
+   "failedRequests": 9,
+   "h1": 1
+  },
+  {
+   "route": "/command",
+   "w": 1440,
+   "status": 200,
+   "height": 2238,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 1,
+   "failedRequests": 1,
+   "h1": 1
+  },
+  {
+   "route": "/contact",
+   "w": 1440,
+   "status": 200,
+   "height": 3080,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 1,
+   "failedRequests": 1,
+   "h1": 1
+  },
+  {
+   "route": "/curriculum",
+   "w": 1440,
+   "status": 200,
+   "height": 8969,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 8,
+   "failedRequests": 8,
+   "h1": 1
+  },
+  {
+   "route": "/fleet",
+   "w": 1440,
+   "status": 200,
+   "height": 5889,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 12,
+   "failedRequests": 12,
+   "h1": 1
+  },
+  {
+   "route": "/journal",
+   "w": 1440,
+   "status": 200,
+   "height": 3778,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 11,
+   "failedRequests": 11,
+   "h1": 1
+  },
+  {
+   "route": "/journal/the-horse-that-would-not-leave-the-field",
+   "w": 1440,
+   "status": 200,
+   "height": 3611,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 3,
+   "failedRequests": 3,
+   "h1": 1
+  },
+  {
+   "route": "/legend",
+   "w": 1440,
+   "status": 200,
+   "height": 17985,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 17,
+   "failedRequests": 17,
+   "h1": 1
+  },
+  {
+   "route": "/parents",
+   "w": 1440,
+   "status": 200,
+   "height": 8791,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 6,
+   "failedRequests": 6,
+   "h1": 1
+  },
+  {
+   "route": "/safety",
+   "w": 1440,
+   "status": 200,
+   "height": 5208,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 8,
+   "failedRequests": 8,
+   "h1": 1
+  },
+  {
+   "route": "/schools",
+   "w": 1440,
+   "status": 200,
+   "height": 8918,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 2,
+   "failedRequests": 2,
+   "h1": 1
+  },
+  {
+   "route": "/schools/zone-01a-financial-district",
+   "w": 1440,
+   "status": 200,
+   "height": 2928,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 5,
+   "failedRequests": 5,
+   "h1": 1
+  },
+  {
+   "route": "/schools/mou",
+   "w": 1440,
+   "status": 200,
+   "height": 2159,
+   "hOverflowPx": 0,
+   "consoleErrors": [],
+   "nErrors": 0,
+   "failedRequests": 0,
+   "h1": 1
+  },
+  {
+   "route": "/science",
+   "w": 1440,
+   "status": 200,
+   "height": 5716,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 3,
+   "failedRequests": 3,
+   "h1": 1
+  },
+  {
+   "route": "/tournaments",
+   "w": 1440,
+   "status": 200,
+   "height": 4984,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 5,
+   "failedRequests": 5,
+   "h1": 1
+  },
+  {
+   "route": "/tournaments/governors-cup-2026",
+   "w": 1440,
+   "status": 200,
+   "height": 2612,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 1,
+   "failedRequests": 1,
+   "h1": 1
+  },
+  {
+   "route": "/verify",
+   "w": 1440,
+   "status": 200,
+   "height": 4159,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 3,
+   "failedRequests": 3,
+   "h1": 1
+  },
+  {
+   "route": "/verify/BSAH-2026-HYD-042",
+   "w": 1440,
+   "status": 200,
+   "height": 2438,
+   "hOverflowPx": 0,
+   "consoleErrors": [],
+   "nErrors": 0,
+   "failedRequests": 0,
+   "h1": 1
+  },
+  {
+   "route": "/why",
+   "w": 1440,
+   "status": 200,
+   "height": 7712,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ],
+   "nErrors": 4,
+   "failedRequests": 4,
+   "h1": 1
+  },
+  {
+   "route": "/does-not-exist",
+   "w": 1440,
+   "status": 404,
+   "height": 1435,
+   "hOverflowPx": 0,
+   "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+   ],
+   "nErrors": 1,
+   "failedRequests": 0,
+   "h1": 1
+  }
+ ],
+ "keyboard": [
+  {
+   "route": "/",
+   "tabbed": 45,
+   "noVisibleIndicator": [],
+   "nBad": 0
+  },
+  {
+   "route": "/contact",
+   "tabbed": 45,
+   "noVisibleIndicator": [],
+   "nBad": 0
+  },
+  {
+   "route": "/command",
+   "tabbed": 44,
+   "noVisibleIndicator": [],
+   "nBad": 0
+  },
+  {
+   "route": "/curriculum",
+   "tabbed": 45,
+   "noVisibleIndicator": [],
+   "nBad": 0
+  },
+  {
+   "route": "/schools",
+   "tabbed": 45,
+   "noVisibleIndicator": [],
+   "nBad": 0
+  },
+  {
+   "route": "/verify",
+   "tabbed": 44,
+   "noVisibleIndicator": [],
+   "nBad": 0
+  },
+  {
+   "route": "/parents",
+   "tabbed": 44,
+   "noVisibleIndicator": [],
+   "nBad": 0
+  },
+  {
+   "route": "/admissions",
+   "tabbed": 44,
+   "noVisibleIndicator": [],
+   "nBad": 0
+  }
+ ],
+ "reduced": [
+  {
+   "lenis": false,
+   "htmlClass": "Ah0mdG_variable r0VpvW_variable tRqznG_variable SbBtOG_variable EsGdXG_variable",
+   "sticky": 0,
+   "hidden": 0,
+   "h": 17945,
+   "hiddenAfterScroll": 0,
+   "route": "/",
+   "errors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ]
+  },
+  {
+   "lenis": false,
+   "htmlClass": "Ah0mdG_variable r0VpvW_variable tRqznG_variable SbBtOG_variable EsGdXG_variable",
+   "sticky": 0,
+   "hidden": 0,
+   "h": 14925,
+   "hiddenAfterScroll": 0,
+   "route": "/legend",
+   "errors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ]
+  },
+  {
+   "lenis": false,
+   "htmlClass": "Ah0mdG_variable r0VpvW_variable tRqznG_variable SbBtOG_variable EsGdXG_variable",
+   "sticky": 0,
+   "hidden": 0,
+   "h": 8969,
+   "hiddenAfterScroll": 0,
+   "route": "/curriculum",
+   "errors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ]
+  },
+  {
+   "lenis": false,
+   "htmlClass": "Ah0mdG_variable r0VpvW_variable tRqznG_variable SbBtOG_variable EsGdXG_variable",
+   "sticky": 0,
+   "hidden": 0,
+   "h": 7712,
+   "hiddenAfterScroll": 0,
+   "route": "/why",
+   "errors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ]
+  },
+  {
+   "lenis": false,
+   "htmlClass": "Ah0mdG_variable r0VpvW_variable tRqznG_variable SbBtOG_variable EsGdXG_variable",
+   "sticky": 0,
+   "hidden": 0,
+   "h": 2238,
+   "hiddenAfterScroll": 0,
+   "route": "/command",
+   "errors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ]
+  },
+  {
+   "lenis": false,
+   "htmlClass": "Ah0mdG_variable r0VpvW_variable tRqznG_variable SbBtOG_variable EsGdXG_variable",
+   "sticky": 0,
+   "hidden": 0,
+   "h": 8918,
+   "hiddenAfterScroll": 0,
+   "route": "/schools",
+   "errors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ]
+  },
+  {
+   "lenis": false,
+   "htmlClass": "Ah0mdG_variable r0VpvW_variable tRqznG_variable SbBtOG_variable EsGdXG_variable",
+   "sticky": 0,
+   "hidden": 0,
+   "h": 6014,
+   "hiddenAfterScroll": 0,
+   "route": "/admissions",
+   "errors": [
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+    "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+   ]
+  }
+ ]
+}

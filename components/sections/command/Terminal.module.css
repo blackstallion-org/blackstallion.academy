@@ -1,0 +1,68 @@
+.terminal { display: flex; flex-direction: column; min-width: 0; width: 100%; min-height: 570px; border: 1px solid #e5dbd0; border-radius: 20px; background: rgb(250 247 240 / .94); box-shadow: 0 18px 65px rgb(73 49 38 / .06); color: #30251e; }
+.tall { height: 640px; min-height: 640px; }
+.tall .welcome > p { display: none; }
+.tall .welcome { padding-top: .9rem; }
+.tall .suggestions { margin-top: 0; }
+.header { display: flex; align-items: center; gap: .8rem; min-height: 78px; padding: 1rem 1.6rem; border-bottom: 1px solid #e8dfd4; }
+.brandMark { width: 39px; height: 39px; color: #78472f; flex-shrink: 0; }
+.header > div { min-width: 0; }
+.header strong { display: block; font: .6rem/1.4 var(--font-mono); text-transform: uppercase; letter-spacing: .16em; }
+.header > div > span { font: .63rem/1.5 var(--font-sans); color: #6f5b4b; }
+.demo { margin-left: auto; padding: .35rem .6rem; border-radius: 20px; background: #ece5dc; color: #6f5b4b; font: .48rem/1.3 var(--font-mono); text-transform: uppercase; letter-spacing: .15em; white-space: nowrap; }
+.header > button { padding: .5rem; color: #78472f; cursor: pointer; }
+.header > button:disabled { opacity: .35; }
+.welcome { padding: 1.5rem 1.6rem .5rem; }
+.welcome > p { max-width: 38rem; font: .85rem/1.65 var(--font-sans); color: #4d3c30; }
+.welcome strong { font-weight: 500; color: #78472f; }
+.suggestions { margin-top: 1rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+.suggestions button { padding: .85rem; border: 1px solid #e0d6ca; border-radius: 10px; background: #fbf8f1; font: .72rem/1.5 var(--font-sans); color: #4d3c30; text-align: left; display: flex; align-items: center; gap: .65rem; cursor: pointer; }
+.suggestions button:hover { border-color: #b88a62; }
+.suggestions button:disabled, .more button:disabled { opacity: .5; cursor: default; }
+.suggestionNumber { font: .58rem/1.5 var(--font-mono); color: #78472f; }
+.more { margin-top: .6rem; font: .65rem/1.5 var(--font-sans); color: #6f5b4b; }
+.more summary { cursor: pointer; width: fit-content; }
+.more > div { display: flex; flex-wrap: wrap; gap: .5rem; padding-top: .65rem; }
+.more button { border-bottom: 1px solid #cfc0b2; padding: .25rem 0; margin-right: .6rem; text-align: left; cursor: pointer; }
+.conversation { min-height: 200px; max-height: 380px; flex: 1; overflow-y: auto; padding: 1.3rem 1.6rem; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #cfc0b2 transparent; }
+.tall .conversation { max-height: 430px; }
+.message { display: flex; gap: .8rem; align-items: start; margin-bottom: 1.25rem; }
+.you { flex-direction: row-reverse; margin-left: 12%; }
+.avatar { display: grid; place-items: center; flex-shrink: 0; width: 35px; height: 35px; border-radius: 50%; background: #eee6db; color: #78472f; }
+.avatarMark { width: 32px; height: 32px; color: #78472f; }
+.bubble { min-width: 0; background: #f0eae2; border: 1px solid #ebe2d8; border-radius: 14px; padding: 1rem 1.2rem; font: .8rem/1.7 var(--font-sans); overflow-wrap: anywhere; }
+.you .bubble { background: #ebe2d7; }
+.speaker { display: block; font: .5rem/1.5 var(--font-mono); text-transform: uppercase; letter-spacing: .12em; margin-bottom: .6rem; color: #78472f; }
+.fees { display: grid; gap: .45rem; border-bottom: 1px solid #d7cabc; padding-bottom: .8rem; margin-bottom: .8rem; }
+.fees > div { display: flex; justify-content: space-between; gap: 1rem; font-size: .75rem; }
+.fees dd { text-align: right; }
+.composer { display: flex; align-items: center; gap: 1rem; margin: .7rem 1.4rem 0; padding: .35rem .35rem .35rem 1rem; border: 1px solid #d7cabc; border-radius: 999px; background: rgb(255 255 255 / .25); color: #6f5b4b; }
+.composer input { flex: 1; min-width: 0; font: .78rem/1.5 var(--font-sans); min-height: 40px; background: transparent; color: #30251e; }
+.composer input:focus { outline: none; }
+.composer:focus-within { outline: 1px solid #78472f; outline-offset: 3px; }
+.composer > button { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; background: #78472f; color: #faf7f0; cursor: pointer; }
+.composer > button:disabled { opacity: .45; cursor: default; }
+.terminal button:focus-visible { outline: 2px solid #78472f; outline-offset: 3px; }
+.disclaimer { margin: .8rem 1.6rem 1.2rem; color: #6f5b4b; font: .6rem/1.5 var(--font-sans); }
+.cursor { display: inline-block; width: 2px; height: .9em; margin-left: 2px; background: #78472f; }
+@media (max-width: 650px) {
+  .terminal, .tall { min-height: 590px; height: auto; border-radius: 14px; }
+  .header { padding: .9rem 1rem; gap: .5rem; }
+  .brandMark { width: 32px; height: 32px; }
+  .header strong { font-size: .5rem; }
+  .header > div > span { font-size: .55rem; }
+  .demo { font-size: .42rem; padding: .3rem .4rem; }
+  .welcome { padding: 1.1rem 1rem .5rem; }
+  .welcome > p { font-size: .75rem; }
+  .suggestions { gap: .4rem; }
+  .suggestions button { flex-direction: column; align-items: start; padding: .65rem; font-size: .62rem; }
+  .conversation { padding: 1rem; }
+  .message { gap: .5rem; }
+  .avatar { width: 26px; height: 26px; }
+  .avatarMark { width: 26px; height: 26px; }
+  .bubble { padding: .75rem; font-size: .75rem; }
+  .you { margin-left: 5%; }
+  .composer { margin-inline: .75rem; gap: .5rem; }
+  .disclaimer { margin-inline: 1rem; }
+  .fees > div { flex-direction: column; gap: 0; }
+  .fees dd { text-align: left; }
+}

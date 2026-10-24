@@ -1,101 +1,63 @@
-import Image from "next/image";
+import { HomeTypography, HomeAct as Intermission } from "@/components/sections/home/HomeTypography";
+import { CrisisCure } from "@/components/sections/home/CrisisCure";
+import { Doors } from "@/components/sections/home/Doors";
+import { Hero } from "@/components/sections/home/Hero";
+import { HomeChronicle, HomeCommand, Finale } from "@/components/sections/home/HomeClose";
+import { HomeShield, HomeStandings, HomeVerifier } from "@/components/sections/home/HomeConvert";
+import { Instrument } from "@/components/sections/home/Instrument";
+import { LedgerAscent } from "@/components/sections/home/LedgerAscent";
+import { Matrix } from "@/components/sections/home/Matrix";
+import { StoryStrip } from "@/components/sections/home/StoryStrip";
+import { Studbook } from "@/components/sections/home/Studbook";
+import { ImageCubeGallery } from "@/components/sections/home/ImageCubeGallery";
+import { Atelier } from "@/components/sections/home/Atelier";
+import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
+
+/**
+ * R00 · The Trailer. Fifteen sections in three zones (Blueprint Part 6, home).
+ * Every section teases one reel and hands off to it.
+ */
+/** Organisation facts only (names, domain, logo): no ratings, counts or claims that need evidence. */
+const organisationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "The Black Stallion Academy of Horsemanship",
+  legalName: "The Black Stallion Academy of Horsemanship Private Limited",
+  url: "https://blackstallion.academy",
+  logo: "https://blackstallion.academy/icon.png",
+  parentOrganization: { "@type": "Organization", name: "Vicarius Infinitum Holdings Private Limited" },
+};
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <HomeTypography>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationJsonLd).replace(/</g, "\\u003c") }} />
+      {/* Zone A · Hook */}
+      <Hero />
+      <div data-home-story><StoryStrip /></div>
+      <Instrument />
+      <HorizontalChapter typeface="western" chapter="The first bond" text="Every ride begins with a moment of trust." />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      <Intermission act="citadel" line="Now, the proof." />
+
+      {/* Zone B · Proof */}
+      <Matrix />
+      <CrisisCure />
+      <Doors />
+      <LedgerAscent />
+      <Studbook />
+      <ImageCubeGallery />
+      <Atelier />
+
+      <Intermission act="ledger" line="Now, the decision." />
+
+      {/* Zone C · Convert */}
+      <HomeVerifier />
+      <HomeStandings />
+      <HomeShield />
+      <HomeCommand />
+      <HomeChronicle />
+      <Finale />
+    </HomeTypography>
   );
 }

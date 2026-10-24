@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BSAH — The Citadel | Interactive 3D Equestrian Campus Configurator</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: {
+              50: '#FAF7F0',
+              100: '#F5EFE2',
+              200: '#EAE0CC',
+              300: '#DCD0B8',
+            },
+            citadel: {
+              brown: '#6B3A24',
+              brownDark: '#4E2918',
+              brownLight: '#8B5236',
+              ink: '#1A1512',
+              muted: '#5C5046',
+              gold: '#C49A6C',
+              sand: '#D9C3A1'
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', '"Cormorant Garamond"', 'Georgia', 'serif'],
+            display: ['"Cormorant Garamond"', '"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --bg-ivory: #F4EFE4;
+      --citadel-brown: #6B3A24;
+      --citadel-ink: #1A1512;
+      --citadel-gold: #C49A6C;
+    }
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F4EFE4;
+      color: #1A1512;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    /* Editorial Left Gradient Vignette so typography stays crisp over the 3D scene */
+    .hero-editorial-mask {
+      background:
+        radial-gradient(circle at 18% 36%, rgba(246, 241, 231, 0.95) 0%, rgba(246, 241, 231, 0.84) 26%, rgba(246, 241, 231, 0.35) 52%, rgba(246, 241, 231, 0.0) 74%),
+        linear-gradient(180deg, rgba(245, 239, 226, 0.88) 0%, rgba(245, 239, 226, 0.0) 16%, rgba(245, 239, 226, 0.0) 80%, rgba(244, 239, 228, 0.97) 100%);
+      pointer-events: none;
+    }
+    @media (max-width: 1024px) {
+      .hero-editorial-mask {
+        background:
+          linear-gradient(180deg, rgba(246, 241, 231, 0.94) 0%, rgba(246, 241, 231, 0.72) 38%, rgba(246, 241, 231, 0.15) 68%, rgba(244, 239, 228, 0.96) 100%);
+      }
+    }
+    /* 3D Floating Callout Pin Styling */
+    .pin-3d {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      pointer-events: auto;
+      cursor: pointer;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 15;
+    }
+    .pin-3d:hover {
+      transform: translate(-50%, -104%) scale(1.06);
+      z-index: 25;
+    }
+    .pin-badge {
+      background: rgba(24, 19, 15, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(235, 221, 199, 0.45);
+      color: #F7F2E8;
+      padding: 5px 12px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pin-3d.active .pin-badge {
+      background: rgba(107, 58, 36, 0.95);
+      border-color: #F5EFE2;
+      box-shadow: 0 0 0 2px rgba(196, 154, 108, 0.45), 0 10px 28px rgba(0,0,0,0.35);
+    }
+    .pin-stem {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(180deg, rgba(255,250,240,0.85) 0%, rgba(255,250,240,0.35) 100%);
+      margin: 0 auto;
+      position: relative;
+    }
+    .pin-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 9999px;
+      background: #FAF6EE;
+      border: 1.5px solid #6B3A24;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(255, 248, 231, 0.9);
+    }
+    /* Hub card active glow */
+    .hub-card {
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .hub-card.active {
+      background: #FAF7F0;
+      border-color: #6B3A24;
+      box-shadow: 0 16px 36px -8px rgba(68, 39, 23, 0.22), 0 0 0 1.5px #6B3A24;
+      transform: translateY(-3px);
+    }
+    .hub-card:not(.active):hover {
+      transform: translateY(-2px);
+      border-color: rgba(107, 58, 36, 0.45);
+      box-shadow: 0 12px 26px -8px rgba(68, 39, 23, 0.14);
+    }
+    /* Right dock glass panel */
+    .dock-glass {
+      background: rgba(34, 28, 22, 0.68);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(244, 239, 228, 0.2);
+    }
+    .dock-btn {
+      transition: all 0.2s ease;
+    }
+    .dock-btn:hover, .dock-btn.active {
+      background: rgba(244, 239, 228, 0.16);
+      border-color: rgba(244, 239, 228, 0.55);
+    }
+    /* Custom range slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: #DFD3BE;
+      height: 5px;
+      border-radius: 999px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #6B3A24;
+      border: 2px solid #FAF7F0;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #EFE7D8;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #B8A48A;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #6B3A24;
+    }
+  </style>
+</head>
+<body class="bg-[#F4EFE4] text-[#1A1512] selection:bg-[#6B3A24] selection:text-[#FAF7F0]">
+
+  <!-- ===================================================================== -->
+  <!-- SECTION 1: FULL-SCREEN INTERACTIVE 3D ARCHITECTURAL HERO CONFIGURATOR -->
+  <!-- ===================================================================== -->
+  <section id="citadel-hero" class="relative w-full min-h-screen lg:h-screen lg:max-h-[960px] flex flex-col justify-between overflow-hidden border-b border-[#DCD0B8]">
+
+    <!-- 3D WebGL Canvas Container (Occupies 100% of hero background) -->
+    <div id="webgl-container" class="absolute inset-0 w-full h-full z-0 cursor-grab active:cursor-grabbing" title="Drag to orbit 3D campus · Scroll to zoom · Click pins to inspect"></div>
+
+    <!-- Soft Editorial Vignette Mask so Left Headline & Top Nav remain ultra-legible -->
+    <div class="hero-editorial-mask absolute inset-0 z-[2]"></div>
+
+    <!-- 3D Floating Architectural Facility Pins (Projected dynamically from 3D coordinates) -->
+    <div id="pins-container" class="absolute inset-0 z-[12] pointer-events-none overflow-hidden">
+      <!-- Pin: Sand Arena -->
+      <div id="pin-arena" class="pin-3d active" data-facility="arena">
+        <div class="pin-badge">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#D9A76A]"></span>
+          <span id="pin-arena-label">SAND ARENA</span>
+        </div>
+        <div class="pin-stem"></div>
+        <div class="pin-dot"></div>
+      </div>
+
+      <!-- Pin: Stables -->
+      <div id="pin-stables" class="pin-3d" data-facility="stables">
+        <div class="pin-badge">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#D9A76A]"></span>
+          <span id="pin-stables-label">4 STABLES</span>
+        </div>
+        <div class="pin-stem"></div>
+        <div class="pin-dot"></div>
+      </div>
+
+      <!-- Pin: Tack Room -->
+      <div id="pin-tack" class="pin-3d" data-facility="tack">
+        <div class="pin-badge">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#D9A76A]"></span>
+          <span id="pin-tack-label">TACK</span>
+        </div>
+        <div class="pin-stem"></div>
+        <div class="pin-dot"></div>
+      </div>
+
+      <!-- Pin: Expansion Wing (Visible on Signature & Royal) -->
+      <div id="pin-expansion" class="pin-3d hidden" data-facility="expansion">
+        <div class="pin-badge">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#E8C07D]"></span>
+          <span id="pin-expansion-label">+4 STABLES & CANOPY</span>
+        </div>
+        <div class="pin-stem"></div>
+        <div class="pin-dot"></div>
+      </div>
+
+      <!-- Pin: Royal Colonnade & Viewing Pavilion (Visible on Royal) -->
+      <div id="pin-pavilion" class="pin-3d hidden" data-facility="pavilion">
+        <div class="pin-badge">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#E8C07D]"></span>
+          <span id="pin-pavilion-label">ROYAL COLONNADE</span>
+        </div>
+        <div class="pin-stem"></div>
+        <div class="pin-dot"></div>
+      </div>
+    </div>
+
+    <!-- Active Facility Floating Detail Pill (Top-Center-Right) -->
+    <div id="facility-hud" class="hidden md:flex items-center gap-3 absolute top-[74px] left-1/2 -translate-x-1/2 z-20 bg-[#1B1612]/80 backdrop-blur-md text-[#F6F1E7] px-4 py-2 rounded-full border border-[#F6F1E7]/20 shadow-lg text-xs transition-all duration-300">
+      <span class="inline-block w-2 h-2 rounded-full bg-[#C49A6C] animate-pulse"></span>
+      <span id="facility-hud-title" class="font-semibold tracking-wider uppercase text-[#E5C396]">Olympic Sand Arena</span>
+      <span class="text-[#F6F1E7]/40">|</span>
+      <span id="facility-hud-desc" class="text-[#F6F1E7]/90">All-weather silica-fibre cushion surface · Automated dust suppression</span>
+      <button id="btn-reset-camera" type="button" class="ml-2 text-[10px] uppercase tracking-widest px-2 py-0.5 rounded bg-[#F6F1E7]/15 hover:bg-[#F6F1E7]/25 text-[#F6F1E7] transition">Reset Orbit</button>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- TOP LUXURY EDITORIAL NAVIGATION BAR                               -->
+    <!-- ================================================================= -->
+    <header class="relative z-30 w-full px-5 sm:px-8 lg:px-12 pt-4 pb-3 flex items-center justify-between border-b border-[#1A1512]/10 bg-gradient-to-b from-[#F5EFE2]/90 via-[#F5EFE2]/60 to-transparent">
+      <!-- Brand Crest + Title -->
+      <a href="#citadel-hero" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-9 h-9 flex items-center justify-center text-[#1A1512] transition-transform duration-300 group-hover:scale-105">
+          <svg viewBox="0 0 64 64" class="w-8 h-8 fill-current">
+            <path d="M44.5 9c-2.2 0-4.2 1.2-5.5 2.8-2.8-.6-6.2.2-8.8 2.1L26 10.5c-.6-.4-1.4.1-1.3.9l.8 4.9c-3.9 3.4-6.8 8.2-8.2 13.7-1.6 6.2-1.3 13.2-4.3 19.2-.5 1 .2 2.2 1.3 2.2h19.8c1.1 0 1.9-1 1.6-2.1-.9-3.6-.8-7.4.5-10.7 1.3-3.1 3.7-5.3 6.2-5.8 2.6-.5 5.1.8 6.9 1.3 1.8.5 3.6-.4 4.2-2.1.7-1.9-.2-4.1-1.2-5.9-1.4-2.5-2.7-5.3-3.3-8.2-.6-2.8.1-5.8-1.4-8.1-.9-1.4-2.4-2.3-4.1-2.3l1-2.6zM38.2 21.4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+          </svg>
+        </div>
+        <div class="leading-tight">
+          <div class="text-xs sm:text-[13px] font-semibold tracking-[0.18em] text-[#1A1512] uppercase">Black Stallion Academy</div>
+          <div class="text-[9px] sm:text-[10px] tracking-[0.22em] text-[#5C5046] uppercase">Of Horsemanship</div>
+        </div>
+      </a>
+
+      <!-- Center Navigation Links -->
+      <nav class="hidden xl:flex items-center gap-8 text-[11px] font-medium tracking-[0.18em] text-[#2C241E] uppercase">
+        <a href="#layers-section" class="hover:text-[#6B3A24] transition-colors">About</a>
+        <a href="#configurator-matrix" class="hover:text-[#6B3A24] transition-colors">Programmes</a>
+        <a href="#layers-section" class="hover:text-[#6B3A24] transition-colors">The Academy</a>
+        <a href="#roi-section" class="hover:text-[#6B3A24] transition-colors">Admissions</a>
+        <a href="#configurator-matrix" class="text-[#6B3A24] font-semibold border-b border-[#6B3A24] pb-0.5">Campuses</a>
+      </nav>
+
+      <!-- Right Controls: Lighting/Sun Mode Star, Enquire CTA, Layer Menu -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        <button id="btn-lighting-mode" type="button" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#EAE0CC]/70 hover:bg-[#EAE0CC] border border-[#1A1512]/15 text-[#1A1512] text-[10px] font-medium tracking-wider uppercase transition" title="Switch 3D Atmospheric Lighting">
+          <svg class="w-4 h-4 text-[#6B3A24]" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
+          </svg>
+          <span id="lighting-mode-label" class="hidden sm:inline">Golden Hour</span>
+        </button>
+
+        <button id="btn-nav-enquire" type="button" class="px-4 sm:px-5 py-2 border border-[#1A1512]/60 hover:border-[#6B3A24] hover:bg-[#6B3A24] hover:text-[#FAF7F0] text-[#1A1512] text-[11px] font-medium tracking-[0.18em] uppercase transition flex items-center gap-2">
+          <span>Enquire</span>
+          <span class="text-xs leading-none">↗</span>
+        </button>
+
+        <button id="btn-open-drawer" type="button" class="p-2 text-[#1A1512] hover:text-[#6B3A24] transition" aria-label="Open Architectural Configurator Drawer" title="7-Layer Architectural Controls">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h12"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN HERO BODY -->
+    <div class="relative z-20 flex-1 w-full px-5 sm:px-8 lg:px-12 py-3 flex flex-col lg:flex-row justify-between items-start lg:items-stretch pointer-events-none">
+      <!-- LEFT COLUMN -->
+      <div class="w-full lg:w-[54%] xl:w-[50%] flex flex-col justify-between pointer-events-auto z-20 pt-1 lg:pt-2 pb-2">
+        <div class="max-w-xl">
+          <div class="flex flex-wrap items-center gap-2 text-[10px] sm:text-[11px] font-semibold tracking-[0.22em] text-[#4A3E35] uppercase mb-2 sm:mb-3">
+            <span>REEL 10</span>
+            <span class="text-[#6B3A24]">·</span>
+            <span>THE CITADEL</span>
+            <span class="text-[#6B3A24]">·</span>
+            <span>FOR SCHOOL BOARDS</span>
+            <span class="hidden sm:inline-block ml-1 px-2 py-0.5 rounded bg-[#6B3A24]/10 text-[#6B3A24] text-[9px] tracking-[0.18em]">INTERACTIVE 3D</span>
+          </div>
+
+          <h1 class="font-serif text-[42px] sm:text-[56px] xl:text-[66px] leading-[0.98] tracking-[-0.02em] mb-4">
+            <span class="block text-[#181310] font-normal">Your campus</span>
+            <span class="block text-[#6B3A24] font-bold">becomes</span>
+            <span class="block text-[#6B3A24] font-bold">a citadel.</span>
+          </h1>
+
+          <p class="text-[13.5px] sm:text-[15px] leading-[1.6] text-[#2B221C] max-w-md mb-5 font-normal">
+            Zero capital expenditure to the school board. BSAH funds, builds and operates the arena, and returns <strong class="font-semibold text-[#6B3A24]">25–30% of tuition</strong> to the school.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 mb-5">
+            <button id="btn-request-mou" type="button" class="px-5 py-3 bg-[#6B3A24] hover:bg-[#542C1B] text-[#FAF7F0] text-[11px] font-medium tracking-[0.18em] uppercase rounded-[2px] shadow-md hover:shadow-lg transition flex items-center gap-3">
+              <span>Request a Draft MOU</span>
+              <span class="text-sm">→</span>
+            </button>
+            <button id="btn-run-numbers" type="button" class="px-5 py-3 bg-[#F6F1E7]/85 hover:bg-[#FAF7F0] text-[#1A1512] border border-[#1A1512]/35 hover:border-[#6B3A24] text-[11px] font-medium tracking-[0.18em] uppercase rounded-[2px] backdrop-blur-sm transition flex items-center gap-3">
+              <span>Run the Numbers</span>
+              <span class="text-sm">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Three Interactive Campus Hub Cards Tray -->
+        <div class="w-full max-w-[660px] bg-[#F6F1E7]/85 backdrop-blur-md p-2.5 sm:p-3 rounded-[4px] border border-[#DCD0B8] shadow-xl">
+          <div class="flex items-center justify-between px-1 pb-2 mb-2 border-b border-[#1A1512]/10 text-[10px] tracking-[0.16em] uppercase text-[#5C5046]">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#6B3A24]"></span>
+              <span class="font-semibold text-[#1A1512]">Select Campus Model</span>
+              <span class="hidden sm:inline text-[#5C5046]">— Morphs 3D Architecture & Site Plan</span>
+            </div>
+            <button id="btn-replay-assembly" type="button" class="text-[#6B3A24] hover:underline font-semibold flex items-center gap-1">
+              <span>↻ Replay 3D Assembly</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <!-- CARD 1 -->
+            <div id="card-standard" data-hub="standard" class="hub-card active cursor-pointer rounded-[3px] bg-[#F4EFE4] border border-[#D5C7B2] overflow-hidden flex flex-col justify-between">
+              <div class="relative h-24 sm:h-28 w-full overflow-hidden bg-[#2A211B]">
+                <img src="/images/schools/zone-01a.webp" alt="Standard Hub" class="w-full h-full object-cover" />
+                <div class="absolute top-2 left-2 bg-[#1A1512]/75 backdrop-blur-sm text-[#FAF7F0] text-[9px] tracking-[0.15em] uppercase px-2 py-0.5 rounded-sm">0.5 Acre</div>
+              </div>
+              <div class="p-2.5 sm:p-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-baseline justify-between gap-1 mb-1">
+                    <h3 class="font-serif font-bold text-[15px] text-[#1A1512]">Standard Hub</h3>
+                    <span class="text-[11px] font-semibold text-[#6B3A24]">₹8.20 L</span>
+                  </div>
+                  <p class="text-[11px] text-[#4A3E35] leading-snug">4 stables · 0.5 acre</p>
+                  <p class="text-[11px] text-[#5C5046] leading-snug">100–150 cadets</p>
+                </div>
+                <div class="mt-2 pt-1.5 border-t border-[#1A1512]/10 flex items-center justify-between">
+                  <span class="text-[9px] uppercase tracking-[0.14em] text-[#6B3A24] font-semibold hub-status-text">Active in 3D</span>
+                  <span class="w-6 h-6 rounded-full border border-[#1A1512]/30 flex items-center justify-center text-[11px] text-[#1A1512]">→</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div id="card-signature" data-hub="signature" class="hub-card cursor-pointer rounded-[3px] bg-[#F4EFE4] border border-[#D5C7B2] overflow-hidden flex flex-col justify-between">
+              <div class="relative h-24 sm:h-28 w-full overflow-hidden bg-[#2A211B]">
+                <img src="/images/schools/zone-01b.webp" alt="Signature Hub" class="w-full h-full object-cover" />
+                <div class="absolute top-2 left-2 bg-[#6B3A24]/90 backdrop-blur-sm text-[#FAF7F0] text-[9px] tracking-[0.15em] uppercase px-2 py-0.5 rounded-sm">1.0 Acre · Covered</div>
+              </div>
+              <div class="p-2.5 sm:p-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-baseline justify-between gap-1 mb-1">
+                    <h3 class="font-serif font-bold text-[15px] text-[#1A1512]">Signature Hub</h3>
+                    <span class="text-[11px] font-semibold text-[#6B3A24]">₹15.00 L</span>
+                  </div>
+                  <p class="text-[11px] text-[#4A3E35] leading-snug">8 stables · 1 acre</p>
+                  <p class="text-[11px] text-[#5C5046] leading-snug">200–300 cadets</p>
+                </div>
+                <div class="mt-2 pt-1.5 border-t border-[#1A1512]/10 flex items-center justify-between">
+                  <span class="text-[9px] uppercase tracking-[0.14em] text-[#5C5046] font-medium hub-status-text">Explore 3D</span>
+                  <span class="w-6 h-6 rounded-full border border-[#1A1512]/30 flex items-center justify-center text-[11px] text-[#1A1512]">→</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div id="card-royal" data-hub="royal" class="hub-card cursor-pointer rounded-[3px] bg-[#F4EFE4] border border-[#D5C7B2] overflow-hidden flex flex-col justify-between">
+              <div class="relative h-24 sm:h-28 w-full overflow-hidden bg-[#2A211B]">
+                <img src="/images/schools/zone-01c.webp" alt="Royal Pavilion" class="w-full h-full object-cover" />
+                <div class="absolute top-2 left-2 bg-[#1A1512]/80 backdrop-blur-sm text-[#E5C396] text-[9px] tracking-[0.15em] uppercase px-2 py-0.5 rounded-sm">1.5+ Acres · Estate</div>
+              </div>
+              <div class="p-2.5 sm:p-3 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-baseline justify-between gap-1 mb-1">
+                    <h3 class="font-serif font-bold text-[15px] text-[#1A1512]">Royal Pavilion</h3>
+                    <span class="text-[11px] font-semibold text-[#6B3A24]">₹25.00 L+</span>
+                  </div>
+                  <p class="text-[11px] text-[#4A3E35] leading-snug">12 stables · 1.5+ acres</p>
+                  <p class="text-[11px] text-[#5C5046] leading-snug">300+ cadets</p>
+                </div>
+                <div class="mt-2 pt-1.5 border-t border-[#1A1512]/10 flex items-center justify-between">
+                  <span class="text-[9px] uppercase tracking-[0.14em] text-[#5C5046] font-medium hub-status-text">Explore 3D</span>
+                  <span class="w-6 h-6 rounded-full border border-[#1A1512]/30 flex items-center justify-center text-[11px] text-[#1A1512]">→</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="w-full lg:w-[46%] xl:w-[50%] flex flex-col justify-between items-end pointer-events-none mt-4 lg:mt-0">
+        <div class="flex items-center gap-5 pointer-events-auto self-end bg-[#1A1512]/45 backdrop-blur-md px-4 py-2 rounded-full border border-[#FAF7F0]/20 text-[#FAF7F0]">
+          <div class="text-right">
+            <div id="site-acre-readout" class="text-[11px] font-semibold tracking-[0.2em] uppercase">SITE - 0.5 ACRE</div>
+            <div id="site-layout-readout" class="text-[9px] tracking-[0.2em] text-[#E6DAC6] uppercase">STANDARD HUB LAYOUT</div>
+          </div>
+          <button id="btn-compass" type="button" class="relative w-10 h-10 rounded-full border border-[#FAF7F0]/45 flex items-center justify-center hover:border-[#E5C396] transition group" title="Click to reset camera">
+            <div id="compass-dial" class="w-full h-full flex flex-col items-center justify-center transition-transform duration-150">
+              <span class="text-[10px] font-semibold tracking-widest text-[#FAF7F0] group-hover:text-[#E5C396]">N</span>
+              <span class="w-0.5 h-2 bg-[#E5C396] rounded-full"></span>
+            </div>
+          </button>
+        </div>
+
+        <div class="dock-glass rounded-[6px] p-2 flex flex-row lg:flex-col gap-1.5 pointer-events-auto my-3 lg:my-0 shadow-2xl self-end">
+          <button type="button" data-dock="3d" class="dock-btn active flex items-center gap-2.5 px-3 py-2 rounded-[4px] border border-transparent text-[#FAF7F0] text-[10px] font-medium tracking-[0.16em] uppercase">
+            <span class="w-6 h-6 rounded-full border border-[#FAF7F0]/40 flex items-center justify-center text-[10px]">3D</span>
+            <span class="hidden sm:inline">3D View</span>
+          </button>
+          <button type="button" data-dock="siteplan" class="dock-btn flex items-center gap-2.5 px-3 py-2 rounded-[4px] border border-transparent text-[#FAF7F0] text-[10px] font-medium tracking-[0.16em] uppercase">
+            <span class="w-6 h-6 rounded-full border border-[#FAF7F0]/40 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/></svg>
+            </span>
+            <span class="hidden sm:inline">Site Plan</span>
+          </button>
+          <button type="button" data-dock="facilities" class="dock-btn flex items-center gap-2.5 px-3 py-2 rounded-[4px] border border-transparent text-[#FAF7F0] text-[10px] font-medium tracking-[0.16em] uppercase">
+            <span class="w-6 h-6 rounded-full border border-[#FAF7F0]/40 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg>
+            </span>
+            <span class="hidden sm:inline">Facilities</span>
+          </button>
+          <button type="button" data-dock="capacity" class="dock-btn flex items-center gap-2.5 px-3 py-2 rounded-[4px] border border-transparent text-[#FAF7F0] text-[10px] font-medium tracking-[0.16em] uppercase">
+            <span class="w-6 h-6 rounded-full border border-[#FAF7F0]/40 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </span>
+            <span class="hidden sm:inline">Capacity</span>
+          </button>
+          <button type="button" data-dock="roi" class="dock-btn flex items-center gap-2.5 px-3 py-2 rounded-[4px] border border-transparent text-[#FAF7F0] text-[10px] font-medium tracking-[0.16em] uppercase">
+            <span class="w-6 h-6 rounded-full border border-[#FAF7F0]/40 flex items-center justify-center">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </span>
+            <span class="hidden sm:inline">ROI</span>
+          </button>
+        </div>
+
+        <div id="siteplan-card" class="w-full sm:w-[340px] xl:w-[370px] bg-[#F5EFE2]/95 backdrop-blur-md rounded-[6px] border border-[#D5C7B2] shadow-2xl p-3 pointer-events-auto transition-all duration-300 self-end">
+          <div class="flex items-center justify-between mb-2">
+            <span id="siteplan-title" class="text-[10px] font-semibold tracking-[0.16em] text-[#2B221C] uppercase">
+              SITE PLAN - 0.5 ACRE (STANDARD HUB)
+            </span>
+            <div class="flex items-center gap-1.5">
+              <button id="btn-topdown-3d" type="button" class="text-[9px] uppercase tracking-wider px-2 py-0.5 rounded bg-[#6B3A24]/15 text-[#6B3A24] hover:bg-[#6B3A24] hover:text-[#FAF7F0] font-semibold transition">
+                3D Plan View
+              </button>
+              <button id="btn-expand-siteplan" type="button" class="p-1 text-[#4A3E35] hover:text-[#1A1512] transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="relative w-full h-[165px] rounded-[4px] overflow-hidden border border-[#DCD0B8] bg-[#EAE0CC]">
+            <canvas id="siteplan-canvas" width="680" height="330" class="w-full h-full cursor-pointer"></canvas>
+            <div class="absolute bottom-1.5 right-2 bg-[#1A1512]/70 text-[#FAF7F0] text-[8.5px] tracking-widest uppercase px-2 py-0.5 rounded pointer-events-none">
+              Click zone to focus 3D
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM KPI VALUE PROPOSITION BAR -->
+    <div class="relative z-20 w-full bg-[#F4EFE4]/95 backdrop-blur-md border-t border-[#D6C9B4] px-5 sm:px-8 lg:px-12 py-3">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full border border-[#6B3A24]/40 flex items-center justify-center text-[#6B3A24] shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold tracking-[0.14em] text-[#1A1512] uppercase">ZERO</div>
+            <div class="text-[9.5px] tracking-[0.15em] text-[#5C5046] uppercase">Capital Expenditure</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full border border-[#6B3A24]/40 flex items-center justify-center text-[#6B3A24] shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold tracking-[0.14em] text-[#1A1512] uppercase">25–30%</div>
+            <div class="text-[9.5px] tracking-[0.15em] text-[#5C5046] uppercase">Tuition Return</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full border border-[#6B3A24]/40 flex items-center justify-center text-[#6B3A24] shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/></svg>
+          </div>
+          <div>
+            <div id="kpi-capacity-val" class="text-xs font-bold tracking-[0.14em] text-[#1A1512] uppercase">100–300+</div>
+            <div class="text-[9.5px] tracking-[0.15em] text-[#5C5046] uppercase">Cadet Capacity</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full border border-[#6B3A24]/40 flex items-center justify-center text-[#6B3A24] shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold tracking-[0.14em] text-[#1A1512] uppercase">MODULAR DESIGN</div>
+            <div class="text-[9.5px] tracking-[0.15em] text-[#5C5046] uppercase">Fits School Campuses</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 col-span-2 sm:col-span-1">
+          <div class="w-9 h-9 rounded-full border border-[#6B3A24]/40 flex items-center justify-center text-[#6B3A24] shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold tracking-[0.14em] text-[#1A1512] uppercase">BSAH OPERATED</div>
+            <div class="text-[9.5px] tracking-[0.15em] text-[#5C5046] uppercase">Faculty · Programme · Maintenance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: COMPARISON MATRIX -->
+  <section id="configurator-matrix" class="py-16 sm:py-24 px-5 sm:px-8 lg:px-12 max-w-7xl mx-auto">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12 border-b border-[#D5C7B2] pb-8">
+      <div>
+        <div class="text-[11px] font-semibold tracking-[0.22em] text-[#6B3A24] uppercase mb-2">
+          REEL 10 / THE CITADEL · ARCHITECTURAL CONFIGURATOR
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl text-[#1A1512] tracking-tight">
+          Three modular equestrian estates.
+        </h2>
+      </div>
+      <p class="text-sm text-[#4A3E35] max-w-md mt-4 lg:mt-0 leading-relaxed">
+        Detailed commercial specifications sit cleanly beneath the interactive 3D viewport, keeping the architectural miniature unobstructed while giving school boards full financial clarity.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Standard Hub -->
+      <div class="bg-[#FAF7F0] border border-[#D5C7B2] rounded-[4px] p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div class="flex items-center justify-between text-[10px] tracking-[0.2em] uppercase text-[#5C5046] mb-3">
+            <span>TIER 01 · ESSENTIAL</span>
+            <span class="px-2 py-0.5 bg-[#EAE0CC] text-[#1A1512] font-semibold rounded">0.5 ACRE</span>
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-[#1A1512] mb-1">Standard Hub</h3>
+          <p class="text-xs text-[#5C5046] mb-5">Compact arena and essential facilities engineered for urban and boutique K–12 campuses.</p>
+
+          <div class="space-y-3 border-t border-b border-[#EAE0CC] py-4 my-4 text-xs">
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Stables</span>
+              <span class="font-semibold text-[#1A1512]">4 Modular Timber Stables</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Land Footprint</span>
+              <span class="font-semibold text-[#1A1512]">0.5 Acre (2,020 sq.m)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Cadet Capacity</span>
+              <span class="font-semibold text-[#1A1512]">100–150 Cadets / Week</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Arena Spec</span>
+              <span class="font-semibold text-[#1A1512]">Open All-Weather Sand Arena</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">BSAH Turnkey CapEx</span>
+              <span class="font-semibold text-[#6B3A24]">₹8.20 L (₹0 to School)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Tuition Return</span>
+              <span class="font-semibold text-[#6B3A24]">25% Gross Tuition Share</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" data-select-hub-scroll="standard" class="w-full py-3 bg-[#1A1512] hover:bg-[#6B3A24] text-[#FAF7F0] text-[11px] font-medium tracking-[0.18em] uppercase transition rounded-[2px]">
+          Inspect Standard Hub in 3D ↑
+        </button>
+      </div>
+
+      <!-- Signature Hub -->
+      <div class="bg-[#FAF7F0] border-2 border-[#6B3A24] rounded-[4px] p-6 flex flex-col justify-between shadow-lg relative">
+        <div class="absolute -top-3 right-5 bg-[#6B3A24] text-[#FAF7F0] text-[9px] font-semibold tracking-[0.2em] uppercase px-3 py-1 rounded-sm">
+          Most Selected by Boards
+        </div>
+        <div>
+          <div class="flex items-center justify-between text-[10px] tracking-[0.2em] uppercase text-[#6B3A24] mb-3">
+            <span>TIER 02 · ALL-WEATHER</span>
+            <span class="px-2 py-0.5 bg-[#6B3A24]/15 text-[#6B3A24] font-semibold rounded">1.0 ACRE</span>
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-[#1A1512] mb-1">Signature Hub</h3>
+          <p class="text-xs text-[#5C5046] mb-5">Twin 4-stable wings, architectural steel-and-timber canopy roof, and cadet briefing deck.</p>
+
+          <div class="space-y-3 border-t border-b border-[#EAE0CC] py-4 my-4 text-xs">
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Stables</span>
+              <span class="font-semibold text-[#1A1512]">8 Stables (Twin Wings)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Land Footprint</span>
+              <span class="font-semibold text-[#1A1512]">1.0 Acre (4,046 sq.m)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Cadet Capacity</span>
+              <span class="font-semibold text-[#1A1512]">200–300 Cadets / Week</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Arena Spec</span>
+              <span class="font-semibold text-[#1A1512]">Covered Canopy + Floodlights</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">BSAH Turnkey CapEx</span>
+              <span class="font-semibold text-[#6B3A24]">₹15.00 L (₹0 to School)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Tuition Return</span>
+              <span class="font-semibold text-[#6B3A24]">27.5% Gross Tuition Share</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" data-select-hub-scroll="signature" class="w-full py-3 bg-[#6B3A24] hover:bg-[#4E2918] text-[#FAF7F0] text-[11px] font-medium tracking-[0.18em] uppercase transition rounded-[2px]">
+          Inspect Signature Hub in 3D ↑
+        </button>
+      </div>
+
+      <!-- Royal Pavilion -->
+      <div class="bg-[#FAF7F0] border border-[#D5C7B2] rounded-[4px] p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+        <div>
+          <div class="flex items-center justify-between text-[10px] tracking-[0.2em] uppercase text-[#5C5046] mb-3">
+            <span>TIER 03 · CHAMPIONSHIP</span>
+            <span class="px-2 py-0.5 bg-[#EAE0CC] text-[#1A1512] font-semibold rounded">1.5+ ACRES</span>
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-[#1A1512] mb-1">Royal Pavilion</h3>
+          <p class="text-xs text-[#5C5046] mb-5">Monumental vaulted stone colonnade, 12 championship stables, and two-story viewing gallery.</p>
+
+          <div class="space-y-3 border-t border-b border-[#EAE0CC] py-4 my-4 text-xs">
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Stables</span>
+              <span class="font-semibold text-[#1A1512]">12 Stables + Isolation Bay</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Land Footprint</span>
+              <span class="font-semibold text-[#1A1512]">1.5+ Acres (6,070+ sq.m)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Cadet Capacity</span>
+              <span class="font-semibold text-[#1A1512]">300+ Cadets & Inter-School</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Arena Spec</span>
+              <span class="font-semibold text-[#1A1512]">Arched Stone Colonnade + Gallery</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">BSAH Turnkey CapEx</span>
+              <span class="font-semibold text-[#6B3A24]">₹25.00 L+ (₹0 to School)</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-[#5C5046] uppercase tracking-wider">Tuition Return</span>
+              <span class="font-semibold text-[#6B3A24]">30% Gross Tuition Share</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" data-select-hub-scroll="royal" class="w-full py-3 bg-[#1A1512] hover:bg-[#6B3A24] text-[#FAF7F0] text-[11px] font-medium tracking-[0.18em] uppercase transition rounded-[2px]">
+          Inspect Royal Pavilion in 3D ↑
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: 7 IMPLEMENTATION LAYERS -->
+  <section id="layers-section" class="py-16 sm:py-24 bg-[#EAE0CC]/60 border-t border-b border-[#D5C7B2] px-5 sm:px-8 lg:px-12">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-12">
+        <div>
+          <div class="text-[11px] font-semibold tracking-[0.22em] text-[#6B3A24] uppercase mb-2">
+            SYSTEM ARCHITECTURE · 7 IMPLEMENTATION LAYERS
+          </div>
+          <h2 class="font-serif text-3xl sm:text-5xl text-[#1A1512]">
+            Engineered like an architectural exhibition.
+          </h2>
+        </div>
+        <div class="mt-4 lg:mt-0 flex flex-wrap items-center gap-3">
+          <span class="text-xs text-[#4A3E35]">Toggle any layer below to isolate or inspect it live in the 3D scene:</span>
+          <button id="btn-enable-all-layers" type="button" class="px-3 py-1.5 bg-[#6B3A24] text-[#FAF7F0] text-[10px] font-semibold tracking-widest uppercase rounded">
+            Enable All 7 Layers
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="layers-grid">
+        <!-- 01 -->
+        <div class="bg-[#FAF7F0] border border-[#D5C7B2] p-5 rounded-[4px] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold tracking-[0.18em] text-[#6B3A24] uppercase">01 — GROUND</span>
+              <input type="checkbox" data-layer-toggle="ground" checked class="w-4 h-4 accent-[#6B3A24] cursor-pointer" />
+            </div>
+            <h4 class="font-serif font-bold text-lg text-[#1A1512] mb-1">Realistic Miniature Campus</h4>
+            <p class="text-xs text-[#4A3E35] leading-relaxed mb-3">
+              Sandstone terrain plinth, ashlar paved paths, groomed silica arena sand with concentric hoof rings, and landscaped surroundings.
+            </p>
+          </div>
+          <div class="text-[10px] font-mono text-[#6B3A24] bg-[#F4EFE4] px-2.5 py-1.5 rounded border border-[#E2D6C1]">
+            Effect: Tactile scale-model foundation
+          </div>
+        </div>
+
+        <!-- 02 -->
+        <div class="bg-[#FAF7F0] border border-[#D5C7B2] p-5 rounded-[4px] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold tracking-[0.18em] text-[#6B3A24] uppercase">02 — ARCHITECTURE</span>
+              <input type="checkbox" data-layer-toggle="architecture" checked class="w-4 h-4 accent-[#6B3A24] cursor-pointer" />
+            </div>
+            <h4 class="font-serif font-bold text-lg text-[#1A1512] mb-1">Detailed Visualization</h4>
+            <p class="text-xs text-[#4A3E35] leading-relaxed mb-3">
+              Cantilevered cedar stables, glazed tack room pavilion, post-and-rail arena fences, show-jumping oxers, and Royal vaulted stone colonnades.
+            </p>
+          </div>
+          <div class="text-[10px] font-mono text-[#6B3A24] bg-[#F4EFE4] px-2.5 py-1.5 rounded border border-[#E2D6C1]">
+            Pipeline: Blender GLB + R3F Instancing
+          </div>
+        </div>
+
+        <!-- 03 -->
+        <div class="bg-[#FAF7F0] border border-[#D5C7B2] p-5 rounded-[4px] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold tracking-[0.18em] text-[#6B3A24] uppercase">03 — ENVIRONMENT</span>
+              <input type="checkbox" data-layer-toggle="environment" checked class="w-4 h-4 accent-[#6B3A24] cursor-pointer" />
+            </div>
+            <h4 class="font-serif font-bold text-lg text-[#1A1512] mb-1">Cinematic Depth</h4>
+            <p class="text-xs text-[#4A3E35] leading-relaxed mb-3">
+              Multi-canopy cypress and shade trees, animated horses & cadets in motion, background school estate, and atmospheric golden mist.
+            </p>
+          </div>
+          <div class="text-[10px] font-mono text-[#6B3A24] bg-[#F4EFE4] px-2.5 py-1.5 rounded border border-[#E2D6C1]">
+            Effect: Living equestrian ecosystem
+          </div>
+        </div>
+
+        <!-- 04 -->
+        <div class="bg-[#FAF7F0] border border-[#D5C7B2] p-5 rounded-[4px] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold tracking-[0.18em] text-[#6B3A24] uppercase">04 — LIGHTING</span>
+              <input type="checkbox" data-layer-toggle="lighting" checked class="w-4 h-4 accent-[#6B3A24] cursor-pointer" />
+            </div>
+            <h4 class="font-serif font-bold text-lg text-[#1A1512] mb-1">Luxury Rendering</h4>
+            <p class="text-xs text-[#4A3E35] leading-relaxed mb-3">
+              Low-angle golden-hour sunlight, PCF soft shadows, warm 2700K interior stable & tack room glow, and travertine specular highlights.
+            </p>
+          </div>
+          <div class="text-[10px] font-mono text-[#6B3A24] bg-[#F4EFE4] px-2.5 py-1.5 rounded border border-[#E2D6C1]">
+            Modes: Golden Hour · Dusk · Studio
+          </div>
+        </div>
+
+        <!-- 05 -->
+        <div class="bg-[#FAF7F0] border border-[#D5C7B2] p-5 rounded-[4px] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold tracking-[0.18em] text-[#6B3A24] uppercase">05 — CAMERA</span>
+              <button type="button" id="btn-layer-camera-tour" class="text-[10px] font-semibold text-[#6B3A24] underline">Run Tour ↗</button>
+            </div>
+            <h4 class="font-serif font-bold text-lg text-[#1A1512] mb-1">Interactive Exploration</h4>
+            <p class="text-xs text-[#4A3E35] leading-relaxed mb-3">
+              Isometric architectural overview, damped orbital rotation, and smooth GSAP camera flights to individual facilities.
+            </p>
+          </div>
+          <div class="text-[10px] font-mono text-[#6B3A24] bg-[#F4EFE4] px-2.5 py-1.5 rounded border border-[#E2D6C1]">
+            Controls: Orbit · Zoom · Facility Fly-To
+          </div>
+        </div>
+
+        <!-- 06 -->
+        <div class="bg-[#FAF7F0] border border-[#D5C7B2] p-5 rounded-[4px] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold tracking-[0.18em] text-[#6B3A24] uppercase">06 — INTERFACE</span>
+              <input type="checkbox" data-layer-toggle="interface" checked class="w-4 h-4 accent-[#6B3A24] cursor-pointer" />
+            </div>
+            <h4 class="font-serif font-bold text-lg text-[#1A1512] mb-1">Premium Configurator</h4>
+            <p class="text-xs text-[#4A3E35] leading-relaxed mb-3">
+              3D-projected architectural leader labels, hub selector cards, synchronized 2D site-plan toggle, and live capacity telemetry.
+            </p>
+          </div>
+          <div class="text-[10px] font-mono text-[#6B3A24] bg-[#F4EFE4] px-2.5 py-1.5 rounded border border-[#E2D6C1]">
+            UI: Non-intrusive spatial HUD
+          </div>
+        </div>
+
+        <!-- 07 -->
+        <div class="bg-[#FAF7F0] border border-[#D5C7B2] p-5 rounded-[4px] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold tracking-[0.18em] text-[#6B3A24] uppercase">07 — STORYTELLING</span>
+              <button type="button" id="btn-layer-story" class="text-[10px] font-semibold text-[#6B3A24] underline">Trigger Reveal ↗</button>
+            </div>
+            <h4 class="font-serif font-bold text-lg text-[#1A1512] mb-1">Award-Style Presentation</h4>
+            <p class="text-xs text-[#4A3E35] leading-relaxed mb-3">
+              Staggered headline reveal, kinetic campus assembly animation, and choreographed transitions between Standard, Signature, and Royal hubs.
+            </p>
+          </div>
+          <div class="text-[10px] font-mono text-[#6B3A24] bg-[#F4EFE4] px-2.5 py-1.5 rounded border border-[#E2D6C1]">
+            Motion: GSAP Staggered Morphing
+          </div>
+        </div>
+
+        <!-- References Card -->
+        <div class="bg-[#1A1512] text-[#FAF7F0] p-5 rounded-[4px] flex flex-col justify-between">
+          <div>
+            <div class="text-[10px] font-semibold tracking-[0.2em] text-[#C49A6C] uppercase mb-2">
+              DESIGN LINEAGE & REFERENCES
+            </div>
+            <ul class="space-y-2 text-xs text-[#EAE0CC]">
+              <li><strong class="text-[#FAF7F0]">Zaha Hadid Architects:</strong> Dramatic perspectives & spatial hierarchy.</li>
+              <li><strong class="text-[#FAF7F0]">Unreal Engine:</strong> Golden-hour PBR materials & warm bounce lighting.</li>
+              <li><strong class="text-[#FAF7F0]">Active Theory:</strong> Fluid WebGL storytelling & tactile camera choreography.</li>
+            </ul>
+          </div>
+          <div class="mt-3 pt-2 border-t border-[#FAF7F0]/15 text-[10px] text-[#C49A6C]">
+            Production note: Prepared for Blender GLB + React Three Fiber + GSAP pipeline.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: ROI & TUITION RETURN CALCULATOR -->
+  <section id="roi-section" class="py-16 sm:py-24 px-5 sm:px-8 lg:px-12 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <div class="lg:col-span-7 bg-[#FAF7F0] border border-[#D5C7B2] rounded-[4px] p-6 sm:p-8 shadow-sm">
+        <div class="text-[11px] font-semibold tracking-[0.2em] text-[#6B3A24] uppercase mb-2">
+          FINANCIAL SIMULATOR · SCHOOL BOARD TREASURY
+        </div>
+        <h2 class="font-serif text-3xl text-[#1A1512] mb-2">Run the Numbers: Tuition Return & ROI</h2>
+        <p class="text-xs text-[#5C5046] mb-6">
+          Simulate your institution’s annual tuition share and 5-year endowment accumulation under the zero-CapEx BSAH Citadel model.
+        </p>
+
+        <div class="mb-6">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-[#2B221C] mb-2">Selected Campus Hub Configuration</label>
+          <div class="grid grid-cols-3 gap-2.5">
+            <button type="button" data-calc-hub="standard" class="calc-hub-btn py-2.5 px-3 text-xs font-semibold rounded border border-[#6B3A24] bg-[#6B3A24] text-[#FAF7F0] transition">
+              Standard (4 Stables)
+            </button>
+            <button type="button" data-calc-hub="signature" class="calc-hub-btn py-2.5 px-3 text-xs font-semibold rounded border border-[#D5C7B2] bg-[#F4EFE4] text-[#1A1512] hover:border-[#6B3A24] transition">
+              Signature (8 Stables)
+            </button>
+            <button type="button" data-calc-hub="royal" class="calc-hub-btn py-2.5 px-3 text-xs font-semibold rounded border border-[#D5C7B2] bg-[#F4EFE4] text-[#1A1512] hover:border-[#6B3A24] transition">
+              Royal (12 Stables)
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <div class="flex justify-between items-baseline mb-2">
+            <label for="slider-cadets" class="text-xs font-semibold uppercase tracking-wider text-[#2B221C]">Enrolled Equestrian Cadets</label>
+            <span id="label-cadets" class="font-serif text-xl font-bold text-[#6B3A24]">140 Cadets</span>
+          </div>
+          <input id="slider-cadets" type="range" min="80" max="450" step="10" value="140" class="w-full" />
+          <div class="flex justify-between text-[10px] text-[#5C5046] mt-1">
+            <span>80 Cadets (Standard Min)</span>
+            <span>250 Cadets (Signature)</span>
+            <span>450 Cadets (Royal Estate)</span>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <div class="flex justify-between items-baseline mb-2">
+            <label for="slider-tuition" class="text-xs font-semibold uppercase tracking-wider text-[#2B221C]">Annual Programme Fee per Cadet (₹)</label>
+            <span id="label-tuition" class="font-serif text-xl font-bold text-[#6B3A24]">₹36,000 / yr</span>
+          </div>
+          <input id="slider-tuition" type="range" min="24000" max="72000" step="2000" value="36000" class="w-full" />
+          <div class="flex justify-between text-[10px] text-[#5C5046] mt-1">
+            <span>₹24,000 (₹2,000/mo)</span>
+            <span>₹48,000 (₹4,000/mo)</span>
+            <span>₹72,000 (Championship)</span>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <div class="flex justify-between items-baseline mb-2">
+            <label for="slider-share" class="text-xs font-semibold uppercase tracking-wider text-[#2B221C]">School Board Tuition Return Tier</label>
+            <span id="label-share" class="font-serif text-xl font-bold text-[#6B3A24]">27.5%</span>
+          </div>
+          <input id="slider-share" type="range" min="25" max="30" step="0.5" value="27.5" class="w-full" />
+          <div class="flex justify-between text-[10px] text-[#5C5046] mt-1">
+            <span>25.0% (Standard MOU)</span>
+            <span>27.5% (Signature MOU)</span>
+            <span>30.0% (Royal Regional Host)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 bg-[#1A1512] text-[#FAF7F0] rounded-[4px] p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between border-b border-[#FAF7F0]/15 pb-4 mb-6">
+            <div>
+              <div class="text-[10px] tracking-[0.2em] text-[#C49A6C] uppercase">PROJECTED SCHOOL RETURN</div>
+              <div id="calc-hub-title" class="font-serif text-xl text-[#FAF7F0]">Standard Hub · 0.5 Acre</div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-[#6B3A24] text-[10px] font-semibold tracking-widest uppercase">ZERO CAPEX</span>
+          </div>
+
+          <div class="space-y-5">
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-[#B8A48A]">Annual Net Return to School Board</div>
+              <div id="out-annual-school" class="font-serif text-4xl sm:text-5xl font-bold text-[#E5C396] mt-1">₹13.86 L</div>
+              <div class="text-[11px] text-[#B8A48A] mt-1">Direct recurring revenue with zero operational overhead</div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 pt-4 border-t border-[#FAF7F0]/15">
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-[#B8A48A]">5-Year School Endowment</div>
+                <div id="out-5yr-school" class="font-serif text-2xl font-bold text-[#FAF7F0] mt-0.5">₹69.30 L</div>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-[#B8A48A]">BSAH Funded CapEx</div>
+                <div id="out-bsah-capex" class="font-serif text-2xl font-bold text-[#C49A6C] mt-0.5">₹8.20 L</div>
+              </div>
+            </div>
+
+            <div class="bg-[#28201B] p-4 rounded border border-[#FAF7F0]/10 text-xs space-y-1.5">
+              <div class="flex justify-between">
+                <span class="text-[#B8A48A]">Gross Annual Programme Tuition:</span>
+                <span id="out-gross-tuition" class="font-semibold text-[#FAF7F0]">₹50.40 L</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-[#B8A48A]">School Board Capital Outlay:</span>
+                <span class="font-semibold text-[#7CE395]">₹0 (100% BSAH Funded)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-[#B8A48A]">Grooms, Horses, Vet & Coaches:</span>
+                <span class="font-semibold text-[#FAF7F0]">Included by BSAH</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-[#FAF7F0]/15 flex flex-col sm:flex-row gap-3">
+          <button id="btn-calc-request-mou" type="button" class="flex-1 py-3 px-4 bg-[#6B3A24] hover:bg-[#8B5236] text-[#FAF7F0] text-[11px] font-semibold tracking-[0.18em] uppercase rounded-[2px] transition text-center">
+            Generate Draft MOU with These Figures →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-[#D5C7B2] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[11px] text-[#5C5046]">
+      <p>
+        <strong class="text-[#1A1512] uppercase tracking-wider">Architectural Notice:</strong> The generated visual is a design concept, not a verified architectural plan. Hub dimensions, prices, capacities and commercial terms should be checked against approved BSAH specifications before publication.
+      </p>
+      <a href="#citadel-hero" class="text-[#6B3A24] font-semibold uppercase tracking-widest hover:underline shrink-0">Back to 3D Campus ↑</a>
+    </div>
+  </section>
+
+  <!-- MODAL 1: DRAFT MOU -->
+  <div id="modal-mou" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#1A1512]/70 backdrop-blur-sm p-4">
+    <div class="bg-[#FAF7F0] border border-[#C49A6C] rounded-[4px] max-w-lg w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button id="btn-close-mou" type="button" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#EAE0CC] hover:bg-[#6B3A24] hover:text-[#FAF7F0] flex items-center justify-center text-sm font-bold transition">✕</button>
+      <div class="text-[10px] font-semibold tracking-[0.2em] text-[#6B3A24] uppercase mb-1">BLACK STALLION ACADEMY · SCHOOL BOARD PARTNERSHIP</div>
+      <h3 class="font-serif text-2xl sm:text-3xl text-[#1A1512] mb-2">Request a Draft MOU</h3>
+      <p class="text-xs text-[#5C5046] mb-5">
+        Receive a customized Memorandum of Understanding and turnkey architectural site assessment for your campus.
+      </p>
+
+      <form id="form-mou" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold uppercase tracking-wider text-[#2B221C] mb-1">Institution / School Name *</label>
+          <input id="mou-school" type="text" required placeholder="e.g., The Doon Heritage International School" class="w-full px-3 py-2.5 bg-[#F4EFE4] border border-[#D5C7B2] rounded focus:outline-none focus:border-[#6B3A24]" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold uppercase tracking-wider text-[#2B221C] mb-1">Preferred Hub Model</label>
+            <select id="mou-hub" class="w-full px-3 py-2.5 bg-[#F4EFE4] border border-[#D5C7B2] rounded focus:outline-none focus:border-[#6B3A24]">
+              <option value="Standard Hub (0.5 Acre · 4 Stables · ₹8.20 L)">Standard Hub (0.5 Acre · 4 Stables)</option>
+              <option value="Signature Hub (1.0 Acre · 8 Stables · ₹15.00 L)">Signature Hub (1.0 Acre · 8 Stables)</option>
+              <option value="Royal Pavilion (1.5+ Acres · 12 Stables · ₹25.00 L+)">Royal Pavilion (1.5+ Acres · 12 Stables)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold uppercase tracking-wider text-[#2B221C] mb-1">Estimated Cadet Cohort</label>
+            <input id="mou-cadets" type="text" value="140 Cadets (Est. ₹13.86 L/yr Return)" class="w-full px-3 py-2.5 bg-[#F4EFE4] border border-[#D5C7B2] rounded focus:outline-none focus:border-[#6B3A24]" />
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold uppercase tracking-wider text-[#2B221C] mb-1">Board Representative / Principal *</label>
+            <input id="mou-name" type="text" required placeholder="Full Name & Designation" class="w-full px-3 py-2.5 bg-[#F4EFE4] border border-[#D5C7B2] rounded focus:outline-none focus:border-[#6B3A24]" />
+          </div>
+          <div>
+            <label class="block font-semibold uppercase tracking-wider text-[#2B221C] mb-1">Official Email *</label>
+            <input id="mou-email" type="email" required placeholder="trustee@school.edu.in" class="w-full px-3 py-2.5 bg-[#F4EFE4] border border-[#D5C7B2] rounded focus:outline-none focus:border-[#6B3A24]" />
+          </div>
+        </div>
+        <div id="mou-feedback" class="hidden p-3 rounded bg-[#6B3A24]/15 border border-[#6B3A24] text-[#4E2918] font-medium"></div>
+        <div class="pt-2 flex justify-end gap-3">
+          <button type="button" id="btn-cancel-mou" class="px-4 py-2.5 border border-[#D5C7B2] text-[#4A3E35] uppercase tracking-wider text-[10px] font-semibold rounded">Cancel</button>
+          <button type="submit" class="px-6 py-2.5 bg-[#6B3A24] hover:bg-[#4E2918] text-[#FAF7F0] uppercase tracking-widest text-[10px] font-semibold rounded shadow">
+            Prepare Draft MOU Dossier →
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: EXPANDED SITE PLAN -->
+  <div id="modal-siteplan" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#1A1512]/75 backdrop-blur-sm p-4">
+    <div class="bg-[#FAF7F0] border border-[#C49A6C] rounded-[4px] max-w-4xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button id="btn-close-siteplan" type="button" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#EAE0CC] hover:bg-[#6B3A24] hover:text-[#FAF7F0] flex items-center justify-center text-sm font-bold transition">✕</button>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-[#D5C7B2]">
+        <div>
+          <div class="text-[10px] font-semibold tracking-[0.2em] text-[#6B3A24] uppercase">ARCHITECTURAL MASTER BLUEPRINT</div>
+          <h3 id="modal-siteplan-heading" class="font-serif text-2xl text-[#1A1512]">Standard Hub — 0.5 Acre Site Plan</h3>
+        </div>
+        <div class="flex items-center gap-2 pr-8">
+          <button type="button" data-modal-hub="standard" class="modal-hub-pill px-3 py-1 text-[10px] uppercase tracking-widest rounded bg-[#6B3A24] text-[#FAF7F0]">Standard</button>
+          <button type="button" data-modal-hub="signature" class="modal-hub-pill px-3 py-1 text-[10px] uppercase tracking-widest rounded bg-[#EAE0CC] text-[#1A1512]">Signature</button>
+          <button type="button" data-modal-hub="royal" class="modal-hub-pill px-3 py-1 text-[10px] uppercase tracking-widest rounded bg-[#EAE0CC] text-[#1A1512]">Royal</button>
+        </div>
+      </div>
+
+      <div class="w-full h-[380px] bg-[#EAE0CC] rounded border border-[#D5C7B2] overflow-hidden mb-4">
+        <canvas id="modal-siteplan-canvas" width="1100" height="520" class="w-full h-full"></canvas>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+        <div class="p-3 bg-[#F4EFE4] rounded border border-[#E2D6C1]">
+          <div class="text-[10px] uppercase tracking-wider text-[#5C5046]">Arena Dimensions</div>
+          <div id="blueprint-dim" class="font-bold text-[#1A1512] mt-0.5">40m × 25m Dressage Sand</div>
+        </div>
+        <div class="p-3 bg-[#F4EFE4] rounded border border-[#E2D6C1]">
+          <div class="text-[10px] uppercase tracking-wider text-[#5C5046]">Stabling Modules</div>
+          <div id="blueprint-stables" class="font-bold text-[#1A1512] mt-0.5">4 Timber-Louvred Loose Boxes</div>
+        </div>
+        <div class="p-3 bg-[#F4EFE4] rounded border border-[#E2D6C1]">
+          <div class="text-[10px] uppercase tracking-wider text-[#5C5046]">Tack & Briefing</div>
+          <div id="blueprint-tack" class="font-bold text-[#1A1512] mt-0.5">Glazed East Pavilion + Veranda</div>
+        </div>
+        <div class="p-3 bg-[#F4EFE4] rounded border border-[#E2D6C1]">
+          <div class="text-[10px] uppercase tracking-wider text-[#5C5046]">Drainage & Footing</div>
+          <div class="font-bold text-[#1A1512] mt-0.5">French Perimeter Sub-Drain</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const HUB_DATA = {
+        standard: {
+          id: 'standard',
+          name: 'Standard Hub',
+          price: '₹8.20 L',
+          capexNum: 8.2,
+          stablesCount: 4,
+          stablesLabel: '4 STABLES',
+          landLabel: 'SITE - 0.5 ACRE',
+          layoutSub: 'STANDARD HUB LAYOUT',
+          siteplanTitle: 'SITE PLAN - 0.5 ACRE (STANDARD HUB)',
+          capacityLabel: '100–150',
+          defaultCadets: 140,
+          defaultShare: 25.0,
+          dimText: '40m × 25m All-Weather Sand',
+          stablesSpec: '4 Timber-Louvred Loose Boxes',
+          tackSpec: 'East Tack Room & Grooming Bay',
+          cameraPos: { theta: 0.62, phi: 1.06, radius: 42, targetX: -6.5, targetY: 0.5, targetZ: 1.2 }
+        },
+        signature: {
+          id: 'signature',
+          name: 'Signature Hub',
+          price: '₹15.00 L',
+          capexNum: 15.0,
+          stablesCount: 8,
+          stablesLabel: '8 STABLES',
+          landLabel: 'SITE - 1.0 ACRE',
+          layoutSub: 'SIGNATURE COVERED HUB',
+          siteplanTitle: 'SITE PLAN - 1.0 ACRE (SIGNATURE HUB)',
+          capacityLabel: '200–300',
+          defaultCadets: 250,
+          defaultShare: 27.5,
+          dimText: '50m × 30m Covered Canopy Arena',
+          stablesSpec: '8 Stables (South & North Wings)',
+          tackSpec: 'Expanded Tack + VIP Viewing Deck',
+          cameraPos: { theta: 0.48, phi: 1.08, radius: 46, targetX: -7.0, targetY: 1.0, targetZ: 0.5 }
+        },
+        royal: {
+          id: 'royal',
+          name: 'Royal Pavilion',
+          price: '₹25.00 L+',
+          capexNum: 25.0,
+          stablesCount: 12,
+          stablesLabel: '12 STABLES',
+          landLabel: 'SITE - 1.5+ ACRES',
+          layoutSub: 'ROYAL COLONNADE ESTATE',
+          siteplanTitle: 'SITE PLAN - 1.5+ ACRES (ROYAL PAVILION)',
+          capacityLabel: '300+',
+          defaultCadets: 360,
+          defaultShare: 30.0,
+          dimText: '60m × 35m Colonnaded Championship Arena',
+          stablesSpec: '12 Stables + Veterinary Isolation Suite',
+          tackSpec: 'Two-Story Royal Viewing Pavilion & Gallery',
+          cameraPos: { theta: 0.72, phi: 1.04, radius: 50, targetX: -7.5, targetY: 1.2, targetZ: -1.0 }
+        }
+      };
+
+      const FACILITY_INFO = {
+        arena: {
+          title: 'Championship Sand Arena',
+          desc: 'Laser-graded silica sand & geotextile footing · Show-jumping course & dressage perimeter',
+          cam: { theta: 0.55, phi: 1.02, radius: 28, targetX: -2.0, targetY: 0.5, targetZ: 0.0 }
+        },
+        stables: {
+          title: 'Modular Timber & Travertine Stables',
+          desc: 'Cross-ventilated 12ft × 12ft loose boxes · Warm linear LED soffits · Automated drinkers',
+          cam: { theta: 0.25, phi: 1.18, radius: 22, targetX: -1.5, targetY: 1.0, targetZ: 10.5 }
+        },
+        tack: {
+          title: 'Glazed Tack Room & Cadet Briefing Pavilion',
+          desc: 'Climate-controlled saddle & bridle vault · Floor-to-ceiling bronze glazing · Shaded veranda',
+          cam: { theta: 1.12, phi: 1.15, radius: 23, targetX: 12.5, targetY: 1.2, targetZ: 1.5 }
+        },
+        expansion: {
+          title: 'Signature North Stable Wing & Arena Canopy',
+          desc: '4 additional championship stalls + wide-span architectural steel & timber solar canopy',
+          cam: { theta: 0.85, phi: 1.10, radius: 30, targetX: 0.0, targetY: 2.5, targetZ: -8.0 }
+        },
+        pavilion: {
+          title: 'Royal Stone Colonnade & Viewing Gallery',
+          desc: 'Classical vaulted travertine arches framing the arena + elevated school board hospitality gallery',
+          cam: { theta: 0.65, phi: 1.12, radius: 32, targetX: 2.0, targetY: 2.8, targetZ: -12.0 }
+        }
+      };
+
+      let currentHub = 'standard';
+      let currentLightingMode = 0;
+      let facilityCycleIdx = 0;
+      const layerVisibility = {
+        ground: true,
+        architecture: true,
+        environment: true,
+        lighting: true,
+        interface: true
+      };
+
+      function createSandTexture() {
+        const c = document.createElement('canvas');
+        c.width = 512;
+        c.height = 512;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#D5B88E';
+        ctx.fillRect(0, 0, 512, 512);
+
+        ctx.strokeStyle = 'rgba(166, 131, 88, 0.22)';
+        ctx.lineWidth = 2;
+        for (let y = 0; y < 512; y += 6) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(512, y);
+          ctx.stroke();
+        }
+        ctx.strokeStyle = 'rgba(145, 108, 68, 0.28)';
+        ctx.lineWidth = 10;
+        ctx.strokeRect(42, 42, 428, 428);
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(256, 256, 150, 0, Math.PI * 2);
+        ctx.stroke();
+
+        for (let i = 0; i < 6000; i++) {
+          ctx.fillStyle = i % 2 === 0 ? 'rgba(255,245,225,0.18)' : 'rgba(130,95,58,0.16)';
+          ctx.fillRect(Math.random() * 512, Math.random() * 512, 2, 2);
+        }
+        const tex = new THREE.CanvasTexture(c);
+        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+        return tex;
+      }
+
+      function createTravertineTexture() {
+        const c = document.createElement('canvas');
+        c.width = 512;
+        c.height = 512;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#E5DAC5';
+        ctx.fillRect(0, 0, 512, 512);
+
+        ctx.strokeStyle = 'rgba(120, 102, 82, 0.25)';
+        ctx.lineWidth = 2;
+        const step = 64;
+        for (let y = 0; y <= 512; y += step) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(512, y);
+          ctx.stroke();
+          const offset = (y / step) % 2 === 0 ? 0 : 64;
+          for (let x = offset; x <= 512; x += 128) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y + step);
+            ctx.stroke();
+          }
+        }
+        const tex = new THREE.CanvasTexture(c);
+        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(3, 3);
+        return tex;
+      }
+
+      function createCedarLouverTexture() {
+        const c = document.createElement('canvas');
+        c.width = 256;
+        c.height = 256;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#5B3621';
+        ctx.fillRect(0, 0, 256, 256);
+        for (let x = 0; x < 256; x += 8) {
+          ctx.fillStyle = x % 16 === 0 ? '#3E2314' : '#78482C';
+          ctx.fillRect(x, 0, 5, 256);
+        }
+        const tex = new THREE.CanvasTexture(c);
+        tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+        return tex;
+      }
+
+      const container = document.getElementById('webgl-container');
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xEFE6D5);
+      scene.fog = new THREE.FogExp2(0xEFE6D5, 0.0085);
+
+      const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.5, 300);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.12;
+      container.appendChild(renderer.domElement);
+
+      const groundGroup = new THREE.Group();
+      const archGroup = new THREE.Group();
+      const signatureArchGroup = new THREE.Group();
+      const royalArchGroup = new THREE.Group();
+      const envGroup = new THREE.Group();
+      const lightGroup = new THREE.Group();
+
+      archGroup.add(signatureArchGroup);
+      archGroup.add(royalArchGroup);
+
+      scene.add(groundGroup);
+      scene.add(archGroup);
+      scene.add(envGroup);
+      scene.add(lightGroup);
+
+      const sandTex = createSandTexture();
+      const travertineTex = createTravertineTexture();
+      const cedarTex = createCedarLouverTexture();
+
+      const matPlinthBase = new THREE.MeshStandardMaterial({ color: 0x3A281D, roughness: 0.65, metalness: 0.1 });
+      const matGrassTerrain = new THREE.MeshStandardMaterial({ color: 0x8F8A64, roughness: 0.92, metalness: 0.02 });
+      const matHillTerrain = new THREE.MeshStandardMaterial({ color: 0x9E9576, roughness: 0.95 });
+      const matSandArena = new THREE.MeshStandardMaterial({ map: sandTex, roughness: 0.88, bumpMap: sandTex, bumpScale: 0.04 });
+      const matTravertine = new THREE.MeshStandardMaterial({ map: travertineTex, color: 0xEDE3D2, roughness: 0.65, metalness: 0.05 });
+      const matDarkBronze = new THREE.MeshStandardMaterial({ color: 0x261E19, roughness: 0.35, metalness: 0.65 });
+      const matCedar = new THREE.MeshStandardMaterial({ map: cedarTex, roughness: 0.55, metalness: 0.08 });
+      const matWarmGlow = new THREE.MeshBasicMaterial({ color: 0xFFCF8B });
+      const matGlass = new THREE.MeshStandardMaterial({ color: 0xFFF3DC, transparent: true, opacity: 0.42, roughness: 0.15, metalness: 0.3 });
+
+      const hemiLight = new THREE.HemisphereLight(0xFFF6E5, 0x7A654B, 0.72);
+      scene.add(hemiLight);
+
+      const sunLight = new THREE.DirectionalLight(0xFFD699, 1.55);
+      sunLight.position.set(38, 26, -28);
+      sunLight.castShadow = true;
+      sunLight.shadow.mapSize.width = 2048;
+      sunLight.shadow.mapSize.height = 2048;
+      sunLight.shadow.camera.near = 5;
+      sunLight.shadow.camera.far = 130;
+      const d = 34;
+      sunLight.shadow.camera.left = -d;
+      sunLight.shadow.camera.right = d;
+      sunLight.shadow.camera.top = d;
+      sunLight.shadow.camera.bottom = -d;
+      sunLight.shadow.bias = -0.0005;
+      lightGroup.add(sunLight);
+
+      const fillLight = new THREE.DirectionalLight(0xF5E1C8, 0.45);
+      fillLight.position.set(-30, 18, 25);
+      lightGroup.add(fillLight);
+
+      for (let i = 0; i < 4; i++) {
+        const pl = new THREE.PointLight(0xFFB454, 0.9, 11, 2);
+        pl.position.set(-7.5 + i * 4.5, 1.6, 10.6);
+        lightGroup.add(pl);
+      }
+      const tackPointLight = new THREE.PointLight(0xFFBC66, 1.15, 14, 2);
+      tackPointLight.position.set(13.2, 1.9, 1.2);
+      lightGroup.add(tackPointLight);
+
+      const plinthGeo = new THREE.BoxGeometry(68, 1.4, 56);
+      const plinthMesh = new THREE.Mesh(plinthGeo, matPlinthBase);
+      plinthMesh.position.set(2, -0.9, -2);
+      plinthMesh.receiveShadow = true;
+      groundGroup.add(plinthMesh);
+
+      const turfGeo = new THREE.BoxGeometry(66.8, 0.5, 54.8);
+      const turfMesh = new THREE.Mesh(turfGeo, matGrassTerrain);
+      turfMesh.position.set(2, -0.15, -2);
+      turfMesh.receiveShadow = true;
+      groundGroup.add(turfMesh);
+
+      const southPromenade = new THREE.Mesh(new THREE.BoxGeometry(24, 0.16, 7.5), matTravertine);
+      southPromenade.position.set(-0.8, 0.12, 10.6);
+      southPromenade.receiveShadow = true;
+      groundGroup.add(southPromenade);
+
+      const eastPromenade = new THREE.Mesh(new THREE.BoxGeometry(7.8, 0.16, 15.5), matTravertine);
+      eastPromenade.position.set(13.2, 0.12, 1.2);
+      eastPromenade.receiveShadow = true;
+      groundGroup.add(eastPromenade);
+
+      const pathConnect = new THREE.Mesh(new THREE.BoxGeometry(11.5, 0.14, 3.0), matTravertine);
+      pathConnect.position.set(9.8, 0.11, 8.8);
+      pathConnect.receiveShadow = true;
+      groundGroup.add(pathConnect);
+
+      const arenaSandMesh = new THREE.Mesh(new THREE.BoxGeometry(20.0, 0.18, 13.5), matSandArena);
+      arenaSandMesh.position.set(-0.8, 0.14, 0.2);
+      arenaSandMesh.receiveShadow = true;
+      groundGroup.add(arenaSandMesh);
+
+      const hillPositions = [
+        { x: -16, z: -22, sx: 22, sy: 3.6, sz: 12 },
+        { x: 6, z: -24, sx: 26, sy: 4.5, sz: 14 },
+        { x: 25, z: -20, sx: 18, sy: 3.2, sz: 12 }
+      ];
+      hillPositions.forEach(h => {
+        const hillGeo = new THREE.SphereGeometry(1, 24, 16);
+        const hill = new THREE.Mesh(hillGeo, matHillTerrain);
+        hill.scale.set(h.sx, h.sy, h.sz);
+        hill.position.set(h.x, -0.8, h.z);
+        hill.receiveShadow = true;
+        groundGroup.add(hill);
+      });
+
+      const fenceGroup = new THREE.Group();
+      const aw = 20.4, ad = 13.9;
+      const ax = -0.8, az = 0.2;
+
+      function addFenceSegment(x1, z1, x2, z2, postsCount) {
+        const dx = (x2 - x1) / postsCount;
+        const dz = (z2 - z1) / postsCount;
+        const segLen = Math.hypot(x2 - x1, z2 - z1);
+        const angle = Math.atan2(z2 - z1, x2 - x1);
+
+        [0.42, 0.78].forEach(ry => {
+          const rail = new THREE.Mesh(new THREE.BoxGeometry(segLen, 0.06, 0.06), matCedar);
+          rail.position.set((x1 + x2) / 2, ry, (z1 + z2) / 2);
+          rail.rotation.y = -angle;
+          rail.castShadow = true;
+          fenceGroup.add(rail);
+        });
+        const curb = new THREE.Mesh(new THREE.BoxGeometry(segLen, 0.18, 0.16), matTravertine);
+        curb.position.set((x1 + x2) / 2, 0.14, (z1 + z2) / 2);
+        curb.rotation.y = -angle;
+        curb.receiveShadow = true;
+        fenceGroup.add(curb);
+
+        for (let i = 0; i <= postsCount; i++) {
+          const post = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.92, 0.12), matDarkBronze);
+          post.position.set(x1 + dx * i, 0.48, z1 + dz * i);
+          post.castShadow = true;
+          fenceGroup.add(post);
+        }
+      }
+      addFenceSegment(ax - aw / 2, az - ad / 2, ax + aw / 2, az - ad / 2, 16);
+      addFenceSegment(ax - aw / 2, az + ad / 2, ax + aw / 2, az + ad / 2, 16);
+      addFenceSegment(ax - aw / 2, az - ad / 2, ax - aw / 2, az + ad / 2, 11);
+      addFenceSegment(ax + aw / 2, az - ad / 2, ax + aw / 2, az + ad / 2, 11);
+      archGroup.add(fenceGroup);
+
+      function createJumpObstacle(x, z, rotY) {
+        const jg = new THREE.Group();
+        [-1.1, 1.1].forEach(px => {
+          const std = new THREE.Mesh(new THREE.BoxGeometry(0.12, 1.05, 0.12), matTravertine);
+          std.position.set(px, 0.55, 0);
+          std.castShadow = true;
+          jg.add(std);
+        });
+        [0.45, 0.78].forEach((py, idx) => {
+          const pole = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.04, 0.04, 2.2, 8),
+            idx === 0 ? matCedar : matTravertine
+          );
+          pole.rotation.z = Math.PI / 2;
+          pole.position.set(0, py, 0);
+          pole.castShadow = true;
+          jg.add(pole);
+        });
+        jg.position.set(x, 0.15, z);
+        jg.rotation.y = rotY;
+        return jg;
+      }
+      archGroup.add(createJumpObstacle(-4.5, -2.2, 0.25));
+      archGroup.add(createJumpObstacle(2.5, -1.8, -0.2));
+      archGroup.add(createJumpObstacle(-3.2, 2.6, -0.15));
+      archGroup.add(createJumpObstacle(3.8, 2.4, 0.3));
+
+      function createStableModule(x, z, rotY) {
+        const mod = new THREE.Group();
+
+        const baseWall = new THREE.Mesh(new THREE.BoxGeometry(4.1, 1.1, 3.2), matTravertine);
+        baseWall.position.set(0, 0.65, 0);
+        baseWall.castShadow = true;
+        baseWall.receiveShadow = true;
+        mod.add(baseWall);
+
+        const upperWall = new THREE.Mesh(new THREE.BoxGeometry(4.12, 1.15, 3.16), matCedar);
+        upperWall.position.set(0, 1.75, 0);
+        upperWall.castShadow = true;
+        mod.add(upperWall);
+
+        const glowBox = new THREE.Mesh(new THREE.BoxGeometry(3.4, 1.65, 2.6), matWarmGlow);
+        glowBox.position.set(0, 1.1, -0.15);
+        mod.add(glowBox);
+
+        [-1.95, -0.65, 0.65, 1.95].forEach(px => {
+          const mullion = new THREE.Mesh(new THREE.BoxGeometry(0.14, 2.3, 0.22), matDarkBronze);
+          mullion.position.set(px, 1.25, -1.55);
+          mullion.castShadow = true;
+          mod.add(mullion);
+        });
+
+        const roofSlab = new THREE.Mesh(new THREE.BoxGeometry(4.35, 0.22, 4.3), matTravertine);
+        roofSlab.position.set(0, 2.42, -0.35);
+        roofSlab.castShadow = true;
+        roofSlab.receiveShadow = true;
+        mod.add(roofSlab);
+
+        const roofFascia = new THREE.Mesh(new THREE.BoxGeometry(4.38, 0.1, 4.34), matDarkBronze);
+        roofFascia.position.set(0, 2.52, -0.35);
+        mod.add(roofFascia);
+
+        const skylight = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.22, 1.1), matDarkBronze);
+        skylight.position.set(0, 2.65, -0.1);
+        mod.add(skylight);
+
+        mod.position.set(x, 0.1, z);
+        mod.rotation.y = rotY;
+        return mod;
+      }
+
+      const southStablesGroup = new THREE.Group();
+      for (let i = 0; i < 4; i++) {
+        southStablesGroup.add(createStableModule(-7.5 + i * 4.5, 10.6, 0));
+      }
+      archGroup.add(southStablesGroup);
+
+      const tackPavilion = new THREE.Group();
+      const tackPlinth = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.3, 8.8), matTravertine);
+      tackPlinth.position.set(0, 0.25, 0);
+      tackPlinth.receiveShadow = true;
+      tackPavilion.add(tackPlinth);
+
+      const tackCore = new THREE.Mesh(new THREE.BoxGeometry(4.6, 2.4, 6.8), matWarmGlow);
+      tackCore.position.set(0.2, 1.5, 0);
+      tackPavilion.add(tackCore);
+
+      const tackGlass = new THREE.Mesh(new THREE.BoxGeometry(5.0, 2.45, 7.2), matGlass);
+      tackGlass.position.set(0.1, 1.5, 0);
+      tackPavilion.add(tackGlass);
+
+      [-2.7, 2.7].forEach(cx => {
+        [-3.9, -1.3, 1.3, 3.9].forEach(cz => {
+          const col = new THREE.Mesh(new THREE.BoxGeometry(0.18, 2.65, 0.18), matDarkBronze);
+          col.position.set(cx, 1.6, cz);
+          col.castShadow = true;
+          tackPavilion.add(col);
+        });
+      });
+
+      const tackRoof = new THREE.Mesh(new THREE.BoxGeometry(6.6, 0.28, 9.2), matTravertine);
+      tackRoof.position.set(0, 2.95, 0);
+      tackRoof.castShadow = true;
+      tackPavilion.add(tackRoof);
+
+      const tackClerestory = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.65, 5.4), matCedar);
+      tackClerestory.position.set(0.2, 3.35, 0);
+      tackClerestory.castShadow = true;
+      tackPavilion.add(tackClerestory);
+
+      tackPavilion.position.set(13.2, 0.05, 1.2);
+      archGroup.add(tackPavilion);
+
+      const northPromenade = new THREE.Mesh(new THREE.BoxGeometry(21, 0.16, 6.2), matTravertine);
+      northPromenade.position.set(-0.8, 0.12, -9.8);
+      northPromenade.receiveShadow = true;
+      signatureArchGroup.add(northPromenade);
+
+      for (let i = 0; i < 4; i++) {
+        signatureArchGroup.add(createStableModule(-7.5 + i * 4.5, -10.2, Math.PI));
+      }
+
+      const canopyGroup = new THREE.Group();
+      const archSpan = 15.2;
+      const archLength = 21.0;
+      for (let i = 0; i <= 6; i++) {
+        const xPos = -ax - archLength / 2 + (i * archLength) / 6 - 1.5;
+        [-archSpan / 2, archSpan / 2].forEach(zPos => {
+          const col = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 4.8, 10), matDarkBronze);
+          col.position.set(xPos, 2.4, az + zPos);
+          col.castShadow = true;
+          canopyGroup.add(col);
+        });
+        const rib = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.26, archSpan + 1.4), matDarkBronze);
+        rib.position.set(xPos, 4.95, az);
+        rib.castShadow = true;
+        canopyGroup.add(rib);
+      }
+      const matCanopyRoof = new THREE.MeshStandardMaterial({
+        color: 0x8C583A,
+        roughness: 0.45,
+        metalness: 0.3,
+        transparent: true,
+        opacity: 0.58
+      });
+      const canopyDeck = new THREE.Mesh(new THREE.BoxGeometry(archLength + 0.8, 0.14, archSpan + 1.0), matCanopyRoof);
+      canopyDeck.position.set(-0.8, 5.05, az);
+      canopyDeck.castShadow = true;
+      canopyGroup.add(canopyDeck);
+      signatureArchGroup.add(canopyGroup);
+
+      const westPromenade = new THREE.Mesh(new THREE.BoxGeometry(6.2, 0.16, 18.0), matTravertine);
+      westPromenade.position.set(-15.2, 0.12, 0.2);
+      westPromenade.receiveShadow = true;
+      royalArchGroup.add(westPromenade);
+
+      for (let i = 0; i < 4; i++) {
+        royalArchGroup.add(createStableModule(-15.5, -5.2 + i * 3.8, -Math.PI / 2));
+      }
+
+      const royalColonnade = new THREE.Group();
+      const colBase = new THREE.Mesh(new THREE.BoxGeometry(16.5, 0.45, 5.6), matTravertine);
+      colBase.position.set(4.5, 0.3, -14.8);
+      colBase.receiveShadow = true;
+      royalColonnade.add(colBase);
+
+      for (let i = 0; i < 7; i++) {
+        const px = -2.7 + i * 2.4;
+        [-1.8, 1.8].forEach(pz => {
+          const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.26, 3.8, 14), matTravertine);
+          pillar.position.set(4.5 + px, 2.2, -14.8 + pz);
+          pillar.castShadow = true;
+          royalColonnade.add(pillar);
+        });
+      }
+      const royalUpper = new THREE.Mesh(new THREE.BoxGeometry(16.8, 2.1, 4.4), matTravertine);
+      royalUpper.position.set(4.5, 4.9, -14.8);
+      royalUpper.castShadow = true;
+      royalColonnade.add(royalUpper);
+
+      const royalGlass = new THREE.Mesh(new THREE.BoxGeometry(14.6, 1.4, 4.55), matWarmGlow);
+      royalGlass.position.set(4.5, 4.9, -14.8);
+      royalColonnade.add(royalGlass);
+
+      const royalRoof = new THREE.Mesh(new THREE.BoxGeometry(17.6, 0.35, 5.4), matCedar);
+      royalRoof.position.set(4.5, 6.1, -14.8);
+      royalRoof.castShadow = true;
+      royalColonnade.add(royalRoof);
+
+      royalArchGroup.add(royalColonnade);
+
+      const bgSchoolGroup = new THREE.Group();
+      const schoolMat = new THREE.MeshStandardMaterial({ color: 0xDFD5C5, roughness: 0.75 });
+      const schoolWingA = new THREE.Mesh(new THREE.BoxGeometry(11, 2.6, 4.2), schoolMat);
+      schoolWingA.position.set(14, 1.3, -19.5);
+      schoolWingA.rotation.y = -0.18;
+      schoolWingA.castShadow = true;
+      bgSchoolGroup.add(schoolWingA);
+
+      const schoolWingB = new THREE.Mesh(new THREE.BoxGeometry(8.5, 3.2, 4.0), schoolMat);
+      schoolWingB.position.set(6.5, 1.6, -21.0);
+      schoolWingB.rotation.y = 0.12;
+      schoolWingB.castShadow = true;
+      bgSchoolGroup.add(schoolWingB);
+      archGroup.add(bgSchoolGroup);
+
+      const matTrunk = new THREE.MeshStandardMaterial({ color: 0x4A3222, roughness: 0.9 });
+      const foliageColors = [0x4E5B3C, 0x5E6B46, 0x6E7852, 0x3F4B30];
+
+      function createTree(x, z, scale, isCypress) {
+        const tg = new THREE.Group();
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12 * scale, 0.2 * scale, 1.2 * scale, 7), matTrunk);
+        trunk.position.y = 0.6 * scale;
+        trunk.castShadow = true;
+        tg.add(trunk);
+
+        const fMat = new THREE.MeshStandardMaterial({
+          color: foliageColors[Math.floor(Math.random() * foliageColors.length)],
+          roughness: 0.85
+        });
+
+        if (isCypress) {
+          const spire = new THREE.Mesh(new THREE.ConeGeometry(0.65 * scale, 3.4 * scale, 9), fMat);
+          spire.position.y = 2.1 * scale;
+          spire.castShadow = true;
+          tg.add(spire);
+        } else {
+          const blobs = [
+            { dx: 0, dy: 1.85, dz: 0, r: 1.15 },
+            { dx: 0.55, dy: 1.55, dz: 0.35, r: 0.82 },
+            { dx: -0.5, dy: 1.6, dz: -0.35, r: 0.85 },
+            { dx: 0.2, dy: 2.2, dz: -0.3, r: 0.75 }
+          ];
+          blobs.forEach(b => {
+            const cMesh = new THREE.Mesh(new THREE.DodecahedronGeometry(b.r * scale, 1), fMat);
+            cMesh.position.set(b.dx * scale, b.dy * scale, b.dz * scale);
+            cMesh.castShadow = true;
+            cMesh.receiveShadow = true;
+            tg.add(cMesh);
+          });
+        }
+        tg.position.set(x, 0.1, z);
+        return tg;
+      }
+
+      const treeCoords = [
+        [-12.5, -6.5, 1.05, false], [-12.5, -2.5, 0.9, true], [-12.5, 1.5, 1.1, false], [-12.5, 5.5, 0.95, true],
+        [-9.5, -7.6, 1.0, false], [-5.2, -7.6, 0.85, true], [0.5, -7.6, 1.1, false], [5.8, -7.6, 0.9, true], [9.8, -7.2, 1.15, false],
+        [10.2, 7.6, 1.1, false], [6.8, 12.2, 1.25, false], [-11.5, 11.2, 1.2, false], [-14.2, 8.8, 0.95, true],
+        [17.8, -4.5, 1.2, false], [18.5, 2.5, 1.05, true], [17.5, 7.8, 1.3, false],
+        [-18, -14, 1.4, false], [-11, -16, 1.3, false], [-3, -15, 1.25, true], [11, -15, 1.35, false], [20, -13, 1.4, false]
+      ];
+      treeCoords.forEach(([x, z, s, cyp]) => {
+        envGroup.add(createTree(x, z, s, cyp));
+      });
+
+      const matHorseCoat = new THREE.MeshStandardMaterial({ color: 0x3B2214, roughness: 0.45, metalness: 0.1 });
+      const matRiderBreeches = new THREE.MeshStandardMaterial({ color: 0xF5EFE4, roughness: 0.6 });
+      const matRiderCoat = new THREE.MeshStandardMaterial({ color: 0x1E1814, roughness: 0.5 });
+
+      function createArticulatedHorse() {
+        const hg = new THREE.Group();
+        const body = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.42, 0.34), matHorseCoat);
+        body.position.set(0, 0.62, 0);
+        body.castShadow = true;
+        hg.add(body);
+
+        const neck = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.48, 0.2), matHorseCoat);
+        neck.position.set(0.42, 0.88, 0);
+        neck.rotation.z = -0.45;
+        neck.castShadow = true;
+        hg.add(neck);
+
+        const head = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.18, 0.17), matHorseCoat);
+        head.position.set(0.58, 1.04, 0);
+        head.rotation.z = 0.25;
+        hg.add(head);
+
+        const tail = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.42, 0.1), matDarkBronze);
+        tail.position.set(-0.52, 0.56, 0);
+        tail.rotation.z = 0.35;
+        hg.add(tail);
+
+        const legs = [];
+        [
+          [0.34, 0.12], [0.34, -0.12],
+          [-0.34, 0.12], [-0.34, -0.12]
+        ].forEach(([lx, lz]) => {
+          const leg = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.48, 0.09), matHorseCoat);
+          leg.position.set(lx, 0.24, lz);
+          leg.castShadow = true;
+          hg.add(leg);
+          legs.push(leg);
+        });
+
+        const riderTorso = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.38, 0.24), matRiderCoat);
+        riderTorso.position.set(-0.04, 1.02, 0);
+        hg.add(riderTorso);
+
+        const riderHead = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 10), matRiderBreeches);
+        riderHead.position.set(-0.04, 1.28, 0);
+        hg.add(riderHead);
+
+        hg.userData.legs = legs;
+        return hg;
+      }
+
+      const animatedHorses = [];
+      const horsePaths = [
+        { rx: 6.8, rz: 4.2, speed: 0.55, phase: 0.0, cx: -0.8, cz: 0.2 },
+        { rx: 6.8, rz: 4.2, speed: 0.55, phase: Math.PI, cx: -0.8, cz: 0.2 },
+        { rx: 3.2, rz: 2.2, speed: -0.72, phase: 1.4, cx: -2.0, cz: 0.2 }
+      ];
+      horsePaths.forEach(hp => {
+        const hMesh = createArticulatedHorse();
+        hMesh.userData.path = hp;
+        envGroup.add(hMesh);
+        animatedHorses.push(hMesh);
+      });
+
+      const camState = {
+        theta: HUB_DATA.standard.cameraPos.theta,
+        phi: HUB_DATA.standard.cameraPos.phi,
+        radius: HUB_DATA.standard.cameraPos.radius,
+        targetX: HUB_DATA.standard.cameraPos.targetX,
+        targetY: HUB_DATA.standard.cameraPos.targetY,
+        targetZ: HUB_DATA.standard.cameraPos.targetZ
+      };
+
+      let isDragging = false;
+      let prevMouse = { x: 0, y: 0 };
+
+      function updateCameraFromState() {
+        const mobileOffset = window.innerWidth < 1024 ? 5.2 : 0.0;
+        const tx = camState.targetX + mobileOffset;
+        const ty = camState.targetY;
+        const tz = camState.targetZ;
+
+        const x = tx + camState.radius * Math.sin(camState.phi) * Math.sin(camState.theta);
+        const y = ty + camState.radius * Math.cos(camState.phi);
+        const z = tz + camState.radius * Math.sin(camState.phi) * Math.cos(camState.theta);
+
+        camera.position.set(x, y, z);
+        camera.lookAt(tx, ty, tz);
+
+        const compassDial = document.getElementById('compass-dial');
+        if (compassDial) {
+          const deg = Math.round((camState.theta * 180) / Math.PI);
+          compassDial.style.transform = `rotate(${deg}deg)`;
+        }
+      }
+
+      function flyCameraTo(pose, duration = 1.35) {
+        gsap.to(camState, {
+          theta: pose.theta,
+          phi: pose.phi,
+          radius: pose.radius,
+          targetX: pose.targetX,
+          targetY: pose.targetY,
+          targetZ: pose.targetZ,
+          duration: duration,
+          ease: 'power3.inOut',
+          onUpdate: updateCameraFromState
+        });
+      }
+
+      container.addEventListener('pointerdown', e => {
+        isDragging = true;
+        prevMouse.x = e.clientX;
+        prevMouse.y = e.clientY;
+      });
+
+      window.addEventListener('pointermove', e => {
+        if (!isDragging) return;
+        const dx = e.clientX - prevMouse.x;
+        const dy = e.clientY - prevMouse.y;
+        prevMouse.x = e.clientX;
+        prevMouse.y = e.clientY;
+
+        camState.theta -= dx * 0.0055;
+        camState.phi = Math.max(0.28, Math.min(1.42, camState.phi - dy * 0.0045));
+        updateCameraFromState();
+      });
+
+      window.addEventListener('pointerup', () => {
+        isDragging = false;
+      });
+
+      container.addEventListener('wheel', e => {
+        e.preventDefault();
+        camState.radius = Math.max(16, Math.min(72, camState.radius + e.deltaY * 0.025));
+        updateCameraFromState();
+      }, { passive: false });
+
+      const pinConfigs = [
+        { id: 'pin-arena', pos: new THREE.Vector3(-0.8, 1.1, 0.2), minHub: 'standard' },
+        { id: 'pin-stables', pos: new THREE.Vector3(-0.8, 2.7, 10.6), minHub: 'standard' },
+        { id: 'pin-tack', pos: new THREE.Vector3(13.2, 3.5, 1.2), minHub: 'standard' },
+        { id: 'pin-expansion', pos: new THREE.Vector3(-0.8, 5.2, -5.0), minHub: 'signature' },
+        { id: 'pin-pavilion', pos: new THREE.Vector3(4.5, 6.4, -14.8), minHub: 'royal' }
+      ];
+
+      function update3DPins() {
+        const pinsContainer = document.getElementById('pins-container');
+        if (!pinsContainer) return;
+        if (!layerVisibility.interface) {
+          pinsContainer.style.opacity = '0';
+          return;
+        }
+        pinsContainer.style.opacity = '1';
+
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        pinConfigs.forEach(pc => {
+          const el = document.getElementById(pc.id);
+          if (!el) return;
+
+          const shouldShow =
+            pc.minHub === 'standard' ||
+            (pc.minHub === 'signature' && (currentHub === 'signature' || currentHub === 'royal')) ||
+            (pc.minHub === 'royal' && currentHub === 'royal');
+
+          if (!shouldShow) {
+            el.classList.add('hidden');
+            return;
+          }
+          el.classList.remove('hidden');
+
+          const projected = pc.pos.clone().project(camera);
+          if (projected.z > 1) {
+            el.style.opacity = '0';
+            return;
+          }
+          const x = (projected.x * 0.5 + 0.5) * width;
+          const y = (-(projected.y * 0.5) + 0.5) * height;
+          el.style.left = `${x}px`;
+          el.style.top = `${y}px`;
+          el.style.opacity = '1';
+        });
+      }
+
+      document.querySelectorAll('.pin-3d').forEach(pinEl => {
+        pinEl.addEventListener('click', e => {
+          e.stopPropagation();
+          const facKey = pinEl.getAttribute('data-facility');
+          focusFacility(facKey);
+        });
+      });
+
+      function focusFacility(facKey) {
+        const info = FACILITY_INFO[facKey];
+        if (!info) return;
+
+        document.querySelectorAll('.pin-3d').forEach(el => {
+          el.classList.toggle('active', el.getAttribute('data-facility') === facKey);
+        });
+
+        const hudTitle = document.getElementById('facility-hud-title');
+        const hudDesc = document.getElementById('facility-hud-desc');
+        if (hudTitle && hudDesc) {
+          hudTitle.textContent = info.title;
+          hudDesc.textContent = info.desc;
+        }
+        flyCameraTo(info.cam, 1.25);
+      }
+
+      function setHubModel(hubKey, animateAssembly = true) {
+        if (!HUB_DATA[hubKey]) return;
+        currentHub = hubKey;
+        const data = HUB_DATA[hubKey];
+
+        ['standard', 'signature', 'royal'].forEach(k => {
+          const card = document.getElementById(`card-${k}`);
+          if (card) {
+            const isAct = k === hubKey;
+            card.classList.toggle('active', isAct);
+            const statusText = card.querySelector('.hub-status-text');
+            if (statusText) {
+              statusText.textContent = isAct ? 'Active in 3D' : 'Explore 3D';
+              statusText.className = isAct
+                ? 'text-[9px] uppercase tracking-[0.14em] text-[#6B3A24] font-semibold hub-status-text'
+                : 'text-[9px] uppercase tracking-[0.14em] text-[#5C5046] font-medium hub-status-text';
+            }
+          }
+        });
+
+        const stLabel = document.getElementById('pin-stables-label');
+        if (stLabel) stLabel.textContent = data.stablesLabel;
+
+        const acreReadout = document.getElementById('site-acre-readout');
+        const layoutReadout = document.getElementById('site-layout-readout');
+        const spTitle = document.getElementById('siteplan-title');
+        const kpiCap = document.getElementById('kpi-capacity-val');
+
+        if (acreReadout) acreReadout.textContent = data.landLabel;
+        if (layoutReadout) layoutReadout.textContent = data.layoutSub;
+        if (spTitle) spTitle.textContent = data.siteplanTitle;
+        if (kpiCap) kpiCap.textContent = `${data.capacityLabel}`;
+
+        const showSig = hubKey === 'signature' || hubKey === 'royal';
+        const showRoy = hubKey === 'royal';
+
+        signatureArchGroup.visible = showSig;
+        royalArchGroup.visible = showRoy;
+
+        if (animateAssembly) {
+          gsap.fromTo(
+            southStablesGroup.position,
+            { y: -2.2 },
+            { y: 0, duration: 0.85, ease: 'back.out(1.4)' }
+          );
+          gsap.fromTo(
+            tackPavilion.position,
+            { y: -2.5 },
+            { y: 0.05, duration: 0.95, delay: 0.08, ease: 'back.out(1.3)' }
+          );
+          if (showSig) {
+            gsap.fromTo(
+              signatureArchGroup.position,
+              { y: -4.0 },
+              { y: 0, duration: 1.05, delay: 0.14, ease: 'power3.out' }
+            );
+          }
+          if (showRoy) {
+            gsap.fromTo(
+              royalArchGroup.position,
+              { y: -5.0 },
+              { y: 0, duration: 1.15, delay: 0.22, ease: 'power3.out' }
+            );
+          }
+          flyCameraTo(data.cameraPos, 1.35);
+        }
+
+        syncCalculatorWithHub(hubKey);
+        updateBlueprintModalSpecs(hubKey);
+      }
+
+      const miniSiteCanvas = document.getElementById('siteplan-canvas');
+      const modalSiteCanvas = document.getElementById('modal-siteplan-canvas');
+
+      function drawArchitecturalSitePlan(canvas, timeSec) {
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
+
+        ctx.fillStyle = '#EFE7D6';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = 'rgba(107, 58, 36, 0.07)';
+        ctx.lineWidth = 1;
+        const gStep = Math.round(w / 20);
+        for (let x = 0; x < w; x += gStep) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = 0; y < h; y += gStep) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+
+        const padX = w * 0.11;
+        const padY = h * 0.12;
+        ctx.fillStyle = '#DFD5C0';
+        ctx.strokeStyle = '#8C7A65';
+        ctx.lineWidth = 1.5;
+        ctx.fillRect(padX, padY, w - padX * 2, h - padY * 2);
+        ctx.strokeRect(padX, padY, w - padX * 2, h - padY * 2);
+
+        const arenaX = w * 0.22;
+        const arenaY = h * 0.20;
+        const arenaW = w * 0.48;
+        const arenaH = h * 0.52;
+
+        ctx.fillStyle = '#DFC7A7';
+        ctx.fillRect(arenaX, arenaY, arenaW, arenaH);
+        ctx.strokeStyle = '#5B3A24';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(arenaX, arenaY, arenaW, arenaH);
+
+        ctx.save();
+        ctx.setLineDash([5, 5]);
+        ctx.strokeStyle = 'rgba(107, 58, 36, 0.35)';
+        ctx.lineWidth = 1.2;
+        ctx.strokeRect(arenaX + 10, arenaY + 10, arenaW - 20, arenaH - 20);
+        ctx.restore();
+
+        if (currentHub === 'signature' || currentHub === 'royal') {
+          ctx.save();
+          ctx.strokeStyle = 'rgba(107, 58, 36, 0.22)';
+          ctx.lineWidth = 1.5;
+          for (let i = 1; i < 6; i++) {
+            const rx = arenaX + (arenaW * i) / 6;
+            ctx.beginPath();
+            ctx.moveTo(rx, arenaY - 4);
+            ctx.lineTo(rx, arenaY + arenaH + 4);
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        ctx.fillStyle = '#2B211B';
+        ctx.font = `600 ${Math.max(10, Math.round(w * 0.017))}px Inter, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText('SAND ARENA', arenaX + arenaW / 2, arenaY + arenaH * 0.32);
+
+        ctx.fillStyle = '#6B3A24';
+        horsePaths.forEach(hp => {
+          const ang = timeSec * hp.speed + hp.phase;
+          const hx = arenaX + arenaW * 0.5 + Math.cos(ang) * (arenaW * 0.32);
+          const hy = arenaY + arenaH * 0.55 + Math.sin(ang) * (arenaH * 0.28);
+          ctx.beginPath();
+          ctx.arc(hx, hy, Math.max(3.5, w * 0.006), 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        const stX = arenaX;
+        const stY = arenaY + arenaH + h * 0.04;
+        const stW = arenaW * 0.62;
+        const stH = h * 0.14;
+        ctx.fillStyle = '#EFE9DD';
+        ctx.strokeStyle = '#3D2B1F';
+        ctx.lineWidth = 2;
+        ctx.fillRect(stX, stY, stW, stH);
+        ctx.strokeRect(stX, stY, stW, stH);
+        for (let i = 1; i < 4; i++) {
+          const dx = stX + (stW * i) / 4;
+          ctx.beginPath(); ctx.moveTo(dx, stY); ctx.lineTo(dx, stY + stH); ctx.stroke();
+        }
+        ctx.fillStyle = '#1A1512';
+        ctx.fillText('4 STABLES', stX + stW / 2, stY + stH * 0.62);
+
+        const tkX = arenaX + arenaW + w * 0.025;
+        const tkY = arenaY + arenaH * 0.26;
+        const tkW = w * 0.12;
+        const tkH = arenaH * 0.48;
+        ctx.fillStyle = '#EFE9DD';
+        ctx.fillRect(tkX, tkY, tkW, tkH);
+        ctx.strokeRect(tkX, tkY, tkW, tkH);
+        ctx.fillStyle = '#1A1512';
+        ctx.fillText('TACK', tkX + tkW / 2, tkY + tkH * 0.55);
+
+        if (currentHub === 'signature' || currentHub === 'royal') {
+          const nStY = arenaY - h * 0.15;
+          ctx.fillStyle = '#E8DEC8';
+          ctx.strokeStyle = '#6B3A24';
+          ctx.fillRect(stX, nStY, stW, h * 0.11);
+          ctx.strokeRect(stX, nStY, stW, h * 0.11);
+          ctx.fillStyle = '#6B3A24';
+          ctx.fillText('+4 STABLES (NORTH WING)', stX + stW / 2, nStY + h * 0.07);
+        }
+
+        if (currentHub === 'royal') {
+          const wStX = arenaX - w * 0.095;
+          ctx.fillStyle = '#E8DEC8';
+          ctx.strokeStyle = '#6B3A24';
+          ctx.fillRect(wStX, arenaY, w * 0.075, arenaH);
+          ctx.strokeRect(wStX, arenaY, w * 0.075, arenaH);
+
+          const colX = arenaX + arenaW * 0.64;
+          const colY = arenaY - h * 0.15;
+          ctx.fillRect(colX, colY, arenaW * 0.52, h * 0.11);
+          ctx.strokeRect(colX, colY, arenaW * 0.52, h * 0.11);
+          ctx.fillStyle = '#6B3A24';
+          ctx.fillText('ROYAL COLONNADE', colX + (arenaW * 0.52) / 2, colY + h * 0.07);
+        }
+
+        const treeDots = [
+          [arenaX - 18, arenaY - 10], [arenaX - 18, arenaY + arenaH * 0.4], [arenaX - 18, arenaY + arenaH * 0.85],
+          [arenaX + arenaW * 0.8, stY + stH * 0.5], [arenaX + arenaW * 0.95, stY + stH * 0.5],
+          [tkX + tkW * 0.5, arenaY + 8], [tkX + tkW * 0.5, arenaY + arenaH - 6]
+        ];
+        treeDots.forEach(([tx, ty]) => {
+          ctx.fillStyle = '#556644';
+          ctx.beginPath();
+          ctx.arc(tx, ty, Math.max(6, w * 0.012), 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#75895E';
+          ctx.beginPath();
+          ctx.arc(tx - 2, ty - 2, Math.max(3, w * 0.006), 0, Math.PI * 2);
+          ctx.fill();
+        });
+      }
+
+      if (miniSiteCanvas) {
+        miniSiteCanvas.addEventListener('click', e => {
+          const rect = miniSiteCanvas.getBoundingClientRect();
+          const nx = (e.clientX - rect.left) / rect.width;
+          const ny = (e.clientY - rect.top) / rect.height;
+
+          if (nx > 0.68) {
+            focusFacility('tack');
+          } else if (ny > 0.72) {
+            focusFacility('stables');
+          } else if (ny < 0.24 && currentHub === 'royal') {
+            focusFacility('pavilion');
+          } else if (ny < 0.24 && currentHub === 'signature') {
+            focusFacility('expansion');
+          } else {
+            focusFacility('arena');
+          }
+        });
+      }
+
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const elapsed = clock.getElapsedTime();
+
+        animatedHorses.forEach(hMesh => {
+          const hp = hMesh.userData.path;
+          const angle = elapsed * hp.speed + hp.phase;
+          const x = hp.cx + Math.cos(angle) * hp.rx;
+          const z = hp.cz + Math.sin(angle) * hp.rz;
+          hMesh.position.set(x, 0.14 + Math.abs(Math.sin(elapsed * 7)) * 0.06, z);
+
+          const tx = -Math.sin(angle) * hp.rx * hp.speed;
+          const tz = Math.cos(angle) * hp.rz * hp.speed;
+          hMesh.rotation.y = Math.atan2(-tz, tx);
+
+          const legs = hMesh.userData.legs;
+          if (legs && legs.length === 4) {
+            const stride = Math.sin(elapsed * 10 + hp.phase) * 0.38;
+            legs[0].rotation.z = stride;
+            legs[3].rotation.z = stride;
+            legs[1].rotation.z = -stride;
+            legs[2].rotation.z = -stride;
+          }
+        });
+
+        renderer.render(scene, camera);
+        update3DPins();
+        drawArchitecturalSitePlan(miniSiteCanvas, elapsed);
+        if (!document.getElementById('modal-siteplan').classList.contains('hidden')) {
+          drawArchitecturalSitePlan(modalSiteCanvas, elapsed);
+        }
+      }
+
+      window.addEventListener('resize', () => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+        updateCameraFromState();
+      });
+
+      ['standard', 'signature', 'royal'].forEach(hubKey => {
+        const card = document.getElementById(`card-${hubKey}`);
+        if (card) {
+          card.addEventListener('click', () => setHubModel(hubKey, true));
+        }
+      });
+
+      document.querySelectorAll('[data-select-hub-scroll]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const hubKey = btn.getAttribute('data-select-hub-scroll');
+          document.getElementById('citadel-hero').scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => setHubModel(hubKey, true), 350);
+        });
+      });
+
+      const btnReplay = document.getElementById('btn-replay-assembly');
+      if (btnReplay) {
+        btnReplay.addEventListener('click', () => setHubModel(currentHub, true));
+      }
+
+      const btnResetCam = document.getElementById('btn-reset-camera');
+      if (btnResetCam) {
+        btnResetCam.addEventListener('click', () => flyCameraTo(HUB_DATA[currentHub].cameraPos, 1.1));
+      }
+      const btnCompass = document.getElementById('btn-compass');
+      if (btnCompass) {
+        btnCompass.addEventListener('click', () => flyCameraTo(HUB_DATA[currentHub].cameraPos, 1.1));
+      }
+
+      const btnTopDown = document.getElementById('btn-topdown-3d');
+      if (btnTopDown) {
+        btnTopDown.addEventListener('click', () => {
+          flyCameraTo({ theta: 0.0, phi: 0.28, radius: 46, targetX: -2.0, targetY: 0, targetZ: 1.0 }, 1.25);
+        });
+      }
+
+      const btnLighting = document.getElementById('btn-lighting-mode');
+      const lightingLabel = document.getElementById('lighting-mode-label');
+      const lightingPresets = [
+        { name: 'Golden Hour', bg: 0xEFE6D5, sunColor: 0xFFD699, sunInt: 1.55, hemiInt: 0.72, exposure: 1.12 },
+        { name: 'Dusk Citadel', bg: 0x241D18, sunColor: 0xFF9E5E, sunInt: 0.85, hemiInt: 0.35, exposure: 0.95 },
+        { name: 'Studio Daylight', bg: 0xF7F3EB, sunColor: 0xFFFDF8, sunInt: 1.75, hemiInt: 0.92, exposure: 1.18 }
+      ];
+      if (btnLighting) {
+        btnLighting.addEventListener('click', () => {
+          currentLightingMode = (currentLightingMode + 1) % lightingPresets.length;
+          const p = lightingPresets[currentLightingMode];
+          if (lightingLabel) lightingLabel.textContent = p.name;
+          scene.background.setHex(p.bg);
+          scene.fog.color.setHex(p.bg);
+          sunLight.color.setHex(p.sunColor);
+          sunLight.intensity = p.sunInt;
+          hemiLight.intensity = p.hemiInt;
+          renderer.toneMappingExposure = p.exposure;
+        });
+      }
+
+      document.querySelectorAll('[data-dock]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-dock]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const action = btn.getAttribute('data-dock');
+
+          if (action === '3d') {
+            flyCameraTo(HUB_DATA[currentHub].cameraPos, 1.2);
+          } else if (action === 'siteplan') {
+            openSitePlanModal();
+          } else if (action === 'facilities') {
+            const keys = currentHub === 'royal'
+              ? ['arena', 'stables', 'tack', 'expansion', 'pavilion']
+              : currentHub === 'signature'
+                ? ['arena', 'stables', 'tack', 'expansion']
+                : ['arena', 'stables', 'tack'];
+            facilityCycleIdx = (facilityCycleIdx + 1) % keys.length;
+            focusFacility(keys[facilityCycleIdx]);
+          } else if (action === 'capacity') {
+            document.getElementById('configurator-matrix').scrollIntoView({ behavior: 'smooth' });
+          } else if (action === 'roi') {
+            document.getElementById('roi-section').scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      document.querySelectorAll('[data-layer-toggle]').forEach(chk => {
+        chk.addEventListener('change', () => {
+          const layer = chk.getAttribute('data-layer-toggle');
+          layerVisibility[layer] = chk.checked;
+          if (layer === 'ground') groundGroup.visible = chk.checked;
+          if (layer === 'architecture') archGroup.visible = chk.checked;
+          if (layer === 'environment') envGroup.visible = chk.checked;
+          if (layer === 'lighting') lightGroup.visible = chk.checked;
+        });
+      });
+
+      const btnEnableAllLayers = document.getElementById('btn-enable-all-layers');
+      if (btnEnableAllLayers) {
+        btnEnableAllLayers.addEventListener('click', () => {
+          document.querySelectorAll('[data-layer-toggle]').forEach(chk => {
+            chk.checked = true;
+            chk.dispatchEvent(new Event('change'));
+          });
+        });
+      }
+
+      const btnCameraTour = document.getElementById('btn-layer-camera-tour');
+      if (btnCameraTour) {
+        btnCameraTour.addEventListener('click', () => {
+          document.getElementById('citadel-hero').scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => focusFacility('arena'), 300);
+          setTimeout(() => focusFacility('stables'), 1900);
+          setTimeout(() => focusFacility('tack'), 3500);
+          setTimeout(() => flyCameraTo(HUB_DATA[currentHub].cameraPos, 1.3), 5100);
+        });
+      }
+
+      const btnLayerStory = document.getElementById('btn-layer-story');
+      if (btnLayerStory) {
+        btnLayerStory.addEventListener('click', () => {
+          document.getElementById('citadel-hero').scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => setHubModel(currentHub, true), 350);
+        });
+      }
+
+      const sliderCadets = document.getElementById('slider-cadets');
+      const sliderTuition = document.getElementById('slider-tuition');
+      const sliderShare = document.getElementById('slider-share');
+
+      function updateROICalculator() {
+        const cadets = Number(sliderCadets.value);
+        const tuition = Number(sliderTuition.value);
+        const sharePct = Number(sliderShare.value);
+        const hubInfo = HUB_DATA[currentHub];
+
+        document.getElementById('label-cadets').textContent = `${cadets} Cadets`;
+        document.getElementById('label-tuition').textContent = `₹${tuition.toLocaleString('en-IN')} / yr`;
+        document.getElementById('label-share').textContent = `${sharePct.toFixed(1)}%`;
+
+        const grossLakhs = (cadets * tuition) / 100000;
+        const schoolAnnualLakhs = grossLakhs * (sharePct / 100);
+        const schoolFiveYrLakhs = schoolAnnualLakhs * 5;
+
+        document.getElementById('out-gross-tuition').textContent = `₹${grossLakhs.toFixed(2)} L`;
+        document.getElementById('out-annual-school').textContent = `₹${schoolAnnualLakhs.toFixed(2)} L`;
+        document.getElementById('out-5yr-school').textContent = `₹${schoolFiveYrLakhs.toFixed(2)} L`;
+        document.getElementById('out-bsah-capex').textContent = hubInfo.price;
+        document.getElementById('calc-hub-title').textContent = `${hubInfo.name} · ${hubInfo.landLabel.replace('SITE - ', '')}`;
+
+        const mouCadetsInput = document.getElementById('mou-cadets');
+        if (mouCadetsInput) {
+          mouCadetsInput.value = `${cadets} Cadets (Est. ₹${schoolAnnualLakhs.toFixed(2)} L/yr Return)`;
+        }
+      }
+
+      function syncCalculatorWithHub(hubKey) {
+        const d = HUB_DATA[hubKey];
+        if (!d) return;
+        sliderCadets.value = d.defaultCadets;
+        sliderShare.value = d.defaultShare;
+
+        document.querySelectorAll('.calc-hub-btn').forEach(btn => {
+          const isMatch = btn.getAttribute('data-calc-hub') === hubKey;
+          btn.className = isMatch
+            ? 'calc-hub-btn py-2.5 px-3 text-xs font-semibold rounded border border-[#6B3A24] bg-[#6B3A24] text-[#FAF7F0] transition'
+            : 'calc-hub-btn py-2.5 px-3 text-xs font-semibold rounded border border-[#D5C7B2] bg-[#F4EFE4] text-[#1A1512] hover:border-[#6B3A24] transition';
+        });
+        updateROICalculator();
+      }
+
+      [sliderCadets, sliderTuition, sliderShare].forEach(inp => {
+        if (inp) inp.addEventListener('input', updateROICalculator);
+      });
+
+      document.querySelectorAll('.calc-hub-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const hk = btn.getAttribute('data-calc-hub');
+          setHubModel(hk, false);
+        });
+      });
+
+      const modalMou = document.getElementById('modal-mou');
+      const modalSiteplan = document.getElementById('modal-siteplan');
+
+      function openMouModal() {
+        modalMou.classList.remove('hidden');
+        modalMou.classList.add('flex');
+      }
+      function closeMouModal() {
+        modalMou.classList.add('hidden');
+        modalMou.classList.remove('flex');
+      }
+
+      function openSitePlanModal() {
+        updateBlueprintModalSpecs(currentHub);
+        modalSiteplan.classList.remove('hidden');
+        modalSiteplan.classList.add('flex');
+      }
+      function closeSitePlanModal() {
+        modalSiteplan.classList.add('hidden');
+        modalSiteplan.classList.remove('flex');
+      }
+
+      function updateBlueprintModalSpecs(hubKey) {
+        const d = HUB_DATA[hubKey];
+        if (!d) return;
+        document.getElementById('modal-siteplan-heading').textContent = `${d.name} — ${d.landLabel.replace('SITE - ', '')} Master Plan`;
+        document.getElementById('blueprint-dim').textContent = d.dimText;
+        document.getElementById('blueprint-stables').textContent = d.stablesSpec;
+        document.getElementById('blueprint-tack').textContent = d.tackSpec;
+
+        document.querySelectorAll('.modal-hub-pill').forEach(p => {
+          const isMatch = p.getAttribute('data-modal-hub') === hubKey;
+          p.className = isMatch
+            ? 'modal-hub-pill px-3 py-1 text-[10px] uppercase tracking-widest rounded bg-[#6B3A24] text-[#FAF7F0]'
+            : 'modal-hub-pill px-3 py-1 text-[10px] uppercase tracking-widest rounded bg-[#EAE0CC] text-[#1A1512]';
+        });
+      }
+
+      document.querySelectorAll('.modal-hub-pill').forEach(p => {
+        p.addEventListener('click', () => {
+          setHubModel(p.getAttribute('data-modal-hub'), true);
+        });
+      });
+
+      ['btn-request-mou', 'btn-nav-enquire', 'btn-calc-request-mou'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', openMouModal);
+      });
+      ['btn-close-mou', 'btn-cancel-mou'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', closeMouModal);
+      });
+
+      const btnRunNumbers = document.getElementById('btn-run-numbers');
+      if (btnRunNumbers) {
+        btnRunNumbers.addEventListener('click', () => {
+          document.getElementById('roi-section').scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      const btnOpenDrawer = document.getElementById('btn-open-drawer');
+      if (btnOpenDrawer) {
+        btnOpenDrawer.addEventListener('click', () => {
+          document.getElementById('layers-section').scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      const btnExpandSiteplan = document.getElementById('btn-expand-siteplan');
+      if (btnExpandSiteplan) btnExpandSiteplan.addEventListener('click', openSitePlanModal);
+
+      const btnCloseSiteplan = document.getElementById('btn-close-siteplan');
+      if (btnCloseSiteplan) btnCloseSiteplan.addEventListener('click', closeSitePlanModal);
+
+      const formMou = document.getElementById('form-mou');
+      if (formMou) {
+        formMou.addEventListener('submit', e => {
+          e.preventDefault();
+          const school = document.getElementById('mou-school').value;
+          const hub = document.getElementById('mou-hub').value;
+          const fb = document.getElementById('mou-feedback');
+          fb.textContent = `Draft MOU Dossier initialized for ${school} (${hub}). A BSAH Institutional Director will dispatch the commercial term sheet and architectural CAD package.`;
+          fb.classList.remove('hidden');
+        });
+      }
+
+      updateCameraFromState();
+      setHubModel('standard', false);
+      animate();
+    })();
+  </script>
+</body>
+</html>
