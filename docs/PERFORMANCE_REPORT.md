@@ -78,6 +78,30 @@ India: median **635 ms before, 45 ms after** (clean run; range 39–179 ms). Thi
 does not change the Lighthouse scores above (which measure the statically served home page) but applies to every
 enquiry, passport lookup and admin page. Method, all samples and limits: `docs/DEPLOYMENT_RUNBOOK.md` section 10.
 
+## 2e. Media served by the image provider's CDN (24 Oct, measured from the browser, not Lighthouse)
+
+Lighthouse could not see this because the sandbox cannot reach the provider's CDN (the proxy refuses it), so every
+size below comes from `HEAD` requests (`Content-Length`) made by the browser on the protected preview. They are what a
+visitor downloads on top of the numbers in §2.
+
+| Group | Used by | Items | Size |
+| --- | --- | --- | --- |
+| The eight new stills (peg run, academy morning), **as the CDN stores them** | `/tournaments` (4), `/parents` (4), `/about` ribbon (3 of them + `pegLift`) | 8 PNG, 2K | 7.2–8.0 MB **each, 60.8 MB in all** |
+| The same eight stills **through the provider's resizer** (`w=1920`, WebP, q 82) — shipped in `561c8c8` | same | 8 WebP | landscape 0.21–0.28 MB; portrait 0.42–0.78 MB; **about 3.5 MB in all** |
+| Journal sphere (`FieldSphereHero`) | `/journal` | 21 `_min.webp` | 6.2 MB in all (largest 0.72 MB); the first four were also seen requested through `<link rel="preload">` hints while browsing `/tournaments` (probably Next's prefetch of `/journal`; not investigated further) |
+| Videos that exist only on the CDN | `/fleet` (4), `/legend` (1), `/curriculum` (1) | 6 MP4 | 3.6–15.1 MB each |
+| Videos with a local first choice and the CDN as fallback | footer, `/why` | 2 MP4 | 3.6 and 5.1 MB, fetched only if the local file fails |
+| Lithos hero | `LithosHero` (through the resizer); the component exists but no route renders it today | 2 WebP | one measured at 0.13 MB; the other could not be read by a cross-origin `HEAD` |
+
+Before `561c8c8` the four peg-run stages alone were about 30 MB on `/tournaments` and the four morning stills about
+30 MB on `/parents`; after it the peg run loads about 1 MB (verified on the preview: 213, 255, 281 and 225 KB, stage
+switching and the WebGL transition still work, no console errors except Vercel's own feedback toolbar being refused by
+the CSP) and the morning stills 2.5 MB. The resizer is an interim measure: the real fix is to download the masters,
+ship WebP copies in git and drop the third-party dependency (`scripts/fetch-media.sh`, then switch `cdnOnly(...)` to
+`m(...)` in `lib/content/media.ts`). Self-hosting also settles the licence question in `docs/BUSINESS_LEGAL_REVIEW.md`
+(D8) because the files become ours to keep. Every item above is third-party-dependent: if the provider removes or
+renames a file the page shows the gradient placeholder.
+
 ## 3. What changed
 
 - The hero poster paints from the first frame (home LCP 17.4 s → 6.5 s).

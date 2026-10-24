@@ -1,9 +1,16 @@
 # BSAH website — handover (24 Oct 2026)
 
 For whoever runs, changes or builds on the website next (including the mobile-app team). Status and evidence:
-`PRODUCTION_READINESS.md`. Companion documents in `docs/`: `DATABASE_ARCHITECTURE.md`, `SECURITY_AUDIT.md`,
-`PERFORMANCE_REPORT.md`, `TEST_RESULTS.md`, `DEPLOYMENT_RUNBOOK.md`, `ENVIRONMENT_VARIABLES.md`,
+`PRODUCTION_READINESS.md` (re-scored on 24 Oct: 82.5 %, production verdict "not yet"). Companion documents in
+`docs/`: **`LAUNCH_INSTRUCTIONS.md`** (the steps and gates for going live, one approval at a time),
+**`BUSINESS_LEGAL_REVIEW.md`** (twelve decisions for the owner and counsel), `DATABASE_ARCHITECTURE.md`,
+`SECURITY_AUDIT.md`, `PERFORMANCE_REPORT.md`, `TEST_RESULTS.md`, `DEPLOYMENT_RUNBOOK.md`, `ENVIRONMENT_VARIABLES.md`,
 `MOBILE_BACKEND_CONTRACTS.md`, `ADMIN_CONSOLE.md`, `PERF_NOTES.md`, and the design source of truth `BLUEPRINT.md`.
+
+**Where things stand (24 Oct 2026).** The integrated branch `session/2026-10-24-final-completion` is on GitHub with a
+draft pull request #1 into `main`; CI is green; Vercel built previews of it against the real database. Nothing is merged,
+nothing is on the public domain, and no live data was changed in the final pass. Read `PRODUCTION_READINESS.md` §5 for
+the owner-only items.
 
 ## 1. How the website is structured
 
@@ -29,9 +36,24 @@ For whoever runs, changes or builds on the website next (including the mobile-ap
   two 3D/interactive scenes (`components/sections/tournaments/PegRun.tsx`, `components/sections/anatomy/DualBody.tsx`
   with its three.js engine in `dual-body/`). Rules they follow: role tokens only, decorative layers `aria-hidden`, a
   still or static layout under reduced motion, WebGL started only near the viewport and its context released on unmount.
-- **Stills on the CDN:** eight stills (`cdnOnly` in `lib/content/media.ts`: peg-run stages and the academy morning) are
-  still served as 2K PNGs from the Higgsfield CDN. Run `sh scripts/fetch-media.sh` on the Mac, commit the WebPs and
-  switch them to `m(...)` before launch.
+- **Media that is not ours yet (third-party dependency).** Everything below is loaded from the image provider's CDN,
+  not from this repository. The CSP names the three origins (`d8j0ntlcm91z4.cloudfront.net`,
+  `d2ol7oe51mr4n9.cloudfront.net`, `images.higgs.ai`); there is no integrity check, and if the provider removes or renames
+  a file the page shows its gradient placeholder.
+
+  | What | Where it is used | How it is loaded | Size |
+  | --- | --- | --- | --- |
+  | Eight stills (peg-run stages, academy morning): `cdnOnly(...)` in `lib/content/media.ts` | `/tournaments`, `/parents`, `/about` ribbon | through the provider's resizer as WebP (`w=1920`, q 82) | 0.2 to 0.8 MB each (the PNG masters are 7.2 to 8.0 MB) |
+  | 21 journal images (`_min.webp`) | `/journal` sphere (`FieldSphereHero`) | direct | 6.2 MB in all |
+  | Six videos with no local copy | `/fleet` (4), `/legend` (1), `/curriculum` (1) | direct | 3.6 to 15.1 MB each |
+  | Two videos with a local first choice | footer, `/why` | direct, only if the local file fails | 3.6 and 5.1 MB |
+  | Two hero images | `LithosHero` (no route renders it today) | through the resizer | about 0.13 MB measured for one |
+
+  The other 60 keys in `media.ts` ship as WebP files in `public/media/` (68 keys in all). **To finish the job:** run
+  `sh scripts/fetch-media.sh` on the Mac in the project folder (the cloud workspace and the Mac's Linux VM cannot reach
+  the CDN), commit the eight new WebPs, switch `cdnOnly(...)` to `m(...)` in `lib/content/media.ts` and update
+  `tests/media.test.mjs`; then decide whether to self-host the journal images and the videos too. Self-hosting also
+  settles the licence question (`BUSINESS_LEGAL_REVIEW.md` D8).
 
 ## 2. How the backend works
 
@@ -95,12 +117,21 @@ records it in `generated_documents`. No invented clauses, figures or signatures.
 GitHub `blackstallion-org/blackstallion.academy` → Vercel project `blackstallion-academy` (team `blackstallion`).
 Any pushed branch builds a protected **preview**; `main` builds **production** (`blackstallion-academy.vercel.app`).
 CI (`.github/workflows/ci.yml`) runs lint, types, unit tests, build, dependency audit, both database suites and the
-browser smoke tests on every push. Release, smoke tests and rollback: `docs/DEPLOYMENT_RUNBOOK.md`.
+browser smoke tests on every push and pull request. Release, smoke tests and rollback: `docs/DEPLOYMENT_RUNBOOK.md`;
+the order of the launch steps and the gates: `docs/LAUNCH_INSTRUCTIONS.md`.
+
+Facts that matter before launch: the Vercel team is on the **Hobby plan**, which is for non-commercial use (a commercial
+site needs Pro, $20 per user per month, an owner decision). Deployment Protection is "Standard", which protects previews
+only, so the first merge into `main` would publish the site on `blackstallion-academy.vercel.app`; set it to "All
+Deployments" first and open the site as a separate step (`LAUNCH_INSTRUCTIONS.md` §2.1). `vercel.json` pins the functions
+to Seoul (`icn1`), next to the database. `main` has no branch protection yet (runbook §6). The release vehicle is the
+draft pull request #1; do not merge it before the launch approval.
 
 ## 9. How to restore from a backup
 
-Database: `docs/DATABASE_ARCHITECTURE.md` §7 (plan-dependent; `pg_dump`/`pg_restore` routine; schema rebuild from
-`supabase/live/`). Site: Vercel → Deployments → previous good deployment → Promote (instant). Code: revert the release
+Database: `docs/DATABASE_ARCHITECTURE.md` §7 (the project is on the Supabase Free plan, which keeps **no backups**; the
+`pg_dump`/`pg_restore` routine and its extra steps are in the runbook §8.3 to §8.4 and were rehearsed locally, 12/12;
+schema rebuild from `supabase/live/`; the private PDFs in storage need their own copy). Site: Vercel → Deployments → previous good deployment → Promote (instant). Code: revert the release
 commit (never force-push). Local pre-session snapshots: `_session_snapshots/` and the git tag
 `checkpoint/pre-final-2026-10-23`.
 
@@ -115,6 +146,8 @@ commit (never force-push). Local pre-session snapshots: `_session_snapshots/` an
 | Reset link opens localhost / fails | Supabase → Auth → URL configuration | address missing from the redirect allow-list |
 | 500 error | Vercel → Logs: `server.error` (route, digest, redacted message); alert e-mail if configured | code or data error |
 | Blank stills on a deployment | `tests/media.test.mjs`; request `/media/<name>.webp` | a key points at a git-ignored PNG master |
+| A still or video stays a gradient although the file name is right | browser network tab for the CDN host; the media table in §1 | the image provider removed or renamed the file, its host is missing from the CSP (`next.config.mjs`), or the sandbox/network blocks it |
+| Two `ERR_INVALID_URL` console errors on `/schools` | `components/sections/schools/CitadelConfigurator.tsx`, the `royal` entry | its embedded base64 thumbnail has a missing character; replace it with the original image (known, minor) |
 | A 3D or WebGL scene shows only its still | browser console (WebGL errors), `chrome://gpu` | no WebGL, too many live contexts, a CDN still without CORS (the peg-run gallery then cross-fades) |
 | Slow page | `docs/PERFORMANCE_REPORT.md` method; Vercel Speed Insights if enabled | new eager client work, large media |
 

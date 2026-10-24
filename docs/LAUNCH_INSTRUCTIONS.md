@@ -4,7 +4,7 @@
 five steps in section 1 needs its own explicit "go" and can be undone on its own (section 5 says how). No secret value
 appears here; no business term or legal approval is invented (open decisions are named D1–D12 and live in
 `docs/BUSINESS_LEGAL_REVIEW.md`). Current state: protected Vercel previews only, no production deployment, `main` is
-the original boilerplate and unprotected, indexing off, no DNS change.
+the original boilerplate and unprotected, indexing off, no DNS change. The draft release pull request is #1.
 
 ## 1. Five separate approvals
 
@@ -41,7 +41,7 @@ domain is protected too, so steps 2–3 can be finished before launch.
 | # | Gate | Needed before | Who | Status | Where |
 | --- | --- | --- | --- | --- | --- |
 | G1 | Branch protection on `main` (pull request, checks `verify` `database` `e2e`, no force-push, administrators included) | step 1 | owner (two minutes in GitHub settings) | not applied; the build token has no Administration permission | runbook §6 |
-| G2 | Release pull request is green on CI and its preview passes the runbook §2 checks | step 1 | assistant | the draft pull request in §10 is the vehicle; CI was green on the branch head at the last push (re-check after any later commit) | this file, §6 |
+| G2 | Release pull request is green on CI and its preview passes the runbook §2 checks | step 1 | assistant | draft pull request #1 (§10) is the vehicle; CI (`verify`, `database`, `e2e`) was green on code head `561c8c8` for both the push run and the pull-request run, and the preview of that commit passed the runbook §2 checks (re-check after any later code commit) | this file, §6 |
 | G3 | Logical backup of the Supabase database and Storage files, row counts written down | step 1 and before any live database change | owner (needs the database password) | **none exists**; Free plan has no backups | runbook §8.3 |
 | G4 | Owner's staff account exists (Auth → Add user, "Auto Confirm"), mapped to `SUPER_ADMIN`, sign-in tested at `/admin/login` on production | public | owner signs in personally; assistant maps the role | waiting for the account | `docs/ADMIN_CONSOLE.md` |
 | G5 | Decision on the privacy hardening migration `20261023001200_anon_privacy_hardening` (changes what anonymous clients of the shared database can read) | public | owner | prepared, replica-tested, **not applied**; no other consumer seen in 24 h of API logs | `supabase/live/HARDENING_NOTES.md` |
@@ -52,7 +52,7 @@ domain is protected too, so steps 2–3 can be finished before launch.
 | G10 | Business and legal decisions D1–D4, D7, D8, D10–D12 answered; D9 (terms, refunds, registration details) before any payment | public | owner and counsel | none answered | same file, §0 |
 | G11 | Vercel **Pro** ($20 per user per month; Hobby is non-commercial only) | public | owner | on Hobby | same file, §10 |
 | G12 | Supabase plan decision: Pro from $25 per month per organisation (daily backups, no pausing) or documented manual dumps; one restore rehearsal into a scratch project | public | owner | not decided | runbook §8.2, §8.5 |
-| G13 | Eight stills self-hosted (currently loaded from the image provider's CDN) | public, recommended | owner runs `sh scripts/fetch-media.sh` on the Mac, or approves a terminal step; assistant converts and commits | not done: the sandbox cannot reach that CDN | `docs/PERF_NOTES.md` |
+| G13 | Eight stills self-hosted (they load from the image provider's CDN; since `561c8c8` through its resizer as 0.2 to 0.8 MB WebP instead of 7.5 MB PNG, so speed is no longer the problem, dependence and the licence question are). The 21 journal images and eight videos are also third-party | public, recommended | owner runs `sh scripts/fetch-media.sh` on the Mac, or approves a terminal step; assistant converts and commits | not done: the sandbox cannot reach that CDN; interim resizer in place | `docs/PERF_NOTES.md`, `docs/WEBSITE_HANDOVER.md` §1 |
 | G14 | Spam protection: Cloudflare Turnstile keys (free) | public, recommended | owner creates the widget and pastes two keys | coded, off | runbook §7 |
 | G15 | Image, 3D and audio licences confirmed; AI placeholder imagery accepted or replaced (D8) | public | owner | not verified | `docs/BUSINESS_LEGAL_REVIEW.md` §7 |
 | G16 | The person who can edit the domain's DNS is known, and every existing record is written down or screenshotted first (`sting@blackstallion.academy` receives mail, so the mail records must not change) | step 2 | owner | not checked | 4 below |
