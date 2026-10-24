@@ -28,6 +28,8 @@ export function CitadelSitePlanCanvas({
     if (!ctx) return;
 
     const startTime = performance.now();
+    // The site's UI face (Plus Jakarta Sans) as resolved from the CSS token; canvas cannot read var() itself.
+    const uiFont = getComputedStyle(document.body).getPropertyValue("--font-sans").trim() || "sans-serif";
 
     const draw = () => {
       animFrameRef.current = requestAnimationFrame(draw);
@@ -89,7 +91,7 @@ export function CitadelSitePlanCanvas({
       }
 
       ctx.fillStyle = '#2B211B';
-      ctx.font = `600 ${Math.max(10, Math.round(w * 0.017))}px Inter, sans-serif`;
+      ctx.font = `600 ${Math.max(10, Math.round(w * 0.017))}px ${uiFont}`;
       ctx.textAlign = 'center';
       ctx.fillText('SAND ARENA', arenaX + arenaW / 2, arenaY + arenaH * 0.32);
 
