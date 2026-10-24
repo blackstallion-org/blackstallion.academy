@@ -1,6 +1,6 @@
-# BSAH website CI: lint, typecheck, unit/server tests, production build, dependency audit, database tests
-# (website schema and a replica of the live operations schema) on a throwaway Postgres 16, and browser smoke tests
-# (scripts/e2e-smoke.mjs) against a production build.
+# BSAH website CI: lint, typecheck, unit/server tests, production build, dependency audit, database tests (website
+# schema, a replica of the live operations schema, and the backup/restore rehearsal) on a throwaway Postgres 16, and
+# browser smoke tests (scripts/e2e-smoke.mjs) against a production build.
 # Runs on Linux with no production secrets. Supabase/webhook/Turnstile variables are deliberately empty so every
 # test exercises the "not configured" paths; no external system is contacted.
 name: ci
@@ -60,6 +60,8 @@ jobs:
         run: bash supabase/tests/run.sh
       - name: Live operations replica tests (supabase/live)
         run: bash supabase/live/tests/run.sh
+      - name: Backup and restore rehearsal (supabase/live; the procedure in docs/DEPLOYMENT_RUNBOOK.md section 8)
+        run: bash supabase/live/tests/backup_restore_rehearsal.sh
 
   e2e:
     runs-on: ubuntu-latest

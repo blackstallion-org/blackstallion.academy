@@ -1,8 +1,9 @@
 # Mobile performance pass — notes
 
 Work done in an isolated copy (local branch `perf/mobile-lighthouse`, sandbox commits `44d1fcf..b931489`) and merged into
-the repository in commit `a05f398` on branch `session/2026-10-24-final-completion`. Summary and the final before/after
-measurement: `docs/PERFORMANCE_REPORT.md`.
+the repository in commit `a05f398` on branch `session/2026-10-24-final-completion`; the request-hygiene pass of
+section 8 followed in commit `8d70c9e` on the same branch. Summary and the final before/after measurement:
+`docs/PERFORMANCE_REPORT.md`.
 No dependency, `package.json`, lockfile or `node_modules` change. Two new image files (WebP copies); every original
 asset is kept. `productionBrowserSourceMaps` was only ever enabled in a scratch copy, never here. (`next.config.mjs`
 gained one cache-header rule in the final request-hygiene pass, section 8.)
@@ -351,7 +352,8 @@ against 323–519 ms). Read the score as unchanged and the LCP/SI/bytes columns 
 requested; scrolling brings each in before it is seen (Matrix plates at scroll Y 3,376 px on a phone, the stage sitting
 ≈ 5,600 px; footer poster at 20,931 px of 23,420; deed at 12,829 px); the footer `poster` attribute and the four overlay
 `href`s end up exactly as before; every `public/` directory above answers with the new `Cache-Control`; no new console
-messages. `npm run lint` (0 errors), `typecheck`, 79/79 unit tests, `build`, 18/18 e2e pass on the committed code.
+messages. `npm run lint` (0 errors), `typecheck`, 79/79 unit tests, `build`, 18/18 e2e pass on the committed code
+(`8d70c9e`; CI run green, Vercel preview built from the same commit and checked: cache headers and deferral as above).
 
 ### 8a. Why the lab score cannot reach 80 on `/` (Lantern "what-if", same trace, nothing re-run on the network)
 

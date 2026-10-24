@@ -79,6 +79,19 @@ try {
   await check("robots.txt blocks indexing unless NEXT_PUBLIC_ALLOW_INDEXING=1", async () => {
     assert.match(await (await fetch(`${BASE}/robots.txt`)).text(), /Disallow: \//);
   });
+  await check("health probe: shallow answers 200, deep reports the missing database setting, never cached", async () => {
+    const shallow = await fetch(`${BASE}/api/health`);
+    assert.equal(shallow.status, 200);
+    assert.match(shallow.headers.get("cache-control") || "", /no-store/);
+    assert.match(shallow.headers.get("x-robots-tag") || "", /noindex/);
+    const s = await shallow.json();
+    assert.equal(s.ok, true);
+    assert.equal(s.service, "bsah-web");
+    assert.equal(s.db, undefined, "the shallow check never touches the database");
+    const deep = await (await fetch(`${BASE}/api/health?deep=1`)).json();
+    assert.equal(deep.db, "not_configured");
+    return "shallow 200, deep not_configured";
+  });
 
   // ---- route sweep
   const xml = await (await fetch(`${BASE}/sitemap.xml`)).text();
