@@ -9,7 +9,9 @@ import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anato
 import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { DualBody } from "@/components/sections/anatomy/DualBody";
+import { HorseWorlds } from "@/components/sections/anatomy/HorseWorlds";
 import { breedStandard } from "@/lib/content/anatomy";
+import { horseWorldsCopy } from "@/lib/content/horse-worlds";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
 export const metadata: Metadata = {
@@ -32,6 +34,14 @@ export default function AnatomyPage() {
           Choose a point on the plate. Each one shows the horse, what it asks of the rider, what it builds, and what the old stories say.
         </ScrollRevealText>
         <SpecimenPlate mode="full" className="mt-12" />
+      </section>
+
+      {/* §1a · one horse in three places (Desert / Horse Field / Village) */}
+      <section aria-labelledby="worlds-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+        <Label>{horseWorldsCopy.label}</Label>
+        <Headline id="worlds-h" technique="words" className="mt-4" inscription={horseWorldsCopy.inscription} voice={horseWorldsCopy.voice} />
+        <ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">{horseWorldsCopy.lede}</ScrollRevealText>
+        <HorseWorlds className="mt-12" />
       </section>
 
       {/* §1b · one conversation, two bodies (3D rider and horse) */}

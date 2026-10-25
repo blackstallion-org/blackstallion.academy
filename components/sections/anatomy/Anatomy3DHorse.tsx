@@ -1,13 +1,33 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { ANATOMY_MODEL, addLights, contactShadow, createTimer, daylight, disposeObject, loadMarwari, type Marwari } from "@/components/3d/marwari";
+import { HERO_MODEL_MOBILE } from "@/components/3d/marwari-paths";
+import type { HorseWorlds } from "@/components/horse-worlds/controller";
+import type { GaitChoice, WorldId } from "@/components/horse-worlds/types";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
 
 type Point = { id: string; name: string; title: string };
+
+/**
+ * Optional "worlds" mode: the same viewer, the same horse and the same canvas, but the horse stands in place in one of three 2.5D
+ * environments (see components/horse-worlds). Off by default, in which case the viewer behaves exactly as it always has.
+ */
+export type WorldsMode = {
+  /** The world and gait the visitor asked for. */
+  world: WorldId;
+  gait: GaitChoice;
+  /** The gaits this world offers (the gait buttons). */
+  gaits: GaitChoice[];
+  onGaitSelect: (gait: GaitChoice) => void;
+  /** The world on screen changed (after the fade) / the gait in force changed (a world may not allow the one asked for). */
+  onWorld?: (world: WorldId) => void;
+  onGait?: (gait: GaitChoice) => void;
+  onBusy?: (busy: boolean) => void;
+};
 
 interface Anatomy3DHorseProps {
   activeId: string;
@@ -18,6 +38,9 @@ interface Anatomy3DHorseProps {
   onSelectHotspot?: (id: string) => void;
   className?: string;
   onUnavailable: (message: string) => void;
+  worlds?: WorldsMode;
+  /** Extra controls drawn over the canvas (they stay with the viewer in full screen). */
+  children?: ReactNode;
 }
 
 type Gait = "stand" | "walk" | "trot";
@@ -55,7 +78,7 @@ type Bones = (name: string) => THREE.Vector3;
 /** The mouth corner in the rest pose (model space, from the Blender build), carried by the Head bone. */
 const MUZZLE_REST = new THREE.Vector3(0.016, 1.62, 1.27);
 
-export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, onUnavailable, className = "" }: Anatomy3DHorseProps) {
+export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, onUnavailable, className = "", worlds, children }: Anatomy3DHorseProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const markerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -64,6 +87,9 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
   const [isLoaded, setIsLoaded] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
   const [gait, setGait] = useState<Gait>("stand");
+  // Worlds mode: which world is on screen (it trails the visitor's choice by the fade) and whether a switch is under way.
+  const [shownWorld, setShownWorld] = useState<WorldId | null>(null);
+  const [busy, setBusy] = useState(false);
 
   const reducedMotion = useReducedMotion();
   const requestRenderRef = useRef<() => void>(() => {});
@@ -81,6 +107,27 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
   useEffect(() => { if (isLoaded) requestRenderRef.current(); }, [isLoaded]);
   const pointsRef = useRef(points);
   useEffect(() => { pointsRef.current = points; requestRenderRef.current(); }, [points]);
+
+  // Worlds mode: the controller lives inside the render effect; these refs and effects carry the visitor's choices into it.
+  const worldsRef = useRef(worlds);
+  useEffect(() => { worldsRef.current = worlds; }, [worlds]);
+  const controllerRef = useRef<HorseWorlds | null>(null);
+  const worldWanted = worlds?.world;
+  const gaitWanted = worlds?.gait;
+  useEffect(() => {
+    if (!worldWanted) return;
+    controllerRef.current?.requestWorld(worldWanted);
+    requestRenderRef.current();
+  }, [worldWanted]);
+  useEffect(() => {
+    if (!gaitWanted) return;
+    controllerRef.current?.requestGait(gaitWanted);
+    requestRenderRef.current();
+  }, [gaitWanted]);
+  useEffect(() => {
+    controllerRef.current?.setReduced(reducedMotion);
+    requestRenderRef.current();
+  }, [reducedMotion]);
 
   // Interaction refs
   const isDraggingRef = useRef(false);
@@ -113,13 +160,23 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     if (!isDraggingRef.current || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (controllerRef.current) {
+      // worlds mode: a drag only nudges the guided camera a little; it eases back when let go
+      controllerRef.current.nudge(x - dragStartRef.current.x, y - dragStartRef.current.y, rect.width);
+      dragStartRef.current = { x, y };
+      requestRenderRef.current();
+      return;
+    }
     rotationRef.current.targetY += (x - dragStartRef.current.x) * 0.007;
-    dragStartRef.current = { x, y: e.clientY - rect.top };
+    dragStartRef.current = { x, y };
     requestRenderRef.current();
   }, []);
 
   const handlePointerUp = useCallback(() => {
     isDraggingRef.current = false;
+    controllerRef.current?.releaseNudge();
+    requestRenderRef.current();
   }, []);
 
   useEffect(() => {
@@ -136,6 +193,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     let mixer: THREE.AnimationMixer | null = null;
     const actions: Partial<Record<string, THREE.AnimationAction>> = {};
     let blinkAt = 2;
+    let debugPaused = false;
     const clock = createTimer();
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const cancelRender = () => {
@@ -154,11 +212,15 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     };
     const loadTimeout = window.setTimeout(fail, 20_000);
 
+    const worldsMode = !!worldsRef.current;
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    const night = getComputedStyle(container).getPropertyValue("--color-night").trim() || "#171513";
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(getComputedStyle(container).getPropertyValue("--color-night").trim() || "#171513");
+    scene.background = new THREE.Color(night);
     const width = container.clientWidth || 800;
     const height = container.clientHeight || 450;
-    const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 60);
+    // worlds mode looks out to a far horizon, so its camera sees much further than the specimen plate's
+    const camera = new THREE.PerspectiveCamera(34, width / height, worldsMode ? 0.3 : 0.1, worldsMode ? 3000 : 60);
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -167,7 +229,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       fail();
       return () => { disposed = true; };
     }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, worldsMode && mobile ? 1.25 : 1.5));
     renderer.setSize(width, height);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
@@ -189,8 +251,11 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     scene.environment = environment.texture;
     scene.environmentIntensity = 0.5;
     // A museum plate keeps one even, warm studio light (midday) rather than the visitor's clock.
-    addLights(scene)(daylight(12));
-    scene.add(contactShadow());
+    // (In worlds mode each world brings its own light and its own shadows.)
+    if (!worldsMode) {
+      addLights(scene)(daylight(12));
+      scene.add(contactShadow());
+    }
 
     const modelGroup = new THREE.Group();
     scene.add(modelGroup);
@@ -221,11 +286,11 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       return { spheres, focus, view: new THREE.Vector3(...r.view).normalize(), distance: r.distance };
     };
 
-    const { promise, dispose: disposeLoader } = loadMarwari(ANATOMY_MODEL, (f) => {
+    const { promise, dispose: disposeLoader } = loadMarwari(worldsMode && mobile ? HERO_MODEL_MOBILE : ANATOMY_MODEL, (f) => {
       if (!disposed && !failed) setLoadingProgress(Math.round(f * 100));
     });
     promise
-      .then((m) => {
+      .then(async (m) => {
         if (disposed || failed) return disposeObject(m.root);
         window.clearTimeout(loadTimeout);
         marwari = m;
@@ -233,14 +298,54 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
         m.root.updateMatrixWorld(true);
         muzzleLocal = m.bones.Head?.worldToLocal(MUZZLE_REST.clone()) ?? null;
         mixer = new THREE.AnimationMixer(m.root);
-        for (const name of ["Idle_Breathing", "Tail_Sway", "Ear_Rotate", "Mane_Sway", "Walk", "Trot", "Blink", "Attention_Response"]) {
-          const clip = m.clips.get(name);
-          if (clip) actions[name] = mixer.clipAction(clip);
+        const want = worldsRef.current;
+        if (worldsMode && want) {
+          // The horse's motion is driven by the world controller (stride, hoof contact, the scrolling ground); here we only
+          // keep the blink, which no gait owns.
+          const blink = m.clips.get("Blink");
+          if (blink) {
+            actions.Blink = mixer.clipAction(blink);
+            actions.Blink.setLoop(THREE.LoopOnce, 1);
+          }
+          const { HorseWorlds: Controller } = await import("@/components/horse-worlds/controller");
+          if (disposed || failed) return;
+          const controller = new Controller({
+            scene, camera, renderer, horse: m, mixer, mobile, reduced: motionQuery.matches, night,
+            onSwap: (id) => { setShownWorld(id); worldsRef.current?.onWorld?.(id); },
+            onGait: (g) => worldsRef.current?.onGait?.(g),
+            onBusy: (b) => { setBusy(b); worldsRef.current?.onBusy?.(b); requestRender(); },
+            onError: () => fail(),
+          });
+          controllerRef.current = controller;
+          controller.resize(container.clientWidth || width, container.clientHeight || height);
+          await controller.init(want.world, want.gait);
+          if (disposed || failed) return;
+          const latest = worldsRef.current;
+          if (latest && latest.world !== want.world) controller.requestWorld(latest.world);
+          else if (latest && latest.gait !== want.gait) controller.requestGait(latest.gait);
+          if (new URLSearchParams(window.location.search).has("hwdebug")) {
+            // test hook, only on request: pause the viewer's own loop, advance the world by fixed steps and read its numbers
+            controller.adaptive = false;
+            (window as unknown as Record<string, unknown>).__horseWorlds = {
+              controller,
+              pause: (p = true) => { debugPaused = p; if (!p) { clock.delta(); requestRender(); } },
+              step: (dt: number, n = 1) => { for (let i = 0; i < n; i++) controller.update(dt); },
+              draw: () => renderer.render(scene, camera),
+              camera,
+              scene,
+              renderer,
+            };
+          }
+        } else {
+          for (const name of ["Idle_Breathing", "Tail_Sway", "Ear_Rotate", "Mane_Sway", "Walk", "Trot", "Blink", "Attention_Response"]) {
+            const clip = m.clips.get(name);
+            if (clip) actions[name] = mixer.clipAction(clip);
+          }
+          actions.Blink?.setLoop(THREE.LoopOnce, 1);
+          actions.Attention_Response?.setLoop(THREE.LoopOnce, 1);
+          applyGait("stand", 0);
+          mixer.update(0);
         }
-        actions.Blink?.setLoop(THREE.LoopOnce, 1);
-        actions.Attention_Response?.setLoop(THREE.LoopOnce, 1);
-        applyGait("stand", 0);
-        mixer.update(0);
         ready = true;
         setIsLoaded(true);
         requestRender();
@@ -278,10 +383,21 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      controllerRef.current?.resize(w, h);
       requestRender();
     };
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
+
+    // Worlds mode: fetch a place's art as soon as the visitor shows interest in its button (hover, touch, focus), so that the
+    // switch does not wait for the network.
+    const hintWorld = (e: Event) => {
+      const id = (e.target as Element | null)?.closest?.("[data-world-option]")?.getAttribute("data-world-option");
+      if (id) controllerRef.current?.prefetch(id as WorldId);
+    };
+    container.addEventListener("pointerover", hintWorld);
+    container.addEventListener("pointerdown", hintWorld);
+    container.addEventListener("focusin", hintWorld);
 
     const camPos = new THREE.Vector3().copy(OVERVIEW.focus).addScaledVector(OVERVIEW.view, OVERVIEW.distance);
     const camLook = OVERVIEW.focus.clone();
@@ -310,9 +426,29 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       }
     }
 
+    function renderWorlds() {
+      const controller = controllerRef.current;
+      if (!controller || debugPaused) return;
+      const still = motionQuery.matches;
+      const delta = Math.min(clock.delta(), 0.05);
+      const more = controller.update(delta);
+      if (!still && actions.Blink && clock.elapsed > blinkAt) {
+        actions.Blink.reset().play();
+        blinkAt = clock.elapsed + 3 + Math.random() * 4;
+      }
+      try {
+        renderer.render(scene, camera);
+      } catch {
+        fail();
+        return;
+      }
+      if (more) requestRender();
+    }
+
     function render() {
       animId = null;
       if (disposed || failed || !ready || !visible || document.hidden) return;
+      if (worldsMode) return renderWorlds();
       const still = motionQuery.matches;
       const delta = Math.min(clock.delta(), 0.05);
       if (!still && mixer) {
@@ -379,6 +515,9 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       disposed = true;
       mixer?.stopAllAction();
       observer.disconnect();
+      controllerRef.current?.dispose();
+      controllerRef.current = null;
+      delete (window as unknown as Record<string, unknown>).__horseWorlds;
       environment.dispose();
       disposeObject(scene);
       cancelRender();
@@ -390,6 +529,9 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       motionQuery.removeEventListener("change", requestRender);
       canvas.removeEventListener("webglcontextlost", handleContextLost);
       resizeObserver.disconnect();
+      container.removeEventListener("pointerover", hintWorld);
+      container.removeEventListener("pointerdown", hintWorld);
+      container.removeEventListener("focusin", hintWorld);
       renderer.dispose();
     };
   }, []);
@@ -422,12 +564,21 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       onPointerCancel={handlePointerUp}
       onPointerLeave={handlePointerUp}
       style={{ touchAction: "pan-y" }}
+      data-worlds={worlds ? "" : undefined}
+      data-world={worlds ? shownWorld ?? undefined : undefined}
+      data-gait={worlds?.gait}
+      data-ready={worlds ? (isLoaded ? "true" : "false") : undefined}
+      data-busy={worlds ? (busy ? "true" : "false") : undefined}
       className={`relative h-full w-full cursor-grab select-none overflow-hidden bg-night active:cursor-grabbing ${className}`}
     >
       <canvas
         ref={canvasRef}
         role="img"
-        aria-label="A rotatable 3D model of a black Marwari stallion. Choose a point to focus the camera on it."
+        aria-label={
+          worlds
+            ? "A black Marwari stallion standing in place in a 3D scene while the ground moves beneath it. Drag a little to look around; choose a place with the buttons."
+            : "A rotatable 3D model of a black Marwari stallion. Choose a point to focus the camera on it."
+        }
         style={{ touchAction: "pan-y" }}
         className={`absolute inset-0 block h-full w-full transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       />
@@ -477,46 +628,66 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
 
       {/* Plate markings */}
       <div aria-hidden className="pointer-events-none absolute inset-3 z-10 border border-line/40" />
-      <div className="pointer-events-none absolute bottom-4 left-5 z-10 hidden items-center gap-2 sm:flex">
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
-        <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-gold/90">
-          3D Specimen · Marwari<span className="hidden sm:inline"> · 15 hh</span>
-        </p>
-      </div>
+      {!worlds && (
+        <div className="pointer-events-none absolute bottom-4 left-5 z-10 hidden items-center gap-2 sm:flex">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
+          <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-gold/90">
+            3D Specimen · Marwari<span className="hidden sm:inline"> · 15 hh</span>
+          </p>
+        </div>
+      )}
 
-      {/* Gait */}
-      <div role="group" aria-label="Gait" className="absolute bottom-4 left-4 z-20 flex sm:bottom-auto sm:top-4 items-center gap-1 rounded-full border border-line bg-night/80 p-1 backdrop-blur-md">
-        {(["stand", "walk", "trot"] as const).map((g) => (
-          <button
-            key={g}
-            type="button"
-            disabled={!isLoaded || reducedMotion}
-            aria-pressed={gait === g}
-            onClick={() => setGait(g)}
-            className={cn(
-              "min-h-9 rounded-full px-3 font-mono text-[0.6rem] uppercase tracking-wider transition-colors disabled:opacity-50",
-              gait === g ? "bg-gold text-night" : "text-sand hover:text-gold",
-            )}
-          >
-            {g}
-          </button>
-        ))}
+      {/* Gait (in worlds mode the world decides which gaits it offers) */}
+      <div
+        role="group"
+        aria-label="Gait"
+        className={cn(
+          "absolute left-4 z-20 flex items-center gap-1 rounded-full border border-line bg-night/80 p-1 backdrop-blur-md sm:bottom-auto sm:top-4",
+          // in worlds mode the place buttons take the bottom edge on a phone, so the gaits sit just above them
+          worlds ? "bottom-[4.75rem]" : "bottom-4",
+        )}
+      >
+        {(worlds ? worlds.gaits : (["stand", "walk", "trot"] as const)).map((g) => {
+          const on = worlds ? worlds.gait === g : gait === g;
+          return (
+            <button
+              key={g}
+              type="button"
+              disabled={!isLoaded || reducedMotion}
+              aria-pressed={on}
+              onClick={() => (worlds ? worlds.onGaitSelect(g as GaitChoice) : setGait(g as Gait))}
+              className={cn(
+                "min-h-9 rounded-full px-3 font-mono text-[0.6rem] uppercase tracking-wider transition-colors disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
+                on ? "bg-gold text-night" : "text-sand hover:text-gold",
+              )}
+            >
+              {g}
+            </button>
+          );
+        })}
       </div>
 
       {/* View controls */}
       <div className="absolute right-4 top-4 z-20 flex items-center gap-2">
-        <button
-          type="button"
-          disabled={!isLoaded || reducedMotion}
-          aria-pressed={autoRotate && !reducedMotion}
-          onClick={() => setAutoRotate((prev) => !prev)}
-          className="min-h-11 rounded-full border border-gold/30 bg-night/70 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-wider text-sand backdrop-blur-md transition-colors hover:border-gold hover:text-gold"
-        >
-          {reducedMotion ? "Motion reduced" : autoRotate ? "Pause Orbit" : "Auto Orbit"}
-        </button>
+        {!worlds && (
+          <button
+            type="button"
+            disabled={!isLoaded || reducedMotion}
+            aria-pressed={autoRotate && !reducedMotion}
+            onClick={() => setAutoRotate((prev) => !prev)}
+            className="min-h-11 rounded-full border border-gold/30 bg-night/70 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-wider text-sand backdrop-blur-md transition-colors hover:border-gold hover:text-gold"
+          >
+            {reducedMotion ? "Motion reduced" : autoRotate ? "Pause Orbit" : "Auto Orbit"}
+          </button>
+        )}
         <button
           type="button"
           onClick={() => {
+            if (controllerRef.current) {
+              controllerRef.current.resetView();
+              requestRenderRef.current();
+              return;
+            }
             rotationRef.current.targetY = 0;
             activeRef.current = "overview";
             onSelectHotspot?.("overview");
@@ -536,9 +707,19 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
         </button>
       </div>
 
-      <div className="pointer-events-none absolute bottom-4 right-5 z-10 hidden sm:block">
-        <span className="font-mono text-[0.58rem] uppercase tracking-[0.2em] text-sand/50">Drag to rotate · Choose a point to focus</span>
+      <div className={cn("pointer-events-none absolute bottom-4 right-5 z-10 hidden", worlds ? "xl:block" : "sm:block")}>
+        {/* over bright scenery the hint needs the same dark backing as the buttons; on the dark studio it stays a quiet line */}
+        <span
+          className={cn(
+            "font-mono text-[0.58rem] uppercase tracking-[0.2em]",
+            worlds ? "inline-block rounded-full border border-line bg-night/70 px-3 py-2 text-sand backdrop-blur-md" : "text-sand/50",
+          )}
+        >
+          {worlds ? "Drag to look around · Choose a place" : "Drag to rotate · Choose a point to focus"}
+        </span>
       </div>
+
+      {children}
     </div>
   );
 }

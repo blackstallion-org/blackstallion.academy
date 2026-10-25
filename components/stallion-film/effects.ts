@@ -13,7 +13,7 @@ void main() {
   vAlpha = aAlpha; vTone = aTone; vSeed = aSeed;
 }`;
 const DUST_FS = /* glsl */ `
-uniform vec3 uColor; uniform vec3 uLight;
+uniform vec3 uColor; uniform vec3 uLight; uniform float uOpacity;
 varying float vAlpha; varying float vTone; varying float vSeed;
 float h(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 void main() {
@@ -22,7 +22,7 @@ void main() {
   c = vec2(a * c.x - s * c.y, s * c.x + a * c.y);
   float d = length(c * vec2(1.0, 1.0 + 0.35 * sin(vSeed * 31.0))) * 2.0;
   float lump = 0.75 + 0.25 * h(floor((c + 0.5) * 6.0) + vSeed * 10.0);
-  float alpha = smoothstep(1.0, 0.15, d) * lump * vAlpha;
+  float alpha = smoothstep(1.0, 0.15, d) * lump * vAlpha * uOpacity;
   if (alpha < 0.004) discard;
   gl_FragColor = vec4(uColor * uLight * (0.82 + 0.36 * vTone), alpha);
 }`;
@@ -68,7 +68,7 @@ export class DustSystem {
     this.geo.setAttribute("aAlpha", new THREE.BufferAttribute(this.alpha, 1).setUsage(THREE.DynamicDrawUsage));
     this.geo.setAttribute("aTone", new THREE.BufferAttribute(tone, 1));
     this.geo.setAttribute("aSeed", new THREE.BufferAttribute(seed, 1));
-    this.uniforms = { uPx: { value: 600 }, uColor: { value: new THREE.Color("#cfae83") }, uLight: { value: new THREE.Color("#ffffff") } };
+    this.uniforms = { uPx: { value: 600 }, uColor: { value: new THREE.Color("#cfae83") }, uLight: { value: new THREE.Color("#ffffff") }, uOpacity: { value: 1 } };
     const mat = new THREE.ShaderMaterial({ vertexShader: DUST_VS, fragmentShader: DUST_FS, uniforms: this.uniforms, transparent: true, depthWrite: false, fog: false });
     this.points = new THREE.Points(this.geo, mat);
     this.points.frustumCulled = false;
@@ -124,6 +124,11 @@ export class DustSystem {
     this.alpha.fill(0);
   }
 
+  /** Carries every particle `dz` metres along Z: the horse-fixed treadmill moves the ground, so what the ground holds moves with it. */
+  shiftZ(dz: number) {
+    for (let i = 0; i < this.cap; i++) if (this.age[i] < this.life[i]) this.pos[i * 3 + 2] += dz;
+  }
+
   dispose() {
     this.geo.dispose();
     (this.points.material as THREE.Material).dispose();
@@ -142,7 +147,7 @@ void main() {
   gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(position, 1.0);
 }`;
 const PRINT_FS = /* glsl */ `
-uniform vec3 uTint; uniform float uStrength;
+uniform vec3 uTint; uniform float uStrength; uniform float uOpacity;
 varying vec2 vUv; varying float vA;
 void main() {
   vec2 p = (vUv - 0.5) * 2.0;
@@ -153,7 +158,7 @@ void main() {
   float heelGap = smoothstep(-0.55, -0.15, p.y);   // open heel
   float dish = smoothstep(0.9, 0.2, r);
   float shoe = outer * mix(0.55, 1.0, inner) * mix(0.55, 1.0, heelGap);
-  float a = (shoe * 0.55 + dish * 0.35) * vA * uStrength;
+  float a = (shoe * 0.55 + dish * 0.35) * vA * uStrength * uOpacity;
   if (a < 0.01) discard;
   gl_FragColor = vec4(uTint, a);
 }`;
@@ -178,7 +183,7 @@ export class PrintSystem {
     geo.rotateX(-Math.PI / 2);
     this.birth = new Float32Array(capacity).fill(-1e9);
     geo.setAttribute("aBirth", new THREE.InstancedBufferAttribute(this.birth, 1).setUsage(THREE.DynamicDrawUsage));
-    this.uniforms = { uNow: { value: 0 }, uLife: { value: 14 }, uTint: { value: new THREE.Color("#4d3a28") }, uStrength: { value: 0.5 } };
+    this.uniforms = { uNow: { value: 0 }, uLife: { value: 14 }, uTint: { value: new THREE.Color("#4d3a28") }, uStrength: { value: 0.5 }, uOpacity: { value: 1 } };
     const mat = new THREE.ShaderMaterial({ vertexShader: PRINT_VS, fragmentShader: PRINT_FS, uniforms: this.uniforms, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2, fog: false });
     this.mesh = new THREE.InstancedMesh(geo, mat, capacity);
     this.mesh.frustumCulled = false;
@@ -220,6 +225,14 @@ export class PrintSystem {
   clear() {
     this.birth.fill(-1e9);
     (this.mesh.geometry.getAttribute("aBirth") as THREE.InstancedBufferAttribute).needsUpdate = true;
+  }
+
+  /** Carries every print `dz` metres along Z (see DustSystem.shiftZ). Prints that have faded are left where they are. */
+  shiftZ(dz: number, now: number) {
+    const life = this.uniforms.uLife.value as number;
+    const a = this.mesh.instanceMatrix.array as Float32Array;
+    for (let i = 0; i < this.cap; i++) if (now - this.birth[i] < life) a[i * 16 + 14] += dz;
+    this.mesh.instanceMatrix.needsUpdate = true;
   }
 
   dispose() {
