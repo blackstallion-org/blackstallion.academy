@@ -37,7 +37,7 @@
    "H": 0.0934
   },
   "slipRmsMps": 0.19,
-  "slipMaxMps": 0.83,
+  "slipMaxMps": 0.836,
   "frames": 30,
   "samples": 33
  },
@@ -75,10 +75,10 @@
    "H": 0.949
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0689,
+   "F": 0.0656,
    "H": 0.0899
   },
-  "slipRmsMps": 0.381,
+  "slipRmsMps": 0.374,
   "slipMaxMps": 1.333,
   "frames": 22,
   "samples": 24
@@ -118,10 +118,10 @@
   },
   "ikReachErrorStanceMaxM": {
    "F": 0.0735,
-   "H": 0.0665
+   "H": 0.0648
   },
-  "slipRmsMps": 0.498,
-  "slipMaxMps": 1.399,
+  "slipRmsMps": 0.492,
+  "slipMaxMps": 1.403,
   "frames": 18,
   "samples": 28
  },
@@ -159,10 +159,10 @@
    "H": 0.956
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0752,
+   "F": 0.0745,
    "H": 0.0964
   },
-  "slipRmsMps": 0.503,
+  "slipRmsMps": 0.504,
   "slipMaxMps": 1.666,
   "frames": 18,
   "samples": 28
@@ -202,9 +202,9 @@
   },
   "ikReachErrorStanceMaxM": {
    "F": 0.1067,
-   "H": 0.0681
+   "H": 0.0657
   },
-  "slipRmsMps": 0.798,
+  "slipRmsMps": 0.784,
   "slipMaxMps": 2.142,
   "frames": 13,
   "samples": 30
@@ -246,7 +246,7 @@
    "F": 0.1101,
    "H": 0.0974
   },
-  "slipRmsMps": 0.867,
+  "slipRmsMps": 0.864,
   "slipMaxMps": 2.32,
   "frames": 13,
   "samples": 30
@@ -288,7 +288,7 @@
    "F": 0.0929,
    "H": 0.1165
   },
-  "slipRmsMps": 1.207,
+  "slipRmsMps": 1.196,
   "slipMaxMps": 3.835,
   "frames": 11,
   "samples": 30

@@ -5,6 +5,7 @@ import { QUALITY_TIERS, type Environment, type EnvId, type Quality } from "./env
 import { LifeLayer, SecondaryMotion } from "./life";
 import { loadGaits, Locomotor, LIMBS, type FootEvent, type GaitTable } from "./locomotion";
 import { clamp, damp, mulberry32 } from "./noise";
+import { FootLock, LOCK_RAMP_S } from "./footlock";
 import { HoofSound } from "./hoofsound";
 import { buildShots, CameraRig, type Shot } from "./shots";
 import { ATMOSPHERES, Sky, type Atmosphere } from "./sky";
@@ -100,6 +101,7 @@ export class FilmEngine {
 
   private ctx: StageCtx | null = null;
   private life: LifeLayer | null = null;
+  private footLock: FootLock | null = null;
   private secondary: SecondaryMotion | null = null;
   private sky = new Sky();
   private envSky: Sky | null = null;
@@ -178,6 +180,7 @@ export class FilmEngine {
     this.gaits = await loadGaits();
     this.loco = new Locomotor(ctx.horse, ctx.mixer, this.gaits, { height: () => 0, normal: (_x, _z, out) => (out ?? new THREE.Vector3()).set(0, 1, 0) });
     this.loco.onFootEvent = (e) => this.onFoot(e);
+    this.footLock = new FootLock(ctx.horse, this.loco);
     this.heroFov = ctx.camera.fov;
     this.heroFar = ctx.camera.far;
     this.ready = true;
@@ -395,6 +398,7 @@ export class FilmEngine {
     ctx.camera.near = 0.1;
     ctx.camera.fov = this.heroFov;
     ctx.camera.updateProjectionMatrix();
+    this.footLock?.undo();
     this.life?.undo();
     this.secondary?.undo();
   }
@@ -460,6 +464,7 @@ export class FilmEngine {
 
   /** Remove last frame's additive layers before the mixer rewrites the skeleton. */
   undo() {
+    this.footLock?.undo();
     this.life?.undo();
     this.secondary?.undo();
   }
@@ -503,6 +508,7 @@ export class FilmEngine {
     const sec = this.secondary!;
     sec.step(dt, loco.accelLocal.x, loco.accelLocal.y, loco.speed, this.life!.tailImpulse);
     sec.apply();
+    this.footLock?.apply(dt);
     loco.sense(Math.max(dt, 1e-3));
     this.updateWorld(dt);
   }
@@ -703,15 +709,48 @@ export class FilmEngine {
       const order: string[] = [];
       let airborne = 0, airborneStrict = 0, counted = 0, minToe = 1, maxTouchGap = 0, maxSpeedErr = 0, maxPen = 0, sumCorr = 0;
       const tdSpeeds: number[] = [];
+      const lockedSlip: number[] = [];
       const wasContact: Record<string, boolean> = { FL: false, FR: false, HL: false, HR: false };
       const gaitCount: Record<string, number> = {};
+      // foot-lock check: every authored stance, from touchdown to lift-off, must be held for its middle part
+      const LOCK_LO = 0.16, LOCK_HI = 0.82, LOCK_FULL = 0.99;
+      const stance: Record<string, { inStance: boolean; bad: boolean; mid: number; engaged: boolean }> = Object.fromEntries(LIMBS.map((l) => [l, { inStance: false, bad: false, mid: 0, engaged: false }]));
+      const lock = { stances: 0, fullyLocked: 0, neverEngaged: 0, midFrames: 0, midUnlocked: 0, residualSum: 0, residualMax: 0, offsetMax: 0 };
       for (let i = 0; i < n; i++) {
         this.undo();
         this.beforeMixer(dt, this.aspect);
         mixer.update(dt);
         this.afterMixer(dt);
         const settled = Math.abs(loco.speed - speed) < 0.06 && i > n * 0.35;
-        if (!settled) continue;
+        if (!settled) {
+          for (const l of LIMBS) stance[l].inStance = false;
+          continue;
+        }
+        const fl = this.footLock;
+        for (const l of LIMBS) {
+          const u = loco.stancePhase(l);
+          const st = stance[l];
+          if (u !== null) {
+            if (!st.inStance) { st.inStance = true; st.bad = false; st.mid = 0; st.engaged = false; }
+            if (fl && fl.legs[l].engaged) st.engaged = true;
+            if (fl && u >= LOCK_LO && u <= LOCK_HI && fl.legs[l].tStance >= LOCK_RAMP_S) {
+              const d = fl.debug[l];
+              lock.midFrames++;
+              st.mid++;
+              if (d.weight < LOCK_FULL) { st.bad = true; lock.midUnlocked++; }
+              lock.residualSum += d.residual;
+              lock.residualMax = Math.max(lock.residualMax, d.residual);
+              lock.offsetMax = Math.max(lock.offsetMax, d.maxOffset);
+            }
+          } else if (st.inStance) {
+            st.inStance = false;
+            if (!st.engaged) lock.neverEngaged++;
+            if (st.mid > 0) {
+              lock.stances++;
+              if (!st.bad) lock.fullyLocked++;
+            }
+          }
+        }
         counted++;
         gaitCount[loco.gait] = (gaitCount[loco.gait] ?? 0) + 1;
         maxSpeedErr = Math.max(maxSpeedErr, Math.abs(loco.speed - speed));
@@ -722,6 +761,7 @@ export class FilmEngine {
         for (const l of LIMBS) {
           const h = loco.hooves[l];
           if (h.stanceSlip > 0) slip[l].push(h.stanceSlip);
+          if (h.lockedSlip > 0 && this.footLock && this.footLock.legs[l].tStance >= LOCK_RAMP_S) lockedSlip.push(h.lockedSlip);
           if (h.height < 0.04) low = true;
           if (h.contact) {
             any = true;
@@ -744,6 +784,11 @@ export class FilmEngine {
         slipRmsMps: +rms(all).toFixed(3), slipRmsPerLimb: Object.fromEntries(LIMBS.map((l) => [l, +rms(slip[l]).toFixed(3)])),
         slipFractionOfSpeed: +(rms(all) / Math.max(speed, 0.3)).toFixed(3),
         minToeHeightInContactM: +minToe.toFixed(3), strideLengthM: +mean(strides).toFixed(2), strideFrequencyHz: +(mean(periods) ? 1 / mean(periods) : 0).toFixed(2),
+        lock: {
+          lockedSlipRmsMps: +rms(lockedSlip).toFixed(3), stances: lock.stances, fullyLocked: lock.fullyLocked, neverEngaged: lock.neverEngaged, midFrames: lock.midFrames, midUnlocked: lock.midUnlocked,
+          residualMeanM: +(lock.midFrames ? lock.residualSum / lock.midFrames : 0).toFixed(4), residualMaxM: +lock.residualMax.toFixed(3),
+          offsetMaxDeg: +((lock.offsetMax * 180) / Math.PI).toFixed(1),
+        },
         touchdownSpeedMps: +mean(tdSpeeds).toFixed(2), maxPenetrationBeforeFixM: +maxPen.toFixed(3), meanGroundCorrectionM: +(counted ? sumCorr / counted : 0).toFixed(4), groundedSamples: all.length, airborneFraction: +(counted ? airborneStrict / counted : 0).toFixed(3), airborneFractionLoose: +(counted ? airborne / counted : 0).toFixed(3), footfallOrder: order.slice(0, 12).join(" "), speedErr: +maxSpeedErr.toFixed(3),
       });
     }

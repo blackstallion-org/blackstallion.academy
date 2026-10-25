@@ -160,7 +160,7 @@ def load_of(ph, c, d):
 
 REST_FET = {(k, s): rest_pt(('Cannon_F_' if k == 'F' else 'Cannon_B_') + s, 'tail') for k in 'FH' for s in 'LR'}
 REPORT = {}
-RETRACT = 0.3
+RETRACT = 1.0  # full: the swing ends moving backward at the stance speed v, so the hoof lands with no ground speed (was 0.3: it landed skidding forward)
 
 def build_gait(name, spec):
     v, T, N = spec['v'], spec['T'], spec['N']; L = v * T

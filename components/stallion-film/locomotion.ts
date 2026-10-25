@@ -36,7 +36,7 @@ export type Surface = { dust: number; prints: number; color: THREE.Color; hardne
 
 export type FootEvent = { limb: Limb; kind: "touchdown" | "liftoff"; pos: THREE.Vector3; speed: number; impact: number; surface: Surface; heading: number };
 
-export type HoofState = { toe: THREE.Vector3; contact: boolean; height: number; slip: number; contactTime: number; lastTouchdown: THREE.Vector3; touchdownSpeed: number; grounded: number; stanceSlip: number };
+export type HoofState = { toe: THREE.Vector3; contact: boolean; height: number; slip: number; contactTime: number; lastTouchdown: THREE.Vector3; touchdownSpeed: number; grounded: number; stanceSlip: number; lockedSlip: number };
 
 /** Speed bands (m/s) at which one gait hands over to the next; the overlap is the cross-fade. */
 const BANDS = { walk: [0.12, 0.55], trot: [1.9, 2.6], canter: [4.0, 4.8], gallop: [6.0, 7.8], sprint: [11.0, 12.2] } as const;
@@ -120,7 +120,7 @@ export class Locomotor {
     this.root = horse.root;
     this.ground = ground;
     this.specs = gaits;
-    this.hooves = Object.fromEntries(LIMBS.map((l) => [l, { toe: new THREE.Vector3(), contact: false, height: 0, slip: 0, contactTime: 0, lastTouchdown: new THREE.Vector3(), touchdownSpeed: 0, grounded: 0, stanceSlip: 0 }])) as Record<Limb, HoofState>;
+    this.hooves = Object.fromEntries(LIMBS.map((l) => [l, { toe: new THREE.Vector3(), contact: false, height: 0, slip: 0, contactTime: 0, lastTouchdown: new THREE.Vector3(), touchdownSpeed: 0, grounded: 0, stanceSlip: 0, lockedSlip: 0 }])) as Record<Limb, HoofState>;
     this.prevToe = Object.fromEntries(LIMBS.map((l) => [l, new THREE.Vector3()])) as Record<Limb, THREE.Vector3>;
     this.bones = { FL: horse.bones[HOOF_BONE.FL], FR: horse.bones[HOOF_BONE.FR], HL: horse.bones[HOOF_BONE.HL], HR: horse.bones[HOOF_BONE.HR] };
     for (const name of Object.values(CLIPS)) {
@@ -240,7 +240,12 @@ export class Locomotor {
       [CLIPS.sprintR]: gw.sprint * (1 - lm), [CLIPS.sprintL]: gw.sprint * lm,
     };
     let top = 0;
-    for (const [name, w] of Object.entries(W)) if (w > top) { top = w; this.dominantClip = name; }
+    let wTotal = 0;
+    for (const [name, w] of Object.entries(W)) {
+      wTotal += w;
+      if (w > top) { top = w; this.dominantClip = name; }
+    }
+    this.gaitPurity = wTotal > 0 ? top / wTotal : 1;
     // stride length blends with the weights; frequency follows from v = L f
     let Lsum = 0;
     let wsum = 0;
@@ -301,6 +306,8 @@ export class Locomotor {
   }
 
   private dominantClip = "";
+  /** 1 while one gait clip carries the walk, falling toward 0.5 in the middle of a cross-fade between two. */
+  gaitPurity = 1;
 
   /** Where the hoof is in its authored stance (0 touchdown .. 1 lift-off), or null while it should be in the air or no gait clip leads. */
   stancePhase(l: Limb): number | null {
@@ -396,7 +403,9 @@ export class Locomotor {
       h.slip = h.grounded >= 3 ? planarSpeed : 0;
       // slip against the authored stance: through the middle of its stance window the hoof must stand still on the ground
       const u = this.stancePhase(l);
-      h.stanceSlip = this.speed > 0.4 && u !== null && u > 0.12 && u < 0.88 ? planarSpeed : 0;
+      h.stanceSlip = this.speed > 0.4 && u !== null && u > 0.12 && u < 0.88 && h.height < 0.04 ? planarSpeed : 0;
+      // the middle of the stance, where the foot-lock holds the toe fully: the slip that is left once the lock is on
+      h.lockedSlip = this.speed > 0.4 && u !== null && u > 0.16 && u < 0.82 && h.height < 0.04 ? planarSpeed : 0;
       if (now && !was) {
         h.contact = true;
         h.contactTime = 0;
