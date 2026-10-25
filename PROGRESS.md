@@ -188,6 +188,13 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   (0.4-0.5 before), 0 stances miss, hover 0. Other gaits' clips identical (their swing peaks 12.7 / 17 / 27 m/s, not changed).
   New generator switches: `GAIT_ONLY`, `GAIT_OVERRIDE`, `GAIT_DEBUG`. Not done: phone, build re-run, any by-eye review beyond one
   frame. See report §3d.
+- [x] **Session 25 Oct 2026 (latest) · Trot and canter swings** (`stage11_gaits.py` `foldScale` 0.2 for Trot and Canter, lifts
+  unchanged; hero, mobile, anatomy GLBs, `marwari-gaits.json` and both source .blends re-exported; walk, gallop, sprint clips
+  identical). Browser swing peak: trot 12.8 -> 9.3 m/s (floor 8.1), canter 17 -> 12.0 (floor 10-11); toe height 55 -> 22 cm and
+  74 -> 31 cm. Ground slip with the lock, desert: trot 2.6-3.5 %, canter 3.0-3.7 % (unchanged within run-to-run spread); 0 stances
+  miss. Found: the seated lock shortens the sensed flight phase (trot 15 % in the clip, 10-11 % with the lock; canter 16 -> 14-16,
+  sprint 37-39 -> 32-34); releasing the seating with the stance did not help and made the campus turn worse, so it was reverted.
+  Gallop and sprint swings still peak at 25 and 29 m/s with toes 90 cm up (not touched). No phone or build re-run. See report §3e.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

@@ -132,15 +132,18 @@ GAITS = {
   # Stride lengths are FITTED TO THIS RIG: the sculpt's hind fetlock rests 0.23 m behind the hip and the forelimb is almost straight,
   # so stance sweeps (L x duty) are kept near 0.95 m; speed comes from stride frequency (v = L / T). `bias` shifts the stance window
   # (m, relative to the rest fetlock) to where each limb can reach: forelimb about the shoulder, hindlimb forward of rest.
+  # foldScale: how much of the pastern/hoof fold the swing keeps (1 = the first-pass fold). The unfold into the landing flicks the toe
+  # point, so the swing peaks well above the smooth-profile floor (1.5 x the mean swing speed): at 0.2 the walk peaks at 5.7 m/s (floor
+  # 4.8), the trot at 9.2 (8.1) and the canter at 11.7-11.8 (10-11); at 1.0 they peaked at 9.4, 11.7 and 13.9-14.3 m/s.
   # Walk swing: the hoof must cover one stride (1.15 m) in 0.36 s, a mean ground speed of 3.2 m/s, so no swing can peak below about
   # 4.8 m/s (a smooth start and stop at rest in the world frame: 1.5 x the mean). The old fold of the pastern and hoof (unfolding into
   # the landing) and a 17 cm lift flicked the toe to 9-10 m/s and 35 cm high; foldScale 0.2 and lift 12 / 10 cm bring it to about 5.7 m/s
   # and 11 cm.
   'Walk':   dict(v=1.44, T=0.80, N=24, lead=None, c={'HL': 0.00, 'FL': 0.25, 'HR': 0.50, 'FR': 0.75}, d={'F': 0.55, 'H': 0.55}, bias={'F': None, 'H': None}, lift={'F': 0.12, 'H': 0.10}, foldScale=0.2,
                  body=dict(heave=0.010, pitch=1.2, pelvis=2.0, lumbar=1.0, neck=3.0, head=2.0, neck_base=0, tail=4, roll=1.0)),
-  'Trot':   dict(v=3.33, T=0.75, N=24, lead=None, c={'FL': 0.00, 'HR': 0.00, 'FR': 0.50, 'HL': 0.50}, d={'F': 0.38, 'H': 0.38}, bias={'F': None, 'H': None}, lift={'F': 0.26, 'H': 0.20},
+  'Trot':   dict(v=3.33, T=0.75, N=24, lead=None, c={'FL': 0.00, 'HR': 0.00, 'FR': 0.50, 'HL': 0.50}, d={'F': 0.38, 'H': 0.38}, bias={'F': None, 'H': None}, lift={'F': 0.26, 'H': 0.20}, foldScale=0.2,
                  body=dict(heave=0.030, pitch=1.4, pelvis=2.5, lumbar=1.2, neck=2.5, head=2.0, neck_base=3, tail=10, roll=0.6)),
-  'Canter': dict(v=4.83, T=0.60, N=28, lead='R', c={'HL': 0.00, 'HR': 0.29, 'FL': 0.29, 'FR': 0.50}, d={'F': 0.28, 'H': 0.33}, bias={'F': None, 'H': None}, lift={'F': 0.34, 'H': 0.28},
+  'Canter': dict(v=4.83, T=0.60, N=28, lead='R', c={'HL': 0.00, 'HR': 0.29, 'FL': 0.29, 'FR': 0.50}, d={'F': 0.28, 'H': 0.33}, bias={'F': None, 'H': None}, lift={'F': 0.34, 'H': 0.28}, foldScale=0.2,
                  body=dict(heave=0.045, pitch=3.5, pelvis=5.0, lumbar=3.0, neck=5.0, head=3.0, neck_base=9, tail=18, roll=1.5)),
   'Gallop': dict(v=10.0, T=0.42, N=30, lead='R', c={'HL': 0.00, 'HR': 0.14, 'FL': 0.30, 'FR': 0.46}, d={'F': 0.19, 'H': 0.22}, bias={'F': None, 'H': None}, lift={'F': 0.42, 'H': 0.34},
                  body=dict(heave=0.060, pitch=5.0, pelvis=7.0, lumbar=4.5, neck=6.0, head=4.0, neck_base=17, tail=26, roll=1.8)),

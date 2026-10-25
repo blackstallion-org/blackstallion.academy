@@ -245,9 +245,55 @@ with the lock (clip alone 9.5 %), 0 % on the campus turn (2.9 %). Trot to sprint
 in §3c), canter 3.2–3.5 %, gallop 4.3–4.7 %, sprint 6.0–6.1 %; those clips are unchanged, so the trot difference is where on the
 sand the run happened, not the walk change. One frame of the new walk: `docs/qa/film/gait_walk_r6.png`.
 
-**Still true:** the other gaits keep the same style of fold. The clips' toe swing peaks are trot 11.7, canter 13.9–14.3, gallop
-24.8–25.2, sprint 28.6–29.1 m/s against a smooth-profile floor (1.5 × the mean swing speed, stride and duty as authored) of about 8, 10, 19 and 22 m/s, and toe heights in the swing of 54, 72,
-88 and 95 cm. The gallop and sprint figures are plausible for a horse at those speeds; the trot and canter were not looked at.
+**Still true after this pass:** the other gaits kept the same style of fold; trot and canter are fixed in §3e. Gallop and sprint
+are not: their swing peaks are 24.8–25.2 and 28.6–29.1 m/s against floors of about 19 and 22 m/s, and their toes reach 88 and 95 cm.
+
+### 3e. Trot and canter swings (fifth pass, 25 Oct)
+
+Same fix as the walk (`foldScale` 0.2) applied to the Trot and Canter (both leads); the lifts are **unchanged** (trot 26 / 20 cm,
+canter 34 / 28 cm). Trimming the lifts as well, as for the walk, only lowered the toe further (16–20 cm at the trot against 21–22 cm) without
+reducing the peak, because the fold, not the lift, had carried the toe to 54 and 72 cm.
+
+Generator, front and hind limbs together (floor = 1.5 × the mean swing speed for the authored stride and duty):
+
+| Clip | Floor | Fold 1.0 (before) | Fold 0.5 | Fold 0.4 | Fold 0.3 | Fold 0.25 | Fold 0.2 (used) | Toe height, before → used |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Trot | 8.1 m/s | 11.7 | 11.2 (lifts also trimmed) | 10.6 | 9.9 | 9.5 | **9.2** | 54 → 22 cm |
+| Canter R / L | 10–11 m/s | 13.9 / 14.3 | 14.7 / 14.9 (lifts also trimmed) | 13.9 / 14.1 | 12.8 / 12.9 | 12.3 / 12.4 | **11.7 / 11.8** | 72 → 30 cm |
+
+Measured in the browser (120 Hz, desert, planar toe speed through the swing, lock on or off give the same figures to 0.1 m/s):
+
+| Gait | Peak before → now | Median before → now | Toe height before → now |
+| --- | --- | --- | --- |
+| Trot | 12.8 → 9.3 m/s | 6.7 → 6.3 m/s | 55 → 22 cm |
+| Canter | 17.0 → 12.0 m/s | 8.3 → 8.0 m/s | 74 → 31 cm |
+| Gallop (not changed; clip only) | 25.2 → 25.2 m/s | 14.7 → 14.7 m/s | 89 → 89 cm |
+
+Ladder with the seated lock, three repeats on the desert (the walk, gallop and sprint clips are the same as in §3d):
+
+| Gait | Ground slip | Stances held | Stances that miss | Mid-stance residual mean / max |
+| --- | --- | --- | --- | --- |
+| Trot | 3.5 / 3.0 / 2.6 % (2.8–3.6 % in §3d) | 30 of 32, 30 of 30, 29 of 30 | 0 | 1.3–1.6 mm / 25 mm |
+| Canter | 3.7 / 3.6 / 3.0 % (3.2–3.5 %) | 38 of 38, 39 of 39, 39 of 39 | 0 | 1.4–1.6 mm / 16 mm |
+
+The trot's unheld stances (22 and 13 of about 700 mid-stance frames) are frames where a joint reached its limit (offset 25.8°). Mid-stance
+sole height over 2 cm, desert: trot 0.5 %, canter 0.3 %; campus turn: trot 0 %, canter 0.2 %. One frame of the new trot:
+`docs/qa/film/gait_trot_r7.png`. Only Trot and Canter_R/L changed in `marwari-gaits.json` and in the clips.
+
+**Flight phase is shorter than the clips author, and the seated lock shortens it further.** Measured as the fraction of time all four
+toes are at least 4 cm up (runs of 9–14 s each, desert; the second figure for the seated lock is a repeat):
+
+| Gait | Authored (stance windows) | First-pass clips, no lock | Clips now, no lock | Sideways-only lock | Seated lock |
+| --- | --- | --- | --- | --- | --- |
+| Trot | 24 % | 18 % | 15–16 % | 13.8 % | 10–11 % |
+| Canter | 22 % | 18 % | 16 % | 15.5 % | 14–16 % |
+| Gallop | 35 % | 30 % | 30–31 % | 31 % | 28–29 % |
+| Sprint | 39 % | 41 % | 37–39 % | 36.8 % | 32–34 % |
+
+The seated lock brings each hoof down as soon as its stance starts (within 15 cm), so the sensed flight is 3–5 points shorter than with
+the sideways-only lock. The trot, which loses about a third of its flight against the clip, is the visible case. I tried releasing the seating
+over the last 12 % of each stance (so the toe leaves when the clip lifts it): the flight phase did not change, and the campus turn got worse
+(13 of 124 gallop stances missing the ground, against 0), so it was reverted.
 
 ## 4. Performance (measured, not estimated)
 
