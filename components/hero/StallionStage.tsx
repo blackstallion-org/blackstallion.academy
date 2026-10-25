@@ -4,11 +4,12 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { daylight, loadGlb, lookAt, perspective, StallionRenderer, type GazeTarget } from "./stallion-gl";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/content/asset";
 
 /** Where the camera dolly lands: the digital Sovereign Passport. */
 export const PASSPORT_HREF = "/cadets#passport";
 /** The commissioned sculpt, when supplied, is set with NEXT_PUBLIC_STALLION_MODEL (e.g. /models/marwari.glb). */
-export const MODEL_URL = process.env.NEXT_PUBLIC_STALLION_MODEL || "/models/marwari-proxy.glb";
+export const MODEL_URL = asset(process.env.NEXT_PUBLIC_STALLION_MODEL || "/models/marwari-proxy.glb");
 
 type Status = "loading" | "ready" | "failed";
 

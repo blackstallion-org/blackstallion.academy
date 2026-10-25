@@ -156,3 +156,28 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   `docs/LAUNCH_INSTRUCTIONS.md` §3, `docs/TEST_RESULTS.md` §3a). Not done: custom domain and DNS, Resend domain,
   indexing, payments, analytics, a live enquiry test, staff sign-in. Open and approved in principle: move the images,
   video, audio and 3D models to Supabase Storage after the owner upgrades to Supabase Pro.
+
+- [x] **25 Oct 2026 · Media on Supabase Storage: built, tested, switched OFF** (branch `feat/media-on-supabase`, on top of
+  the launch documents). The owner chose to move the pictures, 3D models, video and audio to Supabase after upgrading to
+  Pro. Everything that does not need the owner's own accounts is done; nothing exists in Supabase yet and the live site is
+  unchanged.
+  - **One switch:** `NEXT_PUBLIC_MEDIA_BASE_URL` (build-time, public). `asset()` (`lib/content/asset.ts`) wraps every path to
+    `/images`, `/media`, `/models`, `/video` and `/audio` (32 component and library files, plus `mediaSrc()`); unset = today's
+    behaviour, an invalid value is ignored. The security policy and `images.remotePatterns` learn the bucket's origin;
+    `AsciiRipple` sets `crossOrigin`. Undo: delete the variable and redeploy (the files stay in `public/`).
+  - **Guards and tests:** `asset-guard` fails if a media path skips `asset()`; `media-manifest` pins the 185-file list
+    (118.1 MB; names valid for Storage; nothing over 50 MB; every address the site can build is listed); `upload-media`
+    runs the owner's tool end to end against a stand-in Storage. 133 unit tests pass, typecheck passes, lint 0 errors
+    (the same 8 warnings as before).
+  - **Owner's upload tool:** `scripts/upload-media.mjs` + `scripts/media-manifest.json`, with a double-click launcher and a
+    README in `output/media-upload/`. Creates the public bucket `website-media`, uploads only what is missing, checks size,
+    type, CORS, cache and Range, prints the variable. Never deletes. The secret key stays on the owner's Mac.
+  - **Proof:** `scripts/e2e-media.mjs` crawled 54 page views (38 pages) with the switch off and on, against a stand-in
+    bucket: the same 123 files, 0 errors, nothing served from the site when on; 21 of 26 first-screen screenshot pairs
+    without a visible difference (the other five: video frame, rotating sphere, navigation caught mid-slide). Heaviest page
+    view 24.0 MB (home, laptop), middle one 4.1 MB. Limits (stand-in, 62 files never asked for, software 3D) are in
+    `docs/MEDIA_HOSTING.md` §11.
+  - **Waiting for the owner:** the code is only on this branch (no GitHub write path yet), and Vercel builds from `main`, so
+    first it must be pushed and merged (`docs/MEDIA_HOSTING.md` §0; the merge is the owner's approval). Then: upgrade
+    Supabase to Pro (approval block §3), double-click `upload-media.command`, and add the variable in Vercel and redeploy
+    (or say "go" and I do the Vercel step).

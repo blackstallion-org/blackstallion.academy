@@ -5,6 +5,7 @@ import { Terminal } from "./Terminal";
 import { knowledge } from "@/lib/content/command";
 import { command } from "@/lib/content/home";
 import styles from "./CommandExperience.module.css";
+import { asset } from "@/lib/content/asset";
 
 export function CommandExperience() {
   return (
@@ -26,7 +27,7 @@ export function CommandExperience() {
 /** Homepage presentation follows the supplied split-screen information reference. */
 export function CommandTeaser() {
   return <section id="home-command" aria-labelledby="command-h" className={styles.teaser} data-parallax-skip>
-    <div className={styles.teaserBackground} aria-hidden><Image src="/images/admissions/academy-gate-backdrop.webp" alt="" fill sizes="100vw" /></div>
+    <div className={styles.teaserBackground} aria-hidden><Image src={asset("/images/admissions/academy-gate-backdrop.webp")} alt="" fill sizes="100vw" /></div>
     <div className={styles.teaserIntro}>
       <p className={styles.eyebrow}>Reel 14 / Information desk</p>
       <h2 id="command-h">{command.inscription}<br /><span>{command.voice}</span></h2>

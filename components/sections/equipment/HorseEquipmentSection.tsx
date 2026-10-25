@@ -8,6 +8,7 @@ import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { ease } from "@/lib/motion/tokens";
 import { useNearViewport, useOnScreen } from "@/lib/motion/use-near-viewport";
+import { asset } from "@/lib/content/asset";
 
 /* ------------------------------------------------------------------
    1. Interactive 3D Composite Riding Gear Model (lazy: see RidingGearStage)
@@ -33,7 +34,7 @@ const EQUIPMENT_ITEMS: EquipmentItem[] = [
     id: "saddle",
     name: "Cavalry Saddle",
     category: "Saddlery & Tack",
-    image: "/images/equipment/traditional-saddle.webp",
+    image: asset("/images/equipment/traditional-saddle.webp"),
     hex: "#844628",
     colorName: "Chestnut Leather",
     spec: "Studded cantle · fur-lined seat · brass hardware",
@@ -43,7 +44,7 @@ const EQUIPMENT_ITEMS: EquipmentItem[] = [
     id: "stirrup",
     name: "Stirrup Iron & Pad",
     category: "Equitation Hardware",
-    image: "/images/equipment/english-stirrup.webp",
+    image: asset("/images/equipment/english-stirrup.webp"),
     hex: "#2b7da8",
     colorName: "Cadet Blue & Steel",
     spec: "Forged stainless iron · 12 cm tread · shock absorption pad",
@@ -53,7 +54,7 @@ const EQUIPMENT_ITEMS: EquipmentItem[] = [
     id: "halters",
     name: "Stable Halters & Bridle",
     category: "Tack Room Gear",
-    image: "/images/equipment/stable-bridles.webp",
+    image: asset("/images/equipment/stable-bridles.webp"),
     hex: "#b87467",
     colorName: "Terracotta Webbing",
     spec: "Triple-ply reinforced canvas · cast-iron rings · brass snaps",
@@ -63,7 +64,7 @@ const EQUIPMENT_ITEMS: EquipmentItem[] = [
     id: "horseshoe",
     name: "Hand-Forged Horseshoe",
     category: "Farrier & Ironwork",
-    image: "/images/equipment/horseshoe-farrier.webp",
+    image: asset("/images/equipment/horseshoe-farrier.webp"),
     hex: "#271c17",
     colorName: "Forged Iron Horn",
     spec: "Drop-forged steel · hot-fitted · balanced desert angle",

@@ -3,7 +3,8 @@
 Current state (24 Oct 2026, evening): the production deployment of `main` (`b76131b`) is live and public at
 `https://project-t9r95.vercel.app` by the owner's choice; indexing off, no DNS change, no live payment. DNS, search
 indexing, live payments and e-mail to applicants each still need the owner's explicit approval.
-Status and blockers: `PRODUCTION_READINESS.md`. Variables: `docs/ENVIRONMENT_VARIABLES.md`.
+Status and blockers: `PRODUCTION_READINESS.md`. Variables: `docs/ENVIRONMENT_VARIABLES.md`. Serving the media from Supabase
+Storage instead of from the site (built, off until the owner upgrades Supabase and runs the upload): `docs/MEDIA_HOSTING.md`.
 
 **Going live is planned in `docs/LAUNCH_INSTRUCTIONS.md`** (five separate approvals, gates G1 to G16, what to check after
 each step, how to undo it). This runbook is the reference for the individual procedures; the release vehicle is the draft
@@ -68,6 +69,11 @@ on the Hobby plan (non-commercial use); a commercial launch needs Pro.
    b. **Resend domain:** verify `blackstallion.academy` in Resend (DNS records), then `RESEND_FROM`, optional
       `RESEND_CONFIRMATIONS=1` and a receipt test.
    c. **Indexing:** `NEXT_PUBLIC_ALLOW_INDEXING=1` on Production only, redeploy, submit `/sitemap.xml`.
+   d. **Media on Supabase Storage** (built, off, on the branch `feat/media-on-supabase`, not yet in `main`): merge the branch
+      into `main` (needs a GitHub write path; the merge is the owner's approval), Supabase Pro, the owner's one upload
+      command, then `NEXT_PUBLIC_MEDIA_BASE_URL` in Vercel and a redeploy without the build cache. Full steps, costs, checks and the undo:
+      `docs/MEDIA_HOSTING.md`. After a redeploy that changes media, the check is `scripts/e2e-media.mjs` (section 11 of that
+      document).
 
 ## 4. Database changes
 
@@ -80,6 +86,8 @@ the row counts**: on the Free plan there is no other way back to the data.
 
 - **Site:** Vercel → Deployments → last good production deployment → *Promote to Production* (instant).
 - **Code:** revert the release commit on `main` (new commit; never force-push), let it redeploy.
+- **Media on Supabase:** delete `NEXT_PUBLIC_MEDIA_BASE_URL` in Vercel and redeploy; the site goes back to its own copies of
+  every file (`docs/MEDIA_HOSTING.md` §8). Needed at once if the Supabase project is paused, restricted (HTTP 402) or unpaid.
 - **Database:** each live migration has a rollback in `supabase/live/rollback/` (owner approval; roll back 001200
   before 001000). Rollback files undo *our schema changes*; they cannot bring back deleted rows — that is what section 8
   is for.

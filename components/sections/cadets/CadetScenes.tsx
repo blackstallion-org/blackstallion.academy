@@ -18,6 +18,7 @@ import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { QrSeal } from "@/components/brand/QrSeal";
 import { ViscousLiquidCanvas, type ViscousSlide } from "@/components/sections/shared/ViscousLiquidCanvas";
+import { asset } from "@/lib/content/asset";
 /** Title card · Editorial hero with DESERT AURA in transparent liquid font and 1.9s decelerating pop animation */
 export function CadetsTitle() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -49,13 +50,13 @@ export function CadetsTitle() {
         muted
         playsInline
         preload="auto"
-        poster="/video/cadets-desert-poster.jpg"
+        poster={asset("/video/cadets-desert-poster.jpg")}
         aria-label="Ambient desert scene with glowing circular portal"
         className="absolute inset-0 h-full w-full object-cover object-center z-10 brightness-[0.95] contrast-[1.05]"
       >
-        <source src="/video/cadets-desert-loop.mp4" type="video/mp4" />
+        <source src={asset("/video/cadets-desert-loop.mp4")} type="video/mp4" />
         <source
-          src="/video/Firefly Create a --3-second seamless cinematic loop-- using the provided desert image. The horse slo.mp4"
+          src={asset("/video/Firefly Create a --3-second seamless cinematic loop-- using the provided desert image. The horse slo.mp4")}
           type="video/mp4"
         />
       </video>

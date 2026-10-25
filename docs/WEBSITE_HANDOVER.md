@@ -55,6 +55,13 @@ indexing is off. Nothing is on the custom domain, no payment is live, and the la
   the CDN), commit the eight new WebPs, switch `cdnOnly(...)` to `m(...)` in `lib/content/media.ts` and update
   `tests/media.test.mjs`; then decide whether to self-host the journal images and the videos too. Self-hosting also
   settles the licence question (`BUSINESS_LEGAL_REVIEW.md` D8).
+- **Media on Supabase Storage (built 25 Oct 2026, off).** The files that do ship with the site (185 files, 118.1 MB: stills,
+  3D models, video, audio) can be served from a public Supabase bucket by setting one build-time variable,
+  `NEXT_PUBLIC_MEDIA_BASE_URL`. Every media path in the code goes through `asset()` (`lib/content/asset.ts`; a test enforces
+  it), the list of files is `scripts/media-manifest.json`, the owner uploads them with `scripts/upload-media.mjs`, and
+  `scripts/e2e-media.mjs` proves page by page that the same files load. Not part of it: the provider-CDN content in the
+  table above. Lives on the branch `feat/media-on-supabase` until it is merged into `main`; then needs Supabase Pro and the
+  owner's upload; steps, costs and the undo are in `docs/MEDIA_HOSTING.md`.
 
 ## 2. How the backend works
 
