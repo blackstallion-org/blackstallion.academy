@@ -33,27 +33,39 @@
    "H": 0.634
   },
   "biasM": {
-   "F": 0.02,
-   "H": 0.14
+   "F": 0.0,
+   "H": 0.26
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0456,
-   "H": 0.0512
+   "F": 0.0443,
+   "H": 0.0611
+  },
+  "ikReachErrorByLimbM": {
+   "HL": 0.0611,
+   "FL": 0.0443,
+   "HR": 0.0136,
+   "FR": 0.0382
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
   },
   "soleStanceMeanM": {
-   "F": 0.0018,
-   "H": -0.0009
+   "F": 0.0013,
+   "H": -0.0012
   },
   "soleStanceMaxAbsM": {
-   "F": 0.0383,
-   "H": 0.046
+   "F": 0.0378,
+   "H": 0.0431
   },
-  "toeSwingPeakMps": 5.71,
-  "toeSwingMeanMps": 3.92,
-  "toeSwingPeak3dMps": 5.71,
-  "toeSwingMaxHeightM": 0.106,
-  "slipRmsMps": 0.074,
-  "slipMaxMps": 0.293,
+  "toeSwingPeakMps": 5.73,
+  "toeSwingMeanMps": 3.89,
+  "toeSwingPeak3dMps": 5.73,
+  "toeSwingMaxHeightM": 0.114,
+  "slipRmsMps": 0.061,
+  "slipMaxMps": 0.163,
   "frames": 24,
   "samples": 24
  },
@@ -92,26 +104,38 @@
   },
   "biasM": {
    "F": -0.04,
-   "H": 0.28
+   "H": 0.22
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0581,
-   "H": 0.0799
+   "F": 0.0567,
+   "H": 0.0478
+  },
+  "ikReachErrorByLimbM": {
+   "FL": 0.0567,
+   "HR": 0.0237,
+   "FR": 0.0553,
+   "HL": 0.0478
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
   },
   "soleStanceMeanM": {
-   "F": 0.0063,
-   "H": 0.0049
+   "F": 0.0065,
+   "H": -0.0014
   },
   "soleStanceMaxAbsM": {
-   "F": 0.0315,
-   "H": 0.0615
+   "F": 0.031,
+   "H": 0.0543
   },
   "toeSwingPeakMps": 9.16,
-  "toeSwingMeanMps": 6.15,
+  "toeSwingMeanMps": 6.19,
   "toeSwingPeak3dMps": 9.16,
   "toeSwingMaxHeightM": 0.218,
-  "slipRmsMps": 0.236,
-  "slipMaxMps": 0.754,
+  "slipRmsMps": 0.176,
+  "slipMaxMps": 0.496,
   "frames": 22,
   "samples": 24
  },
@@ -149,27 +173,39 @@
    "H": 0.956
   },
   "biasM": {
-   "F": 0.0,
-   "H": 0.28
+   "F": -0.02,
+   "H": 0.22
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0647,
-   "H": 0.0642
+   "F": 0.0561,
+   "H": 0.0649
+  },
+  "ikReachErrorByLimbM": {
+   "HL": 0.0649,
+   "HR": 0.0418,
+   "FL": 0.0451,
+   "FR": 0.0561
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
   },
   "soleStanceMeanM": {
-   "F": 0.01,
-   "H": 0.0005
+   "F": 0.0092,
+   "H": -0.0013
   },
   "soleStanceMaxAbsM": {
-   "F": 0.0472,
-   "H": 0.0388
+   "F": 0.0399,
+   "H": 0.0444
   },
   "toeSwingPeakMps": 11.73,
-  "toeSwingMeanMps": 7.41,
-  "toeSwingPeak3dMps": 11.73,
-  "toeSwingMaxHeightM": 0.302,
-  "slipRmsMps": 0.31,
-  "slipMaxMps": 0.921,
+  "toeSwingMeanMps": 7.46,
+  "toeSwingPeak3dMps": 11.74,
+  "toeSwingMaxHeightM": 0.303,
+  "slipRmsMps": 0.233,
+  "slipMaxMps": 0.561,
   "frames": 18,
   "samples": 28
  },
@@ -207,27 +243,39 @@
    "H": 0.956
   },
   "biasM": {
-   "F": 0.0,
-   "H": 0.28
+   "F": -0.02,
+   "H": 0.22
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0664,
-   "H": 0.0864
+   "F": 0.0645,
+   "H": 0.0436
+  },
+  "ikReachErrorByLimbM": {
+   "HR": 0.0297,
+   "HL": 0.0436,
+   "FR": 0.0447,
+   "FL": 0.0645
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
   },
   "soleStanceMeanM": {
-   "F": 0.0101,
-   "H": 0.0056
+   "F": 0.0098,
+   "H": -0.0015
   },
   "soleStanceMaxAbsM": {
-   "F": 0.0396,
-   "H": 0.0628
+   "F": 0.0379,
+   "H": 0.0539
   },
-  "toeSwingPeakMps": 11.79,
-  "toeSwingMeanMps": 7.41,
-  "toeSwingPeak3dMps": 11.79,
-  "toeSwingMaxHeightM": 0.304,
-  "slipRmsMps": 0.344,
-  "slipMaxMps": 1.081,
+  "toeSwingPeakMps": 11.8,
+  "toeSwingMeanMps": 7.47,
+  "toeSwingPeak3dMps": 11.8,
+  "toeSwingMaxHeightM": 0.297,
+  "slipRmsMps": 0.221,
+  "slipMaxMps": 0.628,
   "frames": 18,
   "samples": 28
  },
@@ -265,27 +313,39 @@
    "H": 0.924
   },
   "biasM": {
-   "F": 0.0,
-   "H": 0.28
+   "F": -0.02,
+   "H": 0.22
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0983,
-   "H": 0.0648
+   "F": 0.0963,
+   "H": 0.0653
+  },
+  "ikReachErrorByLimbM": {
+   "HL": 0.0653,
+   "HR": 0.0305,
+   "FL": 0.0963,
+   "FR": 0.0442
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
   },
   "soleStanceMeanM": {
-   "F": 0.0145,
-   "H": 0.0046
+   "F": 0.0142,
+   "H": 0.0033
   },
   "soleStanceMaxAbsM": {
-   "F": 0.0781,
-   "H": 0.0341
+   "F": 0.0765,
+   "H": 0.0131
   },
   "toeSwingPeakMps": 24.84,
-  "toeSwingMeanMps": 13.67,
-  "toeSwingPeak3dMps": 27.53,
-  "toeSwingMaxHeightM": 0.876,
-  "slipRmsMps": 0.652,
-  "slipMaxMps": 1.909,
+  "toeSwingMeanMps": 13.77,
+  "toeSwingPeak3dMps": 27.19,
+  "toeSwingMaxHeightM": 0.879,
+  "slipRmsMps": 0.573,
+  "slipMaxMps": 1.856,
   "frames": 13,
   "samples": 30
  },
@@ -323,27 +383,39 @@
    "H": 0.924
   },
   "biasM": {
-   "F": 0.0,
-   "H": 0.28
+   "F": -0.02,
+   "H": 0.22
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.1015,
-   "H": 0.0826
+   "F": 0.0927,
+   "H": 0.0341
+  },
+  "ikReachErrorByLimbM": {
+   "HR": 0.0341,
+   "HL": 0.0286,
+   "FR": 0.0927,
+   "FL": 0.0526
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
   },
   "soleStanceMeanM": {
-   "F": 0.0152,
-   "H": 0.0106
+   "F": 0.0145,
+   "H": 0.0016
   },
   "soleStanceMaxAbsM": {
-   "F": 0.0856,
-   "H": 0.0598
+   "F": 0.0791,
+   "H": 0.0093
   },
-  "toeSwingPeakMps": 25.2,
-  "toeSwingMeanMps": 13.66,
-  "toeSwingPeak3dMps": 27.03,
-  "toeSwingMaxHeightM": 0.879,
-  "slipRmsMps": 0.741,
-  "slipMaxMps": 2.076,
+  "toeSwingPeakMps": 25.09,
+  "toeSwingMeanMps": 13.8,
+  "toeSwingPeak3dMps": 26.88,
+  "toeSwingMaxHeightM": 0.885,
+  "slipRmsMps": 0.526,
+  "slipMaxMps": 1.823,
   "frames": 13,
   "samples": 30
  },
@@ -381,27 +453,39 @@
    "H": 0.919
   },
   "biasM": {
-   "F": 0.0,
-   "H": 0.28
+   "F": -0.02,
+   "H": 0.2
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0819,
-   "H": 0.0936
+   "F": 0.0801,
+   "H": 0.0666
+  },
+  "ikReachErrorByLimbM": {
+   "HL": 0.0666,
+   "HR": 0.0335,
+   "FL": 0.0801,
+   "FR": 0.0325
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
   },
   "soleStanceMeanM": {
-   "F": 0.0087,
-   "H": 0.0098
+   "F": 0.0086,
+   "H": 0.0043
   },
   "soleStanceMaxAbsM": {
-   "F": 0.0637,
-   "H": 0.0743
+   "F": 0.0623,
+   "H": 0.0117
   },
-  "toeSwingPeakMps": 28.6,
-  "toeSwingMeanMps": 15.74,
-  "toeSwingPeak3dMps": 31.46,
-  "toeSwingMaxHeightM": 0.948,
-  "slipRmsMps": 0.982,
-  "slipMaxMps": 3.31,
+  "toeSwingPeakMps": 29.0,
+  "toeSwingMeanMps": 15.91,
+  "toeSwingPeak3dMps": 30.96,
+  "toeSwingMaxHeightM": 0.953,
+  "slipRmsMps": 0.572,
+  "slipMaxMps": 1.762,
   "frames": 11,
   "samples": 30
  },
@@ -439,27 +523,39 @@
    "H": 0.919
   },
   "biasM": {
-   "F": 0.0,
-   "H": 0.28
+   "F": -0.02,
+   "H": 0.2
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.085,
-   "H": 0.0856
+   "F": 0.0765,
+   "H": 0.0456
+  },
+  "ikReachErrorByLimbM": {
+   "HR": 0.0339,
+   "HL": 0.0456,
+   "FR": 0.0765,
+   "FL": 0.0387
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
   },
   "soleStanceMeanM": {
-   "F": 0.0101,
-   "H": 0.0135
+   "F": 0.0091,
+   "H": 0.0034
   },
   "soleStanceMaxAbsM": {
-   "F": 0.0717,
-   "H": 0.0615
+   "F": 0.0647,
+   "H": 0.0185
   },
-  "toeSwingPeakMps": 29.13,
-  "toeSwingMeanMps": 15.77,
-  "toeSwingPeak3dMps": 30.78,
-  "toeSwingMaxHeightM": 0.949,
-  "slipRmsMps": 0.849,
-  "slipMaxMps": 2.301,
+  "toeSwingPeakMps": 28.78,
+  "toeSwingMeanMps": 15.95,
+  "toeSwingPeak3dMps": 30.68,
+  "toeSwingMaxHeightM": 0.951,
+  "slipRmsMps": 0.581,
+  "slipMaxMps": 1.727,
   "frames": 11,
   "samples": 30
  },

@@ -372,7 +372,7 @@ trot 2.5–2.8, canter 2.7–2.8, gallop 4.5–4.8, sprint 6.3–6.5 % (as in §
 
 **Still open**
 
-- **Right turns slip more than left** (gallop 7.6 vs 4.7 %, sprint 9.8 vs 5.4 %), almost all in the first 40 % of the stance of the
+- **(Fixed in §3g.)** **Right turns slip more than left** (gallop 7.6 vs 4.7 %, sprint 9.8 vs 5.4 %), almost all in the first 40 % of the stance of the
   right hind (26 % early slip against 9 % for the left). The rig's rest pose is asymmetric: the right hind fetlock rests 16 cm ahead
   of the left and 13 cm closer to the midline (cannon tails at y 0.397 / 0.561, x −0.084 / +0.215), and the generator centres each
   stance on that leg's own rest position with one reach bias computed on the left side. Centring both sides on a common line (and a
@@ -381,6 +381,66 @@ trot 2.5–2.8, canter 2.7–2.8, gallop 4.5–4.8, sprint 6.3–6.5 % (as in §
   stance.
 - Hover and slip were measured on the desert and the campus path; the village has no turns at speed.
 - Not done: phone, production build, an eye on the new leg splay beyond one frame.
+
+### 3g. Left-right symmetry (seventh pass, 26 Oct)
+
+**Cause.** The generator centred every stance window on that leg's own rest fetlock and computed one reach offset on the left side
+only. The rig's rest pose is asymmetric (cannon tails, body frame, y toward the tail): hind 0.561 (left) / 0.397 (right), fore
+−0.600 / −0.626. With the sprint's offset of 0.28 m the two hind stances sat at y 0.281 and 0.117, 16 cm apart, and the right
+hind was solved with an offset searched for the left. Measured at the sprint's hind sweep (0.919 m), the best offsets on each
+leg's own centre were 0.28 (left, 4.7 cm worst reach error) and 0.14 (right, 2.4 cm).
+
+**Change** (`tools/blender/03_animation/stage11_gaits.py`): each pair is centred on the mean of its two rest positions
+(`STANCE_FET`; `GAIT_SYM=0` restores the old centres), and `auto_bias(kind, sweep)` searches one offset for both sides, the one that
+minimises the worse side with the other as a tie-breaker. I did not use a different offset per side: it would put the two stance
+windows apart again, which is the asymmetry. On the common centre the two sides' best offsets are within 2 cm of each other
+(sprint 0.20 left, 0.22 right) and the shared offset costs the worse side nothing (4.8 cm against 4.7). The error of each leg is
+now reported (`ikReachErrorByLimbM`, `stanceCentreY` in `marwari-gaits.json`). The fore pairs are centred the same way (a 2.6 cm
+shift of the right foreleg). Walk, trot, canter, gallop and sprint clips changed; Stop and Alert did not. Hero, mobile and
+anatomy GLBs and the hero source .blend re-exported.
+
+Worst stance reach error per leg in the generator, cm (hind pair, before as one figure for both legs → left / right now):
+
+| Clip | Before | Now (HL / HR) |
+| --- | --- | --- |
+| Walk | 5.1 | 6.1 / 1.4 |
+| Trot | 8.0 | 4.8 / 2.4 |
+| Canter R | 6.4 | 6.5 / 4.2 |
+| Canter L | 8.6 | 4.4 / 3.0 |
+| Gallop R | 6.5 | 6.5 / 3.1 |
+| Gallop L | 8.3 | 2.9 / 3.4 |
+| Sprint R | 9.4 | 6.7 / 3.4 |
+| Sprint L | 8.6 | 4.6 / 3.4 |
+
+**Measured in the browser** (desert, forced constant-yaw circles, 20 s each, ground slip as before → now):
+
+| Run | Gait | `dt` 1/120 | `dt` 1/60 |
+| --- | --- | --- | --- |
+| Straight | canter / gallop / sprint | 2.6 / 4.7 / 6.1 → 2.0 / 4.4 / 5.0 % | 2.9 / 5.5 / 7.6 → 2.4 / 5.4 / 6.6 % |
+| Left turn | canter / gallop / sprint | 4.8 / 4.7 / 5.4 → 3.7 / 5.6 / 4.8 % | 5.1 / 5.1 / 6.6 → 4.5 / 5.6 / 5.8 % |
+| Right turn | canter / gallop / sprint | 4.6 / 7.6 / 9.8 → 4.4 / **4.1 / 4.1** % | 5.8 / 8.5 / 11.0 → 4.8 / 4.3 / 6.1 % |
+
+The right hind's early-stance slip in the right turn fell from 26 % of speed to 7 %. Every stance is still held in every run
+(unlocked 0 %). Hover (mid-stance sole over 2 cm up) changed little and not always for the better: left-turn gallop 3.6 → 7.0 %
+(8.6 → 12.8 % at 60 fps), left sprint 6.0 → 4.4 %, right 1.2 → 1.0 % and 2.9 → 2.6 %; over 4 cm stays at or under 1.3 %.
+
+Straight desert ladder, three repeats, ground slip: walk 0.3–0.5 % (0.4–0.5), trot **0.8–1.1** (2.5–2.8), canter **2.0–2.1** (2.7–2.8),
+gallop 4.2–4.4 (4.5–4.8), sprint 5.0–5.2 (6.3–6.5); every stance held, none misses the ground, mid-stance residual 0.1–1.0 mm on
+average. The flight phase is unchanged (trot 7–9 %, canter 15–16 %, gallop 28–30 %, sprint 32–33 %). Campus path, film speeds (90 s):
+trot corners slip 4.4 → 3.0 % (still 42 of 192 stances 2–3 cm up, was 45 of 196), trot straights 3.1 → 1.2 %, canter corners
+4.4 → 3.7 %; unlocked 0 %. One frame from behind at the trot: `docs/qa/film/gait_trot_rear_r9.png`.
+
+**Left as it is**
+
+- **The feet are still not symmetric sideways.** The generator's IK is planar, so it cannot move a foot across the body: the left
+  hind foot stands at x +0.23 and the right at −0.09 (hoof tips), about 13 cm closer to the midline on the right, and the
+  forefeet at +0.15 / −0.15. In a banked turn that changes how far the roll lifts each foot. The residual left-right gap in hover
+  above is probably that; fixing it needs a lateral correction in the rig or an abduction term in the generator.
+- **The fore pair differs by lead, not by rig:** at the gallop and sprint (right lead) the left forefoot slips 0.82 m/s against
+  0.35 m/s for the right; in the left-lead clips it is the other way round (the trailing foreleg's reach error is the larger one,
+  9.6 against 4.4 cm in Gallop R).
+- The walk's left hind error is 6.1 cm (5.1 before); the right hind is 1.4 cm.
+- Not checked: the anatomy page (its GLB was regenerated the same way and loads the same clips), a phone, the production build.
 
 ## 4. Performance (measured, not estimated)
 
@@ -438,7 +498,7 @@ Method: Chromium driven by Playwright, `renderer.info`, `EXT_disjoint_timer_quer
 Blender -b --factory-startup -P tools/blender/03_animation/stage11_gaits.py -- in.blend out.blend gaits.json
 Blender -b --factory-startup -P tools/blender/04_export/stage10_export.py   -- out.blend marwari-hero.glb 2048 1024
 ```
-Hero `s9` input: `tools/blender/source/marwari_hero_source.blend` (now includes the gait clips). The generator prints `AUTOBIAS` lines (chosen reach offsets) and per-clip `toeSwing…` figures; `GAIT_PRECOMP=1` turns on the rejected sole pre-compensation; `GAIT_ONLY=Walk` builds one gait (about 25 s); `GAIT_OVERRIDE='Walk:foldScale=0.3,lift.F=0.12'` edits a copy of one gait's table for an experiment; `GAIT_DEBUG=FL,HL` prints the per-key swing speed of those hooves. The matching anatomy source (`marwari_anatomy_source.blend`) is excluded from git on this machine (`.git/info/exclude`) and was updated on disk only. Copy `gaits.json` to `public/models/marwari-gaits.json`. In the browser: `/?stallion=preview&filmdebug=1`, then in the console `__stallionFilm.goTo(1|2|3)` and `__stallionFilm.qaRun([[speed, seconds], ...])`.
+Hero `s9` input: `tools/blender/source/marwari_hero_source.blend` (now includes the gait clips). The generator prints `AUTOBIAS` lines (chosen reach offsets and each side's error); `GAIT_SYM=0` centres each stance on its own leg's rest position as before and per-clip `toeSwing…` figures; `GAIT_PRECOMP=1` turns on the rejected sole pre-compensation; `GAIT_ONLY=Walk` builds one gait (about 25 s); `GAIT_OVERRIDE='Walk:foldScale=0.3,lift.F=0.12'` edits a copy of one gait's table for an experiment; `GAIT_DEBUG=FL,HL` prints the per-key swing speed of those hooves. The matching anatomy source (`marwari_anatomy_source.blend`) is excluded from git on this machine (`.git/info/exclude`) and was updated on disk only. Copy `gaits.json` to `public/models/marwari-gaits.json`. In the browser: `/?stallion=preview&filmdebug=1`, then in the console `__stallionFilm.goTo(1|2|3)` and `__stallionFilm.qaRun([[speed, seconds], ...])`.
 
 ## 8. Files
 

@@ -166,6 +166,17 @@ def load_of(ph, c, d):
     return math.sin(math.pi * u) if inn else 0.0
 
 REST_FET = {(k, s): rest_pt(('Cannon_F_' if k == 'F' else 'Cannon_B_') + s, 'tail') for k in 'FH' for s in 'LR'}
+# The rig's rest pose is not symmetric: the right hind fetlock rests 16 cm ahead of the left (cannon tails at y 0.397 / 0.561) and the
+# forefeet differ by 2.6 cm. A stance window centred on each leg's own rest position puts the two hind stances 16 cm apart in the body
+# frame, and the left-right gait is then not a mirror (the right turns slipped 60 % more than the left). Both sides of a pair are
+# centred on the mean of their rest positions instead (GAIT_SYM=0 restores the old behaviour for comparison).
+SYM = os.environ.get('GAIT_SYM', '1') == '1'
+STANCE_FET = {}
+for _k in 'FH':
+    _ym = (REST_FET[(_k, 'L')].y + REST_FET[(_k, 'R')].y) / 2
+    for _s in 'LR':
+        _r = REST_FET[(_k, _s)]
+        STANCE_FET[(_k, _s)] = Vector((_r.x, _ym, _r.z)) if SYM else _r.copy()
 # The hoof bone's tail (the toe point the runtime measures) sits SOLE_OFF above the sole: measured on the hoof mesh at rest
 # (lowest vertex of each hoof at z = 0.001 m, bone tail at z = 0.020 m).
 SOLE_OFF = 0.019
@@ -173,22 +184,28 @@ SOLE_OFF = 0.019
 # hover overall (sprint front-foot p95 2.6 cm without it, 4.1 cm with it) and it raised ground slip by 1-3 points at trot to sprint.
 PRECOMP = os.environ.get('GAIT_PRECOMP', '0') == '1'
 _BIAS_CACHE = {}
-def auto_bias(kind, s, sw):
-    """Stance-window offset (m, relative to the rest fetlock) that keeps the worst reach error over the stance smallest."""
+def auto_bias(kind, sw):
+    """Stance-window offset (m, relative to the common stance centre) that keeps the worst reach error over the stance smallest. Both sides
+    are searched and the offset is the one that minimises the worse of the two, so the two legs of a pair keep the same window; the error
+    of each side at that offset is printed (a per-side offset would put the windows apart again)."""
     key_ = (kind, round(sw, 4))
     if key_ in _BIAS_CACHE: return _BIAS_CACHE[key_]
-    F0 = REST_FET[(kind, s)]; best = None
+    best = None; per = {}
     for b in [round(-0.4 + i * 0.02, 2) for i in range(0, 41)]:
-        worst = 0.0
-        for u in (0.0, 0.25, 0.5, 0.75, 1.0):
-            fwd = b + sw / 2 - sw * u
-            tgt = Vector((F0.x, F0.y - fwd, F0.z))
-            clear_pose()
-            _, err = solve_leg(kind, s, tgt, 0.0, best_share(kind, s, tgt))
-            worst = max(worst, err)
-        if best is None or worst < best[0]: best = (worst, b)
+        worst = {}
+        for side in 'LR':
+            F0 = STANCE_FET[(kind, side)]; w = 0.0
+            for u in (0.0, 0.25, 0.5, 0.75, 1.0):
+                fwd = b + sw / 2 - sw * u
+                tgt = Vector((F0.x, F0.y - fwd, F0.z))
+                clear_pose()
+                _, err = solve_leg(kind, side, tgt, 0.0, best_share(kind, side, tgt))
+                w = max(w, err)
+            worst[side] = w
+        score = max(worst.values()) + 0.25 * min(worst.values())      # the worse side first, the other as a tie-breaker
+        if best is None or score < best[0]: best = (score, b); per = worst
     _BIAS_CACHE[key_] = best[1]
-    print('AUTOBIAS', kind, round(sw, 3), best[1], 'worst err %.3f' % best[0])
+    print('AUTOBIAS', kind, round(sw, 3), best[1], 'worst err L %.3f R %.3f' % (per['L'], per['R']))
     return best[1]
 REPORT = {}
 RETRACT = 1.0  # full: the swing ends moving backward at the stance speed v, so the hoof lands with no ground speed (was 0.3: it landed skidding forward)
@@ -216,7 +233,7 @@ def build_gait(name, spec):
     act = new_action(name); frames_total = T * sc.render.fps
     c, d, lift, bd = spec['c'], spec['d'], spec['lift'], spec['body']
     sweep = {'F': L * d['F'], 'H': L * d['H']}
-    bias = {k: (auto_bias(k, 'L', sweep[k]) if spec['bias'][k] is None else spec['bias'][k]) for k in 'FH'}
+    bias = {k: (auto_bias(k, sweep[k]) if spec['bias'][k] is None else spec['bias'][k]) for k in 'FH'}
     # body signals as functions of phase, derived from support
     def loads(ph):
         lf = load_of(ph, c['FL'], d['F']) + load_of(ph, c['FR'], d['F'])
@@ -230,7 +247,7 @@ def build_gait(name, spec):
     susp = lowpass(np.array([1.0 if all(not stance_param(p, c[k], d[k[0]])[0] for k in c) else 0.0 for p in samp]))
     def at(a, ph): return float(a[int((ph % 1.0) * len(a)) % len(a)])
     fore_td = (c['FL'] + c['FR']) / 2 + 0.02
-    err_max = {'F': 0.0, 'H': 0.0}; slip_samples = {k: [] for k in c}
+    err_max = {'F': 0.0, 'H': 0.0}; err_limb = {k: 0.0 for k in c}; slip_samples = {k: [] for k in c}
     sole_stance = {'F': [], 'H': []}
     toe_traj = {k: [] for k in c}   # (t, y, z, in_stance) of the hoof's toe point (bone tail), body frame
     mean = lambda a: float(np.mean(a))
@@ -256,7 +273,7 @@ def build_gait(name, spec):
     def limb_target(limb, ph):
         kind, side = limb[0], limb[1]
         inn, u = stance_param(ph, c[limb], d[kind])
-        F0 = REST_FET[(kind, side)]; sw = sweep[kind]; fwd_td = bias[kind] + sw / 2
+        F0 = STANCE_FET[(kind, side)]; sw = sweep[kind]; fwd_td = bias[kind] + sw / 2
         if inn:
             fwd = fwd_td - sw * u; z = 0.0
             flex = smooth((u - 0.88) / 0.12) * 0.25                                   # heel lifts at breakover
@@ -307,7 +324,7 @@ def build_gait(name, spec):
                     corr = min(0.08, max(-0.08, corr + sole / max(wgt, 0.3)))
                 cannon = chain[3] if kind == 'F' else chain[2]
                 err = (P[cannon].tail - tgt).length          # error against the authored target
-                err_max[kind] = max(err_max[kind], err)
+                err_max[kind] = max(err_max[kind], err); err_limb[limb] = max(err_limb[limb], err)
                 sole_stance[kind].append(sole)
                 slip_samples[limb].append((k_i * T / N, P[cannon].tail.y, P[cannon].tail.z))
             else:
@@ -339,7 +356,7 @@ def build_gait(name, spec):
         if sp: swing_peak.append(max(sp)); swing_mean.append(float(np.mean(sp))); swing_peak3d.append(max(sp3))
     soles = {k: (round(float(np.mean(v_)), 4), round(float(np.max(np.abs(v_))), 4)) for k, v_ in sole_stance.items() if v_}
     return dict(v=v, T=T, strideLength=round(L, 3), strideFrequency=round(1 / T, 3), lead=spec['lead'], contacts=contacts, duty=d, airborneFraction=round(airborne, 3),
-                sweepM={k: round(v_, 3) for k, v_ in sweep.items()}, biasM=bias, ikReachErrorStanceMaxM={k: round(e, 4) for k, e in err_max.items()},
+                sweepM={k: round(v_, 3) for k, v_ in sweep.items()}, biasM=bias, ikReachErrorStanceMaxM={k: round(e, 4) for k, e in err_max.items()}, ikReachErrorByLimbM={k: round(e, 4) for k, e in err_limb.items()}, stanceCentreY={k + s_: round(STANCE_FET[(k, s_)].y, 3) for k in 'FH' for s_ in 'LR'},
                 soleStanceMeanM={k: x[0] for k, x in soles.items()}, soleStanceMaxAbsM={k: x[1] for k, x in soles.items()},
                 toeSwingPeakMps=round(max(swing_peak), 2) if swing_peak else 0, toeSwingMeanMps=round(float(np.mean(swing_mean)), 2) if swing_mean else 0, toeSwingPeak3dMps=round(max(swing_peak3d), 2) if swing_peak3d else 0, toeSwingMaxHeightM=round(max(swing_maxz), 3) if swing_maxz else 0,
                 slipRmsMps=round(float(np.sqrt(np.mean(np.square(slips)))) if slips else 0, 3), slipMaxMps=round(float(np.max(slips)) if slips else 0, 3), frames=int(round(frames_total)), samples=N)
@@ -398,5 +415,5 @@ bpy.ops.wm.save_as_mainfile(filepath=out_blend)
 with open(out_json, 'w') as f: json.dump(REPORT, f, indent=1)
 for k, v_ in REPORT.items():
     if k.startswith('_'): continue
-    print('GAIT', k, json.dumps({x: v_[x] for x in ('v', 'strideLength', 'airborneFraction', 'ikReachErrorStanceMaxM', 'toeSwingPeakMps', 'toeSwingMeanMps', 'toeSwingPeak3dMps', 'toeSwingMaxHeightM', 'slipRmsMps', 'slipMaxMps') if x in v_}))
+    print('GAIT', k, json.dumps({x: v_[x] for x in ('v', 'strideLength', 'airborneFraction', 'ikReachErrorStanceMaxM', 'ikReachErrorByLimbM', 'toeSwingPeakMps', 'toeSwingMeanMps', 'toeSwingPeak3dMps', 'toeSwingMaxHeightM', 'slipRmsMps', 'slipMaxMps') if x in v_}))
 print('STAGE11_DONE', [a.name for a in bpy.data.actions])

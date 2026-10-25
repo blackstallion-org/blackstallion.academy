@@ -204,6 +204,14 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   23 % of trot-corner stances stay 2-3 cm up (45 of 196 never within 4 cm). Gallop and sprint in forced turns: unlocked 27-39 -> 0 %,
   right-turn gallop misses 16 -> 0. Straight runs unchanged. Open: right turns slip more than left (7.6 vs 4.7 % gallop; the rig's right
   hind rests 16 cm ahead of the left), trot-corner float, no phone or build re-run, one frame looked at. See report §3f.
+- [x] **Session 26 Oct 2026 (later) · Left-right symmetry** (`stage11_gaits.py`; hero, mobile, anatomy GLBs, `marwari-gaits.json`,
+  hero source .blend re-exported; all moving clips changed). Each limb pair's stance is centred on the mean of its two rest
+  positions (`STANCE_FET`, `GAIT_SYM=0` for the old way) and one reach offset is searched for both sides (worse side first); per-leg
+  reach error is now in the gaits json. Forced turns, ground slip before -> now: right-turn gallop 7.6 -> 4.1 %, sprint 9.8 -> 4.1 %
+  (6.1 % at 60 fps, was 11.0); left 4.7 / 5.4 -> 5.6 / 4.8 %; straight desert trot 2.5-2.8 -> 0.8-1.1 %, canter 2.7-2.8 -> 2.0-2.1 %,
+  sprint 6.3-6.5 -> 5.0-5.2 %; all stances held; campus trot corners 4.4 -> 3.0 %. Left-turn gallop hover rose (3.6 -> 7.0 % over
+  2 cm). Not fixed: lateral foot asymmetry (left hind x +0.23, right -0.09; planar IK cannot move it), lead-dependent fore-pair
+  difference. Anatomy page, phone and build not checked. See report §3g.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
