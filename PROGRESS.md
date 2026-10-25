@@ -171,6 +171,15 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   still beyond the rig's reach; the new walk should be looked at by eye; no phone or clean performance re-measure. A
   sole pre-compensation variant (`GAIT_PRECOMP=1`) was tried and rejected. Lint, typecheck and 84/84 tests pass;
   two lint warnings fixed in `scenery/campus.ts`. See report §3b.
+- [x] **Session 25 Oct 2026 (latest) · Stances that never touched the ground** (`footlock.ts`, `locomotion.ts`; no new
+  assets). The misses were mostly terrain and bank, not gait data: with the lock off, 0 of 124 gallop and 136 sprint stances
+  missed on straight desert but 52 of 125 and 69 of 137 missed in the campus turn (body rolled 17°), and the sideways-only lock
+  could not move a hoof vertically. The lock now seats a held hoof on the surface under it (sole on the terrain), never lets a
+  toe into the surface, and anchors as soon as the stance begins. Misses: 0 at every gait on desert, village and campus. Mid-stance
+  sole over 2 cm up: sprint 25 % → 1.7 % (desert), 50 % → 21 % (campus turn). Ground slip, lock on: walk 0.4, trot 2.3–2.7,
+  canter 3.0–3.2, gallop 4.5, sprint 6.1–6.4 % (lock off 10–14 %). Open: banked turns still leave 21 % of campus sprint frames over
+  2 cm and the lock lets go in about a third of their mid-stance frames; the walk's swing peaks at 10 m/s in the clip; no phone
+  or build re-run; one frame looked at by eye. Lint 0 warnings, typecheck, 84/84 tests. See report §3c.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

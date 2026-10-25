@@ -26,6 +26,8 @@ export const LIMBS: Limb[] = ["FL", "FR", "HL", "HR"];
 const HOOF_BONE: Record<Limb, string> = { FL: "Hoof_F_L", FR: "Hoof_F_R", HL: "Hoof_B_L", HR: "Hoof_B_R" };
 const ROOT_RATE = 14; // 1/s, how fast the root height follows the terrain
 const HOOF_LENGTH = 0.14; // rest bone length of the hoof bones (rig audit)
+/** The toe point the sensor measures (hoof bone tail) sits this far above the sole: a hoof resting on the surface reads this height. */
+export const SOLE_TO_TOE_M = 0.019;
 
 export type GroundSampler = {
   height(x: number, z: number): number;
@@ -156,6 +158,11 @@ export class Locomotor {
 
   setGround(g: GroundSampler) {
     this.ground = g;
+  }
+
+  /** Terrain height (world y) at a point, for the foot-lock to seat a hoof on the surface under it. */
+  groundAt(x: number, z: number) {
+    return this.ground.height(x, z);
   }
 
   /** Put the horse somewhere (heading in radians about +Y, 0 = facing +Z). */

@@ -118,7 +118,7 @@ hoof is on the ground (toe below 4 cm) inside the middle of its authored stance 
   default stays off.
 - **Cost**: `footLock.apply` takes 0.05 ms per frame on the quiet Mac of 25 Oct; 0.13 ms in a contended session.
 
-**Still wrong, in order of how visible it is:**
+**Still wrong at the end of this pass (items 1 and 2 are addressed in §3c):**
 
 1. **Sprint and gallop stances that never touch the ground**: 3–5 of about 30 sprint stances per run, 0–4 at gallop. The toe
    stays 1–3 cm above the ground through the stance and lands only in its last frame or two, so there is nothing to hold.
@@ -132,6 +132,82 @@ Not verified: any gait on a phone, the lock by eye (the numbers above are the on
 re-measure. The measurement session ran under load average 5–8 (iCloud Drive, WindowServer, Chrome, the IDE): the page
 rendered at 1080×675 and was capped near 30 fps, so the figures in §4 predate the foot-lock and are not a clean re-measure.
 Captures of the final walk and sprint: `docs/qa/film/gait_walk_r4.png`, `docs/qa/film/gait_sprint_r4.png`.
+
+### 3c. Seating the hoof on the terrain (third pass, 25 Oct)
+
+**The missed stances were not mainly the gait data.** Measured in the browser with the lock off and with the sideways-only lock of
+§3b, over 20 s of settled running per gait (a stance "misses" when its toe never comes within the sensor's 4 cm contact height):
+
+| Ground | Gait | Stances that miss (clip only / sideways lock) | Mid-stance frames with the sole over 4 cm up (clip only / sideways lock) |
+| --- | --- | --- | --- |
+| Flat (terrain replaced by a plane) | gallop / sprint, sideways lock only | 0 of 98 / 0 of 110 | 0 % / 0 % |
+| Desert, straight | gallop | 0 of 124 / 0 of 124 | 0.8 % / 0.8 % |
+| Desert, straight | sprint | 0 of 136 / 1 of 136 (12 of 110 over an earlier stretch of sand, 11 of them the right hind) | 2.0 % / 3.6 % |
+| Campus, turning at 0.43 rad/s, body rolled 17° | gallop | 52 of 125 / 62 of 124 | 36.8 % / 49.3 % |
+| Campus, turning at 0.43 rad/s, body rolled 17° | sprint | 69 of 137 / 68 of 136 | 49.8 % / 49.9 % |
+
+Two causes. (1) The desert has ±3 cm of fine relief (`terrain.ts`, the 0.06 × noise term) while the root follows a smoothed
+average of five samples, so a hoof landing in a trough hangs 2–5 cm above the sand and one on a crest sinks into it. (2) In a
+banked turn the roll lifts the outside feet (they sit about 0.2 m from the roll axis; 17° of roll is up to 11 cm), and the
+body-lift correction, which runs only when a hoof sinks, then raised the whole body to the lowest hoof and left the others
+higher still. The lock of §3b pinned the toe only sideways, so it could not help with either.
+
+**Change** (`footlock.ts`, `locomotion.ts`; no change to the clips or the GLBs):
+
+- While a hoof is held, its toe is brought to the terrain height under the anchor plus 1.9 cm (the sole on the surface), blended
+  in with the lock weight; at any moment the toe is kept out of the surface. A target beyond 97 % of the straight-leg reach is
+  clamped as before, so a trough deeper than the leg can reach still leaves a gap.
+- A hoof is anchored as soon as its stance begins and its toe is within 15 cm of the surface (was: toe within 4 cm), because the
+  lock now draws it down. Trying 7 cm first gave less: engaging at the start of the stance gave lower hover in every case
+  measured and lower slip in all but the campus sprint (3.8 → 4.6 %).
+- `FootLock.seat = false` restores the §3b behaviour (QA comparison).
+
+**Result**, same measurements with the seated lock (misses / over 4 cm / over 2 cm):
+
+| Ground | Gait | Stances that miss | Sole over 2 cm up | Sole over 4 cm up |
+| --- | --- | --- | --- | --- |
+| Desert, straight | gallop | 0 of 124 | 0.4 % (clip only 5.2 %) | 0 % |
+| Desert, straight | sprint | 0 of 137 | 1.7 % (clip only 25.2 %) | 0 % |
+| Campus, turning | gallop | 0 of 123 | 15.7 % (clip only 44.7 %) | 6.2 % |
+| Campus, turning | sprint | 0 of 137 | 21.2 % (clip only 49.9 %) | 11.2 % |
+
+Full ladder (`qaRun`, ground slip with the lock on; three repeats on the desert, one on the village and campus; the lock-off
+figures on the desert are 14 / 10.5 / 11.9 / 11.2 / 12 %):
+
+| Gait | Desert | Village | Campus (turning) | Stances held on the desert |
+| --- | --- | --- | --- | --- |
+| Walk | 0.4 / 0.4 / 0.5 % | 0.6 % | 0.6 % | 29 / 29, 29 / 29, 28 / 28 |
+| Trot | 2.3 / 2.6 / 2.7 % | 3.0 % | 2.7 % | 30 / 30, 29 / 30, 32 / 32 |
+| Canter | 3.0 / 3.1 / 3.2 % | 3.2 % | 3.6 % | 39 / 40, 39 / 39, 37 / 37 |
+| Gallop | 4.5 / 4.5 / 4.6 % | 4.4 % | 4.0 % | 85 / 85, 86 / 86, 88 / 88 |
+| Sprint | 6.1 / 6.1 / 6.4 % | 5.9 % | 4.5 % | 95 / 95, 96 / 96, 95 / 95 |
+
+- Stances that miss: 0 at every gait on every ground in these runs. The walk's occasional 14–18 % run did not appear in three
+  repeats (0.4–0.5 %).
+- Mid-stance residual (toe to its target) averages 0.2–1.5 mm on straight runs (4 mm in the campus turn); the largest single
+  frame is 22 mm (canter). The largest joint offset the lock applies is 14–26° (joint limits 11–43°).
+- A stance fully held means its weight was at 99 % or more for the middle of the stance. On the campus turning at 0.43 rad/s the
+  lock lets go in about a third of those frames (gallop 57 of 85 stances fully held, sprint 71 of 96): the legs cannot reach
+  their anchors against the roll, and the lock fades out rather than pull the toe up.
+- Over the whole ladder (stand, walk, trot, canter, 8, 10, 12 m/s, and back down to a stop; 60 s), mid-stance frames with the
+  sole more than 3 cm up fall from 8.7 % to 4.9 % on the desert and from 7.4 % to 4.4 % on the village; the largest body lift
+  from the correction drops from 3.8 to 2.1 cm (desert). The largest single-frame toe movement while the lock holds is 42 mm vertical and
+  93 mm horizontal (before: 34 and 81 mm); these occur at landings and lift-offs, not mid-stance, and were not traced further.
+- Cost: `footLock.apply` 0.042 ms per frame at the sprint (lock off 0.006 ms), measured on a lightly loaded machine.
+
+**Open after this pass**
+
+- Banked turns still leave some hover (campus sprint 21 % of mid-stance frames over 2 cm, 11 % over 4 cm) and the lock lets go
+  in about a third of mid-stance frames there.
+- A hoof can still sink up to about 0.4–0.8 cm at a steady gait and up to 2 cm in gait changes (the sensor treats the toe point,
+  not the sole, as the contact point for the body-lift correction).
+- The authored clips are unchanged: in Blender the sprint hind still hovers over 2 cm in 28 % of mid-stance frames on flat
+  ground; the lock now closes that gap at run time, but any viewer that plays the clips without it (the anatomy plate) sees it.
+- **The walk's swing is fast.** The clip itself (lock on or off) moves the hoof at a median 4.2 m/s and a peak of 10 m/s in the
+  swing at a 1.44 m/s walk (trot 12.8, canter 17, gallop 25.6 m/s peak). The full-retract landing (`RETRACT` 1.0) and the
+  shorter walk stride are the likely causes. Not judged by eye; a real walk's peak is nearer 3–4 m/s.
+- Not tested: a phone, a clean performance run, the production build (not re-run for this change), and any by-eye judgement
+  beyond one frame (`docs/qa/film/gait_sprint_terrain_seat.png`).
 
 ## 4. Performance (measured, not estimated)
 

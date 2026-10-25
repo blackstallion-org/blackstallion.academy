@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import type { Marwari } from "@/components/3d/marwari";
 import { clamp, smoothstep } from "./noise";
-import { LIMBS, type Limb, type Locomotor } from "./locomotion";
+import { LIMBS, SOLE_TO_TOE_M, type Limb, type Locomotor } from "./locomotion";
 
 /**
  * Runtime foot-lock. The authored gaits plant each hoof only approximately (the rig cannot reach every point of the stance
@@ -10,6 +10,11 @@ import { LIMBS, type Limb, type Locomotor } from "./locomotion";
  * to that point with a small damped CCD: hinge joints about the body's lateral axis, a little abduction at the shoulder or hip
  * for turns, joint limits, and the hoof kept at its authored orientation so it stays flat. It blends in after touchdown and out
  * before lift-off, so the swing is untouched. Like the other additive layers it is removed again before the mixer runs.
+ *
+ * It also seats the hoof on the surface under it. The authored stance puts the sole on a flat plane at the root's height; the
+ * desert has ±3 cm of relief, so over a trough the sole hung a few centimetres above the sand and over a crest the toe sank into
+ * it. While a hoof is held, its toe is brought to the terrain height under the anchor (sole on the surface), and at any time a
+ * hoof is never left below the surface; the body no longer has to ride up over a crest to keep a hoof out of the ground.
  */
 const CHAINS: Record<Limb, string[]> = {
   FL: ["Scapula_L", "Humerus_L", "Forearm_L", "Cannon_F_L", "Pastern_F_L", "Hoof_F_L"],
@@ -27,8 +32,10 @@ const HOOF_LENGTH = 0.14;
 export const LOCK_RAMP_S = 0.03;
 /** Seconds after lift-off over which the lock lets go (the toe leaves the ground from the anchored point). */
 export const LOCK_RELEASE_S = 0.05;
-/** A hoof is anchored only once its toe is within this height of the ground (the contact threshold the sensor uses). */
-export const LOCK_TOUCH_M = 0.04;
+/** A hoof is anchored once its stance has begun and its toe is within this height of the surface. Well above the sensor's contact
+ *  threshold (4 cm) because the lock then draws the hoof down onto the surface: a stance that starts 5-11 cm up (over a trough, or
+ *  on the outside foot of a banked turn) still lands, instead of hanging there. */
+export const LOCK_TOUCH_M = 0.15;
 const ITERATIONS = 24;
 /** Fraction of the straight-leg reach the lock may ask for (keeps the joints off their limits). */
 const REACH_FRACTION = 0.97;
@@ -199,6 +206,8 @@ export class FootLock {
   private readonly pivot = new THREE.Vector3();
   private readonly reachVec = new THREE.Vector3();
   enabled = true;
+  /** Seat the hoof on the surface under it (see the header); false is the sideways-only lock of the first pass, for QA comparison. */
+  seat = true;
   /** QA readout per limb. */
   readonly debug: Record<Limb, { weight: number; residual: number; maxOffset: number }>;
 
@@ -232,7 +241,7 @@ export class FootLock {
         // stance: the toe where it first reaches the ground is the point the lock holds (the phase can start while the hoof
         // is still in the air), blended in over LOCK_RAMP_S
         if (!leg.engaged) {
-          if (loco.hooves[l].height < LOCK_TOUCH_M) {
+          if (loco.hooves[l].height < (this.seat ? LOCK_TOUCH_M : 0.04)) {
             leg.anchor.copy(this.tmp);
             leg.engaged = true;
             leg.tStance = 0;
@@ -260,7 +269,15 @@ export class FootLock {
       w *= leg.safe;
       leg.weight = w;
       d.weight = w;
-      if (w <= 0.001) {
+      // height: while held, the toe goes to the surface under the anchor (sole on it); whenever it moves, never below the surface
+      let ty = this.tmp.y;
+      if (this.seat && w > 0.001) {
+        const surfAnchor = loco.groundAt(leg.anchor.x, leg.anchor.z) + SOLE_TO_TOE_M;
+        ty += (surfAnchor - ty) * w;
+      }
+      if (this.seat && moving) ty = Math.max(ty, loco.groundAt(this.tmp.x, this.tmp.z) + SOLE_TO_TOE_M);
+      const dy = ty - this.tmp.y;
+      if (w <= 0.001 && Math.abs(dy) < 0.001) {
         leg.residual = 0;
         d.residual = 0;
         d.maxOffset = 0;
@@ -268,7 +285,7 @@ export class FootLock {
       }
       this.target.set(
         this.tmp.x + (leg.anchor.x - this.tmp.x) * w,
-        this.tmp.y,
+        ty,
         this.tmp.z + (leg.anchor.z - this.tmp.z) * w,
       );
       // beyond reach the toe slides a little at the end of the stance instead of being pulled up off the ground
