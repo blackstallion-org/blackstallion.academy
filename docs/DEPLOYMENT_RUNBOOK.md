@@ -1,8 +1,16 @@
 # Deployment runbook (24 Oct 2026)
 
-Current state: protected Vercel **previews** only; no production deployment, indexing off, no DNS change. Production
-promotion, DNS, search indexing, live payments and e-mail to applicants each need the owner's explicit approval.
+Current state (24 Oct 2026, evening): the production deployment of `main` (`b76131b`) is live and public at
+`https://project-t9r95.vercel.app` by the owner's choice; indexing off, no DNS change, no live payment. DNS, search
+indexing, live payments and e-mail to applicants each still need the owner's explicit approval.
 Status and blockers: `PRODUCTION_READINESS.md`. Variables: `docs/ENVIRONMENT_VARIABLES.md`.
+
+**Going live is planned in `docs/LAUNCH_INSTRUCTIONS.md`** (five separate approvals, gates G1 to G16, what to check after
+each step, how to undo it). This runbook is the reference for the individual procedures; the release vehicle is the draft
+pull request #1 (`session/2026-10-24-final-completion` into `main`), which was merged on 24 Oct 2026. For a private
+release set Vercel → Project → Settings → Deployment Protection to "All Deployments" before merging (Standard Protection
+leaves production domains public, as it did for the first launch); see `LAUNCH_INSTRUCTIONS.md` §2.1. The Vercel team is
+on the Hobby plan (non-commercial use); a commercial launch needs Pro.
 
 ## 1. Release checklist (all must pass on the release commit)
 
@@ -11,7 +19,7 @@ Status and blockers: `PRODUCTION_READINESS.md`. Variables: `docs/ENVIRONMENT_VAR
 | Dependencies | `npm ci` | exits 0 (on the Mac run it once after pulling) |
 | Lint | `npm run lint` | 0 errors |
 | Types | `npm run typecheck` | exits 0 |
-| Unit + server tests | `npm test` | trustee script + 84 node tests pass |
+| Unit + server tests | `npm test` | trustee script + 85 node tests pass |
 | Production build | `npm run build` | exits 0 |
 | Browser smoke | `npm run build && npm run test:e2e` | 19/19; results in `output/e2e/` |
 | Database (website schema) | `bash supabase/tests/run.sh` (non-root, Postgres 16) | 176 passed |
@@ -38,10 +46,18 @@ Status and blockers: `PRODUCTION_READINESS.md`. Variables: `docs/ENVIRONMENT_VAR
 
 ## 3. Production release (after approval)
 
+*Done once, on 24 Oct 2026 (pull request #1, merge commit `b76131b`, public by the owner's choice; the record is in
+`docs/LAUNCH_INSTRUCTIONS.md` §3). Use this section for every later release.*
+
+0. Set Deployment Protection to "All Deployments" first (see the top of this file), so the new production deployment is
+   not public until you decide.
 1. Record the approval (who, when, which commit).
-2. Open a pull request from the release branch into `main`; wait for CI; merge (no force-push). Vercel deploys
-   production to `blackstallion-academy.vercel.app`. With the section 6 rule in place this is the only way in.
-3. Smoke test production with the §2 steps 2–7 (production is public: use one synthetic enquiry only).
+2. Use the open draft pull request #1 (or a new one) from the release branch into `main`: mark it ready, wait for CI,
+   merge (no force-push). Vercel deploys
+   production (the project's default domain is `project-t9r95.vercel.app`). With the section 6 rule in place this is the only way in.
+3. Smoke test production with the §2 steps 2–7. With "All Deployments" production is visible only to signed-in members
+   of the Vercel team, so use the browser that is signed in to Vercel; once it has been opened to the public (launch
+   step 4) use one synthetic enquiry only.
 4. Set the GitHub Actions variable `UPTIME_URL=https://blackstallion-academy.vercel.app`, run the `uptime` workflow once
    by hand (Actions → uptime → Run workflow) and read its log: every path `200` and `database up`. Optionally set
    `ERROR_ALERT_EMAIL` in Vercel (section 7).

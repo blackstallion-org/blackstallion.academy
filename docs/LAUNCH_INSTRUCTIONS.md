@@ -1,16 +1,21 @@
-# Launch instructions (prepared 24 Oct 2026)
+# Launch instructions (prepared 24 Oct 2026; step 1 done the same evening)
 
-**Nothing in this file has been done.** It is the order of work for the day the owner decides to go live. Each of the
-five steps in section 1 needs its own explicit "go" and can be undone on its own (section 5 says how). No secret value
-appears here; no business term or legal approval is invented (open decisions are named D1–D12 and live in
-`docs/BUSINESS_LEGAL_REVIEW.md`). Current state: protected Vercel previews only, no production deployment, `main` is
-the original boilerplate and unprotected, indexing off, no DNS change.
+**Status.** Step 1 was done on 24 Oct 2026: at 19:25 UTC the release pull request #1 was merged into `main` (merge
+commit `b76131b`) on the owner's explicit approval ("Make it public on the vercel.app address"), and Vercel built the
+first production deployment. It is **public** at `https://project-t9r95.vercel.app`, the default domain Vercel gave the
+project (`blackstallion-academy.vercel.app` is not assigned to it). The safeguard in 2.1 was **not** used, because the
+owner chose a public address. Steps 2 to 5 have **not** been done: no custom domain or DNS change, no Resend sending
+domain, indexing off (`robots.txt` is `Disallow: /`), no live payment, no analytics. Most gates in 2.2 were still open
+when the address was made public; the launch record at the end of section 3 and `PRODUCTION_READINESS.md` §5 say which.
+No secret value appears here; no business term or legal approval is invented (open decisions are named D1–D12 and live
+in `docs/BUSINESS_LEGAL_REVIEW.md`). Each remaining step needs its own explicit "go" and can be undone on its own
+(section 9 says how).
 
 ## 1. Five separate approvals
 
 | Step | What it does | Public effect | Undo |
 | --- | --- | --- | --- |
-| 1. Merge the release pull request into `main` | Vercel's production branch is `main` (checked 24 Oct: Settings → Environments → Production → Branch Tracking), so the merge creates the first production deployment at `blackstallion-academy.vercel.app` | **Public by default** — see 2.1; with the safeguard in 2.1 it stays private | revert the merge (new commit), or fix forward |
+| 1. Merge the release pull request into `main` | Vercel's production branch is `main` (checked 24 Oct: Settings → Environments → Production → Branch Tracking), so the merge creates the first production deployment (**done 24 Oct 2026**, served at `project-t9r95.vercel.app`) | **Public by default**; the owner chose that on 24 Oct 2026 and 2.1 was not used | revert the merge (new commit), or fix forward |
 | 2. Add the custom domain and its DNS records | `blackstallion.academy` and `www` start serving the production deployment | none while production stays protected | remove the domain in Vercel and restore the old DNS records |
 | 3. Verify the sending domain in Resend | branded sender and optional receipts | none (e-mail only) | remove the Resend records; unset `RESEND_FROM` |
 | 4. Open production to the public | switch Vercel protection from "All Deployments" to "Standard Protection" | **the site becomes public** | switch it back (immediate) |
@@ -22,6 +27,10 @@ launch; step 5 is last, a day or more after step 4, once the first enquiries hav
 ## 2. Before step 1
 
 ### 2.1 Keep the first production deployment private (one setting)
+
+> **Not used on 24 Oct 2026.** The owner chose to make the vercel.app address public ("Make it public on the vercel.app
+> address"), so Deployment Protection stayed on "Standard" and the merge published the site. This section remains the way
+> to take production private again (scope "All Deployments", immediate) and the plan for any future private release.
 
 Vercel's default "Standard Protection" protects previews and generated deployment addresses but **not production
 domains** (Vercel documentation, "Deployment Protection", updated 15 Sep 2026), so the moment the merge deploys,
@@ -41,7 +50,7 @@ domain is protected too, so steps 2–3 can be finished before launch.
 | # | Gate | Needed before | Who | Status | Where |
 | --- | --- | --- | --- | --- | --- |
 | G1 | Branch protection on `main` (pull request, checks `verify` `database` `e2e`, no force-push, administrators included) | step 1 | owner (two minutes in GitHub settings) | not applied; the build token has no Administration permission | runbook §6 |
-| G2 | Release pull request is green on CI and its preview passes the runbook §2 checks | step 1 | assistant | the draft pull request in §10 is the vehicle; CI was green on the branch head at the last push (re-check after any later commit) | this file, §6 |
+| G2 | Release pull request is green on CI and its preview passes the runbook §2 checks | step 1 | assistant | draft pull request #1 (§10) is the vehicle; CI (`verify`, `database`, `e2e`) was green on code head `561c8c8` for both the push run and the pull-request run, and the preview of that commit passed the runbook §2 checks (re-check after any later code commit) | this file, §6 |
 | G3 | Logical backup of the Supabase database and Storage files, row counts written down | step 1 and before any live database change | owner (needs the database password) | **none exists**; Free plan has no backups | runbook §8.3 |
 | G4 | Owner's staff account exists (Auth → Add user, "Auto Confirm"), mapped to `SUPER_ADMIN`, sign-in tested at `/admin/login` on production | public | owner signs in personally; assistant maps the role | waiting for the account | `docs/ADMIN_CONSOLE.md` |
 | G5 | Decision on the privacy hardening migration `20261023001200_anon_privacy_hardening` (changes what anonymous clients of the shared database can read) | public | owner | prepared, replica-tested, **not applied**; no other consumer seen in 24 h of API logs | `supabase/live/HARDENING_NOTES.md` |
@@ -52,10 +61,14 @@ domain is protected too, so steps 2–3 can be finished before launch.
 | G10 | Business and legal decisions D1–D4, D7, D8, D10–D12 answered; D9 (terms, refunds, registration details) before any payment | public | owner and counsel | none answered | same file, §0 |
 | G11 | Vercel **Pro** ($20 per user per month; Hobby is non-commercial only) | public | owner | on Hobby | same file, §10 |
 | G12 | Supabase plan decision: Pro from $25 per month per organisation (daily backups, no pausing) or documented manual dumps; one restore rehearsal into a scratch project | public | owner | not decided | runbook §8.2, §8.5 |
-| G13 | Eight stills self-hosted (currently loaded from the image provider's CDN) | public, recommended | owner runs `sh scripts/fetch-media.sh` on the Mac, or approves a terminal step; assistant converts and commits | not done: the sandbox cannot reach that CDN | `docs/PERF_NOTES.md` |
+| G13 | Eight stills self-hosted (they load from the image provider's CDN; since `561c8c8` through its resizer as 0.2 to 0.8 MB WebP instead of 7.5 MB PNG, so speed is no longer the problem, dependence and the licence question are). The 21 journal images and eight videos are also third-party | public, recommended | owner runs `sh scripts/fetch-media.sh` on the Mac, or approves a terminal step; assistant converts and commits | not done: the sandbox cannot reach that CDN; interim resizer in place | `docs/PERF_NOTES.md`, `docs/WEBSITE_HANDOVER.md` §1 |
 | G14 | Spam protection: Cloudflare Turnstile keys (free) | public, recommended | owner creates the widget and pastes two keys | coded, off | runbook §7 |
 | G15 | Image, 3D and audio licences confirmed; AI placeholder imagery accepted or replaced (D8) | public | owner | not verified | `docs/BUSINESS_LEGAL_REVIEW.md` §7 |
 | G16 | The person who can edit the domain's DNS is known, and every existing record is written down or screenshotted first (`sting@blackstallion.academy` receives mail, so the mail records must not change) | step 2 | owner | not checked | 4 below |
+
+Status when the vercel.app address was made public (24 Oct 2026, evening): G2 was met; G1 and G3 to G16 were open. The
+approval the owner gave listed the main ones (no custom domain, indexing blocked, no payments, legal texts still drafts,
+Hobby is non-commercial, database hardening not applied) and the owner chose to continue.
 
 ## 3. Step 1 — merge
 
@@ -70,6 +83,18 @@ domain is protected too, so steps 2–3 can be finished before launch.
    synthetic enquiry named "QA Synthetic Production" (confirm Supabase row, Formspree submission, Resend "Delivered",
    `/admin` row), sign in at `/admin/login` as the owner, and open `/api/health?deep=1` (`"db":"up"`).
 5. Record the commit, the time and who approved.
+
+### Launch record (step 1, 24 Oct 2026)
+
+| Item | Record |
+| --- | --- |
+| Approved by | the owner, in chat, 24 Oct 2026: "Make it public on the vercel.app address". The option said: search engines stay blocked, no custom domain, no payments, legal texts still drafts, Vercel Hobby is non-commercial, database hardening not applied |
+| Done | 24 Oct 2026, 19:25 UTC: pull request #1 marked ready and merged with a merge commit (`b76131b`; parents `f34aa25` and `561c8c8`) in the owner's signed-in GitHub browser session; no token was used |
+| Production deployment | Vercel built `b76131b` as Production and reported it ready within about two minutes; CI on `main`: `verify`, `database`, `e2e` green |
+| Address | `https://project-t9r95.vercel.app` (the project's default domain). `blackstallion-academy.vercel.app` is not assigned to the project and answers with Vercel's 404 |
+| Checked on it (19:27 to 19:35 UTC) | all 34 sitemap routes and `/admin/login` answer 200; `/admin` redirects signed-out visitors; an unknown path answers 404 with `noindex`; `/api/health?deep=1` says `"db":"up"` (region `icn1`); `/robots.txt` is `Disallow: /`; all eight `.glb` models are served as `model/gltf-binary`; the hero video answers 206; the security headers are present (CSP, HSTS, `X-Frame-Options: DENY`, `nosniff`, referrer and permissions policies) |
+| Not checked | a live enquiry (it would add a row to the shared database and send an e-mail; the same code passed on the previews), `/admin` sign-in (no staff account yet), the password-reset e-mail (`https://project-t9r95.vercel.app/**` is not in the Supabase redirect allow-list), the Formspree inbox |
+| Still not done | custom domain and DNS (step 2), Resend sending domain (step 3), indexing (step 5), live payments, analytics, `UPTIME_URL` for the uptime workflow, Turnstile |
 
 ## 4. Step 2 — custom domain (DNS)
 
@@ -119,6 +144,9 @@ subdomains and should not replace anything on the root.
 
 ## 6. Step 4 — open to the public
 
+The vercel.app address has been public since step 1 (the owner's choice, 24 Oct 2026). What remains of this step is
+pointing the custom domain at the same deployment and telling people about it.
+
 Only when G4–G12 are done (G13–G14 strongly recommended).
 
 1. Vercel is on Pro (G11). Vercel → Deployment Protection → Vercel Authentication → scope **Standard Protection** → Save.
@@ -152,7 +180,7 @@ Only when G4–G12 are done (G13–G14 strongly recommended).
 
 | Step | Undo | Cannot be undone |
 | --- | --- | --- |
-| 1 merge | revert the merge commit through a pull request; while production is protected nobody outside the team has seen it | — |
+| 1 merge | revert the merge commit through a pull request (Vercel then builds the previous state of `main`); to take the address down at once set Deployment Protection to "All Deployments". The address has been public since 24 Oct 2026, so visitors may already have seen it | pages already fetched; enquiries visitors submitted |
 | 2 domain | remove the domain in Vercel and put the old DNS records back (that is why they were written down) | DNS caches take time to follow |
 | 3 Resend | remove the records at the DNS provider; unset `RESEND_FROM` and `RESEND_CONFIRMATIONS`, redeploy | e-mails already sent |
 | 4 opening | scope back to All Deployments (immediate); or *Promote to Production* on an earlier deployment (Vercel → Deployments) once more than one exists | data real visitors entered; pages already fetched |
@@ -162,8 +190,6 @@ Only when G4–G12 are done (G13–G14 strongly recommended).
 
 `session/2026-10-24-final-completion` → `main`, opened as a **draft** so it cannot be merged by accident. It carries no
 secret and no vulnerability detail (the repository is public). Its description lists what changed, how it was tested
-and links to this file. Marking it "ready for review" and merging it is step 1 and needs the owner's explicit approval.
-
-Find it under the repository's *Pull requests* tab (filter: Draft). If it is not there, the compare page
-`https://github.com/blackstallion-org/blackstallion.academy/compare/main...session/2026-10-24-final-completion` opens
-the same change, and "Create draft pull request" recreates it with the description in this section.
+and links to this file. Marking it "ready for review" and merging it was step 1; it was done on 24 Oct 2026 (launch
+record in section 3). The pull request is closed and merged, and its description says so. The branch
+`session/2026-10-24-final-completion` stays on GitHub as the reference for a rollback.

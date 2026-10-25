@@ -150,6 +150,11 @@ now (sources: section 11; counsel to confirm dates and applicability). Practical
 - Service providers named nowhere in the notice but used: Supabase (database, Seoul), Vercel (hosting; the server functions run in Seoul, `icn1`, since `vercel.json` was added on 24 Oct, and were in the USA before; static files come from a worldwide CDN),
   Resend (e-mail), Formspree (form relay), Cloudflare Turnstile (optional, not enabled). The notice only says "hosting,
   e-mail" providers.
+- **The image provider's hosts.** Eight stills, 21 journal images and eight videos (and, through its image resizer, the
+  eight new stills) are fetched by the visitor's browser directly from the provider's content-delivery hosts
+  (`d8j0ntlcm91z4.cloudfront.net`, `d2ol7oe51mr4n9.cloudfront.net`, `images.higgs.ai`). Like any CDN they see the
+  visitor's IP address and browser details; what the provider keeps is not known to this review. The notice names none of
+  them. Self-hosting the media (`scripts/fetch-media.sh`) removes this recipient from the visitor's page view.
 - Cookies: the notice says there are no advertising or tracking cookies. Optional Vercel Web Analytics is controlled by
   `NEXT_PUBLIC_VERCEL_ANALYTICS` (off today); if enabled or Turnstile is added, re-check that sentence.
 
@@ -174,8 +179,9 @@ review with the ledger. I have recorded no approval.
 - **AI imagery.** Every photograph on the site is AI-generated Higgsfield placeholder art. The Blueprint (Part 8) says
   they "must be replaced with commissioned photography (Part 11.4) before launch". The Higgsfield account is on a paid
   plan; commercial-use terms for its outputs were **not** verified in this review (check the plan's licence). Eight
-  stills are still loaded from Higgsfield's CDN rather than the site (task L08); self-hosting removes a third-party
-  dependency but does not change the licence position. Consider an "AI-generated illustration" credit where a child
+  stills, 21 journal images and eight videos are still loaded from Higgsfield's CDN rather than the site (the eight
+  stills since 24 Oct through the provider's image resizer as small WebP files instead of 7.5 MB PNGs; the other 60
+  stills ship with the site); self-hosting removes a third-party dependency but does not change the licence position. Consider an "AI-generated illustration" credit where a child
   or a real place is depicted.
 - **3D models and video.** Provenance of the horse and statue models (`public/models`), the rigged Marwari stallion
   (a separate session's work) and stock-style video files (for example `public/images/cinematic-images/6153468-uhd_…mp4`,

@@ -382,4 +382,38 @@ noisy by ±5; confirm on a real phone / PageSpeed Insights after the production 
   crop decision.
 - `content-visibility: auto` on long sections to cut first-layout cost: risky for pinned/ScrollTrigger sections.
 - Self-hosting the eight Higgsfield stills (L08) will also remove eight third-party round trips from the first view of
-  `/` and the reels; waiting on a file transfer to the Mac.
+  `/` and the reels; waiting on a file transfer to the Mac. (They now arrive through the provider's resizer: §9.)
+
+## 9. Third-party media and the resizer (24 Oct, after the first preview check)
+
+Lighthouse could not show this: the sandbox's proxy refuses the image provider's CDN, so the pages measured above were
+missing their CDN pictures. The sizes below come from the browser on the protected preview: `HEAD` requests
+(`Content-Length`) for every remote media URL found in the code, plus the network list of the pages concerned.
+
+| Group | Used by | Size before | After |
+|---|---|---|---|
+| Eight new stills (peg-run stages, academy morning) | `/tournaments` (4), `/parents` (4), `/about` ribbon | 8 PNG masters, 7.18 to 7.96 MB each, **60.8 MB** | resized WebP: landscape 0.21 to 0.28 MB, portrait 0.42 to 0.78 MB, about **3.5 MB** |
+| Journal sphere (`FieldSphereHero`) | `/journal` | 21 WebP, 6.16 MB in all (largest 0.72 MB) | unchanged |
+| Videos only on the CDN | `/fleet` (4), `/legend` (1), `/curriculum` (1) | 3.6 to 15.1 MB each | unchanged |
+| Videos with a local first choice | footer, `/why` | 3.6 and 5.1 MB, fetched only if the local file fails | unchanged |
+| Lithos hero (component exists; no route renders it) | `LithosHero` | via the resizer already | unchanged |
+
+**What was found.** The eight stills were requested straight from the CDN as 2K PNG masters. Before this change the
+four peg-run stages were about 30 MB on `/tournaments` and the four morning stills about 30 MB on `/parents`, on top of
+everything in section 2. They were invisible in the lab numbers, and on a phone connection they would have been the
+largest cost on those two pages.
+
+**The change** (`561c8c8`): `cdnOnly()` in `lib/content/media.ts` now builds
+`https://images.higgs.ai/?default=1&output=webp&q=82&w=1920&url=<master>` (the same resizer the Lithos hero already
+used; `images.higgs.ai` was already in the CSP `img-src`). Width 1920 is the widest slot (full-bleed on desktop);
+quality 82 and WebP keep the grade. A unit test (`tests/media.test.mjs`) fails if a CDN-only still goes back to the
+master. Verified on the preview of that commit: on `/tournaments` the four peg stages arrive at 213, 255, 281 and 225 KB,
+stage switching and the WebGL transition still work and the console shows nothing but Vercel's own feedback toolbar being
+refused by the CSP; `/parents` shows its four stills at 417 to 778 KB each (decoded 1920 x 2571).
+
+**Limits.** The resizer's URL format belongs to the provider; if it changes, the stills fall back to the gradient
+placeholder (the test pins the shape, not the provider). The images are still a third-party dependency, with no
+integrity check and an unconfirmed licence. The permanent fix is to download the masters, ship WebP copies in git and
+switch `cdnOnly(...)` to `m(...)` (`sh scripts/fetch-media.sh` on the Mac; launch gate G13). One unexplained
+observation: the first four journal sphere images were seen requested through `<link rel="preload">` hints while
+browsing `/tournaments` (probably Next's prefetch of `/journal`); not investigated further.

@@ -124,3 +124,35 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   panel and expanding frame set up only near the viewport (effects now cost nothing measurable in mobile Lighthouse).
   Verified: lint 0 errors, typecheck, 79/79 unit tests, build, 18/18 browser smoke. Details:
   `docs/IMPLEMENTATION_PROGRESS.md` (F17).
+
+- [x] **Session 24 Oct 2026 · Final completion pass** (branch `session/2026-10-24-final-completion`, pushed to GitHub with
+  a draft pull request #1; CI `verify`, `database`, `e2e` green on the code head). What changed and what is still open:
+  - **Shipped to GitHub and previewed on Vercel** (two commits built and checked against the real database).
+  - **Fonts:** `Inter` and `DM Mono` were hard-coded in the home anatomy labels and in two canvas textures; they now
+    follow the role tokens (`--font-sans`, `--font-mono`).
+  - **Media payload:** the eight new stills were 7.2–8.0 MB PNG masters each (60.8 MB); they are requested through the
+    image provider's resizer as WebP (0.2–0.8 MB each, about 3.5 MB in all; `cdnOnly()` in `lib/content/media.ts`, with
+    a test). Permanent fix still open: run `sh scripts/fetch-media.sh` on the Mac, commit the eight WebPs, switch
+    `cdnOnly(...)` to `m(...)`.
+  - **Launch plan and decisions:** `docs/LAUNCH_INSTRUCTIONS.md` (five separate approvals, gates G1–G16, undo table) and
+    `docs/BUSINESS_LEGAL_REVIEW.md` (D1–D12, nothing invented). First production deployment is to be kept private by
+    setting Vercel Deployment Protection to "All Deployments" before the merge (S17).
+  - **Security:** findings S15–S18 added; live read-only evidence for hardening 001200 (clean) and for the seed accounts
+    and pasted keys; nothing live was changed in this pass.
+  - **Verified on the final code:** lint 0 errors, typecheck, 85/85 unit tests, build, 19/19 browser smoke, 176 + 179 + 12
+    SQL checks, `npm audit` 0, plus a 240-run route × width matrix and a WCAG 2.2 target-size check (0 failures).
+    One minor defect found and left open: the embedded `royal` hub thumbnail in `CitadelConfigurator.tsx` is damaged.
+  - **Documents refreshed:** `PRODUCTION_READINESS.md` (re-scored: 82.5 %, verdict "not yet"), `docs/TEST_RESULTS.md`,
+    `docs/SECURITY_AUDIT.md`, `docs/PERFORMANCE_REPORT.md`, `docs/DATABASE_ARCHITECTURE.md`,
+    `docs/MOBILE_BACKEND_CONTRACTS.md` (readiness verdict), `docs/WEBSITE_HANDOVER.md`, `docs/DEPLOYMENT_RUNBOOK.md`.
+  - **Waiting for the owner:** the staff account (so the admin console can be tested), approvals for 001200, the seed
+    accounts, QA data clean-up, key rotation, plans, domain and indexing; the media download; branch protection;
+    revoking the temporary GitHub token. Exact list: `PRODUCTION_READINESS.md` §5.
+
+- [x] **24 Oct 2026, evening · Public launch on the vercel.app address.** The owner approved ("Make it public on the
+  vercel.app address"); pull request #1 was marked ready and merged into `main` at 19:25 UTC (merge commit `b76131b`,
+  owner's signed-in browser session, no token). Vercel built production; it is public at `https://project-t9r95.vercel.app`.
+  Checked: 34 routes 200, database up, robots `Disallow: /`, models and hero video served, security headers (record:
+  `docs/LAUNCH_INSTRUCTIONS.md` §3, `docs/TEST_RESULTS.md` §3a). Not done: custom domain and DNS, Resend domain,
+  indexing, payments, analytics, a live enquiry test, staff sign-in. Open and approved in principle: move the images,
+  video, audio and 3D models to Supabase Storage after the owner upgrades to Supabase Pro.
