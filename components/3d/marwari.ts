@@ -66,20 +66,37 @@ function prepare(gltf: GLTF): Marwari {
         m.envMapIntensity = 0.7;
       }
       if (m.name === "Marwari_Eye") {
-        m.roughness = 0.05;
-        m.envMapIntensity = 1.6;
+        // a wet cornea over the dark eye: a thin clear layer that carries the catch-light
+        const eye = new THREE.MeshPhysicalMaterial();
+        THREE.MeshStandardMaterial.prototype.copy.call(eye, m);
+        eye.roughness = 0.08;
+        eye.envMapIntensity = 1.6;
+        eye.clearcoat = 1;
+        eye.clearcoatRoughness = 0.03;
+        eye.name = m.name;
+        sm.material = eye;
+        m.dispose();
       }
     }
     if ((o as THREE.Bone).isBone) bones[o.name] = o as THREE.Bone;
   });
   if (!mesh) throw new Error("Marwari: no coat mesh");
   const skinned = mesh as THREE.SkinnedMesh;
-  const material = skinned.material as THREE.MeshStandardMaterial;
   // Kala coat: a fine short coat over black skin, a satin sheen rather than plastic (no metal, baked AO in the R channel).
+  // The coat is a physical material so it can carry a soft, dark sheen at grazing angles (the "bloom" of a short coat).
+  const base = skinned.material as THREE.MeshStandardMaterial;
+  const material = new THREE.MeshPhysicalMaterial();
+  THREE.MeshStandardMaterial.prototype.copy.call(material, base);
+  material.name = base.name;
   material.metalness = 0;
   material.envMapIntensity = 0.9;
   material.side = THREE.FrontSide; // the body is a closed shell: no need to shade its inside
-  const highlight = installHighlight(material);
+  material.sheen = 0.22;
+  material.sheenRoughness = 0.6;
+  material.sheenColor = new THREE.Color("#1d1a18");
+  skinned.material = material;
+  base.dispose();
+  const highlight = installHighlight(material, muzzleTip(skinned.geometry));
   return { root, mesh: skinned, bones, clips: new Map(gltf.animations.map((c) => [c.name, c])), material, highlight };
 }
 
@@ -90,21 +107,63 @@ export type Highlight = {
   /** 0..1 strength, eased by the caller. */
   strength: { value: number };
   color: { value: THREE.Color };
+  /** (desaturation 0..1, gain): the film grades the coat toward true black under warm light. (0, 1) leaves the baked colour alone. */
+  coat: { value: THREE.Vector2 };
 };
 
-function installHighlight(material: THREE.MeshStandardMaterial): Highlight {
+/** Bind-pose position of the muzzle: the most forward vertex of the body mesh. */
+function muzzleTip(geo: THREE.BufferGeometry) {
+  const p = geo.attributes.position;
+  let best = 0;
+  for (let i = 1; i < p.count; i++) if (p.getZ(i) > p.getZ(best)) best = i;
+  return new THREE.Vector3(p.getX(best), p.getY(best), p.getZ(best));
+}
+
+function installHighlight(material: THREE.MeshStandardMaterial, muzzle: THREE.Vector3): Highlight {
   const spheres = { value: [0, 1, 2, 3].map(() => new THREE.Vector4(0, 0, 0, 0)) };
   const strength = { value: 0 };
   const color = { value: new THREE.Color("#c9a66b") };
+  const coat = { value: new THREE.Vector2(0, 1) };
   material.onBeforeCompile = (shader) => {
+    shader.uniforms.uCoat = coat;
     shader.uniforms.uHi = spheres;
     shader.uniforms.uHiK = strength;
     shader.uniforms.uHiCol = color;
+    shader.uniforms.uMuzzle = { value: muzzle };
     shader.vertexShader = shader.vertexShader
-      .replace("#include <common>", "#include <common>\nvarying vec3 vHiW;")
+      .replace("#include <common>", "#include <common>\nvarying vec3 vHiW; varying vec3 vRest;")
+      .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position;")
       .replace("#include <project_vertex>", "#include <project_vertex>\nvHiW = (modelMatrix * vec4(transformed, 1.0)).xyz;");
     shader.fragmentShader = shader.fragmentShader
-      .replace("#include <common>", "#include <common>\nvarying vec3 vHiW; uniform vec4 uHi[4]; uniform float uHiK; uniform vec3 uHiCol;")
+      .replace(
+        "#include <common>",
+        `#include <common>
+        varying vec3 vHiW; varying vec3 vRest; uniform vec4 uHi[4]; uniform float uHiK; uniform vec3 uHiCol; uniform vec3 uMuzzle; uniform vec2 uCoat;
+        float h3(vec3 p) { p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+        float vn3(vec3 x) {
+          vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);
+          return mix(mix(mix(h3(i), h3(i + vec3(1, 0, 0)), f.x), mix(h3(i + vec3(0, 1, 0)), h3(i + vec3(1, 1, 0)), f.x), f.y),
+                     mix(mix(h3(i + vec3(0, 0, 1)), h3(i + vec3(1, 0, 1)), f.x), mix(h3(i + vec3(0, 1, 1)), h3(i + vec3(1, 1, 1)), f.x), f.y), f.z);
+        }`,
+      )
+      .replace(
+        "#include <color_fragment>",
+        `#include <color_fragment>
+        { float l = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(l), uCoat.x) * uCoat.y; }`,
+      )
+      .replace(
+        "#include <roughnessmap_fragment>",
+        `#include <roughnessmap_fragment>
+        {
+          // oiled hooves are glossier, the muzzle's skin is soft and matte, the coat's hair varies a little from patch to patch
+          float hoofM = 1.0 - smoothstep(0.085, 0.125, vRest.y);
+          float muzM = 1.0 - smoothstep(0.05, 0.15, distance(vRest, uMuzzle));
+          float fade = 1.0 - smoothstep(1.0, 4.0, length(vViewPosition));
+          roughnessFactor *= 1.0 + (vn3(vRest * 70.0) - 0.5) * 0.3 * fade;
+          roughnessFactor = mix(roughnessFactor, 0.4, hoofM);
+          roughnessFactor = mix(roughnessFactor, 0.78, muzM);
+        }`,
+      )
       .replace(
         "#include <emissivemap_fragment>",
         `#include <emissivemap_fragment>
@@ -115,7 +174,7 @@ function installHighlight(material: THREE.MeshStandardMaterial): Highlight {
         totalEmissiveRadiance += uHiCol * hi * uHiK * 0.32;`,
       );
   };
-  material.customProgramCacheKey = () => "marwari-highlight";
+  material.customProgramCacheKey = () => "marwari-highlight-v3";
   return {
     set(list) {
       spheres.value.forEach((v, i) => {
@@ -126,6 +185,7 @@ function installHighlight(material: THREE.MeshStandardMaterial): Highlight {
     },
     strength,
     color,
+    coat,
   };
 }
 
@@ -213,7 +273,7 @@ export function daylight(hour: number): Daylight {
   return { key: mix(a.key, b.key), rim: mix(a.rim, b.rim), fill: mix(a.fill, b.fill), dir, intensity: a.k + (b.k - a.k) * t, name: t < 0.5 ? a.name : b.name };
 }
 
-/** Studio lights for the stallion; returns a function that applies a Daylight. */
+/** Studio lights for the stallion; returns a function that applies a Daylight (its `lights` array lists the light objects). */
 export function addLights(scene: THREE.Scene) {
   const key = new THREE.DirectionalLight(0xffffff, 3);
   const rim = new THREE.DirectionalLight(0xffffff, 3.4);
@@ -222,13 +282,14 @@ export function addLights(scene: THREE.Scene) {
   rim.position.set(-2.8, 3.4, -3.4);
   fill.position.set(-3.5, 1.8, 2.5);
   scene.add(key, rim, fill, sky);
-  return (d: Daylight) => {
+  const apply = (d: Daylight) => {
     key.color.copy(d.key);
     key.intensity = d.intensity;
     key.position.copy(d.dir);
     rim.color.copy(d.rim);
     fill.color.copy(d.fill);
   };
+  return Object.assign(apply, { lights: [key, rim, fill, sky] as THREE.Object3D[] });
 }
 
 /** A soft contact shadow under the hooves (no shadow pass). */
@@ -250,6 +311,7 @@ export function contactShadow(width = 2.2, depth = 3.2) {
   );
   mesh.rotation.x = -Math.PI / 2;
   mesh.position.set(0, 0.002, 0.35);
+  mesh.name = "contact-shadow";
   return mesh;
 }
 

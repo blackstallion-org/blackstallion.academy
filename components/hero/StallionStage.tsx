@@ -4,8 +4,9 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import { addLights, contactShadow, createGaze, createTimer, daylight, disposeObject, loadMarwari } from "@/components/3d/marwari";
+import { addLights, contactShadow, createGaze, createTimer, daylight, disposeObject, loadMarwari, type Marwari } from "@/components/3d/marwari";
 import { heroModelUrl, PASSPORT_HREF } from "./stallion-flags";
+import type { FilmEngine } from "@/components/stallion-film/engine";
 import { cn } from "@/lib/utils";
 
 type Status = "loading" | "ready" | "failed";
@@ -14,6 +15,12 @@ type Props = {
   className?: string;
   /** Called with the outcome so the hero can keep its photograph when WebGL is unavailable. */
   onStatus?: (s: Status) => void;
+  /** Turns on the cinematic engine (desert, village, campus) that shares this canvas, scene and horse; loaded lazily. Omit for the plain hero. */
+  filmConfig?: { mobile: boolean; onChapter: (chapter: number) => void };
+  /** Receives the live engine (or null when the stage tears down) so the page can drive it from scroll. */
+  onFilm?: (film: FilmEngine | null) => void;
+  /** When false the canvas ignores clicks (the film owns the screen). */
+  clickEnabled?: boolean;
 };
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
@@ -26,7 +33,7 @@ const ease = (t: number) => 1 - Math.pow(1 - t, 3);
  * time of day, and a click that dollies the camera to the head and opens the Sovereign Passport.
  * Reduced motion: one still frame, no gaze, and the click goes straight to the passport.
  */
-export function StallionStage({ className, onStatus }: Props) {
+export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEnabled = true }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const router = useRouter();
   const [status, setStatus] = useState<Status>("loading");
@@ -38,15 +45,18 @@ export function StallionStage({ className, onStatus }: Props) {
   const tiltRef = useRef<((e: DeviceOrientationEvent) => void) | null>(null);
   const wake = useRef<() => void>(() => {});
 
-  const report = useCallback(
-    (s: Status) => {
-      setStatus(s);
-      onStatus?.(s);
-    },
-    [onStatus],
-  );
+  // The parent re-renders on every film chapter; a changing callback identity must not restart the stage.
+  const onStatusRef = useRef(onStatus);
+  useEffect(() => {
+    onStatusRef.current = onStatus;
+  });
+  const report = useCallback((s: Status) => {
+    setStatus(s);
+    onStatusRef.current?.(s);
+  }, []);
 
   const enterPassport = useCallback(() => {
+    if (!clickEnabled) return;
     if (dolly.current || navigated.current) return; // no double transitions
     if (reduced.current || status !== "ready") {
       navigated.current = true;
@@ -55,7 +65,7 @@ export function StallionStage({ className, onStatus }: Props) {
     }
     dolly.current = { start: performance.now() };
     wake.current();
-  }, [router, status]);
+  }, [router, status, clickEnabled]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -97,6 +107,15 @@ export function StallionStage({ className, onStatus }: Props) {
     applyLight(daylight(hour()));
     scene.add(contactShadow());
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
+    let film: FilmEngine | null = null;
+    let filmAttached = false;
+    let horseCtx: { m: Marwari; mixer: THREE.AnimationMixer } | null = null;
+    const tryAttachFilm = () => {
+      if (!film || !horseCtx || filmAttached) return;
+      filmAttached = true;
+      film.attach({ renderer, scene, camera, horse: horseCtx.m, mixer: horseCtx.mixer, heroLights: applyLight.lights, heroShadow: scene.getObjectByName("contact-shadow") ?? null }).then(() => request());
+    };
+    const heroFov = () => (camera.aspect < 0.9 ? 40 : 30);
 
     let alive = true;
     let raf = 0;
@@ -132,22 +151,27 @@ export function StallionStage({ className, onStatus }: Props) {
       if (!alive || !ready) return;
       const dt = Math.min(clock.delta(), 0.05);
       const t = (now - t0) / 1000;
+      const filmOn = !!film?.active;
       if (!reduced.current && mixer) {
         gaze?.undo();
+        film?.undo();
+        film?.beforeMixer(dt, camera.aspect);
         mixer.update(dt);
+        film?.afterMixer(dt);
         if (t > nextBlink && blink) {
           blink.reset().play();
           nextBlink = t + 2.5 + Math.random() * 4.5;
         }
-        if (t > nextShift && shift) {
+        if (t > nextShift && shift && (!film || film.allowIdleEvents())) {
           shift.reset().play();
           nextShift = t + 18 + Math.random() * 14;
         }
       }
-      // follow the target softly; a slow idle drift when nothing is steering
-      const idle = reduced.current ? 0 : Math.sin(t * 0.3) * 0.08;
-      g.yaw += (target.current.yaw + idle - g.yaw) * 0.05;
-      g.pitch += (target.current.pitch - g.pitch) * 0.05;
+      // follow the target softly; a slow idle drift when nothing is steering. In the film the director owns the gaze.
+      const fg = filmOn ? film!.gaze(camera) : null;
+      const idle = reduced.current || filmOn ? 0 : Math.sin(t * 0.3) * 0.08;
+      g.yaw += ((fg ? fg.yaw : target.current.yaw) + idle - g.yaw) * 0.05;
+      g.pitch += ((fg ? fg.pitch : target.current.pitch) - g.pitch) * 0.05;
       gaze?.apply(g.yaw, g.pitch);
       if (now - lastLight > 60_000) {
         applyLight(daylight(hour()));
@@ -168,8 +192,22 @@ export function StallionStage({ className, onStatus }: Props) {
           router.push(PASSPORT_HREF);
         }
       }
-      camera.position.copy(eye);
-      camera.lookAt(look);
+      const pose = filmOn ? film!.stepCamera(dt) : null;
+      if (pose) {
+        camera.position.copy(pose.pos);
+        camera.lookAt(pose.look);
+        if (Math.abs(camera.fov - pose.fov) > 0.01) {
+          camera.fov = pose.fov;
+          camera.updateProjectionMatrix();
+        }
+      } else {
+        if (camera.fov !== heroFov()) {
+          camera.fov = heroFov();
+          camera.updateProjectionMatrix();
+        }
+        camera.position.copy(eye);
+        camera.lookAt(look);
+      }
       try {
         renderer.render(scene, camera);
       } catch {
@@ -196,6 +234,15 @@ export function StallionStage({ className, onStatus }: Props) {
       if (!raf && alive && ready && (visible || dolly.current)) raf = requestAnimationFrame(frame);
     };
     wake.current = request;
+    if (!reduced.current && filmConfig) {
+      import("@/components/stallion-film/engine").then(({ FilmEngine }) => {
+        if (!alive) return;
+        film = new FilmEngine({ mobile: filmConfig.mobile });
+        film.onChapter = filmConfig.onChapter;
+        onFilm?.(film);
+        tryAttachFilm();
+      });
+    }
 
     const { promise, dispose: disposeLoader } = loadMarwari(heroModelUrl());
     promise
@@ -223,6 +270,8 @@ export function StallionStage({ className, onStatus }: Props) {
         shift = once("Weight_Shift");
         mixer.update(0);
         gaze = createGaze(m);
+        horseCtx = { m, mixer };
+        tryAttachFilm();
         ready = true;
         resize();
         report("ready");
@@ -318,10 +367,15 @@ export function StallionStage({ className, onStatus }: Props) {
       window.removeEventListener("deviceorientation", onTilt);
       document.removeEventListener("visibilitychange", onVis);
       wake.current = () => {};
+      if (film) {
+        film.dispose();
+        onFilm?.(null);
+      }
       disposeObject(scene);
       env.dispose();
       renderer.dispose();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [report, router]);
 
   const askMotion = async () => {
@@ -343,7 +397,8 @@ export function StallionStage({ className, onStatus }: Props) {
         aria-label="A black Marwari stallion with inward-curving ears, breathing slowly and turning its head to follow you."
         onClick={enterPassport}
         className={cn(
-          "h-full w-full cursor-pointer touch-pan-y transition-opacity duration-[1400ms] focus-visible:outline-none",
+          "h-full w-full touch-pan-y transition-opacity duration-[1400ms] focus-visible:outline-none",
+          clickEnabled ? "cursor-pointer" : "cursor-default",
           status === "ready" ? "opacity-100" : "opacity-0",
         )}
       />
@@ -352,7 +407,7 @@ export function StallionStage({ className, onStatus }: Props) {
           Saddling the stallion…
         </p>
       )}
-      {status !== "failed" && (
+      {status !== "failed" && clickEnabled && (
         <div className="absolute bottom-[8%] right-4 flex flex-col items-end gap-2 sm:right-[6%]">
           <button type="button" onClick={enterPassport} className="label min-h-11 border border-line bg-night/70 px-3 py-2 text-sand hover:text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
             Open the Sovereign Passport →

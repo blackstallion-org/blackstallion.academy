@@ -223,6 +223,7 @@ Scripts run as `Blender -b --factory-startup -P <script> -- <args>`; the chain i
 stage7_hybrid_retopo.py  in.blend out.blend <body_faces> <voxel> <ear_piece_scale> 0
 stage8_uv_bake.py        in.blend out.blend <texdir> 2048
 stage9_finish.py         in.blend out.blend <texdir>
+stage11_gaits.py         in.blend out.blend gaits.json      (run before stage10: adds the Walk, Trot, Canter, Gallop, Sprint, Stop, Alert clips)
 stage10_export.py        in.blend out.glb   <tex_size> <hair_tex_size>
 ```
 (hero: `20000 0.006 1.0`, anatomy: `38000 0.0045 1.8`; mobile: tex size 1024 / 512.)

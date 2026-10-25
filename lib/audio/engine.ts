@@ -79,6 +79,15 @@ export function isSoundEffect(name: string): name is SoundEffect {
   return name !== "ambient" && Object.prototype.hasOwnProperty.call(SOUND_FILES, name);
 }
 
+/**
+ * True when the visitor has sound on and has interacted with the page (so the browser allows playback), the tab is visible and
+ * no unmuted film owns the sound stage. For effects that synthesize their own audio (the hoofbeats of the film).
+ */
+export function soundReady(): boolean {
+  if (!soundEnabled() || !unlocked || typeof document === "undefined" || document.hidden) return false;
+  return !Array.from(document.querySelectorAll("video")).some((video) => !video.paused && !video.muted && video.volume > 0);
+}
+
 /** Returns whether playback was attempted; blocked/missing media stays silent. */
 export function playEffect(name: SoundEffect, volume = LEVELS[name], minGapMs = 0): boolean {
   if (!soundEnabled() || !unlocked || document.hidden) return false;

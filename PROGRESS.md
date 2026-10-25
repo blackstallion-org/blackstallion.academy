@@ -144,3 +144,15 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   lint 0 errors, build, axe (hero clean), keyboard, reduced motion, no-WebGL, denied motion permission (stubbed),
   7-cycle mount test. Not done: hand retopo of head/ears, KTX2, Safari/real devices, Lighthouse.
   Report: `docs/MARWARI_3D_PRODUCTION_REPORT.md`.
+- [x] **Session 25 Oct 2026 · Marwari realism, physics and cinematic world** (branch `feature/marwari-film-world`, behind
+  `/?stallion=preview`). The approved horse is untouched; added a gait library authored in Blender from stride data
+  (Walk, Trot, Canter L/R, Gallop L/R, Sprint L/R, Stop, Alert), a speed-driven locomotion controller with hoof-contact
+  sensing, terrain following with look-ahead and a penetration correction, spring-damper tail and mane, three procedural
+  places (Rajasthan desert, Marwar village street, the academy: illustrative, labelled so), three story chapters in the
+  home hero with veil transitions, chapter navigation and skip, adaptive quality and a phone geometry LOD, camera
+  avoidance, synthesized hoofbeats on the site sound toggle, coat/eye/hoof/muzzle materials. Measured: 60 fps desktop
+  and phone profile on an M2, GPU 5-11 ms desktop and 4-5 ms phone profile; foot slip about 14 % of ground speed (RMS)
+  inside the stance window, hoof sink under 3.3 cm before correction. Verified: typecheck, build, lint 0 errors in changed
+  code, 84/84 tests, axe 0 violations, keyboard, reduced motion, no-WebGL, 390/1440 captures. Not done: nostril flare,
+  normal micro-bump, foot-lock IK, real phone / Safari / Firefox, listening test of the hoofbeats.
+  Report: `docs/MARWARI_FILM_WORLD_REPORT.md`.

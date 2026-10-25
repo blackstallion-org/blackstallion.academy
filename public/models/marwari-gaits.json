@@ -1,0 +1,354 @@
+{
+ "Walk": {
+  "v": 1.44,
+  "T": 1.0,
+  "strideLength": 1.44,
+  "strideFrequency": 1.0,
+  "lead": null,
+  "contacts": {
+   "HL": [
+    0.0,
+    0.66
+   ],
+   "FL": [
+    0.25,
+    0.66
+   ],
+   "HR": [
+    0.5,
+    0.66
+   ],
+   "FR": [
+    0.75,
+    0.66
+   ]
+  },
+  "duty": {
+   "F": 0.66,
+   "H": 0.66
+  },
+  "airborneFraction": 0.0,
+  "sweepM": {
+   "F": 0.95,
+   "H": 0.95
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0786,
+   "H": 0.0934
+  },
+  "slipRmsMps": 0.19,
+  "slipMaxMps": 0.83,
+  "frames": 30,
+  "samples": 33
+ },
+ "Trot": {
+  "v": 3.33,
+  "T": 0.75,
+  "strideLength": 2.498,
+  "strideFrequency": 1.333,
+  "lead": null,
+  "contacts": {
+   "FL": [
+    0.0,
+    0.38
+   ],
+   "HR": [
+    0.0,
+    0.38
+   ],
+   "FR": [
+    0.5,
+    0.38
+   ],
+   "HL": [
+    0.5,
+    0.38
+   ]
+  },
+  "duty": {
+   "F": 0.38,
+   "H": 0.38
+  },
+  "airborneFraction": 0.24,
+  "sweepM": {
+   "F": 0.949,
+   "H": 0.949
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0689,
+   "H": 0.0899
+  },
+  "slipRmsMps": 0.381,
+  "slipMaxMps": 1.333,
+  "frames": 22,
+  "samples": 24
+ },
+ "Canter_R": {
+  "v": 4.83,
+  "T": 0.6,
+  "strideLength": 2.898,
+  "strideFrequency": 1.667,
+  "lead": "R",
+  "contacts": {
+   "HL": [
+    0.0,
+    0.33
+   ],
+   "HR": [
+    0.29,
+    0.33
+   ],
+   "FL": [
+    0.29,
+    0.28
+   ],
+   "FR": [
+    0.5,
+    0.28
+   ]
+  },
+  "duty": {
+   "F": 0.28,
+   "H": 0.33
+  },
+  "airborneFraction": 0.22,
+  "sweepM": {
+   "F": 0.811,
+   "H": 0.956
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0735,
+   "H": 0.0665
+  },
+  "slipRmsMps": 0.498,
+  "slipMaxMps": 1.399,
+  "frames": 18,
+  "samples": 28
+ },
+ "Canter_L": {
+  "v": 4.83,
+  "T": 0.6,
+  "strideLength": 2.898,
+  "strideFrequency": 1.667,
+  "lead": "L",
+  "contacts": {
+   "HR": [
+    0.0,
+    0.33
+   ],
+   "HL": [
+    0.29,
+    0.33
+   ],
+   "FR": [
+    0.29,
+    0.28
+   ],
+   "FL": [
+    0.5,
+    0.28
+   ]
+  },
+  "duty": {
+   "F": 0.28,
+   "H": 0.33
+  },
+  "airborneFraction": 0.22,
+  "sweepM": {
+   "F": 0.811,
+   "H": 0.956
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0752,
+   "H": 0.0964
+  },
+  "slipRmsMps": 0.503,
+  "slipMaxMps": 1.666,
+  "frames": 18,
+  "samples": 28
+ },
+ "Gallop_R": {
+  "v": 10.0,
+  "T": 0.42,
+  "strideLength": 4.2,
+  "strideFrequency": 2.381,
+  "lead": "R",
+  "contacts": {
+   "HL": [
+    0.0,
+    0.22
+   ],
+   "HR": [
+    0.14,
+    0.22
+   ],
+   "FL": [
+    0.3,
+    0.19
+   ],
+   "FR": [
+    0.46,
+    0.19
+   ]
+  },
+  "duty": {
+   "F": 0.19,
+   "H": 0.22
+  },
+  "airborneFraction": 0.35,
+  "sweepM": {
+   "F": 0.798,
+   "H": 0.924
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.1067,
+   "H": 0.0681
+  },
+  "slipRmsMps": 0.798,
+  "slipMaxMps": 2.142,
+  "frames": 13,
+  "samples": 30
+ },
+ "Gallop_L": {
+  "v": 10.0,
+  "T": 0.42,
+  "strideLength": 4.2,
+  "strideFrequency": 2.381,
+  "lead": "L",
+  "contacts": {
+   "HR": [
+    0.0,
+    0.22
+   ],
+   "HL": [
+    0.14,
+    0.22
+   ],
+   "FR": [
+    0.3,
+    0.19
+   ],
+   "FL": [
+    0.46,
+    0.19
+   ]
+  },
+  "duty": {
+   "F": 0.19,
+   "H": 0.22
+  },
+  "airborneFraction": 0.35,
+  "sweepM": {
+   "F": 0.798,
+   "H": 0.924
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.1101,
+   "H": 0.0974
+  },
+  "slipRmsMps": 0.867,
+  "slipMaxMps": 2.32,
+  "frames": 13,
+  "samples": 30
+ },
+ "Sprint_R": {
+  "v": 12.0,
+  "T": 0.383,
+  "strideLength": 4.596,
+  "strideFrequency": 2.611,
+  "lead": "R",
+  "contacts": {
+   "HL": [
+    0.0,
+    0.2
+   ],
+   "HR": [
+    0.13,
+    0.2
+   ],
+   "FL": [
+    0.29,
+    0.17
+   ],
+   "FR": [
+    0.44,
+    0.17
+   ]
+  },
+  "duty": {
+   "F": 0.17,
+   "H": 0.2
+  },
+  "airborneFraction": 0.389,
+  "sweepM": {
+   "F": 0.781,
+   "H": 0.919
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0929,
+   "H": 0.1165
+  },
+  "slipRmsMps": 1.207,
+  "slipMaxMps": 3.835,
+  "frames": 11,
+  "samples": 30
+ },
+ "Sprint_L": {
+  "v": 12.0,
+  "T": 0.383,
+  "strideLength": 4.596,
+  "strideFrequency": 2.611,
+  "lead": "L",
+  "contacts": {
+   "HR": [
+    0.0,
+    0.2
+   ],
+   "HL": [
+    0.13,
+    0.2
+   ],
+   "FR": [
+    0.29,
+    0.17
+   ],
+   "FL": [
+    0.44,
+    0.17
+   ]
+  },
+  "duty": {
+   "F": 0.17,
+   "H": 0.2
+  },
+  "airborneFraction": 0.389,
+  "sweepM": {
+   "F": 0.781,
+   "H": 0.919
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0965,
+   "H": 0.1054
+  },
+  "slipRmsMps": 1.074,
+  "slipMaxMps": 2.697,
+  "frames": 11,
+  "samples": 30
+ },
+ "Stop": {
+  "T": 1.8,
+  "note": "planted feet; forelimbs braced 0.11 m forward, hindlimbs 0.07 m under; plays over the stand"
+ },
+ "Alert": {
+  "T": 4.0,
+  "note": "looping hold; combine with Idle_Breathing and Blink at runtime"
+ },
+ "_meta": {
+  "units": "metres, seconds",
+  "convention": "body frame +Y toward tail; clips are in place (no root motion); runtime advances the root at v",
+  "sources": [
+   "Hildebrand 1977 (gait classification)",
+   "Biancardi & Minetti 2012, J Exp Biol (transverse gallop duty factors and lags)"
+  ]
+ }
+}
