@@ -132,7 +132,11 @@ GAITS = {
   # Stride lengths are FITTED TO THIS RIG: the sculpt's hind fetlock rests 0.23 m behind the hip and the forelimb is almost straight,
   # so stance sweeps (L x duty) are kept near 0.95 m; speed comes from stride frequency (v = L / T). `bias` shifts the stance window
   # (m, relative to the rest fetlock) to where each limb can reach: forelimb about the shoulder, hindlimb forward of rest.
-  'Walk':   dict(v=1.44, T=0.80, N=24, lead=None, c={'HL': 0.00, 'FL': 0.25, 'HR': 0.50, 'FR': 0.75}, d={'F': 0.55, 'H': 0.55}, bias={'F': None, 'H': None}, lift={'F': 0.17, 'H': 0.14},
+  # Walk swing: the hoof must cover one stride (1.15 m) in 0.36 s, a mean ground speed of 3.2 m/s, so no swing can peak below about
+  # 4.8 m/s (a smooth start and stop at rest in the world frame: 1.5 x the mean). The old fold of the pastern and hoof (unfolding into
+  # the landing) and a 17 cm lift flicked the toe to 9-10 m/s and 35 cm high; foldScale 0.2 and lift 12 / 10 cm bring it to about 5.7 m/s
+  # and 11 cm.
+  'Walk':   dict(v=1.44, T=0.80, N=24, lead=None, c={'HL': 0.00, 'FL': 0.25, 'HR': 0.50, 'FR': 0.75}, d={'F': 0.55, 'H': 0.55}, bias={'F': None, 'H': None}, lift={'F': 0.12, 'H': 0.10}, foldScale=0.2,
                  body=dict(heave=0.010, pitch=1.2, pelvis=2.0, lumbar=1.0, neck=3.0, head=2.0, neck_base=0, tail=4, roll=1.0)),
   'Trot':   dict(v=3.33, T=0.75, N=24, lead=None, c={'FL': 0.00, 'HR': 0.00, 'FR': 0.50, 'HL': 0.50}, d={'F': 0.38, 'H': 0.38}, bias={'F': None, 'H': None}, lift={'F': 0.26, 'H': 0.20},
                  body=dict(heave=0.030, pitch=1.4, pelvis=2.5, lumbar=1.2, neck=2.5, head=2.0, neck_base=3, tail=10, roll=0.6)),
@@ -186,8 +190,26 @@ def auto_bias(kind, s, sw):
 REPORT = {}
 RETRACT = 1.0  # full: the swing ends moving backward at the stance speed v, so the hoof lands with no ground speed (was 0.3: it landed skidding forward)
 
+def apply_overrides(name, spec):
+    """Experiments: GAIT_OVERRIDE='Walk:foldScale=0.5,lift.F=0.12' edits a copy of the spec without touching the table."""
+    ov = os.environ.get('GAIT_OVERRIDE')
+    if not ov: return spec
+    spec = json.loads(json.dumps(spec))
+    for part in ov.split(';'):
+        g, _, kvs = part.partition(':')
+        if g != name.split('_')[0]: continue
+        for kv in kvs.split(','):
+            if not kv: continue
+            k, val = kv.split('='); val = float(val); path = k.split('.')
+            d = spec
+            for q in path[:-1]: d = d[q]
+            d[path[-1]] = val
+    return spec
+
 def build_gait(name, spec):
+    spec = apply_overrides(name, spec)
     v, T, N = spec['v'], spec['T'], spec['N']; L = v * T
+    fold_scale = spec.get('foldScale', 1.0)
     act = new_action(name); frames_total = T * sc.render.fps
     c, d, lift, bd = spec['c'], spec['d'], spec['lift'], spec['body']
     sweep = {'F': L * d['F'], 'H': L * d['H']}
@@ -207,6 +229,7 @@ def build_gait(name, spec):
     fore_td = (c['FL'] + c['FR']) / 2 + 0.02
     err_max = {'F': 0.0, 'H': 0.0}; slip_samples = {k: [] for k in c}
     sole_stance = {'F': [], 'H': []}
+    toe_traj = {k: [] for k in c}   # (t, y, z, in_stance) of the hoof's toe point (bone tail), body frame
     mean = lambda a: float(np.mean(a))
 
     def pose_body(ph):
@@ -243,6 +266,9 @@ def build_gait(name, spec):
             fwd = h00 * fwd_lo + h10 * m + h01 * fwd_td + h11 * m
             z = lift[kind] * math.sin(math.pi * min(1.0, u ** 0.8)) ** 1.15
             flex = (0.25 + 0.75 * smooth(u / 0.22)) if u < 0.55 else smooth((0.97 - u) / 0.45) * 0.8
+            # foldScale < 1 shrinks the pastern/hoof fold of the swing (the unfold into landing is what flicks the toe): the heel lift
+            # of the breakover still runs into the swing start so the hoof leaves the ground as before
+            flex = flex * fold_scale + 0.25 * (1.0 - fold_scale) * (1.0 - smooth(u / 0.3))
         return kind, side, inn, Vector((F0.x, F0.y - fwd, F0.z + z)), flex
 
     # pass 1: find, per limb and frame, the shoulder/hip swing that makes the target reachable; smooth it around the stride
@@ -283,6 +309,8 @@ def build_gait(name, spec):
                 slip_samples[limb].append((k_i * T / N, P[cannon].tail.y, P[cannon].tail.z))
             else:
                 chain, err = solve_leg(kind, side, tgt, flex, share)
+            toe = P[chain[-1]].tail
+            toe_traj[limb].append((k_i * T / N, toe.y, toe.z, inn))
             used += chain
         key(['Body'], frame, loc=True); key(used, frame)
     sc.frame_start, sc.frame_end = 0, int(round(frames_total)); finish(act)
@@ -295,13 +323,27 @@ def build_gait(name, spec):
     # airborne fraction from the stance windows
     grid = np.linspace(0, 1, 1000, endpoint=False)
     airborne = float(np.mean([all(not stance_param(p, c[k], d[k[0]])[0] for k in c) for p in grid]))
+    # world speed of the toe through the swing (body frame y grows toward the tail, the root advances at v): forward = v - dy/dt
+    swing_peak, swing_mean, swing_peak3d, swing_maxz = [], [], [], []
+    for limb, tr in toe_traj.items():
+        sp, sp3 = [], []
+        for (t0, y0, z0, i0), (t1, y1, z1, i1) in zip(tr, tr[1:]):
+            if i0 or i1 or t1 - t0 < 1e-6: continue
+            fw = v - (y1 - y0) / (t1 - t0); vz = (z1 - z0) / (t1 - t0)
+            sp.append(abs(fw)); sp3.append(math.hypot(fw, vz))
+            if os.environ.get('GAIT_DEBUG') and limb in os.environ['GAIT_DEBUG'].split(','): print('SWKEY', name, limb, 't=%.3f fw=%.2f vz=%.2f y=%.3f z=%.3f' % (t0, fw, vz, y0, z0))
+        swing_maxz.append(max([z for (_t, _y, z, i) in tr if not i] or [0]))
+        if sp: swing_peak.append(max(sp)); swing_mean.append(float(np.mean(sp))); swing_peak3d.append(max(sp3))
     soles = {k: (round(float(np.mean(v_)), 4), round(float(np.max(np.abs(v_))), 4)) for k, v_ in sole_stance.items() if v_}
     return dict(v=v, T=T, strideLength=round(L, 3), strideFrequency=round(1 / T, 3), lead=spec['lead'], contacts=contacts, duty=d, airborneFraction=round(airborne, 3),
                 sweepM={k: round(v_, 3) for k, v_ in sweep.items()}, biasM=bias, ikReachErrorStanceMaxM={k: round(e, 4) for k, e in err_max.items()},
                 soleStanceMeanM={k: x[0] for k, x in soles.items()}, soleStanceMaxAbsM={k: x[1] for k, x in soles.items()},
+                toeSwingPeakMps=round(max(swing_peak), 2) if swing_peak else 0, toeSwingMeanMps=round(float(np.mean(swing_mean)), 2) if swing_mean else 0, toeSwingPeak3dMps=round(max(swing_peak3d), 2) if swing_peak3d else 0, toeSwingMaxHeightM=round(max(swing_maxz), 3) if swing_maxz else 0,
                 slipRmsMps=round(float(np.sqrt(np.mean(np.square(slips)))) if slips else 0, 3), slipMaxMps=round(float(np.max(slips)) if slips else 0, 3), frames=int(round(frames_total)), samples=N)
 
+ONLY = os.environ.get('GAIT_ONLY')   # experiments: build just this gait (e.g. Walk)
 for name, spec in GAITS.items():
+    if ONLY and name != ONLY: continue
     if spec['lead'] is None:
         REPORT[name] = build_gait(name, spec)
     else:
@@ -353,5 +395,5 @@ bpy.ops.wm.save_as_mainfile(filepath=out_blend)
 with open(out_json, 'w') as f: json.dump(REPORT, f, indent=1)
 for k, v_ in REPORT.items():
     if k.startswith('_'): continue
-    print('GAIT', k, json.dumps({x: v_[x] for x in ('v', 'strideLength', 'airborneFraction', 'ikReachErrorStanceMaxM', 'slipRmsMps', 'slipMaxMps') if x in v_}))
+    print('GAIT', k, json.dumps({x: v_[x] for x in ('v', 'strideLength', 'airborneFraction', 'ikReachErrorStanceMaxM', 'toeSwingPeakMps', 'toeSwingMeanMps', 'toeSwingPeak3dMps', 'toeSwingMaxHeightM', 'slipRmsMps', 'slipMaxMps') if x in v_}))
 print('STAGE11_DONE', [a.name for a in bpy.data.actions])

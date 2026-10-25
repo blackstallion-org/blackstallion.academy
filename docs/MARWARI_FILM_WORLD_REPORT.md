@@ -203,11 +203,51 @@ figures on the desert are 14 / 10.5 / 11.9 / 11.2 / 12 %):
   not the sole, as the contact point for the body-lift correction).
 - The authored clips are unchanged: in Blender the sprint hind still hovers over 2 cm in 28 % of mid-stance frames on flat
   ground; the lock now closes that gap at run time, but any viewer that plays the clips without it (the anatomy plate) sees it.
-- **The walk's swing is fast.** The clip itself (lock on or off) moves the hoof at a median 4.2 m/s and a peak of 10 m/s in the
-  swing at a 1.44 m/s walk (trot 12.8, canter 17, gallop 25.6 m/s peak). The full-retract landing (`RETRACT` 1.0) and the
-  shorter walk stride are the likely causes. Not judged by eye; a real walk's peak is nearer 3–4 m/s.
+- The walk's swing was too fast (peak 10 m/s); fixed in §3d.
 - Not tested: a phone, a clean performance run, the production build (not re-run for this change), and any by-eye judgement
   beyond one frame (`docs/qa/film/gait_sprint_terrain_seat.png`).
+
+### 3d. Walk swing speed (fourth pass, 25 Oct)
+
+**Correction to §3c.** There I wrote that a real walk's hoof peaks at 3–4 m/s. That is the **average** swing speed, not the
+peak. A hoof that advances one stride (1.15 m) in one swing (0.36 s at duty 0.55) averages 3.2 m/s over the ground, and starting
+and ending at rest it cannot peak below 1.5 × that, about 4.8 m/s. A real walk is the same arithmetic (stride about 1.6–1.8 m,
+swing about 0.4 s, mean about 4 m/s). The target for this pass was therefore a peak close to 4.8 m/s and a median near the mean.
+
+**Cause of the 10 m/s peak** (`stage11_gaits.py` now reports `toeSwingPeakMps`, `toeSwingMeanMps`, `toeSwingMaxHeightM` per clip):
+the fetlock path itself is the smooth 4.8 m/s profile. The extra 5 m/s was the pastern and hoof unfolding into the landing, which
+swings the toe point forward and down (up to 5 m/s vertically over 33 ms) just where the fetlock is also moving, and a 17 cm lift
+plus the fold carried the toe to 35 cm above the ground, high for a walk.
+
+**Change** (Walk only; `foldScale` 0.2 scales the swing's fold, the breakover heel lift of the stance still runs into the swing
+start; `lift` 17 / 14 cm → 12 / 10 cm). Generator values, front and hind limbs together:
+
+| Setting | Toe swing peak | Toe height at the top of the swing |
+| --- | --- | --- |
+| Before (fold 1.0, lift 17 / 14 cm) | 9.4 m/s | 35 cm |
+| Fold 0.5, lift 11 / 9 cm | 7.6 m/s | 8 cm |
+| Fold 0.3, lift 12 / 10 cm | 6.35 m/s | 10 cm |
+| **Fold 0.2, lift 12 / 10 cm (used)** | **5.7 m/s** | **11 cm** |
+| Fold 0.1, lift 12 / 10 cm | 5.1 m/s | 11 cm |
+| Fold 0 (hoof held rigid), lift 11 / 9 cm | 4.8 m/s | 13 cm |
+
+The fold 0.5 and fold 0 rows were run with the first version of the scaling, which also scaled the stance's heel lift; the others
+use the final version.
+
+Measured in the browser (120 Hz, desert, 1.44 m/s, planar toe speed through the swing, lock on or off): peak **5.7 m/s** (was
+10.0), 99th percentile 5.7, median 3.9 (was 4.2); the toe tops out 11–12 cm above the ground (was 35). Trot, canter, gallop and
+sprint have identical keyframe data to before (browser peaks 12.7, 17 and 26.9 m/s for trot, canter and gallop; the sprint was not measured here).
+
+Walk with the lock on, three repeats on the desert: ground slip 0.9 / 0.6 / 0.7 % (0.4–0.5 % before this pass), stances held
+27 of 29, 28 of 28, 29 of 29 (the two stances not fully held in the first repeat: 18 of 1016 mid-stance frames), 0 stances miss
+the ground, mid-stance residual 0.3–0.7 mm mean and 15 mm at most, joint offset up to 26°. Mid-stance sole height over 2 cm: 0 %
+with the lock (clip alone 9.5 %), 0 % on the campus turn (2.9 %). Trot to sprint slip in the same run: trot 2.8–3.6 % (2.3–2.7 %
+in §3c), canter 3.2–3.5 %, gallop 4.3–4.7 %, sprint 6.0–6.1 %; those clips are unchanged, so the trot difference is where on the
+sand the run happened, not the walk change. One frame of the new walk: `docs/qa/film/gait_walk_r6.png`.
+
+**Still true:** the other gaits keep the same style of fold. The clips' toe swing peaks are trot 11.7, canter 13.9–14.3, gallop
+24.8–25.2, sprint 28.6–29.1 m/s against a smooth-profile floor (1.5 × the mean swing speed, stride and duty as authored) of about 8, 10, 19 and 22 m/s, and toe heights in the swing of 54, 72,
+88 and 95 cm. The gallop and sprint figures are plausible for a horse at those speeds; the trot and canter were not looked at.
 
 ## 4. Performance (measured, not estimated)
 
@@ -265,7 +305,7 @@ Method: Chromium driven by Playwright, `renderer.info`, `EXT_disjoint_timer_quer
 Blender -b --factory-startup -P tools/blender/03_animation/stage11_gaits.py -- in.blend out.blend gaits.json
 Blender -b --factory-startup -P tools/blender/04_export/stage10_export.py   -- out.blend marwari-hero.glb 2048 1024
 ```
-Hero `s9` input: `tools/blender/source/marwari_hero_source.blend` (now includes the gait clips). The generator prints `AUTOBIAS` lines (chosen reach offsets); `GAIT_PRECOMP=1` in the environment turns on the rejected sole pre-compensation. The matching anatomy source (`marwari_anatomy_source.blend`) is excluded from git on this machine (`.git/info/exclude`) and was updated on disk only. Copy `gaits.json` to `public/models/marwari-gaits.json`. In the browser: `/?stallion=preview&filmdebug=1`, then in the console `__stallionFilm.goTo(1|2|3)` and `__stallionFilm.qaRun([[speed, seconds], ...])`.
+Hero `s9` input: `tools/blender/source/marwari_hero_source.blend` (now includes the gait clips). The generator prints `AUTOBIAS` lines (chosen reach offsets) and per-clip `toeSwing…` figures; `GAIT_PRECOMP=1` turns on the rejected sole pre-compensation; `GAIT_ONLY=Walk` builds one gait (about 25 s); `GAIT_OVERRIDE='Walk:foldScale=0.3,lift.F=0.12'` edits a copy of one gait's table for an experiment; `GAIT_DEBUG=FL,HL` prints the per-key swing speed of those hooves. The matching anatomy source (`marwari_anatomy_source.blend`) is excluded from git on this machine (`.git/info/exclude`) and was updated on disk only. Copy `gaits.json` to `public/models/marwari-gaits.json`. In the browser: `/?stallion=preview&filmdebug=1`, then in the console `__stallionFilm.goTo(1|2|3)` and `__stallionFilm.qaRun([[speed, seconds], ...])`.
 
 ## 8. Files
 

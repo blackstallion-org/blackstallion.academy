@@ -180,6 +180,14 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   canter 3.0–3.2, gallop 4.5, sprint 6.1–6.4 % (lock off 10–14 %). Open: banked turns still leave 21 % of campus sprint frames over
   2 cm and the lock lets go in about a third of their mid-stance frames; the walk's swing peaks at 10 m/s in the clip; no phone
   or build re-run; one frame looked at by eye. Lint 0 warnings, typecheck, 84/84 tests. See report §3c.
+- [x] **Session 25 Oct 2026 (latest) · Walk swing speed** (`stage11_gaits.py`; hero, mobile, anatomy GLBs and
+  `marwari-gaits.json` re-exported; hero and anatomy source .blend updated). The 3-4 m/s I quoted for a real walk is the
+  *average* swing speed (stride 1.15 m / swing 0.36 s = 3.2 m/s); a smooth swing cannot peak below 1.5 x that, 4.8 m/s. The clip
+  peaked at 10 m/s because the pastern and hoof unfolded into the landing; Walk now has `foldScale` 0.2 and lift 12 / 10 cm.
+  Browser, walk swing: peak 10.0 -> 5.7 m/s, median 4.2 -> 3.9, toe height 35 -> 11 cm. Walk ground slip with the lock 0.6-0.9 %
+  (0.4-0.5 before), 0 stances miss, hover 0. Other gaits' clips identical (their swing peaks 12.7 / 17 / 27 m/s, not changed).
+  New generator switches: `GAIT_ONLY`, `GAIT_OVERRIDE`, `GAIT_DEBUG`. Not done: phone, build re-run, any by-eye review beyond one
+  frame. See report §3d.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
