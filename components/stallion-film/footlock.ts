@@ -30,6 +30,12 @@ export const LOCK_RELEASE_S = 0.05;
 /** A hoof is anchored only once its toe is within this height of the ground (the contact threshold the sensor uses). */
 export const LOCK_TOUCH_M = 0.04;
 const ITERATIONS = 24;
+/** Fraction of the straight-leg reach the lock may ask for (keeps the joints off their limits). */
+const REACH_FRACTION = 0.97;
+/** Residual (m) above which a leg is treated as unable to reach its anchor, and how fast the lock fades out and back in. */
+const LOCK_BAD_M = 0.02;
+const SAFE_FALL_S = 0.08;
+const SAFE_RISE_S = 0.25;
 
 type Joint = { bone: THREE.Bone; q0: THREE.Quaternion; hinge: number; abd: number; hl: THREE.Vector3; fl: THREE.Vector3 };
 
@@ -44,6 +50,10 @@ class LimbLock {
   releaseT = 0;
   weight = 0;
   readonly anchor = new THREE.Vector3();
+  /** Straight-leg reach from the top joint to the toe (m): the lock never asks a leg for more than this. */
+  readonly reach: number;
+  /** 0..1 how much of the lock this leg is allowed to hold; drops while the leg cannot reach its anchor. */
+  safe = 1;
   /** How far the toe is from the lock target after solving (m), for QA. */
   residual = 0;
   /** Largest joint offset applied this frame (rad), for QA. */
@@ -63,6 +73,10 @@ class LimbLock {
     const hoof = horse.bones[names[names.length - 1]];
     if (!hoof) throw new Error(`footlock: missing bone ${names[names.length - 1]}`);
     this.hoof = hoof;
+    // segment lengths below the top joint, plus the toe: the leg's reach when fully straight
+    let reach = HOOF_LENGTH + hoof.position.length();
+    for (let k = 1; k < this.joints.length; k++) reach += this.joints[k].bone.position.length();
+    this.reach = reach;
   }
 
   /** Put the leg back exactly as the mixer left it. */
@@ -182,6 +196,8 @@ export class FootLock {
   private readonly forward = new THREE.Vector3();
   private readonly target = new THREE.Vector3();
   private readonly tmp = new THREE.Vector3();
+  private readonly pivot = new THREE.Vector3();
+  private readonly reachVec = new THREE.Vector3();
   enabled = true;
   /** QA readout per limb. */
   readonly debug: Record<Limb, { weight: number; residual: number; maxOffset: number }>;
@@ -238,9 +254,14 @@ export class FootLock {
           w = (1 - smoothstep(0, LOCK_RELEASE_S, leg.releaseT)) * gate;
         }
       }
+      // a leg that cannot reach its anchor (the joints are at their limits) lets the lock go gradually rather than
+      // pulling the toe up off the ground; it takes hold again once the anchor is reachable
+      leg.safe = leg.residual > LOCK_BAD_M ? Math.max(0, leg.safe - dt / SAFE_FALL_S) : Math.min(1, leg.safe + dt / SAFE_RISE_S);
+      w *= leg.safe;
       leg.weight = w;
       d.weight = w;
       if (w <= 0.001) {
+        leg.residual = 0;
         d.residual = 0;
         d.maxOffset = 0;
         continue;
@@ -250,6 +271,13 @@ export class FootLock {
         this.tmp.y,
         this.tmp.z + (leg.anchor.z - this.tmp.z) * w,
       );
+      // beyond reach the toe slides a little at the end of the stance instead of being pulled up off the ground
+      const top = leg.joints[0].bone.matrixWorld;
+      this.pivot.setFromMatrixPosition(top);
+      this.reachVec.subVectors(this.target, this.pivot);
+      const dist = this.reachVec.length();
+      const maxDist = leg.reach * REACH_FRACTION;
+      if (dist > maxDist) this.target.copy(this.pivot).addScaledVector(this.reachVec, maxDist / dist);
       leg.solve(this.lateral, this.forward, this.target);
       d.residual = leg.residual;
       d.maxOffset = leg.maxOffset;

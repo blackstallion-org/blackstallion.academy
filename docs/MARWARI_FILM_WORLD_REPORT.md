@@ -54,6 +54,49 @@ Authored in Blender (`tools/blender/03_animation/stage11_gaits.py`: planar IK on
 - Gait changes were run through the full ladder (stand, walk, trot, canter, gallop, sprint, and back down to a stop): every step settled on the expected gait within 0.06 m/s of its target, and no hoof sank more than 2.7 cm before correction.
 - The suspension numbers differ from the authored ones because the sensor uses a 4 cm toe threshold; they agree within 6 percentage points.
 
+### 3b. Runtime foot-lock (second pass, 25 Oct)
+
+`components/stallion-film/footlock.ts` anchors each hoof where its toe first reaches the ground, then solves the leg back
+to that point (damped iterative solve, hinge joints about the body's lateral axis, limited abduction at the top joint,
+hoof kept flat). It is removed before the mixer runs, like the other additive layers.
+
+Two changes to the gait data were needed first:
+
+- **Landing kinematics** (`stage11_gaits.py`, `RETRACT` 0.3 → 1.0): the swing now ends moving backward at the stance speed,
+  so a hoof lands with no ground speed. Touchdown toe speed before the lock acts: walk 1.74 → 0.26 m/s, gallop 1.55 → 0.83
+  m/s, sprint 2.16 → 1.48 m/s. Hero, mobile and anatomy GLBs and `marwari-gaits.json` re-exported.
+- **Ground contact**: the lock anchors only once the toe is below 4 cm (the sensor's own contact threshold), because the
+  stance phase can begin while the hoof is still in the air.
+
+Measured in the browser on the desert scene, five settled speeds, three repeats, lock on vs off. Slip is now counted only
+while a hoof is on the ground:
+
+| Gait | Speed | Ground slip, lock off | Ground slip, lock on | Stances fully held | Notes |
+| --- | --- | --- | --- | --- | --- |
+| Walk | 1.44 m/s | 13 / 14 / 14 % | 4 / **31** / **28** % | 14 / 15 / 14 | front-left, late stance: 12 frames per run released (see below) |
+| Trot | 3.33 m/s | 11 / 11 / 11 % | 4 / 4 / 4 % | 28 / 28 / 28 | 0 never engaged |
+| Canter | 4.83 m/s | 12 / 12 / 12 % | 5 / 6 / 6 % | 33 / 33 / 33 | 0 never engaged |
+| Gallop | 10 m/s | 11–12 % | 8 / 8 / 8 % | 46–53 | 1 stance per run never touches the ground |
+| Sprint | 12 m/s | 12 % | 9 / 9 / 9 % | 17–18 | 7–10 stances per run never touch the ground (see below) |
+
+- **Every stance was checked** (`qaRun`: `lock.stances`, `fullyLocked`, `neverEngaged`, `midUnlocked`): no unlocked frame in
+  the middle of any stance except the walk front-left releases.
+- **Residual** (toe to anchor, mid-stance): mean ≤ 3 mm at every gait; max 4 mm except the walk release (36 mm).
+- **Walk front-left late stance is out of reach.** The authored stance sweeps the hoof back about 0.95 m. In the last third
+  of the stance the joints reach their limits, the toe is pulled up by up to 20 cm (before the fix below), and it sits
+  apart from its anchor by up to 16 cm. A reach clamp did not help (the limit is the joint, not the length). The lock now
+  fades out when a leg's residual exceeds 2 cm and fades back in over 250 ms. That removes the lift but gives the sliding
+  shown above (28–31 % in two of three runs). **This needs gait re-authoring** (shorter front sweep at walk, or more
+  shoulder reach), not more lock tuning.
+- **Sprint and some gallop stances never touch the ground** inside the authored stance: the toe reaches 1–3 cm above the
+  ground through the stance and lands only in its last frame or two, so there is nothing to hold. Their hover is the
+  same gait-authoring issue. Floating feet of this size are still present on those stances.
+- **Cost**: `footLock.apply` takes 0.05 ms per frame on the quiet Mac of 25 Oct; 0.13 ms in the contended session below.
+
+Not verified: the walk release on a phone, and any visual judgement of the lock by eye (the numbers above are the only
+evidence). The measurement session on 25 Oct ran under load average 5–8 (iCloud Drive, WindowServer, Chrome, the IDE):
+the page rendered at 1080×675 and was capped near 30 fps, so the figures in §4 are not a clean re-measure.
+
 ## 4. Performance (measured, not estimated)
 
 Method: Chromium driven by Playwright, `renderer.info`, `EXT_disjoint_timer_query_webgl2` for GPU time per frame (this includes the shadow pass). Device: Apple M2 (ANGLE Metal). Frame rate is capped at 60 fps by the display, so the GPU times are the real headroom indicator.

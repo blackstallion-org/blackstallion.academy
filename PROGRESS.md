@@ -156,3 +156,24 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   code, 84/84 tests, axe 0 violations, keyboard, reduced motion, no-WebGL, 390/1440 captures. Not done: nostril flare,
   normal micro-bump, foot-lock IK, real phone / Safari / Firefox, listening test of the hoofbeats.
   Report: `docs/MARWARI_FILM_WORLD_REPORT.md`.
+- [x] **Session 25 Oct 2026 (later) · Runtime foot-lock** (branch `feature/marwari-film-world`, commit `8d27874` and the
+  reach fix after it). Hooves anchored at ground contact and held through stance; gait landings now match stance speed
+  (`RETRACT` 1.0). Ground slip with the lock on 4–9 % of speed at trot, canter, gallop and sprint (off: 11–12 %); walk
+  is unstable (4 % in one run, 28–31 % in two) because the front-left late stance is out of reach. Sprint and some gallop
+  stances never touch the ground in their authored stance. Needs gait re-authoring; see report §3b.
+
+## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
+- Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
+- Homepage horse sequence restored before the Instrument; frame drawn for any entry point; chapters no longer overlap. Equipment only on `/equipment`.
+- Curriculum bond hero: light, full width, horse from the left edge, sleeve to the right edge, copy below; shader-driven breathing, muzzle and hand drift (`components/3d/HorseHandBond.tsx`).
+- Ledger: one photograph, four selectable ranks (tabs), the selected rank's pillars listed. Fleet: clear full-width Marwari photograph with approved copy. Citadel: solid editorial column, unwashed 3D stage, pins clipped to the stage and de-overlapped, phones stack in flow. Sovereign Council: light portrait grid with placeholder captions (`public/images/council/SOURCES.md`). Contact: editorial corridor selector (radios, URL kept in sync). Information desk: single prompt surface, no auto-question. Nav: solid surface, staff sign-in icon → `/admin/login`; login restyled ("Welcome to the academy").
+- SiteParallax now waits until React has hydrated a section before writing styles (fixed intermittent hydration warnings on /fleet and /contact).
+- Verified in the cloud sandbox: typecheck, eslint on every edited file (0 errors), `npm test` 79/79, `git diff --check`; interaction tests and 1440×900 / 390×844 screenshots of every listed route (images and videos not copied to the sandbox show as gradients).
+
+## Session 25 Oct 2026 · Three Codrops repos, used for real (uncommitted on `session/2026-10-24-fx-integration`)
+Owner's brief: stop approximating the uploaded repos; use their techniques on the site, each in a different place, and put the Predator effect on the Marwari horse. Licences and what was and was not taken: `docs/THIRD_PARTY.md`.
+- **`/legend` · The museum** (`components/sections/legend/museum/MarwariMuseum.tsx`, engine in `lib/museum/*`, scene in `components/3d/museum/*`): a scroll-driven 3D corridor hung with six Marwari-story plates (Arvista's engine idea, none of its art): sticky stage in a tall track, GSAP timeline scrubbed by Lenis, camera waypoints with lens shift, quality tiers, procedural + CC0 textures, canvas mounted only near the viewport. Chapter navigation, skip link, keyboard focus handover, "The six plates" catalogue (`PlatesCatalogue`) always in the page. Reduced motion or no WebGL: a short note plus the catalogue.
+- **`/legend` · The last exhibit** (`LastExhibit`, `components/3d/cloak/*`): the Marwari model under a TSL "cloak" that dissolves the coat to glass and back (Predator's technique, new shader). Hover, press-and-hold and pin; poster fallback.
+- **`/fleet` · Light the stallion** (`components/sections/fleet/LightTheStable.tsx`, `components/3d/relight/*`): the Codrops relighting technique (MIT) on three studbook portraits; the pointer is a lantern. Fixed a texture-upload overrun (depth texture resized without being released).
+- **Not neural:** the three depth maps are classical luminance bas-reliefs (`scripts/make-relief-depth.py`) because Hugging Face is unreachable from the sandbox; replace `public/images/relight/*-depth.webp` with Depth Anything V2 Small output for measured depth.
+- **Open:** the exhibit is verified with a stand-in model only; test with `public/models/marwari-hero.glb` on the Mac. Museum plates are placeholder illustrations and say so.
