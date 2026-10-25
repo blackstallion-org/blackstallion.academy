@@ -22,10 +22,14 @@ const CHAINS: Record<Limb, string[]> = {
   HL: ["Femur_L", "Gaskin_L", "Cannon_B_L", "Pastern_B_L", "Hoof_B_L"],
   HR: ["Femur_R", "Gaskin_R", "Cannon_B_R", "Pastern_B_R", "Hoof_B_R"],
 };
-/** Hinge limit and abduction limit (radians) of each joint, in chain order (the hoof, last, is not a joint). */
+/**
+ * Hinge limit and abduction limit (radians) of each joint, in chain order (the hoof, last, is not a joint). The abduction of the
+ * shoulder (26 degrees) and the hip (23) is what a hairpin turn needs: with the body yawing at 1.5 rad/s a planted forefoot swings
+ * 30 cm sideways across a stance. At 13 degrees (0.22) the outside forefoot ran out of reach and the lock let go.
+ */
 const LIMITS: Record<"F" | "H", { hinge: number; abd: number }[]> = {
-  F: [{ hinge: 0.2, abd: 0 }, { hinge: 0.7, abd: 0.22 }, { hinge: 0.75, abd: 0 }, { hinge: 0.5, abd: 0 }, { hinge: 0.45, abd: 0 }],
-  H: [{ hinge: 0.7, abd: 0.22 }, { hinge: 0.75, abd: 0 }, { hinge: 0.5, abd: 0 }, { hinge: 0.45, abd: 0 }],
+  F: [{ hinge: 0.2, abd: 0 }, { hinge: 0.7, abd: 0.45 }, { hinge: 0.75, abd: 0 }, { hinge: 0.5, abd: 0 }, { hinge: 0.45, abd: 0 }],
+  H: [{ hinge: 0.7, abd: 0.4 }, { hinge: 0.75, abd: 0 }, { hinge: 0.5, abd: 0 }, { hinge: 0.45, abd: 0 }],
 };
 const HOOF_LENGTH = 0.14;
 /** Seconds after touchdown over which the lock takes hold: the landing decelerates over these few frames instead of stopping in one. */
@@ -36,11 +40,19 @@ export const LOCK_RELEASE_S = 0.05;
  *  threshold (4 cm) because the lock then draws the hoof down onto the surface: a stance that starts 5-11 cm up (over a trough, or
  *  on the outside foot of a banked turn) still lands, instead of hanging there. */
 export const LOCK_TOUCH_M = 0.15;
+/** Seconds over which the seating (the toe's height) takes hold after engagement; the sideways hold takes LOCK_RAMP_S. A hoof that
+ *  starts 5-15 cm up (the outside foot of a banked turn) has to come down within a stance of 65-80 ms at the gallop. */
+const SEAT_RAMP_S = 0.015;
+/** The leg's residual is not held against it (the safety fade) until this long after its stance began: the draw-in from the air and the
+ *  push out of the surface leave a transient error that is not a failure to reach. */
+const SAFE_AFTER_S = 0.06;
 const ITERATIONS = 24;
 /** Fraction of the straight-leg reach the lock may ask for (keeps the joints off their limits). */
 const REACH_FRACTION = 0.97;
-/** Residual (m) above which a leg is treated as unable to reach its anchor, and how fast the lock fades out and back in. */
-const LOCK_BAD_M = 0.02;
+/** Residual (m) above which a leg is treated as unable to reach its anchor, and how fast the lock fades out and back in. 6 cm: a hoof
+ *  held 2-6 cm off its anchor by a leg at full stretch is better than one let go to slide with the clip; the walk's 16 cm failure
+ *  that this fade was built for is still far above it. */
+const LOCK_BAD_M = 0.06;
 const SAFE_FALL_S = 0.08;
 const SAFE_RISE_S = 0.25;
 
@@ -63,9 +75,13 @@ class LimbLock {
   safe = 1;
   /** How far the toe is from the lock target after solving (m), for QA. */
   residual = 0;
+  /** Where the toe misses its target after solving, in the body's lateral, up and forward axes (m), for QA. */
+  readonly err = new THREE.Vector3();
   /** Largest joint offset applied this frame (rad), for QA. */
   maxOffset = 0;
   applied = false;
+  /** The last solve was a hold (lock weight above zero), not just a push out of the surface. */
+  holding = false;
   private readonly hoofQ0 = new THREE.Quaternion();
   private readonly hoofWorldQ = new THREE.Quaternion();
 
@@ -193,6 +209,7 @@ class LimbLock {
     }
     this.toe(toe);
     this.residual = toe.distanceTo(target);
+    this.err.set(target.dot(lateral) - toe.dot(lateral), target.y - toe.y, target.dot(forward) - toe.dot(forward));
     for (const j of this.joints) this.maxOffset = Math.max(this.maxOffset, Math.abs(j.hinge), Math.abs(j.abd));
   }
 }
@@ -209,11 +226,11 @@ export class FootLock {
   /** Seat the hoof on the surface under it (see the header); false is the sideways-only lock of the first pass, for QA comparison. */
   seat = true;
   /** QA readout per limb. */
-  readonly debug: Record<Limb, { weight: number; residual: number; maxOffset: number }>;
+  readonly debug: Record<Limb, { weight: number; residual: number; maxOffset: number; clamp: number }>;
 
   constructor(private readonly horse: Marwari, private readonly loco: Locomotor) {
     this.legs = Object.fromEntries(LIMBS.map((l) => [l, new LimbLock(horse, l)])) as Record<Limb, LimbLock>;
-    this.debug = Object.fromEntries(LIMBS.map((l) => [l, { weight: 0, residual: 0, maxOffset: 0 }])) as FootLock["debug"];
+    this.debug = Object.fromEntries(LIMBS.map((l) => [l, { weight: 0, residual: 0, maxOffset: 0, clamp: 0 }])) as FootLock["debug"];
   }
 
   undo() {
@@ -237,6 +254,7 @@ export class FootLock {
       this.tmp.set(0, HOOF_LENGTH, 0).applyMatrix4(hoof.matrixWorld);
       const gate = smoothstep(0.6, 0.85, loco.gaitPurity);
       let w = 0;
+      let wy = -1; // seating weight; -1 = same as w (the release)
       if (u !== null) {
         // stance: the toe where it first reaches the ground is the point the lock holds (the phase can start while the hoof
         // is still in the air), blended in over LOCK_RAMP_S
@@ -251,7 +269,10 @@ export class FootLock {
           leg.tStance += dt;
           leg.releaseT = 0;
         }
-        if (leg.engaged) w = smoothstep(0, LOCK_RAMP_S, leg.tStance) * gate;
+        if (leg.engaged) {
+          w = smoothstep(0, LOCK_RAMP_S, leg.tStance) * gate;
+          wy = smoothstep(0, SEAT_RAMP_S, leg.tStance) * gate;
+        }
       } else if (leg.engaged) {
         // swing: hold the anchored toe while it leaves the ground, then let go over LOCK_RELEASE_S
         leg.releaseT += dt;
@@ -265,19 +286,22 @@ export class FootLock {
       }
       // a leg that cannot reach its anchor (the joints are at their limits) lets the lock go gradually rather than
       // pulling the toe up off the ground; it takes hold again once the anchor is reachable
-      leg.safe = leg.residual > LOCK_BAD_M ? Math.max(0, leg.safe - dt / SAFE_FALL_S) : Math.min(1, leg.safe + dt / SAFE_RISE_S);
+      // a push out of the surface alone (no hold) and the first SAFE_AFTER_S of a stance are not judged
+      const judged = leg.holding && (u === null || leg.tStance >= SAFE_AFTER_S);
+      leg.safe = judged && leg.residual > LOCK_BAD_M ? Math.max(0, leg.safe - dt / SAFE_FALL_S) : Math.min(1, leg.safe + dt / SAFE_RISE_S);
       w *= leg.safe;
+      wy = wy < 0 ? w : wy * leg.safe;
       leg.weight = w;
       d.weight = w;
       // height: while held, the toe goes to the surface under the anchor (sole on it); whenever it moves, never below the surface
       let ty = this.tmp.y;
-      if (this.seat && w > 0.001) {
+      if (this.seat && wy > 0.001) {
         const surfAnchor = loco.groundAt(leg.anchor.x, leg.anchor.z) + SOLE_TO_TOE_M;
-        ty += (surfAnchor - ty) * w;
+        ty += (surfAnchor - ty) * wy;
       }
       if (this.seat && moving) ty = Math.max(ty, loco.groundAt(this.tmp.x, this.tmp.z) + SOLE_TO_TOE_M);
       const dy = ty - this.tmp.y;
-      if (w <= 0.001 && Math.abs(dy) < 0.001) {
+      if (w <= 0.001 && wy <= 0.001 && Math.abs(dy) < 0.001) {
         leg.residual = 0;
         d.residual = 0;
         d.maxOffset = 0;
@@ -294,8 +318,10 @@ export class FootLock {
       this.reachVec.subVectors(this.target, this.pivot);
       const dist = this.reachVec.length();
       const maxDist = leg.reach * REACH_FRACTION;
+      d.clamp = Math.max(0, dist - maxDist);
       if (dist > maxDist) this.target.copy(this.pivot).addScaledVector(this.reachVec, maxDist / dist);
       leg.solve(this.lateral, this.forward, this.target);
+      leg.holding = w > 0.001;
       d.residual = leg.residual;
       d.maxOffset = leg.maxOffset;
     }

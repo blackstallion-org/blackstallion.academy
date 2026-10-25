@@ -197,8 +197,8 @@ figures on the desert are 14 / 10.5 / 11.9 / 11.2 / 12 %):
 
 **Open after this pass**
 
-- Banked turns still leave some hover (campus sprint 21 % of mid-stance frames over 2 cm, 11 % over 4 cm) and the lock lets go
-  in about a third of mid-stance frames there.
+- Banked turns left hover and let-go (campus sprint 21 % of mid-stance frames over 2 cm, 11 % over 4 cm; the lock let go in about
+  a third of mid-stance frames); fixed in §3f, apart from what is listed there.
 - A hoof can still sink up to about 0.4–0.8 cm at a steady gait and up to 2 cm in gait changes (the sensor treats the toe point,
   not the sole, as the contact point for the body-lift correction).
 - The authored clips are unchanged: in Blender the sprint hind still hovers over 2 cm in 28 % of mid-stance frames on flat
@@ -294,6 +294,93 @@ The seated lock brings each hoof down as soon as its stance starts (within 15 cm
 the sideways-only lock. The trot, which loses about a third of its flight against the clip, is the visible case. I tried releasing the seating
 over the last 12 % of each stance (so the toe leaves when the clip lifts it): the flight phase did not change, and the campus turn got worse
 (13 of 124 gallop stances missing the ground, against 0), so it was reverted.
+
+### 3f. Banked turns (sixth pass, 26 Oct)
+
+**The campus film does turn hard at trot and canter.** I had assumed the campus chapter (3.4 m/s, then 5.2 m/s) was too slow to bank.
+Its path has corners the horse takes at the yaw limit: at 3.4 m/s the yaw rate is 1.47 rad/s (a radius of 2.3 m) with the body
+rolled 16°, for 43 % of the time; at 5.2 m/s the whole loop is 1.0 rad/s at 16.7°. Everything below is measured on that path
+(`goTo(3)`, 90 s per speed, 120 Hz, "corner" = yaw rate above 0.8 rad/s), and on forced constant-yaw circles on the desert.
+
+**What was wrong, in order of size** (traced per limb with `footLock.debug` and a new `err` readout of the toe's miss in the
+body's lateral, up and forward axes):
+
+1. **The safety fade judged the draw-in.** The lock fades itself out when a leg's toe is more than 2 cm from its target. The first
+   30 ms of a stance (the hoof coming down from 5–15 cm) and a push out of the surface always exceed that, so the weight was cut
+   before the stance had begun: 24–53 % of mid-stance frames were unlocked in the turns measured.
+2. **The outside forefoot ran out of sideways reach.** In a hairpin the body yaws 24° across one trot stance, so a planted forefoot
+   moves about 30 cm sideways relative to the shoulder (an estimate from the yaw and the 0.8 m of reach ahead of the body's centre). The shoulder and hip abduction limit was 13° (0.22 rad), and the error in
+   late stance was 4–7 cm sideways.
+3. **The roll lifts the outside feet and sinks the inside ones** (about 4 cm each at 16°), and the outside legs, already near full
+   stretch, could not reach down.
+
+**Changes** (`footlock.ts`, `locomotion.ts`; no asset changes):
+
+- The residual is not held against a leg during a push-up alone or for the first 60 ms of a stance (`SAFE_AFTER_S`); the seating takes
+  hold over 15 ms (`SEAT_RAMP_S`) while the sideways hold keeps 30 ms.
+- The give-up residual is 6 cm (was 2 cm): a hoof held 2–6 cm off its anchor by a straight leg beats one let go to slide.
+- Shoulder abduction limit 0.22 → 0.45 rad (26°), hip 0.22 → 0.40 (23°).
+- The body drops 0.15 m per unit of sin(bank) in a turn (4 cm at 16°; `Locomotor.bankDrop`), so the outside legs have less to reach.
+
+**Result on the campus path** (committed code → now):
+
+| Run | Slip | Mid-stance frames unlocked | Sole over 2 cm / over 4 cm up | Stances that miss the ground |
+| --- | --- | --- | --- | --- |
+| Trot 3.4 m/s, corners (4323 frames) | 5.6 → 4.4 % | 48.8 → 0.0 % | 24.8 / 9.4 → 23.3 / 0.0 % | 0 of 196 → **45 of 196** |
+| Trot, straights (5757 frames) | 3.0 → 3.1 % | 0 → 0 % | 0 → 0 % | 0 → 0 |
+| Canter 5.2 m/s, all corners (10080 frames) | 5.2 → 4.4 % | 52.6 → 0.0 % | 24.9 / 7.6 → 7.1 / 0.0 % | 0 of 603 → 0 of 604 |
+
+The trot corner trades the lock letting go for a hoof that stays 2–3 cm up: the outside forefoot is held where it landed but the leg
+cannot stretch to the ground (a leg abducted 25° is 10 % shorter vertically). 23 % of trot-corner stances never come within the
+sensor's 4 cm contact height; none is more than 4 cm up, and none slides.
+
+**Forced hairpins on the desert** (constant yaw limit, 18 s; the walk and trot at 1.5 rad/s, the canter at 1.08):
+
+| Gait | Slip, abduction 13° / 26° | Unlocked, 13° / 26° | Mid-stance sole over 2 cm, 26° |
+| --- | --- | --- | --- |
+| Walk | 62 % / 1.9–9.5 % | 25–27 / 2–3 % | 25–30 % |
+| Trot | 17–19 % / 3.5–4.3 % | 5–7 / 0 % | 21–22 % |
+| Canter | 4.6–5.3 % / 4.5–4.6 % | 0 / 0 % | 6–10 % |
+
+(The walk at 1.5 rad/s is a pirouette, not a walk anyone films; it is there because the same joints do the work.)
+
+**Gallop and sprint in constant-yaw turns** (desert, 20 s each way; the film never turns these gaits, so this is a robustness
+check). Committed code → now, `dt` = 1/120:
+
+| Turn | Gait | Sole over 2 / 4 cm | Unlocked | Stances held (all frames) | Slip |
+| --- | --- | --- | --- | --- | --- |
+| Left, roll 14–19° | Gallop | 16.3 / 6.2 → 3.6 / 0.1 % | 39 → 0 % | 81 of 136 → 124 of 124 | 3.9 → 4.7 % |
+| Left | Sprint | 21.6 / 10.4 → 6.0 / 0.7 % | 29 → 0 % | 116 of 148 → 137 of 137 | 4.5 → 5.4 % |
+| Right, roll 16–18° | Gallop | 31.4 / 9.3 → 1.2 / 0.0 % (16 stances missed → 0) | 28 → 0 % | 105 of 137 → 124 of 124 | 7.1 → 7.6 % |
+| Right | Sprint | 36.1 / 14.3 → 2.9 / 0.3 % | 31 → 0 % | 112 of 149 → 136 of 136 | 8.8 → 9.8 % |
+
+At the real 60 fps step (`dt` 1/60) the lock holds every stance in the same runs (unlocked 0 %); hover is higher (left sprint 11.5 / 1.4 %,
+right sprint 4.9 / 0.3 %) and slip is 5.1–11.0 %. Straight runs, desert ladder, three repeats: every stance held, slip walk 0.4–0.5,
+trot 2.5–2.8, canter 2.7–2.8, gallop 4.5–4.8, sprint 6.3–6.5 % (as in §3e). `footLock.apply` costs 0.075 ms per frame at the sprint
+(0.042 before; the machine was under load average 15–20). One frame in a hairpin trot corner: `docs/qa/film/gait_trot_corner_r8.png`.
+
+**Tried and not kept**
+
+- A larger body drop (0.22, 0.30): the outside forefoot reaches, the inside one (which must flex further) fails; with the abduction
+  limit at 13° no drop between 0.05 and 0.30 worked at the trot.
+- Lowering the lean (gain 0.6 → 0.45 or 0.3): less hover, but it halves the visible lean; kept at 0.6.
+- Weighting the solve toward the proximal joints (the pastern sits at its 26° limit through a banked stance): the inside hind
+  went from 37 % unlocked to 100 %.
+- Faster sideways hold (12–20 ms instead of 30): slip falls (straight sprint 6.4 → 2.2–4.1 %; right-turn sprint 9.6 → 5.4–8.3 %), but
+  the largest single-frame toe step while held rises from 33–41 mm to 54–61 mm, which at 60 fps is a visible snap. Not adopted; it is
+  the lever to pull if the right-turn slip below matters.
+
+**Still open**
+
+- **Right turns slip more than left** (gallop 7.6 vs 4.7 %, sprint 9.8 vs 5.4 %), almost all in the first 40 % of the stance of the
+  right hind (26 % early slip against 9 % for the left). The rig's rest pose is asymmetric: the right hind fetlock rests 16 cm ahead
+  of the left and 13 cm closer to the midline (cannon tails at y 0.397 / 0.561, x −0.084 / +0.215), and the generator centres each
+  stance on that leg's own rest position with one reach bias computed on the left side. Centring both sides on a common line (and a
+  per-side bias) is the likely fix; it changes every gait's hind placement, so it needs a regeneration and a look.
+- Trot corners: 23 % of stances 2–3 cm up (see above). Walk and trot hairpins leave the outside forefoot 2 cm up for 20–30 % of the
+  stance.
+- Hover and slip were measured on the desert and the campus path; the village has no turns at speed.
+- Not done: phone, production build, an eye on the new leg splay beyond one frame.
 
 ## 4. Performance (measured, not estimated)
 

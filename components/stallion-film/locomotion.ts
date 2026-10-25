@@ -28,6 +28,7 @@ const ROOT_RATE = 14; // 1/s, how fast the root height follows the terrain
 const HOOF_LENGTH = 0.14; // rest bone length of the hoof bones (rig audit)
 /** The toe point the sensor measures (hoof bone tail) sits this far above the sole: a hoof resting on the surface reads this height. */
 export const SOLE_TO_TOE_M = 0.019;
+const BANK_DROP_M = 0.15;
 
 export type GroundSampler = {
   height(x: number, z: number): number;
@@ -175,6 +176,8 @@ export class Locomotor {
     this.smoothPitch = 0;
     this.smoothRoll = 0;
     this.yawRate = 0;
+    this.bankSmoothed = 0;
+    this.bankDropNow = 0;
     this.steerTo = null;
     this.applyRoot();
     for (const l of LIMBS) this.hooves[l].contact = false;
@@ -350,8 +353,9 @@ export class Locomotor {
     this.smoothY = damp(this.smoothY, target, ROOT_RATE, dt);
     this.smoothPitch = damp(this.smoothPitch, pitchT, 10, dt);
     this.smoothRoll = damp(this.smoothRoll, rollT, 10, dt);
-    const bankT = Math.atan((this.speed * this.yawRate) / 9.81) * 0.6;
+    const bankT = Math.atan((this.speed * this.yawRate) / 9.81) * this.bankGain;
     this.bankSmoothed = damp(this.bankSmoothed, bankT, 5, dt);
+    this.bankDropNow = this.bankDrop * Math.abs(Math.sin(this.bankSmoothed));
     this.groundY = this.smoothY;
     this.pitch = this.smoothPitch;
     this.roll = this.smoothRoll - this.bankSmoothed;
@@ -359,8 +363,19 @@ export class Locomotor {
     this.applyRoot();
   }
 
+  /**
+   * The body sits lower in a banked turn. The roll lifts the outside feet (they are about 0.2 m from the roll axis) and sinks the
+   * inside ones, so the outside legs, already near full stretch, have to reach 4-6 cm farther: the root drops by BANK_DROP_M per
+   * unit of sin(bank), 4 cm at the 17 degrees of a sprint turn. Measured: 0.15 left the least hover; 0.30 sank the feet.
+   */
+  bankDrop = BANK_DROP_M;
+  /** Share of the lateral-acceleration lean (atan(v * yaw rate / g)) the body takes. */
+  bankGain = 0.6;
+  private bankDropNow = 0;
+
   private applyRoot() {
     this.root.position.copy(this.position);
+    this.root.position.y -= this.bankDropNow;
     this.root.rotation.set(this.pitch, this.heading, this.roll, "YXZ");
     this.root.updateMatrixWorld(true);
   }
@@ -467,6 +482,7 @@ export class Locomotor {
     this.pitch = 0;
     this.roll = 0;
     this.groundY = 0;
+    this.bankDropNow = 0;
     this.root.position.set(0, 0, 0);
     this.root.rotation.set(0, 0, 0);
     this.root.updateMatrixWorld(true);

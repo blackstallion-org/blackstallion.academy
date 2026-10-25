@@ -195,6 +195,15 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   miss. Found: the seated lock shortens the sensed flight phase (trot 15 % in the clip, 10-11 % with the lock; canter 16 -> 14-16,
   sprint 37-39 -> 32-34); releasing the seating with the stance did not help and made the campus turn worse, so it was reverted.
   Gallop and sprint swings still peak at 25 and 29 m/s with toes 90 cm up (not touched). No phone or build re-run. See report §3e.
+- [x] **Session 26 Oct 2026 · Banked turns** (`footlock.ts`, `locomotion.ts`; no new assets). The campus film does corner hard at
+  trot and canter (yaw 1.47 rad/s at 3.4 m/s, roll 16°; 1.0 rad/s at 5.2 m/s), so this is on screen. Causes: the safety fade judged the
+  first 30 ms of every stance (hoof still coming down), the shoulder/hip abduction limit (13°) ran out in hairpins, and the roll lifts
+  the outside feet 4 cm. Fixes: residual not judged for the first 60 ms or on a push-up alone, give-up residual 2 -> 6 cm, abduction
+  26° shoulder / 23° hip, body drops 0.15 m x sin(bank), seating ramp 15 ms. Campus path, committed -> now: canter corners unlocked
+  52.6 -> 0 %, sole over 4 cm 7.6 -> 0 %, slip 5.2 -> 4.4 %; trot corners unlocked 48.8 -> 0 %, over 4 cm 9.4 -> 0 %, slip 5.6 -> 4.4 %, but
+  23 % of trot-corner stances stay 2-3 cm up (45 of 196 never within 4 cm). Gallop and sprint in forced turns: unlocked 27-39 -> 0 %,
+  right-turn gallop misses 16 -> 0. Straight runs unchanged. Open: right turns slip more than left (7.6 vs 4.7 % gallop; the rig's right
+  hind rests 16 cm ahead of the left), trot-corner float, no phone or build re-run, one frame looked at. See report §3f.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
