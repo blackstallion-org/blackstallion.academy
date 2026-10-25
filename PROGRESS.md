@@ -161,6 +161,16 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   (`RETRACT` 1.0). Ground slip with the lock on 4–9 % of speed at trot, canter, gallop and sprint (off: 11–12 %); walk
   is unstable (4 % in one run, 28–31 % in two) because the front-left late stance is out of reach. Sprint and some gallop
   stances never touch the ground in their authored stance. Needs gait re-authoring; see report §3b.
+- [x] **Session 25 Oct 2026 (latest) · Gait re-authoring** (`tools/blender/03_animation/stage11_gaits.py`). The reach
+  offset per gait is now searched (`auto_bias`) instead of hand-set, and the walk is a shorter, quicker stride (1.152 m at
+  1.25 Hz, was 1.44 m at 1.04 Hz; same 1.44 m/s) because the rig cannot reach the old one. Hero, mobile and anatomy GLBs,
+  `marwari-gaits.json` and the hero source .blend re-exported. Browser, lock on / off, ground slip: walk 3–4 % (one run in
+  three at 18 %) / 14 %, trot 3–4 / 10–11, canter 5–6 / 12, gallop 7–8 / 11, sprint 9 / 12. Walk front-left no longer
+  released (all stances held). Mid-stance hover over 2 cm: sprint front 20 → 11 % of frames, sprint hind 37 → 28 %, gallop
+  front 21 → 10 %. Still open: 3–5 sprint and 0–4 gallop stances per run never touch the ground; trot to sprint strides
+  still beyond the rig's reach; the new walk should be looked at by eye; no phone or clean performance re-measure. A
+  sole pre-compensation variant (`GAIT_PRECOMP=1`) was tried and rejected. Lint, typecheck and 84/84 tests pass;
+  two lint warnings fixed in `scenery/campus.ts`. See report §3b.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

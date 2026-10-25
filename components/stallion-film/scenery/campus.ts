@@ -36,13 +36,14 @@ function fenceGeo(): Geo {
     const n = Math.max(1, Math.round(len / 3));
     for (let i = 0; i <= n; i++) {
       const t = a + (len * i) / n;
-      axis === "x" ? post(t, fixed) : post(fixed, t);
+      if (axis === "x") post(t, fixed);
+      else post(fixed, t);
     }
     for (const y of [0.32, 0.72, 1.12]) {
-      axis === "x" ? P.push(boxG(len, 0.1, 0.06, a + len / 2, y, fixed, TIMBER)) : P.push(boxG(0.06, 0.1, len, fixed, y, a + len / 2, TIMBER));
+      P.push(axis === "x" ? boxG(len, 0.1, 0.06, a + len / 2, y, fixed, TIMBER) : boxG(0.06, 0.1, len, fixed, y, a + len / 2, TIMBER));
     }
     // a kick board along the foot keeps sand in
-    axis === "x" ? P.push(boxG(len, 0.2, 0.04, a + len / 2, 0, fixed, "#35271a")) : P.push(boxG(0.04, 0.2, len, fixed, 0, a + len / 2, "#35271a"));
+    P.push(axis === "x" ? boxG(len, 0.2, 0.04, a + len / 2, 0, fixed, "#35271a") : boxG(0.04, 0.2, len, fixed, 0, a + len / 2, "#35271a"));
   };
   along(AX0, -gap, AZ0, "x");
   along(gap, AX1, AZ0, "x");

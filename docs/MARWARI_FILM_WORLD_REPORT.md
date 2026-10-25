@@ -41,61 +41,97 @@ Authored in Blender (`tools/blender/03_animation/stage11_gaits.py`: planar IK on
 
 | Gait | Speed | Stride | Frequency | Authored suspension | Measured suspension (hooves > 4 cm) | Foot-slip RMS inside authored stance | Max hoof sink before correction | Footfall order measured |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Walk | 1.44 m/s | 1.44 m | 1.04 Hz | 0 | 0 | 0.20 m/s (14 % of speed) | 1.1 cm | HL FL HR FR |
+| Walk | 1.44 m/s | 1.15 m | 1.25 Hz | 0 | 0 | 0.20 m/s (14 % of speed) | 1.1 cm | HL FL HR FR |
 | Trot | 3.33 m/s | 2.50 m | 1.34 Hz | 24 % | 18 % | 0.37 m/s (11 %) | 1.5 cm | diagonal pairs |
 | Canter | 4.83 m/s | 2.90 m | 1.66 Hz | 22 % | 18 % | 0.61 m/s (13 %) | 1.5 cm | HL, FL+HR, FR |
 | Gallop | 10.0 m/s | 4.20 m | 2.38 Hz | 35 % | 30 % | 1.37 m/s (14 %) | 1.8 cm | HL HR FL FR |
 | Sprint | 12.0 m/s | 4.56 m | 2.63 Hz | 39 % | 41 % | 1.89 m/s (16 %) | 3.3 cm | HL HR FL FR |
 
 - `v = L × f` holds by construction (frequency follows from speed and stride); measured touchdown intervals agree within 4 %.
+- The slip column is the first-pass figure with no foot-lock (all stance frames, including hooves still in the air). The ground-only figures with and without the lock are in §3b. The suspension, sink and footfall columns were measured on the first-pass clips and **were not repeated** after the gait re-authoring of 25 Oct (§3b); the walk row's stride and frequency are the new ones.
 - Stride lengths are shorter and frequencies higher than free-running horses: the rig's reach caps the stride (reach probe, IK error 7–12 cm at stance extremes), so strides are fitted to the rig.
-- **Foot slip is not zero.** About 14 % of ground speed (RMS) inside the stance window; at gallop that is on the order of 10 cm of skid per stance, mostly the hind limbs, from the IK reach error. It is hidden by dust at speed and visible only in slow frame-by-frame inspection. A runtime foot-lock would remove it and is not built.
+- **Foot slip is not zero.** In the first pass it was about 14 % of ground speed (RMS) inside the stance window, mostly the hind limbs, from the IK reach error. A runtime foot-lock (§3b) brought the on-ground figure to 3–9 % in the browser; it is not removed.
 - Hoof penetration: the root follows terrain with a look-ahead and a contact correction; the correction averages under 1.1 mm per frame, and the lowest toe while in contact is −3 mm. Before this fix the sink was 7–14 cm at gallop and sprint.
 - Gait changes were run through the full ladder (stand, walk, trot, canter, gallop, sprint, and back down to a stop): every step settled on the expected gait within 0.06 m/s of its target, and no hoof sank more than 2.7 cm before correction.
 - The suspension numbers differ from the authored ones because the sensor uses a 4 cm toe threshold; they agree within 6 percentage points.
 
-### 3b. Runtime foot-lock (second pass, 25 Oct)
+### 3b. Runtime foot-lock and gait re-authoring (second pass, 25 Oct)
 
 `components/stallion-film/footlock.ts` anchors each hoof where its toe first reaches the ground, then solves the leg back
 to that point (damped iterative solve, hinge joints about the body's lateral axis, limited abduction at the top joint,
-hoof kept flat). It is removed before the mixer runs, like the other additive layers.
+hoof kept flat). It is removed before the mixer runs, like the other additive layers. Three changes to the gait data
+(`stage11_gaits.py`) came with it; hero, mobile and anatomy GLBs and `marwari-gaits.json` were re-exported after each.
 
-Two changes to the gait data were needed first:
-
-- **Landing kinematics** (`stage11_gaits.py`, `RETRACT` 0.3 → 1.0): the swing now ends moving backward at the stance speed,
-  so a hoof lands with no ground speed. Touchdown toe speed before the lock acts: walk 1.74 → 0.26 m/s, gallop 1.55 → 0.83
-  m/s, sprint 2.16 → 1.48 m/s. Hero, mobile and anatomy GLBs and `marwari-gaits.json` re-exported.
+- **Landing kinematics** (`RETRACT` 0.3 → 1.0): the swing now ends moving backward at the stance speed, so a hoof lands
+  with no ground speed. Touchdown toe speed before the lock acts: walk 1.74 → 0.26 m/s, gallop 1.55 → 0.83 m/s, sprint
+  2.16 → 1.48 m/s.
+- **Per-gait reach bias** (`auto_bias`): the old table of hand-set offsets for where the stance sits in the leg's reach is
+  replaced by a search (−0.4 … +0.4 m, five stance samples) that picks the offset with the smallest worst-case two-bone
+  reach error. Chosen offsets (front / hind, m): walk 0.02 / 0.14, trot −0.04 / 0.28, canter, gallop and sprint 0.00 / 0.28.
+- **Shorter walk**: the rig cannot reach the old walk (stride 1.44 m, stance sweep 0.95 m; front-limb error 16 cm at the
+  stance end). The walk is now stride 1.152 m at 1.25 Hz (was 1.44 m at 1.04 Hz), duty 0.55, sweep 0.63 m. Ground speed is
+  unchanged (1.44 m/s). **It reads as a quicker, shorter-strided walk**, and a duty of 0.55 is at the low end of a real horse
+  walk (0.60–0.70). That is a visible change; look at it before keeping it.
 - **Ground contact**: the lock anchors only once the toe is below 4 cm (the sensor's own contact threshold), because the
-  stance phase can begin while the hoof is still in the air.
+  stance phase can begin while the hoof is still in the air. It ramps in over 30 ms and holds through the stance.
 
-Measured in the browser on the desert scene, five settled speeds, three repeats, lock on vs off. Slip is now counted only
-while a hoof is on the ground:
+Authored stance sweeps still exceed the rig's low-error reach (about ±0.2 m front, −0.1 … +0.15 m hind) at every gait above
+the walk. Worst reach error at the stance ends in the generator (cm, front / hind): walk 4.9 / 5.1, trot 5.8 / 8.0, canter
+6.5 / 6.4–8.6, gallop 9.8–10.2 / 6.5–8.3, sprint 8.2–8.5 / 8.6–9.4. The lock hides most of this on the ground; it cannot
+create reach the leg does not have.
 
-| Gait | Speed | Ground slip, lock off | Ground slip, lock on | Stances fully held | Notes |
-| --- | --- | --- | --- | --- | --- |
-| Walk | 1.44 m/s | 13 / 14 / 14 % | 4 / **31** / **28** % | 14 / 15 / 14 | front-left, late stance: 12 frames per run released (see below) |
-| Trot | 3.33 m/s | 11 / 11 / 11 % | 4 / 4 / 4 % | 28 / 28 / 28 | 0 never engaged |
-| Canter | 4.83 m/s | 12 / 12 / 12 % | 5 / 6 / 6 % | 33 / 33 / 33 | 0 never engaged |
-| Gallop | 10 m/s | 11–12 % | 8 / 8 / 8 % | 46–53 | 1 stance per run never touches the ground |
-| Sprint | 12 m/s | 12 % | 9 / 9 / 9 % | 17–18 | 7–10 stances per run never touch the ground (see below) |
+Measured in the browser on the desert scene, five settled speeds, three repeats, lock off vs on. Slip is counted only while a
+hoof is on the ground (toe below 4 cm) inside the middle of its authored stance (u 0.12–0.88):
 
-- **Every stance was checked** (`qaRun`: `lock.stances`, `fullyLocked`, `neverEngaged`, `midUnlocked`): no unlocked frame in
-  the middle of any stance except the walk front-left releases.
-- **Residual** (toe to anchor, mid-stance): mean ≤ 3 mm at every gait; max 4 mm except the walk release (36 mm).
-- **Walk front-left late stance is out of reach.** The authored stance sweeps the hoof back about 0.95 m. In the last third
-  of the stance the joints reach their limits, the toe is pulled up by up to 20 cm (before the fix below), and it sits
-  apart from its anchor by up to 16 cm. A reach clamp did not help (the limit is the joint, not the length). The lock now
-  fades out when a leg's residual exceeds 2 cm and fades back in over 250 ms. That removes the lift but gives the sliding
-  shown above (28–31 % in two of three runs). **This needs gait re-authoring** (shorter front sweep at walk, or more
-  shoulder reach), not more lock tuning.
-- **Sprint and some gallop stances never touch the ground** inside the authored stance: the toe reaches 1–3 cm above the
-  ground through the stance and lands only in its last frame or two, so there is nothing to hold. Their hover is the
-  same gait-authoring issue. Floating feet of this size are still present on those stances.
-- **Cost**: `footLock.apply` takes 0.05 ms per frame on the quiet Mac of 25 Oct; 0.13 ms in the contended session below.
+| Gait | Speed | Ground slip, lock off | Ground slip, lock on | Stances never touching the ground (per run) |
+| --- | --- | --- | --- | --- |
+| Walk | 1.44 m/s | 14 / 15 / 14 % | 4 / 3 / **18** % | 0 (all 18 stances held in each run) |
+| Trot | 3.33 m/s | 11 / 11 / 10 % | 4 / 3 / 3 % | 0 / 0 / 1 |
+| Canter | 4.83 m/s | 12 / 12 / 12 % | 5 / 5 / 6 % | 0 |
+| Gallop | 10 m/s | 11 / 11 / 11 % | 7 / 8 / 8 % | 4 / 0 / 1 |
+| Sprint | 12 m/s | 12 / 12 / 12 % | 9 / 9 / 9 % | 4 / 5 / 3 (of 25–34 stances) |
 
-Not verified: the walk release on a phone, and any visual judgement of the lock by eye (the numbers above are the only
-evidence). The measurement session on 25 Oct ran under load average 5–8 (iCloud Drive, WindowServer, Chrome, the IDE):
-the page rendered at 1080×675 and was capped near 30 fps, so the figures in §4 are not a clean re-measure.
+- Compared with the first foot-lock result (same day, before the re-authoring) the walk no longer releases the front-left
+  hoof in late stance (it was 31 / 28 % in two of three runs); the walk residual (toe to anchor, mid-stance) is at most 3 mm.
+- **One walk run in ten is bad.** About one lock-on run in ten (one of three here, and one in an earlier variant) comes out at
+  14–18 % instead of 3–4 %. It coincides with a high touchdown speed (about 1.9–2.0 m/s); the cause was not isolated. Eight
+  alternating on/off harness runs afterwards all gave 3–4 % with the lock on.
+- **Hover** (sole height above the ground mid-stance, u 0.2–0.8, from the Blender rig, first-pass clips → final clips; mean /
+  95th percentile / frames over 2 cm / over 4 cm):
+
+| Limb | First-pass clips | Final clips |
+| --- | --- | --- |
+| Sprint front | 1.4 / 5.0 cm / 20 % / 8 % | 0.8 / 2.6 cm / 11 % / 2 % |
+| Sprint hind | 1.0 / 3.6 cm / 37 % / 2 % | 0.9 / 3.4 cm / 28 % / 1 % |
+| Gallop front | 1.2 / 4.2 cm / 21 % / 5 % | 0.8 / 2.6 cm / 10 % / 0 % |
+| Gallop hind | 0.4 / 2.6 cm / 11 % | 0.4 / 1.8 cm / 2 % |
+| Canter front | 1.1 / 2.9 cm / 14 % / 1 % | 0.8 / 2.5 cm / 7 % / 2 % |
+| Canter hind | 0.7 / 2.0 cm / 5 % | 0.3 / 1.7 cm / 1 % |
+| Trot front | 0.7 / 2.8 cm / 8 % | 0.7 / 1.9 cm / 4 % |
+| Walk front | 1.0 / 2.3 cm / 9 % | 0.8 / 2.0 cm / 5 % |
+| Walk hind | 0.7 / 1.7 cm / 2 % | 1.0 / 2.1 cm / 7 % |
+
+  The hoof's toe point sits 1.9 cm above the sole, so a grounded toe reads about 2 cm; the figures above already subtract that.
+  The walk hind got slightly worse (2 % → 7 % of frames over 2 cm) when the stride was shortened.
+- **A third variant was tried and rejected**: pre-compensating the authored sole height at the stance ends (`GAIT_PRECOMP=1`
+  in the generator, off by default). It raised ground slip by 1–3 points and did not reduce the sprint hind hover, so the
+  default stays off.
+- **Cost**: `footLock.apply` takes 0.05 ms per frame on the quiet Mac of 25 Oct; 0.13 ms in a contended session.
+
+**Still wrong, in order of how visible it is:**
+
+1. **Sprint and gallop stances that never touch the ground**: 3–5 of about 30 sprint stances per run, 0–4 at gallop. The toe
+   stays 1–3 cm above the ground through the stance and lands only in its last frame or two, so there is nothing to hold.
+2. **Sprint hind hover**: 28 % of mid-stance frames are more than 2 cm above the ground (1 % over 4 cm).
+3. **Trot to sprint stride lengths are still beyond the rig's reach** (errors above); they were not shortened the way the
+   walk was, because that would change the look of the faster gaits more than the walk. A rig change (longer reach at the
+   shoulder and hip) is the proper fix.
+4. **The walk is shorter and quicker than before** and its hind hover is a little higher.
+
+Not verified: any gait on a phone, the lock by eye (the numbers above are the only evidence), and a clean performance
+re-measure. The measurement session ran under load average 5–8 (iCloud Drive, WindowServer, Chrome, the IDE): the page
+rendered at 1080×675 and was capped near 30 fps, so the figures in §4 predate the foot-lock and are not a clean re-measure.
+Captures of the final walk and sprint: `docs/qa/film/gait_walk_r4.png`, `docs/qa/film/gait_sprint_r4.png`.
 
 ## 4. Performance (measured, not estimated)
 
@@ -141,7 +177,7 @@ Method: Chromium driven by Playwright, `renderer.info`, `EXT_disjoint_timer_quer
 
 - Places are stylised and low-poly up close (tree crowns, plaster); fine at the film's camera distances, not photographic.
 - The camera avoids walls with a clamp, not path planning; a shot can look tight in the village gate at the 160 m repeat.
-- Slip at gallop about 14 % (see §3); no foot-lock.
+- Ground slip 3–9 % with the foot-lock on (was 11–14 % without it), and 0–5 stances per run at gallop and sprint never touch the ground (§3b). The walk is a shorter, quicker stride than first built.
 - The state machine is continuous (speed bands and layers), not a table of named states: "Deceleration" and "Recovery" are what the speed controller and the effort model produce, not separate clips.
 - Nostril flare and micro-bump are not built.
 - Sound is a synthesized placeholder, quiet by design; replace with recorded hoofbeats if the owner wants realism.
@@ -153,10 +189,10 @@ Method: Chromium driven by Playwright, `renderer.info`, `EXT_disjoint_timer_quer
 Blender -b --factory-startup -P tools/blender/03_animation/stage11_gaits.py -- in.blend out.blend gaits.json
 Blender -b --factory-startup -P tools/blender/04_export/stage10_export.py   -- out.blend marwari-hero.glb 2048 1024
 ```
-Hero `s9` input: `tools/blender/source/marwari_hero_source.blend` (now includes the gait clips). Copy `gaits.json` to `public/models/marwari-gaits.json`. In the browser: `/?stallion=preview&filmdebug=1`, then in the console `__stallionFilm.goTo(1|2|3)` and `__stallionFilm.qaRun([[speed, seconds], ...])`.
+Hero `s9` input: `tools/blender/source/marwari_hero_source.blend` (now includes the gait clips). The generator prints `AUTOBIAS` lines (chosen reach offsets); `GAIT_PRECOMP=1` in the environment turns on the rejected sole pre-compensation. The matching anatomy source (`marwari_anatomy_source.blend`) is excluded from git on this machine (`.git/info/exclude`) and was updated on disk only. Copy `gaits.json` to `public/models/marwari-gaits.json`. In the browser: `/?stallion=preview&filmdebug=1`, then in the console `__stallionFilm.goTo(1|2|3)` and `__stallionFilm.qaRun([[speed, seconds], ...])`.
 
 ## 8. Files
 
-New: `components/stallion-film/{engine,locomotion,life,shots,terrain,sky,effects,environment,textures,noise,hoofsound}.ts`, `components/stallion-film/scenery/{desert,village,campus,geo}.ts`, `public/models/marwari-gaits.json`, `tools/blender/03_animation/{stage11_gaits,reach_probe}.py`, `tools/blender/00_import_inspect/rig_audit.py`, `docs/qa/film/*`.
+New: `components/stallion-film/{engine,locomotion,footlock,life,shots,terrain,sky,effects,environment,textures,noise,hoofsound}.ts`, `components/stallion-film/scenery/{desert,village,campus,geo}.ts`, `public/models/marwari-gaits.json`, `tools/blender/03_animation/{stage11_gaits,reach_probe}.py`, `tools/blender/00_import_inspect/rig_audit.py`, `docs/qa/film/*`.
 
 Changed: `components/3d/marwari.ts` (physical coat, face materials, film coat grade), `components/hero/StallionStage.tsx` (film hooks), `components/sections/home/StallionHero.tsx` (pinned film, chapter navigation, skip), `lib/audio/engine.ts` (`soundReady()`), `public/models/marwari-{hero,hero-mobile,anatomy}.glb` (new clips), `tools/blender/source/marwari_hero_source.blend`, `docs/MARWARI_3D_PRODUCTION_REPORT.md` (rebuild note), `PROGRESS.md`.

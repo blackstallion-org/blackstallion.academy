@@ -1,45 +1,57 @@
 {
  "Walk": {
   "v": 1.44,
-  "T": 1.0,
-  "strideLength": 1.44,
-  "strideFrequency": 1.0,
+  "T": 0.8,
+  "strideLength": 1.152,
+  "strideFrequency": 1.25,
   "lead": null,
   "contacts": {
    "HL": [
     0.0,
-    0.66
+    0.55
    ],
    "FL": [
     0.25,
-    0.66
+    0.55
    ],
    "HR": [
     0.5,
-    0.66
+    0.55
    ],
    "FR": [
     0.75,
-    0.66
+    0.55
    ]
   },
   "duty": {
-   "F": 0.66,
-   "H": 0.66
+   "F": 0.55,
+   "H": 0.55
   },
   "airborneFraction": 0.0,
   "sweepM": {
-   "F": 0.95,
-   "H": 0.95
+   "F": 0.634,
+   "H": 0.634
+  },
+  "biasM": {
+   "F": 0.02,
+   "H": 0.14
   },
   "ikReachErrorStanceMaxM": {
-   "F": 0.0786,
-   "H": 0.0934
+   "F": 0.0485,
+   "H": 0.0512
   },
-  "slipRmsMps": 0.19,
-  "slipMaxMps": 0.836,
-  "frames": 30,
-  "samples": 33
+  "soleStanceMeanM": {
+   "F": 0.0021,
+   "H": -0.0009
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0383,
+   "H": 0.046
+  },
+  "slipRmsMps": 0.078,
+  "slipMaxMps": 0.293,
+  "frames": 24,
+  "samples": 24
  },
  "Trot": {
   "v": 3.33,
@@ -74,12 +86,24 @@
    "F": 0.949,
    "H": 0.949
   },
-  "ikReachErrorStanceMaxM": {
-   "F": 0.0656,
-   "H": 0.0899
+  "biasM": {
+   "F": -0.04,
+   "H": 0.28
   },
-  "slipRmsMps": 0.374,
-  "slipMaxMps": 1.333,
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0581,
+   "H": 0.0799
+  },
+  "soleStanceMeanM": {
+   "F": 0.0063,
+   "H": 0.0049
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0315,
+   "H": 0.0615
+  },
+  "slipRmsMps": 0.236,
+  "slipMaxMps": 0.754,
   "frames": 22,
   "samples": 24
  },
@@ -116,12 +140,24 @@
    "F": 0.811,
    "H": 0.956
   },
-  "ikReachErrorStanceMaxM": {
-   "F": 0.0735,
-   "H": 0.0648
+  "biasM": {
+   "F": 0.0,
+   "H": 0.28
   },
-  "slipRmsMps": 0.492,
-  "slipMaxMps": 1.403,
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0647,
+   "H": 0.0642
+  },
+  "soleStanceMeanM": {
+   "F": 0.01,
+   "H": 0.0005
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0472,
+   "H": 0.0388
+  },
+  "slipRmsMps": 0.31,
+  "slipMaxMps": 0.921,
   "frames": 18,
   "samples": 28
  },
@@ -158,12 +194,24 @@
    "F": 0.811,
    "H": 0.956
   },
-  "ikReachErrorStanceMaxM": {
-   "F": 0.0745,
-   "H": 0.0964
+  "biasM": {
+   "F": 0.0,
+   "H": 0.28
   },
-  "slipRmsMps": 0.504,
-  "slipMaxMps": 1.666,
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0664,
+   "H": 0.0864
+  },
+  "soleStanceMeanM": {
+   "F": 0.0101,
+   "H": 0.0056
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0396,
+   "H": 0.0628
+  },
+  "slipRmsMps": 0.344,
+  "slipMaxMps": 1.081,
   "frames": 18,
   "samples": 28
  },
@@ -200,12 +248,24 @@
    "F": 0.798,
    "H": 0.924
   },
-  "ikReachErrorStanceMaxM": {
-   "F": 0.1067,
-   "H": 0.0657
+  "biasM": {
+   "F": 0.0,
+   "H": 0.28
   },
-  "slipRmsMps": 0.784,
-  "slipMaxMps": 2.142,
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0983,
+   "H": 0.0648
+  },
+  "soleStanceMeanM": {
+   "F": 0.0145,
+   "H": 0.0046
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0781,
+   "H": 0.0341
+  },
+  "slipRmsMps": 0.652,
+  "slipMaxMps": 1.909,
   "frames": 13,
   "samples": 30
  },
@@ -242,12 +302,24 @@
    "F": 0.798,
    "H": 0.924
   },
-  "ikReachErrorStanceMaxM": {
-   "F": 0.1101,
-   "H": 0.0974
+  "biasM": {
+   "F": 0.0,
+   "H": 0.28
   },
-  "slipRmsMps": 0.864,
-  "slipMaxMps": 2.32,
+  "ikReachErrorStanceMaxM": {
+   "F": 0.1015,
+   "H": 0.0826
+  },
+  "soleStanceMeanM": {
+   "F": 0.0152,
+   "H": 0.0106
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0856,
+   "H": 0.0598
+  },
+  "slipRmsMps": 0.741,
+  "slipMaxMps": 2.076,
   "frames": 13,
   "samples": 30
  },
@@ -284,12 +356,24 @@
    "F": 0.781,
    "H": 0.919
   },
-  "ikReachErrorStanceMaxM": {
-   "F": 0.0929,
-   "H": 0.1165
+  "biasM": {
+   "F": 0.0,
+   "H": 0.28
   },
-  "slipRmsMps": 1.196,
-  "slipMaxMps": 3.835,
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0819,
+   "H": 0.0936
+  },
+  "soleStanceMeanM": {
+   "F": 0.0087,
+   "H": 0.0098
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0637,
+   "H": 0.0743
+  },
+  "slipRmsMps": 0.982,
+  "slipMaxMps": 3.31,
   "frames": 11,
   "samples": 30
  },
@@ -326,12 +410,24 @@
    "F": 0.781,
    "H": 0.919
   },
-  "ikReachErrorStanceMaxM": {
-   "F": 0.0965,
-   "H": 0.1054
+  "biasM": {
+   "F": 0.0,
+   "H": 0.28
   },
-  "slipRmsMps": 1.074,
-  "slipMaxMps": 2.697,
+  "ikReachErrorStanceMaxM": {
+   "F": 0.085,
+   "H": 0.0856
+  },
+  "soleStanceMeanM": {
+   "F": 0.0101,
+   "H": 0.0135
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0717,
+   "H": 0.0615
+  },
+  "slipRmsMps": 0.849,
+  "slipMaxMps": 2.301,
   "frames": 11,
   "samples": 30
  },

@@ -10,7 +10,7 @@
 #   Body heave, pitch, spine flexion and the head/neck counterbalance are DERIVED from the support pattern (load on fore and
 #   hind limbs, flight phase), not from free sine waves.
 # usage: blender -b --factory-startup -P stage11_gaits.py -- in.blend out.blend out.json
-import bpy, sys, math, json
+import bpy, sys, math, json, os
 import numpy as np
 from mathutils import Vector
 
@@ -132,15 +132,15 @@ GAITS = {
   # Stride lengths are FITTED TO THIS RIG: the sculpt's hind fetlock rests 0.23 m behind the hip and the forelimb is almost straight,
   # so stance sweeps (L x duty) are kept near 0.95 m; speed comes from stride frequency (v = L / T). `bias` shifts the stance window
   # (m, relative to the rest fetlock) to where each limb can reach: forelimb about the shoulder, hindlimb forward of rest.
-  'Walk':   dict(v=1.44, T=1.00, N=33, lead=None, c={'HL': 0.00, 'FL': 0.25, 'HR': 0.50, 'FR': 0.75}, d={'F': 0.66, 'H': 0.66}, bias={'F': 0.02, 'H': 0.30}, lift={'F': 0.17, 'H': 0.14},
+  'Walk':   dict(v=1.44, T=0.80, N=24, lead=None, c={'HL': 0.00, 'FL': 0.25, 'HR': 0.50, 'FR': 0.75}, d={'F': 0.55, 'H': 0.55}, bias={'F': None, 'H': None}, lift={'F': 0.17, 'H': 0.14},
                  body=dict(heave=0.010, pitch=1.2, pelvis=2.0, lumbar=1.0, neck=3.0, head=2.0, neck_base=0, tail=4, roll=1.0)),
-  'Trot':   dict(v=3.33, T=0.75, N=24, lead=None, c={'FL': 0.00, 'HR': 0.00, 'FR': 0.50, 'HL': 0.50}, d={'F': 0.38, 'H': 0.38}, bias={'F': 0.02, 'H': 0.30}, lift={'F': 0.26, 'H': 0.20},
+  'Trot':   dict(v=3.33, T=0.75, N=24, lead=None, c={'FL': 0.00, 'HR': 0.00, 'FR': 0.50, 'HL': 0.50}, d={'F': 0.38, 'H': 0.38}, bias={'F': None, 'H': None}, lift={'F': 0.26, 'H': 0.20},
                  body=dict(heave=0.030, pitch=1.4, pelvis=2.5, lumbar=1.2, neck=2.5, head=2.0, neck_base=3, tail=10, roll=0.6)),
-  'Canter': dict(v=4.83, T=0.60, N=28, lead='R', c={'HL': 0.00, 'HR': 0.29, 'FL': 0.29, 'FR': 0.50}, d={'F': 0.28, 'H': 0.33}, bias={'F': 0.03, 'H': 0.30}, lift={'F': 0.34, 'H': 0.28},
+  'Canter': dict(v=4.83, T=0.60, N=28, lead='R', c={'HL': 0.00, 'HR': 0.29, 'FL': 0.29, 'FR': 0.50}, d={'F': 0.28, 'H': 0.33}, bias={'F': None, 'H': None}, lift={'F': 0.34, 'H': 0.28},
                  body=dict(heave=0.045, pitch=3.5, pelvis=5.0, lumbar=3.0, neck=5.0, head=3.0, neck_base=9, tail=18, roll=1.5)),
-  'Gallop': dict(v=10.0, T=0.42, N=30, lead='R', c={'HL': 0.00, 'HR': 0.14, 'FL': 0.30, 'FR': 0.46}, d={'F': 0.19, 'H': 0.22}, bias={'F': 0.03, 'H': 0.31}, lift={'F': 0.42, 'H': 0.34},
+  'Gallop': dict(v=10.0, T=0.42, N=30, lead='R', c={'HL': 0.00, 'HR': 0.14, 'FL': 0.30, 'FR': 0.46}, d={'F': 0.19, 'H': 0.22}, bias={'F': None, 'H': None}, lift={'F': 0.42, 'H': 0.34},
                  body=dict(heave=0.060, pitch=5.0, pelvis=7.0, lumbar=4.5, neck=6.0, head=4.0, neck_base=17, tail=26, roll=1.8)),
-  'Sprint': dict(v=12.0, T=0.383, N=30, lead='R', c={'HL': 0.00, 'HR': 0.13, 'FL': 0.29, 'FR': 0.44}, d={'F': 0.17, 'H': 0.20}, bias={'F': 0.04, 'H': 0.32}, lift={'F': 0.46, 'H': 0.37},
+  'Sprint': dict(v=12.0, T=0.383, N=30, lead='R', c={'HL': 0.00, 'HR': 0.13, 'FL': 0.29, 'FR': 0.44}, d={'F': 0.17, 'H': 0.20}, bias={'F': None, 'H': None}, lift={'F': 0.46, 'H': 0.37},
                  body=dict(heave=0.070, pitch=6.0, pelvis=8.0, lumbar=5.5, neck=7.0, head=4.5, neck_base=24, tail=34, roll=2.0)),
 }
 def mirrored(spec):
@@ -159,14 +159,39 @@ def load_of(ph, c, d):
     return math.sin(math.pi * u) if inn else 0.0
 
 REST_FET = {(k, s): rest_pt(('Cannon_F_' if k == 'F' else 'Cannon_B_') + s, 'tail') for k in 'FH' for s in 'LR'}
+# The hoof bone's tail (the toe point the runtime measures) sits SOLE_OFF above the sole: measured on the hoof mesh at rest
+# (lowest vertex of each hoof at z = 0.001 m, bone tail at z = 0.020 m).
+SOLE_OFF = 0.019
+# Experiment, OFF by default: lower stance targets until the sole sits on the ground. Measured in the browser it did not reduce
+# hover overall (sprint front-foot p95 2.6 cm without it, 4.1 cm with it) and it raised ground slip by 1-3 points at trot to sprint.
+PRECOMP = os.environ.get('GAIT_PRECOMP', '0') == '1'
+_BIAS_CACHE = {}
+def auto_bias(kind, s, sw):
+    """Stance-window offset (m, relative to the rest fetlock) that keeps the worst reach error over the stance smallest."""
+    key_ = (kind, round(sw, 4))
+    if key_ in _BIAS_CACHE: return _BIAS_CACHE[key_]
+    F0 = REST_FET[(kind, s)]; best = None
+    for b in [round(-0.4 + i * 0.02, 2) for i in range(0, 41)]:
+        worst = 0.0
+        for u in (0.0, 0.25, 0.5, 0.75, 1.0):
+            fwd = b + sw / 2 - sw * u
+            tgt = Vector((F0.x, F0.y - fwd, F0.z))
+            clear_pose()
+            _, err = solve_leg(kind, s, tgt, 0.0, best_share(kind, s, tgt))
+            worst = max(worst, err)
+        if best is None or worst < best[0]: best = (worst, b)
+    _BIAS_CACHE[key_] = best[1]
+    print('AUTOBIAS', kind, round(sw, 3), best[1], 'worst err %.3f' % best[0])
+    return best[1]
 REPORT = {}
 RETRACT = 1.0  # full: the swing ends moving backward at the stance speed v, so the hoof lands with no ground speed (was 0.3: it landed skidding forward)
 
 def build_gait(name, spec):
     v, T, N = spec['v'], spec['T'], spec['N']; L = v * T
     act = new_action(name); frames_total = T * sc.render.fps
-    c, d, bias, lift, bd = spec['c'], spec['d'], spec['bias'], spec['lift'], spec['body']
+    c, d, lift, bd = spec['c'], spec['d'], spec['lift'], spec['body']
     sweep = {'F': L * d['F'], 'H': L * d['H']}
+    bias = {k: (auto_bias(k, 'L', sweep[k]) if spec['bias'][k] is None else spec['bias'][k]) for k in 'FH'}
     # body signals as functions of phase, derived from support
     def loads(ph):
         lf = load_of(ph, c['FL'], d['F']) + load_of(ph, c['FR'], d['F'])
@@ -181,6 +206,7 @@ def build_gait(name, spec):
     def at(a, ph): return float(a[int((ph % 1.0) * len(a)) % len(a)])
     fore_td = (c['FL'] + c['FR']) / 2 + 0.02
     err_max = {'F': 0.0, 'H': 0.0}; slip_samples = {k: [] for k in c}
+    sole_stance = {'F': [], 'H': []}
     mean = lambda a: float(np.mean(a))
 
     def pose_body(ph):
@@ -236,11 +262,28 @@ def build_gait(name, spec):
         used = ['Body', 'Pelvis', 'Spine_Lumbar', 'Neck_1', 'Neck_2', 'Neck_3', 'Head', 'Tail_1', 'Tail_2', 'Tail_3', 'Tail_4']
         for limb in c:
             kind, side, inn, tgt, flex = limb_target(limb, ph)
-            chain, err = solve_leg(kind, side, tgt, flex, shares[limb][k_i % N])
+            share = shares[limb][k_i % N]
+            if inn:
+                # the authored stance target is only reachable as far as the rig allows; lower the target by the sole's
+                # height above the ground until the sole sits on it (or the leg cannot go lower). The correction ramps in
+                # from touchdown and out toward lift-off, so the stance meets the swing at both ends without a jump.
+                _, uu = stance_param(ph, c[limb], d[kind])
+                wgt = smooth(uu / 0.15) * (1.0 - smooth((uu - 0.85) / 0.15))
+                corr = 0.0
+                for _ in range(4 if PRECOMP else 1):
+                    adj = Vector((tgt.x, tgt.y, tgt.z - wgt * corr))
+                    chain, _e = solve_leg(kind, side, adj, flex, share)
+                    sole = P[chain[-1]].tail.z - SOLE_OFF
+                    if abs(sole) < 1e-3 or not PRECOMP: break
+                    corr = min(0.08, max(-0.08, corr + sole / max(wgt, 0.3)))
+                cannon = chain[3] if kind == 'F' else chain[2]
+                err = (P[cannon].tail - tgt).length          # error against the authored target
+                err_max[kind] = max(err_max[kind], err)
+                sole_stance[kind].append(sole)
+                slip_samples[limb].append((k_i * T / N, P[cannon].tail.y, P[cannon].tail.z))
+            else:
+                chain, err = solve_leg(kind, side, tgt, flex, share)
             used += chain
-            if inn: err_max[kind] = max(err_max[kind], err)
-            ach = P[chain[3]].tail
-            if inn: slip_samples[limb].append((k_i * T / N, ach.y, ach.z))
         key(['Body'], frame, loc=True); key(used, frame)
     sc.frame_start, sc.frame_end = 0, int(round(frames_total)); finish(act)
     # report: slip = |d(achieved y)/dt + v| during stance (body-frame backward speed should equal v)
@@ -252,8 +295,10 @@ def build_gait(name, spec):
     # airborne fraction from the stance windows
     grid = np.linspace(0, 1, 1000, endpoint=False)
     airborne = float(np.mean([all(not stance_param(p, c[k], d[k[0]])[0] for k in c) for p in grid]))
+    soles = {k: (round(float(np.mean(v_)), 4), round(float(np.max(np.abs(v_))), 4)) for k, v_ in sole_stance.items() if v_}
     return dict(v=v, T=T, strideLength=round(L, 3), strideFrequency=round(1 / T, 3), lead=spec['lead'], contacts=contacts, duty=d, airborneFraction=round(airborne, 3),
-                sweepM={k: round(v_, 3) for k, v_ in sweep.items()}, ikReachErrorStanceMaxM={k: round(e, 4) for k, e in err_max.items()},
+                sweepM={k: round(v_, 3) for k, v_ in sweep.items()}, biasM=bias, ikReachErrorStanceMaxM={k: round(e, 4) for k, e in err_max.items()},
+                soleStanceMeanM={k: x[0] for k, x in soles.items()}, soleStanceMaxAbsM={k: x[1] for k, x in soles.items()},
                 slipRmsMps=round(float(np.sqrt(np.mean(np.square(slips)))) if slips else 0, 3), slipMaxMps=round(float(np.max(slips)) if slips else 0, 3), frames=int(round(frames_total)), samples=N)
 
 for name, spec in GAITS.items():
