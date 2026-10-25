@@ -1,0 +1,303 @@
+{
+ "results": {
+  "buttons": [
+   {
+    "name": "stand",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": "false",
+    "disabled": false,
+    "tabindex": 0,
+    "w": 58,
+    "h": 36
+   },
+   {
+    "name": "walk",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": "true",
+    "disabled": false,
+    "tabindex": 0,
+    "w": 51,
+    "h": 36
+   },
+   {
+    "name": "canter",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": "false",
+    "disabled": false,
+    "tabindex": 0,
+    "w": 64,
+    "h": 36
+   },
+   {
+    "name": "gallop",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": "false",
+    "disabled": false,
+    "tabindex": 0,
+    "w": 64,
+    "h": 36
+   },
+   {
+    "name": "Reset View",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": null,
+    "disabled": false,
+    "tabindex": 0,
+    "w": 93,
+    "h": 44
+   },
+   {
+    "name": "Full Screen",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": "false",
+    "disabled": false,
+    "tabindex": 0,
+    "w": 100,
+    "h": 44
+   },
+   {
+    "name": "Desert",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": "true",
+    "disabled": false,
+    "tabindex": 0,
+    "w": 90,
+    "h": 44
+   },
+   {
+    "name": "Horse Field",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": "false",
+    "disabled": false,
+    "tabindex": 0,
+    "w": 132,
+    "h": 44
+   },
+   {
+    "name": "Village",
+    "tag": "BUTTON",
+    "type": "button",
+    "pressed": "false",
+    "disabled": false,
+    "tabindex": 0,
+    "w": 98,
+    "h": 44
+   }
+  ],
+  "focusRing": {
+   "which": "field",
+   "focusVisible": true,
+   "style": "solid",
+   "width": "2px",
+   "offset": "5px",
+   "color": "rgb(221, 208, 188)"
+  },
+  "focusRingGait": {
+   "which": "walk",
+   "focusVisible": true,
+   "style": "solid",
+   "width": "2px"
+  }
+ },
+ "checks": [
+  {
+   "name": "the viewer has a labelled group \"Choose a place\" holding three buttons",
+   "ok": true
+  },
+  {
+   "name": "every button has a name and is a real <button>",
+   "ok": true,
+   "detail": [
+    "stand",
+    "walk",
+    "canter",
+    "gallop",
+    "Reset View",
+    "Full Screen",
+    "Desert",
+    "Horse Field",
+    "Village"
+   ]
+  },
+  {
+   "name": "every button is in the tab order",
+   "ok": true
+  },
+  {
+   "name": "place buttons are at least 44 px tall (touch target)",
+   "ok": true
+  },
+  {
+   "name": "exactly one canvas in the viewer",
+   "ok": true,
+   "detail": 1
+  },
+  {
+   "name": "exactly one WebGL canvas on the whole page",
+   "ok": true,
+   "detail": 1
+  },
+  {
+   "name": "Desert is pressed at the start, the others are not",
+   "ok": true,
+   "detail": {
+    "desert": "true",
+    "field": "false",
+    "village": "false"
+   }
+  },
+  {
+   "name": "ArrowRight moves focus to Horse Field and does not change the place",
+   "ok": true,
+   "detail": {
+    "focus": "field",
+    "world": "desert"
+   }
+  },
+  {
+   "name": "End moves focus to Village",
+   "ok": true,
+   "detail": "village"
+  },
+  {
+   "name": "Home moves focus to Desert",
+   "ok": true,
+   "detail": "desert"
+  },
+  {
+   "name": "ArrowLeft from Desert wraps to Village",
+   "ok": true,
+   "detail": "village"
+  },
+  {
+   "name": "ArrowDown from Village wraps to Desert",
+   "ok": true,
+   "detail": "desert"
+  },
+  {
+   "name": "ArrowUp from Desert wraps to Village",
+   "ok": true,
+   "detail": "village"
+  },
+  {
+   "name": "the focused place button shows a visible focus ring (:focus-visible, solid, >= 2px)",
+   "ok": true,
+   "detail": {
+    "which": "field",
+    "focusVisible": true,
+    "style": "solid",
+    "width": "2px",
+    "offset": "5px",
+    "color": "rgb(221, 208, 188)"
+   }
+  },
+  {
+   "name": "the focused gait button shows a visible focus ring",
+   "ok": true,
+   "detail": {
+    "which": "walk",
+    "focusVisible": true,
+    "style": "solid",
+    "width": "2px"
+   }
+  },
+  {
+   "name": "Enter on Village starts a switch: aria-busy on the group and Village pressed",
+   "ok": true,
+   "detail": {
+    "groupBusy": "true",
+    "pressed": {
+     "desert": "false",
+     "field": "false",
+     "village": "true"
+    }
+   }
+  },
+  {
+   "name": "the viewer is busy during the fade",
+   "ok": true
+  },
+  {
+   "name": "after the fade the viewer shows the Village, the group is no longer busy",
+   "ok": true,
+   "detail": {
+    "world": "village",
+    "groupBusy": "false"
+   }
+  },
+  {
+   "name": "a polite live region says which place is now shown",
+   "ok": true,
+   "detail": "Now showing a Marwar village lane."
+  },
+  {
+   "name": "the live region is polite",
+   "ok": true,
+   "detail": {
+    "live": "polite",
+    "srOnly": "sr-only"
+   }
+  },
+  {
+   "name": "Space on Desert chooses it",
+   "ok": true,
+   "detail": {
+    "world": "desert",
+    "status": "Now showing the Marwar desert at golden hour."
+   }
+  },
+  {
+   "name": "pressing the place already shown starts nothing",
+   "ok": true,
+   "detail": false
+  },
+  {
+   "name": "scrolling the page and turning the wheel over the viewer change neither the place nor the camera",
+   "ok": true,
+   "detail": {
+    "before": {
+     "world": "desert",
+     "dist": 6.999999552282597,
+     "az": 24.32502830412271,
+     "settled": false
+    },
+    "after": {
+     "world": "desert",
+     "busy": false,
+     "dist": 6.999999984249821,
+     "az": 24.256306563395462
+    }
+   }
+  },
+  {
+   "name": "a long drag turns the camera by at most 32 deg / 5 deg and the place is unchanged",
+   "ok": true,
+   "detail": {
+    "az": -32,
+    "el": -3.739592584492381,
+    "world": "desert"
+   }
+  },
+  {
+   "name": "the camera stays where it is left for a moment, then springs back to the shot within about 5 s",
+   "ok": true,
+   "detail": {
+    "held": -32,
+    "oneSecondAfter": -32,
+    "back": {
+     "az": -0.1109853693878682,
+     "el": -0.012970002010938078,
+     "settled": false
+    }
+   }
+  }
+ ]
+}

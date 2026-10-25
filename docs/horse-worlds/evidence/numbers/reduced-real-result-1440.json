@@ -1,0 +1,60 @@
+{
+ "checks": [
+  {
+   "name": "starts on the desert with the loop asleep",
+   "ok": true
+  },
+  {
+   "name": "the village was swapped in",
+   "ok": true,
+   "detail": {
+    "world": "village",
+    "frame": 107,
+    "ms": 0,
+    "frameLater": 108
+   }
+  },
+  {
+   "name": "while its art was on the way the switcher said it was busy, and it stopped saying so once the place was on stage",
+   "ok": true,
+   "detail": {
+    "samples": 1,
+    "sawBusy": false,
+    "after": "false"
+   }
+  },
+  {
+   "name": "what is on screen is the village (far closer to a fresh render of the village than to the desert it replaced)",
+   "ok": true,
+   "detail": {
+    "toVillage": 15.99,
+    "toDesert": 53.26
+   }
+  },
+  {
+   "name": "after asking for field and then desert, the desert is what ends up on stage",
+   "ok": true,
+   "detail": {
+    "world": "desert",
+    "pressed": [
+     "desert"
+    ]
+   }
+  },
+  {
+   "name": "...and the picture is the desert the controller has on stage, not a late field or the old village",
+   "ok": true,
+   "detail": {
+    "toFreshRenderOfStage": 20.06,
+    "toOldVillage": 48.76
+   }
+  },
+  {
+   "name": "the loop sleeps again afterwards",
+   "ok": true,
+   "detail": {
+    "framesIn2_5s": 0
+   }
+  }
+ ]
+}

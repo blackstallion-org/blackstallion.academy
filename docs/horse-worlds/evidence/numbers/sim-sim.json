@@ -1,0 +1,226 @@
+[
+ {
+  "world": "desert",
+  "gait": "walk",
+  "T": 8,
+  "touch": 32,
+  "lift": 32,
+  "dist": 10.963216297375132,
+  "integ": 10.963216297375144,
+  "gsMean": 1.3704020371718917,
+  "nomMean": 1.429589996748972,
+  "measMean": 1.3602429981074513,
+  "speedMean": 1.429589996748972,
+  "L": 1.4400000000000126,
+  "f": 0.9927708310756838,
+  "slipRms": 0.19893696447125214,
+  "floatMax": 0.04841892936674311,
+  "sinkMax": 0,
+  "slipSamples": 215,
+  "maxJump": 0.0029317739614078686,
+  "prints": {
+   "placed": 32,
+   "alive": 32,
+   "maxResidual": 0.000002097168184889142
+  },
+  "grass": {
+   "planted": 431,
+   "plantedPressed": 431,
+   "air": 124,
+   "airPressed": 65
+  },
+  "hasGrass": false
+ },
+ {
+  "world": "desert",
+  "gait": "canter",
+  "T": 8,
+  "touch": 53,
+  "lift": 53,
+  "dist": 37.18776539173558,
+  "integ": 37.18776539173562,
+  "gsMean": 4.648470673966952,
+  "nomMean": 4.899105325593388,
+  "measMean": 4.606340073902277,
+  "speedMean": 4.899105325593388,
+  "L": 2.8979999999999895,
+  "f": 1.690512534711298,
+  "slipRms": 0.45619786261819883,
+  "floatMax": 0.057997798584119034,
+  "sinkMax": 0,
+  "slipSamples": 122,
+  "maxJump": 0.006925906062979159,
+  "prints": {
+   "placed": 53,
+   "alive": 53,
+   "maxResidual": 0.000020825281850989086
+  },
+  "grass": {
+   "planted": 177,
+   "plantedPressed": 157,
+   "air": 703,
+   "airPressed": 144
+  },
+  "hasGrass": false
+ },
+ {
+  "world": "desert",
+  "gait": "gallop",
+  "T": 8,
+  "touch": 76,
+  "lift": 76,
+  "dist": 76.9095522459385,
+  "integ": 76.90955224593843,
+  "gsMean": 9.613694030742316,
+  "nomMean": 10.001432234433276,
+  "measMean": 9.546563561272672,
+  "speedMean": 10.001432234433276,
+  "L": 4.200000000000032,
+  "f": 2.381293389150791,
+  "slipRms": 0.9583108831149717,
+  "floatMax": 0.059793046667545674,
+  "sinkMax": 0,
+  "slipSamples": 63,
+  "maxJump": 0.007854854990297255,
+  "prints": {
+   "placed": 76,
+   "alive": 76,
+   "maxResidual": 0.00003817251135274091
+  },
+  "grass": {
+   "planted": 139,
+   "plantedPressed": 33,
+   "air": 909,
+   "airPressed": 195
+  },
+  "hasGrass": false
+ },
+ {
+  "world": "field",
+  "gait": "walk",
+  "T": 8,
+  "touch": 32,
+  "lift": 32,
+  "dist": 10.964048140788123,
+  "integ": 10.964048140788233,
+  "gsMean": 1.370506017598532,
+  "nomMean": 1.4295957334820388,
+  "measMean": 1.3598124289143494,
+  "speedMean": 1.4295957334820388,
+  "L": 1.4400000000000126,
+  "f": 0.9927748149180912,
+  "slipRms": 0.20031926464911307,
+  "floatMax": 0.04841825778763105,
+  "sinkMax": 0,
+  "slipSamples": 210,
+  "maxJump": 0.002966439528745868,
+  "prints": {
+   "placed": 32,
+   "alive": 24,
+   "maxResidual": 0.000002522691147532896
+  },
+  "grass": {
+   "planted": 426,
+   "plantedPressed": 426,
+   "air": 123,
+   "airPressed": 65
+  },
+  "hasGrass": true
+ },
+ {
+  "world": "field",
+  "gait": "trot",
+  "T": 8,
+  "touch": 42,
+  "lift": 43,
+  "dist": 25.59399321603945,
+  "integ": 25.593993216038598,
+  "gsMean": 3.199249152004828,
+  "nomMean": 3.331259672348706,
+  "measMean": 3.176320454985586,
+  "speedMean": 3.331259672348706,
+  "L": 2.498000000000024,
+  "f": 1.3335707255198839,
+  "slipRms": 0.30365750156324217,
+  "floatMax": 0.046329281257165913,
+  "sinkMax": 0,
+  "slipSamples": 185,
+  "maxJump": 0.0019815595410732634,
+  "prints": {
+   "placed": 42,
+   "alive": 32,
+   "maxResidual": 0.000003690156006541656
+  },
+  "grass": {
+   "planted": 295,
+   "plantedPressed": 284,
+   "air": 334,
+   "airPressed": 84
+  },
+  "hasGrass": true
+ },
+ {
+  "world": "field",
+  "gait": "canter",
+  "T": 8,
+  "touch": 53,
+  "lift": 54,
+  "dist": 37.01003469169734,
+  "integ": 37.010034691697484,
+  "gsMean": 4.626254336462184,
+  "nomMean": 4.893784686775688,
+  "measMean": 4.578995122070015,
+  "speedMean": 4.893784686775688,
+  "L": 2.8979999999999895,
+  "f": 1.688676565485052,
+  "slipRms": 0.434003884529694,
+  "floatMax": 0.06213726734527052,
+  "sinkMax": 0,
+  "slipSamples": 109,
+  "maxJump": 0.006988239432748067,
+  "prints": {
+   "placed": 53,
+   "alive": 40,
+   "maxResidual": 0.000009374023022701294
+  },
+  "grass": {
+   "planted": 172,
+   "plantedPressed": 153,
+   "air": 706,
+   "airPressed": 147
+  },
+  "hasGrass": true
+ },
+ {
+  "world": "village",
+  "gait": "walk",
+  "T": 8,
+  "touch": 32,
+  "lift": 32,
+  "dist": 10.965835145583583,
+  "integ": 10.965835145583682,
+  "gsMean": 1.3707293931979596,
+  "nomMean": 1.4296041865947329,
+  "measMean": 1.3604400006602135,
+  "speedMean": 1.4296041865947329,
+  "L": 1.4400000000000126,
+  "f": 0.99278068513524,
+  "slipRms": 0.19984924418251188,
+  "floatMax": 0.048418975107728066,
+  "sinkMax": 0,
+  "slipSamples": 214,
+  "maxJump": 0.002932020689835113,
+  "prints": {
+   "placed": 32,
+   "alive": 32,
+   "maxResidual": 0.0000015834332316444488
+  },
+  "grass": {
+   "planted": 435,
+   "plantedPressed": 435,
+   "air": 122,
+   "airPressed": 62
+  },
+  "hasGrass": false
+ }
+]

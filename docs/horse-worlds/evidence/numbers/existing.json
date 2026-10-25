@@ -1,0 +1,95 @@
+{
+ "checks": [
+  {
+   "name": "the home page viewer is not in the places mode and has no place buttons",
+   "ok": true,
+   "detail": {
+    "inPlaces": false,
+    "placeButtons": 0
+   }
+  },
+  {
+   "name": "it still offers its three gaits: stand, walk, trot",
+   "ok": true,
+   "detail": [
+    {
+     "name": "stand",
+     "pressed": "true",
+     "disabled": false
+    },
+    {
+     "name": "walk",
+     "pressed": "false",
+     "disabled": false
+    },
+    {
+     "name": "trot",
+     "pressed": "false",
+     "disabled": false
+    }
+   ]
+  },
+  {
+   "name": "it still has its orbit toggle and the \"3D Specimen\" plate marking",
+   "ok": true,
+   "detail": {
+    "orbit": [
+     "Pause Orbit"
+    ],
+    "marking": true
+   }
+  },
+  {
+   "name": "its canvas still describes a rotatable model with points to choose",
+   "ok": true,
+   "detail": "A rotatable 3D model of a black Marwari stallion. Choose a point to focus the camera on it."
+  },
+  {
+   "name": "pressing walk makes it the pressed gait",
+   "ok": true,
+   "detail": [
+    "stand:false",
+    "walk:true",
+    "trot:false"
+   ]
+  },
+  {
+   "name": "the plate drew a picture (the screenshot is not a flat colour)",
+   "ok": true,
+   "detail": {
+    "bytes": 147003
+   }
+  },
+  {
+   "name": "no uncaught page error",
+   "ok": true,
+   "detail": []
+  }
+ ],
+ "info": {
+  "inPlaces": false,
+  "gaits": [
+   {
+    "name": "stand",
+    "pressed": "true",
+    "disabled": false
+   },
+   {
+    "name": "walk",
+    "pressed": "false",
+    "disabled": false
+   },
+   {
+    "name": "trot",
+    "pressed": "false",
+    "disabled": false
+   }
+  ],
+  "orbit": [
+   "Pause Orbit"
+  ],
+  "marking": true,
+  "canvasLabel": "A rotatable 3D model of a black Marwari stallion. Choose a point to focus the camera on it.",
+  "placeButtons": 0
+ }
+}

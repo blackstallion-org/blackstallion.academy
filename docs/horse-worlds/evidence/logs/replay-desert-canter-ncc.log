@@ -1,0 +1,1 @@
+S replay-desert-canter: step 0.0608 m, expected -13.64 px/step, measured median -14.97, ratio median 1.097; jump from the steady ratio: max 0.34 px, rms 0.20 px; ncc min 0.99

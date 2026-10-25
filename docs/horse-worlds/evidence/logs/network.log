@@ -1,0 +1,17 @@
+--- slow download (40 KB/s, 400 ms latency)
+phases seen: out > load > in > idle | total ms 43785 | held in load for 35619 ms ( 305 steps )
+PASS the switch went through out, load and in, in that order  ["out","load","in","idle"]
+PASS it waited in the load phase for the art (a real wait, not a flicker)  {"steps":305,"ms":35619}
+PASS while the art was downloading the old place stayed faded out (no flash back, nothing half-drawn)  {"maxFade":0}
+PASS the switcher said it was busy for the whole switch  {"sample":"true"}
+PASS the horse only slowed while it waited (never sped up), and was standing by the end of a long wait  {"speedUps":0,"speedAtEndOfLoad":[0,0,0,0,0]}
+PASS the village came in and the viewer is idle again  {"world":"village","phase":"idle","fade":1,"busy":false}
+--- the art of a place cannot be fetched
+PASS the viewer gave up cleanly and says the 3D view is unavailable
+PASS there is no canvas left in the viewer
+PASS a still of the place that was asked for is shown, with a description  {"alt":"A lane in the village: a still of the black Marwari stallion.","w":1600,"complete":true}
+PASS the Village button still shows it is chosen and the buttons still work
+PASS choosing another place swaps the still  {"alt":"The home paddock: a still of the black Marwari stallion.","w":1600}
+PASS no uncaught page error  []
+
+12/12 checks pass

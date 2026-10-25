@@ -1,0 +1,7 @@
+{"wide":{"dist":7,"rigDist":7,"aspect":1.7806,"settled":true,"w":1323,"h":743,"bbox":{"x0":493,"x1":877,"y0":136,"y1":562}},"narrowed":{"dist":9.6119,"rigDist":9.6119,"aspect":0.7982,"settled":true,"w":356,"h":446,"bbox":{"x0":103,"x1":270,"y0":122,"y1":305}},"direct":{"dist":9.6119,"rigDist":9.6119,"aspect":0.7982,"settled":true,"w":356,"h":446,"bbox":{"x0":103,"x1":271,"y0":122,"y1":305}},"widened":{"dist":7,"rigDist":7,"aspect":1.7806,"settled":true,"w":1323,"h":743,"bbox":{"x0":493,"x1":877,"y0":136,"y1":562}}}
+PASS after narrowing, the camera is where a page opened at that size puts it  {"resizedInFlight":9.6119,"openedThere":9.6119}
+PASS after narrowing, the whole horse is in the picture  {"x0":103,"x1":270,"y0":122,"y1":305}
+PASS after widening again, the camera is back where it was  {"before":7,"after":7}
+PASS the loop sleeps once the camera is there  {"framesIn1_5s":0}
+
+4/4 checks pass

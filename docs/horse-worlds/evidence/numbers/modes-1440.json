@@ -1,0 +1,150 @@
+{
+ "checks": [
+  {
+   "name": "the page says motion is reduced and the scene changes without a transition",
+   "ok": true
+  },
+  {
+   "name": "the gait buttons are switched off (the horse stands still)",
+   "ok": true,
+   "detail": [
+    {
+     "n": "stand",
+     "disabled": true
+    },
+    {
+     "n": "walk",
+     "disabled": true
+    },
+    {
+     "n": "canter",
+     "disabled": true
+    },
+    {
+     "n": "gallop",
+     "disabled": true
+    }
+   ]
+  },
+  {
+   "name": "the three place buttons still work",
+   "ok": true,
+   "detail": [
+    false,
+    false,
+    false
+   ]
+  },
+  {
+   "name": "with reduced motion the viewer draws almost nothing while idle",
+   "ok": true,
+   "detail": {
+    "framesIn2_5s": 0
+   }
+  },
+  {
+   "name": "Village appears (the new place is on screen)",
+   "ok": true,
+   "detail": {
+    "frames": 22
+   }
+  },
+  {
+   "name": "...with no fade out or in: the picture never dips",
+   "ok": true,
+   "detail": {
+    "minFade": 1,
+    "everBusy": false
+   }
+  },
+  {
+   "name": "...and the horse stays still: no speed, no scroll",
+   "ok": true,
+   "detail": {
+    "distanceMoved": 0
+   }
+  },
+  {
+   "name": "the camera is on its mark (snapped, not travelling) and the gait is stand",
+   "ok": true,
+   "detail": {
+    "world": "village",
+    "gait": "stand",
+    "settled": true,
+    "d": 0
+   }
+  },
+  {
+   "name": "the Village button shows it is chosen",
+   "ok": true
+  },
+  {
+   "name": "another place can be chosen, again without a fade",
+   "ok": true,
+   "detail": "field"
+  },
+  {
+   "name": "with motion allowed the loop draws steadily (for comparison)",
+   "ok": true,
+   "detail": {
+    "framesIn6s": 13,
+    "framesIdleReducedIn2_5s": 0
+   }
+  },
+  {
+   "name": "the page says the 3D view is unavailable and shows a still instead",
+   "ok": true
+  },
+  {
+   "name": "there is no canvas in the viewer",
+   "ok": true
+  },
+  {
+   "name": "the desert still has loaded and describes itself",
+   "ok": true,
+   "detail": {
+    "alt": "The Marwar flats: a still of the black Marwari stallion.",
+    "w": 1600,
+    "h": 900,
+    "complete": true
+   }
+  },
+  {
+   "name": "field: the still, its description, the heading and the live message all change",
+   "ok": true,
+   "detail": {
+    "alt": "The home paddock: a still of the black Marwari stallion.",
+    "h3": "The home paddock",
+    "status": "Now showing the horse field on a morning in early light."
+   }
+  },
+  {
+   "name": "village: the still, its description, the heading and the live message all change",
+   "ok": true,
+   "detail": {
+    "alt": "A lane in the village: a still of the black Marwari stallion.",
+    "h3": "A lane in the village",
+    "status": "Now showing a Marwar village lane."
+   }
+  },
+  {
+   "name": "desert: the still, its description, the heading and the live message all change",
+   "ok": true,
+   "detail": {
+    "alt": "The Marwar flats: a still of the black Marwari stallion.",
+    "h3": "The Marwar flats",
+    "status": "Now showing the Marwar desert at golden hour."
+   }
+  }
+ ],
+ "results": {
+  "noGlConsole": [
+   "error: THREE.WebGLRenderer: A WebGL context could not be created. Reason:  disabled by enterprise policy or commandline switch",
+   "error: THREE.WebGLRenderer: A WebGL context could not be created. Reason:  disabled by enterprise policy or commandline switch",
+   "error: THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+   "error: THREE.WebGLRenderer: A WebGL context could not be created. Reason:  disabled by enterprise policy or commandline switch",
+   "error: THREE.WebGLRenderer: A WebGL context could not be created. Reason:  disabled by enterprise policy or commandline switch",
+   "error: THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context."
+  ]
+ }
+}

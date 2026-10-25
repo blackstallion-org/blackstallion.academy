@@ -1,0 +1,9 @@
+PASS starts on the desert with the loop asleep
+PASS the village was swapped in  {"world":"village","frame":107,"ms":0,"frameLater":108}
+PASS while its art was on the way the switcher said it was busy, and it stopped saying so once the place was on stage  {"samples":1,"sawBusy":false,"after":"false"}
+PASS what is on screen is the village (far closer to a fresh render of the village than to the desert it replaced)  {"toVillage":15.99,"toDesert":53.26}
+PASS after asking for field and then desert, the desert is what ends up on stage  {"world":"desert","pressed":["desert"]}
+PASS ...and the picture is the desert the controller has on stage, not a late field or the old village  {"toFreshRenderOfStage":20.06,"toOldVillage":48.76}
+PASS the loop sleeps again afterwards  {"framesIn2_5s":0}
+
+7/7 checks pass

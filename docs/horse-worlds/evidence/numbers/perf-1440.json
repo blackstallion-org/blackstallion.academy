@@ -1,0 +1,702 @@
+{
+ "viewport": "1440x900@1",
+ "worlds": {
+  "desert": {
+   "cumulative": {
+    "label": "desert",
+    "files": 0,
+    "bytes": 0
+   },
+   "perGait": {
+    "stand": {
+     "frame": {
+      "calls": 17,
+      "triangles": 133934,
+      "points": 940,
+      "lines": 0
+     },
+     "memory": {
+      "geometries": 24,
+      "textures": 17,
+      "programs": 16
+     },
+     "textures": {
+      "unique": 11,
+      "estimatedBytes": 109139283,
+      "worldOnlyBytes": 28049407,
+      "worldOnlyCount": 6,
+      "all": [
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 2048,
+        "h": 880,
+        "bytes": 9611947
+       },
+       {
+        "where": "environment (PMREM)",
+        "w": 768,
+        "h": 1024,
+        "bytes": 8388608
+       },
+       {
+        "where": "Marwari_Hair",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "distant:uMap",
+        "w": 4096,
+        "h": 256,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 1024,
+        "h": 288,
+        "bytes": 1572864
+       },
+       {
+        "where": "contact-shadow",
+        "w": 128,
+        "h": 128,
+        "bytes": 87381
+       }
+      ]
+     },
+     "shadow": {
+      "w": 2048,
+      "h": 2048,
+      "bytes": 16777216
+     },
+     "canvas": {
+      "w": 1323,
+      "h": 743,
+      "bytes": 7863912
+     },
+     "pixelRatio": 1,
+     "jsHeapMB": 33.5,
+     "stage": "desert"
+    },
+    "gallop": {
+     "frame": {
+      "calls": 17,
+      "triangles": 133934,
+      "points": 940,
+      "lines": 0
+     },
+     "memory": {
+      "geometries": 24,
+      "textures": 17,
+      "programs": 16
+     },
+     "textures": {
+      "unique": 11,
+      "estimatedBytes": 109139283,
+      "worldOnlyBytes": 28049407,
+      "worldOnlyCount": 6,
+      "all": [
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 2048,
+        "h": 880,
+        "bytes": 9611947
+       },
+       {
+        "where": "environment (PMREM)",
+        "w": 768,
+        "h": 1024,
+        "bytes": 8388608
+       },
+       {
+        "where": "Marwari_Hair",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "distant:uMap",
+        "w": 4096,
+        "h": 256,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 1024,
+        "h": 288,
+        "bytes": 1572864
+       },
+       {
+        "where": "contact-shadow",
+        "w": 128,
+        "h": 128,
+        "bytes": 87381
+       }
+      ]
+     },
+     "shadow": {
+      "w": 2048,
+      "h": 2048,
+      "bytes": 16777216
+     },
+     "canvas": {
+      "w": 1323,
+      "h": 743,
+      "bytes": 7863912
+     },
+     "pixelRatio": 1,
+     "jsHeapMB": 33.5,
+     "stage": "desert"
+    }
+   },
+   "fetchedForThisPlace": {
+    "files": 0,
+    "bytes": 0
+   }
+  },
+  "field": {
+   "cumulative": {
+    "label": "field",
+    "files": 5,
+    "bytes": 1503258
+   },
+   "perGait": {
+    "stand": {
+     "frame": {
+      "calls": 22,
+      "triangles": 408938,
+      "points": 940,
+      "lines": 0
+     },
+     "memory": {
+      "geometries": 32,
+      "textures": 23,
+      "programs": 17
+     },
+     "textures": {
+      "unique": 11,
+      "estimatedBytes": 120586238,
+      "worldOnlyBytes": 39496362,
+      "worldOnlyCount": 6,
+      "all": [
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 2048,
+        "h": 1984,
+        "bytes": 21670571
+       },
+       {
+        "where": "environment (PMREM)",
+        "w": 768,
+        "h": 1024,
+        "bytes": 8388608
+       },
+       {
+        "where": "Marwari_Hair",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "distant:uMap",
+        "w": 4096,
+        "h": 256,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 1024,
+        "h": 176,
+        "bytes": 961195
+       },
+       {
+        "where": "contact-shadow",
+        "w": 128,
+        "h": 128,
+        "bytes": 87381
+       }
+      ]
+     },
+     "shadow": {
+      "w": 2048,
+      "h": 2048,
+      "bytes": 16777216
+     },
+     "canvas": {
+      "w": 1323,
+      "h": 743,
+      "bytes": 7863912
+     },
+     "pixelRatio": 1,
+     "jsHeapMB": 33.5,
+     "stage": "field"
+    },
+    "canter": {
+     "frame": {
+      "calls": 22,
+      "triangles": 408938,
+      "points": 940,
+      "lines": 0
+     },
+     "memory": {
+      "geometries": 32,
+      "textures": 23,
+      "programs": 17
+     },
+     "textures": {
+      "unique": 11,
+      "estimatedBytes": 120586238,
+      "worldOnlyBytes": 39496362,
+      "worldOnlyCount": 6,
+      "all": [
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 2048,
+        "h": 1984,
+        "bytes": 21670571
+       },
+       {
+        "where": "environment (PMREM)",
+        "w": 768,
+        "h": 1024,
+        "bytes": 8388608
+       },
+       {
+        "where": "Marwari_Hair",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "distant:uMap",
+        "w": 4096,
+        "h": 256,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 1024,
+        "h": 176,
+        "bytes": 961195
+       },
+       {
+        "where": "contact-shadow",
+        "w": 128,
+        "h": 128,
+        "bytes": 87381
+       }
+      ]
+     },
+     "shadow": {
+      "w": 2048,
+      "h": 2048,
+      "bytes": 16777216
+     },
+     "canvas": {
+      "w": 1323,
+      "h": 743,
+      "bytes": 7863912
+     },
+     "pixelRatio": 1,
+     "jsHeapMB": 33.5,
+     "stage": "field"
+    }
+   },
+   "fetchedForThisPlace": {
+    "files": 5,
+    "bytes": 1503258
+   }
+  },
+  "village": {
+   "cumulative": {
+    "label": "village",
+    "files": 11,
+    "bytes": 2971980
+   },
+   "perGait": {
+    "stand": {
+     "frame": {
+      "calls": 25,
+      "triangles": 133738,
+      "points": 940,
+      "lines": 0
+     },
+     "memory": {
+      "geometries": 36,
+      "textures": 25,
+      "programs": 17
+     },
+     "textures": {
+      "unique": 12,
+      "estimatedBytes": 136839166,
+      "worldOnlyBytes": 55749290,
+      "worldOnlyCount": 7,
+      "all": [
+       {
+        "where": "Mesh:uMap",
+        "w": 2048,
+        "h": 2248,
+        "bytes": 24554155
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 2048,
+        "h": 1240,
+        "bytes": 13544107
+       },
+       {
+        "where": "environment (PMREM)",
+        "w": 768,
+        "h": 1024,
+        "bytes": 8388608
+       },
+       {
+        "where": "Marwari_Hair",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "distant:uMap",
+        "w": 4096,
+        "h": 256,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 1024,
+        "h": 144,
+        "bytes": 786432
+       },
+       {
+        "where": "contact-shadow",
+        "w": 128,
+        "h": 128,
+        "bytes": 87381
+       }
+      ]
+     },
+     "shadow": {
+      "w": 2048,
+      "h": 2048,
+      "bytes": 16777216
+     },
+     "canvas": {
+      "w": 1323,
+      "h": 743,
+      "bytes": 7863912
+     },
+     "pixelRatio": 1,
+     "jsHeapMB": 33.5,
+     "stage": "village"
+    },
+    "walk": {
+     "frame": {
+      "calls": 25,
+      "triangles": 133738,
+      "points": 940,
+      "lines": 0
+     },
+     "memory": {
+      "geometries": 36,
+      "textures": 25,
+      "programs": 17
+     },
+     "textures": {
+      "unique": 12,
+      "estimatedBytes": 136839166,
+      "worldOnlyBytes": 55749290,
+      "worldOnlyCount": 7,
+      "all": [
+       {
+        "where": "Mesh:uMap",
+        "w": 2048,
+        "h": 2248,
+        "bytes": 24554155
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Marwari_Low",
+        "w": 2048,
+        "h": 2048,
+        "bytes": 22369621
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 2048,
+        "h": 1240,
+        "bytes": 13544107
+       },
+       {
+        "where": "environment (PMREM)",
+        "w": 768,
+        "h": 1024,
+        "bytes": 8388608
+       },
+       {
+        "where": "Marwari_Hair",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "distant:uMap",
+        "w": 4096,
+        "h": 256,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "ground",
+        "w": 1024,
+        "h": 1024,
+        "bytes": 5592405
+       },
+       {
+        "where": "Mesh:uMap",
+        "w": 1024,
+        "h": 144,
+        "bytes": 786432
+       },
+       {
+        "where": "contact-shadow",
+        "w": 128,
+        "h": 128,
+        "bytes": 87381
+       }
+      ]
+     },
+     "shadow": {
+      "w": 2048,
+      "h": 2048,
+      "bytes": 16777216
+     },
+     "canvas": {
+      "w": 1323,
+      "h": 743,
+      "bytes": 7863912
+     },
+     "pixelRatio": 1,
+     "jsHeapMB": 33.5,
+     "stage": "village"
+    }
+   },
+   "fetchedForThisPlace": {
+    "files": 6,
+    "bytes": 1468722
+   }
+  }
+ },
+ "files": [
+  {
+   "url": "/images/horse-worlds/field/ground-n.webp",
+   "bytes": 577576
+  },
+  {
+   "url": "/images/horse-worlds/village/ground-n.webp",
+   "bytes": 449092
+  },
+  {
+   "url": "/images/horse-worlds/field/ground.webp",
+   "bytes": 429176
+  },
+  {
+   "url": "/images/horse-worlds/field/mid.webp",
+   "bytes": 396840
+  },
+  {
+   "url": "/images/horse-worlds/village/mid.webp",
+   "bytes": 386212
+  },
+  {
+   "url": "/images/horse-worlds/village/props.webp",
+   "bytes": 332608
+  },
+  {
+   "url": "/images/horse-worlds/village/ground.webp",
+   "bytes": 199402
+  },
+  {
+   "url": "/images/horse-worlds/field/fore.webp",
+   "bytes": 65524
+  },
+  {
+   "url": "/images/horse-worlds/village/distant.webp",
+   "bytes": 64560
+  },
+  {
+   "url": "/images/horse-worlds/village/fore.webp",
+   "bytes": 36848
+  },
+  {
+   "url": "/images/horse-worlds/field/distant.webp",
+   "bytes": 34142
+  }
+ ]
+}

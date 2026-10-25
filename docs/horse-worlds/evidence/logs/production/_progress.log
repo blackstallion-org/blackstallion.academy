@@ -1,0 +1,25 @@
+14:49:11 start a11y-d
+14:50:08 done  a11y-d exit=0 in 57 s
+14:50:08 start a11y-m
+14:50:52 done  a11y-m exit=0 in 44 s
+14:50:52 start transition
+14:52:03 done  transition exit=0 in 71 s
+14:52:03 start frame-d
+14:53:34 done  frame-d exit=0 in 91 s
+14:53:34 start frame-m
+14:54:22 done  frame-m exit=0 in 48 s
+14:54:22 start modes-d
+14:56:00 done  modes-d exit=0 in 98 s
+14:56:00 start modes-m
+14:57:03 done  modes-m exit=0 in 63 s
+14:57:03 start reduced-real
+14:58:14 done  reduced-real exit=0 in 71 s
+14:58:14 start network
+15:00:13 done  network exit=0 in 119 s
+15:00:13 start longwait
+15:02:11 done  longwait exit=0 in 118 s
+15:02:11 start existing
+15:02:56 done  existing exit=0 in 45 s
+15:02:56 start coat
+15:03:36 done  coat exit=0 in 40 s
+15:03:36 ALL DONE

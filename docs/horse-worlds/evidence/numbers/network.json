@@ -1,0 +1,94 @@
+{
+ "checks": [
+  {
+   "name": "the switch went through out, load and in, in that order",
+   "ok": true,
+   "detail": [
+    "out",
+    "load",
+    "in",
+    "idle"
+   ]
+  },
+  {
+   "name": "it waited in the load phase for the art (a real wait, not a flicker)",
+   "ok": true,
+   "detail": {
+    "steps": 305,
+    "ms": 35619
+   }
+  },
+  {
+   "name": "while the art was downloading the old place stayed faded out (no flash back, nothing half-drawn)",
+   "ok": true,
+   "detail": {
+    "maxFade": 0
+   }
+  },
+  {
+   "name": "the switcher said it was busy for the whole switch",
+   "ok": true,
+   "detail": {
+    "sample": "true"
+   }
+  },
+  {
+   "name": "the horse only slowed while it waited (never sped up), and was standing by the end of a long wait",
+   "ok": true,
+   "detail": {
+    "speedUps": 0,
+    "speedAtEndOfLoad": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "name": "the village came in and the viewer is idle again",
+   "ok": true,
+   "detail": {
+    "world": "village",
+    "phase": "idle",
+    "fade": 1,
+    "busy": false
+   }
+  },
+  {
+   "name": "the viewer gave up cleanly and says the 3D view is unavailable",
+   "ok": true
+  },
+  {
+   "name": "there is no canvas left in the viewer",
+   "ok": true
+  },
+  {
+   "name": "a still of the place that was asked for is shown, with a description",
+   "ok": true,
+   "detail": {
+    "alt": "A lane in the village: a still of the black Marwari stallion.",
+    "w": 1600,
+    "complete": true
+   }
+  },
+  {
+   "name": "the Village button still shows it is chosen and the buttons still work",
+   "ok": true
+  },
+  {
+   "name": "choosing another place swaps the still",
+   "ok": true,
+   "detail": {
+    "alt": "The home paddock: a still of the black Marwari stallion.",
+    "w": 1600
+   }
+  },
+  {
+   "name": "no uncaught page error",
+   "ok": true,
+   "detail": []
+  }
+ ]
+}

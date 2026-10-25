@@ -1,0 +1,70 @@
+{
+ "places": [
+  {
+   "place": "desert",
+   "pixels": 75794,
+   "share_of_frame_pct": 7.71,
+   "mean_rgb": [
+    32.9,
+    27.7,
+    21.8
+   ],
+   "luma_mean": 28.4,
+   "luma_p10": 14.6,
+   "luma_median": 22.6,
+   "luma_p90": 44.3,
+   "luma_p99": 141.1,
+   "share_below_24_pct": 57.1,
+   "share_below_40_pct": 88.4,
+   "share_below_64_pct": 94.3,
+   "warmth_r_minus_b": 11.1
+  },
+  {
+   "place": "field",
+   "pixels": 75833,
+   "share_of_frame_pct": 7.71,
+   "mean_rgb": [
+    31.5,
+    32.5,
+    30.1
+   ],
+   "luma_mean": 32.1,
+   "luma_p10": 16.9,
+   "luma_median": 25.6,
+   "luma_p90": 46.8,
+   "luma_p99": 175.0,
+   "share_below_24_pct": 41.9,
+   "share_below_40_pct": 87.1,
+   "share_below_64_pct": 93.6,
+   "warmth_r_minus_b": 1.4
+  },
+  {
+   "place": "village",
+   "pixels": 75807,
+   "share_of_frame_pct": 7.71,
+   "mean_rgb": [
+    32.6,
+    28.8,
+    24.0
+   ],
+   "luma_mean": 29.2,
+   "luma_p10": 16.2,
+   "luma_median": 24.3,
+   "luma_p90": 41.3,
+   "luma_p99": 146.2,
+   "share_below_24_pct": 48.2,
+   "share_below_40_pct": 89.5,
+   "share_below_64_pct": 94.9,
+   "warmth_r_minus_b": 8.7
+  }
+ ],
+ "spread": {
+  "luma_mean": 3.7,
+  "luma_p10": 2.3,
+  "luma_median": 3.0,
+  "luma_p90": 5.5,
+  "luma_p99": 33.9,
+  "share_below_40_pct": 2.4,
+  "warmth_r_minus_b": 9.7
+ }
+}

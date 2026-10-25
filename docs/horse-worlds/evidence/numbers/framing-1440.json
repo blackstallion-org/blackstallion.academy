@@ -1,0 +1,225 @@
+{
+ "rows": [
+  {
+   "world": "desert",
+   "gait": "stand",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 416,
+    "h": 506,
+    "centreXOffsetPct": 2.8,
+    "centreYOffsetPct": -3.3
+   },
+   "marginsPct": {
+    "left": 37.1,
+    "right": 31.5,
+    "top": 12.7,
+    "bottom": 19.3
+   },
+   "widthPct": 31.5,
+   "heightPct": 68.1,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "desert",
+   "gait": "walk",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 383,
+    "h": 416,
+    "centreXOffsetPct": 1.7,
+    "centreYOffsetPct": -3.3
+   },
+   "marginsPct": {
+    "left": 37.2,
+    "right": 33.8,
+    "top": 18.7,
+    "bottom": 25.3
+   },
+   "widthPct": 29,
+   "heightPct": 56,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "desert",
+   "gait": "canter",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 309,
+    "h": 301,
+    "centreXOffsetPct": 2.3,
+    "centreYOffsetPct": -2.6
+   },
+   "marginsPct": {
+    "left": 40.7,
+    "right": 36,
+    "top": 27.1,
+    "bottom": 32.3
+   },
+   "widthPct": 23.4,
+   "heightPct": 40.5,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "desert",
+   "gait": "gallop",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 263,
+    "h": 196,
+    "centreXOffsetPct": 2.5,
+    "centreYOffsetPct": -2
+   },
+   "marginsPct": {
+    "left": 42.5,
+    "right": 37.6,
+    "top": 34.8,
+    "bottom": 38.8
+   },
+   "widthPct": 19.9,
+   "heightPct": 26.4,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "field",
+   "gait": "stand",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 428,
+    "h": 504,
+    "centreXOffsetPct": 2.4,
+    "centreYOffsetPct": -3.3
+   },
+   "marginsPct": {
+    "left": 36.2,
+    "right": 31.4,
+    "top": 12.8,
+    "bottom": 19.3
+   },
+   "widthPct": 32.3,
+   "heightPct": 67.9,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "field",
+   "gait": "walk",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 381,
+    "h": 420,
+    "centreXOffsetPct": 1.8,
+    "centreYOffsetPct": -3.6
+   },
+   "marginsPct": {
+    "left": 37.4,
+    "right": 33.8,
+    "top": 18.2,
+    "bottom": 25.3
+   },
+   "widthPct": 28.8,
+   "heightPct": 56.5,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "field",
+   "gait": "trot",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 337,
+    "h": 364,
+    "centreXOffsetPct": 1.8,
+    "centreYOffsetPct": -2.9
+   },
+   "marginsPct": {
+    "left": 39,
+    "right": 35.5,
+    "top": 22.6,
+    "bottom": 28.4
+   },
+   "widthPct": 25.5,
+   "heightPct": 49,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "field",
+   "gait": "canter",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 305,
+    "h": 318,
+    "centreXOffsetPct": 1.7,
+    "centreYOffsetPct": -3.5
+   },
+   "marginsPct": {
+    "left": 40.2,
+    "right": 36.8,
+    "top": 25.1,
+    "bottom": 32.1
+   },
+   "widthPct": 23,
+   "heightPct": 42.8,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "village",
+   "gait": "stand",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 428,
+    "h": 505,
+    "centreXOffsetPct": 2.4,
+    "centreYOffsetPct": -3.3
+   },
+   "marginsPct": {
+    "left": 36.3,
+    "right": 31.4,
+    "top": 12.7,
+    "bottom": 19.3
+   },
+   "widthPct": 32.3,
+   "heightPct": 68,
+   "inside": true,
+   "overlapsControls": []
+  },
+  {
+   "world": "village",
+   "gait": "walk",
+   "viewport": "1440x900",
+   "picture": "1323x743",
+   "horse": {
+    "w": 384,
+    "h": 418,
+    "centreXOffsetPct": 1.8,
+    "centreYOffsetPct": -3.5
+   },
+   "marginsPct": {
+    "left": 37.3,
+    "right": 33.7,
+    "top": 18.3,
+    "bottom": 25.4
+   },
+   "widthPct": 29,
+   "heightPct": 56.2,
+   "inside": true,
+   "overlapsControls": []
+  }
+ ],
+ "sectionTop": 3014.9375
+}

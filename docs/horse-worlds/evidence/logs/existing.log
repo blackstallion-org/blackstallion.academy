@@ -1,0 +1,9 @@
+PASS the home page viewer is not in the places mode and has no place buttons  {"inPlaces":false,"placeButtons":0}
+PASS it still offers its three gaits: stand, walk, trot  [{"name":"stand","pressed":"true","disabled":false},{"name":"walk","pressed":"false","disabled":false},{"name":"trot","pressed":"false","disabled":false}]
+PASS it still has its orbit toggle and the "3D Specimen" plate marking  {"orbit":["Pause Orbit"],"marking":true}
+PASS its canvas still describes a rotatable model with points to choose  "A rotatable 3D model of a black Marwari stallion. Choose a point to focus the camera on it."
+PASS pressing walk makes it the pressed gait  ["stand:false","walk:true","trot:false"]
+PASS the plate drew a picture (the screenshot is not a flat colour)  {"bytes":147003}
+PASS no uncaught page error  []
+
+7/7 checks pass

@@ -1,0 +1,32 @@
+--- wait: the village's art is held for 40 s of simulated time, then arrives
+PASS requests for the village were really parked in the browser  {"parked":6}
+PASS after 40 s of simulated time the viewer is still in the load phase on the village, dark and busy  {"phase":"load","world":"village","fade":0,"busy":true,"ariaBusy":"true"}
+PASS it went out > load and never began to fade a place in while it waited  ["out","load"]
+PASS the old place was never shown under the new name: the stage on screen stayed the desert and nothing was announced  {"mounted":["desert"],"shown":["desert"],"status":""}
+PASS the horse stood still for the wait  [0,0,0,0,0]
+PASS the Village button stays pressed (it is what was asked for) and the others are not  {"desert":"false","field":"false","village":"true"}
+PASS the caption "Loading the scene" is showing for the visitor
+PASS when the art arrives the village comes in (load > in > idle) and is announced once  {"world":"village","mounted":"village","fade":1,"shown":"village","status":"Now showing a Marwar village lane."}
+PASS the order after the release was load > in > idle  ["load","in","idle"]
+PASS no uncaught page error  []
+--- back: the village is held; the visitor goes back to the desert; the village arrives later
+PASS the village is still loading after 20 s of simulated time (and the desert is faded out)  {"phase":"load","world":"village","fade":0,"mounted":"desert"}
+PASS the desert button was heard: the machine now aims at the desert and is fading it in  ["in","idle"]
+PASS it faded straight back in: no second fade-out, the fade only rose, and it reached 1  {"phases":["in","idle"],"monotonic":true,"fade":1}
+PASS the desert was never taken off the stage and the village was never put on it  {"mounted":["desert"],"shown":["desert"]}
+PASS the viewer is idle again, the Desert button is pressed and the group is no longer busy  {"busy":false,"ariaBusy":"false","pressed":{"desert":"true","field":"false","village":"false"}}
+PASS the lights came back to the desert (mix 1) and the caption is gone  {"lightMix":1,"caption":false}
+PASS the horse walks on in the desert as before  {"before":1.43,"now":1.44,"gait":"walk"}
+PASS when the village's art arrives later nothing on screen changes  {"world":"desert","mounted":"desert","phase":"idle","shown":"desert"}
+PASS asking for the village afterwards is an ordinary switch of about a second (its art is cached)  {"world":"village","elapsed":1.07}
+PASS no uncaught page error  []
+--- other: the village is held; the visitor picks the horse field instead
+PASS the village is still loading after 20 s of simulated time  {"phase":"load"}
+PASS the horse field comes in (it was fetched while the village was held)  {"world":"field","mounted":"field","fade":1}
+PASS the village was never put on the stage and never announced  {"mounted":["desert","field"],"shown":["desert","field"]}
+PASS the field is announced once it is on stage and the Horse Field button is the pressed one  {"shown":"field","status":"Now showing the horse field on a morning in early light.","pressed":{"desert":"false","field":"true","village":"false"}}
+PASS one phase at a time throughout: the order never had a second fade-out before the field was in  ["load","in","idle"]
+PASS the village arriving afterwards changes nothing on screen  {"world":"field","mounted":"field","phase":"idle"}
+PASS no uncaught page error  []
+
+27/27 checks pass

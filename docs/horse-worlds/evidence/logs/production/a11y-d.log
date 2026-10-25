@@ -1,0 +1,27 @@
+PASS the viewer has a labelled group "Choose a place" holding three buttons
+PASS every button has a name and is a real <button>  ["stand","walk","canter","gallop","Reset View","Full Screen","Desert","Horse Field","Village"]
+PASS every button is in the tab order
+PASS place buttons are at least 44 px tall (touch target)
+PASS exactly one canvas in the viewer  1
+PASS exactly one WebGL canvas on the whole page  1
+PASS Desert is pressed at the start, the others are not  {"desert":"true","field":"false","village":"false"}
+PASS ArrowRight moves focus to Horse Field and does not change the place  {"focus":"field","world":"desert"}
+PASS End moves focus to Village  "village"
+PASS Home moves focus to Desert  "desert"
+PASS ArrowLeft from Desert wraps to Village  "village"
+PASS ArrowDown from Village wraps to Desert  "desert"
+PASS ArrowUp from Desert wraps to Village  "village"
+PASS the focused place button shows a visible focus ring (:focus-visible, solid, >= 2px)  {"which":"field","focusVisible":true,"style":"solid","width":"2px","offset":"5px","color":"rgb(221, 208, 188)"}
+PASS the focused gait button shows a visible focus ring  {"which":"walk","focusVisible":true,"style":"solid","width":"2px"}
+PASS Enter on Village starts a switch: aria-busy on the group and Village pressed  {"groupBusy":"true","pressed":{"desert":"false","field":"false","village":"true"}}
+PASS the viewer is busy during the fade
+PASS after the fade the viewer shows the Village, the group is no longer busy  {"world":"village","groupBusy":"false"}
+PASS a polite live region says which place is now shown  "Now showing a Marwar village lane."
+PASS the live region is polite  {"live":"polite","srOnly":"sr-only"}
+PASS Space on Desert chooses it  {"world":"desert","status":"Now showing the Marwar desert at golden hour."}
+PASS pressing the place already shown starts nothing  false
+PASS scrolling the page and turning the wheel over the viewer change neither the place nor the camera  {"before":{"world":"desert","dist":6.999999552282597,"az":24.32502830412271,"settled":false},"after":{"world":"desert","busy":false,"dist":6.999999984249821,"az":24.256306563395462}}
+PASS a long drag turns the camera by at most 32 deg / 5 deg and the place is unchanged  {"az":-32,"el":-3.564964661033841,"world":"desert"}
+PASS the camera stays where it is left for a moment, then springs back to the shot within about 5 s  {"held":-32,"oneSecondAfter":-32,"back":{"az":-0.1109853693878682,"el":-0.01236434124248559,"settled":false}}
+
+25/25 checks pass

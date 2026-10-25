@@ -1,0 +1,4 @@
+desert {"fetched":{"files":0,"bytes":0},"stand":{"calls":17,"tris":82166},"heavy":[{"g":"gallop","calls":17,"tris":82166,"tex":11,"texMB":32.1,"worldTexMB":6.7}]}
+field {"fetched":{"files":5,"bytes":418950},"stand":{"calls":22,"tris":187290},"heavy":[{"g":"canter","calls":22,"tris":187290,"tex":11,"texMB":34.8,"worldTexMB":9.5}]}
+village {"fetched":{"files":6,"bytes":492050},"stand":{"calls":25,"tris":82198},"heavy":[{"g":"walk","calls":25,"tris":82198,"tex":12,"texMB":38.7,"worldTexMB":13.4}]}
+total art + model on the wire: {"label":"all","files":11,"bytes":911000}

@@ -1,0 +1,253 @@
+{
+ "checks": [
+  {
+   "name": "requests for the village were really parked in the browser",
+   "ok": true,
+   "detail": {
+    "parked": 6
+   }
+  },
+  {
+   "name": "after 40 s of simulated time the viewer is still in the load phase on the village, dark and busy",
+   "ok": true,
+   "detail": {
+    "phase": "load",
+    "world": "village",
+    "fade": 0,
+    "busy": true,
+    "ariaBusy": "true"
+   }
+  },
+  {
+   "name": "it went out > load and never began to fade a place in while it waited",
+   "ok": true,
+   "detail": [
+    "out",
+    "load"
+   ]
+  },
+  {
+   "name": "the old place was never shown under the new name: the stage on screen stayed the desert and nothing was announced",
+   "ok": true,
+   "detail": {
+    "mounted": [
+     "desert"
+    ],
+    "shown": [
+     "desert"
+    ],
+    "status": ""
+   }
+  },
+  {
+   "name": "the horse stood still for the wait",
+   "ok": true,
+   "detail": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "the Village button stays pressed (it is what was asked for) and the others are not",
+   "ok": true,
+   "detail": {
+    "desert": "false",
+    "field": "false",
+    "village": "true"
+   }
+  },
+  {
+   "name": "the caption \"Loading the scene\" is showing for the visitor",
+   "ok": true
+  },
+  {
+   "name": "when the art arrives the village comes in (load > in > idle) and is announced once",
+   "ok": true,
+   "detail": {
+    "world": "village",
+    "mounted": "village",
+    "fade": 1,
+    "shown": "village",
+    "status": "Now showing a Marwar village lane."
+   }
+  },
+  {
+   "name": "the order after the release was load > in > idle",
+   "ok": true,
+   "detail": [
+    "load",
+    "in",
+    "idle"
+   ]
+  },
+  {
+   "name": "no uncaught page error",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "name": "the village is still loading after 20 s of simulated time (and the desert is faded out)",
+   "ok": true,
+   "detail": {
+    "phase": "load",
+    "world": "village",
+    "fade": 0,
+    "mounted": "desert"
+   }
+  },
+  {
+   "name": "the desert button was heard: the machine now aims at the desert and is fading it in",
+   "ok": true,
+   "detail": [
+    "in",
+    "idle"
+   ]
+  },
+  {
+   "name": "it faded straight back in: no second fade-out, the fade only rose, and it reached 1",
+   "ok": true,
+   "detail": {
+    "phases": [
+     "in",
+     "idle"
+    ],
+    "monotonic": true,
+    "fade": 1
+   }
+  },
+  {
+   "name": "the desert was never taken off the stage and the village was never put on it",
+   "ok": true,
+   "detail": {
+    "mounted": [
+     "desert"
+    ],
+    "shown": [
+     "desert"
+    ]
+   }
+  },
+  {
+   "name": "the viewer is idle again, the Desert button is pressed and the group is no longer busy",
+   "ok": true,
+   "detail": {
+    "busy": false,
+    "ariaBusy": "false",
+    "pressed": {
+     "desert": "true",
+     "field": "false",
+     "village": "false"
+    }
+   }
+  },
+  {
+   "name": "the lights came back to the desert (mix 1) and the caption is gone",
+   "ok": true,
+   "detail": {
+    "lightMix": 1,
+    "caption": false
+   }
+  },
+  {
+   "name": "the horse walks on in the desert as before",
+   "ok": true,
+   "detail": {
+    "before": 1.43,
+    "now": 1.44,
+    "gait": "walk"
+   }
+  },
+  {
+   "name": "when the village's art arrives later nothing on screen changes",
+   "ok": true,
+   "detail": {
+    "world": "desert",
+    "mounted": "desert",
+    "phase": "idle",
+    "shown": "desert"
+   }
+  },
+  {
+   "name": "asking for the village afterwards is an ordinary switch of about a second (its art is cached)",
+   "ok": true,
+   "detail": {
+    "world": "village",
+    "elapsed": 1.07
+   }
+  },
+  {
+   "name": "no uncaught page error",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "name": "the village is still loading after 20 s of simulated time",
+   "ok": true,
+   "detail": {
+    "phase": "load"
+   }
+  },
+  {
+   "name": "the horse field comes in (it was fetched while the village was held)",
+   "ok": true,
+   "detail": {
+    "world": "field",
+    "mounted": "field",
+    "fade": 1
+   }
+  },
+  {
+   "name": "the village was never put on the stage and never announced",
+   "ok": true,
+   "detail": {
+    "mounted": [
+     "desert",
+     "field"
+    ],
+    "shown": [
+     "desert",
+     "field"
+    ]
+   }
+  },
+  {
+   "name": "the field is announced once it is on stage and the Horse Field button is the pressed one",
+   "ok": true,
+   "detail": {
+    "shown": "field",
+    "status": "Now showing the horse field on a morning in early light.",
+    "pressed": {
+     "desert": "false",
+     "field": "true",
+     "village": "false"
+    }
+   }
+  },
+  {
+   "name": "one phase at a time throughout: the order never had a second fade-out before the field was in",
+   "ok": true,
+   "detail": [
+    "load",
+    "in",
+    "idle"
+   ]
+  },
+  {
+   "name": "the village arriving afterwards changes nothing on screen",
+   "ok": true,
+   "detail": {
+    "world": "field",
+    "mounted": "field",
+    "phase": "idle"
+   }
+  },
+  {
+   "name": "no uncaught page error",
+   "ok": true,
+   "detail": []
+  }
+ ]
+}

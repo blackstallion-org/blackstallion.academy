@@ -1,0 +1,196 @@
+[
+ {
+  "name": "every ordinary switch takes about one second (0.95 to 1.15 s) as out > load > in",
+  "ok": true,
+  "detail": [
+   1.033,
+   1.033,
+   1.033,
+   1.033,
+   1.033
+  ]
+ },
+ {
+  "name": "a switch whose art has not been fetched yet still goes out > load > in and ends at rest",
+  "ok": true,
+  "detail": {
+   "seconds": 1.033,
+   "loadSeconds": 0.017
+  }
+ },
+ {
+  "name": "one phase at a time in every scenario (no second fade-out over a fade-in)",
+  "ok": true,
+  "detail": [
+   "out > load > in",
+   "out > load > in",
+   "out > load > in",
+   "out > load > in",
+   "out > in",
+   "out > load > in",
+   "out > load > in"
+  ]
+ },
+ {
+  "name": "fades only fall and then only rise; no frame steps the fade by more than 0.08",
+  "ok": true,
+  "detail": [
+   0.0555,
+   0.0555,
+   0.0555,
+   0.0555,
+   0.0543,
+   0.0555,
+   0.0555
+  ]
+ },
+ {
+  "name": "the place is swapped only once it is fully faded out",
+  "ok": true,
+  "detail": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ {
+  "name": "the light mix only goes forward within a switch",
+  "ok": true,
+  "detail": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ]
+ },
+ {
+  "name": "the horse is at a standstill within 0.8 s of the press, from a stand, a walk or a gallop",
+  "ok": true,
+  "detail": [
+   0.65,
+   0.65,
+   0,
+   0.65,
+   0.72
+  ]
+ },
+ {
+  "name": "every switch ends fully faded in",
+  "ok": true,
+  "detail": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ {
+  "name": "two quick presses run as one switch and end in the place pressed last",
+  "ok": true,
+  "detail": [
+   [
+    "desert",
+    "village"
+   ]
+  ]
+ },
+ {
+  "name": "a change of mind fades the place on screen straight back in: no swap, no load",
+  "ok": true,
+  "detail": {
+   "phases": "out > in",
+   "minFadeReached": 0.583,
+   "seconds": 0.433
+  }
+ },
+ {
+  "name": "the camera heads for a new standing shot on every switch that changes place",
+  "ok": true,
+  "detail": [
+   {
+    "start": [
+     24.49,
+     5.15,
+     7,
+     32
+    ],
+    "end": [
+     30.21,
+     6.58,
+     6.57,
+     30.56
+    ]
+   },
+   {
+    "start": [
+     24.2,
+     4.95,
+     7,
+     32
+    ],
+    "end": [
+     29.97,
+     6.36,
+     6.57,
+     30.56
+    ]
+   },
+   {
+    "start": [
+     32.09,
+     6.86,
+     6.4,
+     30
+    ],
+    "end": [
+     32,
+     6.88,
+     6.4,
+     30
+    ]
+   },
+   {
+    "start": [
+     23.33,
+     5.07,
+     7,
+     32
+    ],
+    "end": [
+     29.01,
+     6.54,
+     6.57,
+     30.56
+    ]
+   },
+   {
+    "start": [
+     14.44,
+     1.87,
+     9.2,
+     36
+    ],
+    "end": [
+     27.58,
+     5.58,
+     7.11,
+     31.55
+    ]
+   }
+  ]
+ },
+ {
+  "name": "no uncaught page error",
+  "ok": true,
+  "detail": []
+ }
+]
