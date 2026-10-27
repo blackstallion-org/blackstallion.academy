@@ -53,6 +53,9 @@ const SAFE_AFTER_S = 0.06;
  *  planted feet are held from the stand pose, which is not where the stride puts them: a hind foot runs out of reach and floats 3-5 cm
  *  (at 0.02 the first steps slipped least, 0.04 m/s, but 7 % of mid-stance was over 2 cm up and 3 % over 4 cm). Higher and the feet slide. */
 const MOVING_GAIT = 0.4;
+/** Ground speed (m/s) at which a foot that is still planted when the horse slows below the lock's speed slides to the place the pose
+ *  puts it. Letting go of it at once (50 ms) threw the toe 3-12 cm across the ground, 3-8 m/s, in the last fifth of a second. */
+const STOP_SLIDE_MPS = 1;
 const ITERATIONS = 24;
 /** Fraction of the straight-leg reach the lock may ask for (keeps the joints off their limits). */
 const REACH_FRACTION = 0.97;
@@ -236,6 +239,8 @@ export class FootLock {
   private active = false;
   /** Share of the walk in the pose from which a horse that is setting off counts as moving (QA can change it). */
   movingGait = MOVING_GAIT;
+  /** Ground speed of a planted foot settling into the stand pose as the horse stops (QA can change it). */
+  stopSlideMps = STOP_SLIDE_MPS;
   /** Seat the hoof on the surface under it (see the header); false is the sideways-only lock of the first pass, for QA comparison. */
   seat = true;
   /** QA readout per limb. */
@@ -275,25 +280,45 @@ export class FootLock {
       leg.clipToe.copy(this.tmp);
       let w = 0;
       let wy = -1; // seating weight; -1 = same as w (the release)
+      let releasing = false;
       if (u !== null) {
         // stance: the toe where it first reaches the ground is the point the lock holds (the phase can start while the hoof
-        // is still in the air), blended in over LOCK_RAMP_S
-        if (!leg.engaged) {
+        // is still in the air), blended in over LOCK_RAMP_S. A foot that had begun to let go and whose stance window opens again (the
+        // dominant clip changed under it) is a new stance: holding its old anchor pulled it back 13-20 cm across the ground.
+        if (!leg.engaged || leg.releaseT > 0) {
           if (loco.hooves[l].height < (this.seat ? LOCK_TOUCH_M : 0.04)) {
             leg.anchor.copy(this.tmp);
             leg.engaged = true;
             leg.tStance = 0;
             leg.releaseT = 0;
-          }
+          } else releasing = leg.engaged;
         } else {
           leg.tStance += dt;
-          leg.releaseT = 0;
         }
-        if (leg.engaged) {
+        if (leg.engaged && !releasing) {
           w = smoothstep(0, LOCK_RAMP_S, leg.tStance);
           wy = smoothstep(0, SEAT_RAMP_S, leg.tStance);
         }
-      } else if (leg.engaged) {
+      } else if (leg.engaged && !moving && leg.releaseT === 0) {
+        // slowing to a stop with the foot still planted (one already lifting keeps letting go below): the anchor slides to the pose's
+        // own toe at no more than stopSlideMps (the stand pose is not where the stride left the foot, and the pose keeps changing
+        // while the walk fades out), then the lock lets go
+        leg.tStance += dt;
+        const dx = this.tmp.x - leg.anchor.x;
+        const dz = this.tmp.z - leg.anchor.z;
+        const dist = Math.hypot(dx, dz);
+        const step = this.stopSlideMps * dt;
+        if (dist <= step) {
+          leg.engaged = false;
+          leg.tStance = 0;
+        } else {
+          leg.anchor.x += (dx / dist) * step;
+          leg.anchor.z += (dz / dist) * step;
+          w = smoothstep(0, LOCK_RAMP_S, leg.tStance);
+          wy = smoothstep(0, SEAT_RAMP_S, leg.tStance);
+        }
+      } else if (leg.engaged) releasing = true;
+      if (releasing) {
         // swing: hold the anchored toe while it leaves the ground, then let go over LOCK_RELEASE_S
         leg.releaseT += dt;
         if (leg.releaseT >= LOCK_RELEASE_S) {

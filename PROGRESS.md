@@ -242,6 +242,17 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   feet up to 7.7 m/s in the worst phase, 12 % of mid-stance frames unlocked; same as before this pass. Also open: one 3.8 m/s frame
   at the campus walk -> trot change; skating remains for the first 0.3 s. One frame at 1440 and 390 checked by eye; phone, build,
   anatomy page not checked. See report §3j.
+- [x] **Session 27 Oct 2026 (end of day) · The stop** (`footlock.ts` only; no new assets). Two causes. (1) Under 0.4 m/s the lock let
+  go of every planted foot in 50 ms, up to 12 cm from where the pose wanted it (7.7 m/s). Now such a foot's anchor slides to the pose's
+  toe at 1 m/s (`STOP_SLIDE_MPS`), then lets go. (2) Found while measuring: a foot that had begun to let go and whose stance window
+  reopened at a gait change was pulled 13-20 cm back to its old anchor (the 411-435 mm jump of the earlier passes); it now takes a new
+  anchor. Four phases, committed -> now, planted-foot speed rms / max: stop from 1.5 m/s 0.67 / 5.9 -> 0.34 / 1.0 m/s (unlocked 5.8 ->
+  0 %); film end beat (campus, 5.2 m/s stop) 1.34 / 37.5 -> 0.59 / 9.0 (unlocked 8.8 -> 2.3 %, largest lock jump 360 -> 127 mm, 1/120 s);
+  from 5.2 m/s the largest jump 435 -> 106 mm. Starts, desert and campus beats unchanged; `npm test` 84/84. Tried and removed: a lift-off
+  release scaled to the anchor's distance (worse at canter: 604 mm jumps). **Not fixed:** flicks while slowing through the gaits (toe
+  over 5 m/s: 69 and 88 frames from 3.4 and 5.2 m/s; a third are the clip's own swing, a third lift-offs from a far anchor); a foot may
+  glide up to 1 m/s for ~80 ms after standstill; the 5.2 m/s planted maximum reads higher (6.6 -> 15.8, a reclassified flick, not
+  checked frame by frame). Stills only; phone, build, anatomy page not checked. See report §3k.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
