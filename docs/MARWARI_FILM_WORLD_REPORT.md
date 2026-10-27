@@ -750,8 +750,9 @@ distance from the anchor to the clip's toe, the toe's fastest speed over the nex
 So the distance is not the 10–25 cm I had assumed: 40–60 cm when the horse slows through a walk or a slow trot. My reading of
 `locomotion.ts`, consistent with the table but not isolated: the stride phase advances by speed ÷ the stride length of the blend, and
 that length changes with the gait weights, so mid-stance the clip's foot sweeps back faster than the body moves while the lock holds the
-foot; at the lift-off the lock pays the difference in one 50 ms release. At a canter (over 4 m/s) a toe speed of 8–16 m/s is about twice
-the body speed, which is what a swinging toe does, so those are not flicks.
+foot; at the lift-off the lock pays the difference in one 50 ms release. **(Refuted in §3m: advancing the phase by the dominant clip's
+own stride length changes nothing; the cause is the clips' footfall timing at the shared phase.)** At a canter (over 4 m/s) a toe speed
+of 8–16 m/s is about twice the body speed, which is what a swinging toe does, so those are not flicks.
 
 **What I tried** (stops from 3.4 and 5.2 m/s, four phases, 1/120 s; a release lasting 1.5 × distance ÷ cap, between 50 ms and 0.3 s, with
 the cap = base + per × body speed; "lock-driven" is a frame with a toe on the ground over 5 m/s whose clip toe moves under 30 % of that):
@@ -808,14 +809,121 @@ typecheck clean on the film module. One frame each at 1440 and 390 px of the hor
 
 **Left as it is**
 - **What is left of the over-5 m/s frames is the pose.** In the end beat 62 of 115 are the clip's own toe (a swing, or the blend of two
-  gaits), 44 mixed, 9 the lock. The ground maxima therefore hardly moved. The cause of the 40–60 cm anchor distance is the stride-phase
-  advance across the stride-length blend in `locomotion.ts`, not the lock; I did not touch it, and a lock that no longer has that
-  distance to hide would be the cleaner fix.
+  gaits), 44 mixed, 9 the lock. The ground maxima therefore hardly moved. The cause of the 40–60 cm anchor distance is in `locomotion.ts`,
+  not the lock (§3m shows it is the footfall timing of the clips at the shared phase, not the stride-length blend I suspected here).
 - **Two maxima a little higher** (above), one frame each.
 - **The longer release (up to 0.3 s) lets a foot trail its clip toe as it lifts.** I have looked at stills only, not the motion.
 - The constants (1 + 2 × speed, 0.3 m/s², 3 cm, 0.3 s) come from a sweep over three stops and one film beat in the desert and the
   campus; the village, a steeper stop and a stop that is interrupted by a start were not tried.
 - Not checked: a phone, the production build, the anatomy page.
+
+### 3m. Why the anchor ends up so far from the clip's toe (thirteenth pass, 27 Oct)
+
+**The hypothesis I was asked to test, and my reading of §3l:** the stride phase advances by speed ÷ the stride length of the gait blend,
+so while the weights change mid-stance the clip's foot sweeps back faster than the body moves.
+
+**It is not the cause.** Three pieces of evidence.
+1. *Arithmetic.* The blend's stride length is the weight-averaged one, so each clip's foot slip is 1 − L_clip ÷ L_blend and the weighted
+   sum of those slips is exactly zero: the rate mismatch cancels in the blended pose.
+2. *With the lock off, advancing the phase by the dominant clip's own stride length instead of the blend's* (stops from 3.4 and 5.2 m/s,
+   four phases, 1/120 s; the mean ground drift of the clip's toe over a stance of the dominant clip's window, slowing stances only):
+
+   | Stances | Blend (as it is) | Dominant clip's length |
+   | --- | --- | --- |
+   | Dominant clip changed during the stance | 478 mm (n = 6) | 488 mm (n = 6) |
+   | Blended, same dominant clip | 207 mm (n = 29) | 204 mm (n = 34) |
+   | Pure | 92 mm (n = 4) | 91 mm (n = 4) |
+
+3. *What the clips do at the same phase.* Walk: L = 1.152 m, feet land HL, FL, HR, FR at 0, 0.25, 0.5, 0.75, each in stance for 0.55 of the
+   cycle. Trot: L = 2.498 m, diagonals land at 0 and 0.5, each in stance for 0.38. Walk's left hind foot at phase 0.30 is in stance, 10 cm
+   behind the root's origin; trot's is in swing, 25 cm ahead and 13 cm up; at 0.45 they are 67 cm apart. A cross-fade of the two puts the
+   foot halfway between stance and swing.
+
+**What the lock-off measurement does show** (same runs, plus steady gaits and the film's speed-ups; the clip's own toe over each stance):
+steady and pure 95 mm (median 94, n = 544); speeding up, blended 152 mm; slowing, blended 207 mm (median 226); **slowing, with the
+dominant clip changing during the stance 478 mm (median 581, max 632 mm, with the body moving 1.4–1.6 m)**. (The 580 mm outliers in the
+pure groups are the start from standing.) That is the 40–60 cm of §3l: it is the clip's pose across a gait change.
+
+**A fixed phase offset per clip.** Mismatch (rms over the four feet, the clips' toe positions in the root frame, at the same phase) and
+the offset that minimises it, from the clips' own toe paths:
+
+| Pair | At the same phase | Best offset (cycles) | At the best offset |
+| --- | --- | --- | --- |
+| Walk → trot | 59.1 cm | 0.55 | 31.2 cm |
+| Trot → canter (right lead / left lead) | 58.7 / 58.6 | 0.25 / 0.75 | 43.1 / 44.1 |
+| Canter → gallop | 45.0 | 0.925 | 36.8 |
+| Gallop → sprint | 11.8 | 0.975 | 6.2 |
+| Canter right ↔ left (the lead change) | 60.9 | none better than 58.8 | |
+
+With the whole chain applied and the lock off, the stances with a changing dominant clip fell from 478 mm (n = 6) to 204 mm (n = 16),
+blended ones from 207 to 145 mm, pure ones unchanged; all slowing stances 237 → 164 mm. A control with every offset shifted half a cycle
+did nothing (429 mm, max 718). With the lock on, the stops from 3.4 and 5.2 m/s improved a lot, but the trot → canter offset hurt the
+desert's speed-up at 1/120 s (slip 0.29 → 0.61 m/s, an 11.6 m/s frame at 11.2 s). I swept it (right lead 0.55 + x, left lead half a cycle
+further, x from 0 to 0.9): the results jump about from one x to the next (the speed-up's slip 0.20 at x = 0.40, 0.27 at 0.30, 0.61 at 0.25;
+the slow-down's frames over 5 m/s 19–51) and the cost curve is flat (43 cm at the best offset, 60 cm at the median), so four stride phases
+cannot tell the offsets apart. **Only the walk ↔ trot offset is kept**; the trot, canter, gallop and sprint keep their relations to each
+other (all four play the same 0.52 ahead of the walk). Sensitivity of that single offset (the lock on; four phases; 1/120 s; slip m/s /
+largest planted-foot speed m/s / frames over 5 m/s / largest lock jump mm):
+
+| Trot offset | Walk → trot speed-up | Trot → walk, stop from 3.4 m/s |
+| --- | --- | --- |
+| none | 0.13 / 2.3 / 61 / 119 | 0.38 / 6.6 / 50 / 100 |
+| 0.45 | 0.02 / 0.2 / 12 / 84 | 0.19 / 3.4 / 4 / 46 |
+| 0.49–0.51 | 0.02 / 0.2 / 12–13 / 78–82 | 0.05–0.06 / 1.1–1.5 / 0–2 / 43 |
+| **0.52** | 0.02 / 0.2 / 15 / 75 | 0.04 / 1.0 / 0 / 43 |
+| 0.53–0.57 | 0.02–0.05 / 0.2–0.9 / 13–15 / 78–86 | 0.02–0.03 / 1.0 / 0 / 43–54 |
+| 0.60 | 0.05 / 0.9 / 14 / 89 | 0.66 / 13.8 / 9 / 74 |
+| 0.65 | 0.05 / 0.9 / 24 / 87 | 0.30 / 5.9 / 12 / 79 |
+
+0.49–0.57 all work; 0.60 and above do not. 0.52 is the middle of the plateau.
+
+**Change** (`locomotion.ts` only; no new assets; `footlock.ts` untouched): each gait clip plays at the stride phase plus its offset (the
+walk 0, the trot and every faster gait 0.52), and `stancePhase` follows the same offset. `GAIT_PHASE_OFFSET` carries the derivation;
+`phaseOffset` is a QA setting. Steady gaits are the same animation, started 0.52 of a cycle later.
+
+**Result** (previous commit → now; four phases; same harness; "ground" is any toe within 3 cm of the ground):
+
+| Stop from | Step | Planted-foot rms / max | Unlocked | Ground rms / max | Frames over 5 m/s | Lock jump p99 / largest |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1.5 m/s | both | unchanged | 0 | 0.54 / 4.1 | 0 | 18 / 41, 32 / 58 mm |
+| 3.4 m/s | 1/120 s | 0.54 / 8.6 → **0.30 / 1.0** m/s | 3.4 → 0.0 % | 1.25 / 13.3 → 0.62 / 5.0 | 50 → 0 | 46 / 100 → 26 / 43 |
+| 3.4 m/s | 1/60 s | 0.71 / 8.1 → 0.30 / 1.0 | 2.8 → 0.0 % | 1.28 / 13.8 → 0.63 / 5.5 | 26 → 1 | 77 / 146 → 49 / 87 |
+| 5.2 m/s | 1/120 s | 0.68 / 15.8 → 0.41 / 6.0 | 3.7 → 0.0 % | 1.52 / 16.7 → 1.19 / 14.1 | 59 → 43 | 54 / 94 → 40 / 100 |
+| 5.2 m/s | 1/60 s | 0.84 / 9.6 → 0.53 / 10.1 | 3.4 → 0.0 % | 1.49 / 15.8 → 1.14 / 11.4 | 34 → 19 | 100 / 144 → 79 / 171 |
+
+The film's end beat (campus, 5.2 m/s for 14 s, then the stop; the offsets off → on in one session):
+
+| Step | Planted-foot rms / max | Unlocked | Ground rms / max | Frames over 5 m/s | Lock jump p99 / largest |
+| --- | --- | --- | --- | --- | --- |
+| 1/120 s | 0.61 / 11.4 → 0.52 / 8.0 | 2.3 → 2.0 % | 1.69 / 18.8 → 1.46 / 21.5 | 115 → 93 | 50 / 127 → 44 / 120 |
+| 1/60 s | 0.67 / 10.0 → 0.59 / 9.7 | 1.6 → 1.6 % | 1.71 / 21.2 → 1.41 / 17.0 | 56 → 41 | 87 / 177 → 78 / 162 |
+
+The film's beats (slip, sensor / largest lock jump):
+
+| Window | 1/120 s | 1/60 s |
+| --- | --- | --- |
+| Campus, whole beat | 0.24 → 0.18 / 136 → 141 mm | 0.25 → 0.16 / 251 → 262 |
+| Campus, stand → trot (0–3 s) | 0.17 → 0.02 / 108 → 81 | 0.17 → 0.02 / 208 → 144 |
+| Desert, whole beat | 0.28 → 0.27 / 119 → 92 | 0.32 → 0.35 / 208 → 171 |
+| Desert, stand → walk | unchanged (0.01 / 78) | unchanged (0.01 / 137) |
+
+The campus beat's largest planted-foot speed falls 7.6 → 5.7 m/s (1/120 s) and 7.2 → 2.4 (1/60 s), and the campus start's 3.8 m/s frame
+at the walk → trot change is gone (3.8 → 1.2). Steady gaits are unchanged (desert ladder, lock fully holding every stance: walk 0.5 %, trot
+1.1 %, canter 2.1 %, gallop 4.4 % slip; the 11.5 m/s step, inside the gallop → sprint band, 6.6 → 5.4 %); a canter lead change R → L at
+5.2 m/s is identical (slip 0.11 m/s, jump 54 mm). `npm test` 84 / 84; lint and typecheck clean on the film module. One frame each, at
+1440 px in the middle of a trot → walk change (`docs/qa/film/gait_change_trot_walk_r14_1440.png`) and at 390 px after a trot stop
+(`docs/qa/film/stop_trot_stand_r14_390.png`): natural poses, hooves seated, no overflow, no console errors.
+
+**Left as it is**
+- **Trot ↔ canter, canter ↔ gallop and gallop ↔ sprint are as before**, 59 / 45 / 12 cm of mismatch. The canter → trot part of the 5.2 m/s
+  stop still has 43 frames over 5 m/s (22 of them the clip's own toe, 13 mixed, 8 the lock) and the end beat 93; the trot → canter offset
+  needs a better method than four stride phases (more phases, or a cost that weights the stance feet).
+- **Four figures a little worse:** the desert beat at 1/60 s (slip 0.32 → 0.35 m/s, largest planted-foot speed 2.6 → 4.5), the end beat's
+  ground maximum at 1/120 s (18.8 → 21.5 m/s), the 5.2 m/s stop's largest lock jump at 1/60 s (144 → 171 mm) and its planted-foot maximum
+  at 1/60 s (9.6 → 10.1 m/s). I did not trace them.
+- **The offset belongs to these clips.** It comes from their toe paths; re-derive it (`GAIT_PHASE_OFFSET`) if the gaits are re-authored.
+  The starting phases of the QA harness are the shared phase, so for the trot and above they now sample the cycle 0.52 shifted.
+- Not checked: the village, a phone, the production build, the anatomy page; the motion by eye (two stills).
 
 ## 4. Performance (measured, not estimated)
 

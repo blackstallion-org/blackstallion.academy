@@ -263,7 +263,22 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   and applying it to every lift-off were tried and rejected (jumps of 260-396 mm at canter, 328 mm in the desert's walk -> trot).
   **Not fixed:** the over-5 m/s frames that remain are the clip's own toe in the gait blends (62 of 115 in the end beat), so ground
   maxima barely moved, and one frame each rose (9.0 -> 11.4 m/s planted, 19.3 -> 21.2 ground at 1/60 s); the root is in the
-  stride-phase advance in `locomotion.ts`. Stills only; village, steeper stops, phone, build, anatomy page not checked. See report §3l.
+  stride-phase advance in `locomotion.ts` (**corrected in the next entry: it is not**). Stills only; village, steeper stops, phone,
+  build, anatomy page not checked. See report §3l.
+- [x] **Session 27 Oct 2026 (night, later) · The anchor distance: not the stride length, the clips' footfall timing** (`locomotion.ts`
+  only; no new assets). Tested the stride-length-blend hypothesis with the lock off: advancing the phase by the dominant clip's own stride
+  length changes nothing (stances with a changing dominant clip: 478 -> 488 mm of clip-toe drift; the arithmetic says the weighted slips
+  cancel). The cause is that walk and trot are authored half a cycle apart for the hind legs, so at the shared phase one has a foot in
+  stance where the other has it in swing and the cross-fade puts the foot halfway (67 cm apart at phase 0.45). Each gait clip now plays at
+  the stride phase plus an offset (walk 0, trot and faster 0.52; `GAIT_PHASE_OFFSET`, derived from the clips' toe paths; 0.49-0.57 work,
+  0.60 and above do not). Four phases, previous commit -> now: stop from 3.4 m/s planted-foot speed 0.54 / 8.6 -> 0.30 / 1.0 m/s, frames
+  over 5 m/s 50 -> 0, unlocked 3.4 -> 0 %; from 5.2 m/s 0.68 / 15.8 -> 0.41 / 6.0, unlocked 3.7 -> 0; film end beat ground rms 1.69 -> 1.46,
+  frames over 5 m/s 115 -> 93; campus beat slip 0.24 -> 0.18, stand -> trot 0.17 -> 0.02 (the 3.8 m/s frame is gone); steady gaits and a
+  lead change unchanged. Aligning trot with canter (best 0.25) was tried and dropped: the cost is flat and the results jump from one offset
+  to the next (desert speed-up slip 0.29 -> 0.61 m/s at the geometric best). **Worse by a little:** desert beat at 1/60 s (slip 0.32 ->
+  0.35), end beat ground max at 1/120 s (18.8 -> 21.5 m/s), the 5.2 m/s stop's largest lock jump at 1/60 s (144 -> 171 mm). **Not done:**
+  trot <-> canter, canter <-> gallop alignment (the canter -> trot part of the 5.2 m/s stop still has 43 frames over 5 m/s). Stills only;
+  village, phone, build, anatomy page not checked. See report §3m.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

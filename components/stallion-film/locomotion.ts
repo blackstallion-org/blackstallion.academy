@@ -45,6 +45,22 @@ export type HoofState = { toe: THREE.Vector3; contact: boolean; height: number; 
 const BANDS = { walk: [0.12, 0.55], trot: [1.9, 2.6], canter: [4.0, 4.8], gallop: [6.0, 7.8], sprint: [11.0, 12.2] } as const;
 const CLIPS = { walk: "Walk", trot: "Trot", canterR: "Canter_R", canterL: "Canter_L", gallopR: "Gallop_R", gallopL: "Gallop_L", sprintR: "Sprint_R", sprintL: "Sprint_L" } as const;
 
+/**
+ * Where each gait clip is in its own cycle when the shared stride phase is 0 (cycles). All the clips are played at one phase, and the walk
+ * and the trot are authored half a cycle apart for the hind legs (the trot's HR lands at 0, the walk's at 0.5), so at the same phase one
+ * has a foot in stance where the other has it in swing: a cross-fade put that foot halfway between the two. Slowing from a trot to a walk
+ * the clip's own foot slid 0.5 m across a stance (median 58 cm, against 9 cm in a pure gait) and the foot-lock had to hide it. Playing the
+ * trot and everything faster 0.52 of a cycle ahead of the walk cuts the root-frame mismatch of the four feet between the two from 59 to 31 cm
+ * (rms; 0.49-0.57 all work, 0.60 and above do not). The faster gaits keep their relations to each other: aligning the trot with the canter
+ * (best 0.25, mismatch 59 to 43 cm) was not a reliable gain in the film's windows, the canter with the gallop 45 to 37 cm and the gallop
+ * with the sprint 12 to 6 cm. Derived from the clips' toe paths, not from the contact windows; re-derive if the gaits are re-authored.
+ */
+const GAIT_PHASE_OFFSET = 0.52;
+const PHASE_OFFSET: Record<string, number> = {
+  [CLIPS.trot]: GAIT_PHASE_OFFSET, [CLIPS.canterR]: GAIT_PHASE_OFFSET, [CLIPS.canterL]: GAIT_PHASE_OFFSET,
+  [CLIPS.gallopR]: GAIT_PHASE_OFFSET, [CLIPS.gallopL]: GAIT_PHASE_OFFSET, [CLIPS.sprintR]: GAIT_PHASE_OFFSET, [CLIPS.sprintL]: GAIT_PHASE_OFFSET,
+};
+
 export type Telemetry = {
   time: number;
   speed: number;
@@ -275,7 +291,7 @@ export class Locomotor {
       if (!a) continue;
       a.setEffectiveWeight(w);
       a.timeScale = 0;
-      a.time = this.phase * (this.clipDuration.get(name) ?? 1);
+      a.time = (((this.phase + (this.phaseOffset[name] ?? 0)) % 1 + 1) % 1) * (this.clipDuration.get(name) ?? 1);
     }
     this.weights.Gait = moving;
     this.gait = gw.sprint > 0.5 ? "sprint" : gw.gallop > 0.5 ? "gallop" : gw.canter > 0.5 ? "canter" : gw.trot > 0.5 ? "trot" : gw.walk > 0.5 ? "walk" : "stand";
@@ -324,11 +340,13 @@ export class Locomotor {
   stancePhase(l: Limb): number | null {
     const c = this.specs[this.dominantClip]?.contacts[l];
     if (!c) return null;
-    const x = (((this.phase - c[0]) % 1) + 1) % 1;
+    const x = (((this.phase + (this.phaseOffset[this.dominantClip] ?? 0) - c[0]) % 1) + 1) % 1;
     return x < c[1] ? x / c[1] : null;
   }
 
   strideLengthNow = 1.44;
+  /** Each clip plays at the stride phase plus its offset, and its stance windows move with it (see GAIT_PHASE_OFFSET; QA can change it). */
+  phaseOffset: Record<string, number> = { ...PHASE_OFFSET };
   strideFreqNow = 0;
 
   /** Fit the root to the terrain under the four feet (height, pitch, roll) and lean into turns. */
