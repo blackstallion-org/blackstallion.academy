@@ -46,12 +46,12 @@ export default function Home() {
       <Doors />
       <LedgerAscent />
       <Studbook />
-      <PageCurtain page="home" />
       <Atelier />
 
       <Intermission act="ledger" line="Now, the decision." />
 
       {/* Zone C · Convert */}
+      <PageCurtain page="home" />
       <HomeVerifier />
       <HomeStandings />
       <HomeShield />
