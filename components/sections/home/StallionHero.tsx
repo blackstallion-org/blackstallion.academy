@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { PASSPORT_HREF, preloadHeroAssets, useStallionEnabled } from "@/components/hero/stallion-flags";
+import { PASSPORT_HREF, preloadHeroAssets, stallionEnabledNow, useStallionEnabled } from "@/components/hero/stallion-flags";
 import type { FilmEngine } from "@/components/stallion-film/engine";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
@@ -18,8 +18,8 @@ const CHAPTERS = [
 ] as const;
 
 /**
- * The interactive stallion under the opening film. Shown only while it is under review (`?stallion=preview`)
- * or once NEXT_PUBLIC_STALLION_MODEL is set; without WebGL it falls back to a rendered still and a plain link.
+ * The interactive stallion under the opening film, on for every visitor (`?stallion=off` hides it for a visit);
+ * without WebGL it falls back to a rendered still and a plain link.
  *
  * With motion allowed it is also the pinned frame of a three-chapter film (desert → village → campus) that runs on the
  * same canvas and the same horse: scroll chooses the chapter, the horse and the camera follow their own scripts.
@@ -36,7 +36,8 @@ export function StallionHero() {
   const filmOn = enabled && !reduced && !failed;
 
   useEffect(() => {
-    if (enabled) preloadHeroAssets();
+    // The hydration pass reads the server snapshot (true), so `?stallion=off` must be ruled out here before the model is fetched.
+    if (enabled && stallionEnabledNow()) preloadHeroAssets();
   }, [enabled]);
 
   const filmConfig = useMemo(

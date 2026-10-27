@@ -47,7 +47,7 @@ Status words: **Implemented** (works, with evidence) · **Weak** (works, visibly
 | Branch | `feature/marwari-film-world` (the brief named `feature/marwari-3d-production`; that branch exists, but this checkout is not on it) |
 | HEAD | `223ce67` "trot and canter swings lose the hoof flick" (25 Oct 23:10) was the baseline; **HEAD moved to `ff838fe` "banked turns hold the hoof" (26 Oct 00:41) while this report was being written**, a foot-lock commit by the other session (§1.2) that does not change a standing horse, materials, lights or sets. Earlier horse commits: `0f72b17`, `feda90a`, `9e0c847`, `d0bc318`, `8d27874`, `5858426` (film world), `19ae6f9` (3D production), `a77c9da` (rig) |
 | Working tree | about 230 modified or untracked paths from several sessions (schools 3D, legend museum, footer, etc.); none of them is horse code except `components/stallion-film/footlock.ts` and `locomotion.ts` (§1.2) |
-| Where the horse is visible | only at `/?stallion=preview` (or when `NEXT_PUBLIC_STALLION_MODEL` is set). Without the flag the home page is unchanged. The 3D plate is on the home page ("Instrument"); `/anatomy` shows the 2D archive plate only |
+| Where the horse is visible | on `/` for every visitor since 28 Oct 2026 (it used to need `/?stallion=preview` or `NEXT_PUBLIC_STALLION_MODEL`); `/?stallion=off` hides it for one visit. The 3D plate is on the home page ("Instrument"); `/anatomy` shows the 2D archive plate only |
 | Machine during the audit | Apple M2, 8 GB unified memory, 7.4 GB in use, system load average 5 to 31 (iCloud, WindowServer, other sessions, Chrome). Every number below carries the load it was taken under |
 
 ### 1.2 A second session is working on the same files
@@ -446,7 +446,7 @@ Before B2 to B4 the Blender sources need an owner: the other session re-exports 
 - The mane and tail stay cards; at gallop they will move better, not like strands.
 - The clips are procedural IK, with no captured weight transfer or spine flex.
 - No phone, Safari or Firefox has been tested; every mobile number is the phone code path on an M2.
-- The hero stays behind `?stallion=preview`; enabling it for everyone is a separate owner decision.
+- The hero was behind `?stallion=preview` until 28 Oct 2026; the owner then asked for it to show on the home page for everyone (`?stallion=off` is the opt-out).
 - The Tripo licence plan for the source sculpt is still unconfirmed (production report §12).
 
 ## 10. Decisions and approvals requested
@@ -540,7 +540,7 @@ Reading: **no measurable frame-cost change on this GPU.** The hero costs about 0
 | Localhost, cold, ready | 2.0 s → 1.4 s | 1.2 s → 1.0 s |
 | Second visit, model | revalidated, 304 → **served from cache, 0 bytes** (200, 0.2 s) | same |
 
-The six seconds before the request are the page's own JavaScript (about 960 KB on the wire at that speed); the model cannot start before the page knows it wants the stallion. The preload only runs where the stallion is enabled (`?stallion=preview` or `NEXT_PUBLIC_STALLION_MODEL`), so the live home page is not affected.
+The six seconds before the request are the page's own JavaScript (about 960 KB on the wire at that speed); the model cannot start before the page knows it wants the stallion. The preload only runs where the stallion is enabled; since 28 Oct 2026 that is every visit to `/` except `?stallion=off`, so the home page now pays this download (about 1.2 MB model, 0.8 MB on phones, plus the Draco decoder) for everyone.
 
 ### 11.5 Tests and build
 
@@ -562,7 +562,7 @@ The six seconds before the request are the page's own JavaScript (about 960 KB o
 - **Light:** no ambient occlusion, bloom or depth of field (B1); the hero still casts no shadow of its own beyond the contact blobs.
 - **Motion:** untouched (the other session's pipeline).
 - **Performance:** measured on one Apple M2 under heavy background load; no phone, Safari or Firefox (§11.4).
-- **The hero is still behind `?stallion=preview`**; the reveal button appears only there.
+- **The hero was behind `?stallion=preview` until 28 Oct 2026**; it now shows for everyone (the reveal button with it), and `?stallion=off` hides it.
 
 ### 11.7 Recommended next steps
 

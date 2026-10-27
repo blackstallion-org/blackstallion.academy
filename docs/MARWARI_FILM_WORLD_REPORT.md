@@ -2,7 +2,7 @@
 
 Branch: `feature/marwari-film-world` (from `feature/marwari-3d-production`, commit `19ae6f9`) · date: 25 Oct 2026 · Blender 5.2.3 LTS, three.js r186, Apple M2.
 
-Nothing is deployed, pushed or merged. The film is still behind `/?stallion=preview` (same flag as the hero stallion); without the flag the home page is unchanged.
+Nothing is deployed, pushed or merged. Since 28 Oct 2026 (owner's request) the film is on for every visitor of `/`: the hero stallion and the desert, village and academy chapters render without a flag, and `/?stallion=off` hides them for one visit. It used to need `/?stallion=preview`. Reduced motion and no-WebGL visitors still get the still hero (see §3p).
 
 **What this is.** The approved Marwari is untouched (same mesh, rig, ears, black coat, hero, gaze, hotspots). On top of it: a gait library authored from real stride data, a speed-driven locomotion controller with foot-contact sensing, three procedural places (Rajasthan desert, a Marwar village street, the academy), three story chapters wired into the existing home hero, and the adaptive-quality, reduced-motion and fallback paths around them.
 
@@ -1129,6 +1129,35 @@ natural poses, hooves seated, no overflow.
 - A turn at a gallop is taken on the previous lead (the gate); a right and a left gallop half a cycle apart would otherwise blend badly.
 - The offsets belong to these clips; re-derive them if the gaits are re-authored. The village, a steeper change, a phone, the production
   build, the anatomy page and the motion by eye (two stills) were not checked.
+
+### 3p. The film on the home page for everyone (28 Oct)
+
+**What I was asked:** "I still can't see the desert animation, the village and the field on home with the horse; fix that and make it appear on the
+frontend."
+
+**Cause:** nothing was broken. `useStallionEnabled()` in `components/hero/stallion-flags.ts` returned true only when `NEXT_PUBLIC_STALLION_MODEL` was set
+or the URL had `?stallion=preview`; `.env.local` sets neither, so plain `/` rendered the opening film followed by the doctrine and never mounted
+`StallionHero` (which holds the desert, village and academy chapters). The earlier instruction to keep the stallion in preview mode was what put the gate there.
+
+**Change:** the default is now on. `?stallion=off` hides the section for one visit (same page as before the film). The `NEXT_PUBLIC_STALLION_MODEL` check was
+removed from the gate; it still swaps the model file. The model preload now also checks the URL, because the hydration pass reads the server
+snapshot (true): without it a `?stallion=off` visit still downloaded the model (three console warnings). Files: `components/hero/stallion-flags.ts`,
+`components/sections/home/StallionHero.tsx` (docblock and the preload check).
+
+**Checked (dev server, Playwright):** plain `/` at 1440 × 900 and 390 × 844: the opening film, then the stage (standing stallion, chapter buttons I, II, III,
+"Skip the film"), then the desert of Marwar, the village and the academy, each with the horse on it; no console errors; no horizontal overflow at 390;
+the top 120 px shows the nav alone, clear of content. `?stallion=off`: no stallion section, no model preload, no warnings. Reduced motion: one 900 px
+still section (stallion, passport link), no pinning, no chapters, as before. Frames: `docs/qa/film/home_default_{top,stage,heritage,identity,excellence}_1440.png`,
+`home_default_{stage,heritage,identity,excellence}_390.png`, `home_reduced_stallion_1440.png`.
+
+**Left as it is**
+- **Reduced-motion and no-WebGL visitors do not see the three chapters** (the rule is no pinning, travel or parallax); they get the still hero.
+- **Everyone on `/` now downloads the hero model** (1.2 MB, 0.8 MB on phones, plus the Draco decoder and 8 KB of gait data). This is the cost the
+  preview gate used to hide; the home-page weight and the mobile frame rate with the film on were measured for the film (§4), not for the whole page.
+- **The chapter label is faint over the pale village wall at 1440** ("II · IDENTITY · THE VILLAGE" is almost invisible in
+  `home_default_identity_1440.png`); at 390 it reads. The Next.js dev badge overlaps the first chapter button at 390 in development only.
+- The production build was not re-run: the dev server on port 3100 shares `.next`. Lint and typecheck of the touched files are clean.
+- The 2.5D environment brief (desert | horse field | village from three reference images) is not started; it still needs the images.
 
 ## 4. Performance (measured, not estimated)
 

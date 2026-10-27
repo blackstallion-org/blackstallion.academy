@@ -2,7 +2,7 @@
 
 Branch: `feature/marwari-3d-production` (from `session/2026-10-24-marwari-rig`) · rollback checkpoint: tag `checkpoint/pre-marwari-production` (commit `a77c9da`, the single-mesh rig delivered the same day) · date: 24 Oct 2026 · Blender 5.2.3 LTS on an Apple M2 (8 GB RAM, 5.6 GB free disk).
 
-Nothing is deployed or merged. The hero stage is still behind `/?stallion=preview` and `NEXT_PUBLIC_STALLION_MODEL`; the anatomy plate uses the new model for everyone.
+Nothing is deployed or merged. The hero stage was behind `/?stallion=preview` and `NEXT_PUBLIC_STALLION_MODEL` when this report was written; since 28 Oct 2026 it shows on `/` for everyone (`?stallion=off` hides it). The anatomy plate uses the new model for everyone.
 
 **Is it photorealistic? No.** The renders in `docs/reference/3d/marwari/renders/final/` show a convincing, anatomically sound black Marwari with a satin coat, real hair cards and wet-looking eyes. Coat detail is a 2048 px bake of a 1024 px AI texture, the mane reads blocky up close, and the animation is procedural, not captured. See "Known defects".
 

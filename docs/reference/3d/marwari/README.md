@@ -15,7 +15,7 @@
 | `components/3d/marwari.ts` | Shared three.js loader, coat material, region highlight, gaze, time-of-day light. |
 | `components/hero/StallionStage.tsx` | The hero stage (rewritten on three.js; the old hand-written WebGL2 renderer is removed). |
 | `components/sections/anatomy/Anatomy3DHorse.tsx` | The anatomy viewer (new model, five hotspots, gait switch). |
-| `components/sections/home/StallionHero.tsx` | Home section for the stage, shown only with `?stallion=preview` or `NEXT_PUBLIC_STALLION_MODEL`. |
+| `components/sections/home/StallionHero.tsx` | Home section for the stage and the desert / village / academy film, on for every visitor (`?stallion=off` hides it for a visit). |
 
 ## Source geometry and licence
 
@@ -67,4 +67,4 @@
 
 ## Turning it on
 
-The hero stage is shown only for review: `/?stallion=preview`. To show it to everyone set `NEXT_PUBLIC_STALLION_MODEL=/models/marwari-hero.glb` (owner approval required; not deployed). The anatomy plate on the home page uses the new model now (it replaced `marwari-animated-home.glb`, which is left in place, unused).
+The hero stage is on for everyone on `/` since 28 Oct 2026 (owner's request; not deployed); `/?stallion=off` hides it for one visit. `NEXT_PUBLIC_STALLION_MODEL` now only swaps the model file (e.g. a commissioned sculpt). The anatomy plate on the home page uses the new model now (it replaced `marwari-animated-home.glb`, which is left in place, unused).

@@ -308,6 +308,15 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   turn keeps the previous lead). Also worse by a little: lock-driven frames in the 5.2 and 10 m/s stops (13 -> 18, 8 -> 18), the end beat's
   1/60 s planted max (10.2 -> 11.8), the desert sprint -> gallop jump (+10 %). **Not done:** a phase-gated lead change (the committed one
   has narrow bad phases). Stills only; village, phone, build, anatomy page not checked. See report §3o.
+- [x] **Session 28 Oct 2026 (later) · The stallion film on the home page for everyone** (`components/hero/stallion-flags.ts`,
+  `components/sections/home/StallionHero.tsx`). Asked why the desert, village and field with the horse are not on the home page. Cause: the
+  whole stallion section was gated behind `?stallion=preview` / `NEXT_PUBLIC_STALLION_MODEL`, neither set, so plain `/` showed only the
+  opening film and the doctrine. Now on by default; `?stallion=off` hides it for a visit (and no longer fetches the model: the hydration
+  pass reads the server snapshot, so the preload checks the URL). Checked on the dev server at 1440 and 390: stage, desert, village and
+  academy render with the horse, no console errors, no overflow at 390, nav clear; reduced motion gives the still hero (no chapters, by
+  design). **Cost:** every `/` visit now downloads the hero model (1.2 MB, 0.8 MB phones) plus Draco. **Not done:** production build not
+  re-run (dev server shares `.next`); faint chapter label over the pale village wall at 1440; the 2.5D environment brief still needs its
+  three reference images. See report §3p.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

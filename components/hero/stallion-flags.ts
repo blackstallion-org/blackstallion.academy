@@ -33,16 +33,14 @@ export function preloadHeroAssets() {
   }
 }
 
-const MODEL_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_STALLION_MODEL);
 const noSubscribe = () => () => {};
+/** Client only: false when this visit asked for `?stallion=off`. */
+export const stallionEnabledNow = () => new URLSearchParams(window.location.search).get("stallion") !== "off";
 /**
- * The 3D centrepiece is on when NEXT_PUBLIC_STALLION_MODEL is set. Until the owner approves it for everyone,
- * the hero keeps its film and `?stallion=preview` shows the stallion for review.
+ * The 3D stallion, and the desert, village and academy film that rides on it, is on for every visitor (at the owner's request on
+ * 28 Oct 2026; it used to need `?stallion=preview` or NEXT_PUBLIC_STALLION_MODEL). `?stallion=off` turns it off for one visit and
+ * leaves the page as the opening film followed by the doctrine.
  */
 export function useStallionEnabled() {
-  return useSyncExternalStore(
-    noSubscribe,
-    () => MODEL_CONFIGURED || new URLSearchParams(window.location.search).get("stallion") === "preview",
-    () => MODEL_CONFIGURED,
-  );
+  return useSyncExternalStore(noSubscribe, stallionEnabledNow, () => true);
 }
