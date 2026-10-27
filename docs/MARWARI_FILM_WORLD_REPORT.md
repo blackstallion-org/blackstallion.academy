@@ -1154,10 +1154,36 @@ still section (stallion, passport link), no pinning, no chapters, as before. Fra
 - **Reduced-motion and no-WebGL visitors do not see the three chapters** (the rule is no pinning, travel or parallax); they get the still hero.
 - **Everyone on `/` now downloads the hero model** (1.2 MB, 0.8 MB on phones, plus the Draco decoder and 8 KB of gait data). This is the cost the
   preview gate used to hide; the home-page weight and the mobile frame rate with the film on were measured for the film (§4), not for the whole page.
-- **The chapter label is faint over the pale village wall at 1440** ("II · IDENTITY · THE VILLAGE" is almost invisible in
-  `home_default_identity_1440.png`); at 390 it reads. The Next.js dev badge overlaps the first chapter button at 390 in development only.
+- **The chapter label was faint over the pale village wall at 1440** ("II · IDENTITY · THE VILLAGE" was almost invisible in
+  `home_default_identity_1440.png`); fixed in §3q. The Next.js dev badge overlaps the first chapter button at 390 in development only.
 - The production build was not re-run: the dev server on port 3100 shares `.next`. Lint and typecheck of the touched files are clean.
 - The 2.5D environment brief (desert | horse field | village from three reference images) is not started; it still needs the images.
+
+### 3q. The chapter label on the pale scenes (28 Oct)
+
+**What I was asked:** make the chapter label readable over the pale village wall at 1440 and re-check all three chapters at 1440 and 390.
+
+**Cause:** the label was caramel and dust-coloured 11 px type placed straight on the canvas. The village wall, the desert sky and the academy sky are all
+light, and the shared `shade-*` gradients stop at 25 %, so nothing held the text. "Skip the film" and the chapter buttons had the same weakness
+(buttons only had a 50 % fill).
+
+**Change (`components/sections/home/StallionHero.tsx` only):** inside the pinned frame, a charcoal fade from the top (16 rem, 74 % → 0) and from the
+bottom (9 rem, 70 % → 0) that fades in only while a chapter (I to III) is showing; the dark stage keeps its look (both fades are at opacity 0 there, checked).
+The label is now ivory (chapter number and name) and sand (the line), with a soft shadow; "Skip the film" is ivory; the chapter buttons' fill is
+65 % (80 % for the current one). Gradients, not a card, hold the text, as the design rules ask; I did not touch `globals.css` because other work is
+open in it, so the two fades are local constants with a comment.
+
+**Measured (WCAG contrast from the 1440 frames, text = brightest 3 % of the label box, background = median):** the gold chapter number, my first
+version, reached only 2.97 to 3.15 on the village and the desert, so the whole label was made light. Final: label 5.46 (desert), 5.29 (village),
+12.96 (academy); the sand line alone 5.0, 4.68, 11.95; "Skip the film" 8.44, 6.22, 11.85. Before: the label measured about 1.7 on the village wall
+(the old frames use a different camera position, so treat that as the order of magnitude). I did not measure the buttons, only looked at them.
+Frames: `docs/qa/film/home_label_{heritage,identity,excellence}_{1440,390}.png`; at 390 the label reads on all three and wraps to two lines on the academy.
+
+**Left as it is**
+- The top fade is visible as a soft dark band over the sky and wall; it is the price of holding the text without a card. A lighter band would
+  drop the village label under 4.5:1.
+- The gold stays on the current chapter button, where the 80 % fill carries it; not measured.
+- Production build not re-run (same reason as §3p). Reduced motion has no chapters, so none of this applies there.
 
 ## 4. Performance (measured, not estimated)
 

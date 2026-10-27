@@ -315,8 +315,15 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   pass reads the server snapshot, so the preload checks the URL). Checked on the dev server at 1440 and 390: stage, desert, village and
   academy render with the horse, no console errors, no overflow at 390, nav clear; reduced motion gives the still hero (no chapters, by
   design). **Cost:** every `/` visit now downloads the hero model (1.2 MB, 0.8 MB phones) plus Draco. **Not done:** production build not
-  re-run (dev server shares `.next`); faint chapter label over the pale village wall at 1440; the 2.5D environment brief still needs its
-  three reference images. See report §3p.
+  re-run (dev server shares `.next`); faint chapter label over the pale village wall at 1440 (fixed in the next entry); the 2.5D environment
+  brief still needs its three reference images. See report §3p.
+- [x] **Session 28 Oct 2026 (later) · Chapter label readable on the pale scenes** (`components/sections/home/StallionHero.tsx` only). The
+  desert, village and academy chapter label, "Skip the film" and the chapter buttons sat on the canvas with nothing holding them. Now a
+  charcoal fade from the top and the bottom of the pinned frame while a chapter shows (off on the dark stage), ivory/sand type with a soft
+  shadow, stronger button fills. Contrast at 1440 (brightest 3 % of the label vs median background): label 5.46 desert / 5.29 village /
+  12.96 academy; line alone 5.0 / 4.68 / 11.95; "Skip the film" 8.44 / 6.22 / 11.85 (the first version with a gold number measured 2.97-3.15
+  and was dropped). Re-checked all three chapters at 1440 and 390: no console errors, no overflow. **Not done:** chapter buttons' contrast
+  not measured; production build not re-run. See report §3q.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
