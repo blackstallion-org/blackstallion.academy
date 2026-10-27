@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { signOut } from "./actions";
 
-export type AdminSection = "leads" | "mou" | "qr" | "documents" | "audit" | "media";
+export type AdminSection = "leads" | "accounts" | "mou" | "qr" | "documents" | "audit" | "media";
 
 const SECTIONS: readonly { key: AdminSection; href: string; label: string }[] = [
   { key: "leads", href: "/admin", label: "Enquiries" },
+  { key: "accounts", href: "/admin/accounts", label: "Accounts" },
   { key: "mou", href: "/admin/mou", label: "MOU requests" },
   { key: "qr", href: "/admin/qr", label: "QR captures" },
   { key: "documents", href: "/admin/documents", label: "Documents" },
