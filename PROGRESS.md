@@ -253,6 +253,17 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   over 5 m/s: 69 and 88 frames from 3.4 and 5.2 m/s; a third are the clip's own swing, a third lift-offs from a far anchor); a foot may
   glide up to 1 m/s for ~80 ms after standstill; the 5.2 m/s planted maximum reads higher (6.6 -> 15.8, a reclassified flick, not
   checked frame by frame). Stills only; phone, build, anatomy page not checked. See report §3k.
+- [x] **Session 27 Oct 2026 (night) · Lift-offs while slowing** (`footlock.ts` only; no new assets). Logged every release in the stops:
+  while the horse slows through a walk or slow trot the anchor is 40-60 cm from the clip's toe at the lift-off (not 10-25 cm), and the
+  50 ms release flicks the toe 8-13 m/s (my reading: the stride phase advances across a changing stride-length blend; not isolated).
+  While slowing by more than 0.3 m/s2 a lift-off now lasts 1.5 x distance / (1 + 2 x body speed), 50 ms to 0.3 s; a foot letting go
+  when its stance reopens re-anchors once its toe is within 3 cm of the clip's. Four phases, committed -> now: lock-driven frames over
+  5 m/s 25 -> 4 (3.4 m/s stop) and 30 -> 5 (5.2 m/s stop) at 1/120 s; film end beat 32 -> 9, ground rms 1.82 -> 1.69; largest lock jump
+  106 -> 94 mm (5.2 m/s stop). Other beats and starts identical to the printed figures; `npm test` 84/84. Softer caps (0.5-1 + 1 x v)
+  and applying it to every lift-off were tried and rejected (jumps of 260-396 mm at canter, 328 mm in the desert's walk -> trot).
+  **Not fixed:** the over-5 m/s frames that remain are the clip's own toe in the gait blends (62 of 115 in the end beat), so ground
+  maxima barely moved, and one frame each rose (9.0 -> 11.4 m/s planted, 19.3 -> 21.2 ground at 1/60 s); the root is in the
+  stride-phase advance in `locomotion.ts`. Stills only; village, steeper stops, phone, build, anatomy page not checked. See report §3l.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

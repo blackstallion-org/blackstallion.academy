@@ -728,11 +728,94 @@ no lock held, no overflow at 390.
   1/120 s: 69 and 88. By the toe's own motion: 46 % and 33 % are the clip's swing toe itself (the pose, not the lock), 36 % and 34 % are
   lift-offs where the lock moves the toe 10–25 cm from a barely moving clip toe in 50 ms, the rest mixed. The cause of the large offset
   at a lift-off while slowing I did not find; the distance-scaled release above does not cure it at canter. A cap on the release that
-  follows the body's speed is the next thing I would try.
+  follows the body's speed is the next thing I would try. (Taken up in §3l.)
 - **A glide after standstill:** a foot may slide at up to 1 m/s for about 80 ms after the horse is still. The committed code had none
   beyond body noise (0.14 m/s). A foot that slides does not lift: there is no small step.
 - The campus start's single 3.8 m/s frame at the walk → trot change (§3j) is as it was.
 - Not checked: a phone, the production build, the anatomy page; the stop in motion by eye (still frames only).
+
+### 3l. Lift-offs while slowing (twelfth pass, 27 Oct)
+
+**What the flicks are.** Every release of a planted foot during the stops from 3.4 and 5.2 m/s, logged at its first frame (body speed,
+distance from the anchor to the clip's toe, the toe's fastest speed over the next 60 ms; four phases, 1/120 s):
+
+| Body speed at the lift-off | Releases | Anchor to clip toe, mean / largest | Toe speed, mean / largest |
+| --- | --- | --- | --- |
+| Stop from 1.5 m/s, 0.8–1.6 m/s | 8 | 87 / 114 mm | 2.8 / 3.5 m/s |
+| Stops from 3.4 and 5.2 m/s, 0.8–1.6 m/s | 4 + 4 | 478 / 551 and 452 / 623 mm | 12.1 / 13.1 and 10.3 / 12.5 |
+| 1.6–2.6 m/s | 10 + 10 | 172 / 263 and 209 / 332 mm | 8.1 / 13.4 and 9.3 / 18.7 |
+| 2.6–4 m/s | 8 + 8 | 95 / 131 and 129 / 279 mm | 3.8 / 4.3 and 4.8 / 8.5 |
+| Over 4 m/s (from 5.2 m/s) | 19 | 131 / 302 mm | 8.0 / 15.8 |
+
+So the distance is not the 10–25 cm I had assumed: 40–60 cm when the horse slows through a walk or a slow trot. My reading of
+`locomotion.ts`, consistent with the table but not isolated: the stride phase advances by speed ÷ the stride length of the blend, and
+that length changes with the gait weights, so mid-stance the clip's foot sweeps back faster than the body moves while the lock holds the
+foot; at the lift-off the lock pays the difference in one 50 ms release. At a canter (over 4 m/s) a toe speed of 8–16 m/s is about twice
+the body speed, which is what a swinging toe does, so those are not flicks.
+
+**What I tried** (stops from 3.4 and 5.2 m/s, four phases, 1/120 s; a release lasting 1.5 × distance ÷ cap, between 50 ms and 0.3 s, with
+the cap = base + per × body speed; "lock-driven" is a frame with a toe on the ground over 5 m/s whose clip toe moves under 30 % of that):
+
+| Cap (base + per × speed) | Ground rms 3.4 / 5.2 m/s | Frames over 5 m/s (lock-driven) 3.4 / 5.2 m/s | 5.2 m/s: ground max, largest jump | Verdict |
+| --- | --- | --- | --- | --- |
+| Fixed 50 ms (committed) | 1.45 / 1.68 | 69 (25) / 88 (30) | 18.7 m/s, 106 mm | |
+| 1 + 1 × v | 1.23 / 1.60 | 47 (4) / 52 (5) | 33.1, 260 mm | worse at canter |
+| 0.5 + 1 × v | 1.21 / 1.78 | 41 (0) / 48 (5) | 49.3, 396 mm | worse at canter |
+| **1 + 2 × v** | **1.25 / 1.52** | 50 (4) / 59 (5) | **16.7, 94 mm** | kept |
+| 2 + 2 × v | 1.25 / 1.54 | 51 (7) / 62 (8) | 17.8, 94 mm | |
+| 1 + 3 × v | 1.27 / 1.56 | 54 (10) / 71 (12) | 18.3, 94 mm | |
+
+A cap that is too soft at canter speeds (0.5–1 m/s per m/s) stretches the release of a canter's feet past the next touchdown, and the
+re-anchor then jumps the toe by what is left of it. 1 + 2 × v leaves a canter's release at 50 ms (cap 10 m/s) and stretches only the walk
+and slow trot (cap 3–6 m/s).
+
+Applied to every lift-off it broke the film's acceleration beats: a foot whose release outlasted the next touchdown (walk → trot at
+8.85 s, the toe still 33 cm from the clip's with the weight at 0.52) was re-anchored in one frame and jumped 328 mm (desert beat, largest
+lock jump 119 → 328 mm at 1/120 s, 208 → 376 at 1/60 s). Two ways to treat a reopened stance were tried: let the release finish first
+(jump 91 mm, but desert slip 0.28 → 0.31 m/s and a planted-foot maximum 4.2 → 6.1 m/s) and re-anchor once the toe is within 3 cm of
+the clip's (jump 91 mm, slip 0.32, maximum 8.5). Limiting the longer release to the case that needs it was simpler and better than
+either: **the horse must be slowing by more than 0.3 m/s²**. With that, every film window is identical to the committed figures. In
+the stops the three treatments of a reopened stance (re-anchor at once, within 3 cm, after the release) give the same figures except the
+5.2 m/s stop with the release finished first (planted-foot maximum 12.4 instead of 15.8 m/s, unlocked 4.0 instead of 3.7 %). The 3 cm
+rule is kept: it bounds the jump by construction.
+
+**Change** (`footlock.ts` only; no new assets):
+- While the horse slows by more than 0.3 m/s², a lift-off lasts 1.5 × (anchor to clip toe) ÷ (1 + 2 × body speed) seconds, at least
+  `LOCK_RELEASE_S` (50 ms) and at most 0.3 s (`releaseBaseMps`, `releasePerMps`: QA settings).
+- A foot that is letting go when its stance window opens again keeps letting go until its toe is within 3 cm of the clip's, and takes
+  a new anchor then (§3k set it at once).
+
+**Result** (committed → now; four phases; same harness as §3k):
+
+| Stop from | Step | Ground rms | Frames over 5 m/s (lock-driven) | Ground max | Lock jump p99 / largest |
+| --- | --- | --- | --- | --- | --- |
+| 1.5 m/s | 1/120, 1/60 s | unchanged | 0 | 4.1 m/s | 18 / 41, 32 / 58 mm |
+| 3.4 m/s | 1/120 s | 1.45 → 1.25 | 69 (25) → 50 (4) | 13.4 → 13.3 | 55 / 112 → 46 / 100 mm |
+| 3.4 m/s | 1/60 s | 1.43 → 1.28 | 33 (11) → 26 (2) | 12.6 → 13.8 | 100 / 192 → 77 / 146 |
+| 5.2 m/s | 1/120 s | 1.68 → 1.52 | 88 (30) → 59 (5) | 18.7 → 16.7 | 61 / 106 → 54 / 94 |
+| 5.2 m/s | 1/60 s | 1.61 → 1.49 | 44 (15) → 34 (6) | 15.7 → 15.8 | 114 / 191 → 100 / 144 |
+| Film end beat (campus) | 1/120 s | 1.82 → 1.69 | 136 (32) → 115 (9) | 18.8 → 18.8 | 54 / 127 → 50 / 127 |
+| Film end beat (campus) | 1/60 s | 1.80 → 1.71 | 68 (18) → 56 (6) | 19.3 → 21.2 | 104 / 181 → 87 / 177 |
+
+The planted-foot figures: stop from 5.2 m/s 0.73 / 15.8 → 0.68 / 15.8 m/s (1/120 s), 0.84 / 9.6 unchanged (1/60 s); the end beat 0.59 / 9.0
+→ 0.61 / 11.4 (1/120 s) and 0.67 / 10.0 unchanged (1/60 s). The 11.4 m/s that rose is one frame at the trot → walk change 1.1 s after
+the stop order: the clip's own toe is already moving at 6.3 m/s and the 3 cm re-anchor adds the rest. (I traced that one at 1/120 s; I
+did not trace the 21.2 m/s at 1/60 s.)
+Everything that is not a slowdown is unchanged to the printed figure: the starts (§3j), the desert beats (slip 0.28 / 0.32 m/s at
+1/120 and 1/60 s, largest lock jump 119 / 208 mm) and the campus beats (0.24 / 0.25; 136 / 251 mm). `npm test` 84 / 84; lint and
+typecheck clean on the film module. One frame each at 1440 and 390 px of the horse standing after a trot stop
+(`docs/qa/film/stop_trot_stand_r13_*.png`): four hooves on the sand, no lock held, no overflow, no console errors.
+
+**Left as it is**
+- **What is left of the over-5 m/s frames is the pose.** In the end beat 62 of 115 are the clip's own toe (a swing, or the blend of two
+  gaits), 44 mixed, 9 the lock. The ground maxima therefore hardly moved. The cause of the 40–60 cm anchor distance is the stride-phase
+  advance across the stride-length blend in `locomotion.ts`, not the lock; I did not touch it, and a lock that no longer has that
+  distance to hide would be the cleaner fix.
+- **Two maxima a little higher** (above), one frame each.
+- **The longer release (up to 0.3 s) lets a foot trail its clip toe as it lifts.** I have looked at stills only, not the motion.
+- The constants (1 + 2 × speed, 0.3 m/s², 3 cm, 0.3 s) come from a sweep over three stops and one film beat in the desert and the
+  campus; the village, a steeper stop and a stop that is interrupted by a start were not tried.
+- Not checked: a phone, the production build, the anatomy page.
 
 ## 4. Performance (measured, not estimated)
 

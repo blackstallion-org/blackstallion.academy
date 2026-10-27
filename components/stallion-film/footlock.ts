@@ -56,6 +56,18 @@ const MOVING_GAIT = 0.4;
 /** Ground speed (m/s) at which a foot that is still planted when the horse slows below the lock's speed slides to the place the pose
  *  puts it. Letting go of it at once (50 ms) threw the toe 3-12 cm across the ground, 3-8 m/s, in the last fifth of a second. */
 const STOP_SLIDE_MPS = 1;
+/** At a lift-off the toe leaves its anchor at no more than RELEASE_BASE_MPS + RELEASE_PER_MPS x the body's speed (m/s). While the horse slows
+ *  through the gaits the clip's foot sweeps back faster than the body moves (the stride length it advances by changes mid-stance), the lock
+ *  holds the foot meanwhile, and at lift-off the anchor is 10-60 cm from the clip's toe: a release in 50 ms flicked the toe across the
+ *  ground at 8-13 m/s. The cap lengthens such a release (to LOCK_RELEASE_MAX_S at most); at a canter the 50 ms stays, which is a swing's own speed. */
+const RELEASE_BASE_MPS = 1;
+const RELEASE_PER_MPS = 2;
+const LOCK_RELEASE_MAX_S = 0.3;
+/** The longer release applies only while the horse is slowing by more than this (m/s^2): speeding up through the gaits a release that
+ *  outlasts the next touchdown left the new stance unlocked (desert slip 0.28 to 0.32 m/s), and the offsets there are small. */
+const SLOWING_MPS2 = 0.3;
+/** A foot that is letting go when its stance window opens again takes a new anchor once its toe is this close (m) to the clip's toe. */
+const REANCHOR_M = 0.03;
 const ITERATIONS = 24;
 /** Fraction of the straight-leg reach the lock may ask for (keeps the joints off their limits). */
 const REACH_FRACTION = 0.97;
@@ -79,6 +91,8 @@ class LimbLock {
   tStance = 0;
   /** Seconds since the stance ended (lift-off), while the lock is still letting go. */
   releaseT = 0;
+  /** How long this release takes (s): LOCK_RELEASE_S, or longer when the anchor is far from the clip's toe at a low speed. */
+  releaseS = LOCK_RELEASE_S;
   weight = 0;
   readonly anchor = new THREE.Vector3();
   /** Straight-leg reach from the top joint to the toe (m): the lock never asks a leg for more than this. */
@@ -241,6 +255,9 @@ export class FootLock {
   movingGait = MOVING_GAIT;
   /** Ground speed of a planted foot settling into the stand pose as the horse stops (QA can change it). */
   stopSlideMps = STOP_SLIDE_MPS;
+  /** Ground speed at which a toe leaves its anchor at a lift-off is releaseBaseMps + releasePerMps x body speed (QA can change them; a huge base is a fixed LOCK_RELEASE_S). */
+  releaseBaseMps = RELEASE_BASE_MPS;
+  releasePerMps = RELEASE_PER_MPS;
   /** Seat the hoof on the surface under it (see the header); false is the sideways-only lock of the first pass, for QA comparison. */
   seat = true;
   /** QA readout per limb. */
@@ -283,15 +300,21 @@ export class FootLock {
       let releasing = false;
       if (u !== null) {
         // stance: the toe where it first reaches the ground is the point the lock holds (the phase can start while the hoof
-        // is still in the air), blended in over LOCK_RAMP_S. A foot that had begun to let go and whose stance window opens again (the
-        // dominant clip changed under it) is a new stance: holding its old anchor pulled it back 13-20 cm across the ground.
-        if (!leg.engaged || leg.releaseT > 0) {
+        // is still in the air), blended in over LOCK_RAMP_S. A foot that had begun to let go keeps letting go when its stance window
+        // opens again (the dominant clip changed under it) until its toe is within REANCHOR_M of the clip's: it used to resume with its
+        // old anchor and was pulled 13-20 cm back across the ground, and a new anchor at once jumped it by what was left of the release.
+        const rejoin = leg.engaged && leg.releaseT > 0;
+        const left = rejoin ? 1 - smoothstep(0, leg.releaseS, leg.releaseT + dt) : 0;
+        const near = !rejoin || left * Math.hypot(this.tmp.x - leg.anchor.x, this.tmp.z - leg.anchor.z) < REANCHOR_M;
+        if (!leg.engaged || (rejoin && near)) {
           if (loco.hooves[l].height < (this.seat ? LOCK_TOUCH_M : 0.04)) {
             leg.anchor.copy(this.tmp);
             leg.engaged = true;
             leg.tStance = 0;
             leg.releaseT = 0;
-          } else releasing = leg.engaged;
+          } else releasing = rejoin;
+        } else if (rejoin) {
+          releasing = true;
         } else {
           leg.tStance += dt;
         }
@@ -319,14 +342,19 @@ export class FootLock {
         }
       } else if (leg.engaged) releasing = true;
       if (releasing) {
-        // swing: hold the anchored toe while it leaves the ground, then let go over LOCK_RELEASE_S
+        // swing: hold the anchored toe while it leaves the ground, then let go (over LOCK_RELEASE_S, longer when the anchor is far)
+        if (leg.releaseT === 0) {
+          const far = Math.hypot(this.tmp.x - leg.anchor.x, this.tmp.z - leg.anchor.z);
+          const cap = loco.accel < -SLOWING_MPS2 ? this.releaseBaseMps + this.releasePerMps * loco.speed : Infinity;
+          leg.releaseS = clamp((1.5 * far) / cap, LOCK_RELEASE_S, LOCK_RELEASE_MAX_S);
+        }
         leg.releaseT += dt;
-        if (leg.releaseT >= LOCK_RELEASE_S) {
+        if (leg.releaseT >= leg.releaseS) {
           leg.engaged = false;
           leg.tStance = 0;
           leg.releaseT = 0;
         } else {
-          w = 1 - smoothstep(0, LOCK_RELEASE_S, leg.releaseT);
+          w = 1 - smoothstep(0, leg.releaseS, leg.releaseT);
         }
       }
       // a leg that cannot reach its anchor (the joints are at their limits) lets the lock go gradually rather than
