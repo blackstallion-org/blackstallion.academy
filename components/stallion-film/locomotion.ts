@@ -49,16 +49,22 @@ const CLIPS = { walk: "Walk", trot: "Trot", canterR: "Canter_R", canterL: "Cante
  * Where each gait clip is in its own cycle when the shared stride phase is 0 (cycles). All the clips are played at one phase, and the walk
  * and the trot are authored half a cycle apart for the hind legs (the trot's HR lands at 0, the walk's at 0.5), so at the same phase one
  * has a foot in stance where the other has it in swing: a cross-fade put that foot halfway between the two. Slowing from a trot to a walk
- * the clip's own foot slid 0.5 m across a stance (median 58 cm, against 9 cm in a pure gait) and the foot-lock had to hide it. Playing the
- * trot and everything faster 0.52 of a cycle ahead of the walk cuts the root-frame mismatch of the four feet between the two from 59 to 31 cm
- * (rms; 0.49-0.57 all work, 0.60 and above do not). The faster gaits keep their relations to each other: aligning the trot with the canter
- * (best 0.25, mismatch 59 to 43 cm) was not a reliable gain in the film's windows, the canter with the gallop 45 to 37 cm and the gallop
- * with the sprint 12 to 6 cm. Derived from the clips' toe paths, not from the contact windows; re-derive if the gaits are re-authored.
+ * the clip's own foot slid 0.5 m across a stance (median 58 cm, against 9 cm in a pure gait) and the foot-lock had to hide it. Each offset
+ * is the one that minimises the root-frame distance between the feet of the two clips that cross-fade, from the clips' toe paths, the stance
+ * feet counted in full and the feet that are in swing in both at a quarter:
+ *   walk 0, trot 0.52 (walk to trot 59 to 31 cm rms; 0.49-0.57 all work, 0.60 and above do not);
+ *   canter 0.52, as the trot: the right canter wants 0.245 more, the left one 0.745 more (the trot is symmetric under a half cycle and a
+ *   left-right swap, the canters are not), and a lead change blends the two, which half a cycle apart threw a foot at 14 m/s;
+ *   gallop 0.4225 (canter to gallop 48 to 34 cm rms, 81 to 87 % of the feet agreeing on stance, the same for both leads; 0.900-0.905 is
+ *   the window in which no 5 m/s frame appears in the cross-fade) and sprint as the gallop (they are 12 cm apart at the same phase).
+ * Kept only where it improved both the speed-up and the slow-down on twelve starting phases and both leads (report section 3n).
+ * Re-derive them if the gaits are re-authored.
  */
 const GAIT_PHASE_OFFSET = 0.52;
+const GALLOP_PHASE_OFFSET = 0.4225;
 const PHASE_OFFSET: Record<string, number> = {
   [CLIPS.trot]: GAIT_PHASE_OFFSET, [CLIPS.canterR]: GAIT_PHASE_OFFSET, [CLIPS.canterL]: GAIT_PHASE_OFFSET,
-  [CLIPS.gallopR]: GAIT_PHASE_OFFSET, [CLIPS.gallopL]: GAIT_PHASE_OFFSET, [CLIPS.sprintR]: GAIT_PHASE_OFFSET, [CLIPS.sprintL]: GAIT_PHASE_OFFSET,
+  [CLIPS.gallopR]: GALLOP_PHASE_OFFSET, [CLIPS.gallopL]: GALLOP_PHASE_OFFSET, [CLIPS.sprintR]: GALLOP_PHASE_OFFSET, [CLIPS.sprintL]: GALLOP_PHASE_OFFSET,
 };
 
 export type Telemetry = {

@@ -279,6 +279,20 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   0.35), end beat ground max at 1/120 s (18.8 -> 21.5 m/s), the 5.2 m/s stop's largest lock jump at 1/60 s (144 -> 171 mm). **Not done:**
   trot <-> canter, canter <-> gallop alignment (the canter -> trot part of the 5.2 m/s stop still has 43 frames over 5 m/s). Stills only;
   village, phone, build, anatomy page not checked. See report §3m.
+- [x] **Session 28 Oct 2026 · Trot-canter and canter-gallop alignment, with twelve phases and both leads** (`locomotion.ts` only; no new
+  assets). Method: stance-weighted foot-position cost at 80 phase samples, then twelve starting phases, the lead forced, four transitions
+  as speed-ups and slow-downs, and a keep rule fixed beforehand. **Trot -> canter is not kept:** each lead at its own optimum (right
+  +0.245, left +0.745) improves both directions (frames over 5 m/s 92 -> 33 and 96 -> 40 right, 79 -> 33 and 93 -> 38 left), but the
+  campus beat gets worse at the lead change (slip 0.18 -> 0.31 m/s, a 14.1 m/s frame mid lead change); a common offset helps one lead and
+  hurts the other (the trot is symmetric under half a cycle plus a left-right swap, the canters are not). **Canter -> gallop is kept:** one
+  offset for both leads, gallop and sprint 0.52 -> 0.4225, canter and trot unchanged at 0.52; passes the rule on both leads and both
+  directions (slow-down slip 0.35 -> 0.22 right, 0.37 -> 0.26 left; frames over 5 m/s 26 -> 21 and 34 -> 21; speed-up 61 -> 42 and 48 -> 21).
+  The film's own gain is small: stop from 10 m/s frames over 5 m/s 128 -> 122, desert canter -> gallop jump 72 -> 61 mm (128 -> 95 at 1/60 s),
+  sprint -> gallop jump 87 -> 99 mm at 1/60 s; stops from 1.5-5.2 m/s, end beat, campus beats, starts, lead changes unchanged. **Corrections
+  to §3m:** the trot -> canter cost is not flat (13 cm under the median; the erratic results were four-phase noise); my first left-lead
+  baseline had the left canter half a cycle off the committed one and was redone. **Not done:** aligning trot with canter for both leads
+  (needs a lead-change blend of clips half a cycle apart, or re-authored clips). Stills only; village, phone, build, anatomy page not
+  checked. See report §3n.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

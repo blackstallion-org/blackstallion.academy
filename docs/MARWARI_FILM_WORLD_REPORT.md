@@ -915,7 +915,8 @@ at the walk → trot change is gone (3.8 → 1.2). Steady gaits are unchanged (d
 (`docs/qa/film/stop_trot_stand_r14_390.png`): natural poses, hooves seated, no overflow, no console errors.
 
 **Left as it is**
-- **Trot ↔ canter, canter ↔ gallop and gallop ↔ sprint are as before**, 59 / 45 / 12 cm of mismatch. The canter → trot part of the 5.2 m/s
+- **Trot ↔ canter, canter ↔ gallop and gallop ↔ sprint are as before**, 59 / 45 / 12 cm of mismatch. (Taken up in §3n: canter ↔ gallop is
+  now aligned; trot ↔ canter cannot be, because of the lead change.) The canter → trot part of the 5.2 m/s
   stop still has 43 frames over 5 m/s (22 of them the clip's own toe, 13 mixed, 8 the lock) and the end beat 93; the trot → canter offset
   needs a better method than four stride phases (more phases, or a cost that weights the stance feet).
 - **Four figures a little worse:** the desert beat at 1/60 s (slip 0.32 → 0.35 m/s, largest planted-foot speed 2.6 → 4.5), the end beat's
@@ -923,6 +924,106 @@ at the walk → trot change is gone (3.8 → 1.2). Steady gaits are unchanged (d
   at 1/60 s (9.6 → 10.1 m/s). I did not trace them.
 - **The offset belongs to these clips.** It comes from their toe paths; re-derive it (`GAIT_PHASE_OFFSET`) if the gaits are re-authored.
   The starting phases of the QA harness are the shared phase, so for the trot and above they now sample the cycle 0.52 shifted.
+- Not checked: the village, a phone, the production build, the anatomy page; the motion by eye (two stills).
+
+### 3n. Aligning trot with canter, and canter with gallop (fourteenth pass, 27–28 Oct)
+
+**A better method than §3m's.** Geometry: the clips' toe paths at 80 phase samples (not 40), and a cost that counts a foot in full if it is
+in stance in either clip and at a quarter if it is in swing in both, with the share of (phase, foot) samples on which the two clips agree
+about stance as a second readout. Measuring: twelve starting phases (not four), the lead forced to right or left on every frame, and four
+transitions, each as a speed-up and a slow-down, on the desert path with the lock on (1/120 s; sensor slip m/s, ground rms m/s, frames over
+5 m/s on the ground, largest lock jump mm): trot → canter 3.4 → 5.2 m/s (window 6–8.5 s) and canter → trot (8–10.5 s), canter → gallop
+5.2 → 10 (8–12 s) and gallop → canter (10–13.5 s). **The rule for keeping an offset, fixed before the runs:** for each lead and direction
+the geometric mean of the four ratios (candidate ÷ baseline) is at most 0.95, none of the four rises by more than 10 %, and no planted-foot
+maximum newly passes 5 m/s.
+
+**Geometry** (stance-weighted rms of the four feet, share agreeing on stance; at the same phase → at the best offset; median of all offsets):
+
+| Pair | At the same phase | Best offset (cycles) | Median |
+| --- | --- | --- | --- |
+| Trot → right canter | 55.2 cm, 54 % | 0.237: 42.3 cm, 69 % | 55.2 cm |
+| Trot → left canter | 54.3 cm, 57 % | 0.750: 43.3 cm, 69 % | 55.2 cm |
+| Right canter → right gallop | 47.5 cm, 81 % | 0.900: 34.0 cm, 87 % | 73.1 cm |
+| Left canter → left gallop | 45.2 cm, 81 % | 0.912: 32.8 cm, 87 % | 73.7 cm |
+
+Each has one clear minimum (the weighting does not move it: 0.250 / 0.750 / 0.912 / 0.925 unweighted). **A correction to §3m:** I called the
+trot → canter cost flat; it is 13 cm under the median and has no rival. The erratic results of §3m were four-phase noise.
+
+**Trot → canter, each lead at its own optimum** (right 0.245 further than the trot, left half a cycle more; the committed state is every
+faster clip at 0.52, left included; twelve phases):
+
+| | Speed-up | Slow-down |
+| --- | --- | --- |
+| Right lead | 0.32 / 1.72 / 92 / 151 → 0.20 / 1.16 / 33 / 93 | 0.25 / 1.60 / 96 / 113 → 0.23 / 1.12 / 40 / 88 |
+| Left lead | 0.28 / 1.47 / 79 / 141 → 0.19 / 1.10 / 33 / 93 | 0.44 / 1.53 / 93 / 118 → 0.23 / 1.12 / 38 / 88 |
+
+(slip / ground rms / frames over 5 m/s / largest jump.) All four pass the rule (0.55–0.69). The right lead's window is narrow: the
+slow-down is good from 0.23 to 0.255 and has 14–15 m/s frames at 0.21 and from 0.26 (the speed-up is good from 0.21 to 0.27); I took
+0.245. **It is not kept.** On the campus path, whose turns change the lead (four changes over the four 16 s runs), the whole beat got worse: slip 0.18 → 0.31
+m/s and a 14.1 m/s planted-foot frame at 1/120 s (0.16 → 0.22, 2.4 → 7.3 at 1/60 s). The frame is at 14.06 s, mid lead change (`leadMix`
+0.52, gait purity 0.5), on the front-right foot. The trot is symmetric under half a cycle and a left-right swap and the canters are not:
+the right canter wants 0.245, the left one 0.745, and a lead change cross-fades the two, which half a cycle apart is far worse than
+together (the same campus run's trot → canter window improved, slip 0.28 → 0.17, so the alignment itself works). A single offset for
+both leads helps only the lead it matches:
+
+| Offset of both canters | Right lead (speed-up / slow-down frames over 5 m/s) | Left lead |
+| --- | --- | --- |
+| 0.52 (as committed) | 92 / 96 | 79 / 93 |
+| 0.765 | **33 / 40** | 143 / 136, slip 0.28 → 0.34 and 0.44 → 0.55 |
+| 0.265 | 142 / 136, slip 0.25 → 0.57, a 15.3 m/s frame | **33 / 38** |
+
+**Canter → gallop, one offset for both leads, canter and everything below it at 0.52** (the right and left optima agree here, 0.900 and 0.912,
+because the gallops are the canters' mirrors by the same relation, so every right-left relation stays as it was; twelve phases; slip /
+ground rms / frames over 5 m/s / largest jump):
+
+| Gallop offset | Right speed-up | Right slow-down | Left speed-up | Left slow-down |
+| --- | --- | --- | --- | --- |
+| 0.52 (committed) | 0.33 / 1.23 / 61 / 90 | 0.35 / 1.04 / 26 / 98 | 0.36 / 1.16 / 48 / 88 | 0.37 / 1.02 / 34 / 96 |
+| 0.395 (y = 0.875) | 0.35 / 1.16 / 34 / 78 | 0.22 / 0.97 / 22 / 75 | 0.36 / 1.04 / 16 / 61 | 0.26 / 0.94 / 19 / 60 |
+| **0.42 (y = 0.90)** | 0.34 / 1.18 / 42 / 78 | 0.22 / 0.96 / 21 / 77 | 0.35 / 1.06 / 21 / 62 | 0.26 / 0.95 / 21 / 60 |
+| 0.445 (y = 0.925) | 0.36 / 1.16 / 34 / 78 | 0.21 / 0.98 / 20 / 77 | 0.35 / 1.08 / 22 / 61 | 0.25 / 0.95 / 19 / 68 |
+
+At 0.42 all four pass the rule (0.88, 0.78, 0.72, 0.71). The planted-foot maximum of the speed-up, one frame at 8.9 s in the middle of the
+canter → gallop cross-fade, is 1.7–2.1 m/s at 0.900–0.905 on both leads (on the left lead also at 0.91 and 0.92) and 5.0–6.2 m/s at 0.88,
+0.89 and 0.895 on both leads and at 0.91 and 0.92 on the right lead; the other figures are smooth across 0.88–0.92. **Kept at 0.9025, the gallop and sprint at 0.4225** (canter and trot
+0.52, the left and right together, as before).
+
+**Change** (`locomotion.ts` only; `footlock.ts` untouched): `PHASE_OFFSET` gives the gallop and the sprint 0.4225 instead of 0.52;
+`GALLOP_PHASE_OFFSET` and the comment above it carry the derivation and the lead-change reason.
+
+**Result** (committed gallop offset → now; the same session):
+
+| Test | Before → now |
+| --- | --- |
+| Stop from 10 m/s, twelve phases, 1/120 s: frames over 5 m/s (lock-driven) | 128 (14) → 122 (8) |
+| The same, ground rms / largest jump | 1.17 / 118 → 1.15 / 118 |
+| The same at 1/60 s: frames over 5 m/s (lock-driven) | 54 (7) → 46 (6) |
+| Desert canter → gallop, largest lock jump, 1/120 s and 1/60 s | 72 → 61 mm and 128 → 95 mm |
+| Desert gallop → sprint | unchanged |
+| Desert sprint → gallop, largest lock jump | 88 → 71 mm at 1/120 s, 87 → 99 mm at 1/60 s |
+| Sprint → gallop, twelve phases, both leads: frames over 5 m/s | 50 → 24 (right), 49 → 23 (left) |
+| Gallop → sprint and a steady 11.5 m/s, twelve phases, both leads | slip 0.56 / 0.54 either way, jump 63–98 either way |
+| Lead change R → L at 5.2 m/s (12 phases) | identical (slip 0.11, jump 54 mm) |
+| Lead change R → L at 9 m/s (12 phases) | slip 0.38 → 0.39, jump 56 → 55 mm |
+
+The film's own gain is small, much smaller than in the isolated transitions: the whole desert beat is identical, and the stop from 10 m/s
+improves 3–15 %. The stops from 1.5, 3.4 and 5.2 m/s, the end beat, the campus beats and the starts are identical to §3m to the printed
+figure (none of them reaches a gallop). The single-run ladder step at 11.5 m/s read 5.1 → 6.3 % slip, which twelve phases show to be noise
+(0.54 and 0.55 m/s). `npm test` 84 / 84; lint and typecheck clean on the film module. One frame at 1440 px in the middle of a gallop →
+canter change (`docs/qa/film/gait_change_gallop_canter_r15_1440.png`) and one at 390 px after a stop from 10 m/s
+(`docs/qa/film/stop_from_gallop_r15_390.png`): natural poses, no overflow.
+
+**An error of mine on the way.** My first left-lead baseline used a canter half a cycle from the committed one (the helper put the left clip
+at the mirror offset even for "no alignment"), so the left rows of one table were measured against the wrong state. I found it by reading the
+printed offsets and redid the left lead against the committed configuration; the numbers above are from the redo.
+
+**Left as it is**
+- **Trot ↔ canter stays unaligned** (55 cm of mismatch, 54 % of the feet agreeing on stance). The canter → trot part of the 5.2 m/s stop
+  still has 43 frames over 5 m/s. Aligning both leads needs the lead change to blend the two canters while their offsets differ by half
+  a cycle, which is a time-warp of the clip, or re-authored clips; I tried neither.
+- The film's own gain from the gallop offset is small, and the sprint → gallop jump at 1/60 s is 14 % higher (87 → 99 mm).
+- The offsets belong to these clips; re-derive them if the gaits are re-authored. The constants come from the desert path with the lead
+  forced; the village and a steeper change were not tried.
 - Not checked: the village, a phone, the production build, the anatomy page; the motion by eye (two stills).
 
 ## 4. Performance (measured, not estimated)
