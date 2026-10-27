@@ -1,12 +1,11 @@
 "use client";
 
-import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
-
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
-import { hotspots, layerNames, type Hotspot } from "@/lib/content/anatomy";
+import { hotspots, instrumentNodes, layerNames, type Hotspot } from "@/lib/content/anatomy";
+import { NodePanel } from "./NodePanel";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/lib/motion/reduced";
@@ -19,14 +18,17 @@ const Anatomy3DHorse = dynamic(
 type Props = {
   /** Restrict to some hotspot ids (home uses five). */
   only?: string[];
-  /** "compact": one line + what it trains. "full": four layers. */
+  /** "compact": the home plate (living 3D horse, a detail panel per point). "full": four layers. */
   mode?: "compact" | "full";
   className?: string;
 };
 
+const nodeOf = (id: string) => instrumentNodes.find((n) => n.id === id);
+
 /**
  * S03 specimen hotspots. The compact home variant retains its interactive
- * horse; the full Instrument page is intentionally the quieter archive plate.
+ * horse (choosing a point flies the camera in and opens that point's detail);
+ * the full Instrument page is intentionally the quieter archive plate.
  */
 export function SpecimenPlate({ only, mode = "compact", className }: Props) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -40,16 +42,29 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
-  const points = only ? hotspots.filter((h) => only.includes(h.id)) : hotspots;
+  const points = useMemo(() => (only ? hotspots.filter((h) => only.includes(h.id)) : hotspots), [only]);
   const [activeId, setActiveId] = useState(points[0].id);
   const [focusKey, setFocusKey] = useState(0);
-  const choose = (id: string) => { setActiveId(id); setFocusKey((k) => k + 1); };
+  /** A point has been chosen: the 3D camera is in close and the detail is open (otherwise the whole horse shows). */
+  const [armed, setArmed] = useState(false);
+  const choose = (id: string) => { setActiveId(id); setArmed(true); setFocusKey((k) => k + 1); };
+  const close = () => { setArmed(false); setFocusKey((k) => k + 1); };
   const reducedMotion = useReducedMotion();
   const [requestedMode, setViewMode] = useState<"3d" | "2d" | null>(null);
   const [fallbackMessage, setFallbackMessage] = useState<string | null>(null);
   const hasLivingModel = mode === "compact";
   const viewMode = hasLivingModel ? (requestedMode ?? (reducedMotion ? "2d" : "3d")) : "2d";
   const active = points.find((h) => h.id === activeId) ?? points[0];
+  const compact = mode === "compact";
+  const is3d = hasLivingModel && viewMode === "3d";
+  const activeNode = compact ? nodeOf(active.id) : undefined;
+  const nodeIndex = Math.max(0, points.findIndex((h) => h.id === active.id));
+  const nameOf = (h: Hotspot) => (compact ? nodeOf(h.id)?.name : undefined) ?? h.name;
+  const titleOf = (h: Hotspot) => (compact ? nodeOf(h.id)?.title : undefined) ?? h.title;
+  const horsePoints = useMemo(
+    () => points.map((h) => ({ id: h.id, name: nodeOf(h.id)?.name ?? h.name, title: nodeOf(h.id)?.title ?? h.title })),
+    [points],
+  );
 
   return (
     <div ref={viewportRef} className={className}>
@@ -101,13 +116,23 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
         <div className="tone-dark relative aspect-[4/3] sm:aspect-[16/9] w-full overflow-hidden border border-line bg-night">
           {viewMode === "3d" && nearViewport ? (
             <Anatomy3DHorse
-              activeId={activeId}
+              activeId={armed ? activeId : "overview"}
               focusKey={focusKey}
-              points={points}
+              points={horsePoints}
               onUnavailable={(message) => { setFallbackMessage(message); setViewMode("2d"); }}
               onSelectHotspot={(id) => {
-                if (id !== "overview") choose(id);
+                if (id === "overview") setArmed(false);
+                else choose(id);
               }}
+              detail={
+                <NodePanel
+                  node={armed && activeNode ? activeNode : null}
+                  position={nodeIndex + 1}
+                  total={points.length}
+                  surface="overlay"
+                  onClose={close}
+                />
+              }
               className="absolute inset-0 h-full w-full"
             />
           ) : (
@@ -155,8 +180,8 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
                       onMouseEnter={() => setActiveId(h.id)}
                       onFocus={() => setActiveId(h.id)}
                       aria-pressed={h.id === active.id}
-                      aria-label={`${h.name}: ${h.title}`}
-                      className="group relative -ml-5 -mt-5 grid h-10 w-10 place-items-center"
+                      aria-label={`${nameOf(h)}: ${titleOf(h)}`}
+                      className="group relative -ml-5 -mt-5 grid h-10 w-10 place-items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
                     >
                       <span
                         className={cn(
@@ -181,7 +206,7 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
                             : "text-sand opacity-0 group-hover:opacity-100 md:opacity-70",
                         )}
                       >
-                        {h.name}
+                        {nameOf(h)}
                       </span>
                     </button>
                   </li>
@@ -191,47 +216,67 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
           )}
         </div>
 
-      <div aria-live="polite" className="min-h-[15rem]">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active.id}
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -16 }}
-            transition={{ duration: 0.45, ease: ease.citadel }}
-          >
-            <Panel h={active} mode={mode} />
-          </motion.div>
-        </AnimatePresence>
-        <div
-          className="mt-8 flex flex-wrap gap-2"
-          role="group"
-          aria-label="Choose a point"
-        >
-          {points.map((h) => (
-            <button
-              key={h.id}
-              type="button"
-              onClick={() => choose(h.id)}
-              aria-pressed={h.id === active.id}
-              className={cn(
-                "label border px-3 py-2",
-                h.id === active.id
-                  ? "border-gold text-gold"
-                  : "border-line text-sand",
-              )}
-            >
-              {h.name}
-            </button>
-          ))}
+      {compact ? (
+        <div className="grid gap-6">
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Choose a point">
+            {points.map((h) => (
+              <button
+                key={h.id}
+                type="button"
+                onClick={() => choose(h.id)}
+                aria-pressed={h.id === active.id && (armed || !is3d)}
+                className={cn(
+                  "label min-h-11 border px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
+                  h.id === active.id && (armed || !is3d) ? "border-gold text-gold" : "border-line text-sand",
+                )}
+              >
+                {nameOf(h)}
+              </button>
+            ))}
+          </div>
+          {/* The living model shows its detail over the canvas from lg up; below that (and on the still plate) it sits here. */}
+          <div aria-live="polite" className={cn("min-h-[12rem]", is3d && "lg:hidden")}>
+            {is3d && !armed ? (
+              <p className="max-w-md text-sand">Choose a point on the horse, or from the list, to see what it teaches the rider.</p>
+            ) : (
+              <NodePanel node={activeNode ?? null} position={nodeIndex + 1} total={points.length} surface="inline" />
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div aria-live="polite" className="min-h-[15rem]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active.id}
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -16 }}
+              transition={{ duration: 0.45, ease: ease.citadel }}
+            >
+              <Panel h={active} />
+            </motion.div>
+          </AnimatePresence>
+          <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label="Choose a point">
+            {points.map((h) => (
+              <button
+                key={h.id}
+                type="button"
+                onClick={() => choose(h.id)}
+                aria-pressed={h.id === active.id}
+                className={cn("label border px-3 py-2", h.id === active.id ? "border-gold text-gold" : "border-line text-sand")}
+              >
+                {h.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
 }
 
-function Panel({ h, mode }: { h: Hotspot; mode: "compact" | "full" }) {
+function Panel({ h }: { h: Hotspot }) {
   return (
     <div>
       <p className="label text-brass">{h.name}</p>
@@ -239,39 +284,28 @@ function Panel({ h, mode }: { h: Hotspot; mode: "compact" | "full" }) {
       <p className="font-mono mt-3 text-[0.68rem] tracking-[0.12em] text-copper">
         {h.metric}
       </p>
-      {mode === "compact" ? (
-        <>
-          <ScrollRevealText className="mt-4 text-lede text-sand">{h.short}</ScrollRevealText>
-          <p className="label mt-6 text-dust">
-            Trains <span className="ml-2 text-gold">{h.trains}</span>
-          </p>
-        </>
-      ) : (
-        <>
-          <p className="label mt-4 text-dust">
-            Trait <span className="ml-2 text-gold">{h.trains}</span>
-          </p>
-          <dl className="mt-6 divide-y divide-line/15 border-y border-line">
-            {layerNames.map((l) => (
-              <div
-                key={l.key}
-                className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6"
-              >
-                <dt className="label pt-1 text-dust">{l.label}</dt>
-                <dd
-                  className={
-                    l.key === "builds"
-                      ? "t-voice text-xl text-gold"
-                      : "text-sand"
-                  }
-                >
-                  {h.layers[l.key]}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </>
-      )}
+      <p className="label mt-4 text-dust">
+        Trait <span className="ml-2 text-gold">{h.trains}</span>
+      </p>
+      <dl className="mt-6 divide-y divide-line/15 border-y border-line">
+        {layerNames.map((l) => (
+          <div
+            key={l.key}
+            className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6"
+          >
+            <dt className="label pt-1 text-dust">{l.label}</dt>
+            <dd
+              className={
+                l.key === "builds"
+                  ? "t-voice text-xl text-gold"
+                  : "text-sand"
+              }
+            >
+              {h.layers[l.key]}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }

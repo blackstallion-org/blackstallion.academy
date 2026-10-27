@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { motion } from "motion/react";
 import * as THREE from "three";
 import { groundPatch } from "@/components/3d/contact";
 import { ANATOMY_MODEL, addLights, createTimer, daylight, disposeObject, loadMarwari, releaseRenderer, type Marwari } from "@/components/3d/marwari";
 import { createStudioEnv } from "@/components/3d/studio";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
 type Point = { id: string; name: string; title: string };
@@ -17,6 +19,11 @@ interface Anatomy3DHorseProps {
   /** The hotspots to mark on the horse (the plate's points). */
   points: Point[];
   onSelectHotspot?: (id: string) => void;
+  /**
+   * The detail panel for the chosen point. When given (even as an empty fragment) a slot is laid over the canvas on large
+   * screens and in full screen, and the camera shifts the focused part clear of it; below `lg` the caller shows the detail itself.
+   */
+  detail?: ReactNode;
   className?: string;
   onUnavailable: (message: string) => void;
 }
@@ -44,9 +51,10 @@ const REGIONS: Record<string, { spheres: (b: Bones) => { center: THREE.Vector3; 
   },
   mouth: { spheres: (b) => [{ center: b("Muzzle"), radius: 0.15 }], view: [0.8, 0.2, 1], distance: 1.4 },
   hoof: {
-    spheres: (b) => ["Hoof_F_L", "Hoof_F_R", "Hoof_B_L", "Hoof_B_R"].map((n) => ({ center: b(n), radius: 0.15 })),
+    // the fetlock sits at the head of the pastern bone, the hoof at the coronet below it
+    spheres: (b) => ["F_L", "F_R", "B_L", "B_R"].map((n) => ({ center: b(`Pastern_${n}`).lerp(b(`Hoof_${n}`), 0.5), radius: 0.19 })),
     view: [1, 0.25, 0.55],
-    distance: 3.1,
+    distance: 3.5,
   },
 };
 const OVERVIEW = { focus: new THREE.Vector3(0, 1.05, 0.25), view: new THREE.Vector3(1, 0.22, 0.85).normalize(), distance: 5.6 };
@@ -56,10 +64,11 @@ type Bones = (name: string) => THREE.Vector3;
 /** The mouth corner in the rest pose (model space, from the Blender build), carried by the Head bone. */
 const MUZZLE_REST = new THREE.Vector3(0.016, 1.62, 1.27);
 
-export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, onUnavailable, className = "" }: Anatomy3DHorseProps) {
+export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, detail, onUnavailable, className = "" }: Anatomy3DHorseProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const markerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const detailRef = useRef<HTMLDivElement>(null);
 
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -213,7 +222,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       if (!r) return null;
       const spheres = r.spheres(bone);
       const focus = spheres.reduce((acc, s) => acc.add(s.center), new THREE.Vector3()).multiplyScalar(1 / spheres.length);
-      if (id === "hoof") focus.y = 0.45;
+      if (id === "hoof") focus.y = 0.4;
       return { spheres, focus, view: new THREE.Vector3(...r.view).normalize(), distance: r.distance };
     };
 
@@ -286,6 +295,9 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     const targetLook = new THREE.Vector3();
     let glow = 0;
     const epsilon = 0.0001;
+    // The detail panel covers part of the canvas; the view slides so the chosen part sits in the clear area.
+    const shift = new THREE.Vector2();
+    const shiftTarget = new THREE.Vector2();
 
     function requestRender() {
       if (disposed || failed || !ready || !visible || document.hidden || animId !== null) return;
@@ -338,6 +350,18 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
         targetLook.copy(OVERVIEW.focus);
         targetPos.copy(OVERVIEW.focus).addScaledVector(OVERVIEW.view, OVERVIEW.distance);
       }
+      shiftTarget.set(0, 0);
+      const slot = detailRef.current;
+      if (region && slot?.offsetParent) {
+        const w = container!.clientWidth;
+        const h = container!.clientHeight;
+        // wide slot = a bottom sheet (full screen on a phone); narrow slot = a side panel
+        if (slot.offsetWidth > w * 0.8) shiftTarget.y = h * 0.2;
+        else shiftTarget.x = (slot.offsetWidth + 16) / 2;
+      }
+      shift.lerp(shiftTarget, still ? 1 : 0.06);
+      if (shift.lengthSq() > 0.25) camera.setViewOffset(container!.clientWidth, container!.clientHeight, shift.x, shift.y, container!.clientWidth, container!.clientHeight);
+      else if (camera.view?.enabled) camera.clearViewOffset();
       const glowTarget = region ? 1 : 0;
       glow += (glowTarget - glow) * (still ? 1 : 0.08);
       if (marwari) marwari.highlight.strength.value = glow * (0.75 + 0.25 * Math.sin(clock.elapsed * 2.4) * (still ? 0 : 1));
@@ -355,6 +379,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       const settling = Math.abs(rotation.targetY - rotation.y) > epsilon ||
         camPos.distanceToSquared(targetPos) > epsilon * epsilon ||
         camLook.distanceToSquared(targetLook) > epsilon * epsilon ||
+        shift.distanceToSquared(shiftTarget) > 0.01 ||
         Math.abs(glowTarget - glow) > 0.002;
       if (orbit || settling || (mixer && !still)) requestRender();
     }
@@ -402,6 +427,13 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     else void containerRef.current?.requestFullscreen?.().catch(() => {});
   };
 
+  const reset = () => {
+    rotationRef.current.targetY = 0;
+    activeRef.current = "overview";
+    onSelectHotspot?.("overview");
+    requestRenderRef.current();
+  };
+
   const select = (id: string) => {
     setAutoRotate(false);
     activeRef.current = id;
@@ -418,8 +450,12 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
       onPointerLeave={handlePointerUp}
+      onKeyDown={(e) => {
+        if (e.key === "Escape" && activeId !== "overview") reset();
+      }}
+      data-fullscreen={fullscreen ? "" : undefined}
       style={{ touchAction: "pan-y" }}
-      className={`relative h-full w-full cursor-grab select-none overflow-hidden bg-night active:cursor-grabbing ${className}`}
+      className={`group/plate relative h-full w-full cursor-grab select-none overflow-hidden bg-night active:cursor-grabbing ${className}`}
     >
       <canvas
         ref={canvasRef}
@@ -429,9 +465,9 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
         className={`absolute inset-0 block h-full w-full transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       />
 
-      {/* Hotspot markers, projected from the skeleton every frame */}
+      {/* Hotspot markers, projected from the skeleton every frame. Above the view controls (z-20) so a marker that lands under one stays tappable; below the detail panel (z-30). */}
       {isLoaded && (
-        <ul aria-label="Points on the horse" className="pointer-events-none absolute inset-0 z-10">
+        <ul aria-label="Points on the horse" className="pointer-events-none absolute inset-0 z-[25]">
           {points.map((p) => (
             <li key={p.id}>
               <button
@@ -444,10 +480,19 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
                 className="group pointer-events-auto absolute left-0 top-0 -ml-5 -mt-5 grid h-10 w-10 place-items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
               >
                 <span className={cn("absolute h-4 w-4 rounded-full border border-gold animate-pulse-ring", p.id === activeId ? "opacity-100" : "opacity-50")} style={{ animationDuration: "1.4s" }} />
+                {p.id === activeId && (
+                  <motion.span
+                    aria-hidden
+                    className="absolute h-8 w-8 rounded-full border border-gold/80"
+                    initial={reducedMotion ? false : { scale: 0.45, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.6, ease: ease.citadel }}
+                  />
+                )}
                 <span className={cn("relative h-2.5 w-2.5 rounded-full transition-colors", p.id === activeId ? "bg-gold" : "bg-bone/70 group-hover:bg-gold")} />
                 <span
                   className={cn(
-                    "label pointer-events-none absolute top-9 whitespace-nowrap text-[0.6rem] transition-opacity",
+                    "label pointer-events-none absolute top-9 whitespace-nowrap text-[0.6rem] transition-opacity [text-shadow:0_0_6px_var(--color-night),0_0_2px_var(--color-night)]",
                     p.id === activeId ? "text-gold opacity-100" : "text-sand opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100",
                   )}
                 >
@@ -474,7 +519,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
 
       {/* Plate markings */}
       <div aria-hidden className="pointer-events-none absolute inset-3 z-10 border border-line/40" />
-      <div className="pointer-events-none absolute bottom-4 left-5 z-10 hidden items-center gap-2 sm:flex">
+      <div className={cn("pointer-events-none absolute bottom-4 left-5 z-10 hidden items-center gap-2 transition-opacity", activeId === "overview" && "sm:flex")}>
         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gold" />
         <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-gold/90">
           3D Specimen · Marwari<span className="hidden sm:inline"> · 15 hh</span>
@@ -513,12 +558,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
         </button>
         <button
           type="button"
-          onClick={() => {
-            rotationRef.current.targetY = 0;
-            activeRef.current = "overview";
-            onSelectHotspot?.("overview");
-            requestRenderRef.current();
-          }}
+          onClick={reset}
           className="min-h-11 rounded-full border border-line bg-night/70 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-wider text-sand backdrop-blur-md transition-colors hover:text-bone"
         >
           Reset View
@@ -533,9 +573,21 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
         </button>
       </div>
 
-      <div className="pointer-events-none absolute bottom-4 right-5 z-10 hidden sm:block">
-        <span className="font-mono text-[0.58rem] uppercase tracking-[0.2em] text-sand/50">Drag to rotate · Choose a point to focus</span>
-      </div>
+      {activeId === "overview" && (
+        <div className="pointer-events-none absolute bottom-4 right-5 z-10 hidden sm:block">
+          <span className="font-mono text-[0.58rem] uppercase tracking-[0.2em] text-sand/50">Drag to rotate · Choose a point to focus</span>
+        </div>
+      )}
+
+      {/* Detail slot: a side panel from lg up, a bottom sheet in full screen on small screens; below lg the caller shows the detail under the plate */}
+      {detail !== undefined && (
+        <div
+          ref={detailRef}
+          className="pointer-events-none absolute inset-x-3 bottom-[4.75rem] z-30 hidden max-h-[48%] flex-col justify-end group-data-[fullscreen]/plate:flex sm:bottom-3 lg:inset-x-auto lg:bottom-4 lg:right-4 lg:flex lg:max-h-[calc(100%-5.5rem)] lg:w-[21rem] xl:w-[23rem]"
+        >
+          {detail}
+        </div>
+      )}
     </div>
   );
 }
