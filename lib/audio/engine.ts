@@ -1,19 +1,21 @@
 "use client";
 
+import { asset } from "@/lib/content/asset";
+
 /** Opt-in, lazy, single-voice sound effects. No autoplay or background loop. */
 export const SOUND_FILES = {
-  ambient: "/audio/bsah_ambient_432hz_drone.mp3", // retained legacy asset; no longer looped
-  breath: "/audio/interactions/snort.mp3",
-  key: "/audio/bsah_keystroke.wav",
-  gallop: "/audio/interactions/gallop.mp3",
-  neigh: "/audio/interactions/neigh.mp3",
-  snort: "/audio/interactions/snort.mp3",
-  chase: "/audio/interactions/desert-chase.mp3",
-  herd: "/audio/interactions/herd.mp3",
-  chariot: "/audio/interactions/chariot.mp3",
-  horseCall: "/audio/interactions/horse-call.mp3",
-  leather: "/audio/interactions/leather.wav",
-  tack: "/audio/interactions/tack.wav",
+  ambient: asset("/audio/bsah_ambient_432hz_drone.mp3"), // retained legacy asset; no longer looped
+  breath: asset("/audio/interactions/snort.mp3"),
+  key: asset("/audio/bsah_keystroke.wav"),
+  gallop: asset("/audio/interactions/gallop.mp3"),
+  neigh: asset("/audio/interactions/neigh.mp3"),
+  snort: asset("/audio/interactions/snort.mp3"),
+  chase: asset("/audio/interactions/desert-chase.mp3"),
+  herd: asset("/audio/interactions/herd.mp3"),
+  chariot: asset("/audio/interactions/chariot.mp3"),
+  horseCall: asset("/audio/interactions/horse-call.mp3"),
+  leather: asset("/audio/interactions/leather.wav"),
+  tack: asset("/audio/interactions/tack.wav"),
 } as const;
 export type SoundEffect = Exclude<keyof typeof SOUND_FILES, "ambient">;
 const EQUINE = new Set<SoundEffect>(["breath", "gallop", "neigh", "snort", "chase", "herd", "chariot", "horseCall"]);

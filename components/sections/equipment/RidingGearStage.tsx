@@ -6,12 +6,13 @@ import { OrbitControls, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ModelBoundary } from "@/components/three/ModelBoundary";
+import { asset } from "@/lib/content/asset";
 
 /**
  * The riding-gear WebGL stage, split out of HorseEquipmentSection so three.js, R3F, drei and the 5 MB model are only
  * fetched when the stage approaches the viewport (the model used to be preloaded the moment the page's JS ran).
  */
-export const RIDING_GEAR_MODEL_URL = "/models/riding-gear-draco.glb";
+export const RIDING_GEAR_MODEL_URL = asset("/models/riding-gear-draco.glb");
 
 /* ------------------------------------------------------------------
    1. Interactive 3D Composite Riding Gear Model Component

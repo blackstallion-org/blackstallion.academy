@@ -8,6 +8,26 @@ implemented workflow). No API is described here that has not been implemented. S
 Legend: **Implemented** (live, exercised) · **Schema only** (table + RLS exist, no workflow/code in this repository) ·
 **Planned** (nothing exists yet).
 
+## 0. Readiness verdict for the mobile apps (24 Oct 2026)
+
+**The backend foundation is ready for app development; it is not ready for a public app launch.** What an app can rely
+on today is tested live or on the replica (176 + 179 SQL checks, restore rehearsal 12/12): sign-in and sign-up with the
+role fixed server-side (F1, F2), the five roles and their row-level security, profiles, cadets linked to a guardian,
+the public credential check (`verify_passport`), anonymous-safe lead capture (`submit_lead_v2`), the shared rate limiter,
+and private document storage (website side). What still stands between that foundation and a launched app:
+
+| Gap | Why it matters to an app | Owner of the decision |
+| --- | --- | --- |
+| S7: every signed-in user, including any self-registered parent, can read camera links, microchips, revenue shares, school e-mails and all achievements | an app that lets parents sign up exposes that data to every parent | apps team + owner (role-scoped policies) |
+| 001200 not applied (S3–S6) | anonymous clients can read the same data without signing in | owner (approval; pre-flight is clean) |
+| Auth Site URL is `http://localhost:3000`; the allow-list has only website addresses | password-reset and magic links in an app need its deep-link scheme in the allow-list; the Site URL should become the production address when the other apps are updated | owner + apps team |
+| No backups on the Free plan | a shared production project with children's records | owner (G12) |
+| Operations storage buckets have no object policies; no push sender; no payment gateway; no revocation/expiry fields; operations tables are not audited | each is **planned**, none exists, none is described as working | apps team |
+| Rotating `SUPABASE_SECRET_KEY` | the apps may use it; revoking it without checking breaks them | owner (S9 procedure) |
+
+Nothing in this file promises an endpoint that does not exist: **Implemented** items have been exercised, **Schema only**
+means a table with row-level security but no code, **Planned** means nothing exists yet.
+
 ## 1. Authentication — Implemented
 
 - Supabase Auth (e-mail + password). Clients use the project URL and the **publishable** key; never ship the secret key.

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import * as THREE from "three";
 import { mediaSrc, type MediaKey } from "@/lib/content/media";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/content/asset";
 
 /* ================= 4D Simplex Noise Transition Shaders ================= */
 const VERTEX_SHADER = `
@@ -299,9 +300,9 @@ export function WebGLNoiseTransition({
       if (typeof s.image === "string") {
         if (s.image.startsWith("/") || s.image.startsWith("http")) return s.image;
         const resolved = mediaSrc(s.image as MediaKey);
-        return resolved || `/media/${s.image}.png`;
+        return resolved || asset(`/media/${s.image}.png`);
       }
-      return `/media/${String(s.image)}.png`;
+      return asset(`/media/${String(s.image)}.png`);
     });
   }, [slides]);
 

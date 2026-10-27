@@ -15,6 +15,7 @@ import { standings } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/content/asset";
 
 /*
  * The tactile paper (a ~200 kB vendored WebGL component) is still server-rendered as its still sheet, but its code is
@@ -36,8 +37,8 @@ export function HomeVerifier() {
 
   const imageSrc =
     doc === "deed"
-      ? "/images/bsah-commission-deed.webp"
-      : "/images/archival-handwritten-letter.jpg";
+      ? asset("/images/bsah-commission-deed.webp")
+      : asset("/images/archival-handwritten-letter.jpg");
   const stageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const stage = stageRef.current;
@@ -244,7 +245,7 @@ function PaperPlaceholder() {
     <noscript>
       <Link href="/verify/BSAH-2026-HYD-042" prefetch={false} aria-label="BSAH Sovereign Commission Archival Document" style={{ position: "absolute", inset: 0, display: "block", background: "#F4F0E7" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/bsah-commission-deed.webp" alt="" style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} />
+        <img src={asset("/images/bsah-commission-deed.webp")} alt="" style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} />
       </Link>
     </noscript>
   </div>;

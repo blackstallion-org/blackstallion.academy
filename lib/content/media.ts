@@ -8,6 +8,8 @@
  * `focus` is the CSS object-position that keeps the subject in frame on narrow screens.
  */
 
+import { asset, MEDIA_REMOTE } from "./asset";
+
 const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/";
 
 type Media = { file: string; remote: string | null; alt: string; focus?: string };
@@ -19,8 +21,20 @@ const m = (file: string, id: string | null, alt: string, focus?: string): Media 
   focus,
 });
 
+/**
+ * The provider's own image resizer (already allowed by the CSP and used by LithosHero). The CDN master of each of the
+ * eight new stills is a ~7.5 MB 2K PNG; through the resizer the same still is a ~0.2 MB WebP at 1920 px. Interim only:
+ * the real fix is to download the masters, ship WebP copies in git and switch to `m(...)` (docs/LAUNCH_INSTRUCTIONS.md, G13).
+ */
+const RESIZER = "https://images.higgs.ai/?default=1&output=webp&q=82&w=1920&url=";
+
 /** A still that exists only on the CDN so far (no local master, no shipped WebP yet). */
-const cdnOnly = (id: string, alt: string, focus?: string): Media => ({ file: "", remote: `${CDN}${id}`, alt, focus });
+const cdnOnly = (id: string, alt: string, focus?: string): Media => ({
+  file: "",
+  remote: `${RESIZER}${encodeURIComponent(`${CDN}${id}`)}`,
+  alt,
+  focus,
+});
 
 export const media = {
   /* ---------------------------------------------------- first set (9 Oct 2026) */
@@ -132,10 +146,14 @@ export const LOCAL_MEDIA = process.env.NEXT_PUBLIC_LOCAL_MEDIA === "1";
  */
 export const shippedFile = (file: string) => file.replace(/^(\/media\/[^/]+)\.(png|jpe?g)$/i, "$1.webp");
 
-/** The URL the browser should load for a key, or null if nothing exists yet. */
+/**
+ * The URL the browser should load for a key, or null if nothing exists yet.
+ * With NEXT_PUBLIC_MEDIA_BASE_URL set, site paths come from the media bucket (lib/content/asset.ts). That bucket mirrors
+ * the shipped WebP copies, never the PNG masters, so the masters are used only when the media stays on this site.
+ */
 export function mediaSrc(key: MediaKey): string | null {
   const item: Media = media[key];
   if (!item) return null;
-  if (LOCAL_MEDIA) return item.file || item.remote;
-  return item.file ? shippedFile(item.file) : item.remote;
+  const path = LOCAL_MEDIA && !MEDIA_REMOTE ? item.file || item.remote : item.file ? shippedFile(item.file) : item.remote;
+  return path ? asset(path) : null;
 }

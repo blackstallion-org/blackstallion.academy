@@ -2,6 +2,7 @@
 
 import { mediaSrc } from "@/lib/content/media";
 import { ViscousLiquidCanvas, type ViscousSlide } from "@/components/sections/shared/ViscousLiquidCanvas";
+import { asset } from "@/lib/content/asset";
 
 export interface DoorItem {
   who: string;
@@ -17,7 +18,7 @@ const DOOR_ITEMS: DoorItem[] = [
     who: "Parents",
     title: "The Guardian",
     tagline: "Watch your cadet's journey from the rail. Planned for the parent app: 24/7 stall-cams, gate alerts and verified session reels.",
-    image: mediaSrc("parentsRail") || "/media/parents-rail.png",
+    image: mediaSrc("parentsRail") || asset("/media/parents-rail.png"),
     href: "/parents",
     cta: "For parents",
   },
@@ -25,7 +26,7 @@ const DOOR_ITEMS: DoorItem[] = [
     who: "Cadets",
     title: "The Hall of Valour",
     tagline: "A sealed leather passport, your own Marwari stallion, and the national circuit.",
-    image: mediaSrc("cadetZayd") || "/media/cadet-zayd.png",
+    image: mediaSrc("cadetZayd") || asset("/media/cadet-zayd.png"),
     href: "/cadets",
     cta: "For cadets",
   },
@@ -33,7 +34,7 @@ const DOOR_ITEMS: DoorItem[] = [
     who: "Schools",
     title: "The Zero-CapEx Engine",
     tagline: "Turnkey campus riding arena funded, built, and operated by BSAH with zero school expenditure.",
-    image: mediaSrc("schoolArenaNight") || mediaSrc("schoolAerial") || "/media/school-arena-night.png",
+    image: mediaSrc("schoolArenaNight") || mediaSrc("schoolAerial") || asset("/media/school-arena-night.png"),
     href: "/schools",
     cta: "For schools",
   },

@@ -1,10 +1,12 @@
 # Mobile performance pass — notes
 
 Work done in an isolated copy (local branch `perf/mobile-lighthouse`, sandbox commits `44d1fcf..b931489`) and merged into
-the repository in commit `a05f398` on branch `session/2026-10-24-final-completion`. Summary and the final before/after
-measurement: `docs/PERFORMANCE_REPORT.md`.
-No dependency, `package.json`, lockfile, `next.config.mjs` or `node_modules` change. Two new image files (WebP copies);
-every original asset is kept. `productionBrowserSourceMaps` was only ever enabled in a scratch copy, never here.
+the repository in commit `a05f398` on branch `session/2026-10-24-final-completion`; the request-hygiene pass of
+section 8 followed in commit `8d70c9e` on the same branch. Summary and the final before/after measurement:
+`docs/PERFORMANCE_REPORT.md`.
+No dependency, `package.json`, lockfile or `node_modules` change. Two new image files (WebP copies); every original
+asset is kept. `productionBrowserSourceMaps` was only ever enabled in a scratch copy, never here. (`next.config.mjs`
+gained one cache-header rule in the final request-hygiene pass, section 8.)
 
 ## 1. How it was measured
 
@@ -297,8 +299,13 @@ round); where a number belongs to a group of commits it says so.
 10. **Hero status row (pre-existing):** on phones "Buffering film…" takes its own row under the film, so a stall
     longer than a second still moves the page (two 0.0122 shifts, in one home run in three on both sides). Reserving
     the row's height would remove it but adds a permanent empty line under the controls — a layout decision.
-11. **Pre-existing:** the four Matrix thumbnails 404 on `/`, and the home story reel's "Explore chronicle" link
-    points to `/history`, which 404s (its prefetch shows in the console; baseline too).
+11. **Checked on the final tree:** the home story reel's "Explore chronicle" link goes to `/legend` (changed from
+    `/history` in `cca22b3`; an earlier version of this note said it still 404ed). A crawl of the preview of `ea4e8e4`
+    (38 pages, every internal link followed, 160 images and files requested) found no 404. The four Matrix thumbnails
+    (`/images/matrix/{brain,spine,muscle,heart}-thumb.webp`) 404 **only in the sandbox integration copy**, which was
+    assembled from an incomplete media copy; they are tracked in the owner's repository (commit `487e683`) and return
+    200 on the Vercel preview (checked 24 Oct, previews of `d219262` and `ea4e8e4`). They are not a site defect and
+    must not be deleted from the repository.
 
 ## 7. Risks
 
@@ -317,3 +324,96 @@ round); where a number belongs to a group of commits it says so.
   until then).
 - **Measurement noise:** see section 1; TBT and score deltas here are indicative only; bytes, LCP element and the CPU
   measure are the robust signals.
+
+## 8. Final pass: request hygiene (24 Oct, after the effects review)
+
+Goal: spend fewer bytes before the first paint without removing or changing anything the owner sees. Four small edits
+(all additive; no dependency change, no markup or copy change; every image is the same file shown in the same place):
+
+| # | File | What it does | Bytes taken out of the page-load path |
+|---|---|---|---|
+| A | `components/motion/CrumpledPaperReveal.tsx` | the server-rendered sheet's `<img>` gets `loading="lazy" decoding="async"`, so React no longer emits a `Link: …bsah-commission-deed.webp; rel=preload; as=image` header on `/` | 85 KB (the "deed" still sits at ≈ 12,800 px on phones) |
+| B | `components/site/Footer.tsx` | the footer video's `poster` is set by `whenNearViewport(footer, …, "150% 0px")` (the video is already `preload="none"`) | 76 KB (footer sits ≈ 21,000–24,000 px down) |
+| C | `components/sections/home/Matrix.tsx` | the four SVG overlay plates get their `href` once the stage is within 1.5 screens | ≈ 100 KB |
+| D | `next.config.mjs` | `Cache-Control: public, max-age=86400, stale-while-revalidate=604800` for `/{animations,audio,brand,draco,images,media,models,textures,video}/*` (the platform default for `public/` files is `max-age=0, must-revalidate`); not `immutable`, because files keep their names when replaced | repeat visits: no revalidation round trip per still/clip/model |
+
+**Measured (Lighthouse 12.8.2 mobile, Lantern, production builds, 4 interleaved runs each, `/`, sandbox load average
+1–3, i.e. a quiet machine this time):**
+
+| `/` | Perf (runs) | FCP | LCP | Speed Index | TBT (runs) | Requests | Bytes |
+|---|---|---|---|---|---|---|---|
+| before (`b909751`) | **60** (58, 60, 64, 59) | 1.83 s | 7.21 s | 5.15 s | 477 ms (519, 477, 323, 477) | 64 | 3.16 MB |
+| after (A–D) | **60** (55, 61, 70, 60) | 1.84 s | **6.00 s** | **4.62 s** | 540 ms (695, 530, 226, 550) | 58 | **2.89 MB** |
+
+Bytes requested before the observed LCP fell by 267 KB (1,724 → 1,457 KB). LCP and Speed Index improve by 1.2 s and
+0.5 s; the performance *score* does not move because simulated TBT is noisy and, as the network shrinks, the same main
+thread work lands inside the (now earlier) measurement window — the two TBT ranges overlap completely (226–695 ms
+against 323–519 ms). Read the score as unchanged and the LCP/SI/bytes columns as the effect.
+
+**Verified behaviour (production server, Playwright, 390×844 and 1440×900):** at load none of the three files is
+requested; scrolling brings each in before it is seen (Matrix plates at scroll Y 3,376 px on a phone, the stage sitting
+≈ 5,600 px; footer poster at 20,931 px of 23,420; deed at 12,829 px); the footer `poster` attribute and the four overlay
+`href`s end up exactly as before; every `public/` directory above answers with the new `Cache-Control`; no new console
+messages. `npm run lint` (0 errors), `typecheck`, 79/79 unit tests, `build`, 18/18 e2e pass on the committed code
+(`8d70c9e`; CI run green, Vercel preview built from the same commit and checked: cache headers and deferral as above).
+
+### 8a. Why the lab score cannot reach 80 on `/` (Lantern "what-if", same trace, nothing re-run on the network)
+
+The home trace was re-audited offline with groups of requests removed (a *model*; these are not options for the site):
+
+| Removed from the trace | Perf | FCP | LCP | TBT |
+|---|---|---|---|---|
+| nothing | 63 | 1.81 s | 6.70 s | 361 ms |
+| all fonts (7 requests) | 68 | 1.65 s | 4.88 s | 429 ms |
+| all images (15) | 63 | 1.81 s | 5.42 s | 516 ms |
+| the two videos | 63 | 1.81 s | 6.70 s | 362 ms |
+| fonts **and** images (22) | **71** | 1.65 s | 3.75 s | 581 ms |
+
+Even a page with no fonts and no images only reaches 71: every kilobyte taken out of the network moves LCP down but
+puts more of the main-thread work (layout of ≈ 4,000 DOM nodes: one 133 ms `Layout` and 70 ms `UpdateLayoutTree` in the
+first 550 ms, plus GSAP/React evaluation) into the measured window, so TBT rises. Per kilobyte, fonts and scripts cost
+the most simulated LCP (≈ 5–6 ms per KB); images cost far less. The three font families are the design.
+Conclusion: 80+ on `/` in this lab would require removing assets or effects that the brief says to keep. The score is
+noisy by ±5; confirm on a real phone / PageSpeed Insights after the production deploy.
+
+### 8b. Not applied (needs the owner)
+
+- Art-directed portrait crops of the heavy stills (≈ 900 KB less on `/` on phones): visible change, needs a per-image
+  crop decision.
+- `content-visibility: auto` on long sections to cut first-layout cost: risky for pinned/ScrollTrigger sections.
+- Self-hosting the eight Higgsfield stills (L08) will also remove eight third-party round trips from the first view of
+  `/` and the reels; waiting on a file transfer to the Mac. (They now arrive through the provider's resizer: §9.)
+
+## 9. Third-party media and the resizer (24 Oct, after the first preview check)
+
+Lighthouse could not show this: the sandbox's proxy refuses the image provider's CDN, so the pages measured above were
+missing their CDN pictures. The sizes below come from the browser on the protected preview: `HEAD` requests
+(`Content-Length`) for every remote media URL found in the code, plus the network list of the pages concerned.
+
+| Group | Used by | Size before | After |
+|---|---|---|---|
+| Eight new stills (peg-run stages, academy morning) | `/tournaments` (4), `/parents` (4), `/about` ribbon | 8 PNG masters, 7.18 to 7.96 MB each, **60.8 MB** | resized WebP: landscape 0.21 to 0.28 MB, portrait 0.42 to 0.78 MB, about **3.5 MB** |
+| Journal sphere (`FieldSphereHero`) | `/journal` | 21 WebP, 6.16 MB in all (largest 0.72 MB) | unchanged |
+| Videos only on the CDN | `/fleet` (4), `/legend` (1), `/curriculum` (1) | 3.6 to 15.1 MB each | unchanged |
+| Videos with a local first choice | footer, `/why` | 3.6 and 5.1 MB, fetched only if the local file fails | unchanged |
+| Lithos hero (component exists; no route renders it) | `LithosHero` | via the resizer already | unchanged |
+
+**What was found.** The eight stills were requested straight from the CDN as 2K PNG masters. Before this change the
+four peg-run stages were about 30 MB on `/tournaments` and the four morning stills about 30 MB on `/parents`, on top of
+everything in section 2. They were invisible in the lab numbers, and on a phone connection they would have been the
+largest cost on those two pages.
+
+**The change** (`561c8c8`): `cdnOnly()` in `lib/content/media.ts` now builds
+`https://images.higgs.ai/?default=1&output=webp&q=82&w=1920&url=<master>` (the same resizer the Lithos hero already
+used; `images.higgs.ai` was already in the CSP `img-src`). Width 1920 is the widest slot (full-bleed on desktop);
+quality 82 and WebP keep the grade. A unit test (`tests/media.test.mjs`) fails if a CDN-only still goes back to the
+master. Verified on the preview of that commit: on `/tournaments` the four peg stages arrive at 213, 255, 281 and 225 KB,
+stage switching and the WebGL transition still work and the console shows nothing but Vercel's own feedback toolbar being
+refused by the CSP; `/parents` shows its four stills at 417 to 778 KB each (decoded 1920 x 2571).
+
+**Limits.** The resizer's URL format belongs to the provider; if it changes, the stills fall back to the gradient
+placeholder (the test pins the shape, not the provider). The images are still a third-party dependency, with no
+integrity check and an unconfirmed licence. The permanent fix is to download the masters, ship WebP copies in git and
+switch `cdnOnly(...)` to `m(...)` (`sh scripts/fetch-media.sh` on the Mac; launch gate G13). One unexplained
+observation: the first four journal sphere images were seen requested through `<link rel="preload">` hints while
+browsing `/tournaments` (probably Next's prefetch of `/journal`); not investigated further.

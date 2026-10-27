@@ -23,9 +23,13 @@ jobs:
           BASE: ${{ vars.UPTIME_URL }}
         run: |
           fail=0
-          for path in / /verify /schools/mou /robots.txt; do
+          for path in / /verify /schools/mou /robots.txt /api/health; do
             code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 25 -A "bsah-uptime/1.0" "${BASE%/}$path" || echo 000)
             echo "$path -> $code"
             [ "$code" = "200" ] || fail=1
           done
+          # Database check (also the keep-alive that stops a Free-plan Supabase project pausing after a quiet week):
+          # the body must say the database answered. Only the status words are printed, never the whole body.
+          body=$(curl -s --max-time 25 -A "bsah-uptime/1.0" "${BASE%/}/api/health?deep=1" || true)
+          if echo "$body" | grep -q '"db":"up"'; then echo "/api/health?deep=1 -> database up"; else echo "/api/health?deep=1 -> database NOT confirmed"; fail=1; fi
           exit $fail

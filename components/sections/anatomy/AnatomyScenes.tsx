@@ -11,6 +11,7 @@ import { ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
+import { asset } from "@/lib/content/asset";
 
 /** Title card · T3 specimen plate. Signature: catalogue lines rule in around the horse like a museum mount. */
 const catalogue: [string, string][] = [
@@ -142,10 +143,10 @@ export function EarDial() {
               loop
               playsInline
               preload="none"
-              poster="/video/marwari-ear-poster.jpg"
+              poster={asset("/video/marwari-ear-poster.jpg")}
               aria-label="Marwari horse ear movement and independent 180-degree listening biomechanics film"
             >
-              <source src="/video/marwari_horse_ear_biomechanics_loop.mp4" type="video/mp4" />
+              <source src={asset("/video/marwari_horse_ear_biomechanics_loop.mp4")} type="video/mp4" />
             </video>
 
             {/* Subtle luxury vignette and depth shadow overlay */}
