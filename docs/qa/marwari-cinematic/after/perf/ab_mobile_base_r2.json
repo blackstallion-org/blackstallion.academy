@@ -1,0 +1,310 @@
+{
+ "profile": "mobile",
+ "baseUrl": "http://localhost:3102",
+ "uncapped": false,
+ "device": {
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "hw": 8,
+  "dprReal": 3,
+  "innerWidth": 390,
+  "innerHeight": 844
+ },
+ "readyMs": 3393,
+ "when": "Tue Oct 27 2026 11:22:01 GMT+0530 (India Standard Time)",
+ "cfg": {
+  "width": 390,
+  "height": 844,
+  "dpr": 3,
+  "mobile": true
+ },
+ "scenarios": [
+  {
+   "syncRenderMs": [
+    {
+     "min": 1,
+     "median": 2,
+     "p90": 2
+    },
+    {
+     "min": 1,
+     "median": 2,
+     "p90": 3
+    },
+    {
+     "min": 1,
+     "median": 2,
+     "p90": 4
+    }
+   ],
+   "scenario": "hero idle (chapter 0)",
+   "loadBefore": "8.01 9.14 11.44",
+   "loadAfter": "6.8 8.82 11.28",
+   "frames": 750,
+   "fps": 62.5,
+   "frameMs": {
+    "mean": 16,
+    "p50": 16,
+    "p95": 21,
+    "p99": 22,
+    "max": 23
+   },
+   "over20ms": 85,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 3.04,
+    "p50": 2.98,
+    "p95": 4.67,
+    "max": 7.25,
+    "samples": 748
+   },
+   "drawCalls": {
+    "min": 4,
+    "median": 4,
+    "max": 4
+   },
+   "triangles": {
+    "median": 37642,
+    "max": 37642
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 4,
+   "geometries": 4,
+   "textures": 8,
+   "gait": "stand",
+   "speed": 0,
+   "env": ""
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 4
+    },
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 5
+    },
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 5
+    }
+   ],
+   "scenario": "desert, standing",
+   "loadBefore": "6.89 8.81 11.26",
+   "loadAfter": "7.5 8.86 11.24",
+   "frames": 751,
+   "fps": 62.5,
+   "frameMs": {
+    "mean": 16,
+    "p50": 16,
+    "p95": 18,
+    "p99": 18,
+    "max": 19
+   },
+   "over20ms": 0,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 5.06,
+    "p50": 5.01,
+    "p95": 6.93,
+    "max": 10.28,
+    "samples": 750
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 197982,
+    "max": 197982
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 23,
+   "geometries": 28,
+   "textures": 13,
+   "gait": "stand",
+   "speed": 0,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 5
+    },
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 5
+    },
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 4
+    }
+   ],
+   "scenario": "desert, gallop 10 m/s (side track)",
+   "loadBefore": "7.22 8.78 11.2",
+   "loadAfter": "9.51 9.22 11.32",
+   "frames": 751,
+   "fps": 62.5,
+   "frameMs": {
+    "mean": 16,
+    "p50": 16,
+    "p95": 18,
+    "p99": 18,
+    "max": 20
+   },
+   "over20ms": 0,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 5.32,
+    "p50": 5.23,
+    "p95": 7.18,
+    "max": 10.91,
+    "samples": 750
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 199338,
+    "max": 199542
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 23,
+   "geometries": 28,
+   "textures": 13,
+   "gait": "gallop",
+   "speed": 10,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 5
+    },
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 6
+    },
+    {
+     "min": 3,
+     "median": 5,
+     "p90": 6
+    }
+   ],
+   "scenario": "campus, canter 5.2 m/s",
+   "loadBefore": "11.02 9.55 11.42",
+   "loadAfter": "11.23 9.67 11.43",
+   "frames": 750,
+   "fps": 62.5,
+   "frameMs": {
+    "mean": 16,
+    "p50": 16,
+    "p95": 18,
+    "p99": 19,
+    "max": 21
+   },
+   "over20ms": 1,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 5.73,
+    "p50": 5.64,
+    "p95": 8.24,
+    "max": 29.52,
+    "samples": 749
+   },
+   "drawCalls": {
+    "min": 30,
+    "median": 33,
+    "max": 36
+   },
+   "triangles": {
+    "median": 314528,
+    "max": 330584
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 28,
+   "geometries": 39,
+   "textures": 24,
+   "gait": "canter",
+   "speed": 5.2,
+   "env": "campus"
+  }
+ ],
+ "logs": [
+  "error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "requestfailed: http://localhost:3102/video/hero-main-mobile.mp4 net::ERR_ABORTED"
+ ]
+}

@@ -1,0 +1,80 @@
+  Running TypeScript ...
+  Finished TypeScript in 4.9s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/61) ...
+  Generating static pages using 7 workers (15/61) 
+  Generating static pages using 7 workers (30/61) 
+  Generating static pages using 7 workers (45/61) 
+✓ Generating static pages using 7 workers (61/61) in 1663ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /admin
+├ ƒ /admin/audit
+├ ƒ /admin/documents
+├   /admin/leads/[id]
+│ └ ◐ /admin/leads/[id]
+├ ◐ /admin/login
+├ ƒ /admin/media
+├ ƒ /admin/mou
+├ ƒ /admin/qr
+├ ◐ /admin/reset
+├ ○ /anatomy
+├ ○ /apple-icon.png
+├ ƒ /auth/confirm
+├ ○ /cadets
+├ ○ /command
+├ ○ /contact
+├ ○ /curriculum
+├ ○ /equipment
+├ ○ /fleet
+├ ○ /icon.png
+├ ○ /journal
+├   /journal/[slug]
+│ ├ ◐ /journal/[slug]
+│ ├ ○ /journal/the-horse-that-would-not-leave-the-field
+│ ├ ○ /journal/why-the-ears-curl
+│ └ ◐ [+4 more paths]
+├ ○ /legend
+├ ○ /lithos
+├ ○ /lore
+├ ○ /opengraph-image.png
+├ ○ /parents
+├ ○ /privacy
+├ ○ /robots.txt
+├ ○ /safety
+├ ○ /schools
+├   /schools/[slug]
+│ ├ ◐ /schools/[slug]
+│ ├ ○ /schools/zone-01a-financial-district
+│ ├ ○ /schools/zone-01c-gachibowli
+│ └ ○ /schools/zone-01b-begumpet
+├ ◐ /schools/access
+├ ○ /schools/mou
+├ ○ /science
+├ ○ /sitemap.xml
+├ ○ /statue
+├ ○ /tournaments
+├   /tournaments/[slug]
+│ ├ ◐ /tournaments/[slug]
+│ ├ ○ /tournaments/governors-cup-2026
+│ ├ ○ /tournaments/hyderabad-interschool-2026
+│ └ ○ /tournaments/junior-lancers-2027
+├ ○ /verify
+├   /verify/[code]
+│ ├ ◐ /verify/[code]
+│ ├ ○ /verify/BSAH-2026-HYD-042
+│ ├ ○ /verify/BSAH-2026-HYD-017
+│ └ ○ /verify/BSAH-2026-HYD-088
+└ ○ /why
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)             prerendered as static content
+◐  (Partial Prerender)  prerendered as static HTML with dynamic server-streamed content
+ƒ  (Dynamic)            server-rendered on demand
+

@@ -1,0 +1,97 @@
+{
+ "profile": "desktop2",
+ "baseUrl": "http://localhost:3102",
+ "uncapped": false,
+ "device": {
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "hw": 8,
+  "dprReal": 2,
+  "innerWidth": 1440,
+  "innerHeight": 900
+ },
+ "readyMs": 3556,
+ "when": "Tue Oct 27 2026 11:16:21 GMT+0530 (India Standard Time)",
+ "cfg": {
+  "width": 1440,
+  "height": 900,
+  "dpr": 2,
+  "mobile": false
+ },
+ "scenarios": [
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 4
+    },
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 4
+    },
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 4
+    }
+   ],
+   "scenario": "hero idle (chapter 0)",
+   "loadBefore": "14.75 11.93 13.21",
+   "loadAfter": "14.23 11.95 13.19",
+   "frames": 750,
+   "fps": 62.5,
+   "frameMs": {
+    "mean": 16,
+    "p50": 16,
+    "p95": 21,
+    "p99": 22,
+    "max": 23
+   },
+   "over20ms": 61,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 3.65,
+    "p50": 3.54,
+    "p95": 6.61,
+    "max": 12.17,
+    "samples": 749
+   },
+   "drawCalls": {
+    "min": 4,
+    "median": 4,
+    "max": 4
+   },
+   "triangles": {
+    "median": 37642,
+    "max": 37642
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 4,
+   "geometries": 4,
+   "textures": 8,
+   "gait": "stand",
+   "speed": 0,
+   "env": ""
+  }
+ ],
+ "logs": [
+  "error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "requestfailed: http://localhost:3102/video/hero-main-desktop.mp4 net::ERR_ABORTED"
+ ]
+}

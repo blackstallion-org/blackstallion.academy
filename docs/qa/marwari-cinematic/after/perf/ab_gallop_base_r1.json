@@ -1,0 +1,168 @@
+{
+ "profile": "desktop2",
+ "baseUrl": "http://localhost:3102",
+ "uncapped": false,
+ "device": {
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "hw": 8,
+  "dprReal": 2,
+  "innerWidth": 1440,
+  "innerHeight": 900
+ },
+ "readyMs": 5899,
+ "when": "Tue Oct 27 2026 11:10:25 GMT+0530 (India Standard Time)",
+ "cfg": {
+  "width": 1440,
+  "height": 900,
+  "dpr": 2,
+  "mobile": false
+ },
+ "scenarios": [
+  {
+   "syncRenderMs": [
+    {
+     "min": 5,
+     "median": 6,
+     "p90": 8
+    },
+    {
+     "min": 5,
+     "median": 6,
+     "p90": 8
+    },
+    {
+     "min": 5,
+     "median": 6,
+     "p90": 8
+    }
+   ],
+   "scenario": "desert, standing",
+   "loadBefore": "10.85 12.36 14.3",
+   "loadAfter": "10.11 12.11 14.18",
+   "frames": 753,
+   "fps": 62.5,
+   "frameMs": {
+    "mean": 16,
+    "p50": 16,
+    "p95": 17,
+    "p99": 18,
+    "max": 19
+   },
+   "over20ms": 0,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 6.1,
+    "p50": 5.36,
+    "p95": 10.4,
+    "max": 16.72,
+    "samples": 752
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 250600,
+    "max": 250600
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 23,
+   "geometries": 28,
+   "textures": 13,
+   "gait": "stand",
+   "speed": 0,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 9,
+     "median": 12,
+     "p90": 16
+    },
+    {
+     "min": 10,
+     "median": 15,
+     "p90": 18
+    },
+    {
+     "min": 11,
+     "median": 16,
+     "p90": 18
+    }
+   ],
+   "scenario": "desert, gallop 10 m/s (side track)",
+   "loadBefore": "10.34 12.13 14.17",
+   "loadAfter": "9.48 11.84 14.03",
+   "frames": 751,
+   "fps": 62.3,
+   "frameMs": {
+    "mean": 16.04,
+    "p50": 16,
+    "p95": 17,
+    "p99": 19,
+    "max": 49
+   },
+   "over20ms": 2,
+   "over33ms": 1,
+   "gpuMs": {
+    "mean": 6.69,
+    "p50": 5.99,
+    "p95": 10.81,
+    "max": 23.2,
+    "samples": 749
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 251350,
+    "max": 251668
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 23,
+   "geometries": 28,
+   "textures": 13,
+   "gait": "gallop",
+   "speed": 10,
+   "env": "desert"
+  }
+ ],
+ "logs": [
+  "error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "requestfailed: http://localhost:3102/video/hero-main-desktop.mp4 net::ERR_ABORTED"
+ ]
+}

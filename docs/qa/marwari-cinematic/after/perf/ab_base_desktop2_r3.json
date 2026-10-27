@@ -1,0 +1,381 @@
+{
+ "profile": "desktop2",
+ "baseUrl": "http://localhost:3102",
+ "uncapped": false,
+ "device": {
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "hw": 8,
+  "dprReal": 2,
+  "innerWidth": 1440,
+  "innerHeight": 900
+ },
+ "readyMs": 9691,
+ "when": "Tue Oct 27 2026 11:07:08 GMT+0530 (India Standard Time)",
+ "cfg": {
+  "width": 1440,
+  "height": 900,
+  "dpr": 2,
+  "mobile": false
+ },
+ "scenarios": [
+  {
+   "syncRenderMs": [
+    {
+     "min": 3,
+     "median": 5,
+     "p90": 12
+    },
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 6
+    },
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 6
+    }
+   ],
+   "scenario": "hero idle (chapter 0)",
+   "loadBefore": "10.48 12.31 14.71",
+   "loadAfter": "11.22 12.36 14.69",
+   "frames": 778,
+   "fps": 59.1,
+   "frameMs": {
+    "mean": 16.92,
+    "p50": 16,
+    "p95": 17,
+    "p99": 42,
+    "max": 254
+   },
+   "over20ms": 11,
+   "over33ms": 8,
+   "gpuMs": {
+    "mean": 3.63,
+    "p50": 2.68,
+    "p95": 9.3,
+    "max": 18.73,
+    "samples": 776
+   },
+   "drawCalls": {
+    "min": 4,
+    "median": 4,
+    "max": 4
+   },
+   "triangles": {
+    "median": 37642,
+    "max": 37642
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 4,
+   "geometries": 4,
+   "textures": 8,
+   "gait": "stand",
+   "speed": 0,
+   "env": ""
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 4,
+     "median": 6,
+     "p90": 8
+    },
+    {
+     "min": 5,
+     "median": 7,
+     "p90": 9
+    },
+    {
+     "min": 6,
+     "median": 8,
+     "p90": 9
+    }
+   ],
+   "scenario": "desert, standing",
+   "loadBefore": "12.56 12.63 14.75",
+   "loadAfter": "12.48 12.6 14.71",
+   "frames": 706,
+   "fps": 58.5,
+   "frameMs": {
+    "mean": 17.09,
+    "p50": 16,
+    "p95": 17,
+    "p99": 21,
+    "max": 509
+   },
+   "over20ms": 8,
+   "over33ms": 6,
+   "gpuMs": {
+    "mean": 7.15,
+    "p50": 6.28,
+    "p95": 11.31,
+    "max": 46.5,
+    "samples": 705
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 250600,
+    "max": 250600
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 23,
+   "geometries": 28,
+   "textures": 13,
+   "gait": "stand",
+   "speed": 0,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 7,
+     "median": 10,
+     "p90": 12
+    },
+    {
+     "min": 7,
+     "median": 10,
+     "p90": 14
+    },
+    {
+     "min": 8,
+     "median": 11,
+     "p90": 13
+    }
+   ],
+   "scenario": "desert, gallop 10 m/s (side track)",
+   "loadBefore": "14.84 13.09 14.87",
+   "loadAfter": "15.04 13.21 14.88",
+   "frames": 731,
+   "fps": 59.7,
+   "frameMs": {
+    "mean": 16.76,
+    "p50": 16,
+    "p95": 18,
+    "p99": 24,
+    "max": 437
+   },
+   "over20ms": 14,
+   "over33ms": 3,
+   "gpuMs": {
+    "mean": 7.78,
+    "p50": 7.37,
+    "p95": 11.01,
+    "max": 32.92,
+    "samples": 729
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 251350,
+    "max": 251668
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 23,
+   "geometries": 28,
+   "textures": 13,
+   "gait": "gallop",
+   "speed": 10,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 6,
+     "median": 8,
+     "p90": 9
+    },
+    {
+     "min": 7,
+     "median": 8,
+     "p90": 10
+    },
+    {
+     "min": 7,
+     "median": 9,
+     "p90": 11
+    }
+   ],
+   "scenario": "village, trot 3.4 m/s",
+   "loadBefore": "16.38 13.58 14.99",
+   "loadAfter": "15.77 13.57 14.96",
+   "frames": 755,
+   "fps": 62.4,
+   "frameMs": {
+    "mean": 16.02,
+    "p50": 16,
+    "p95": 17,
+    "p99": 18,
+    "max": 28
+   },
+   "over20ms": 1,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 6.67,
+    "p50": 5.75,
+    "p95": 11.47,
+    "max": 20.44,
+    "samples": 754
+   },
+   "drawCalls": {
+    "min": 37,
+    "median": 37,
+    "max": 37
+   },
+   "triangles": {
+    "median": 693666,
+    "max": 708486
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 24,
+   "geometries": 36,
+   "textures": 17,
+   "gait": "trot",
+   "speed": 3.4,
+   "env": "village"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 13,
+     "median": 20,
+     "p90": 29
+    },
+    {
+     "min": 12,
+     "median": 21,
+     "p90": 31
+    },
+    {
+     "min": 12,
+     "median": 21,
+     "p90": 29
+    }
+   ],
+   "scenario": "campus, canter 5.2 m/s",
+   "loadBefore": "15.21 13.53 14.93",
+   "loadAfter": "13.4 13.21 14.79",
+   "frames": 752,
+   "fps": 62.5,
+   "frameMs": {
+    "mean": 16,
+    "p50": 16,
+    "p95": 17,
+    "p99": 18,
+    "max": 18
+   },
+   "over20ms": 0,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 16.68,
+    "p50": 10.82,
+    "p95": 49.02,
+    "max": 85.9,
+    "samples": 749
+   },
+   "drawCalls": {
+    "min": 31,
+    "median": 33,
+    "max": 37
+   },
+   "triangles": {
+    "median": 636656,
+    "max": 674576
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 29,
+   "geometries": 39,
+   "textures": 24,
+   "gait": "canter",
+   "speed": 5.2,
+   "env": "campus"
+  }
+ ],
+ "logs": [
+  "error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "requestfailed: http://localhost:3102/video/hero-main-desktop.mp4 net::ERR_ABORTED"
+ ]
+}

@@ -244,26 +244,12 @@ function lampGeo(): Geo {
   P.push(cylG(0.07, 0.11, 3.6, 8, 0, 0, 0, "#2a2420"), boxG(0.4, 0.5, 0.4, 0, 3.6, 0, "#c9a66b"), boxG(0.5, 0.08, 0.5, 0, 4.1, 0, "#2a2420"), boxG(0.3, 0.3, 0.3, 0, 3.65, 0, "#fff0c8"));
   return merge(P);
 }
-function hedgeGeo(): Geo {
-  // a clipped hedge as a chain of overlapping rounded shrubs
-  const parts: Geo[] = [];
-  const base = new THREE.Color("#4b6b37");
-  for (let i = 0; i < 8; i++) {
-    const g = new THREE.SphereGeometry(0.62, 10, 7);
-    const p = g.attributes.position, uv = g.attributes.uv;
-    const col = new Float32Array(p.count * 3);
-    for (let k = 0; k < p.count; k++) {
-      const n = 1 + 0.12 * (vnoise(p.getX(k) * 3 + i * 5, p.getY(k) * 3 + p.getZ(k) * 3, 8) - 0.5);
-      p.setXYZ(k, p.getX(k) * 1.1 * n, p.getY(k) * 0.82 * n, p.getZ(k) * n);
-      const under = 0.55 + 0.45 * Math.min(1, Math.max(0, (p.getY(k) + 0.45) / 0.9));
-      col[k * 3] = base.r * under; col[k * 3 + 1] = base.g * under; col[k * 3 + 2] = base.b * under;
-      uv.setXY(k, uv.getX(k) * 3, uv.getY(k) * 3);
-    }
-    g.setAttribute("color", new THREE.BufferAttribute(col, 3));
-    g.translate(-3 + i * 0.86, 0.45, 0);
-    parts.push(g);
-  }
-  return merge(parts);
+function railGeo(): Geo {
+  // one six-metre bay of a timber post-and-rail paddock fence (posts at both ends, shared with the next bay)
+  const P: Geo[] = [];
+  for (const x of [-3, 3]) P.push(boxG(0.14, 1.3, 0.14, x, 0, 0, TIMBER), boxG(0.19, 0.05, 0.19, x, 1.3, 0, TRIM));
+  for (const y of [0.52, 0.98]) P.push(boxG(6, 0.12, 0.07, 0, y, 0.03, TIMBER));
+  return merge(P);
 }
 function treeTrunkGeo(): Geo {
   return merge([cylG(0.22, 0.4, 4.2, 8, 0, 0, 0, "#4b3a2b"), cylG(0.12, 0.2, 2.4, 6, 0.6, 3.0, 0.3, "#4b3a2b"), cylG(0.1, 0.18, 2.2, 6, -0.5, 3.2, -0.3, "#4b3a2b")]);
@@ -312,22 +298,26 @@ export function createCampus(quality: Quality): Environment {
   const letters = letterMesh();
   group.add(letters);
 
-  /* ---- avenue trees, lamps and hedges along the drive; scattered trees round the grounds */
+  /* ---- avenue trees, lamps and paddock rails along the drive; scattered trees round the grounds */
   const drive = (place: (cj: number) => Instance[]) => (ci: number, cj: number) => (ci === 0 ? place(cj) : []);
-  const AVENUE = 14;
+  const AVENUE = 14; // lamp spacing
+  const TREE_GAP = 28; // a tree every 28 m: the avenue was a dark tunnel at 14, and its shadow swallowed the horse's hooves
   const avenue = (cj: number): Instance[] => {
-    const z = (cj + 0.5) * AVENUE;
+    const z = (cj + 0.5) * TREE_GAP;
     if (z > AZ0 - 4) return [];
-    return [-1, 1].map((s) => ({ x: s * 10.5, y: terrainHeight("campus", s * 10.5, z) - 0.05, z, rotY: z * 1.7, sx: 1, sy: 1, sz: 1, color: new THREE.Color(1, 1, 1) }));
+    return [-1, 1].map((s, i) => {
+      const k = 0.88 + 0.1 * Math.sin(z * 1.3 + i * 2.1);
+      return { x: s * 10.5, y: terrainHeight("campus", s * 10.5, z) - 0.05, z, rotY: z * 1.7, sx: k, sy: k, sz: k, color: new THREE.Color(1.08, 1, 0.88) };
+    });
   };
-  const trunks = new Scatter(treeTrunkGeo(), plainMat, 60, AVENUE, 150, drive(avenue), { castShadow: true, colored: true });
-  const crowns = new Scatter(treeCrownGeo(), leafMat, 60, AVENUE, 150, drive(avenue), { castShadow: true, colored: true });
+  const trunks = new Scatter(treeTrunkGeo(), plainMat, 60, TREE_GAP, 150, drive(avenue), { castShadow: true, colored: true });
+  const crowns = new Scatter(treeCrownGeo(), leafMat, 60, TREE_GAP, 150, drive(avenue), { castShadow: true, colored: true });
   const lamps = new Scatter(lampGeo(), plainMat, 60, AVENUE, 130, drive((cj) => {
     const z = (cj + 0.5) * AVENUE + 7;
     if (z > AZ0 - 3) return [];
     return [-1, 1].map((s) => ({ x: s * 4.9, y: terrainHeight("campus", s * 4.9, z), z, rotY: 0, sx: 1, sy: 1, sz: 1, color: new THREE.Color(1, 1, 1) }));
   }), { castShadow: true, colored: true });
-  const hedges = new Scatter(hedgeGeo(), leafMat, 80, 6, 130, (ci, cj) => {
+  const rails = new Scatter(railGeo(), woodMat, 80, 6, 130, (ci, cj) => {
     if (ci !== 0) return [];
     const z = (cj + 0.5) * 6;
     if (z > AZ0 - 2) return [];
@@ -390,7 +380,7 @@ export function createCampus(quality: Quality): Environment {
     return out;
   }, { colored: true, receiveShadow: false });
 
-  const scatters = [trunks, crowns, lamps, hedges, gTrunks, gCrowns, hills, tufts];
+  const scatters = [trunks, crowns, lamps, rails, gTrunks, gCrowns, hills, tufts];
   for (const s of scatters) group.add(s.mesh);
 
   /* ---- the track: down the drive, in through the gate, then a clockwise oval round the arena */
@@ -426,6 +416,23 @@ export function createCampus(quality: Quality): Environment {
       if (p.y < 7.2 && p.x < STABLE.x1 - 0.8 && p.x > STABLE.x0 - 1 && p.z > STABLE.z0 - 1 && p.z < STABLE.z1 + 1) p.x = STABLE.x1 - 0.8;
       if (p.y < 18 && p.z > HALL.z - 20 && Math.abs(p.x) < HALL.hw + 2) p.z = HALL.z - 20;
       if (Math.abs(p.z - AZ0) < 1.4 && p.y < 5.9 && Math.abs(p.x) > 5.1) p.x = Math.sign(p.x) * 5.1;
+      // the avenue: neem crowns (3.6 m radius, from 2.8 m up) and trunks every 14 m at x = ±10.5, lamp posts at x = ±4.9 halfway between
+      if (p.z < AZ0 && p.y < 10.4) {
+        const tz = (Math.round(p.z / TREE_GAP - 0.5) + 0.5) * TREE_GAP;
+        const lz = (Math.round((p.z - 7) / AVENUE - 0.5) + 0.5) * AVENUE + 7;
+        const keep = (cx: number, cz: number, r: number) => {
+          const dx = p.x - cx, dz = p.z - cz, d = Math.hypot(dx, dz);
+          if (d >= r) return;
+          if (d < 0.01) {
+            p.x = cx + Math.sign(cx) * r; // dead centre: out toward the verge
+            return;
+          }
+          p.x = cx + (dx * r) / d;
+          p.z = cz + (dz * r) / d;
+        };
+        if (tz <= AZ0 - 4) for (const s of [-1, 1]) keep(s * 10.5, tz, p.y > 2.8 ? 4.4 : 2);
+        if (lz <= AZ0 - 3 && p.y < 4.4) for (const s of [-1, 1]) keep(s * 4.9, lz, 2.4);
+      }
     },
     update(_dt, focus, time, q) {
       near.update(focus.x, focus.z, time);
@@ -433,7 +440,7 @@ export function createCampus(quality: Quality): Environment {
       trunks.update(focus.x, focus.z, Math.max(0.55, q.scatter));
       crowns.update(focus.x, focus.z, Math.max(0.55, q.scatter));
       lamps.update(focus.x, focus.z, q.scatter);
-      hedges.update(focus.x, focus.z, q.scatter);
+      rails.update(focus.x, focus.z, q.scatter);
       gTrunks.update(focus.x, focus.z, q.scatter);
       gCrowns.update(focus.x, focus.z, q.scatter);
       hills.update(focus.x, focus.z, 1);

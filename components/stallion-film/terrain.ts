@@ -190,10 +190,13 @@ export class Terrain {
             float rake = sin(p.x * 14.0 + vnoise(p * 0.4, 41) * 4.0) * 0.5 + 0.5;
             vec3 sand = mix(uSandLight, uSandDark, 0.35 + 0.35 * fbm2(p * 0.3, 42)) * (0.965 + 0.05 * rake * (0.5 + vnoise(p * 0.2, 51)));
             vec3 grass = mix(uAccent * 0.8, uAccent * 1.25, fbm2(p * 0.7, 43)) * (0.9 + 0.2 * vnoise(p * 9.0, 44));
+            // a paddock is not one green: patches of sun-bleached grass and darker ones where it stands long
+            grass = mix(grass, grass * vec3(1.4, 1.14, 0.62), smoothstep(0.45, 0.8, vnoise(p * 0.018, 60)) * 0.6);
+            grass *= 1.0 - 0.16 * smoothstep(0.55, 0.85, vnoise(p * 0.045 + 17.0, 61));
             bump = vec2(vnoise(p * 7.0, 45) - 0.5, vnoise(p * 7.0 + 5.0, 46) - 0.5) * 0.04 * out_ + vec2(0.0, (rake - 0.5) * 0.018) * (1.0 - out_);
             rough = mix(0.98, 0.93, out_);
             float drive = (1.0 - smoothstep(2.6, 3.5, abs(p.x))) * (1.0 - smoothstep(uArena.y - uArena.w - 1.5, uArena.y - uArena.w + 0.2, p.y));
-            vec3 gravel = mix(vec3(0.16, 0.135, 0.105), vec3(0.29, 0.245, 0.19), fbm2(p * 1.6, 47)) * (0.92 + 0.16 * vnoise(p * 9.0, 48));
+            vec3 gravel = mix(vec3(0.27, 0.215, 0.15), vec3(0.43, 0.345, 0.24), fbm2(p * 1.6, 47)) * (0.92 + 0.16 * vnoise(p * 9.0, 48));
             bump += vec2(vnoise(p * 11.0, 49) - 0.5, vnoise(p * 11.0 + 3.0, 50) - 0.5) * 0.05 * drive;
             return mix(mix(sand, grass, out_), gravel, drive);
           }`,

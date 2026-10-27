@@ -1,0 +1,382 @@
+{
+ "profile": "desktop2",
+ "baseUrl": "http://localhost:3102",
+ "uncapped": false,
+ "device": {
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "hw": 8,
+  "dprReal": 2,
+  "innerWidth": 1440,
+  "innerHeight": 900
+ },
+ "readyMs": 8141,
+ "when": "Tue Oct 27 2026 10:55:51 GMT+0530 (India Standard Time)",
+ "cfg": {
+  "width": 1440,
+  "height": 900,
+  "dpr": 2,
+  "mobile": false
+ },
+ "scenarios": [
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 7
+    },
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 7
+    },
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 7
+    }
+   ],
+   "scenario": "hero idle (chapter 0)",
+   "loadBefore": "18.66 18.26 17.43",
+   "loadAfter": "19.46 18.47 17.52",
+   "frames": 750,
+   "fps": 59.7,
+   "frameMs": {
+    "mean": 16.75,
+    "p50": 16,
+    "p95": 17,
+    "p99": 23,
+    "max": 219
+   },
+   "over20ms": 9,
+   "over33ms": 5,
+   "gpuMs": {
+    "mean": 3.42,
+    "p50": 2.67,
+    "p95": 6.67,
+    "max": 16.35,
+    "samples": 748
+   },
+   "drawCalls": {
+    "min": 4,
+    "median": 4,
+    "max": 4
+   },
+   "triangles": {
+    "median": 37642,
+    "max": 37642
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 4,
+   "geometries": 4,
+   "textures": 8,
+   "gait": "stand",
+   "speed": 0,
+   "env": ""
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 5,
+     "median": 6,
+     "p90": 9
+    },
+    {
+     "min": 5,
+     "median": 6,
+     "p90": 9
+    },
+    {
+     "min": 5,
+     "median": 6,
+     "p90": 10
+    }
+   ],
+   "scenario": "desert, standing",
+   "loadBefore": "16.85 17.94 17.34",
+   "loadAfter": "16 17.69 17.26",
+   "frames": 743,
+   "fps": 61.7,
+   "frameMs": {
+    "mean": 16.22,
+    "p50": 16,
+    "p95": 17,
+    "p99": 18,
+    "max": 110
+   },
+   "over20ms": 4,
+   "over33ms": 3,
+   "gpuMs": {
+    "mean": 4.91,
+    "p50": 4.47,
+    "p95": 7.08,
+    "max": 18.17,
+    "samples": 741
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 250600,
+    "max": 250600
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 23,
+   "geometries": 28,
+   "textures": 13,
+   "gait": "stand",
+   "speed": 0,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 8,
+     "median": 15,
+     "p90": 20
+    },
+    {
+     "min": 7,
+     "median": 14,
+     "p90": 19
+    },
+    {
+     "min": 7,
+     "median": 15,
+     "p90": 23
+    }
+   ],
+   "scenario": "desert, gallop 10 m/s (side track)",
+   "loadBefore": "16.4 17.74 17.28",
+   "loadAfter": "18.62 18.14 17.43",
+   "frames": 770,
+   "fps": 62.2,
+   "frameMs": {
+    "mean": 16.08,
+    "p50": 16,
+    "p95": 18,
+    "p99": 22,
+    "max": 33
+   },
+   "over20ms": 11,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 10.51,
+    "p50": 10.08,
+    "p95": 16.24,
+    "max": 30.57,
+    "samples": 765
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 251350,
+    "max": 251668
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 23,
+   "geometries": 28,
+   "textures": 13,
+   "gait": "gallop",
+   "speed": 10,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 7,
+     "median": 13,
+     "p90": 15
+    },
+    {
+     "min": 6,
+     "median": 12,
+     "p90": 15
+    },
+    {
+     "min": 6,
+     "median": 12,
+     "p90": 16
+    }
+   ],
+   "scenario": "village, trot 3.4 m/s",
+   "loadBefore": "17.86 18 17.39",
+   "loadAfter": "17.52 17.92 17.37",
+   "frames": 753,
+   "fps": 62.5,
+   "frameMs": {
+    "mean": 16,
+    "p50": 16,
+    "p95": 17,
+    "p99": 18,
+    "max": 21
+   },
+   "over20ms": 1,
+   "over33ms": 0,
+   "gpuMs": {
+    "mean": 7.79,
+    "p50": 7.85,
+    "p95": 11.28,
+    "max": 21.91,
+    "samples": 751
+   },
+   "drawCalls": {
+    "min": 37,
+    "median": 37,
+    "max": 37
+   },
+   "triangles": {
+    "median": 693666,
+    "max": 708486
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 24,
+   "geometries": 36,
+   "textures": 17,
+   "gait": "trot",
+   "speed": 3.4,
+   "env": "village"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 8,
+     "median": 13,
+     "p90": 14
+    },
+    {
+     "min": 8,
+     "median": 12,
+     "p90": 14
+    },
+    {
+     "min": 8,
+     "median": 12,
+     "p90": 15
+    }
+   ],
+   "scenario": "campus, canter 5.2 m/s",
+   "loadBefore": "17.1 17.82 17.34",
+   "loadAfter": "16.24 17.61 17.27",
+   "frames": 741,
+   "fps": 61.5,
+   "frameMs": {
+    "mean": 16.26,
+    "p50": 16,
+    "p95": 17,
+    "p99": 19,
+    "max": 138
+   },
+   "over20ms": 5,
+   "over33ms": 4,
+   "gpuMs": {
+    "mean": 10.18,
+    "p50": 9.32,
+    "p95": 16.22,
+    "max": 34.25,
+    "samples": 739
+   },
+   "drawCalls": {
+    "min": 31,
+    "median": 33,
+    "max": 37
+   },
+   "triangles": {
+    "median": 636656,
+    "max": 674576
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.5,
+    1.5
+   ],
+   "tier": [
+    0,
+    0
+   ],
+   "canvasPx": [
+    2160,
+    1350
+   ],
+   "programs": 29,
+   "geometries": 39,
+   "textures": 24,
+   "gait": "canter",
+   "speed": 5.19,
+   "env": "campus"
+  }
+ ],
+ "logs": [
+  "error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+  "requestfailed: http://localhost:3102/video/hero-main-desktop.mp4 net::ERR_ABORTED",
+  "warning: %c%s%c Route / is rendering with server caches disabled. For this navigation, Component Metadata in React DevTools will not accurately reflect what is statically prerenderable and runtime prefetchable. See more info here: https://nextjs.org"
+ ]
+}

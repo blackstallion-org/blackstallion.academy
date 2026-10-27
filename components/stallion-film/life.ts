@@ -163,7 +163,7 @@ export class SecondaryMotion {
       remaining -= h;
       this.tail.forEach((s, i) => {
         // target: the tail streams back (+X) and lifts with speed; reaction to acceleration swings it the other way
-        const tx = this.tailStream * (0.02 + 0.07 * stream) * (1 + 0.1 * i);
+        const tx = this.tailStream * (0.03 + 0.2 * stream) * (1 + 0.1 * i); // at a gallop the dock lifts and the hair streams back (about 50 degrees over the four bones)
         const ax = s.k * (tx - s.x) - s.c * s.vx - 0.018 * aF * (1 + i * 0.4);
         const az = s.k * (0 - s.z) - s.c * s.vz - 0.02 * aL * (1 + i * 0.4) + 0.004 * wx * (1 + i * 0.3);
         s.vx += ax * h;
@@ -173,7 +173,7 @@ export class SecondaryMotion {
         s.z = clamp(s.z + s.vz * h, -0.9, 0.9);
       });
       this.mane.forEach((s, i) => {
-        const tx = (0.01 + 0.07 * stream) * (1 + 0.2 * i);
+        const tx = (0.015 + 0.14 * stream) * (1 + 0.2 * i);
         const ax = s.k * (tx - s.x) - s.c * s.vx - 0.012 * aF;
         const az = s.k * (0.02 * (1 + i) - s.z) - s.c * s.vz - 0.014 * aL + 0.006 * wx;
         s.vx += ax * h;

@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { PASSPORT_HREF, useStallionEnabled } from "@/components/hero/stallion-flags";
+import { PASSPORT_HREF, preloadHeroAssets, useStallionEnabled } from "@/components/hero/stallion-flags";
 import type { FilmEngine } from "@/components/stallion-film/engine";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
@@ -35,6 +35,10 @@ export function StallionHero() {
   const progressRef = useRef(0);
   const filmOn = enabled && !reduced && !failed;
 
+  useEffect(() => {
+    if (enabled) preloadHeroAssets();
+  }, [enabled]);
+
   const filmConfig = useMemo(
     () => (filmOn ? { mobile: typeof window !== "undefined" && window.matchMedia("(max-width: 820px), (pointer: coarse)").matches, onChapter: (c: number) => setChapter(c) } : undefined),
     [filmOn],
@@ -44,6 +48,8 @@ export function StallionHero() {
     filmRef.current = f;
     if (f) {
       f.setProgress(progressRef.current);
+      const preset = new URLSearchParams(window.location.search).get("quality");
+      if (preset === "high" || preset === "medium" || preset === "low") f.setPreset(preset);
       if (new URLSearchParams(window.location.search).has("filmdebug") || process.env.NODE_ENV !== "production") {
         (window as unknown as { __stallionFilm?: unknown }).__stallionFilm = f;
       }

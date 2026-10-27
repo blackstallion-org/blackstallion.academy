@@ -15,6 +15,24 @@ export function heroModelUrl(): string {
   return small || saver ? HERO_MODEL_MOBILE : HERO_MODEL;
 }
 
+/**
+ * Starts the model download as soon as the hero knows it will show the stallion, instead of after the stage's chunk has
+ * loaded and mounted (about nine seconds later on Slow 4G). A `preload` of the exact URL the loader will ask for is
+ * reused by that request; the Draco decoder files go with it. Safe to call more than once.
+ */
+export function preloadHeroAssets() {
+  if (typeof document === "undefined") return;
+  for (const href of [heroModelUrl(), "/draco/draco_wasm_wrapper.js", "/draco/draco_decoder.wasm"]) {
+    if (document.head.querySelector(`link[rel="preload"][href="${href}"]`)) continue;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "fetch";
+    link.crossOrigin = "anonymous";
+    link.href = href;
+    document.head.appendChild(link);
+  }
+}
+
 const MODEL_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_STALLION_MODEL);
 const noSubscribe = () => () => {};
 /**

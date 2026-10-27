@@ -124,9 +124,13 @@ export class FilmEngine {
   private gaits: GaitTable | null = null;
   private frameTimes: number[] = [];
   private tierCooldown = 0;
+  /** A tier chosen by the visitor or a QA run (high, medium, low); null leaves the choice to the frame-time governor. */
+  private pinnedTier: 0 | 1 | 2 | 3 | null = null;
   private time = 0;
   private hoofSound = new HoofSound();
   private envTexture: THREE.Texture | null = null;
+  /** The PMREM render target behind `envTexture`: disposing the texture alone leaves the target (and a texture slot) allocated. */
+  private envTarget: THREE.WebGLRenderTarget | null = null;
   private heroEnv: THREE.Texture | null = null;
   private heroEnvIntensity = 0.45;
   private heroExposure = 1.45;
@@ -208,7 +212,9 @@ export class FilmEngine {
     }
     this.hoofSound.dispose();
     this.dust?.dispose(); this.ambient?.dispose(); this.prints?.dispose(); this.sky.dispose(); this.envSky?.dispose();
-    this.envTexture?.dispose();
+    this.envTarget?.dispose();
+    this.envTarget = null;
+    this.envTexture = null;
     this.pmrem?.dispose();
     if (this.veil) { this.veil.geometry.dispose(); (this.veil.material as THREE.Material).dispose(); }
     this.sun.dispose();
@@ -296,6 +302,7 @@ export class FilmEngine {
     this.applyEnvironment(env);
     const loco = this.loco!;
     loco.setGround(env.terrain);
+    ctx.horse.contacts.ground = (x, z) => env.terrain.height(x, z);
     loco.surfaceAt = (x, z) => env.surface(x, z);
     env.path.reset();
     // the horse arrives already moving: from rest the desert opens in stillness, the village and the academy open at a trot
@@ -336,8 +343,9 @@ export class FilmEngine {
       this.envSky.set(atm);
       const tmp = new THREE.Scene();
       tmp.add(this.envSky.mesh);
-      this.envTexture?.dispose();
+      this.envTarget?.dispose();
       const rt = this.pmrem.fromScene(tmp, 0, 0.1, 100);
+      this.envTarget = rt;
       this.envTexture = rt.texture;
       ctx.scene.environment = this.envTexture;
       ctx.scene.environmentIntensity = atm.envIntensity;
@@ -363,8 +371,9 @@ export class FilmEngine {
     this.heroEnvIntensity = ctx.scene.environmentIntensity;
     this.heroExposure = ctx.renderer.toneMappingExposure;
     ctx.heroLights.forEach((l) => (l.visible = false));
-    // warm low light pulls a black coat toward brown; grade it back toward black while the film plays
-    ctx.horse.highlight.coat.value.set(0.45, 0.9);
+    // outdoors the coat is graded a touch darker than in the studio, and the sun's warmth stays on the highlights
+    ctx.horse.highlight.coat.value.set(0.5, 0.92);
+    ctx.horse.contacts.strength = 0.6; // the sun casts the real shadow; the blobs add the soft occlusion at the sole
     if (ctx.heroShadow) ctx.heroShadow.visible = false;
     for (const d of [this.dust, this.ambient]) if (d) d.points.visible = true;
     if (this.prints) this.prints.mesh.visible = true;
@@ -383,7 +392,9 @@ export class FilmEngine {
     this.loco?.release();
     if (this.env) { ctx.scene.remove(this.env.group); this.env.dispose(); this.env = null; }
     ctx.heroLights.forEach((l) => (l.visible = true));
-    ctx.horse.highlight.coat.value.set(0, 1);
+    ctx.horse.highlight.coat.value.copy(ctx.horse.highlight.coatHome);
+    ctx.horse.contacts.strength = 1;
+    ctx.horse.contacts.ground = () => 0;
     if (ctx.heroShadow) ctx.heroShadow.visible = true;
     for (const d of [this.dust, this.ambient]) if (d) { d.points.visible = false; d.clear(); }
     if (this.prints) { this.prints.mesh.visible = false; this.prints.clear(); }
@@ -524,7 +535,8 @@ export class FilmEngine {
       this.fps = 1 / avg;
       this.frameTimes.length = 0;
       this.tierCooldown = Math.max(0, this.tierCooldown - 1);
-      if (avg > 0.027 && this.quality.tier < 3 && this.tierCooldown === 0) { this.setTier((this.quality.tier + 1) as 0 | 1 | 2 | 3); this.tierCooldown = 3; this.quietFrames = 0; }
+      if (this.pinnedTier !== null) this.quietFrames = 0;
+      else if (avg > 0.027 && this.quality.tier < 3 && this.tierCooldown === 0) { this.setTier((this.quality.tier + 1) as 0 | 1 | 2 | 3); this.tierCooldown = 3; this.quietFrames = 0; }
       else if (avg < 0.0145) { this.quietFrames++; if (this.quietFrames >= 6 && this.quality.tier > (this.opts.mobile ? 1 : 0) && this.tierCooldown === 0) { this.setTier((this.quality.tier - 1) as 0 | 1 | 2 | 3); this.tierCooldown = 3; this.quietFrames = 0; } }
       else this.quietFrames = 0;
     }
@@ -542,6 +554,21 @@ export class FilmEngine {
     this.prints?.update(this.time);
     this.sky.follow(ctx.camera, this.time);
     void LIMBS;
+  }
+
+  /**
+   * Quality presets over the four tiers: "high" is tier 0 (2048 shadow map, full scatter), "medium" tier 1, "low" tier 3 (no cast
+   * shadow, a quarter of the scatter and dust); "auto" (the default) lets the frame-time governor move between tiers.
+   * The place being shown keeps the terrain it was built with; shadows, scatter and particle budgets change at once.
+   */
+  setPreset(p: "auto" | "high" | "medium" | "low") {
+    this.pinnedTier = p === "auto" ? null : ({ high: 0, medium: 1, low: 3 } as const)[p];
+    this.quietFrames = 0;
+    if (this.pinnedTier !== null) this.setTier(this.pinnedTier);
+  }
+
+  get preset(): "auto" | "high" | "medium" | "low" {
+    return this.pinnedTier === null ? "auto" : (["high", "medium", "low", "low"] as const)[this.pinnedTier];
   }
 
   private setTier(t: 0 | 1 | 2 | 3) {

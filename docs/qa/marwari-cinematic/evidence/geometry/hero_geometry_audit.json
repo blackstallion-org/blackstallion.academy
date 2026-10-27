@@ -1,0 +1,492 @@
+{
+ "axes": {
+  "forward": [
+   0.013,
+   -1.0,
+   0.0
+  ],
+  "left": [
+   1.0,
+   0.013,
+   -0.0
+  ]
+ },
+ "counts": {
+  "verts": 17453,
+  "edges": 35828,
+  "faces": 18378,
+  "quads": 16240,
+  "tris": 2136,
+  "ngons": 2,
+  "triangles_after_triangulation": 34616
+ },
+ "bbox": {
+  "min": [
+   -0.318,
+   -1.37,
+   -0.0
+  ],
+  "max": [
+   0.346,
+   0.639,
+   2.17
+  ]
+ },
+ "edge_length_mm": {
+  "p5": 9.508542187907777,
+  "p50": 17.53797857436328,
+  "p95": 23.102235059302622,
+  "p99": 29.37682294914641,
+  "min": 1.0211282550910512,
+  "max": 60.98466044386916,
+  "mean": 17.331861573568816
+ },
+ "topology": {
+  "non_manifold_edges": 0,
+  "boundary_edges": 178,
+  "loose_verts": 0,
+  "wire_edges": 0,
+  "connected_components": [
+   16295,
+   1158
+  ]
+ },
+ "valence": {
+  "hist": {
+   "1": 0,
+   "2": 45,
+   "3": 169,
+   "4": 16234,
+   "5": 302,
+   "6": 384,
+   "7": 254,
+   "8": 54,
+   "9+": 11
+  },
+  "poles_3": 169,
+  "poles_5": 302,
+  "poles_6plus": 703,
+  "regular_4_share": 0.9301552741649001
+ },
+ "normals": {
+  "edges_with_opposed_neighbour_normals": 21,
+  "signed_volume_m3": 0.4895
+ },
+ "triangle_quality": {
+  "min_angle_deg": {
+   "p5": 25.268895880260796,
+   "p50": 41.0093112579501,
+   "p95": 48.45738187990646,
+   "p99": 52.90248944816734,
+   "min": 0.571982345933376,
+   "max": 59.78644214487332,
+   "mean": 39.61651361288161
+  },
+  "edge_ratio": {
+   "p5": 1.3033504259283575,
+   "p50": 1.516964038623506,
+   "p95": 2.181662352336114,
+   "p99": 3.4582606983944566,
+   "min": 1.005264952683618,
+   "max": 17.766475504161875,
+   "mean": 1.6281766939940387
+  },
+  "tris_min_angle_lt_10deg": 195,
+  "tris_edge_ratio_gt_4": 239,
+  "of": 34722
+ },
+ "quads_strongly_nonplanar": 533,
+ "uv": {
+  "layers": [
+   "UVMap"
+  ],
+  "faces_flipped_in_uv": 0,
+  "faces_degenerate_in_uv": 0,
+  "stretch_log2": {
+   "p5": -0.3490406444135933,
+   "p50": 0.02302637863427681,
+   "p95": 0.1956986617427233,
+   "p99": 0.20624328514727833,
+   "min": -0.7272187927694947,
+   "max": 0.2089421140076815,
+   "mean": -0.015935807524255174
+  },
+  "faces_stretched_2x": 0,
+  "faces_stretched_4x": 0,
+  "faces_considered": 18378,
+  "uv_area_total": 0.5293607150379221,
+  "uv_bounds": [
+   [
+    0.002534557366743684,
+    0.0025386030320078135
+   ],
+   [
+    0.9731436967849731,
+    0.9974724054336548
+   ]
+  ],
+  "islands": 188,
+  "seam_edges": 3564,
+  "largest_islands_uv_area": [
+   0.1287,
+   0.1283,
+   0.041,
+   0.0399,
+   0.0326,
+   0.0211
+  ],
+  "islands_smaller_than_0.0005_uv_area": 145,
+  "covered_share_of_unit_square": 0.4677,
+  "overlapping_share_of_covered": 0.00179
+ },
+ "texel_density": {
+  "head": {
+   "faces": 3141,
+   "area_m2": 0.435,
+   "texels_per_cm_at_2048": 6.44,
+   "share_of_surface_area": 0.082
+  },
+  "hooves": {
+   "faces": 745,
+   "area_m2": 0.223,
+   "texels_per_cm_at_2048": 6.41,
+   "share_of_surface_area": 0.042
+  },
+  "lower_legs": {
+   "faces": 1997,
+   "area_m2": 0.522,
+   "texels_per_cm_at_2048": 6.44,
+   "share_of_surface_area": 0.098
+  },
+  "mid_legs": {
+   "faces": 1784,
+   "area_m2": 0.655,
+   "texels_per_cm_at_2048": 6.42,
+   "share_of_surface_area": 0.123
+  },
+  "neck": {
+   "faces": 2447,
+   "area_m2": 0.737,
+   "texels_per_cm_at_2048": 6.55,
+   "share_of_surface_area": 0.139
+  },
+  "tail_root": {
+   "faces": 85,
+   "area_m2": 0.093,
+   "texels_per_cm_at_2048": 6.79,
+   "share_of_surface_area": 0.018
+  },
+  "trunk": {
+   "faces": 3397,
+   "area_m2": 1.068,
+   "texels_per_cm_at_2048": 6.48,
+   "share_of_surface_area": 0.201
+  },
+  "upper_legs": {
+   "faces": 4782,
+   "area_m2": 1.579,
+   "texels_per_cm_at_2048": 6.44,
+   "share_of_surface_area": 0.297
+  }
+ },
+ "region_resolution": {
+  "head": {
+   "verts": 2205,
+   "mean_edge_mm": 13.6
+  },
+  "hooves": {
+   "verts": 776,
+   "mean_edge_mm": 17.4
+  },
+  "lower_legs": {
+   "verts": 1940,
+   "mean_edge_mm": 16.3
+  },
+  "mid_legs": {
+   "verts": 1872,
+   "mean_edge_mm": 19.8
+  },
+  "neck": {
+   "verts": 2402,
+   "mean_edge_mm": 17.5
+  },
+  "tail_root": {
+   "verts": 96,
+   "mean_edge_mm": 18.1
+  },
+  "trunk": {
+   "verts": 3409,
+   "mean_edge_mm": 17.8
+  },
+  "upper_legs": {
+   "verts": 4753,
+   "mean_edge_mm": 18.4
+  }
+ },
+ "symmetry_plane_x": 0.0142,
+ "symmetry_mm": {
+  "all": {
+   "p50": 37.09929436445236,
+   "p90": 79.75184917449951,
+   "p99": 164.74641382694242,
+   "min": 0.022921711206436157,
+   "max": 213.45047652721405,
+   "mean": 43.90511380118321
+  },
+  "share_over_10mm": 0.8913653813098035,
+  "share_over_30mm": 0.6013865811035352
+ },
+ "symmetry_by_region_mm": {
+  "head": {
+   "p50": 20.3,
+   "p90": 45.1,
+   "max": 61.2
+  },
+  "hooves": {
+   "p50": 69.4,
+   "p90": 166.0,
+   "max": 213.5
+  },
+  "lower_legs": {
+   "p50": 86.7,
+   "p90": 151.0,
+   "max": 198.9
+  },
+  "mid_legs": {
+   "p50": 35.6,
+   "p90": 87.7,
+   "max": 127.1
+  },
+  "neck": {
+   "p50": 28.4,
+   "p90": 48.7,
+   "max": 72.5
+  },
+  "tail_root": {
+   "p50": 37.0,
+   "p90": 54.0,
+   "max": 67.4
+  },
+  "trunk": {
+   "p50": 33.9,
+   "p90": 69.6,
+   "max": 82.8
+  },
+  "upper_legs": {
+   "p50": 50.5,
+   "p90": 74.2,
+   "max": 88.6
+  }
+ },
+ "skin": {
+  "bones_in_groups": 40,
+  "unweighted_verts": 0,
+  "influence_hist": {
+   "0": 0,
+   "1": 1122,
+   "2": 5164,
+   "3": 4078,
+   "4": 7089,
+   "5": 0,
+   "6": 0,
+   "7": 0,
+   "8": 0
+  },
+  "max_influences": 4,
+  "weight_sum": {
+   "p1": 0.9999349808692932,
+   "p50": 1.0000000074505806,
+   "p99": 1.0000001067406266,
+   "min": 0.9998565912246704,
+   "max": 1.0000001564621925,
+   "mean": 0.9999980029064455
+  },
+  "verts_with_sum_off_by_gt_2pct": 0,
+  "edges_with_weight_jump_gt_0.5": 17
+ },
+ "joint_transition_zones": {
+  "elbow L": {
+   "verts": 266,
+   "extent_along_bone_cm": 14.9
+  },
+  "knee (carpus) L": {
+   "verts": 79,
+   "extent_along_bone_cm": 7.3
+  },
+  "fetlock F L": {
+   "verts": 75,
+   "extent_along_bone_cm": 7.3
+  },
+  "pastern/hoof F L": {
+   "verts": 105,
+   "extent_along_bone_cm": 8.7
+  },
+  "stifle L": {
+   "verts": 327,
+   "extent_along_bone_cm": 19.3
+  },
+  "hock L": {
+   "verts": 140,
+   "extent_along_bone_cm": 13.5
+  },
+  "fetlock H L": {
+   "verts": 86,
+   "extent_along_bone_cm": 7.1
+  },
+  "neck 1-2": {
+   "verts": 937,
+   "extent_along_bone_cm": 24.7
+  },
+  "neck 2-3": {
+   "verts": 708,
+   "extent_along_bone_cm": 27.8
+  },
+  "poll": {
+   "verts": 252,
+   "extent_along_bone_cm": 14.6
+  },
+  "back": {
+   "verts": 897,
+   "extent_along_bone_cm": 27.1
+  }
+ },
+ "bone_lengths_m": {
+  "Neck_1": 0.275,
+  "Neck_2": 0.258,
+  "Neck_3": 0.286,
+  "Head": 0.372,
+  "Ear_L": 0.081,
+  "Scapula_L": 0.533,
+  "Humerus_L": 0.243,
+  "Forearm_L": 0.401,
+  "Cannon_F_L": 0.27,
+  "Pastern_F_L": 0.145,
+  "Hoof_F_L": 0.141,
+  "Femur_L": 0.33,
+  "Gaskin_L": 0.435,
+  "Cannon_B_L": 0.313,
+  "Pastern_B_L": 0.162,
+  "Hoof_B_L": 0.135,
+  "Spine_Lumbar": 0.32,
+  "Spine_Thoracic": 0.45
+ },
+ "bone_heads": {
+  "Head": [
+   0.016,
+   -1.089,
+   1.854
+  ],
+  "Neck_1": [
+   -0.0,
+   -0.55,
+   1.3
+  ],
+  "Neck_2": [
+   0.016,
+   -0.657,
+   1.552
+  ],
+  "Neck_3": [
+   0.016,
+   -0.822,
+   1.751
+  ],
+  "Scapula_L": [
+   0.1,
+   -0.321,
+   1.4
+  ],
+  "Humerus_L": [
+   0.17,
+   -0.741,
+   1.08
+  ],
+  "Pelvis": [
+   0.0,
+   0.22,
+   1.3
+  ],
+  "Spine_Thoracic": [
+   -0.0,
+   -0.1,
+   1.3
+  ],
+  "Femur_L": [
+   0.16,
+   0.33,
+   1.18
+  ],
+  "Ear_L": [
+   0.047,
+   -1.125,
+   2.028
+  ],
+  "Ear_Tip_L": [
+   0.024,
+   -1.122,
+   2.106
+  ],
+  "Eye_L": [
+   0.097,
+   -1.173,
+   1.887
+  ],
+  "Eye_R": [
+   -0.099,
+   -1.152,
+   1.907
+  ]
+ },
+ "proportions_m": {
+  "height_at_withers": 1.692,
+  "height_at_croup": 1.521,
+  "highest_point_ears": 2.17,
+  "body_length_chest_to_buttock": 1.492,
+  "overall_length_nose_to_buttock": 2.01,
+  "width_max": 0.672,
+  "head_length_poll_to_muzzle": 0.282,
+  "neck_length_bones": 0.819,
+  "ear_length_bones": 0.147,
+  "ear_tip_gap_L_R": 0.05,
+  "withers_to_body_length_ratio": 1.134,
+  "hands_at_withers": 16.7
+ },
+ "intersections": {
+  "hair_cards_vs_coat_triangle_pairs": 872,
+  "hair_cards_touching_coat": 291,
+  "hair_cards_total": 1019,
+  "eye_domes_vs_coat_triangle_pairs": 74
+ },
+ "eyes": {
+  "L": {
+   "dome_centre": [
+    0.104,
+    -1.176,
+    1.887
+   ],
+   "dome_radius_cm": 1.48,
+   "centre_to_coat_surface_cm": 0.98,
+   "centre_is_outside_coat": false,
+   "share_of_dome_verts_outside_coat": 0.12,
+   "verts": 222
+  },
+  "R": {
+   "dome_centre": [
+    -0.107,
+    -1.155,
+    1.907
+   ],
+   "dome_radius_cm": 1.48,
+   "centre_to_coat_surface_cm": 0.48,
+   "centre_is_outside_coat": false,
+   "share_of_dome_verts_outside_coat": 0.27,
+   "verts": 222
+  },
+  "Eye_L_bone_head": [
+   0.097,
+   -1.173,
+   1.887
+  ],
+  "coat_vertex_nearest_to_Eye_L_bone_cm": 1.91
+ }
+}

@@ -3,9 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import { addLights, contactShadow, createGaze, createTimer, daylight, disposeObject, loadMarwari, type Marwari } from "@/components/3d/marwari";
+import { groundPatch } from "@/components/3d/contact";
+import { addLights, createGaze, createTimer, daylight, disposeObject, loadMarwari, releaseRenderer, type Marwari } from "@/components/3d/marwari";
+import { createStudioEnv } from "@/components/3d/studio";
 import { heroModelUrl, PASSPORT_HREF } from "./stallion-flags";
+import { RevealDirector, type Pose } from "./reveal";
 import type { FilmEngine } from "@/components/stallion-film/engine";
 import { cn } from "@/lib/utils";
 
@@ -44,6 +46,10 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
   const reduced = useRef(false);
   const tiltRef = useRef<((e: DeviceOrientationEvent) => void) | null>(null);
   const wake = useRef<() => void>(() => {});
+  const revealApi = useRef<{ start: () => void } | null>(null);
+  const revealStopAt = useRef(0);
+  const [reveal, setReveal] = useState({ on: false, label: "" });
+  const [canReveal, setCanReveal] = useState(false);
 
   // The parent re-renders on every film chapter; a changing callback identity must not restart the stage.
   const onStatusRef = useRef(onStatus);
@@ -58,6 +64,7 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
   const enterPassport = useCallback(() => {
     if (!clickEnabled) return;
     if (dolly.current || navigated.current) return; // no double transitions
+    if (performance.now() - revealStopAt.current < 700) return; // the tap that stopped the reveal is not a click on the passport
     if (reduced.current || status !== "ready") {
       navigated.current = true;
       router.push(PASSPORT_HREF);
@@ -95,17 +102,15 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
     renderer.setClearColor(0x000000, 0);
 
     const scene = new THREE.Scene();
-    const pmrem = new THREE.PMREMGenerator(renderer);
-    const room = new RoomEnvironment();
-    const env = pmrem.fromScene(room, 0.04);
-    room.dispose();
-    pmrem.dispose();
+    const env = createStudioEnv(renderer);
     scene.environment = env.texture;
-    scene.environmentIntensity = 0.45;
+    scene.environmentIntensity = 0.72;
     const applyLight = addLights(scene);
     const hour = () => new Date().getHours() + new Date().getMinutes() / 60;
-    applyLight(daylight(hour()));
-    scene.add(contactShadow());
+    const startLight = daylight(hour());
+    applyLight(startLight);
+    renderer.toneMappingExposure = startLight.exposure;
+    scene.add(groundPatch());
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
     let film: FilmEngine | null = null;
     let filmAttached = false;
@@ -136,6 +141,28 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
     const eye = new THREE.Vector3();
     const viewDir = new THREE.Vector3(2.45, 0.45, 2.8).normalize();
     const look = new THREE.Vector3();
+    const dir = new RevealDirector();
+    const dflt: Pose = { pos: eye, look, fov: 30 };
+    const zeroGaze = { yaw: 0, pitch: 0 };
+    let revealOn = false;
+    let revealLabel = "";
+    const boneAt = (name: string, out: THREE.Vector3) => {
+      const b = horseCtx?.m.bones[name];
+      return b ? b.getWorldPosition(out) : out.set(0, 1.2, 0.6);
+    };
+    revealApi.current = {
+      start: () => {
+        if (reduced.current || !ready || dolly.current || navigated.current || film?.active || dir.active) return;
+        dir.begin({ pos: camera.position.clone(), look: look.clone(), fov: camera.fov });
+        wake.current();
+      },
+    };
+    // any input hands the camera back
+    const stopReveal = () => {
+      if (dir.state !== "running") return;
+      dir.cancel();
+      revealStopAt.current = performance.now();
+    };
 
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = canvas;
@@ -169,19 +196,25 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
       }
       // follow the target softly; a slow idle drift when nothing is steering. In the film the director owns the gaze.
       const fg = filmOn ? film!.gaze(camera) : null;
-      const idle = reduced.current || filmOn ? 0 : Math.sin(t * 0.3) * 0.08;
-      g.yaw += ((fg ? fg.yaw : target.current.yaw) + idle - g.yaw) * 0.05;
-      g.pitch += ((fg ? fg.pitch : target.current.pitch) - g.pitch) * 0.05;
+      const steer = dir.active ? zeroGaze : target.current; // the reveal holds the head still for its close-ups
+      const idle = reduced.current || filmOn || dir.active ? 0 : Math.sin(t * 0.3) * 0.08;
+      g.yaw += ((fg ? fg.yaw : steer.yaw) + idle - g.yaw) * 0.05;
+      g.pitch += ((fg ? fg.pitch : steer.pitch) - g.pitch) * 0.05;
       gaze?.apply(g.yaw, g.pitch);
       if (now - lastLight > 60_000) {
-        applyLight(daylight(hour()));
+        const d = daylight(hour());
+        applyLight(d);
+        if (!filmOn) renderer.toneMappingExposure = d.exposure; // the film sets its own exposure and restores this one when it ends
         lastLight = now;
       }
       // camera: three-quarter view from the horse's left front; narrow screens step back
       // distance is fitted to the canvas: the whole horse (about 2.2 m tall with margin, 1.9 m across at this angle) always fits
       const tanHalf = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2);
-      const dist = Math.max(2.75 / 2 / tanHalf, 1.9 / 2 / (tanHalf * camera.aspect));
-      look.set(0, 1.05, 0.15);
+      // across: 1.9 m at this angle, with the muzzle and the tail leaving a margin of their own on a narrow screen (it was cropping the muzzle at 390 px)
+      // tall: the film's header labels sit over the top of a portrait canvas, so the ears must stay clear of them (they met at 768 px)
+      const narrow = camera.aspect < 0.9;
+      const dist = Math.max((narrow ? 3.25 : 2.75) / 2 / tanHalf, (narrow ? 2.15 : 1.9) / 2 / (tanHalf * camera.aspect));
+      look.set(0, narrow && camera.aspect > 0.6 ? 1.17 : 1.05, 0.15); // a portrait tablet has room: the horse sits lower, clear of the header labels
       eye.copy(look).addScaledVector(viewDir, dist);
       if (dolly.current) {
         const k = ease(clamp((now - dolly.current.start) / 1300, 0, 1));
@@ -193,11 +226,33 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
         }
       }
       const pose = filmOn ? film!.stepCamera(dt) : null;
+      let rv: ReturnType<typeof dir.update> = null;
+      if (filmOn && dir.active) {
+        dir.reset();
+        applyLight.level(1);
+      } else if (dir.active) {
+        dflt.fov = heroFov();
+        rv = dir.update(dt, dflt, boneAt);
+        applyLight.level(rv ? rv.light : 1, rv ? rv.rim : 1);
+      }
+      const on = !!rv, label = rv?.label ?? "";
+      if (on !== revealOn || label !== revealLabel) {
+        revealOn = on;
+        revealLabel = label;
+        setReveal({ on, label });
+      }
       if (pose) {
         camera.position.copy(pose.pos);
         camera.lookAt(pose.look);
         if (Math.abs(camera.fov - pose.fov) > 0.01) {
           camera.fov = pose.fov;
+          camera.updateProjectionMatrix();
+        }
+      } else if (rv) {
+        camera.position.copy(rv.pose.pos);
+        camera.lookAt(rv.pose.look);
+        if (Math.abs(camera.fov - rv.pose.fov) > 0.01) {
+          camera.fov = rv.pose.fov;
           camera.updateProjectionMatrix();
         }
       } else {
@@ -248,7 +303,7 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
     promise
       .then((m) => {
         if (!alive) return disposeObject(m.root);
-        scene.add(m.root);
+        scene.add(m.root, m.contacts.group);
         mixer = new THREE.AnimationMixer(m.root);
         const loop = (name: string, weight = 1) => {
           const clip = m.clips.get(name);
@@ -349,6 +404,8 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
       report("failed");
     };
     window.addEventListener("pointermove", onMove, { passive: true });
+    for (const ev of ["pointerdown", "wheel", "touchstart", "keydown", "scroll"]) window.addEventListener(ev, stopReveal, { passive: true });
+    queueMicrotask(() => setCanReveal(!reduced.current));
     canvas.addEventListener("pointermove", onTouch, { passive: true });
     canvas.addEventListener("webglcontextlost", onLost);
     window.addEventListener("resize", onResize);
@@ -360,6 +417,8 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
       io.disconnect();
       mixer?.stopAllAction();
       window.removeEventListener("pointermove", onMove);
+      for (const ev of ["pointerdown", "wheel", "touchstart", "keydown", "scroll"]) window.removeEventListener(ev, stopReveal);
+      revealApi.current = null;
       canvas.removeEventListener("pointermove", onTouch);
       canvas.removeEventListener("pointerenter", onEnter);
       canvas.removeEventListener("webglcontextlost", onLost);
@@ -373,7 +432,7 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
       }
       disposeObject(scene);
       env.dispose();
-      renderer.dispose();
+      releaseRenderer(renderer);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [report, router]);
@@ -409,6 +468,21 @@ export function StallionStage({ className, onStatus, filmConfig, onFilm, clickEn
       )}
       {status !== "failed" && clickEnabled && (
         <div className="absolute bottom-[8%] right-4 flex flex-col items-end gap-2 sm:right-[6%]">
+          {reveal.label && (
+            <p className="label pointer-events-none text-right text-brass" aria-live="polite">
+              {reveal.label}
+            </p>
+          )}
+          {status === "ready" && canReveal && (
+            <button
+              type="button"
+              onClick={() => revealApi.current?.start()}
+              aria-pressed={reveal.on}
+              className="label min-h-11 border border-line bg-night/70 px-3 py-2 text-dust hover:text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            >
+              {reveal.on ? "Any key or touch to stop" : "Play the reveal"}
+            </button>
+          )}
           <button type="button" onClick={enterPassport} className="label min-h-11 border border-line bg-night/70 px-3 py-2 text-sand hover:text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
             Open the Sovereign Passport →
           </button>

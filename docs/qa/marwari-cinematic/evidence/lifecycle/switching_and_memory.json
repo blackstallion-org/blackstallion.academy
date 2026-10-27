@@ -1,0 +1,273 @@
+{
+ "base": "http://localhost:3101",
+ "when": "Mon Oct 26 2026 00:33:50 GMT+0530 (India Standard Time)",
+ "load": [
+  31,
+  22.2,
+  17.6
+ ],
+ "switching": [
+  {
+   "step": "hero",
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 4,
+   "textures": 8,
+   "programs": 4,
+   "chapter": 0,
+   "env": "",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 13.6,
+   "nodes": 3390,
+   "listeners": 719,
+   "docs": 3
+  },
+  {
+   "step": "goTo(1)",
+   "maxFrameMs": 195,
+   "framesOver50ms": 2,
+   "p99": 46,
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 28,
+   "textures": 13,
+   "programs": 23,
+   "chapter": 1,
+   "env": "desert",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 16,
+   "nodes": 3392,
+   "listeners": 719,
+   "docs": 3
+  },
+  {
+   "step": "goTo(2)",
+   "maxFrameMs": 282,
+   "framesOver50ms": 2,
+   "p99": 25,
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 36,
+   "textures": 17,
+   "programs": 24,
+   "chapter": 2,
+   "env": "village",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 16.7,
+   "nodes": 3396,
+   "listeners": 720,
+   "docs": 3
+  },
+  {
+   "step": "goTo(3)",
+   "maxFrameMs": 205,
+   "framesOver50ms": 4,
+   "p99": 95,
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 37,
+   "textures": 19,
+   "programs": 28,
+   "chapter": 3,
+   "env": "campus",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 16.8,
+   "nodes": 3406,
+   "listeners": 721,
+   "docs": 3
+  },
+  {
+   "step": "goTo(1)",
+   "maxFrameMs": 199,
+   "framesOver50ms": 1,
+   "p99": 23,
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 28,
+   "textures": 16,
+   "programs": 25,
+   "chapter": 1,
+   "env": "desert",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 17.1,
+   "nodes": 3394,
+   "listeners": 721,
+   "docs": 3
+  },
+  {
+   "step": "goTo(2)",
+   "maxFrameMs": 165,
+   "framesOver50ms": 2,
+   "p99": 19,
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 36,
+   "textures": 20,
+   "programs": 25,
+   "chapter": 2,
+   "env": "village",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 17.2,
+   "nodes": 3397,
+   "listeners": 721,
+   "docs": 3
+  },
+  {
+   "step": "goTo(3)",
+   "maxFrameMs": 81,
+   "framesOver50ms": 2,
+   "p99": 18,
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 37,
+   "textures": 22,
+   "programs": 28,
+   "chapter": 3,
+   "env": "campus",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 17.2,
+   "nodes": 3406,
+   "listeners": 721,
+   "docs": 3
+  },
+  {
+   "step": "goTo(0)",
+   "maxFrameMs": 18,
+   "framesOver50ms": 0,
+   "p99": 18,
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 21,
+   "textures": 17,
+   "programs": 22,
+   "chapter": 0,
+   "env": "",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 16.7,
+   "nodes": 3406,
+   "listeners": 722,
+   "docs": 3
+  },
+  {
+   "step": "goTo(1)",
+   "maxFrameMs": 55,
+   "framesOver50ms": 1,
+   "p99": 20,
+   "horseRootUuid": "1ce52df0",
+   "mixerRoot": "1ce52df0",
+   "geometries": 28,
+   "textures": 19,
+   "programs": 25,
+   "chapter": 1,
+   "env": "desert",
+   "actions": 17,
+   "contexts": {
+    "created": 1,
+    "lost": 0
+   },
+   "glbRequests": 0,
+   "gaitRequests": 0,
+   "heapMB": 17.3,
+   "nodes": 3394,
+   "listeners": 721,
+   "docs": 3
+  }
+ ],
+ "gpuMemory": {
+  "canvasPx": [
+   1440,
+   900
+  ],
+  "pixelRatio": 1,
+  "antialias": true,
+  "drawingBufferMB": 44.5,
+  "shadowMapMB": 16,
+  "textureMB_sceneMaterials": 72.5,
+  "top": [
+   [
+    "Marwari_Low.map",
+    "2048x2048",
+    "21845 KB"
+   ],
+   [
+    "Marwari_Low.aoMap",
+    "2048x2048",
+    "21845 KB"
+   ],
+   [
+    "Marwari_Low.normalMap",
+    "2048x2048",
+    "21845 KB"
+   ],
+   [
+    "Marwari_Hair.map",
+    "1024x1024",
+    "5461 KB"
+   ],
+   [
+    "scene.environment (PMREM)",
+    "768x1024",
+    "3072 KB"
+   ],
+   [
+    "contact-shadow.map",
+    "128x128",
+    "85 KB"
+   ],
+   [
+    "Mesh.map",
+    "128x128",
+    "85 KB"
+   ]
+  ]
+ },
+ "logs": []
+}

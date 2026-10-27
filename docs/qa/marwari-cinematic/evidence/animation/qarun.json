@@ -1,0 +1,464 @@
+{
+ "on": [
+  {
+   "target": 0,
+   "speed": 0,
+   "gait": "stand",
+   "samples": 155,
+   "slipRmsMps": 0,
+   "slipRmsPerLimb": {
+    "FL": 0,
+    "FR": 0,
+    "HL": 0,
+    "HR": 0
+   },
+   "slipFractionOfSpeed": 0,
+   "minToeHeightInContactM": -0.003,
+   "strideLengthM": 0,
+   "strideFrequencyHz": 0,
+   "lock": {
+    "lockedSlipRmsMps": 0,
+    "stances": 0,
+    "fullyLocked": 0,
+    "neverEngaged": 0,
+    "midFrames": 0,
+    "midUnlocked": 0,
+    "residualMeanM": 0,
+    "residualMaxM": 0,
+    "offsetMaxDeg": 0
+   },
+   "touchdownSpeedMps": 1323.23,
+   "maxPenetrationBeforeFixM": 0.003,
+   "meanGroundCorrectionM": 0.0002,
+   "groundedSamples": 0,
+   "airborneFraction": 0,
+   "airborneFractionLoose": 0,
+   "footfallOrder": "FL FR HL HR",
+   "speedErr": 0
+  },
+  {
+   "target": 1.44,
+   "speed": 1.43,
+   "gait": "walk",
+   "samples": 1091,
+   "slipRmsMps": 0.007,
+   "slipRmsPerLimb": {
+    "FL": 0.008,
+    "FR": 0.012,
+    "HL": 0.001,
+    "HR": 0.003
+   },
+   "slipFractionOfSpeed": 0.005,
+   "minToeHeightInContactM": 0.016,
+   "strideLengthM": 1.38,
+   "strideFrequencyHz": 1.06,
+   "lock": {
+    "lockedSlipRmsMps": 0.005,
+    "stances": 45,
+    "fullyLocked": 45,
+    "neverEngaged": 0,
+    "midFrames": 1583,
+    "midUnlocked": 0,
+    "residualMeanM": 0.0003,
+    "residualMaxM": 0.006,
+    "offsetMaxDeg": 11.3
+   },
+   "touchdownSpeedMps": 1.11,
+   "maxPenetrationBeforeFixM": 0,
+   "meanGroundCorrectionM": 0,
+   "groundedSamples": 1822,
+   "airborneFraction": 0,
+   "airborneFractionLoose": 0,
+   "footfallOrder": "FR HL HR FL HR HL FL HR FR HL FL HR",
+   "speedErr": 0.015
+  },
+  {
+   "target": 3.33,
+   "speed": 3.32,
+   "gait": "trot",
+   "samples": 1091,
+   "slipRmsMps": 0.084,
+   "slipRmsPerLimb": {
+    "FL": 0.03,
+    "FR": 0.038,
+    "HL": 0.027,
+    "HR": 0.158
+   },
+   "slipFractionOfSpeed": 0.025,
+   "minToeHeightInContactM": 0.01,
+   "strideLengthM": 2.5,
+   "strideFrequencyHz": 1.35,
+   "lock": {
+    "lockedSlipRmsMps": 0.071,
+    "stances": 48,
+    "fullyLocked": 46,
+    "neverEngaged": 0,
+    "midFrames": 1084,
+    "midUnlocked": 24,
+    "residualMeanM": 0.0013,
+    "residualMaxM": 0.02,
+    "offsetMaxDeg": 22
+   },
+   "touchdownSpeedMps": 0.57,
+   "maxPenetrationBeforeFixM": 0,
+   "meanGroundCorrectionM": 0,
+   "groundedSamples": 1240,
+   "airborneFraction": 0.104,
+   "airborneFractionLoose": 0.029,
+   "footfallOrder": "FR HL FL HR HL FR FL HR HL FR FL HR",
+   "speedErr": 0.006
+  },
+  {
+   "target": 4.83,
+   "speed": 4.83,
+   "gait": "canter",
+   "samples": 1091,
+   "slipRmsMps": 0.148,
+   "slipRmsPerLimb": {
+    "FL": 0.157,
+    "FR": 0.113,
+    "HL": 0.107,
+    "HR": 0.196
+   },
+   "slipFractionOfSpeed": 0.031,
+   "minToeHeightInContactM": 0.008,
+   "strideLengthM": 2.9,
+   "strideFrequencyHz": 1.66,
+   "lock": {
+    "lockedSlipRmsMps": 0.1,
+    "stances": 60,
+    "fullyLocked": 58,
+    "neverEngaged": 0,
+    "midFrames": 848,
+    "midUnlocked": 12,
+    "residualMeanM": 0.0016,
+    "residualMaxM": 0.019,
+    "offsetMaxDeg": 25.8
+   },
+   "touchdownSpeedMps": 0.63,
+   "maxPenetrationBeforeFixM": 0,
+   "meanGroundCorrectionM": 0,
+   "groundedSamples": 994,
+   "airborneFraction": 0.146,
+   "airborneFractionLoose": 0.123,
+   "footfallOrder": "HL FL HR FR HL FL HR FR HL FL HR FR",
+   "speedErr": 0.004
+  },
+  {
+   "target": 10,
+   "speed": 10,
+   "gait": "gallop",
+   "samples": 1091,
+   "slipRmsMps": 0.469,
+   "slipRmsPerLimb": {
+    "FL": 0.571,
+    "FR": 0.371,
+    "HL": 0.302,
+    "HR": 0.583
+   },
+   "slipFractionOfSpeed": 0.047,
+   "minToeHeightInContactM": 0.012,
+   "strideLengthM": 4.2,
+   "strideFrequencyHz": 2.38,
+   "lock": {
+    "lockedSlipRmsMps": 0.215,
+    "stances": 87,
+    "fullyLocked": 87,
+    "neverEngaged": 0,
+    "midFrames": 391,
+    "midUnlocked": 0,
+    "residualMeanM": 0.0006,
+    "residualMaxM": 0.007,
+    "offsetMaxDeg": 13.6
+   },
+   "touchdownSpeedMps": 0.87,
+   "maxPenetrationBeforeFixM": 0,
+   "meanGroundCorrectionM": 0,
+   "groundedSamples": 647,
+   "airborneFraction": 0.283,
+   "airborneFractionLoose": 0.268,
+   "footfallOrder": "HL HR FL FR HL HR FL FR HL HR FL FR",
+   "speedErr": 0.004
+  },
+  {
+   "target": 12,
+   "speed": 12,
+   "gait": "sprint",
+   "samples": 1091,
+   "slipRmsMps": 0.734,
+   "slipRmsPerLimb": {
+    "FL": 0.94,
+    "FR": 0.416,
+    "HL": 0.371,
+    "HR": 1.006
+   },
+   "slipFractionOfSpeed": 0.061,
+   "minToeHeightInContactM": -0.001,
+   "strideLengthM": 4.57,
+   "strideFrequencyHz": 2.63,
+   "lock": {
+    "lockedSlipRmsMps": 0.222,
+    "stances": 95,
+    "fullyLocked": 94,
+    "neverEngaged": 0,
+    "midFrames": 268,
+    "midUnlocked": 2,
+    "residualMeanM": 0.0004,
+    "residualMaxM": 0.003,
+    "offsetMaxDeg": 25.8
+   },
+   "touchdownSpeedMps": 1.57,
+   "maxPenetrationBeforeFixM": 0.001,
+   "meanGroundCorrectionM": 0,
+   "groundedSamples": 581,
+   "airborneFraction": 0.319,
+   "airborneFractionLoose": 0.303,
+   "footfallOrder": "HR FL FR HL HR FL FR HL HR FL FR HL",
+   "speedErr": 0.003
+  }
+ ],
+ "off": [
+  {
+   "target": 0,
+   "speed": 6.22,
+   "gait": "",
+   "samples": 0,
+   "slipRmsMps": 0,
+   "slipRmsPerLimb": {
+    "FL": 0,
+    "FR": 0,
+    "HL": 0,
+    "HR": 0
+   },
+   "slipFractionOfSpeed": 0,
+   "minToeHeightInContactM": 1,
+   "strideLengthM": 0,
+   "strideFrequencyHz": 0,
+   "lock": {
+    "lockedSlipRmsMps": 0,
+    "stances": 0,
+    "fullyLocked": 0,
+    "neverEngaged": 0,
+    "midFrames": 0,
+    "midUnlocked": 0,
+    "residualMeanM": 0,
+    "residualMaxM": 0,
+    "offsetMaxDeg": 0
+   },
+   "touchdownSpeedMps": 0,
+   "maxPenetrationBeforeFixM": 0,
+   "meanGroundCorrectionM": 0,
+   "groundedSamples": 0,
+   "airborneFraction": 0,
+   "airborneFractionLoose": 0,
+   "footfallOrder": "",
+   "speedErr": 0
+  },
+  {
+   "target": 1.44,
+   "speed": 1.44,
+   "gait": "walk",
+   "samples": 1091,
+   "slipRmsMps": 0.21,
+   "slipRmsPerLimb": {
+    "FL": 0.259,
+    "FR": 0.223,
+    "HL": 0.22,
+    "HR": 0.101
+   },
+   "slipFractionOfSpeed": 0.146,
+   "minToeHeightInContactM": -0.003,
+   "strideLengthM": 1.15,
+   "strideFrequencyHz": 1.29,
+   "lock": {
+    "lockedSlipRmsMps": 0,
+    "stances": 0,
+    "fullyLocked": 0,
+    "neverEngaged": 34,
+    "midFrames": 0,
+    "midUnlocked": 0,
+    "residualMeanM": 0,
+    "residualMaxM": 0,
+    "offsetMaxDeg": 0
+   },
+   "touchdownSpeedMps": 0.97,
+   "maxPenetrationBeforeFixM": 0.012,
+   "meanGroundCorrectionM": 0.0007,
+   "groundedSamples": 1781,
+   "airborneFraction": 0,
+   "airborneFractionLoose": 0,
+   "footfallOrder": "FL FR HL HR FR HL FL HR FR HL FL HR",
+   "speedErr": 0.001
+  },
+  {
+   "target": 3.33,
+   "speed": 3.32,
+   "gait": "trot",
+   "samples": 1091,
+   "slipRmsMps": 0.347,
+   "slipRmsPerLimb": {
+    "FL": 0.426,
+    "FR": 0.359,
+    "HL": 0.275,
+    "HR": 0.307
+   },
+   "slipFractionOfSpeed": 0.104,
+   "minToeHeightInContactM": -0.003,
+   "strideLengthM": 2.5,
+   "strideFrequencyHz": 1.35,
+   "lock": {
+    "lockedSlipRmsMps": 0,
+    "stances": 0,
+    "fullyLocked": 0,
+    "neverEngaged": 37,
+    "midFrames": 0,
+    "midUnlocked": 0,
+    "residualMeanM": 0,
+    "residualMaxM": 0,
+    "offsetMaxDeg": 0
+   },
+   "touchdownSpeedMps": 0.64,
+   "maxPenetrationBeforeFixM": 0.015,
+   "meanGroundCorrectionM": 0.0005,
+   "groundedSamples": 1225,
+   "airborneFraction": 0.153,
+   "airborneFractionLoose": 0.066,
+   "footfallOrder": "FL HR HL FR FL HR HL FR FL HR HL FR",
+   "speedErr": 0.006
+  },
+  {
+   "target": 4.83,
+   "speed": 4.83,
+   "gait": "canter",
+   "samples": 1091,
+   "slipRmsMps": 0.572,
+   "slipRmsPerLimb": {
+    "FL": 0.834,
+    "FR": 0.476,
+    "HL": 0.51,
+    "HR": 0.406
+   },
+   "slipFractionOfSpeed": 0.118,
+   "minToeHeightInContactM": -0.003,
+   "strideLengthM": 2.9,
+   "strideFrequencyHz": 1.67,
+   "lock": {
+    "lockedSlipRmsMps": 0,
+    "stances": 0,
+    "fullyLocked": 0,
+    "neverEngaged": 45,
+    "midFrames": 0,
+    "midUnlocked": 0,
+    "residualMeanM": 0,
+    "residualMaxM": 0,
+    "offsetMaxDeg": 0
+   },
+   "touchdownSpeedMps": 0.82,
+   "maxPenetrationBeforeFixM": 0.015,
+   "meanGroundCorrectionM": 0.0005,
+   "groundedSamples": 932,
+   "airborneFraction": 0.165,
+   "airborneFractionLoose": 0.138,
+   "footfallOrder": "FL HR FR HL FL HR FR HL FL HR FR HL",
+   "speedErr": 0.004
+  },
+  {
+   "target": 10,
+   "speed": 10,
+   "gait": "gallop",
+   "samples": 1091,
+   "slipRmsMps": 1.128,
+   "slipRmsPerLimb": {
+    "FL": 1.718,
+    "FR": 0.812,
+    "HL": 0.86,
+    "HR": 1.045
+   },
+   "slipFractionOfSpeed": 0.113,
+   "minToeHeightInContactM": -0.003,
+   "strideLengthM": 4.2,
+   "strideFrequencyHz": 2.39,
+   "lock": {
+    "lockedSlipRmsMps": 0,
+    "stances": 0,
+    "fullyLocked": 0,
+    "neverEngaged": 65,
+    "midFrames": 0,
+    "midUnlocked": 0,
+    "residualMeanM": 0,
+    "residualMaxM": 0,
+    "offsetMaxDeg": 0
+   },
+   "touchdownSpeedMps": 1.79,
+   "maxPenetrationBeforeFixM": 0.024,
+   "meanGroundCorrectionM": 0.0003,
+   "groundedSamples": 598,
+   "airborneFraction": 0.31,
+   "airborneFractionLoose": 0.287,
+   "footfallOrder": "FL HR FR HL HR FL FR HL HR FL FR HL",
+   "speedErr": 0.004
+  },
+  {
+   "target": 12,
+   "speed": 12,
+   "gait": "sprint",
+   "samples": 1091,
+   "slipRmsMps": 1.422,
+   "slipRmsPerLimb": {
+    "FL": 2.055,
+    "FR": 1.159,
+    "HL": 1.02,
+    "HR": 1.529
+   },
+   "slipFractionOfSpeed": 0.118,
+   "minToeHeightInContactM": -0.003,
+   "strideLengthM": 4.57,
+   "strideFrequencyHz": 2.63,
+   "lock": {
+    "lockedSlipRmsMps": 0,
+    "stances": 0,
+    "fullyLocked": 0,
+    "neverEngaged": 72,
+    "midFrames": 0,
+    "midUnlocked": 0,
+    "residualMeanM": 0,
+    "residualMaxM": 0,
+    "offsetMaxDeg": 0
+   },
+   "touchdownSpeedMps": 2.06,
+   "maxPenetrationBeforeFixM": 0.025,
+   "meanGroundCorrectionM": 0.0008,
+   "groundedSamples": 490,
+   "airborneFraction": 0.366,
+   "airborneFractionLoose": 0.324,
+   "footfallOrder": "HL HR FL FR HL HR FL FR HL HR FL FR",
+   "speedErr": 0.003
+  }
+ ],
+ "steps": [
+  [
+   0,
+   2
+  ],
+  [
+   1.44,
+   14
+  ],
+  [
+   3.33,
+   14
+  ],
+  [
+   4.83,
+   14
+  ],
+  [
+   10,
+   14
+  ],
+  [
+   12,
+   14
+  ]
+ ]
+}

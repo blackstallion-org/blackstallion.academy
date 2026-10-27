@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import { ANATOMY_MODEL, addLights, contactShadow, createTimer, daylight, disposeObject, loadMarwari, type Marwari } from "@/components/3d/marwari";
+import { groundPatch } from "@/components/3d/contact";
+import { ANATOMY_MODEL, addLights, createTimer, daylight, disposeObject, loadMarwari, releaseRenderer, type Marwari } from "@/components/3d/marwari";
+import { createStudioEnv } from "@/components/3d/studio";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
 
@@ -170,27 +171,22 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setSize(width, height);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.25;
 
-    const room = new RoomEnvironment();
-    const pmrem = new THREE.PMREMGenerator(renderer);
     let environment: THREE.WebGLRenderTarget;
     try {
-      environment = pmrem.fromScene(room, 0.04);
+      environment = createStudioEnv(renderer);
     } catch {
-      room.dispose();
-      pmrem.dispose();
       renderer.dispose();
       fail();
       return () => { disposed = true; };
     }
-    room.dispose();
-    pmrem.dispose();
     scene.environment = environment.texture;
-    scene.environmentIntensity = 0.5;
+    scene.environmentIntensity = 0.8;
     // A museum plate keeps one even, warm studio light (midday) rather than the visitor's clock.
-    addLights(scene)(daylight(12));
-    scene.add(contactShadow());
+    const noon = daylight(12);
+    addLights(scene)(noon);
+    renderer.toneMappingExposure = noon.exposure * 0.95;
+    scene.add(groundPatch());
 
     const modelGroup = new THREE.Group();
     scene.add(modelGroup);
@@ -230,6 +226,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
         window.clearTimeout(loadTimeout);
         marwari = m;
         modelGroup.add(m.root);
+        scene.add(m.contacts.group);
         m.root.updateMatrixWorld(true);
         muzzleLocal = m.bones.Head?.worldToLocal(MUZZLE_REST.clone()) ?? null;
         mixer = new THREE.AnimationMixer(m.root);
@@ -390,7 +387,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, on
       motionQuery.removeEventListener("change", requestRender);
       canvas.removeEventListener("webglcontextlost", handleContextLost);
       resizeObserver.disconnect();
-      renderer.dispose();
+      releaseRenderer(renderer);
     };
   }, []);
 

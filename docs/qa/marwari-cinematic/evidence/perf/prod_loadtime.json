@@ -1,0 +1,446 @@
+{
+ "base": "http://localhost:3101",
+ "when": "Mon Oct 26 2026 00:08:12 GMT+0530 (India Standard Time)",
+ "results": [
+  {
+   "profile": "desktop",
+   "network": "no throttle (localhost)",
+   "pass": "cold",
+   "load": [
+    9.4,
+    8.5,
+    7.4
+   ],
+   "wallMs": 2018,
+   "filmReadyMsAfterNavStart": 2009,
+   "glb": [
+    {
+     "f": "models/marwari-hero.glb",
+     "status": 200,
+     "bytes": 1027986,
+     "startMs": 1379,
+     "endMs": 1446,
+     "durMs": 67
+    }
+   ],
+   "gaits": [
+    {
+     "f": "models/marwari-gaits.json",
+     "status": 200,
+     "bytes": 3114,
+     "startMs": 1643,
+     "endMs": 1656,
+     "durMs": 13
+    }
+   ],
+   "draco": [
+    {
+     "f": "draco/draco_wasm_wrapper.js",
+     "status": 200,
+     "bytes": 13367,
+     "startMs": 1450,
+     "endMs": 1460,
+     "durMs": 9
+    },
+    {
+     "f": "draco/draco_decoder.wasm",
+     "status": 200,
+     "bytes": 65105,
+     "startMs": 1451,
+     "endMs": 1471,
+     "durMs": 20
+    }
+   ],
+   "jsKB": 951,
+   "jsFiles": 47,
+   "videoKBBeforeReady": 0,
+   "totalKBBeforeReady": 10006,
+   "requests": 101
+  },
+  {
+   "profile": "desktop",
+   "network": "no throttle (localhost)",
+   "pass": "warm",
+   "load": [
+    9.4,
+    8.5,
+    7.4
+   ],
+   "wallMs": 1215,
+   "filmReadyMsAfterNavStart": 3273,
+   "glb": [
+    {
+     "f": "models/marwari-hero.glb",
+     "status": 200,
+     "bytes": 1545,
+     "startMs": 814,
+     "endMs": 821,
+     "durMs": 8
+    }
+   ],
+   "gaits": [
+    {
+     "f": "models/marwari-gaits.json",
+     "status": 200,
+     "bytes": 1543,
+     "startMs": 972,
+     "endMs": 980,
+     "durMs": 7
+    }
+   ],
+   "draco": [
+    {
+     "f": "draco/draco_wasm_wrapper.js",
+     "status": 200,
+     "bytes": 1543,
+     "startMs": 826,
+     "endMs": 830,
+     "durMs": 4
+    },
+    {
+     "f": "draco/draco_decoder.wasm",
+     "status": 200,
+     "bytes": 1544,
+     "startMs": 826,
+     "endMs": 831,
+     "durMs": 4
+    }
+   ],
+   "jsKB": 3,
+   "jsFiles": 47,
+   "videoKBBeforeReady": 0,
+   "totalKBBeforeReady": 102,
+   "requests": 101
+  },
+  {
+   "profile": "desktop",
+   "network": "Slow 4G (1.6 Mbit/s, 150 ms RTT)",
+   "pass": "cold",
+   "load": [
+    7.4,
+    8.1,
+    7.3
+   ],
+   "wallMs": 27167,
+   "filmReadyMsAfterNavStart": 29477,
+   "glb": [
+    {
+     "f": "models/marwari-hero.glb",
+     "status": 200,
+     "bytes": 1027986,
+     "startMs": 9074,
+     "endMs": 25267,
+     "durMs": 16193
+    }
+   ],
+   "gaits": [
+    {
+     "f": "models/marwari-gaits.json",
+     "status": 200,
+     "bytes": 3114,
+     "startMs": 26650,
+     "endMs": 26864,
+     "durMs": 214
+    }
+   ],
+   "draco": [
+    {
+     "f": "draco/draco_wasm_wrapper.js",
+     "status": 200,
+     "bytes": 13367,
+     "startMs": 25333,
+     "endMs": 25763,
+     "durMs": 430
+    },
+    {
+     "f": "draco/draco_decoder.wasm",
+     "status": 200,
+     "bytes": 65105,
+     "startMs": 25344,
+     "endMs": 26521,
+     "durMs": 1177
+    }
+   ],
+   "jsKB": 951,
+   "jsFiles": 47,
+   "videoKBBeforeReady": 0,
+   "totalKBBeforeReady": 2818,
+   "requests": 99
+  },
+  {
+   "profile": "desktop",
+   "network": "Slow 4G (1.6 Mbit/s, 150 ms RTT)",
+   "pass": "warm",
+   "load": [
+    7.4,
+    8.1,
+    7.3
+   ],
+   "wallMs": 2275,
+   "filmReadyMsAfterNavStart": 29457,
+   "glb": [
+    {
+     "f": "models/marwari-hero.glb",
+     "status": 200,
+     "bytes": 1545,
+     "startMs": 1154,
+     "endMs": 1353,
+     "durMs": 199
+    }
+   ],
+   "gaits": [
+    {
+     "f": "models/marwari-gaits.json",
+     "status": 200,
+     "bytes": 1543,
+     "startMs": 1759,
+     "endMs": 2034,
+     "durMs": 274
+    }
+   ],
+   "draco": [
+    {
+     "f": "draco/draco_wasm_wrapper.js",
+     "status": 200,
+     "bytes": 1543,
+     "startMs": 1355,
+     "endMs": 1598,
+     "durMs": 243
+    },
+    {
+     "f": "draco/draco_decoder.wasm",
+     "status": 200,
+     "bytes": 1544,
+     "startMs": 1356,
+     "endMs": 1685,
+     "durMs": 330
+    }
+   ],
+   "jsKB": 3,
+   "jsFiles": 43,
+   "videoKBBeforeReady": 0,
+   "totalKBBeforeReady": 80,
+   "requests": 94
+  },
+  {
+   "profile": "mobile",
+   "network": "no throttle (localhost)",
+   "pass": "cold",
+   "load": [
+    7,
+    8,
+    7.2
+   ],
+   "wallMs": 1187,
+   "filmReadyMsAfterNavStart": 1190,
+   "glb": [
+    {
+     "f": "models/marwari-hero-mobile.glb",
+     "status": 200,
+     "bytes": 624321,
+     "startMs": 934,
+     "endMs": 992,
+     "durMs": 58
+    }
+   ],
+   "gaits": [
+    {
+     "f": "models/marwari-gaits.json",
+     "status": 200,
+     "bytes": 3114,
+     "startMs": 1091,
+     "endMs": 1093,
+     "durMs": 2
+    }
+   ],
+   "draco": [
+    {
+     "f": "draco/draco_wasm_wrapper.js",
+     "status": 200,
+     "bytes": 13367,
+     "startMs": 995,
+     "endMs": 1007,
+     "durMs": 12
+    },
+    {
+     "f": "draco/draco_decoder.wasm",
+     "status": 200,
+     "bytes": 65105,
+     "startMs": 995,
+     "endMs": 1039,
+     "durMs": 44
+    }
+   ],
+   "jsKB": 652,
+   "jsFiles": 31,
+   "videoKBBeforeReady": 0,
+   "totalKBBeforeReady": 9273,
+   "requests": 70
+  },
+  {
+   "profile": "mobile",
+   "network": "no throttle (localhost)",
+   "pass": "warm",
+   "load": [
+    7,
+    8,
+    7.2
+   ],
+   "wallMs": 668,
+   "filmReadyMsAfterNavStart": 1863,
+   "glb": [
+    {
+     "f": "models/marwari-hero-mobile.glb",
+     "status": 200,
+     "bytes": 1544,
+     "startMs": 510,
+     "endMs": 515,
+     "durMs": 5
+    }
+   ],
+   "gaits": [
+    {
+     "f": "models/marwari-gaits.json",
+     "status": 200,
+     "bytes": 1543,
+     "startMs": 575,
+     "endMs": 577,
+     "durMs": 2
+    }
+   ],
+   "draco": [
+    {
+     "f": "draco/draco_wasm_wrapper.js",
+     "status": 200,
+     "bytes": 1543,
+     "startMs": 519,
+     "endMs": 520,
+     "durMs": 1
+    },
+    {
+     "f": "draco/draco_decoder.wasm",
+     "status": 200,
+     "bytes": 1544,
+     "startMs": 519,
+     "endMs": 521,
+     "durMs": 2
+    }
+   ],
+   "jsKB": 3,
+   "jsFiles": 31,
+   "videoKBBeforeReady": 0,
+   "totalKBBeforeReady": 54,
+   "requests": 73
+  },
+  {
+   "profile": "mobile",
+   "network": "Slow 4G (1.6 Mbit/s, 150 ms RTT)",
+   "pass": "cold",
+   "load": [
+    7,
+    8,
+    7.2
+   ],
+   "wallMs": 20300,
+   "filmReadyMsAfterNavStart": 22434,
+   "glb": [
+    {
+     "f": "models/marwari-hero-mobile.glb",
+     "status": 200,
+     "bytes": 624321,
+     "startMs": 8945,
+     "endMs": 18152,
+     "durMs": 9206
+    }
+   ],
+   "gaits": [
+    {
+     "f": "models/marwari-gaits.json",
+     "status": 200,
+     "bytes": 3114,
+     "startMs": 19797,
+     "endMs": 20008,
+     "durMs": 211
+    }
+   ],
+   "draco": [
+    {
+     "f": "draco/draco_wasm_wrapper.js",
+     "status": 200,
+     "bytes": 13367,
+     "startMs": 18306,
+     "endMs": 18748,
+     "durMs": 442
+    },
+    {
+     "f": "draco/draco_decoder.wasm",
+     "status": 200,
+     "bytes": 65105,
+     "startMs": 18336,
+     "endMs": 19506,
+     "durMs": 1171
+    }
+   ],
+   "jsKB": 652,
+   "jsFiles": 31,
+   "videoKBBeforeReady": 0,
+   "totalKBBeforeReady": 2081,
+   "requests": 69
+  },
+  {
+   "profile": "mobile",
+   "network": "Slow 4G (1.6 Mbit/s, 150 ms RTT)",
+   "pass": "warm",
+   "load": [
+    6.8,
+    7.9,
+    7.2
+   ],
+   "wallMs": 3392,
+   "filmReadyMsAfterNavStart": 24200,
+   "glb": [
+    {
+     "f": "models/marwari-hero-mobile.glb",
+     "status": 200,
+     "bytes": 1544,
+     "startMs": 2434,
+     "endMs": 2610,
+     "durMs": 177
+    }
+   ],
+   "gaits": [
+    {
+     "f": "models/marwari-gaits.json",
+     "status": 200,
+     "bytes": 1543,
+     "startMs": 2969,
+     "endMs": 3146,
+     "durMs": 178
+    }
+   ],
+   "draco": [
+    {
+     "f": "draco/draco_wasm_wrapper.js",
+     "status": 200,
+     "bytes": 1543,
+     "startMs": 2630,
+     "endMs": 2810,
+     "durMs": 179
+    },
+    {
+     "f": "draco/draco_decoder.wasm",
+     "status": 200,
+     "bytes": 1544,
+     "startMs": 2630,
+     "endMs": 2818,
+     "durMs": 188
+    }
+   ],
+   "jsKB": 3,
+   "jsFiles": 31,
+   "videoKBBeforeReady": 0,
+   "totalKBBeforeReady": 31,
+   "requests": 69
+  }
+ ]
+}
