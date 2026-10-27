@@ -91,7 +91,8 @@ export class Locomotor {
   alertTarget = 0;
   /** Steering target (world x, z); null keeps the current heading. */
   steerTo: THREE.Vector2 | null = null;
-  maxYawRate = 1.5;
+  /** rad/s. 1.1: a trot's turning radius is about 3 m (1.5 left a forefoot 2-3 cm off the ground in every turn). The lateral-acceleration bound below it already caps the canter and faster at 1.0 and under. */
+  maxYawRate = 1.1;
 
   onFootEvent: ((e: FootEvent) => void) | null = null;
   surfaceAt: (x: number, z: number) => Surface = () => ({ dust: 0, prints: 0, color: new THREE.Color("#cfae83"), hardness: 0.5 });

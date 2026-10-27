@@ -212,6 +212,16 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   sprint 6.3-6.5 -> 5.0-5.2 %; all stances held; campus trot corners 4.4 -> 3.0 %. Left-turn gallop hover rose (3.6 -> 7.0 % over
   2 cm). Not fixed: lateral foot asymmetry (left hind x +0.23, right -0.09; planar IK cannot move it), lead-dependent fore-pair
   difference. Anatomy page, phone and build not checked. See report §3g.
+- [x] **Session 27 Oct 2026 · Hover in hard turns, and a correction** (`footlock.ts`, `locomotion.ts`; no new assets).
+  **Correction to the "Banked turns" entry above:** the campus film does not corner hard. Director-run from the gate its worst yaw is
+  0.61 rad/s (canter, roll 10.8°) and the trot never passes 0.11; the 1.0-1.5 rad/s corners came from QA runs started off the path.
+  Changes: pastern limit 26° -> 40° (the pastern sat at its limit through every banked stance and a gallop hind's late stance) and
+  maximum yaw rate 1.5 -> 1.1 rad/s (a 25°-abducted forefoot has a tenth less vertical reach). Forced circles, sole over 2 cm up:
+  left gallop 7.0 -> 1.3 %, left sprint 4.4 -> 1.0 %, right canter 7.7 -> 0 %; trot hairpin 21-24 -> 5 % (misses 12 -> 0); straight runs
+  and ladder unchanged; every stance held. **Found, not touched:** on the film's own beats the lock fails during gait changes and lead
+  changes (gait purity 0.8-0.93 gates it down): desert walk -> trot slip 100 % of speed for a second, trot -> canter 21 %, canter ->
+  gallop 10 % with 38 % of stances unlocked; campus trot -> canter 13 %. Between changes slip is 1-5 %. Phone, build, anatomy page not
+  checked. See report §3h.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

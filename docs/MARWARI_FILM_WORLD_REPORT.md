@@ -297,10 +297,16 @@ over the last 12 % of each stance (so the toe leaves when the clip lifts it): th
 
 ### 3f. Banked turns (sixth pass, 26 Oct)
 
-**The campus film does turn hard at trot and canter.** I had assumed the campus chapter (3.4 m/s, then 5.2 m/s) was too slow to bank.
-Its path has corners the horse takes at the yaw limit: at 3.4 m/s the yaw rate is 1.47 rad/s (a radius of 2.3 m) with the body
-rolled 16°, for 43 % of the time; at 5.2 m/s the whole loop is 1.0 rad/s at 16.7°. Everything below is measured on that path
-(`goTo(3)`, 90 s per speed, 120 Hz, "corner" = yaw rate above 0.8 rad/s), and on forced constant-yaw circles on the desert.
+**Correction (27 Oct, see §3h).** The paragraph that stood here said the campus film corners hard at trot and canter (1.47 rad/s at
+3.4 m/s, 16° of roll). That was wrong. Those figures came from QA runs that started the horse wherever the previous run left it,
+off the path, so it circled at the yaw limit. Run from the gate with the director's speeds, the film's worst turn is a canter at
+0.61 rad/s with 10.8° of roll, and the trot never exceeds 0.11 rad/s. The changes below are still right for the cases they were
+measured on (forced constant-yaw circles, and anything that turns hard), but the "campus path" table is a robustness result, not
+what the film shows. What the film does show is in §3h.
+
+**What the harness measured as "the campus path".** At 3.4 m/s the yaw rate was 1.47 rad/s (a radius of 2.3 m) with the body
+rolled 16°, for 43 % of the time; at 5.2 m/s the whole run was 1.0 rad/s at 16.7° (`goTo(3)`, 90 s per speed, 120 Hz, "corner" =
+yaw rate above 0.8 rad/s), and forced constant-yaw circles on the desert.
 
 **What was wrong, in order of size** (traced per limb with `footLock.debug` and a new `err` readout of the toe's miss in the
 body's lateral, up and forward axes):
@@ -322,7 +328,7 @@ body's lateral, up and forward axes):
 - Shoulder abduction limit 0.22 → 0.45 rad (26°), hip 0.22 → 0.40 (23°).
 - The body drops 0.15 m per unit of sin(bank) in a turn (4 cm at 16°; `Locomotor.bankDrop`), so the outside legs have less to reach.
 
-**Result on the campus path** (committed code → now):
+**Result on the off-path campus runs** (committed code → now):
 
 | Run | Slip | Mid-stance frames unlocked | Sole over 2 cm / over 4 cm up | Stances that miss the ground |
 | --- | --- | --- | --- | --- |
@@ -441,6 +447,87 @@ trot corners slip 4.4 → 3.0 % (still 42 of 192 stances 2–3 cm up, was 45 of 
   9.6 against 4.4 cm in Gallop R).
 - The walk's left hind error is 6.1 cm (5.1 before); the right hind is 1.4 cm.
 - Not checked: the anatomy page (its GLB was regenerated the same way and loads the same clips), a phone, the production build.
+
+### 3h. Hover in hard turns, and what the film path really does (eighth pass, 27 Oct)
+
+**Findings, in order of importance**
+
+1. **The campus film never turns hard** (correction to §3f, above). Director-run from the gate on the campus path: trot yaw at most
+   0.11 rad/s (roll 2.9°), canter at most 0.61 (roll 10.8°); nothing over 0.8. On it the trot has no float (0 % of mid-stance
+   frames over 2 cm, slip 1.1 %) and the canter oval has none either (slip 2–4 %).
+2. **The film's real foot problems are the gait changes**, which I had not looked at. Binned per second on the director's own beats
+   (120 Hz, lock on; mean gait purity is the share of the dominant clip while two are blended):
+
+| Where | Second | Speed | Purity | Slip | Mid-stance unlocked | Sole over 2 cm |
+| --- | --- | --- | --- | --- | --- | --- |
+| Campus, trot → canter | 8 | 3.4 → 5.2 | 0.93 | 13 % | 19 % | 7 % |
+| Campus, lead change on the oval | 12–13 | 5.2 | 0.80–0.98 | 8–10 % | 8–48 % | 0–6 % |
+| Desert, walk → trot | 8 | 1.5 → 3.4 | 0.93 | **100 %** of speed (1.9 m/s) | 21 % | 10 % |
+| Desert, trot → canter | 11 | 3.5 → 5.2 | 0.93 | 21 % | 28 % | 5 % |
+| Desert, canter → gallop | 14 | 5.3 → 10 | 0.86 | 10 % | 38 % | 1 % |
+| Desert, gallop → sprint | 19–20 | 10 → 12 | 0.89–0.92 | 4–5 % | 8–27 % | 0 % |
+| Desert, sprint → gallop | 24 | 12 → 10 | 0.86 | 6 % | 20 % | 0 % |
+
+   Between the changes slip is 1–5 % and nothing floats. The cause is in `FootLock.apply`: the lock's weight is gated by
+   `smoothstep(0.6, 0.85, gaitPurity)`, and during a cross-fade the stance windows come from the dominant clip only. **Not touched in
+   this pass**; this is where a viewer will see feet slide in the film (the walk-to-trot second most of all).
+3. The hover the previous passes left in hard turns had two causes, both in the lock's joint limits.
+
+**What the traces showed** (per limb, with the joints at their limits counted):
+
+- The outside forefoot in a trot hairpin: the pastern sat at its 26° limit in 100 % of held frames, the toe 3 cm above its target.
+- The outside hind in a left-turn gallop: toe 2–2.4 cm up in the second half of the stance with no residual (the lock was hitting its
+  target), the pastern climbing to 22° of its 26°.
+
+**What I changed** (`footlock.ts`, `locomotion.ts`)
+
+- Pastern limit 26° → 40° (0.45 → 0.7 rad), fore and hind. It is the joint the solve uses first; a loaded fetlock sinks past that.
+  It gives about 2 cm more reach each way. Tried and not kept: raising the share of the straight-leg reach a target may ask for from
+  0.97 to 1.0 (no change), a wider scapula hinge (0.35, no further gain), a 52° pastern (a little less trot float, a bigger bend).
+- Maximum yaw rate 1.5 → 1.1 rad/s. Even with the 40° pastern the outside forefoot floated in a 1.5 rad/s trot turn: the leg is
+  abducted 25° (its limit) and a leg tilted that far has about a tenth less vertical reach. 1.1 rad/s at 3.3 m/s is a 3 m radius, about
+  what a ridden trot turns in (my estimate). At canter and faster the lateral-acceleration bound already caps it at 1.0 and under. The
+  film's greatest yaw is 0.61, so the film is unchanged.
+
+Same session, forced left-turn gallop / sprint, mid-stance sole over 2 cm up:
+
+| Limits | Gallop | Sprint |
+| --- | --- | --- |
+| Before (pastern 26°, reach 0.97) | 8.5 % | 5.3 % |
+| Reach 1.0 | 9.2 % | 6.6 % |
+| Pastern 40° | **1.4 %** | **1.6 %** |
+| Pastern 40° and reach 1.0 | 0.7 % | 3.0 % |
+| Pastern 40° and scapula 20° | 1.7 % | 1.5 % |
+
+**Result, forced constant-yaw circles on the desert** (§3g → now; sole over 2 cm up; ground slip in brackets):
+
+| Run | Canter | Gallop | Sprint |
+| --- | --- | --- | --- |
+| Left, `dt` 1/120 | 11.0 → 6.2 % (3.7 → 3.6) | 7.0 → 1.3 % (5.6 → 5.1) | 4.4 → 1.0 % (4.8 → 4.7) |
+| Right, `dt` 1/120 | 7.7 → 0.0 % (4.4 → 3.8) | 1.0 → 0.5 % (4.1 → 3.7) | 2.6 → 1.6 % (4.1 → 4.1) |
+| Left, `dt` 1/60 | 5.5 → 4.7 % | 12.8 → 6.8 % | 10.6 → 4.0 % |
+| Right, `dt` 1/60 | 2.8 → 1.1 % | 1.8 → 2.3 % | 4.7 → 4.1 % |
+
+Every stance is still held in every run (unlocked 0 %) and none misses the ground. Straight runs: unchanged (canter 0.2, gallop 0.1,
+sprint 0.1 % over 2 cm; slip 2.0 / 4.4 / 5.0 %). Straight desert ladder, three repeats: slip walk 0.3–0.5, trot 0.8–1.1, canter 2.0–2.1,
+gallop 4.2–4.4, sprint 5.0–5.2 %, every stance held, flight phase as before.
+
+Hairpins at the new yaw cap (forced circles, 18 s, 1.1 rad/s), against 1.5 rad/s with the 40° pastern:
+
+| Gait | Sole over 2 cm | Stances that miss | Slip |
+| --- | --- | --- | --- |
+| Trot, left / right | 4.9 / 5.1 % (was 23.7 / 20.6) | 0 of 62 (was 12 / 5) | 2.5 / 1.7 % |
+| Walk, left / right | 6.3 / 6.9 % (was 19.1) | 0 of 58 | 1.0 % |
+
+Yaw caps of 1.2 / 1.0 / 0.8 gave a trot float of 10 / 5 / 3 %. One frame of the 40° pastern in a banked gallop (the outside hind at
+the end of its push-off, pastern 40°): `docs/qa/film/gait_pastern_bend_r10.png`; the hoof is flat on the ground and the leg is not
+distorted.
+
+**Still open**
+
+- The gait-change slip and let-go in finding 2: the film's biggest remaining visible fault.
+- Left-turn canter at a forced 1.08 rad/s still floats 6 % of mid-stance frames.
+- Not checked: a phone, the production build, the anatomy page.
 
 ## 4. Performance (measured, not estimated)
 

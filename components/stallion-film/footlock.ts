@@ -26,10 +26,13 @@ const CHAINS: Record<Limb, string[]> = {
  * Hinge limit and abduction limit (radians) of each joint, in chain order (the hoof, last, is not a joint). The abduction of the
  * shoulder (26 degrees) and the hip (23) is what a hairpin turn needs: with the body yawing at 1.5 rad/s a planted forefoot swings
  * 30 cm sideways across a stance. At 13 degrees (0.22) the outside forefoot ran out of reach and the lock let go.
+ * The pastern (last joint) may flex 40 degrees (0.7, was 26): it is the joint the solve uses first, it sat at its old limit through
+ * every banked stance and in the late stance of a gallop's hind leg, and a loaded fetlock does sink well past that. It gives a leg
+ * about 2 cm more reach in both directions.
  */
 const LIMITS: Record<"F" | "H", { hinge: number; abd: number }[]> = {
-  F: [{ hinge: 0.2, abd: 0 }, { hinge: 0.7, abd: 0.45 }, { hinge: 0.75, abd: 0 }, { hinge: 0.5, abd: 0 }, { hinge: 0.45, abd: 0 }],
-  H: [{ hinge: 0.7, abd: 0.4 }, { hinge: 0.75, abd: 0 }, { hinge: 0.5, abd: 0 }, { hinge: 0.45, abd: 0 }],
+  F: [{ hinge: 0.2, abd: 0 }, { hinge: 0.7, abd: 0.45 }, { hinge: 0.75, abd: 0 }, { hinge: 0.5, abd: 0 }, { hinge: 0.7, abd: 0 }],
+  H: [{ hinge: 0.7, abd: 0.4 }, { hinge: 0.75, abd: 0 }, { hinge: 0.5, abd: 0 }, { hinge: 0.7, abd: 0 }],
 };
 const HOOF_LENGTH = 0.14;
 /** Seconds after touchdown over which the lock takes hold: the landing decelerates over these few frames instead of stopping in one. */
