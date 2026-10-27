@@ -46,10 +46,19 @@ export default function BondHero() {
       ref={sectionRef}
       aria-label="A quiet approach between horse and hand"
       data-parallax-skip
-      className="relative h-[95svh] min-h-[640px] w-full overflow-hidden bg-[#f2ece1] select-none"
+      className="relative w-full overflow-hidden bg-[#f2ece1] select-none lg:h-[95svh] lg:min-h-[640px]"
     >
-      {/* 3D WebGL Canvas — Full viewport immersion */}
-      <div className="absolute inset-0 z-0">
+      {/* 3D WebGL canvas. Phones: a stage under the fixed nav (h-16) with the copy below it. Wide screens: from under the nav (h-20) to the foot of the section so the bar never covers the head. The
+          sculpt is cut at the neck and at the sleeve; the mask fades those ends and the foot into the page colour. */}
+      <div
+        className="relative z-0 mt-16 h-[46svh] min-h-[300px] lg:absolute lg:inset-x-0 lg:bottom-0 lg:top-20 lg:mt-0 lg:h-auto lg:min-h-0"
+        style={{
+          WebkitMaskImage: "linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0, #000 95%, transparent 100%)",
+          maskImage: "linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0, #000 95%, transparent 100%)",
+          WebkitMaskComposite: "source-in",
+          maskComposite: "intersect",
+        }}
+      >
         <Canvas
           camera={{ position: [0, 0, 2.05], fov: 26, near: 0.1, far: 50 }}
           dpr={[1, Math.min(typeof window !== "undefined" ? window.devicePixelRatio : 2, 2)]}
@@ -79,9 +88,9 @@ export default function BondHero() {
         </Canvas>
       </div>
 
-      {/* Editorial Headline & Supporting Copy in Intentional Negative Space (Bottom-Left) */}
-      <div className="gutter pointer-events-none relative z-10 flex h-full flex-col justify-end pb-8 pt-24">
-        <div className="max-w-[19rem] sm:max-w-[22rem] lg:max-w-[25rem]">
+            {/* The whole head now shows, so on wide screens the copy sits in the clear space at the upper right, away from the head and the hand. */}
+      <div className="gutter pointer-events-none relative z-10 pb-10 pt-3 lg:absolute lg:inset-0 lg:flex lg:flex-col lg:items-end lg:justify-start lg:pb-0 lg:pt-36">
+        <div className="max-w-[19rem] sm:max-w-[22rem] lg:max-w-[22rem] xl:max-w-[25rem]">
           <Label className="text-[#a66b26]">Phase 01 · The Covenant</Label>
           <h2
             className="mt-2 font-serif text-2xl sm:text-3xl lg:text-[2.1rem] font-light text-[#231710] leading-[1.12] tracking-tight"

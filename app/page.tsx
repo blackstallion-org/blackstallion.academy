@@ -9,7 +9,7 @@ import { LedgerAscent } from "@/components/sections/home/LedgerAscent";
 import { Matrix } from "@/components/sections/home/Matrix";
 import { StoryStrip } from "@/components/sections/home/StoryStrip";
 import { Studbook } from "@/components/sections/home/Studbook";
-import { ImageCubeGallery } from "@/components/sections/home/ImageCubeGallery";
+import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { Atelier } from "@/components/sections/home/Atelier";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
@@ -46,7 +46,7 @@ export default function Home() {
       <Doors />
       <LedgerAscent />
       <Studbook />
-      <ImageCubeGallery />
+      <PageCurtain page="home" />
       <Atelier />
 
       <Intermission act="ledger" line="Now, the decision." />

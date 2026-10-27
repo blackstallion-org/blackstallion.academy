@@ -6,6 +6,8 @@ import { MarwariPortrait } from "@/components/sections/editorial/ReferencePanels
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { FleetCovenantScene } from "@/components/sections/fleet/FleetCovenantScene";
+import { LightTheStable } from "@/components/sections/fleet/LightTheStable";
+import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/fleet" },
@@ -19,6 +21,7 @@ export default function FleetPage() {
       <FleetTitle />
       <MarwariPortrait />
       <HorizontalChapter typeface="western" chapter="The horses" text="Every horse has a name. Every name has a story." tone="light" />
+      <PageCurtain page="fleet" />
       <Registry />
       <StallionGallery />
       <CoatRegistry />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
 import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { SafetyKineticStage } from "@/components/sections/safety/SafetyKineticStage";
+import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { NumberWall, OrdersOfTheDay, People, SafetyTitle, ShieldColumns } from "@/components/sections/safety/SafetyScenes";
 
 export const metadata: Metadata = {
@@ -15,6 +16,7 @@ export default function SafetyPage() {
     <>
       <SafetyTitle />
       <ShieldColumns />
+      <PageCurtain page="safety" />
       <OrdersOfTheDay />
       <SafetyKineticStage />
       <HorseEquipmentSection />

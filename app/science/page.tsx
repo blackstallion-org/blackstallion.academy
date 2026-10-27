@@ -7,6 +7,7 @@ import { ComparisonLedger, PulseLine, ScienceTitle } from "@/components/sections
 import { Matrix } from "@/components/sections/home/Matrix";
 import { claims, comparison, statusColor } from "@/lib/content/science";
 import { cn } from "@/lib/utils";
+import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/science" },
@@ -20,6 +21,7 @@ export default function SciencePage() {
       <ScienceTitle />
       <Matrix />
       <PulseLine />
+      <PageCurtain page="science" />
       <ComparisonLedger cols={comparison.cols} rows={comparison.rows} note={comparison.note} />
 
       {/* §4 · S30 footnote ledger */}

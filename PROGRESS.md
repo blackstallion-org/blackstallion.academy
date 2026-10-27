@@ -324,6 +324,25 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   12.96 academy; line alone 5.0 / 4.68 / 11.95; "Skip the film" 8.44 / 6.22 / 11.85 (the first version with a gold number measured 2.97-3.15
   and was dropped). Re-checked all three chapters at 1440 and 390: no console errors, no overflow. **Not done:** chapter buttons' contrast
   not measured; production build not re-run. See report §3q.
+- [x] **Session 28 Oct 2026 (later) · Owner's five fixes: scroll sticking, hero under the nav, curriculum bond, one curtain per page**
+  (home + legend, curriculum, schools, cadets, science, safety, fleet). (1) The anatomy exhibit's OrbitControls took every wheel event
+  over the canvas (wheel = zoom, `preventDefault`) and a vertical swipe on a phone (touch-action none), so the page stopped under the
+  cursor; `enableZoom = false` and `touch-action: pan-y` in `public/anatomy/dual-body.html` (untracked file from another session, edit left
+  uncommitted). Checked with real wheel events over the canvas: the page moves, no stall in the next 12 steps. Not reproduced before the
+  change, read from the code. (2) Hero photographs on science, safety, parents and circuit now start below the fixed nav (`top-16 md:top-20`,
+  charcoal behind), so the bar no longer covers the rider's helmet. Legend, schools, cadets, fleet heroes (3D/video/parallax) not changed.
+  (3) /curriculum: the static dapple-grey photo that replaced the horse-and-hand sculpt is removed and the committed `BondHero` 3D is back
+  (the static version is saved in the session scratchpad, not in git). It now fits: the canvas starts under the nav, the sculpt is scaled
+  by height as well as width (`HEAD_SPAN`), the cut neck and sleeve fade out, the copy moves to the clear upper right on wide screens and
+  under the stage on phones. The fit lives in `components/3d/HorseHandBond.tsx`, which also carries another session's uncommitted shader
+  motion, so that file is left uncommitted. (4) One full-screen scroll curtain (the /parents "morning" scene) per page from
+  `lib/content/curtains.ts` via `components/sections/shared/PageCurtain.tsx`, four existing photos and plain captions each (no figures, no
+  health claims); caption fade strengthened in `CurtainChapters.tsx`. Removed: home `ImageCubeGallery` (section only; the component file stays),
+  curriculum `CurriculumPhaseReel` and the batch photo band (component file stays). Kept: every link-bearing image section (schools arena
+  reel, cadets drill reel, legend gallop video and closing band, fleet galleries) and each page's hero. Checked at 1440 and 390: curtains
+  render on all eight pages, no page errors, no horizontal overflow, reduced motion gives four stacked frames. **Not done:** the anatomy
+  exhibit's realistic Marwari and cadet (needs a modern-three port of the exhibit, offered as its own session); production build not re-run;
+  `/schools` logs two `ERR_INVALID_URL` console errors from an image placeholder `data:` URL that predate this work.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
