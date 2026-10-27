@@ -580,10 +580,80 @@ desert and 41 → 43 mm on the campus; the largest frame 89 → 119 and 105 → 
 
 **Left as it is**
 - **A start from standing** (0.6 m/s, the first walking steps): 21 % slip of a speed of 0.6 m/s and 17 % of mid-stance frames over 2 cm
-  up, for about a second. It is not a blend.
+  up, for about a second. It is not a blend. (Taken up in §3j.)
 - Walk → trot still slips 12 % of the speed for a second and trot → canter 8 %; at 1/60 s the campus change is 0.44 m/s.
 - The lock's largest single-frame displacement is a little higher (119 against 89 mm); I did not look at a frame in the middle of a
   change by eye.
+- Not checked: a phone, the production build, the anatomy page.
+
+### 3j. Starting from standing (tenth pass, 27 Oct)
+
+**Cause.** `FootLock.apply` ran the lock only above 0.4 m/s. A horse setting off takes about a second to get there (the walk is
+blended in as `smoothstep(0.12, 0.55, speed)`), and for that second the pose is mostly the stand pose, whose feet move with the
+body: the planted feet skated at up to the body's speed, 0.3 m/s, before the lock took hold.
+
+**What I tried** (stand 0.5 s, then a target of 1.5 m/s; the lock runs once the walk holds more than the given share of the pose,
+and in any case above 0.4 m/s; window 0.5–2.5 s; four starting phases of the stride; 1/120 s; "Planted-foot speed" is the toe's speed
+over frames in mid-stance with the toe within 4.5 cm of the ground; "over 2 / 4 cm" is the share of mid-stance frames with the sole
+that high):
+
+| Lock from a walk share of | Planted-foot speed rms / max | Sole over 2 cm / over 4 cm | Verdict |
+| --- | --- | --- | --- |
+| 0.9 (as before: from 0.4 m/s) | 0.28 / 2.09 m/s | 1.9 / 0.0 % | |
+| 0.55 | 0.22 / 2.09 | 1.5 / 0.0 | |
+| 0.45 | 0.15 / 1.28 | 1.4 / 0.0 | |
+| **0.4 (about 0.3 m/s)** | **0.13 / 1.12** | **2.1 / 0.0** | kept |
+| 0.3 | 0.12 / 1.09 | 3.6 / 0.0 | |
+| 0.25 | 0.11 / 1.05 | 3.8 / 0.4 | |
+| 0.1 | 0.07 / 0.80 | 5.8 / 1.8 | |
+| 0.02 (from the first moment) | 0.04 / 0.44 | 7.2 / 3.1 | float: see below |
+
+Locking from the very first moment almost stops the skating (0.04 m/s) but a hind foot then floats. It is anchored at the stand
+pose's toe, which is where the stand pose puts it and not where the stride would, and the body walks on past what the leg can reach:
+the toe rose 3–5 cm over the stance (hind feet only, 0.5–1.1 s after the set-off, lock at full weight, the safety fade only starting
+once the residual passed 6 cm). 0.4 is the point where the slip has fallen by half and the float is back to what it was.
+
+A second change goes with it. The lock now runs from a latch: on when the speed passes 0.4 m/s or the walk holds 0.4 of the pose
+while the horse is not slowing; off when the speed is under 0.4 m/s and falling. Slowing down it behaves exactly as before. (A first
+version that kept the lock on as long as any walk was in the pose made the stop worse: feet up to 11.7 m/s.)
+
+**Change** (`footlock.ts` only; no new assets): `MOVING_GAIT = 0.4`, the `active` latch, and `movingGait` as a QA setting.
+
+**Result** (before → now; four starting phases; every run starts from the same state):
+
+| Scene and window | Frame step | Planted-foot speed rms / max | Sensor slip | Sole over 2 / 4 cm |
+| --- | --- | --- | --- | --- |
+| Desert, stand → walk (4.8–7 s) | 1/120 s | 0.23 / 2.0 → **0.13 / 1.1** m/s | 0.10 → 0.01 m/s | 1.9 / 0.0 → 2.0 / 0.0 % |
+| Desert, stand → walk | 1/60 s | 0.24 / 2.0 → 0.13 / 1.1 | 0.12 → 0.01 | 1.8 / 0.0 → 1.3 / 0.0 |
+| Campus, stand → trot (0–3 s) | 1/120 s | 0.27 / 3.8 → 0.21 / 3.8 | 0.19 → 0.17 | 1.6 / 0.4 → 2.0 / 0.1 |
+| Campus, stand → trot | 1/60 s | 0.28 / 3.4 → 0.21 / 3.4 | 0.20 → 0.17 | 1.6 / 0.2 → 1.5 / 0.2 |
+
+The first second of the campus start, by starting phase of the stride (rms / max planted-foot speed, m/s): 0.41 / 2.1 → 0.06 / 0.2,
+0.49 / 1.2 → 0.35 / 1.2, 0.31 / 1.6 → 0.07 / 0.2 and 0.32 / 0.9 → 0.22 / 0.7. A target of 3.4 m/s from standing at 1/120 s: 0.35 → 0.24
+m/s. The whole beats (desert 27 s, campus 17 s, windows around the changes) are unchanged: desert slip 0.29 → 0.28 m/s at 1/120 s and
+0.33 → 0.32 at 1/60 s, campus 0.24 → 0.24 and 0.26 → 0.25. The lock's frame-to-frame displacement is a little higher at the start
+(99th percentile 20 → 23 mm, largest 34 → 78 mm at 1/120 s; 37 → 39 and 65 → 137 mm at 1/60 s), as the lock now takes hold of a pose
+that is still changing. One frame each (1440 and 390 px, the walk 1–2 s after a set-off, `docs/qa/film/start_walk_r11_*.png`) shows
+the horse and its hooves as before; there is no horizontal overflow at 390.
+
+**A correction to my own measuring.** The first comparison of this pass put campus slip at 0.20 → 0.27 m/s and a window at 8–10 s
+at 0.22 → 0.48 with 9.5 m/s frames. That was my harness: a run kept the speed-dependent state of the one before it (acceleration,
+exertion, the stop cooldown), so a run after a fast beat started differently. The runs above start from a six-second settle and zero
+those three, and a repeated run now gives the same figures (the 8–10 s window is identical with and without this change). The earlier
+before / after tables (§3g–§3i) compared like with like in the same order, so what they say about a change stands; their absolute
+figures for later runs of a session I have not re-measured.
+
+**Left as it is**
+- **The stop.** Planted-foot speed with the horse stopping from 1.5 m/s (window 5–8 s, four phases) is 0.44 m/s rms with a worst frame of
+  7.7 m/s, and 12.4 % of mid-stance frames are unlocked. This pass does not change it (the committed code gives the same figures). Under
+  0.4 m/s and falling the lock lets go of all four feet in 50 ms, including feet still in mid-stance whose anchors are up to tens of
+  centimetres from the clip's toes, so those toes snap across. It depends on the stride phase (a single walk and stop at phase 0.3
+  gave 1.5 m/s). A longer release, or one that waits for each foot's own lift-off, is the likely fix; not tried.
+- The campus start has one frame at 3.8 m/s at the walk → trot change, about 1.9 s after the set-off; unchanged.
+- The skating that remains (0.13 m/s rms) is the first 0.3 s, until the walk holds 0.4 of the pose. A starting phase with 11 % of
+  the mid-stance frames over 2 cm up in the second after the campus set-off (it was 0 %) is the one place the float is worse.
+- "Float" at the start: before the change the measured hover was 1.9 % of mid-stance frames over 2 cm and none over 4 cm, so what I could
+  measure was the skating; I did not find a hover to remove. Looked at by eye: one frame at each width; not a sequence.
 - Not checked: a phone, the production build, the anatomy page.
 
 ## 4. Performance (measured, not estimated)

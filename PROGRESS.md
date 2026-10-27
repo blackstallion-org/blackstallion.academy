@@ -230,6 +230,18 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   per-foot vote gate (worse, 500 mm frames), planting from the pose (worse), a slower release (one 411 mm jump). Open: a start from
   standing slips 21 % of 0.6 m/s for a second; lock frame-to-frame displacement max 119 vs 89 mm; no frame looked at by eye in a
   blend; phone, build, anatomy page not checked. See report §3i.
+- [x] **Session 27 Oct 2026 (later still) · Start from standing** (`footlock.ts` only; no new assets). The lock only ran above 0.4 m/s,
+  and the walk takes about a second to get there, so planted feet skated at up to the body's speed. The lock now starts once the walk
+  holds 0.4 of the pose (about 0.3 m/s) while the horse is not slowing, and stops under 0.4 m/s and falling as before (a latch). Swept
+  0.02-0.9: from the first moment it nearly stops the skating (0.04 m/s) but a hind foot floats 3-5 cm (7 % of mid-stance frames over
+  2 cm); 0.4 halves the skating with the float where it was. Four phases, 1/120 s, planted-foot speed rms / max: desert stand -> walk
+  0.23 / 2.0 -> 0.13 / 1.1 m/s (sensor slip 0.10 -> 0.01), campus stand -> trot 0.27 -> 0.21; hover 1.9 -> 2.0 % over 2 cm, none over
+  4 cm; whole film beats unchanged (desert 0.29 -> 0.28, campus 0.24 -> 0.24). **Own error corrected:** my QA runs carried state
+  (acceleration, exertion, stop cooldown) from one run to the next, which gave a false campus regression; runs now start clean and
+  repeat. **Found, not fixed:** the stop (below 0.4 m/s the lock lets go of all four feet in 50 ms, mid-stance ones included): planted
+  feet up to 7.7 m/s in the worst phase, 12 % of mid-stance frames unlocked; same as before this pass. Also open: one 3.8 m/s frame
+  at the campus walk -> trot change; skating remains for the first 0.3 s. One frame at 1440 and 390 checked by eye; phone, build,
+  anatomy page not checked. See report §3j.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

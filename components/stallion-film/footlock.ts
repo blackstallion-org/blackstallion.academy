@@ -49,6 +49,10 @@ const SEAT_RAMP_S = 0.015;
 /** The leg's residual is not held against it (the safety fade) until this long after its stance began: the draw-in from the air and the
  *  push out of the surface leave a transient error that is not a failure to reach. */
 const SAFE_AFTER_S = 0.06;
+/** The share of the walk in the pose above which a horse that is setting off counts as moving for the lock (about 0.3 m/s). Lower and the
+ *  planted feet are held from the stand pose, which is not where the stride puts them: a hind foot runs out of reach and floats 3-5 cm
+ *  (at 0.02 the first steps slipped least, 0.04 m/s, but 7 % of mid-stance was over 2 cm up and 3 % over 4 cm). Higher and the feet slide. */
+const MOVING_GAIT = 0.4;
 const ITERATIONS = 24;
 /** Fraction of the straight-leg reach the lock may ask for (keeps the joints off their limits). */
 const REACH_FRACTION = 0.97;
@@ -228,6 +232,10 @@ export class FootLock {
   private readonly pivot = new THREE.Vector3();
   private readonly reachVec = new THREE.Vector3();
   enabled = true;
+  /** The lock is running (see `apply`). */
+  private active = false;
+  /** Share of the walk in the pose from which a horse that is setting off counts as moving (QA can change it). */
+  movingGait = MOVING_GAIT;
   /** Seat the hoof on the surface under it (see the header); false is the sideways-only lock of the first pass, for QA comparison. */
   seat = true;
   /** QA readout per limb. */
@@ -249,7 +257,12 @@ export class FootLock {
     root.updateMatrixWorld(true);
     this.lateral.setFromMatrixColumn(root.matrixWorld, 0).normalize();
     this.forward.setFromMatrixColumn(root.matrixWorld, 2).normalize();
-    const moving = this.enabled && loco.speed > 0.4;
+    // Setting off, the lock runs once the walk holds MOVING_GAIT of the pose, which is before the speed reaches 0.4 m/s, so the feet that
+    // are planted when the horse starts stay planted while the pose changes from standing to walking. Slowing down it lets go below 0.4 m/s.
+    if (!this.enabled) this.active = false;
+    else if (loco.speed > 0.4 || ((loco.weights.Gait ?? 0) > this.movingGait && loco.accel >= 0)) this.active = true;
+    else if (loco.speed < 0.4 && loco.accel < 0) this.active = false;
+    const moving = this.active;
     for (const l of LIMBS) {
       const leg = this.legs[l];
       const d = this.debug[l];
