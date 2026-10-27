@@ -222,6 +222,14 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   changes (gait purity 0.8-0.93 gates it down): desert walk -> trot slip 100 % of speed for a second, trot -> canter 21 %, canter ->
   gallop 10 % with 38 % of stances unlocked; campus trot -> canter 13 %. Between changes slip is 1-5 %. Phone, build, anatomy page not
   checked. See report §3h.
+- [x] **Session 27 Oct 2026 (later) · Gait and lead changes** (`footlock.ts` only; no new assets). The lock's weight was multiplied
+  by `smoothstep(0.6, 0.85, gaitPurity)`, so every foot, planted ones included, was cut loose during a blend. Removed the gate.
+  Film beats, four starting phases, windows around the changes, before -> now: desert slip 0.74 -> 0.34 m/s, mid-stance frames
+  unlocked 13.3 -> 0.0 %; campus 0.52 -> 0.20 m/s, 11.3 -> 0.5 %; at 1/60 s 0.74 -> 0.39 and 0.62 -> 0.44. Per second (desert):
+  walk -> trot 26 -> 12 %, trot -> canter 17 -> 8 %, canter -> gallop 11 -> 3 %. Steady gaits unchanged. Tried and dropped: a
+  per-foot vote gate (worse, 500 mm frames), planting from the pose (worse), a slower release (one 411 mm jump). Open: a start from
+  standing slips 21 % of 0.6 m/s for a second; lock frame-to-frame displacement max 119 vs 89 mm; no frame looked at by eye in a
+  blend; phone, build, anatomy page not checked. See report §3i.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

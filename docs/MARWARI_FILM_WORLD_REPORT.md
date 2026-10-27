@@ -525,8 +525,65 @@ distorted.
 
 **Still open**
 
-- The gait-change slip and let-go in finding 2: the film's biggest remaining visible fault.
+- The gait-change slip and let-go in finding 2: fixed in §3i. (The one-run figures in that table varied with the phase of the stride at which
+  the change began, from 26 % to 100 % for the walk-to-trot second; §3i uses four starting phases.)
 - Left-turn canter at a forced 1.08 rad/s still floats 6 % of mid-stance frames.
+- Not checked: a phone, the production build, the anatomy page.
+
+### 3i. Gait changes and lead changes (ninth pass, 27 Oct)
+
+**Cause.** `FootLock.apply` multiplied the lock's weight by `smoothstep(0.6, 0.85, gaitPurity)`, where purity is the dominant clip's
+share of the blend. During a gait change (walk to trot, trot to canter, and so on) or a change of canter lead, purity falls to
+0.55–0.9 for about a second and the gate cut the lock on **every** foot, including the feet the blend had planted. The planted feet
+then slid, and the stance windows of the other clip made the weight swing between feet.
+
+**What I tried** (film beats, four starting phases of the stride, windows around the changes only: desert 8–9.6, 10.6–12, 13.6–16,
+19–21 and 24.5–26 s; campus 8–10 and 12–16 s; slip is the RMS toe speed over the planted, mid-stance frames):
+
+| Lock during a change | Desert slip | Unlocked | Sole over 2 cm up | Verdict |
+| --- | --- | --- | --- | --- |
+| Global purity gate (before) | 0.74 m/s | 13.3 % | 1.4 % | |
+| **No gate** | **0.34 m/s** | **0.0 %** | **0.1 %** | kept |
+| Per-hoof gate from the clips' weighted vote of stance | 0.89 m/s | 8.7 % | 3.0 % | worse; 36 frames with the toe moving over 10 cm (500 mm at the worst) |
+| Plant and release from the pose (toe height and rise speed) during a blend | 0.73 m/s | 5.4 % | 5.4 % | worse; 30 such frames |
+| No gate, and a hold let go over distance ÷ 3 m/s | 0.34 m/s | 0.0 % | 0.1 % | no change in slip, one 411 mm jump; dropped |
+
+**Change** (`footlock.ts` only; no new assets): the gate is removed. The lock keeps the stance windows of the dominant clip and runs at
+full weight through a change, as in a steady gait. A hoof the blend lifts is released as before. `LimbLock.clipToe` (the hoof's own
+pose before the lock moves it) is exposed for QA.
+
+**Result** (before → now, same harness; the director's beats; four starting phases):
+
+| Scene | Frame step | Slip | Unlocked | Sole over 2 cm / over 4 cm up |
+| --- | --- | --- | --- | --- |
+| Desert | 1/120 s | 0.74 → 0.34 m/s | 13.3 → 0.0 % | 1.4 / 0.5 → 0.1 / 0.0 % |
+| Desert | 1/60 s | 0.74 → 0.39 m/s | 13.5 → 0.0 % | 1.9 / 0.4 → 0.8 / 0.0 % |
+| Campus | 1/120 s | 0.52 → 0.20 m/s | 11.3 → 0.5 % | 2.8 / 1.6 → 1.2 / 0.9 % |
+| Campus | 1/60 s | 0.62 → 0.44 m/s | 12.1 → 0.8 % | 3.1 / 1.9 → 2.0 / 1.4 % |
+
+The desert, second by second at 1/120 s with the stride at phase 0 (slip as a share of speed / mid-stance frames unlocked):
+
+| Change | Second | Before | Now |
+| --- | --- | --- | --- |
+| Walk → trot | 8 | 26 % / 20 % | 12 % / 0 % |
+| Trot → canter | 11 | 17 % / 11 % | 8 % / 0 % |
+| Canter → gallop | 14 | 11 % / 42 % | 3 % / 0 % |
+| Gallop → sprint | 19 | 5 % / 14 % | 5 % / 0 % |
+| Sprint | 20 | 6 % / 17 % | 5 % / 0 % |
+| Sprint → gallop | 24 | 5 % / 10 % | 5 % / 0 % |
+
+Steady gaits are unchanged (there is no blend): desert ladder, three repeats, slip walk 0.3–0.5, trot 0.8–1.1, canter 2.0–2.1, gallop
+4.2–4.4, sprint 5.0–5.2 %, every stance held, flight phase as before. How far the lock moves a toe from one frame to the next (the
+frame-to-frame change of the offset between the hoof's own pose and the locked one, 1/120 s): 99th percentile 47 → 50 mm in the
+desert and 41 → 43 mm on the campus; the largest frame 89 → 119 and 105 → 128 mm. A steady gallop's 99th percentile is 51 mm. At
+1/60 s the same figures are 76 and 78 mm (largest 208 and 292), twice a 1/120 s frame, as expected.
+
+**Left as it is**
+- **A start from standing** (0.6 m/s, the first walking steps): 21 % slip of a speed of 0.6 m/s and 17 % of mid-stance frames over 2 cm
+  up, for about a second. It is not a blend.
+- Walk → trot still slips 12 % of the speed for a second and trot → canter 8 %; at 1/60 s the campus change is 0.44 m/s.
+- The lock's largest single-frame displacement is a little higher (119 against 89 mm); I did not look at a frame in the middle of a
+  change by eye.
 - Not checked: a phone, the production build, the anatomy page.
 
 ## 4. Performance (measured, not estimated)

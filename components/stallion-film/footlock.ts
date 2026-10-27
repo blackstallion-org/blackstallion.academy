@@ -66,6 +66,8 @@ class LimbLock {
   readonly hoof: THREE.Bone;
   readonly kind: "F" | "H";
   engaged = false;
+  /** The toe in the clip's own pose this frame, before the lock moved it (QA: how far the lock displaces it). */
+  readonly clipToe = new THREE.Vector3();
   /** Seconds since this stance began (touchdown). */
   tStance = 0;
   /** Seconds since the stance ended (lift-off), while the lock is still letting go. */
@@ -251,11 +253,13 @@ export class FootLock {
     for (const l of LIMBS) {
       const leg = this.legs[l];
       const d = this.debug[l];
-      const u = moving ? loco.stancePhase(l) : null;
       const hoof = leg.hoof;
       hoof.updateWorldMatrix(true, false);
       this.tmp.set(0, HOOF_LENGTH, 0).applyMatrix4(hoof.matrixWorld);
-      const gate = smoothstep(0.6, 0.85, loco.gaitPurity);
+      // Stance windows come from the dominant clip. The lock is held at full weight through a gait change or a change of lead as
+      // well: gating it on how pure the blend is left the planted feet sliding (a first-pass gate, removed after measuring it).
+      const u = moving ? loco.stancePhase(l) : null;
+      leg.clipToe.copy(this.tmp);
       let w = 0;
       let wy = -1; // seating weight; -1 = same as w (the release)
       if (u !== null) {
@@ -273,8 +277,8 @@ export class FootLock {
           leg.releaseT = 0;
         }
         if (leg.engaged) {
-          w = smoothstep(0, LOCK_RAMP_S, leg.tStance) * gate;
-          wy = smoothstep(0, SEAT_RAMP_S, leg.tStance) * gate;
+          w = smoothstep(0, LOCK_RAMP_S, leg.tStance);
+          wy = smoothstep(0, SEAT_RAMP_S, leg.tStance);
         }
       } else if (leg.engaged) {
         // swing: hold the anchored toe while it leaves the ground, then let go over LOCK_RELEASE_S
@@ -284,7 +288,7 @@ export class FootLock {
           leg.tStance = 0;
           leg.releaseT = 0;
         } else {
-          w = (1 - smoothstep(0, LOCK_RELEASE_S, leg.releaseT)) * gate;
+          w = 1 - smoothstep(0, LOCK_RELEASE_S, leg.releaseT);
         }
       }
       // a leg that cannot reach its anchor (the joints are at their limits) lets the lock go gradually rather than
