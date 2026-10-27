@@ -5,8 +5,8 @@ import styles from "./ReferencePanels.module.css";
 
 const firstRide = [
   {
-    image: "/images/cinematic-images/pexels-v-marin-701396667-29487828.webp",
-    alt: "A quiet first contact between a person and a horse",
+    image: "/media/legend-today.webp",
+    alt: "A young cadet touching the curled ear of a Marwari stallion at dawn",
     title: "First, meet the horse.",
     copy: "Before the saddle, there is a conversation. Learn to notice, approach and listen.",
     position: "49% 50%",
@@ -19,8 +19,8 @@ const firstRide = [
     position: "50% 45%",
   },
   {
-    image: "/images/cinematic-images/pexels-cristian-rojas-8064265.webp",
-    alt: "A stirrup fitted to a saddle",
+    image: "/media/legend-chetak.webp",
+    alt: "Weathered leather tack and oxidized bronze stirrups on dark stone",
     title: "Get to know the tack.",
     copy: "The small details matter when horse and rider begin to move together.",
     position: "50% 50%",

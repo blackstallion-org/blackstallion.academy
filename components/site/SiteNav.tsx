@@ -52,7 +52,7 @@ export function SiteNav() {
         <div className="gutter flex h-16 items-center justify-between gap-6 md:h-20">
           <div className="flex min-w-0 items-center gap-4">
             <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap" aria-label="Black Stallion Academy, home">
-              <CrestMark className="h-10 w-10" decorative />
+              <CrestMark className="h-12 w-12" decorative />
               <Wordmark layout="inline" className="hidden sm:inline" />
             </Link>
             {reel && (
@@ -160,7 +160,7 @@ function Menu({ onClose }: { onClose: () => void }) {
     >
       <div className="gutter flex h-16 items-center justify-between md:h-20">
         <Link href="/" onClick={onClose} className="flex items-center gap-3">
-          <CrestMark className="h-10 w-10" decorative />
+          <CrestMark className="h-12 w-12" decorative />
           <Wordmark layout="inline" />
         </Link>
         <button ref={closeRef} type="button" onClick={onClose} className="label px-2 py-2.5 text-bone hover:text-gold">

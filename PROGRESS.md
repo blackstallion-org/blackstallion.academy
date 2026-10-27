@@ -343,6 +343,18 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   render on all eight pages, no page errors, no horizontal overflow, reduced motion gives four stacked frames. **Not done:** the anatomy
   exhibit's realistic Marwari and cadet (needs a modern-three port of the exhibit, offered as its own session); production build not re-run;
   `/schools` logs two `ERR_INVALID_URL` console errors from an image placeholder `data:` URL that predate this work.
+- [x] **Session 28 Oct 2026 (later) · Pixel-horse loader off the main thread, horseman logo, stock photos out** (1) The loader's pixel horse
+  now runs in a worker on an OffscreenCanvas (`public/animations/pixel-horse.worker.js`, driven by `components/motion/PixelHorse.tsx`), so
+  its frame rate no longer depends on the page hydrating; browsers without OffscreenCanvas fall back to the main-thread engine. The engine's
+  old rule "a frame over 120 ms counts as 16 ms" (which stalled then jumped the legs) is now a 100 ms cap on the real time. The gait follows
+  the load: a calm canter that eases to a gallop over 1.5 s, then a longer finishing run once the page is ready. Checked: the worker starts,
+  draws, reports the cycle and the overlay leaves; not measured on a throttled CPU or network. (2) The supplied horseman-with-lance drawing
+  is the BSAH mark: `components/brand/CrestMark.tsx` paints it as a mask in the current text colour (nav on ivory and charcoal, footer,
+  sign-in, seals; `public/brand/bsah-horseman*.webp`), plus `app/icon.png`, `app/apple-icon.png` and a new `app/opengraph-image.png`
+  (system Didot, not the site fonts). The nav mark is 48 px. The council crest badge (`Crest`) is unchanged. (3) The two Pexels photos in
+  the home first-ride panels are replaced by AI stills (`legend-today`, `legend-chetak`); the unused `ImageCubeGallery` still lists the same
+  two stock files. **Not done:** realism of the home "Instrument" 3D plate (mane cards, coat): not reproduced here, the plate did not
+  render in the headless browser; proposed as its own session.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
