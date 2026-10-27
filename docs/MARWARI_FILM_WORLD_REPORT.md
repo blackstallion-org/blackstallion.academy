@@ -963,8 +963,9 @@ slow-down is good from 0.23 to 0.255 and has 14–15 m/s frames at 0.21 and from
 m/s and a 14.1 m/s planted-foot frame at 1/120 s (0.16 → 0.22, 2.4 → 7.3 at 1/60 s). The frame is at 14.06 s, mid lead change (`leadMix`
 0.52, gait purity 0.5), on the front-right foot. The trot is symmetric under half a cycle and a left-right swap and the canters are not:
 the right canter wants 0.245, the left one 0.745, and a lead change cross-fades the two, which half a cycle apart is far worse than
-together (the same campus run's trot → canter window improved, slip 0.28 → 0.17, so the alignment itself works). A single offset for
-both leads helps only the lead it matches:
+together (the same campus run's trot → canter window improved, slip 0.28 → 0.17, so the alignment itself works). **Reversed in §3o:**
+that campus result was four-phase luck (twelve phases show the committed and the aligned configurations equally bad at a lead change), and
+the trot → canter alignment is kept for both leads there. A single offset for both leads helps only the lead it matches:
 
 | Offset of both canters | Right lead (speed-up / slow-down frames over 5 m/s) | Left lead |
 | --- | --- | --- |
@@ -1019,12 +1020,115 @@ printed offsets and redid the left lead against the committed configuration; the
 
 **Left as it is**
 - **Trot ↔ canter stays unaligned** (55 cm of mismatch, 54 % of the feet agreeing on stance). The canter → trot part of the 5.2 m/s stop
-  still has 43 frames over 5 m/s. Aligning both leads needs the lead change to blend the two canters while their offsets differ by half
-  a cycle, which is a time-warp of the clip, or re-authored clips; I tried neither.
+  still has 43 frames over 5 m/s. (Taken up in §3o: it is aligned for both leads there, and the premise of this bullet, that the lead
+  change cannot cope with canters half a cycle apart, was wrong.)
 - The film's own gain from the gallop offset is small, and the sprint → gallop jump at 1/60 s is 14 % higher (87 → 99 mm).
 - The offsets belong to these clips; re-derive them if the gaits are re-authored. The constants come from the desert path with the lead
   forced; the village and a steeper change were not tried.
 - Not checked: the village, a phone, the production build, the anatomy page; the motion by eye (two stills).
+
+### 3o. Trot ↔ canter for both leads (fifteenth pass, 28 Oct)
+
+**What I was asked to try:** let the trot → canter alignment work for both leads by changing how a lead change blends the right and left
+canters, which the alignment puts half a cycle apart (hold the old relative offset only while the blend is between 0 and 1, or shorten
+the blend). **What I found first:** the premise is weaker than I said in §3n, and a change to the blend is not needed.
+
+**Lead changes by flip phase.** The blend between the right and left canters follows the lead at 3 per second. I made the rate a QA
+setting and flipped the lead at 20 (later 24) evenly spaced phases of the stride, in both directions, at a steady 5.2 m/s on the desert
+path, measuring the 1.5 s after the flip (planted-foot maximum, slip, frames over 5 m/s on the ground, largest lock jump; right → left /
+left → right):
+
+| Configuration | Worst planted-foot frame (m/s) | Mean | Slip (m/s) | Frames over 5 m/s per flip | Largest jump (mm) |
+| --- | --- | --- | --- | --- | --- |
+| Committed (both canters 0.52), rate 3 | 15.2 / 14.0 | 4.0 / 4.1 | 0.65 / 0.63 | 8.3 / 9.6 | 121 / 119 |
+| Committed, rate 30 | 21.6 / 21.5 | 6.3 / 6.4 | 1.10 / 1.10 | 4.6 / 4.7 | 240 / 222 |
+| Aligned (0.765 / 0.265), rate 3 | 12.5 / 13.5 | 3.8 / 3.7 | 0.60 / 0.58 | 6.0 / 5.3 | 116 / 116 |
+| Aligned, rate 12 | 15.6 / 16.8 | 5.3 / 5.4 | 0.81 / 0.79 | 4.9 / 5.3 | 128 / 128 |
+| Aligned, rate 30 | 23.9 / 22.4 | 9.1 / 8.6 | 1.25 / 1.21 | 4.5 / 4.9 | 246 / 247 |
+
+- **The committed lead change is already flawed**: at 2–3 of every 20 flip phases it throws a foot at 8–15 m/s. My earlier check
+  (§3m's lead flips) used twelve arbitrary phases and missed those narrow windows.
+- **Shortening the blend is worse**, in both configurations (faster blends: worst frame, slip and jump all up).
+- **A longer blend is worse too** (aligned, three-second window, frames over 5 m/s per flip, right → left / left → right): rate 3 6.0 / 5.3,
+  rate 2 9.1 / 7.5, 1.5 12.3 / 11.7, 1 18.3 / 17.4, 0.6 30.9 / 28.8; committed at rate 1.5 15.9 / 19.9. The present rate is near the best.
+- **Aligned is not worse than committed at rate 3**: a lower worst frame, mean, slip and jump, fewer frames over 5 m/s.
+
+So the campus "regression" of §3n (slip 0.18 → 0.31 m/s, a 14.1 m/s frame at 13.8 s) was sampling. The four starting phases happened to
+flip the lead at one of the aligned configuration's bad phases and at none of the committed one's. Twelve phases on the campus beat (8–16 s,
+1/120 s), committed against aligned canter: slip 0.37 → 0.39 m/s, ground rms 1.45 → 1.19, frames over 5 m/s 252 → 161, largest jump 141 →
+115 mm, worst planted-foot frame 15.2 → 14.9 m/s (3 phases of 12 over 8 m/s committed, 4 aligned).
+
+**The chain.** Aligning canter → gallop for each lead means the gallops are half a cycle apart as well (each gallop plays 0.9025 of a
+cycle after its canter: right 0.6675, left 0.1675). The candidate is therefore canter 0.765 / 0.265 and gallop and sprint 0.6675 / 0.1675.
+Twelve phases, both leads forced, the current commit (canter 0.52, gallop 0.4225) → the candidate (slip / ground rms / frames over 5 m/s /
+largest jump):
+
+| | Speed-up | Slow-down |
+| --- | --- | --- |
+| Trot ↔ canter, right | 0.32 / 1.72 / 92 / 151 → 0.20 / 1.16 / 33 / 93 | 0.25 / 1.60 / 96 / 113 → 0.23 / 1.12 / 40 / 88 |
+| Trot ↔ canter, left | 0.28 / 1.47 / 79 / 141 → 0.19 / 1.10 / 33 / 93 | 0.44 / 1.53 / 93 / 118 → 0.23 / 1.12 / 38 / 88 |
+| Canter ↔ gallop, right | 0.33 / 1.17 / 42 / 77 → 0.34 / 1.16 / 37 / 78 | 0.22 / 0.97 / 21 / 75 → 0.22 / 0.97 / 21 / 75 |
+| Canter ↔ gallop, left | 0.35 / 1.06 / 20 / 62 → 0.35 / 1.04 / 18 / 61 | 0.25 / 0.95 / 21 / 59 → 0.26 / 0.94 / 21 / 60 |
+
+All four trot ↔ canter cells pass the rule of §3n (0.55–0.69) and the canter ↔ gallop gains are kept.
+
+**Lead changes with the candidate** (24 flip phases, 3 s after the flip, both directions; current → candidate):
+
+| | Bad phases (≥ 8 m/s) | Worst | Mean | Slip | Frames over 5 m/s | Largest jump |
+| --- | --- | --- | --- | --- | --- | --- |
+| Canter 5.2 m/s, right → left | 2 → 4 of 24 | 15.2 → 12.5 | 3.5 → 4.2 | 0.42 → 0.47 | 7.9 → 6.0 | 123 → 109 mm |
+| Canter 5.2 m/s, left → right | 2 → 3 | 14.0 → 13.8 | 3.6 → 3.7 | 0.40 → 0.44 | 9.1 → 5.0 | 120 → 116 |
+| Gallop 9 m/s, right → left | 3 → 3 | 9.1 → 10.1 | 3.0 → 6.0 | 0.56 → 0.79 | 2.4 → 32.5 | 98 → 175 |
+| Gallop 9 m/s, left → right | 1 → 3 | 8.1 → 9.4 | 2.7 → 6.1 | 0.50 → 0.85 | 1.5 → 33.3 | 96 → 174 |
+
+At canter speed the lead change is a wash (it is slightly worse in slip, +12 % and +10 %, which just misses the "no ratio up by more
+than 10 %" clause for right → left, and in the number of bad phases, better in frames and jump; I treat it as noise on 2–4 bad phases in
+24). At a gallop it is much worse. **The film does not change lead in a gallop**: the desert path has one lead change, at 0.3 m/s as it
+sets off, none at canter or gallop (largest yaw rate 0.13 rad/s), and the campus has one per run, at 5.2 m/s. But the engine allows it.
+
+**Change** (`locomotion.ts` only; `footlock.ts` untouched; the blend rate stays 3):
+- `PHASE_OFFSET`: canter 0.765 (right) and 0.265 (left), gallop and sprint 0.6675 and 0.1675.
+- **The lead is not changed above `LEAD_CHANGE_MAX_MPS` = 5.5 m/s**, just under the gallop band (6.0), so a blend begun in the canter ends
+  before the gallop clips have any weight. Tested by steering: a right turn at 9 m/s (yaw up to 0.58 rad/s) leaves the lead alone; the same
+  turn at 5.2 m/s changes it at the start and the end as before; slowing from 9 to 4 m/s through the turn changes it at 5.49 m/s. A gallop
+  turn is therefore taken on the previous lead, which is visual only.
+
+**Result** (previous commit → now; twelve starting phases; the same session):
+
+| Test | Before → now |
+| --- | --- |
+| Stop from 3.4 m/s | identical |
+| Stop from 5.2 m/s, 1/120 s: planted-foot rms / max | 0.48 / 14.6 → 0.37 / 7.1 m/s |
+| The same: unlocked, ground rms / max | 1.0 → 0.4 %, 1.18 / 22.8 → 0.91 / 15.1 |
+| The same: frames over 5 m/s (pose / lock / mixed), largest jump | 115 (61 / 13 / 41) → 62 (22 / 18 / 22), 119 → 88 mm |
+| Stop from 10 m/s, 1/120 s: frames over 5 m/s (pose / lock / mixed) | 122 (66 / 8 / 48) → 75 (18 / 18 / 39) |
+| The same: ground rms, largest jump | 1.15 → 0.96, 118 → 91 mm |
+| Desert beat, whole, frames over 5 m/s / ground rms / largest jump | 167 / 1.10 / 139 → 122 / 1.01 / 92 |
+| Desert trot → canter window: slip / frames over 5 m/s / jump | 0.34 / 73 / 139 → 0.24 / 33 / 92 |
+| Desert canter → gallop window: frames over 5 m/s / jump | 18 / 71 → 14 / 74 |
+| Desert sprint → gallop window: jump | 83 → 91 mm |
+| Campus start (0–3 s), 1/120 s and 1/60 s | unchanged (0.05 and 0.03 m/s slip) |
+| Campus beat with its lead change, 1/120 s: slip / ground rms / frames over 5 m/s | 0.43 / 1.59 / 229 → 0.44 / 1.26 / 138 |
+| The same: worst planted-foot frame, largest jump | 15.2 → 14.9 m/s, 141 → 115 mm |
+| Campus beat, 1/60 s: slip / frames over 5 m/s / jump | 0.40 / 119 / 262 → 0.35 / 64 / 211 |
+| End beat, 1/120 s: planted-foot rms / max, unlocked | 0.56 / 13.8 → 0.41 / 7.9 m/s, 0.9 → 0.4 % |
+| The same: ground rms / max, frames over 5 m/s, jump p99 / largest | 1.37 / 21.5 → 1.11 / 15.0, 216 → 135, 42 / 120 → 40 / 90 |
+| End beat, 1/60 s: planted-foot rms / max, frames over 5 m/s | 0.52 / 10.2 → 0.51 / 11.8, 98 → 66 |
+| Steady 5.2, 8 and 11.5 m/s, both leads | identical (slip 0.11 / 0.27–0.30 / 0.54, every stance locked) |
+
+`npm test` 84 / 84; lint and typecheck clean on the film module. One frame at 1440 px in the middle of a trot → canter change
+(`docs/qa/film/gait_change_trot_canter_r16_1440.png`) and one at 390 px after a stop from 5.2 m/s (`docs/qa/film/stop_from_canter_r16_390.png`):
+natural poses, hooves seated, no overflow.
+
+**Left as it is**
+- **The lead change has narrow bad phases in every configuration** (a foot at 8–15 m/s at 2–4 of 24 flip phases at canter speed). The
+  clean fix is to start the change at a good phase (a phase-gated lead change); I did not try it.
+- **In the stops from 5.2 and 10 m/s the lock-driven frames over 5 m/s rose** (13 → 18, 8 → 18) while the pose-driven ones fell from 61 to
+  22 and from 66 to 18; one figure is worse at 1/60 s (the end beat's planted-foot maximum 10.2 → 11.8 m/s) and the desert's sprint → gallop
+  jump is 10 % higher.
+- A turn at a gallop is taken on the previous lead (the gate); a right and a left gallop half a cycle apart would otherwise blend badly.
+- The offsets belong to these clips; re-derive them if the gaits are re-authored. The village, a steeper change, a phone, the production
+  build, the anatomy page and the motion by eye (two stills) were not checked.
 
 ## 4. Performance (measured, not estimated)
 

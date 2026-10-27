@@ -53,19 +53,27 @@ const CLIPS = { walk: "Walk", trot: "Trot", canterR: "Canter_R", canterL: "Cante
  * is the one that minimises the root-frame distance between the feet of the two clips that cross-fade, from the clips' toe paths, the stance
  * feet counted in full and the feet that are in swing in both at a quarter:
  *   walk 0, trot 0.52 (walk to trot 59 to 31 cm rms; 0.49-0.57 all work, 0.60 and above do not);
- *   canter 0.52, as the trot: the right canter wants 0.245 more, the left one 0.745 more (the trot is symmetric under a half cycle and a
- *   left-right swap, the canters are not), and a lead change blends the two, which half a cycle apart threw a foot at 14 m/s;
- *   gallop 0.4225 (canter to gallop 48 to 34 cm rms, 81 to 87 % of the feet agreeing on stance, the same for both leads; 0.900-0.905 is
- *   the window in which no 5 m/s frame appears in the cross-fade) and sprint as the gallop (they are 12 cm apart at the same phase).
- * Kept only where it improved both the speed-up and the slow-down on twelve starting phases and both leads (report section 3n).
+ *   canter: the right canter 0.245 further than the trot (0.765), the left one half a cycle more (0.265), because the trot is symmetric
+ *   under a half cycle and a left-right swap and the canters are not (trot to canter 55 to 42 cm rms, 54 to 69 % of the feet agreeing on
+ *   stance; the right lead's window is 0.23-0.255 further than the trot);
+ *   gallop 0.9025 further than its canter (right 0.6675, left 0.1675; canter to gallop 48 to 34 cm, 81 to 87 % agreeing; 0.900-0.905 is the
+ *   window in which no 5 m/s frame appears in the cross-fade), sprint as the gallop (they are 12 cm apart at the same phase).
+ * The right and left canters (and gallops) are therefore half a cycle apart, which makes a lead change between them worse than it was with
+ * both at the same offset, at a gallop much worse (frames over 5 m/s per change 2 to 33); the lead is not changed in a gallop (LEAD_CHANGE_MAX_MPS).
+ * Kept only where it improved both the speed-up and the slow-down on twelve starting phases and both leads (report sections 3n and 3o).
  * Re-derive them if the gaits are re-authored.
  */
 const GAIT_PHASE_OFFSET = 0.52;
-const GALLOP_PHASE_OFFSET = 0.4225;
+const CANTER_PHASE_OFFSET = { R: 0.765, L: 0.265 };
+const GALLOP_PHASE_OFFSET = { R: 0.6675, L: 0.1675 };
 const PHASE_OFFSET: Record<string, number> = {
-  [CLIPS.trot]: GAIT_PHASE_OFFSET, [CLIPS.canterR]: GAIT_PHASE_OFFSET, [CLIPS.canterL]: GAIT_PHASE_OFFSET,
-  [CLIPS.gallopR]: GALLOP_PHASE_OFFSET, [CLIPS.gallopL]: GALLOP_PHASE_OFFSET, [CLIPS.sprintR]: GALLOP_PHASE_OFFSET, [CLIPS.sprintL]: GALLOP_PHASE_OFFSET,
+  [CLIPS.trot]: GAIT_PHASE_OFFSET,
+  [CLIPS.canterR]: CANTER_PHASE_OFFSET.R, [CLIPS.canterL]: CANTER_PHASE_OFFSET.L,
+  [CLIPS.gallopR]: GALLOP_PHASE_OFFSET.R, [CLIPS.gallopL]: GALLOP_PHASE_OFFSET.L,
+  [CLIPS.sprintR]: GALLOP_PHASE_OFFSET.R, [CLIPS.sprintL]: GALLOP_PHASE_OFFSET.L,
 };
+/** The horse does not change lead above this speed (m/s), just under the gallop band: a blend started in the canter ends before the gallop clips have any weight. */
+const LEAD_CHANGE_MAX_MPS = 5.5;
 
 export type Telemetry = {
   time: number;
@@ -252,8 +260,10 @@ export class Locomotor {
     this.accelLocal.set(this.tmp.dot(this.forward), this.tmp.x * Math.cos(this.heading) - this.tmp.z * Math.sin(this.heading));
 
     // lead follows the direction of the turn (inside leg leads)
-    if (this.yawRate > 0.08) this.lead = "L";
-    else if (this.yawRate < -0.08) this.lead = "R";
+    if (this.speed < LEAD_CHANGE_MAX_MPS) {
+      if (this.yawRate > 0.08) this.lead = "L";
+      else if (this.yawRate < -0.08) this.lead = "R";
+    }
     this.leadMix = damp(this.leadMix, this.lead === "L" ? 1 : 0, 3, dt);
 
     // ---- gait blend from speed

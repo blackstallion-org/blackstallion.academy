@@ -281,7 +281,8 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   village, phone, build, anatomy page not checked. See report §3m.
 - [x] **Session 28 Oct 2026 · Trot-canter and canter-gallop alignment, with twelve phases and both leads** (`locomotion.ts` only; no new
   assets). Method: stance-weighted foot-position cost at 80 phase samples, then twelve starting phases, the lead forced, four transitions
-  as speed-ups and slow-downs, and a keep rule fixed beforehand. **Trot -> canter is not kept:** each lead at its own optimum (right
+  as speed-ups and slow-downs, and a keep rule fixed beforehand. **Trot -> canter is not kept (reversed in the next entry: the campus
+  "regression" was four-phase luck):** each lead at its own optimum (right
   +0.245, left +0.745) improves both directions (frames over 5 m/s 92 -> 33 and 96 -> 40 right, 79 -> 33 and 93 -> 38 left), but the
   campus beat gets worse at the lead change (slip 0.18 -> 0.31 m/s, a 14.1 m/s frame mid lead change); a common offset helps one lead and
   hurts the other (the trot is symmetric under half a cycle plus a left-right swap, the canters are not). **Canter -> gallop is kept:** one
@@ -293,6 +294,20 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   baseline had the left canter half a cycle off the committed one and was redone. **Not done:** aligning trot with canter for both leads
   (needs a lead-change blend of clips half a cycle apart, or re-authored clips). Stills only; village, phone, build, anatomy page not
   checked. See report §3n.
+- [x] **Session 28 Oct 2026 (later) · Trot-canter alignment for both leads, kept** (`locomotion.ts` only; no new assets). Asked to change
+  how a lead change blends canters half a cycle apart; found it is not needed. Flipping the lead at 20-24 phases of the stride shows the
+  committed lead change already throws a foot at 8-15 m/s at 2-3 of 20 phases (my earlier 12-phase check missed them), the aligned canters
+  are no worse at the present rate 3 (worst frame 15.2 -> 12.5 m/s, frames over 5 m/s 8.3 -> 6.0, jump 121 -> 116 mm; slip +10-12 %), and
+  both faster and slower blends are worse. The campus "regression" of the previous entry was four-phase luck (twelve phases: slip 0.37 ->
+  0.39, ground rms 1.45 -> 1.19, worst frame 15.2 -> 14.9 m/s). Kept: canter 0.765 right / 0.265 left (half a cycle apart), gallop and
+  sprint 0.6675 / 0.1675 (so canter -> gallop stays aligned for each lead). Twelve phases, previous commit -> now: trot <-> canter frames
+  over 5 m/s 92 -> 33 and 96 -> 40 right, 79 -> 33 and 93 -> 38 left; stop from 5.2 m/s planted-foot max 14.6 -> 7.1 m/s, frames over
+  5 m/s 115 -> 62; desert beat 167 -> 122 and jump 139 -> 92 mm; campus beat ground rms 1.59 -> 1.26, frames 229 -> 138; end beat planted
+  max 13.8 -> 7.9 m/s; steady gaits and starts unchanged. **Cost:** a lead change at gallop speed becomes much worse (frames over 5 m/s per
+  change 2 -> 33), so the lead is no longer changed above 5.5 m/s (`LEAD_CHANGE_MAX_MPS`; the film has no lead change at gallop; a gallop
+  turn keeps the previous lead). Also worse by a little: lock-driven frames in the 5.2 and 10 m/s stops (13 -> 18, 8 -> 18), the end beat's
+  1/60 s planted max (10.2 -> 11.8), the desert sprint -> gallop jump (+10 %). **Not done:** a phase-gated lead change (the committed one
+  has narrow bad phases). Stills only; village, phone, build, anatomy page not checked. See report §3o.
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.
