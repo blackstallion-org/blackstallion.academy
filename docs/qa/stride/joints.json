@@ -1,0 +1,68 @@
+{
+ "elbow": {
+  "authored": [
+   101.7,
+   136.8
+  ],
+  "held": [
+   101.7,
+   136.8
+  ],
+  "maxChangeDeg": 0.5
+ },
+ "carpus": {
+  "authored": [
+   106.6,
+   178.1
+  ],
+  "held": [
+   106.6,
+   179.7
+  ],
+  "maxChangeDeg": 4.1
+ },
+ "fetlockF": {
+  "authored": [
+   123,
+   172.7
+  ],
+  "held": [
+   123,
+   176.5
+  ],
+  "maxChangeDeg": 28.2
+ },
+ "stifle": {
+  "authored": [
+   106.4,
+   140.2
+  ],
+  "held": [
+   106.4,
+   140.2
+  ],
+  "maxChangeDeg": 2.3
+ },
+ "hock": {
+  "authored": [
+   94.8,
+   153.9
+  ],
+  "held": [
+   94.8,
+   153.9
+  ],
+  "maxChangeDeg": 3.3
+ },
+ "fetlockH": {
+  "authored": [
+   160.1,
+   179.5
+  ],
+  "held": [
+   144.1,
+   179.5
+  ],
+  "maxChangeDeg": 22.4
+ }
+}
