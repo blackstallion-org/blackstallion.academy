@@ -8,13 +8,6 @@
 /* ---------- the invitation section: a split screen, 40% words and 60% stage ---------- */
 
 .invitation {
-  /* the invitation's own palette: obsidian charcoal, warm ivory, antique brass, deep forest, saddle leather */
-  --inv-obsidian: #171916;
-  --inv-ivory: #f3efe5;
-  --inv-brass: #b69a64;
-  --inv-forest: #24352b;
-  --inv-leather: #815b43;
-  --inv-line: color-mix(in srgb, var(--inv-brass) 28%, transparent);
   display: grid;
   gap: clamp(2.5rem, 6vw, 4rem);
   padding-block: clamp(5rem, 12vh, 10rem);
@@ -58,72 +51,12 @@
   margin-top: 2rem;
 }
 
-/* a fine brass underline that draws in from the left */
-.line {
-  display: inline-block;
-  padding-bottom: 0.4rem;
-  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
-  transition: background-size 0.55s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s ease;
-}
-
-.cta {
-  min-height: 2.75rem;
-  padding: 0.9rem 1.6rem;
-  border: 1px solid var(--inv-brass);
-  background: transparent;
-  color: var(--inv-brass);
-  font-family: var(--font-label, inherit);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.35s ease, border-color 0.35s ease, background-color 0.35s ease;
-}
-
-.cta:hover,
-.cta:focus-visible {
-  background: color-mix(in srgb, var(--inv-brass) 10%, transparent);
-  color: var(--inv-ivory);
-}
-
-.cta:hover .line,
-.cta:focus-visible .line,
-.access:hover,
-.access:focus-visible {
-  background-size: 100% 1px;
-}
-
-.cta .line {
-  padding-bottom: 0;
-}
-
-.access {
-  color: var(--inv-ivory);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.access:hover {
-  color: var(--inv-brass);
-}
-
 .panel {
   min-width: 0;
   border: 1px solid var(--inv-line);
   background:
     radial-gradient(ellipse 70% 62% at 50% 46%, color-mix(in srgb, var(--inv-forest) 70%, transparent), transparent 78%),
     var(--inv-obsidian);
-}
-
-.caption {
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--inv-ivory) 55%, transparent);
 }
 
 /* soft key light that drifts toward the pointer */
@@ -143,7 +76,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  height: clamp(22rem, 98cqw, 50rem);
+  height: clamp(22rem, 98cqw, min(50rem, 74svh)); /* never taller than the screen, so the opened lid stays in view */
   cursor: grab;
   touch-action: pan-y; /* horizontal drags turn the box; vertical swipes still scroll the page */
   user-select: none;
@@ -519,9 +452,5 @@
   }
   .light {
     display: none;
-  }
-  .line,
-  .cta {
-    transition: none;
   }
 }

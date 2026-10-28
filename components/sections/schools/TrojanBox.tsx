@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { AnimatePresence, animate, motion, useAnimationFrame, useInView, useMotionValue, useTransform } from "motion/react";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { Headline } from "@/components/film/Headline";
 import { Reveal } from "@/components/film/Reveal";
 import { Label } from "@/components/film/Marks";
+import { LineLink, OutlineButton, captionClass, invitationTheme } from "@/components/film/OutlineControls";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -119,10 +119,10 @@ export function TrojanBox() {
   };
 
   return (
-    <section aria-labelledby="trojan-h" className={cn(styles.invitation, "tone-dark gutter")}>
+    <section aria-labelledby="trojan-h" className={cn(invitationTheme, styles.invitation, "tone-dark gutter")}>
       <div className={styles.copy}>
         <Label className="text-brass">BSAH · Sovereign invitation</Label>
-        <Headline id="trojan-h" className="mt-5" inscription="The Sovereign" voice="invitation." />
+        <Headline id="trojan-h" className="mt-5 text-[clamp(3rem,4.7vw,4.4rem)]" inscription="The Sovereign" voice="invitation." />
         <div className={styles.rule} aria-hidden="true" />
         <div className={styles.words} aria-live="polite">
           <AnimatePresence mode="wait" initial={false}>
@@ -147,9 +147,9 @@ export function TrojanBox() {
           </AnimatePresence>
         </div>
         <div className={styles.actions}>
-          <button type="button" aria-pressed={open} onClick={toggle} className={styles.cta}>
-            <span className={styles.line}>{open ? "Close the invitation" : "Open the invitation"}</span>
-          </button>
+          <OutlineButton aria-pressed={open} onClick={toggle}>
+            {open ? "Close the invitation" : "Open the invitation"}
+          </OutlineButton>
           <AnimatePresence>
             {open ? (
               <motion.span
@@ -158,9 +158,7 @@ export function TrojanBox() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: reduced ? 0 : 0.45, ease: ease.citadel, delay: reduced ? 0 : 0.5 }}
               >
-                <Link href="/schools/access" className={cn(styles.line, styles.access)}>
-                  Request sovereign access
-                </Link>
+                <LineLink href="/schools/access">Request sovereign access</LineLink>
               </motion.span>
             ) : null}
           </AnimatePresence>
@@ -256,7 +254,7 @@ export function TrojanBox() {
 
         <div className={styles.controls}>
           <label className={styles.turn}>
-            <span className={styles.caption}>Turn</span>
+            <span className={captionClass}>Turn</span>
             <input
               ref={rangeRef}
               type="range"
@@ -268,7 +266,7 @@ export function TrojanBox() {
               onInput={(event) => onSlide(Number(event.currentTarget.value))}
             />
           </label>
-          <span className={styles.caption} aria-hidden="true">
+          <span className={captionClass} aria-hidden="true">
             Drag the box to turn it
           </span>
         </div>
