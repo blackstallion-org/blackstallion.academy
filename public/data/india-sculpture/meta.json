@@ -1,0 +1,508 @@
+{
+ "version": 1,
+ "projection": {
+  "proj4": "+proj=lcc +lat_1=12.472955 +lat_2=35.172805 +lat_0=24 +lon_0=80 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs",
+  "centre_m": [
+   244699.39948385255,
+   -191128.49101547664
+  ]
+ },
+ "unit_m": 250000.0,
+ "exaggeration": 12.0,
+ "slab": 0.1,
+ "floor": -0.34,
+ "bevel": 0.03,
+ "plate": {
+  "x": [
+   -6.944,
+   6.944
+  ],
+  "z": [
+   -7.744,
+   7.744
+  ]
+ },
+ "max_elevation_m": 8016.0751953125,
+ "grid_cell_m": 2000.0,
+ "sources": [
+  {
+   "what": "National outline and neighbours",
+   "name": "Natural Earth 1:10m admin-0 countries, India point of view",
+   "licence": "public domain",
+   "url": "https://www.naturalearthdata.com/"
+  },
+  {
+   "what": "Rivers",
+   "name": "Natural Earth 1:10m rivers and lake centrelines",
+   "licence": "public domain",
+   "url": "https://www.naturalearthdata.com/"
+  },
+  {
+   "what": "Terrain",
+   "name": "Terrain Tiles (Terrarium, zoom 7): SRTM and other public sources, composited by Mapzen",
+   "licence": "open data, attribution required",
+   "url": "https://github.com/tilezen/joerd/blob/master/docs/attribution.md"
+  }
+ ],
+ "variants": {
+  "hi": {
+   "vertices": 110264,
+   "triangles": 189868,
+   "bytes_gzip": 1339781,
+   "error": {
+    "india_p50_m": 9.876715243643943,
+    "india_p95_m": 53.09942535530956,
+    "india_p99_m": 73.57566517456604,
+    "india_max_m": 399.5250278102553,
+    "other_p95_m": 248.30344753950703
+   }
+  },
+  "lo": {
+   "vertices": 40463,
+   "triangles": 66866,
+   "bytes_gzip": 483014,
+   "error": {
+    "india_p50_m": 20.949570314796148,
+    "india_p95_m": 130.653668375912,
+    "india_p99_m": 190.6965105030472,
+    "india_max_m": 984.1735515220689,
+    "other_p95_m": 376.4035864122534
+   }
+  }
+ },
+ "india": {
+  "x": [
+   -5.719127549859168,
+   5.719129237065614
+  ],
+  "z": [
+   -6.528090185707931,
+   6.528088747355133
+  ]
+ },
+ "places": [
+  {
+   "id": "hyderabad",
+   "lon": 78.4867,
+   "lat": 17.385,
+   "x": -1.6136390117935833,
+   "z": 2.110812604290351,
+   "elevation_m": 498,
+   "inside_india": true
+  },
+  {
+   "id": "new-delhi",
+   "lon": 77.209,
+   "lat": 28.6139,
+   "x": -2.0528118145569327,
+   "z": -2.782287247579377,
+   "elevation_m": 218,
+   "inside_india": true
+  },
+  {
+   "id": "mumbai",
+   "lon": 72.8777,
+   "lat": 19.076,
+   "x": -3.928165639572248,
+   "z": 1.3018921216621573,
+   "elevation_m": 7,
+   "inside_india": true
+  },
+  {
+   "id": "bengaluru",
+   "lon": 77.5946,
+   "lat": 12.9716,
+   "x": -2.0209385550053223,
+   "z": 4.0434162774900475,
+   "elevation_m": 910,
+   "inside_india": true
+  },
+  {
+   "id": "dehradun",
+   "lon": 78.0322,
+   "lat": 30.3165,
+   "x": -1.725672631669204,
+   "z": -3.520505973091585,
+   "elevation_m": 649,
+   "inside_india": true
+  },
+  {
+   "id": "kolkata",
+   "lon": 88.3639,
+   "lat": 22.5726,
+   "x": 2.393930894129513,
+   "z": -0.24456952270203375,
+   "elevation_m": 9,
+   "inside_india": true
+  },
+  {
+   "id": "marwar",
+   "lon": 73.0243,
+   "lat": 26.2389,
+   "x": -3.7133989837919064,
+   "z": -1.8052148283000478,
+   "elevation_m": 217,
+   "inside_india": true
+  },
+  {
+   "id": "jaipur",
+   "lon": 75.7873,
+   "lat": 26.9124,
+   "x": -2.6219228531117924,
+   "z": -2.0550478101445235,
+   "elevation_m": 430,
+   "inside_india": true
+  }
+ ],
+ "rivers": [
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 2067
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 297
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 97
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 156
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 356
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 241
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 73
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 91
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 69
+  },
+  {
+   "id": "ganges",
+   "name": "Ganga",
+   "rank": 3,
+   "flow": true,
+   "length_km": 66
+  },
+  {
+   "id": "brahmaputra",
+   "name": "Brahmaputra",
+   "rank": 3,
+   "flow": true,
+   "length_km": 745
+  },
+  {
+   "id": "brahmaputra",
+   "name": "Brahmaputra",
+   "rank": 3,
+   "flow": true,
+   "length_km": 133
+  },
+  {
+   "id": "brahmaputra",
+   "name": "Brahmaputra",
+   "rank": 3,
+   "flow": true,
+   "length_km": 1045
+  },
+  {
+   "id": "godavari",
+   "name": "Godavari",
+   "rank": 3,
+   "flow": true,
+   "length_km": 1309
+  },
+  {
+   "id": "godavari",
+   "name": "Godavari",
+   "rank": 3,
+   "flow": true,
+   "length_km": 79
+  },
+  {
+   "id": "krishna",
+   "name": "Krishna",
+   "rank": 3,
+   "flow": true,
+   "length_km": 1164
+  },
+  {
+   "id": "narmada",
+   "name": "Narmada",
+   "rank": 3,
+   "flow": true,
+   "length_km": 1115
+  },
+  {
+   "id": "indus",
+   "name": "Indus",
+   "rank": 3,
+   "flow": false,
+   "length_km": 1591
+  },
+  {
+   "id": "indus",
+   "name": "Indus",
+   "rank": 3,
+   "flow": false,
+   "length_km": 1020
+  },
+  {
+   "id": "yamuna",
+   "name": "Yamuna",
+   "rank": 2,
+   "flow": true,
+   "length_km": 339
+  },
+  {
+   "id": "yamuna",
+   "name": "Yamuna",
+   "rank": 2,
+   "flow": true,
+   "length_km": 937
+  },
+  {
+   "id": "yarlung",
+   "name": "Yarlung Tsangpo",
+   "rank": 2,
+   "flow": false,
+   "length_km": 745
+  },
+  {
+   "id": "tapi",
+   "name": "Tapi",
+   "rank": 2,
+   "flow": false,
+   "length_km": 636
+  },
+  {
+   "id": "cauvery",
+   "name": "Kaveri",
+   "rank": 2,
+   "flow": false,
+   "length_km": 119
+  },
+  {
+   "id": "cauvery",
+   "name": "Kaveri",
+   "rank": 2,
+   "flow": false,
+   "length_km": 426
+  },
+  {
+   "id": "cauvery",
+   "name": "Kaveri",
+   "rank": 2,
+   "flow": false,
+   "length_km": 111
+  },
+  {
+   "id": "cauvery",
+   "name": "Kaveri",
+   "rank": 2,
+   "flow": false,
+   "length_km": 113
+  },
+  {
+   "id": "sutlej",
+   "name": "Sutlej",
+   "rank": 2,
+   "flow": false,
+   "length_km": 1367
+  },
+  {
+   "id": "beas",
+   "name": "Beas",
+   "rank": 1,
+   "flow": false,
+   "length_km": 191
+  },
+  {
+   "id": "beas",
+   "name": "Beas",
+   "rank": 1,
+   "flow": false,
+   "length_km": 181
+  },
+  {
+   "id": "ravi",
+   "name": "Ravi",
+   "rank": 1,
+   "flow": false,
+   "length_km": 346
+  },
+  {
+   "id": "ravi",
+   "name": "Ravi",
+   "rank": 1,
+   "flow": false,
+   "length_km": 337
+  },
+  {
+   "id": "chenab",
+   "name": "Chenab",
+   "rank": 1,
+   "flow": false,
+   "length_km": 319
+  },
+  {
+   "id": "chenab",
+   "name": "Chenab",
+   "rank": 1,
+   "flow": false,
+   "length_km": 728
+  },
+  {
+   "id": "jhelum",
+   "name": "Jhelum",
+   "rank": 1,
+   "flow": false,
+   "length_km": 596
+  },
+  {
+   "id": "jhelum",
+   "name": "Jhelum",
+   "rank": 1,
+   "flow": false,
+   "length_km": 135
+  },
+  {
+   "id": "chambal",
+   "name": "Chambal",
+   "rank": 1,
+   "flow": false,
+   "length_km": 857
+  },
+  {
+   "id": "betwa",
+   "name": "Betwa",
+   "rank": 1,
+   "flow": false,
+   "length_km": 564
+  },
+  {
+   "id": "son",
+   "name": "Son",
+   "rank": 1,
+   "flow": false,
+   "length_km": 734
+  },
+  {
+   "id": "gandak",
+   "name": "Gandak",
+   "rank": 1,
+   "flow": false,
+   "length_km": 643
+  },
+  {
+   "id": "tista",
+   "name": "Teesta",
+   "rank": 1,
+   "flow": false,
+   "length_km": 324
+  },
+  {
+   "id": "brahmani",
+   "name": "Brahmani",
+   "rank": 1,
+   "flow": false,
+   "length_km": 406
+  },
+  {
+   "id": "bhima",
+   "name": "Bhima",
+   "rank": 1,
+   "flow": false,
+   "length_km": 723
+  },
+  {
+   "id": "tungabhadra",
+   "name": "Tungabhadra",
+   "rank": 1,
+   "flow": false,
+   "length_km": 350
+  },
+  {
+   "id": "tungabhadra",
+   "name": "Tungabhadra",
+   "rank": 1,
+   "flow": false,
+   "length_km": 256
+  },
+  {
+   "id": "wainganga",
+   "name": "Wainganga",
+   "rank": 1,
+   "flow": false,
+   "length_km": 637
+  },
+  {
+   "id": "penner",
+   "name": "Penna",
+   "rank": 1,
+   "flow": false,
+   "length_km": 541
+  },
+  {
+   "id": "mahi",
+   "name": "Mahi",
+   "rank": 1,
+   "flow": false,
+   "length_km": 439
+  },
+  {
+   "id": "indravati",
+   "name": "Indravati",
+   "rank": 1,
+   "flow": false,
+   "length_km": 417
+  }
+ ],
+ "coast": {
+  "file": "coast.png",
+  "width": 217,
+  "height": 242,
+  "falloff_km": 220
+ }
+}

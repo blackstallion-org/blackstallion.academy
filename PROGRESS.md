@@ -458,3 +458,17 @@ Owner brief: an interactive isometric architectural model of the BSAH hub, with 
 - **Measured** (Chromium, dev server, **Apple M2 real GPU**, not a phone; CPU time is the time inside `renderer.render`, GPU time was not measured): 68 / 123 / 145 draw calls and 4.9k / 12.2k / 19.7k triangles for Standard / Signature / Royal; 19-34 geometries, 9-12 textures; mean 0.7-0.8 ms per frame (p95 1.1 ms, max 1.7 ms) while orbiting, rAF cadence 16.67 ms with no dropped frame; **0 frames** drawn when idle, off screen, or back on screen untouched. The low tier (4 cores faked) gave 68 / 145 calls, 4.9k / 17.9k triangles, 0.8 ms mean. No GPU memory growth over nine tier changes. **Not measured:** a real phone or a low-end laptop, GPU frame time, Safari and Firefox.
 - **Verified in a browser:** 1440 x 900 and 390 x 844, every tier, a focus view per building, hover, click in 3D and in the plan, tier changes, reduced motion, no-WebGL, keyboard order, wheel pass-through. Screenshots are in the session notes folder, not the repo.
 - **Not done:** `next build` (the dev server holds `.next`; no build was run from this session); Safari and Firefox; a real touch device; `docs/BLUEPRINT.md` is not updated (the section is outside Part 6's Schools list). `npm run typecheck` and `npm run lint` currently fail only in `components/stride/*` (another session's uncommitted work); nothing under `campus/`, `lib/content/campus*` or `tests/campus.test.mjs` has an error or a warning.
+
+## Session 28 Oct 2026 · India sculpture on /schools (branch `feature/marwari-film-world`)
+
+- **A lit relief model of India** between the Hyderabad section and the Pan-India list (`#sculpture`): real SRTM-derived terrain at 12×, the Survey of
+  India projection, India's outline from Natural Earth (India point of view), 49 river lines on the surface (the six rivers the brief names among them), a dark calm sea,
+  a warm key light with cast shadows, drag to turn, pinch / Ctrl-wheel / buttons to zoom, GSAP fly-to with an editorial card and a line of light.
+  Details, budgets, sources and what was checked: `docs/INDIA_MAP.md`.
+- **Eight markers, no campuses**: the six target circuits (prospects, from `network`) and two heritage places (Marwar, Jaipur). Each card says what the marker is not.
+  One statement is not already on the site (the 61st Cavalry is stationed at Jaipur); the owner should confirm it.
+- Data is built once by `scripts/build-india-map.py` (about 40 s) into `public/data/india-sculpture/`: desktop mesh 190k triangles / 1.34 MB gzip, phone mesh 67k / 0.48 MB.
+- Measured: 60 Hz in a camera move (median 16.6 ms, p95 18.1), 8 draw calls; `tests/india-map.test.mjs` passes (markers equal an independent Lambert conformal conic).
+- Fallbacks: poster plus a card list without WebGL; reduced motion moves in one step with the river light off; the wheel never traps page scroll.
+- **Not done / not measured**: `next build` (dev server holds `.next`, disk under 400 MB free), the production chunk size, a real phone. The hero map (`India3DMap`) is untouched.
+  The Mahanadi is not in the river dataset. `app/schools/page.tsx` carries my two lines; another session's commit `48b109a` had already swept them in before these files were committed.
