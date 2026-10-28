@@ -5,6 +5,8 @@ import { Cta, Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { HubMap, ModelFlow, PanIndiaNetwork, SchoolArenaShowcase, SchoolsTitle } from "@/components/sections/schools/SchoolScenes";
 import { CitadelConfigurator } from "@/components/sections/schools/CitadelConfigurator";
+import { IndiaNetworkMap } from "@/components/sections/schools/india-map/IndiaNetworkMap";
+import { CampusExperience } from "@/components/sections/schools/campus/CampusExperience";
 import { SovereignCouncil } from "@/components/sections/schools/SovereignCouncil";
 import { TrojanBox } from "@/components/sections/schools/TrojanBox";
 import { seals } from "@/lib/content/schools";
@@ -23,10 +25,12 @@ export default function SchoolsPage() {
       <SchoolsTitle />
       <ModelFlow />
       <CitadelConfigurator />
+      <CampusExperience />
       <SchoolArenaShowcase />
       <PageCurtain page="schools" />
       <HorizontalChapter typeface="elegant" chapter="Space to grow" text="A school can give courage room to grow." tone="light" />
       <HubMap />
+      <IndiaNetworkMap />
       <PanIndiaNetwork />
       <SovereignCouncil />
       <TrojanBox />
