@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
-import { Cta, Label } from "@/components/film/Marks";
+import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { ComparisonLedger, PulseLine, ScienceTitle } from "@/components/sections/science/ScienceScenes";
-import { Matrix } from "@/components/sections/home/Matrix";
+import { ComparisonLedger, ScienceTitle } from "@/components/sections/science/ScienceScenes";
+import { DualBody } from "@/components/sections/anatomy/DualBody";
+import { StrideExperience } from "@/components/stride/StrideExperience";
 import { claims, comparison, statusColor } from "@/lib/content/science";
 import { cn } from "@/lib/utils";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
@@ -19,23 +20,12 @@ export default function SciencePage() {
   return (
     <>
       <ScienceTitle />
-      <Matrix />
-      <PulseLine />
+      {/* The two studies that used to be flat 2D plates (the brain, spine, muscle and heart panel, and the "hundred steps" photograph)
+          are the 3D versions now: the rider and the horse with their systems, then the stride laboratory. */}
+      <DualBody />
+      <StrideExperience embedded />
       <PageCurtain page="science" />
 
-      {/* a way into the movement study */}
-      <section aria-labelledby="stride-link-h" className="gutter relative py-[clamp(4rem,10vh,8rem)]">
-        <div className="grid items-end gap-8 border-y border-line py-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <div>
-            <Label>See the movement</Label>
-            <Headline id="stride-link-h" className="mt-4" size="3" inscription="A hundred steps." voice="a minute." />
-          </div>
-          <div>
-            <p className="max-w-md text-sand">Watch one stride of the walk in 3D: four beats, a moving back, and a rider&rsquo;s seat that follows. Play it, slow it, scrub it frame by frame.</p>
-            <Cta href="/stride" variant="ghost" className="mt-6">The science of the stride</Cta>
-          </div>
-        </div>
-      </section>
       <ComparisonLedger cols={comparison.cols} rows={comparison.rows} note={comparison.note} />
 
       {/* §4 · S30 footnote ledger */}

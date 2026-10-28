@@ -24,7 +24,7 @@ const REST_PHASE = 0.12; // the still pose under reduced motion: three hooves do
  * from the opening through three beats to the laboratory. Under reduced motion nothing is pinned: the stage is an ordinary block
  * in the laboratory, still until you press play. Without WebGL the stage is the poster and the words and the footfall diagram stay.
  */
-export function StrideExperience() {
+export function StrideExperience({ embedded = false }: { /** True inside another page: the opening then uses an h2. */ embedded?: boolean } = {}) {
   const reduced = useReducedMotion();
   const wide = useMediaQuery("(min-width: 1024px)");
   const roomy = useMediaQuery("(min-width: 1280px)");
@@ -261,7 +261,7 @@ export function StrideExperience() {
       <div className="relative" data-stride-layout={pinned ? (wide ? "pinned-wide" : "pinned-narrow") : "stacked"}>
         {pinned && stage}
         <div className={cn("relative z-10", pinned && "lg:-mt-[100svh] lg:pointer-events-none")}>
-          <Opening ref={openingRef} pinned={pinned} />
+          <Opening ref={openingRef} pinned={pinned} embedded={embedded} />
           {[0, 1, 2].map((i) => (
             <Chapter key={i} ref={(el) => void (chapterEls.current[i] = el)} index={i} pinned={pinned} />
           ))}

@@ -5,7 +5,7 @@ import { StallionBentoGallery } from "@/components/sections/fleet/StallionBentoG
 import { MarwariPortrait } from "@/components/sections/editorial/ReferencePanels";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
-import { FleetCovenantScene } from "@/components/sections/fleet/FleetCovenantScene";
+import { CovenantFrames } from "@/components/sections/fleet/CovenantFrames";
 import { LightTheStable } from "@/components/sections/fleet/LightTheStable";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 export default function FleetPage() {
   return (
     <>
-      <FleetCovenantScene />
       <FleetTitle />
       <MarwariPortrait />
       <PageCurtain page="fleet" />
@@ -26,6 +25,10 @@ export default function FleetPage() {
       <Registry />
       <StallionGallery />
       <CoatRegistry />
+
+      {/* The covenant: close shots, set in the middle of the page (it opened the page before, as a 3D scene). */}
+      <CovenantFrames />
+
       <StallionBentoGallery />
       <LightTheStable />
       <CctvGrid />

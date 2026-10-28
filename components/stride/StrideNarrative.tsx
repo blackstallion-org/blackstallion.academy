@@ -8,7 +8,7 @@ import { AUTHORED_FOOTFALLS, LIMBS, LIMB_SHORT } from "@/lib/stride/constants";
 import { cn } from "@/lib/utils";
 
 /** The opening: the headline, one paragraph, and a cue. The horse and rider stand behind it (or above it on a phone). */
-export const Opening = forwardRef<HTMLElement, { pinned: boolean }>(function Opening({ pinned }, ref) {
+export const Opening = forwardRef<HTMLElement, { pinned: boolean; /** Inside another page (the science page owns the h1). */ embedded?: boolean }>(function Opening({ pinned, embedded }, ref) {
   return (
     <section
       ref={ref}
@@ -18,7 +18,7 @@ export const Opening = forwardRef<HTMLElement, { pinned: boolean }>(function Ope
       <div className="max-w-[46rem]">
         <p className="label text-brass">The science of the stride</p>
         <Headline
-          as="h1"
+          as={embedded ? "h2" : "h1"}
           id="stride-title"
           size="1"
           animate="mount"

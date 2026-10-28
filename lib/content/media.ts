@@ -119,12 +119,17 @@ export const media = {
     alt: "Classical marble and bronze equestrian sculpture of a warrior riding a rearing stallion against deep black",
     focus: "50% 35%",
   },
-  bondField: {
-    file: "/images/bond-field-horizontal.webp",
-    remote: "/images/bond-field-horizontal.webp",
-    alt: "A rider kneeling eye-to-eye with an untethered stallion in an open pasture",
-    focus: "50% 50%",
-  },
+  /* The black-and-white kneeling photograph was replaced (28 Oct 2026, owner's request) by a Higgsfield still in colour. */
+  bondField: m("bond-field-cadet.png", "hf_20261028_165202_785301b3-d007-481f-b45e-41a31582485c.png", "A young cadet and a bay Marwari stallion stand forehead to forehead in an open pasture", "50% 50%"),
+
+  /* ---------------------------------------------------- 28 Oct 2026 (Higgsfield cinematic_studio_2_5, 2K, PHOTO style) */
+  covenantStillness: m("covenant-stillness.png", "hf_20261028_165311_3eef4701-086f-447f-90dc-2018d1049416.png", "A young cadet holds an open palm toward a black Marwari stallion's muzzle at dawn, the horse's breath misting between them", "52% 50%"),
+  covenantTouch: m("covenant-touch.png", "hf_20261028_165411_9837d093-a560-4da8-a991-06b702a718b8.png", "A cadet's hand rests on a bay Marwari stallion's muzzle, the sleeve of a black riding jacket and a brass button at the wrist", "58% 45%"),
+  covenantProfile: m("covenant-profile.png", "hf_20261028_165202_b503b969-ec7b-4546-8554-4c9909647898.png", "A young cadet in a velvet riding helmet rests his face against a black stallion's muzzle, eyes closed", "45% 50%"),
+  covenantEye: m("covenant-eye.png", "hf_20261028_165311_6e109eee-9e49-4762-a1d4-8ee31ce8c952.png", "Close on a black Marwari stallion's eye and the curved tips of its ears, lit gold from behind, dust in the air", "62% 45%"),
+  hubStandard: m("hub-standard.png", "hf_20261028_165411_55984b98-0b32-41f7-80e5-d540f29580d7.png", "A compact school riding hub at dusk: four timber stables, a fenced sand arena and brass lanterns, the school building behind", "50% 50%"),
+  hubRoyal: m("hub-royal.png", "hf_20261028_165411_bea08e4f-3833-4673-b3a2-a16739c2b55e.png", "Horses look out from carved sandstone arches around a sand courtyard on a Rajasthan estate", "62% 50%"),
+  hubSignature: m("hub-signature.png", "hf_20261028_165203_8c685475-6c10-4e1e-8d1f-d4a7752ab2f6.png", "Riders working in a large covered timber-roofed arena on a school campus", "50% 60%"),
 } satisfies Record<string, Media>;
 
 export type MediaKey = keyof typeof media;

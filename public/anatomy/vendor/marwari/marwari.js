@@ -38,7 +38,7 @@ export function loadMarwari(url, onProgress) {
 function prepare(gltf) {
     const root = gltf.scene;
     let mesh = null;
-    let hair = { wind: { value: new THREE.Vector3() }, sheen: { value: 0 } };
+    let hair = { wind: { value: new THREE.Vector3() }, sheen: { value: 0 }, flow: { value: 0 } };
     let eyes = { L: new THREE.Vector3(0.1, 1.89, 1.17), R: new THREE.Vector3(-0.1, 1.9, 1.16) };
     const bones = {};
     root.traverse((o) => {

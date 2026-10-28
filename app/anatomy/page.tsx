@@ -10,8 +10,6 @@ import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { DualBody } from "@/components/sections/anatomy/DualBody";
 import { Unveiling } from "@/components/sections/shared/Unveiling";
 import { unveilings } from "@/lib/content/unveiling";
-import { RelightScene } from "@/components/sections/shared/RelightScene";
-import { marbleScene, marbleStallion } from "@/lib/content/relight";
 import { breedStandard } from "@/lib/content/anatomy";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
@@ -25,7 +23,6 @@ export default function AnatomyPage() {
   return (
     <>
       <EditorialScrollSync />
-      <Unveiling scene={unveilings.anatomy} />
       <AnatomyTitle />
 
       {/* §1 · S03 full specimen plate with four layers */}
@@ -48,8 +45,9 @@ export default function AnatomyPage() {
       {/* §3 · S26 */}
       <EarDial />
 
-      {/* §3b · S72 lantern relight, mirrored: a marble study read by raking light */}
-      <RelightScene id="marble" copy={marbleScene} items={marbleStallion} preset="marble" flip />
+      {/* §3b · the stone, the lantern, the light: a pinned opening-style scene, placed after the first sections instead of at the top.
+          It is the same marble stallion the earlier relight study showed, so that study no longer repeats it here. */}
+      <Unveiling scene={unveilings.anatomy} />
 
       {/* §4 · S27 spec sheet */}
       <section aria-labelledby="spec-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">

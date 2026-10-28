@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { CampusConfigurationSelector } from "./CampusConfigurationSelector";
 import type { CameraView } from "./CampusCameraController";
 import type { CampusSceneHandle, CampusSceneProps } from "./CampusScene";
+import { CampusPhoto } from "./CampusPhoto";
 import { FacilityInformationPanel } from "./FacilityInformationPanel";
 import { SitePlan2D } from "./SitePlan2D";
 
@@ -209,6 +210,10 @@ export function CampusExperience() {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="gutter mt-10">
+        <CampusPhoto tierId={tierId} />
       </div>
 
       <p className="gutter t-ui mt-8 max-w-3xl text-xs leading-relaxed text-dust">{campusCopy.footnote}</p>

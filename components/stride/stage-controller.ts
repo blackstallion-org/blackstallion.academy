@@ -158,7 +158,10 @@ export class StageController {
     scene.add(this.focusRing);
     this.disposables.push(ringTorus, this.focusRing.material as THREE.Material);
 
-    if (options.reduced) rig.horse.hair.wind.value.set(0, 0, 0);
+    if (options.reduced) {
+      rig.horse.hair.wind.value.set(0, 0, 0);
+      rig.horse.hair.flow.value = 0;
+    }
 
     this.cur = this.goalFor();
     this.snapCamera();
