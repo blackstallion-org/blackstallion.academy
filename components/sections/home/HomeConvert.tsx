@@ -2,6 +2,7 @@
 
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
+import dynamic from "next/dynamic";
 import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -12,6 +13,9 @@ import { Verifier } from "@/components/sections/verify/Verifier";
 import { circuit, shield, verifier } from "@/lib/content/home";
 import { standings } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
+
+/** The riding-gear 3D stage is fetched only when the shield section nears the viewport (three.js, R3F and the 5 MB model stay out of the home bundle). */
+const RidingGearStage = dynamic(() => import("@/components/sections/equipment/RidingGearStage").then((mod) => mod.RidingGearStage), { ssr: false });
 
 /** §10 Verifier · S10 seal verifier. A slim bar: the passport-code check stays, the scroll curtain above it carries the picture. */
 export function HomeVerifier() {
@@ -134,12 +138,30 @@ export function HomeStandings() {
 export function HomeShield() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.4 });
+  const stageRef = useRef<HTMLDivElement>(null);
+  const stageNear = useInView(stageRef, { once: true, margin: "300px" });
+  const stageOnScreen = useInView(stageRef, { margin: "80px" });
 
   return (
     <section aria-labelledby="shield-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
-      <Label reel={10}>The Shield</Label>
-      <Headline id="shield-h" className="mt-4" inscription={shield.inscription} voice={shield.voice} />
-      <div ref={ref} className="mt-14 grid lg:grid-cols-3">
+      <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
+        <div>
+          <Label reel={10}>The Shield</Label>
+          <Headline id="shield-h" className="mt-4" inscription={shield.inscription} voice={shield.voice} />
+          <p className="mt-6 max-w-md text-sand leading-relaxed">
+            Before a cadet rides, the kit is checked: a fitted helmet, tested tack and boots made for the stirrup. Turn it over and look closely.
+          </p>
+          <div className="mt-8">
+            <Cta href="/equipment">See the full kit</Cta>
+          </div>
+        </div>
+        <div ref={stageRef} className="tone-dark relative aspect-[5/4] overflow-hidden border border-line/40 bg-night">
+          {stageNear ? <RidingGearStage active={stageOnScreen} /> : null}
+          <p className="label pointer-events-none absolute left-5 top-5 text-brass">3D specimen · riding kit</p>
+          <p className="label pointer-events-none absolute right-5 top-5 text-dust">Drag to rotate</p>
+        </div>
+      </div>
+      <div ref={ref} className="mt-20 grid lg:grid-cols-3">
         {shield.columns.map((c, i) => (
           <div key={c.big} className="relative py-8 lg:px-10 lg:py-4 lg:first:pl-0">
             {i > 0 && (

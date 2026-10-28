@@ -12,8 +12,8 @@ const firstRide = [
     position: "49% 50%",
   },
   {
-    image: "/images/bond-intimacy-vertical.webp",
-    alt: "A rider close to a horse",
+    image: "/media/curr-groundcare.webp",
+    alt: "A cadet picking a horse's hoof in a sunlit stable",
     title: "Build trust on the ground.",
     copy: "A calm beginning makes room for confidence to follow.",
     position: "50% 45%",

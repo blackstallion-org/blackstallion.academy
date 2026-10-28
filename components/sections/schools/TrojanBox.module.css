@@ -1,0 +1,527 @@
+/*
+ * The presentation box: a CSS 3D model (no WebGL, no images) built in `em` so one font-size on .scene scales all of it.
+ * Axes: +x right, +y DOWN, +z toward the viewer. The whole box is 20em wide, 14em deep and 9.4em tall (lid 2.4em, body
+ * 7em). The body is open-topped; the lid hangs on a hinge along the back edge and swings up (rotateX, +112deg).
+ * Colours are the fixed brand colours (matte charcoal, caramel for the copper edge, leather, antique for the brass).
+ */
+
+/* ---------- the invitation section: a split screen, 40% words and 60% stage ---------- */
+
+.invitation {
+  /* the invitation's own palette: obsidian charcoal, warm ivory, antique brass, deep forest, saddle leather */
+  --inv-obsidian: #171916;
+  --inv-ivory: #f3efe5;
+  --inv-brass: #b69a64;
+  --inv-forest: #24352b;
+  --inv-leather: #815b43;
+  --inv-line: color-mix(in srgb, var(--inv-brass) 28%, transparent);
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4rem);
+  padding-block: clamp(5rem, 12vh, 10rem);
+  background: var(--inv-obsidian);
+}
+
+@media (min-width: 1024px) {
+  .invitation {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); /* 40 / 60 */
+    align-items: center;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+}
+
+.copy {
+  max-width: 34rem;
+}
+
+.rule {
+  width: 3.5rem;
+  height: 1px;
+  margin-block: 1.75rem;
+  background: var(--inv-brass);
+}
+
+.words {
+  min-height: 9.5rem; /* the two states differ in length; the controls below never jump */
+}
+
+@media (min-width: 1024px) {
+  .words {
+    min-height: 11.5rem;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 2.25rem;
+  margin-top: 2rem;
+}
+
+/* a fine brass underline that draws in from the left */
+.line {
+  display: inline-block;
+  padding-bottom: 0.4rem;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.55s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s ease;
+}
+
+.cta {
+  min-height: 2.75rem;
+  padding: 0.9rem 1.6rem;
+  border: 1px solid var(--inv-brass);
+  background: transparent;
+  color: var(--inv-brass);
+  font-family: var(--font-label, inherit);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.35s ease, border-color 0.35s ease, background-color 0.35s ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  background: color-mix(in srgb, var(--inv-brass) 10%, transparent);
+  color: var(--inv-ivory);
+}
+
+.cta:hover .line,
+.cta:focus-visible .line,
+.access:hover,
+.access:focus-visible {
+  background-size: 100% 1px;
+}
+
+.cta .line {
+  padding-bottom: 0;
+}
+
+.access {
+  color: var(--inv-ivory);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.access:hover {
+  color: var(--inv-brass);
+}
+
+.panel {
+  min-width: 0;
+  border: 1px solid var(--inv-line);
+  background:
+    radial-gradient(ellipse 70% 62% at 50% 46%, color-mix(in srgb, var(--inv-forest) 70%, transparent), transparent 78%),
+    var(--inv-obsidian);
+}
+
+.caption {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--inv-ivory) 55%, transparent);
+}
+
+/* soft key light that drifts toward the pointer */
+.light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--lx, 50%) var(--ly, 30%), rgb(243 239 229 / 0.09), transparent 46%);
+  transition: background-position 0.4s ease;
+}
+
+.frame {
+  container-type: inline-size;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: clamp(22rem, 98cqw, 50rem);
+  cursor: grab;
+  touch-action: pan-y; /* horizontal drags turn the box; vertical swipes still scroll the page */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.stage:active {
+  cursor: grabbing;
+}
+
+.floorShadow {
+  position: absolute;
+  left: 50%;
+  bottom: 9%;
+  width: 62%;
+  height: 11%;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.scene {
+  --t: 0.35em; /* wall thickness */
+  position: relative;
+  width: 0;
+  height: 0;
+  font-size: clamp(8px, 3.2cqw, 23px);
+  perspective: 82em;
+}
+
+.rig {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ---------- a cuboid, centred on its own origin, from six optional faces ---------- */
+
+.cuboid {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+}
+
+.f {
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.front,
+.back,
+.inFront,
+.inBack {
+  width: var(--w);
+  height: var(--h);
+  left: calc(var(--w) * -0.5);
+  top: calc(var(--h) * -0.5);
+}
+
+.left,
+.right,
+.inLeft,
+.inRight {
+  width: var(--d);
+  height: var(--h);
+  left: calc(var(--d) * -0.5);
+  top: calc(var(--h) * -0.5);
+}
+
+.top,
+.bottom,
+.floor,
+.under {
+  width: var(--w);
+  height: var(--d);
+  left: calc(var(--w) * -0.5);
+  top: calc(var(--d) * -0.5);
+}
+
+.front { transform: translateZ(calc(var(--d) * 0.5)); }
+.back { transform: rotateY(180deg) translateZ(calc(var(--d) * 0.5)); }
+.right { transform: rotateY(90deg) translateZ(calc(var(--w) * 0.5)); }
+.left { transform: rotateY(-90deg) translateZ(calc(var(--w) * 0.5)); }
+.top { transform: rotateX(90deg) translateZ(calc(var(--h) * 0.5)); }
+.bottom { transform: rotateX(-90deg) translateZ(calc(var(--h) * 0.5)); }
+
+/* the inside faces of the walls, just inside the outer ones, looking in */
+.inFront { transform: rotateY(180deg) translateZ(calc(var(--d) * -0.5 + var(--t))); }
+.inBack { transform: translateZ(calc(var(--d) * -0.5 + var(--t))); }
+.inRight { transform: rotateY(-90deg) translateZ(calc(var(--w) * -0.5 + var(--t))); }
+.inLeft { transform: rotateY(90deg) translateZ(calc(var(--w) * -0.5 + var(--t))); }
+
+/* the foam floor of the body (faces up) and the lining under the lid's top (faces down) */
+.floor {
+  width: calc(var(--w) - 2 * var(--t));
+  height: calc(var(--d) - 2 * var(--t));
+  left: calc((var(--w) - 2 * var(--t)) * -0.5);
+  top: calc((var(--d) - 2 * var(--t)) * -0.5);
+  transform: rotateX(90deg) translateZ(calc(var(--h) * -0.5 + 1.5em));
+  transform-style: preserve-3d;
+}
+
+.under { transform: rotateX(-90deg) translateZ(calc(var(--h) * -0.5 + var(--t))); }
+
+/* ---------- parts ---------- */
+
+.body { --w: 20em; --h: 7em; --d: 14em; transform: translateY(1.2em); }
+.lidBox { --w: 20em; --h: 2.4em; --d: 14em; transform: translate3d(0, -1.2em, 7em); } /* centre, from the hinge */
+.sleeve { --w: 20.24em; --h: 4.3em; --d: 14.24em; transform: translateY(1.75em); }
+
+.hingeMount {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate3d(0, -2.3em, -7em); /* the hinge: the top edge of the back wall */
+  transform-style: preserve-3d;
+}
+
+.hinge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+}
+
+/* ---------- materials ---------- */
+
+/* Matte black with a copper edge. The shade layer fakes a light from the upper left. */
+.matte {
+  background:
+    linear-gradient(rgb(0 0 0 / var(--shade, 0)), rgb(0 0 0 / var(--shade, 0))),
+    linear-gradient(150deg, color-mix(in srgb, var(--color-charcoal) 80%, white) 0%, var(--color-charcoal) 48%, color-mix(in srgb, var(--color-charcoal) 88%, black) 100%);
+  box-shadow:
+    inset 0 0 0 0.09em var(--color-caramel),
+    inset 0 0 1.6em rgb(0 0 0 / 0.4);
+}
+
+.lining {
+  background:
+    linear-gradient(rgb(0 0 0 / var(--shade, 0)), rgb(0 0 0 / var(--shade, 0))),
+    var(--color-bhanwar);
+}
+
+.leather {
+  background:
+    linear-gradient(rgb(0 0 0 / var(--shade, 0)), rgb(0 0 0 / var(--shade, 0))),
+    radial-gradient(ellipse at 30% 25%, color-mix(in srgb, var(--color-leather) 82%, white), var(--color-leather) 70%);
+  box-shadow: inset 0 0 1.2em rgb(0 0 0 / 0.35);
+}
+
+.foam {
+  background: color-mix(in srgb, var(--color-charcoal) 86%, white);
+  box-shadow: inset 0 0 1.4em rgb(0 0 0 / 0.5);
+}
+
+/* the light comes from the upper left: each face is darkened by its own amount */
+.front, .top, .inBack, .under { --shade: 0; }
+.right { --shade: 0.22; }
+.left { --shade: 0.3; }
+.back { --shade: 0.14; }
+.bottom { --shade: 0.4; }
+.inFront { --shade: 0.34; }
+.inRight { --shade: 0.1; }
+.inLeft { --shade: 0.22; }
+
+/* ---------- lettering and marks ---------- */
+
+.sleeveFace {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.5em;
+  text-align: center;
+  color: var(--color-antique);
+  border-block: 0.07em dashed color-mix(in srgb, var(--color-antique) 50%, transparent);
+  box-shadow: inset 0 0 0 0.3em var(--color-leather), inset 0 0 0 0.37em color-mix(in srgb, var(--color-antique) 38%, transparent);
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  width: 4.4em;
+  height: 4.4em;
+  border-radius: 50%;
+  color: var(--color-kala);
+  font-family: var(--font-display);
+  font-size: 1.05em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-indent: 0.16em;
+  background: radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--color-antique) 60%, white), var(--color-antique) 52%, color-mix(in srgb, var(--color-antique) 55%, black));
+  box-shadow: 0 0.12em 0.4em rgb(0 0 0 / 0.5), inset 0 0 0 0.16em color-mix(in srgb, var(--color-antique) 70%, black), inset 0 0 0 0.24em color-mix(in srgb, var(--color-antique) 85%, white);
+}
+
+.caps {
+  font-family: var(--font-sans);
+  font-size: 0.5em;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  text-transform: uppercase;
+}
+
+.lidTop {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.9em;
+  color: var(--color-antique);
+}
+
+.lidTop::before {
+  content: "";
+  position: absolute;
+  inset: 1.2em;
+  border: 0.07em solid color-mix(in srgb, var(--color-caramel) 70%, transparent);
+}
+
+.ring {
+  width: 3.4em;
+  height: 3.4em;
+  border-radius: 50%;
+  border: 0.1em solid var(--color-antique);
+  box-shadow: inset 0 0 0 0.35em var(--color-charcoal), inset 0 0 0 0.45em color-mix(in srgb, var(--color-antique) 60%, transparent);
+}
+
+.lidEmblem {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.8em;
+  color: var(--color-antique);
+  text-align: center;
+}
+
+.lidEmblem .ring {
+  box-shadow: inset 0 0 0 0.35em var(--color-leather), inset 0 0 0 0.45em color-mix(in srgb, var(--color-antique) 60%, transparent);
+}
+
+/* ---------- what is inside ---------- */
+
+.cut {
+  position: absolute;
+  border-radius: 0.5em;
+  background: color-mix(in srgb, var(--color-charcoal) 70%, black);
+  box-shadow: inset 0 0.25em 0.7em rgb(0 0 0 / 0.75);
+  transform-style: preserve-3d;
+}
+
+.thing {
+  position: absolute;
+  inset: 0.45em;
+  transform-style: preserve-3d;
+}
+
+.bottle {
+  border-radius: 0.5em 1.6em 1.6em 0.5em / 0.5em 1.1em 1.1em 0.5em;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.2) 0 12%, transparent 30%, rgb(0 0 0 / 0.35) 100%),
+    linear-gradient(90deg, var(--color-kala), color-mix(in srgb, var(--color-kala) 70%, var(--color-antique)) 50%, var(--color-kala));
+}
+
+.bottle::before {
+  /* the brass cap */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8%;
+  bottom: 8%;
+  width: 17%;
+  border-radius: 0.35em 0 0 0.35em;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-antique) 70%, white), var(--color-antique) 45%, color-mix(in srgb, var(--color-antique) 55%, black));
+}
+
+.bottle::after {
+  /* the label */
+  content: "BSAH · 350 ML";
+  position: absolute;
+  left: 38%;
+  top: 14%;
+  bottom: 14%;
+  width: 36%;
+  display: grid;
+  place-items: center;
+  color: var(--color-leather);
+  font-family: var(--font-sans);
+  font-size: 0.5em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  background: var(--color-parch);
+}
+
+.passport {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.6em;
+  border-radius: 0.3em;
+  color: var(--color-antique);
+  background: radial-gradient(ellipse at 30% 22%, color-mix(in srgb, var(--color-leather) 80%, white), var(--color-leather) 70%);
+  box-shadow: inset 0 0 0 0.12em color-mix(in srgb, var(--color-antique) 45%, transparent);
+}
+
+.passport .ring {
+  width: 2.2em;
+  height: 2.2em;
+  box-shadow: inset 0 0 0 0.22em var(--color-leather), inset 0 0 0 0.3em color-mix(in srgb, var(--color-antique) 60%, transparent);
+}
+
+.envelope {
+  border-radius: 0.2em;
+  background: var(--color-parch);
+  box-shadow: 0 0.1em 0.3em rgb(0 0 0 / 0.4);
+}
+
+.envelope::before {
+  /* the flap */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 62%;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: color-mix(in srgb, var(--color-parch) 84%, var(--color-leather));
+}
+
+.envelope::after {
+  /* the wax seal */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 1.9em;
+  height: 1.9em;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--color-antique) 60%, white), var(--color-antique) 55%, color-mix(in srgb, var(--color-antique) 55%, black));
+  box-shadow: 0 0.1em 0.25em rgb(0 0 0 / 0.5);
+}
+
+/* ---------- controls ---------- */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  padding: 0.5rem 1.5rem 1.25rem;
+  border-top: 1px solid var(--inv-line);
+}
+
+.turn {
+  display: flex;
+  flex: 1 1 14rem;
+  align-items: center;
+  gap: 1rem;
+}
+
+.turn input {
+  flex: 1;
+  min-height: 2.75rem;
+  accent-color: var(--inv-brass);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    cursor: auto;
+  }
+  .light {
+    display: none;
+  }
+  .line,
+  .cta {
+    transition: none;
+  }
+}

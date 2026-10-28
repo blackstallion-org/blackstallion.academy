@@ -54,7 +54,7 @@ function RidingGearModel() {
   });
 
   return (
-    <group ref={groupRef} scale={1.85}>
+    <group ref={groupRef} scale={1.45}>
       <primitive object={centeredModel} />
     </group>
   );
@@ -65,13 +65,13 @@ export function RidingGearStage({ active }: { active: boolean }) {
   const maxDpr = Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.5 : 2);
   return (
     <Canvas
-      camera={{ position: [0, 0.2, 2.2], fov: 32, near: 0.1, far: 50 }}
+      camera={{ position: [0, 0.15, 2.6], fov: 32, near: 0.1, far: 50 }}
       dpr={[1, maxDpr]}
       frameloop={active ? "always" : "never"}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ touchAction: "none" }}
     >
-      <PerspectiveCamera makeDefault position={[0, 0.2, 2.2]} fov={32} />
+      <PerspectiveCamera makeDefault position={[0, 0.15, 2.6]} fov={32} />
 
       {/* Three-Point Studio Lighting on Deep Black */}
       <ambientLight intensity={1.1} color="#fbf4ea" />
@@ -91,7 +91,7 @@ export function RidingGearStage({ active }: { active: boolean }) {
         enableZoom={false}
         enablePan={false}
         autoRotate
-        autoRotateSpeed={0.9}
+        autoRotateSpeed={0.6}
         minPolarAngle={Math.PI / 3.5}
         maxPolarAngle={Math.PI / 1.7}
       />

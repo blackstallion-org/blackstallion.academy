@@ -275,10 +275,10 @@ export function Monolith({ lines, coda, label }: { lines: string[]; coda?: strin
           <div className="relative overflow-hidden border border-brass/30 bg-night shadow-[0_24px_60px_rgba(0,0,0,0.7)] group">
             <div className="relative aspect-[2/3] overflow-hidden">
               <FilmImage
-                name="bondIntimacy"
+                name="currGroundcare"
                 grade="none"
                 priority
-                position="50% 30%"
+                position="50% 40%"
                 sizes="(min-width: 1024px) 40vw, 100vw"
                 className="opacity-100 transition-transform duration-700 group-hover:scale-[1.03]"
               />

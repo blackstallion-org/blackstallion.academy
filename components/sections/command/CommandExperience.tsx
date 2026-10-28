@@ -26,7 +26,7 @@ export function CommandExperience() {
 /** Homepage presentation follows the supplied split-screen information reference. */
 export function CommandTeaser() {
   return <section id="home-command" aria-labelledby="command-h" className={styles.teaser} data-parallax-skip>
-    <div className={styles.teaserBackground} aria-hidden><Image src="/images/admissions/academy-gate-backdrop.webp" alt="" fill sizes="100vw" /></div>
+    <div className={styles.teaserBackground} aria-hidden><Image src="/media/gallop.webp" alt="" fill sizes="100vw" style={{ objectPosition: "30% 22%" }} /></div>
     <div className={styles.teaserIntro}>
       <p className={styles.eyebrow}>Reel 14 / Information desk</p>
       <h2 id="command-h">{command.inscription}<br /><span>{command.voice}</span></h2>

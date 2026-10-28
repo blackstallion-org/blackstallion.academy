@@ -105,12 +105,6 @@ export const media = {
     alt: "Classical marble and bronze equestrian sculpture of a warrior riding a rearing stallion against deep black",
     focus: "50% 35%",
   },
-  bondIntimacy: {
-    file: "/images/bond-intimacy-vertical.webp",
-    remote: "/images/bond-intimacy-vertical.webp",
-    alt: "Intimate portrait of human and white horse leaning together in mutual trust and quiet reverence",
-    focus: "50% 30%",
-  },
   bondField: {
     file: "/images/bond-field-horizontal.webp",
     remote: "/images/bond-field-horizontal.webp",

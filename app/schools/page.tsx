@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CampusOpening } from "@/components/sections/schools/CampusOpening";
 import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
@@ -25,7 +24,6 @@ export default function SchoolsPage() {
       <ModelFlow />
       <CitadelConfigurator />
       <SchoolArenaShowcase />
-      <CampusOpening />
       <PageCurtain page="schools" />
       <HorizontalChapter typeface="elegant" chapter="Space to grow" text="A school can give courage room to grow." tone="light" />
       <HubMap />

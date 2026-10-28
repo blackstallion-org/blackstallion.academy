@@ -3,6 +3,7 @@ import { EndCard } from "@/components/film/EndCard";
 import { CadetsTitle, CadetDrillShowcase, CreedCard, DayClock, MilestoneReels, PassportObject, Spotlights, UniformSpec } from "@/components/sections/cadets/CadetScenes";
 import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
+import { CadetOpening } from "@/components/sections/cadets/CadetOpening";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 
@@ -16,13 +17,14 @@ export default function CadetsPage() {
   return (
     <>
       <CadetsTitle />
+      <CadetOpening />
       <FirstRideEditorial />
       <PageCurtain page="cadets" />
       <HorizontalChapter typeface="brush" chapter="The first lesson" text="The first command is to listen." />
-      <Spotlights />
       <CadetDrillShowcase />
       <PassportObject />
       <UniformSpec />
+      <Spotlights />
       <DayClock />
       <CreedCard />
       <MilestoneReels />
