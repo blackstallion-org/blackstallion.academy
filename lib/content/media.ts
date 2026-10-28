@@ -58,7 +58,7 @@ export const media = {
   anatomyProfile: m("anatomy-profile.png", "hf_20261009_134210_77871ace-c329-40a8-947a-e2738b908277.png", "A dark bay Marwari stallion in full side profile on black, outlined in gold light", "50% 50%"),
   scienceRider: m("science-rider.png", "hf_20261009_134843_2997d278-9f94-43e0-854d-6c3eb7a2a9dc.png", "A young rider at sitting trot with an upright, stacked spine"),
   whyCrisis: m("why-crisis.png", "hf_20261009_134843_16f45299-ccbc-40e7-96ca-4e98043950f5.png", "A boy hunched over a glowing phone in a dark room"),
-  whyCure: m("why-cure.png", "hf_20261009_134844_7b2cb2d5-6500-480c-adde-9f8228400906.png", "A boy in cadet uniform sitting tall on a Marwari at golden hour"),
+  whyCure: m("why-cure.png", "hf_20261009_134844_7b2cb2d5-6500-480c-adde-9f8228400906.png", "A boy in cadet uniform sitting tall on a Marwari at golden hour", "32% 50%"),
   currLedger: m("curr-ledger.png", "hf_20261009_134844_7b97867f-70f4-4951-ab67-431ea34426e0.png", "An open leather ledger with brass seals and a dip pen"),
   currGroundcare: m("curr-groundcare.png", "hf_20261009_135529_e66154c5-95fe-4ef1-a9a1-3151e8922bfb.png", "A cadet picking a horse's hoof in a sunlit stable"),
   currFormation: m("curr-formation.png", "hf_20261009_135529_792c3856-967f-476f-9088-628cdedcb613.png", "Cadets riding in line formation across an arena at dusk"),

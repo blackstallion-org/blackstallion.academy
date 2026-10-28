@@ -57,6 +57,14 @@ export function setSound(on: boolean): void {
   if (on) playEffect("snort");
 }
 
+/**
+ * For handlers that run on the visitor's own pointer or key gesture and synthesize their own audio. The page-wide listener below
+ * runs after the target's handler, so the first gesture would otherwise arrive one event too late. No-op while sound is off.
+ */
+export function unlockSoundFromGesture(): void {
+  if (soundEnabled()) unlocked = true;
+}
+
 /** Restoring a saved preference or default-on requires a user gesture in browsers. */
 export function resumeSoundOnGesture(): () => void {
   const resume = () => {
