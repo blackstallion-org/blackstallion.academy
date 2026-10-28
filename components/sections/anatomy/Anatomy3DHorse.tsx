@@ -6,6 +6,8 @@ import * as THREE from "three";
 import { groundPatch } from "@/components/3d/contact";
 import { ANATOMY_MODEL, addLights, createTimer, daylight, disposeObject, loadMarwari, releaseRenderer, type Marwari } from "@/components/3d/marwari";
 import { createStudioEnv } from "@/components/3d/studio";
+import { createBackdrop, createStudioFloor, type StudioFloor } from "@/components/3d/studio-floor";
+import { detectQualityTier } from "@/lib/3d/device-tier";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -57,7 +59,20 @@ const REGIONS: Record<string, { spheres: (b: Bones) => { center: THREE.Vector3; 
     distance: 3.5,
   },
 };
-const OVERVIEW = { focus: new THREE.Vector3(0, 1.05, 0.25), view: new THREE.Vector3(1, 0.22, 0.85).normalize(), distance: 5.6 };
+const FOV = 34;
+/** The overview looks at the horse's left side, a little from the front, from just above the floor, as a studio photograph would. */
+const OVERVIEW = { focus: new THREE.Vector3(0, 0.96, 0.2), view: new THREE.Vector3(1, 0.14, 0.6).normalize() };
+/**
+ * How far the camera stands for the whole horse (its length in profile, its height with the ears) to fit the plate, whatever its
+ * shape: a wide plate is limited by the height, a phone's nearly square one by the length.
+ */
+function overviewDistance(aspect: number) {
+  const tanHalf = Math.tan(THREE.MathUtils.degToRad(FOV / 2));
+  return Math.max(1.5 / tanHalf, 1.5 / (tanHalf * Math.max(aspect, 0.1)));
+}
+/** On its own the horse turns back and forth through this angle (radians) once every 2π / SWAY_RATE seconds, so the side that reads best stays toward the visitor. */
+const SWAY = 0.27;
+const SWAY_RATE = 0.33;
 
 /** World position of a joint; "Muzzle" is the corner of the mouth, where the bit sits. */
 type Bones = (name: string) => THREE.Vector3;
@@ -165,10 +180,14 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
     const loadTimeout = window.setTimeout(fail, 20_000);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(getComputedStyle(container).getPropertyValue("--color-night").trim() || "#171513");
+    const tokens = getComputedStyle(container);
+    const night = new THREE.Color(tokens.getPropertyValue("--color-night").trim() || "#171513");
+    const warm = new THREE.Color(tokens.getPropertyValue("--color-brass").trim() || "#B88A62");
+    const backdrop = createBackdrop(night, warm);
+    scene.background = backdrop;
     const width = container.clientWidth || 800;
     const height = container.clientHeight || 450;
-    const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 60);
+    const camera = new THREE.PerspectiveCamera(FOV, width / height, 0.1, 60);
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -190,12 +209,28 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
       return () => { disposed = true; };
     }
     scene.environment = environment.texture;
-    scene.environmentIntensity = 0.8;
-    // A museum plate keeps one even, warm studio light (midday) rather than the visitor's clock.
+    scene.environmentIntensity = 0.75;
+    // A museum plate keeps one studio light (midday's colours) rather than the visitor's clock, set low-key: a modest key so the
+    // face reads, no flat fill, and strong edge lights from behind on both sides that draw the crest, croup and legs of a black coat.
     const noon = daylight(12);
-    addLights(scene)(noon);
+    const rig = addLights(scene);
+    rig(noon);
+    const [key, rim, fill, sky] = rig.lights as THREE.Light[];
+    key.intensity *= 0.42;
+    fill.intensity *= 0.2;
+    sky.intensity *= 0.2;
+    rim.intensity *= 1.5;
+    const rimNear = new THREE.DirectionalLight(noon.rim, noon.rimK);
+    rimNear.position.set(3, 3.2, -4.2); // behind and to the horse's left, the side the camera sees
+    scene.add(rimNear);
     renderer.toneMappingExposure = noon.exposure * 0.95;
     scene.add(groundPatch());
+    // Phones and tablets keep the soft contact shadow only; anything stronger also gets the glossy floor.
+    let floor: StudioFloor | null = null;
+    if (detectQualityTier() === "high") {
+      floor = createStudioFloor(width, height);
+      scene.add(floor.mesh);
+    }
 
     const modelGroup = new THREE.Group();
     scene.add(modelGroup);
@@ -236,6 +271,9 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
         marwari = m;
         modelGroup.add(m.root);
         scene.add(m.contacts.group);
+        // Seen from the side the tail would read as one stiff plank, since only a few bones drive it: a livelier flutter per ribbon breaks it up.
+        m.hair.wind.value.set(0.045, 0, -0.03);
+        m.hair.sheen.value *= 0.5; // the edge lights would otherwise turn the near edge of each ribbon pale
         m.root.updateMatrixWorld(true);
         muzzleLocal = m.bones.Head?.worldToLocal(MUZZLE_REST.clone()) ?? null;
         mixer = new THREE.AnimationMixer(m.root);
@@ -284,12 +322,13 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      floor?.resize(w, h);
       requestRender();
     };
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
 
-    const camPos = new THREE.Vector3().copy(OVERVIEW.focus).addScaledVector(OVERVIEW.view, OVERVIEW.distance);
+    const camPos = new THREE.Vector3().copy(OVERVIEW.focus).addScaledVector(OVERVIEW.view, overviewDistance(width / height));
     const camLook = OVERVIEW.focus.clone();
     const targetPos = new THREE.Vector3();
     const targetLook = new THREE.Vector3();
@@ -334,7 +373,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
       }
       const rotation = rotationRef.current;
       const orbit = autoRotateRef.current && !still && !isDraggingRef.current && activeRef.current === "overview";
-      if (orbit) rotation.targetY += 0.0015;
+      if (orbit) rotation.targetY = SWAY * Math.sin(clock.elapsed * SWAY_RATE);
       // A still 3D view remains usable with reduced motion; user changes apply directly.
       const lerp = still ? 1 : 0.08;
       rotation.y += (rotation.targetY - rotation.y) * lerp;
@@ -348,7 +387,7 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
         marwari?.highlight.set(region.spheres);
       } else {
         targetLook.copy(OVERVIEW.focus);
-        targetPos.copy(OVERVIEW.focus).addScaledVector(OVERVIEW.view, OVERVIEW.distance);
+        targetPos.copy(OVERVIEW.focus).addScaledVector(OVERVIEW.view, overviewDistance(camera.aspect));
       }
       shiftTarget.set(0, 0);
       const slot = detailRef.current;
@@ -402,6 +441,8 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
       mixer?.stopAllAction();
       observer.disconnect();
       environment.dispose();
+      floor?.dispose();
+      backdrop.dispose();
       disposeObject(scene);
       cancelRender();
       window.clearTimeout(loadTimeout);

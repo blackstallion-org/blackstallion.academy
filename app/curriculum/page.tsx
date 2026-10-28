@@ -6,6 +6,8 @@ import { Reveal } from "@/components/film/Reveal";
 import { CodexVault } from "@/components/sections/curriculum/CodexVault";
 import { ClockRing, CurriculumTitle, DisciplineActionGallery, DisciplinePanels, Staircase, ThreeStamps } from "@/components/sections/curriculum/CurriculumScenes";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
+import { Unveiling } from "@/components/sections/shared/Unveiling";
+import { unveilings } from "@/lib/content/unveiling";
 import { batches } from "@/lib/content/curriculum";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
@@ -19,6 +21,7 @@ export const metadata: Metadata = {
 export default function CurriculumPage() {
   return (
     <>
+      <Unveiling scene={unveilings.curriculum} />
       <CurriculumTitle />
       <Staircase />
       <PageCurtain page="curriculum" />

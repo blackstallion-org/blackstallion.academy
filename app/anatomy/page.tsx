@@ -9,6 +9,8 @@ import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anato
 import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { DualBody } from "@/components/sections/anatomy/DualBody";
+import { Unveiling } from "@/components/sections/shared/Unveiling";
+import { unveilings } from "@/lib/content/unveiling";
 import { breedStandard } from "@/lib/content/anatomy";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
@@ -22,6 +24,7 @@ export default function AnatomyPage() {
   return (
     <>
       <EditorialScrollSync />
+      <Unveiling scene={unveilings.anatomy} />
       <AnatomyTitle />
 
       {/* §1 · S03 full specimen plate with four layers */}

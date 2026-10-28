@@ -26,8 +26,8 @@ export function SiteNav() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
-  /* Over dark hero scenes (home, science, why, schools, cadets, statue, equipment), the bar reads light-on-dark; everywhere else it is ivory and ink. */
-  const isDarkHero = ["/", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment"].includes(pathname);
+  /* Over dark hero scenes (home, science, why, schools, cadets, statue, equipment, and the marble-to-living-horse openings of anatomy, curriculum and parents), the bar reads light-on-dark; everywhere else it is ivory and ink. */
+  const isDarkHero = ["/", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment", "/anatomy", "/curriculum", "/parents"].includes(pathname);
   const overFilm = isDarkHero && !solid;
 
   useMotionValueEvent(scrollY, "change", (y) => {

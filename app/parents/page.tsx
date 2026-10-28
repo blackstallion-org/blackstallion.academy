@@ -5,6 +5,8 @@ import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
 import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
 import { CadetAdmissionPortal } from "@/components/sections/parents/CadetAdmissionPortal";
+import { Unveiling } from "@/components/sections/shared/Unveiling";
+import { unveilings } from "@/lib/content/unveiling";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 
@@ -17,6 +19,7 @@ export const metadata: Metadata = {
 export default function ParentsPage() {
   return (
     <>
+      <Unveiling scene={unveilings.parents} />
       <ParentsTitle />
       <PinnedPhone />
       <ParentVantageGallery />

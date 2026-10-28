@@ -26,9 +26,9 @@ type Props = {
 const nodeOf = (id: string) => instrumentNodes.find((n) => n.id === id);
 
 /**
- * S03 specimen hotspots. The compact home variant retains its interactive
- * horse (choosing a point flies the camera in and opens that point's detail);
- * the full Instrument page is intentionally the quieter archive plate.
+ * S03 specimen hotspots. Both variants carry the living 3D horse next to the 2D archive plate (a switch above the
+ * stage): choosing a point flies the camera in. The compact home variant opens that point's detail over the canvas;
+ * the full Instrument page keeps its four-layer panel under the plate.
  */
 export function SpecimenPlate({ only, mode = "compact", className }: Props) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -52,7 +52,7 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
   const reducedMotion = useReducedMotion();
   const [requestedMode, setViewMode] = useState<"3d" | "2d" | null>(null);
   const [fallbackMessage, setFallbackMessage] = useState<string | null>(null);
-  const hasLivingModel = mode === "compact";
+  const hasLivingModel = true;
   const viewMode = hasLivingModel ? (requestedMode ?? (reducedMotion ? "2d" : "3d")) : "2d";
   const active = points.find((h) => h.id === activeId) ?? points[0];
   const compact = mode === "compact";
@@ -113,7 +113,8 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
       <div
         className="grid gap-10"
       >
-        <div className="tone-dark relative aspect-[4/3] sm:aspect-[16/9] w-full overflow-hidden border border-line bg-night">
+        {/* The living horse is wider than tall: on a phone it gets a taller plate so it fills the width without the controls covering it. The archive plate keeps its own proportions (its points are placed in percent). */}
+        <div className={cn("tone-dark relative w-full overflow-hidden border border-line bg-night sm:aspect-[16/9]", is3d ? "aspect-[4/5]" : "aspect-[4/3]")}>
           {viewMode === "3d" && nearViewport ? (
             <Anatomy3DHorse
               activeId={armed ? activeId : "overview"}
@@ -125,13 +126,15 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
                 else choose(id);
               }}
               detail={
-                <NodePanel
-                  node={armed && activeNode ? activeNode : null}
-                  position={nodeIndex + 1}
-                  total={points.length}
-                  surface="overlay"
-                  onClose={close}
-                />
+                compact ? (
+                  <NodePanel
+                    node={armed && activeNode ? activeNode : null}
+                    position={nodeIndex + 1}
+                    total={points.length}
+                    surface="overlay"
+                    onClose={close}
+                  />
+                ) : undefined
               }
               className="absolute inset-0 h-full w-full"
             />
