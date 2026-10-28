@@ -1,0 +1,45 @@
+{
+ "plateMarkers": [
+  "Ears: 180° of Attention [clickable]",
+  "Neck: The Crest [clickable]",
+  "Saddle: The Moving Floor [clickable]",
+  "Reins: Ten Grams [clickable]",
+  "Hoof: Desert Feet [clickable] (marker hidden off-frame at overview)"
+ ],
+ "plateBox": {
+  "x": 541,
+  "y": 196,
+  "vw": 1440,
+  "vh": 900
+ },
+ "plateLogs": [
+  "requestfailed: http://localhost:3100/video/hero-main-desktop.mp4 net::ERR_ABORTED"
+ ],
+ "plate_mobileMarkers": [
+  "Ears: 180° of Attention [clickable]",
+  "Neck: The Crest [clickable]",
+  "Saddle: The Moving Floor [clickable]",
+  "Reins: Ten Grams [NOT clickable by touch/mouse (outside the viewport); activated by script] (marker hidden off-frame at overview)",
+  "Hoof: Desert Feet [clickable] (marker hidden off-frame at overview)"
+ ],
+ "plate_mobileBox": {
+  "x": 116,
+  "y": 316,
+  "vw": 390,
+  "vh": 844
+ },
+ "plateMobileLogs": [
+  "requestfailed: http://localhost:3100/video/hero-main-mobile.mp4 net::ERR_ABORTED"
+ ],
+ "reducedFilm": {
+  "film": "undefined",
+  "sections": 1,
+  "sectionHeight": 900
+ },
+ "noWebglLogs": [
+  "requestfailed: http://localhost:3100/video/hero-main-desktop.mp4 net::ERR_ABORTED",
+  "error: THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+  "error: THREE.WebGLRenderer: THREE.WebGLRenderer: Error creating WebGL context.",
+  "warning: Image with src \"/models/marwari-hero-poster.webp\" was detected as the Largest Contentful Paint (LCP). Please add the `loading=\"eager\"` property if this image is above the fold.\nRead more: https://nextjs.org/docs/app/api-reference/components"
+ ]
+}

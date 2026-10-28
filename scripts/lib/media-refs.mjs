@@ -92,6 +92,12 @@ export function listPublicMedia(root) {
 }
 
 /**
+ * Files under a media folder that stay on this site on purpose: the media bucket does not serve JSON, and the film engine reads
+ * its gait table from here (components/stallion-film/locomotion.ts). They are neither uploaded nor flagged.
+ */
+export const SITE_ONLY = new Set(["/models/marwari-gaits.json"]);
+
+/**
  * Splits the media folders into files the site can request (`served`) and the rest (`unserved`), and lists references
  * that match no file (`absent`). A file is served if the code names it or a template matches it, except the PNG/JPEG masters
  * in /media whose WebP twin exists (see below).
@@ -109,7 +115,7 @@ export function classifyMedia(root) {
     // A PNG/JPEG in /media that has a WebP twin is a git-ignored master (it exists only on the owner's Mac). The site ships and
     // requests the twin, so the list is the same on every computer whether or not the masters are present.
     const master = shippedTwin(file.web) !== file.web && byPath.has(shippedTwin(file.web));
-    if (named && !master && !CONTENT_TYPES[file.ext]) namedButNotUploadable.push(file.web);
+    if (named && !master && !CONTENT_TYPES[file.ext] && !SITE_ONLY.has(file.web)) namedButNotUploadable.push(file.web);
     (named && !master && CONTENT_TYPES[file.ext] ? served : unserved).push(file);
   }
   const absent = [...exact.keys()].filter((p) => !byPath.has(p)).sort();

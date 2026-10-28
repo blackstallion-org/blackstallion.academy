@@ -14,6 +14,7 @@ import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { bred, honour, honourClose, lore, ocean, revival, today } from "@/lib/content/legend";
 import { cn } from "@/lib/utils";
+import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/legend" },
@@ -37,6 +38,7 @@ export default function LegendPage() {
           <div>
             <ChapterHead id="ocean" />
             <Headline id="ocean-h" technique="words" className="mt-4 max-w-[16ch]" inscription={ocean.inscription} voice={ocean.voice} />
+      <PageCurtain page="legend" />
             <p className="t-story mt-4 italic text-bone">{ocean.sub}</p>
             <Reveal>
               <p className="t-story mt-8 max-w-2xl text-sand first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:[font-family:var(--font-kalnia)] first-letter:font-semibold first-letter:text-[4.2em] first-letter:leading-[0.8] first-letter:text-gold">

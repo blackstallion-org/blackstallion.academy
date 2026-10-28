@@ -1,0 +1,47 @@
+{
+ "dpr": 1,
+ "assets": "/private/tmp/claude-501/-Users-stingraj-blackstallion-website/e2aeb670-9b5b-4109-984f-ac3db3b0571d/scratchpad/pinned/head",
+ "shots": {
+  "desert": {
+   "calls": 19,
+   "triangles": 250600,
+   "geometries": 28,
+   "textures": 13,
+   "programs": 23,
+   "chapter": 1,
+   "env": "desert",
+   "speed": 0,
+   "gait": "stand",
+   "quality": 0
+  },
+  "village": {
+   "calls": 37,
+   "triangles": 691814,
+   "geometries": 36,
+   "textures": 17,
+   "programs": 24,
+   "chapter": 2,
+   "env": "village",
+   "speed": 0,
+   "gait": "stand",
+   "quality": 0
+  },
+  "campus": {
+   "calls": 32,
+   "triangles": 693619,
+   "geometries": 38,
+   "textures": 20,
+   "programs": 29,
+   "chapter": 3,
+   "env": "campus",
+   "speed": 0,
+   "gait": "stand",
+   "quality": 0
+  }
+ },
+ "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+ "logs": [
+  "requestfailed: http://localhost:3100/video/hero-main-desktop.mp4 net::ERR_ABORTED",
+  "requestfailed: http://localhost:3100/video/hero-main-desktop.mp4 net::ERR_ABORTED"
+ ]
+}

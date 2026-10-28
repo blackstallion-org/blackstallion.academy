@@ -10,6 +10,7 @@ import { SovereignCouncil } from "@/components/sections/schools/SovereignCouncil
 import { TrojanBox } from "@/components/sections/schools/TrojanBox";
 import { seals } from "@/lib/content/schools";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
+import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/schools" },
@@ -25,6 +26,7 @@ export default function SchoolsPage() {
       <CitadelConfigurator />
       <SchoolArenaShowcase />
       <CampusOpening />
+      <PageCurtain page="schools" />
       <HorizontalChapter typeface="elegant" chapter="Space to grow" text="A school can give courage room to grow." tone="light" />
       <HubMap />
       <PanIndiaNetwork />

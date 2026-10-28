@@ -32,7 +32,7 @@ export function HorseHandBond({
   const contactLight = useRef<THREE.PointLight>(null);
 
   // Prepare and center the intact model as ONE continuous, anatomically whole sculpt
-  const { model, contactPoint } = useMemo(() => {
+  const { model, contactPoint, modelWidth } = useMemo(() => {
     const root = scene.clone(true);
 
     root.traverse((child) => {
@@ -40,6 +40,7 @@ export function HorseHandBond({
         child.castShadow = true;
         child.receiveShadow = true;
         if (child.material instanceof THREE.MeshStandardMaterial) {
+          child.material = child.material.clone();
           child.material.roughness = theme === "dark" ? 0.65 : 0.74;
           child.material.metalness = theme === "dark" ? 0.2 : 0.12;
           child.material.envMapIntensity = 1.15;
@@ -59,34 +60,35 @@ export function HorseHandBond({
     const wrapper = new THREE.Group();
     wrapper.add(root);
 
-    return { model: wrapper, contactPoint: contact };
+    return { model: wrapper, contactPoint: contact, modelWidth: box.max.x - box.min.x };
   }, [scene, theme]);
 
   // Subtle ambient breathing loop: gentle, poetic, and lifelike
-  useFrame(({ clock, viewport: v }) => {
+  useFrame(({ clock, viewport, camera }) => {
+    const v = viewport.getCurrentViewport(camera, new THREE.Vector3(0, 0, 0));
     if (!rootGroup.current) return;
 
     const t = clock.elapsedTime;
 
     // Extremely subtle natural movement (no jerky loops, no jumping)
-    const breath = reduced ? 0 : Math.sin(t * 0.75) * 0.003;
-    const microSway = reduced ? 0 : Math.cos(t * 0.55) * 0.002;
+    const breath = reduced ? 0 : Math.sin(t * 0.9) * 0.009;
+    const microSway = reduced ? 0 : Math.cos(t * 0.7) * 0.006;
     const yawDrift = reduced ? 0 : Math.sin(t * 0.35) * 0.003;
 
     const halfW = v.width / 2;
     // Scale dynamically so horse neck (left) and cadet sleeve (right) both touch/bleed past viewport edges
-    const spanScale = (v.width / 0.9834) * 1.05;
-    const baseScale = mobile ? 1.08 : tablet ? 1.45 : Math.max(1.78, spanScale);
+    const spanScale = (v.width / modelWidth) * 1.08;
+    const baseScale = mobile ? spanScale : tablet ? spanScale : spanScale;
     const finalScale = baseScale * scaleMultiplier;
 
     rootGroup.current.scale.setScalar(finalScale);
 
     // Ensure hand sleeve touches and bleeds past the right screen edge
     const targetRightX = halfW + 0.02;
-    const rightmostOffset = 0.4917 * finalScale;
+    const rightmostOffset = modelWidth * 0.5 * finalScale;
     const alignedPosX = targetRightX - rightmostOffset;
-    const posX = (mobile ? 0.02 : Math.max(desktopOffsetX, alignedPosX)) + microSway * 0.4;
-    const posY = (mobile ? 0.05 : desktopOffsetY) + breath;
+    const posX = (alignedPosX + desktopOffsetX * 0.05) + microSway * 0.4;
+    const posY = desktopOffsetY + breath;
     const posZ = 0.0;
 
     rootGroup.current.position.set(posX, posY, posZ);

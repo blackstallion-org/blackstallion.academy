@@ -30,9 +30,9 @@ function Frame({ c, i, total, timeNote }: { c: Chapter; i: number; total: number
   return (
     <>
       <FilmImage name={c.image} grade="deep" sizes="100vw" />
-      <div aria-hidden className="shade-b absolute inset-0" />
+      <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgb(var(--shade-rgb)/0.74)_0%,rgb(var(--shade-rgb)/0.5)_36%,rgb(var(--shade-rgb)/0)_72%)]" />
       <div className="gutter absolute inset-x-0 bottom-0 pb-[12vh]">
-        <p className="label text-brass">
+        <p className="label text-sand">
           <span className="font-mono text-gold">{c.time}</span>
           {timeNote ? ` · ${timeNote}` : null} · {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
         </p>

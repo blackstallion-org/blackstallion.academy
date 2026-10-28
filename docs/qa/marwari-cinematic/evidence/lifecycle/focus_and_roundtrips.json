@@ -1,0 +1,246 @@
+{
+ "base": "http://localhost:3100",
+ "when": "Sun Oct 25 2026 23:57:32 GMT+0530 (India Standard Time)",
+ "load": [
+  5.3,
+  4.7,
+  6
+ ],
+ "focusOrder": [
+  {
+   "tag": "BUTTON",
+   "text": "Open the Sovereign Passport →",
+   "outline": "solid 2px rgb(201, 166, 107)",
+   "inStage": true,
+   "onScreen": true
+  },
+  {
+   "tag": "BUTTON",
+   "text": "I · Heritage",
+   "outline": "solid 2px rgb(221, 208, 188)",
+   "inStage": true,
+   "onScreen": true
+  },
+  {
+   "tag": "BUTTON",
+   "text": "II · Identity",
+   "outline": "solid 2px rgb(221, 208, 188)",
+   "inStage": true,
+   "onScreen": true
+  },
+  {
+   "tag": "BUTTON",
+   "text": "III · Excellence",
+   "outline": "solid 2px rgb(221, 208, 188)",
+   "inStage": true,
+   "onScreen": true
+  },
+  {
+   "tag": "BUTTON",
+   "text": "Skip the film ↓",
+   "outline": "solid 2px rgb(201, 166, 107)",
+   "inStage": true,
+   "onScreen": true
+  }
+ ],
+ "roundTrips": [
+  {
+   "cycle": 0,
+   "heapMB": 29.9,
+   "nodes": 7316,
+   "listeners": 1115,
+   "docs": 3,
+   "contexts": {
+    "created": 3,
+    "lost": 0
+   }
+  },
+  {
+   "cycle": 1,
+   "filmReady": false,
+   "heapMB": 32.1,
+   "nodes": 8336,
+   "listeners": 1215,
+   "docs": 3,
+   "contexts": {
+    "created": 6,
+    "lost": 1
+   },
+   "requests": {
+    "glb": 1,
+    "gaits": 1,
+    "draco": 2
+   }
+  },
+  {
+   "cycle": 2,
+   "filmReady": true,
+   "heapMB": 32.3,
+   "nodes": 8336,
+   "listeners": 1228,
+   "docs": 3,
+   "contexts": {
+    "created": 7,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 2,
+    "gaits": 2,
+    "draco": 4
+   }
+  },
+  {
+   "cycle": 3,
+   "filmReady": true,
+   "heapMB": 34.5,
+   "nodes": 8336,
+   "listeners": 1247,
+   "docs": 3,
+   "contexts": {
+    "created": 8,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 3,
+    "gaits": 3,
+    "draco": 6
+   }
+  },
+  {
+   "cycle": 4,
+   "filmReady": true,
+   "heapMB": 35,
+   "nodes": 8336,
+   "listeners": 1266,
+   "docs": 3,
+   "contexts": {
+    "created": 9,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 4,
+    "gaits": 4,
+    "draco": 8
+   }
+  },
+  {
+   "cycle": 5,
+   "filmReady": true,
+   "heapMB": 34.3,
+   "nodes": 8336,
+   "listeners": 1285,
+   "docs": 3,
+   "contexts": {
+    "created": 10,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 5,
+    "gaits": 5,
+    "draco": 10
+   }
+  },
+  {
+   "cycle": 6,
+   "filmReady": true,
+   "heapMB": 36.1,
+   "nodes": 8336,
+   "listeners": 1304,
+   "docs": 3,
+   "contexts": {
+    "created": 11,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 6,
+    "gaits": 6,
+    "draco": 12
+   }
+  },
+  {
+   "cycle": 7,
+   "filmReady": true,
+   "heapMB": 36.3,
+   "nodes": 8336,
+   "listeners": 1323,
+   "docs": 3,
+   "contexts": {
+    "created": 12,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 7,
+    "gaits": 7,
+    "draco": 14
+   }
+  },
+  {
+   "cycle": 8,
+   "filmReady": true,
+   "heapMB": 36.6,
+   "nodes": 8336,
+   "listeners": 1342,
+   "docs": 3,
+   "contexts": {
+    "created": 13,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 8,
+    "gaits": 8,
+    "draco": 16
+   }
+  },
+  {
+   "cycle": 9,
+   "filmReady": true,
+   "heapMB": 36.9,
+   "nodes": 8336,
+   "listeners": 1361,
+   "docs": 3,
+   "contexts": {
+    "created": 14,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 9,
+    "gaits": 9,
+    "draco": 18
+   }
+  },
+  {
+   "cycle": 10,
+   "filmReady": true,
+   "heapMB": 37.2,
+   "nodes": 8336,
+   "listeners": 1380,
+   "docs": 3,
+   "contexts": {
+    "created": 15,
+    "lost": 2
+   },
+   "requests": {
+    "glb": 10,
+    "gaits": 10,
+    "draco": 20
+   }
+  }
+ ],
+ "logs": [
+  "requestfailed: http://localhost:3100/video/cadets-desert-loop.mp4 net::ERR_ABORTED",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "requestfailed: http://localhost:3100/cadets?_rsc=0RozU-X7vTSwc0VS net::ERR_ABORTED",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "requestfailed: http://localhost:3100/cadets?_rsc=0RozU-X7vTSwc0VS net::ERR_ABORTED",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "requestfailed: http://localhost:3100/cadets?_rsc=0RozU-X7vTSwc0VS net::ERR_ABORTED",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+  "requestfailed: http://localhost:3100/cadets?_rsc=0RozU-X7vTSwc0VS net::ERR_ABORTED",
+  "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+ ]
+}

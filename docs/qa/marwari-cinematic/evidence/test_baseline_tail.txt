@@ -1,0 +1,30 @@
+{"event":"email.sent","tag":"error_alert"}
+{"event":"email.sent","tag":"error_alert"}
+✔ redact removes e-mail addresses, numbers and key-like tokens (293.279083ms)
+✔ a server error is logged as one redacted JSON line without the query string (45.267ms)
+✔ alert e-mail only when ERROR_ALERT_EMAIL and Resend are configured, throttled per route and digest (172.061417ms)
+✔ quote: integer paise with 18% GST from the single price source (1.901542ms)
+✔ webhook signature: valid accepted; tampered body, wrong secret, missing or malformed signature refused (0.963625ms)
+✔ checkout signature binds order and payment ids (0.113458ms)
+✔ state machine: only a verified webhook with the exact amount marks paid (0.167083ms)
+✔ state machine: duplicate and out-of-order events do not regress a paid payment (0.079917ms)
+✔ state machine: declined then retried and captured; cancel only before payment (0.065125ms)
+✔ state machine: partial then full refund; over-refund refused (0.0775ms)
+✔ rate limit: in-process window allows up to the limit, then refuses, then resets next window (213.584375ms)
+✔ rate limit: buckets are salted hashes, never the raw address (21.043417ms)
+✔ rate limit: database refusal wins; database outage falls back to the in-process limit (144.487666ms)
+✔ attribution: keeps allow-listed keys, reduces referrer to host, drops unsafe values (16.172458ms)
+✔ turnstile: skipped without a secret; refuses missing token and failed verification when enabled (17.8295ms)
+✔ sample codes return the labelled sample record, never a registry claim (254.180459ms)
+✔ malformed codes are rejected before any lookup (51.937625ms)
+✔ without a registry: honest 'not connected', no invented record (49.315ms)
+✔ registry statuses: valid (minimal fields), revoked, expired, unknown; outage is 'error' (184.998083ms)
+✔ lookups are rate limited per client (30 per 10 minutes) (33.578709ms)
+ℹ tests 84
+ℹ suites 0
+ℹ pass 84
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3464.511416

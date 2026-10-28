@@ -1,0 +1,22 @@
+{
+ "dpr": 1,
+ "assets": "/private/tmp/claude-501/-Users-stingraj-blackstallion-website/e2aeb670-9b5b-4109-984f-ac3db3b0571d/scratchpad/pinned/worktree",
+ "shots": {
+  "campus": {
+   "calls": 36,
+   "triangles": 566459,
+   "geometries": 40,
+   "textures": 20,
+   "programs": 30,
+   "chapter": 3,
+   "env": "campus",
+   "speed": 0,
+   "gait": "stand",
+   "quality": 0
+  }
+ },
+ "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+ "logs": [
+  "requestfailed: http://localhost:3100/video/hero-main-desktop.mp4 net::ERR_ABORTED"
+ ]
+}

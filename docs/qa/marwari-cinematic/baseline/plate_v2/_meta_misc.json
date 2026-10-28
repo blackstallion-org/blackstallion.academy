@@ -1,0 +1,23 @@
+{
+ "plateMarkers": [
+  "Ears: 180° of Attention [clickable]",
+  "Neck: The Crest [clickable]",
+  "Saddle: The Moving Floor [clickable]",
+  "Reins: Ten Grams [clickable]",
+  "Hoof: Desert Feet [marker not on screen at overview (selected by script)] (marker hidden off-frame at overview)"
+ ],
+ "plateLogs": [
+  "requestfailed: http://localhost:3100/video/hero-main-desktop.mp4 net::ERR_ABORTED"
+ ],
+ "plate_mobileMarkers": [
+  "Ears: 180° of Attention [clickable]",
+  "Neck: The Crest [clickable]",
+  "Saddle: The Moving Floor [clickable]",
+  "Reins: Ten Grams [marker not on screen at overview (selected by script)] (marker hidden off-frame at overview)",
+  "Hoof: Desert Feet [marker not on screen at overview (selected by script)] (marker hidden off-frame at overview)"
+ ],
+ "plateMobileLogs": [
+  "warning: Image with src \"/brand/bsah-crest-160.webp\" was detected as the Largest Contentful Paint (LCP). Please add the `loading=\"eager\"` property if this image is above the fold.\nRead more: https://nextjs.org/docs/app/api-reference/components/image",
+  "requestfailed: http://localhost:3100/video/hero-main-mobile.mp4 net::ERR_ABORTED"
+ ]
+}

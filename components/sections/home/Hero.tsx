@@ -5,6 +5,7 @@ import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { HeroFilm } from "./HeroFilm";
+import { StallionHero } from "./StallionHero";
 import { AcademyStats } from "./AcademyStats";
 import { Crest } from "@/components/brand/Crest";
 import { Cta } from "@/components/film/Marks";
@@ -19,6 +20,7 @@ export function Hero() {
   return (
     <>
       <HeroVideoSection />
+      <StallionHero />
       <HeroContentSection />
     </>
   );

@@ -4,7 +4,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSyn
 import os from "node:os";
 import path from "node:path";
 import { BUCKET, KNOWN_ABSENT, buildManifest, manifestPath } from "../scripts/media-manifest.mjs";
-import { CONTENT_TYPES, classifyMedia, globToRegExp, shippedTwin } from "../scripts/lib/media-refs.mjs";
+import { CONTENT_TYPES, classifyMedia, globToRegExp, shippedTwin, SITE_ONLY } from "../scripts/lib/media-refs.mjs";
 import { KEY_RULE, encodePath, loadManifest } from "../scripts/upload-media.mjs";
 import { MEDIA_PREFIXES, assetUrl } from "../lib/content/media-base.mjs";
 import { loadTs, root } from "./helpers/load-ts.mjs";
@@ -71,11 +71,13 @@ test("every address the site can build for a still, model, video or audio file i
 test("every file the code names is listed or knowingly absent, and nothing it names is left out", () => {
   const { exact, patterns, unserved } = classifyMedia(root);
   for (const ref of exact.keys()) {
+    if (SITE_ONLY.has(ref)) continue; // stays on this site on purpose (scripts/lib/media-refs.mjs)
     const master = shippedTwin(ref) !== ref && listed.has(shippedTwin(ref).slice(1));
     assert.ok(listed.has(ref.slice(1)) || master || KNOWN_ABSENT[ref], `${ref} (named in ${[...exact.get(ref)].join(", ")}) is neither listed nor explained`);
   }
   const regexes = [...patterns.keys()].map(globToRegExp);
   for (const f of unserved) {
+    if (SITE_ONLY.has(f.web)) continue;
     const master = shippedTwin(f.web) !== f.web && listed.has(shippedTwin(f.web).slice(1));
     if (master) continue; // a git-ignored PNG/JPEG master: the site ships and requests its WebP twin
     assert.ok(!exact.has(f.web), `${f.web} is named by the code but not listed`);

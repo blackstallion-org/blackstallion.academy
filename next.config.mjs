@@ -1,3 +1,6 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+
 /**
  * Security headers (23 Oct 2026). The CSP is an allow-list of origins rather than a nonce policy: nonces would force
  * every page to render dynamically and undo static/partial prerendering, so inline scripts/styles stay allowed while
@@ -9,6 +12,22 @@
 import { parseMediaBase } from "./lib/content/media-base.mjs";
 
 const isDev = process.env.NODE_ENV !== "production";
+/**
+ * Model versioning (Marwari cinematic pass, A6). In a production build the hero, mobile and anatomy GLBs are requested as
+ * `/models/<name>.glb?v=<hash of the model files>`, and only a versioned URL is served `immutable`; the plain URL keeps its
+ * normal revalidation, and `next dev` is untouched. A re-exported model changes the hash, so no one is left with a stale file
+ * and the files keep their names.
+ */
+const MODEL_VERSION = (() => {
+  if (isDev) return "";
+  try {
+    const hash = createHash("sha1");
+    for (const f of ["marwari-hero.glb", "marwari-hero-mobile.glb", "marwari-anatomy.glb"]) hash.update(readFileSync(new URL(`./public/models/${f}`, import.meta.url)));
+    return hash.digest("hex").slice(0, 10);
+  } catch {
+    return "";
+  }
+})();
 const SUPABASE_ORIGIN = (() => { try { return new URL(process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "").origin; } catch { return ""; } })();
 // Optional: serve stills, models, video and audio from a public Supabase Storage bucket (lib/content/asset.ts, docs/MEDIA_HOSTING.md).
 // Empty unless NEXT_PUBLIC_MEDIA_BASE_URL holds a clean https URL; then the site works exactly as before.
@@ -63,6 +82,7 @@ const nextConfig = {
   },
   // Routes named in the client PDFs → the blueprint's routes (docs/BLUEPRINT.md Part 5)
   poweredByHeader: false,
+  env: { NEXT_PUBLIC_MODEL_V: MODEL_VERSION },
   // Admin media uploads go through a server action; Vercel caps request bodies at about 4.5 MB.
   experimental: { serverActions: { bodySizeLimit: "4.5mb" } },
   async headers() {
@@ -72,6 +92,12 @@ const nextConfig = {
       // cache plus a week of revalidate-in-the-background spares repeat visitors a round trip for every still, clip and
       // model (the platform default for public files is max-age=0, must-revalidate).
       ...assetDirs.map((dir) => ({ source: `/${dir}/:path*`, headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] })),
+      // Model URLs carry their content hash (?v=): those are immutable. Listed after the rule above so it wins for them.
+      ...(MODEL_VERSION ? [{
+        source: "/models/:path*",
+        has: [{ type: "query", key: "v", value: MODEL_VERSION }],
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      }] : []),
     ];
   },
   async redirects() {

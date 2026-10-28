@@ -23,8 +23,8 @@ export function ParentsTitle() {
   const railY = useTransform(scrollYProgress, r(0, 1), ["0%", "60%"]);
   return (
     <section ref={ref} aria-labelledby="parents-h" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden">
-      <FilmImage name="parentsRail" priority />
+<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
+      <FilmImage name="parentsRail" priority scale={1} className="top-16 md:top-20" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
       {/* The rail runs along the foot of the frame, under the copy, and drops away as you scroll. */}
       <motion.div aria-hidden className="widget-hud absolute inset-x-0 bottom-[3vh] flex flex-col gap-5" style={{ y: railY }}>

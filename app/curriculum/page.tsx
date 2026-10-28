@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
-import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { CodexVault } from "@/components/sections/curriculum/CodexVault";
 import { ClockRing, CurriculumTitle, DisciplineActionGallery, DisciplinePanels, Staircase, ThreeStamps } from "@/components/sections/curriculum/CurriculumScenes";
-import { CurriculumPhaseReel } from "@/components/sections/curriculum/CurriculumPhaseReel";
+import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { batches } from "@/lib/content/curriculum";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
@@ -22,18 +21,14 @@ export default function CurriculumPage() {
     <>
       <CurriculumTitle />
       <Staircase />
-      <CurriculumPhaseReel />
+      <PageCurtain page="curriculum" />
       <CodexVault />
       <ClockRing />
       <HorizontalChapter typeface="condensed" chapter="The work of learning" text="Discipline grows one quiet hour at a time." tone="light" />
 
       {/* §4 · S37 timetable board */}
       <section aria-labelledby="batches-h" className="relative py-[clamp(6rem,14vh,12rem)]">
-        <div className="relative h-[42svh] min-h-[260px]">
-          <FilmImage name="currBatch" sizes="100vw" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night/20 via-transparent to-night" />
-        </div>
-        <div className="gutter -mt-16 relative">
+        <div className="gutter relative">
           <Label>Batches</Label>
           <Headline id="batches-h" className="mt-4" inscription="Before school." voice="After school. Weekends." />
           <div tabIndex={0} role="region" aria-label="Curriculum progression table" className="relative mt-10 overflow-x-auto">

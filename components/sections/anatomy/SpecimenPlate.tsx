@@ -42,6 +42,8 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
   }, []);
   const points = only ? hotspots.filter((h) => only.includes(h.id)) : hotspots;
   const [activeId, setActiveId] = useState(points[0].id);
+  const [focusKey, setFocusKey] = useState(0);
+  const choose = (id: string) => { setActiveId(id); setFocusKey((k) => k + 1); };
   const reducedMotion = useReducedMotion();
   const [requestedMode, setViewMode] = useState<"3d" | "2d" | null>(null);
   const [fallbackMessage, setFallbackMessage] = useState<string | null>(null);
@@ -100,9 +102,11 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
           {viewMode === "3d" && nearViewport ? (
             <Anatomy3DHorse
               activeId={activeId}
+              focusKey={focusKey}
+              points={points}
               onUnavailable={(message) => { setFallbackMessage(message); setViewMode("2d"); }}
               onSelectHotspot={(id) => {
-                if (id !== "overview") setActiveId(id);
+                if (id !== "overview") choose(id);
               }}
               className="absolute inset-0 h-full w-full"
             />
@@ -208,7 +212,7 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
             <button
               key={h.id}
               type="button"
-              onClick={() => setActiveId(h.id)}
+              onClick={() => choose(h.id)}
               aria-pressed={h.id === active.id}
               className={cn(
                 "label border px-3 py-2",

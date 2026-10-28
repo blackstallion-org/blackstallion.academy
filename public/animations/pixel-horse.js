@@ -515,7 +515,10 @@
 
     var dt = now - this.lastTimestamp;
     this.lastTimestamp = now;
-    if (dt < 0 || dt > 120) dt = 16.67;
+    /* A long frame (the page was busy) used to be treated as 16 ms, which stalled the legs and then jumped them. The real time
+       is used, capped, so the gait stays continuous and merely catches up over a few frames. */
+    if (dt < 0) dt = 16.67;
+    if (dt > 100) dt = 100;
 
     if (this.mode === 'loading') {
       var effectiveSpeed = this.prefersReducedMotion

@@ -18,6 +18,7 @@ const eslintConfig = defineConfig([
     "scratch/**", // Local capture experiments are not application source.
     "output/**", // Generated verification artifacts and browser traces.
     "public/draco/**", // Third-party generated decoder, distributed unchanged.
+    "public/anatomy/vendor/**", // three.js, GSAP and transpiled copies of components/3d (scripts/build-anatomy-vendor.mjs); not edited by hand.
   ]),
   // Vendored, pre-compiled third-party component (Framer export by Matthias Ölschlegel), kept byte-for-byte so the
   // effect is unchanged. Its "latest ref" render pattern trips the React Compiler rules; it is isolated here rather than

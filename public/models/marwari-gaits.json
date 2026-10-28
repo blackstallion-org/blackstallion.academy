@@ -1,0 +1,578 @@
+{
+ "Walk": {
+  "v": 1.44,
+  "T": 0.8,
+  "strideLength": 1.152,
+  "strideFrequency": 1.25,
+  "lead": null,
+  "contacts": {
+   "HL": [
+    0.0,
+    0.55
+   ],
+   "FL": [
+    0.25,
+    0.55
+   ],
+   "HR": [
+    0.5,
+    0.55
+   ],
+   "FR": [
+    0.75,
+    0.55
+   ]
+  },
+  "duty": {
+   "F": 0.55,
+   "H": 0.55
+  },
+  "airborneFraction": 0.0,
+  "sweepM": {
+   "F": 0.634,
+   "H": 0.634
+  },
+  "biasM": {
+   "F": 0.0,
+   "H": 0.26
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0443,
+   "H": 0.0611
+  },
+  "ikReachErrorByLimbM": {
+   "HL": 0.0611,
+   "FL": 0.0443,
+   "HR": 0.0136,
+   "FR": 0.0382
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
+  },
+  "soleStanceMeanM": {
+   "F": 0.0013,
+   "H": -0.0012
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0378,
+   "H": 0.0431
+  },
+  "toeSwingPeakMps": 5.73,
+  "toeSwingMeanMps": 3.89,
+  "toeSwingPeak3dMps": 5.73,
+  "toeSwingMaxHeightM": 0.114,
+  "slipRmsMps": 0.061,
+  "slipMaxMps": 0.163,
+  "frames": 24,
+  "samples": 24
+ },
+ "Trot": {
+  "v": 3.33,
+  "T": 0.75,
+  "strideLength": 2.498,
+  "strideFrequency": 1.333,
+  "lead": null,
+  "contacts": {
+   "FL": [
+    0.0,
+    0.38
+   ],
+   "HR": [
+    0.0,
+    0.38
+   ],
+   "FR": [
+    0.5,
+    0.38
+   ],
+   "HL": [
+    0.5,
+    0.38
+   ]
+  },
+  "duty": {
+   "F": 0.38,
+   "H": 0.38
+  },
+  "airborneFraction": 0.24,
+  "sweepM": {
+   "F": 0.949,
+   "H": 0.949
+  },
+  "biasM": {
+   "F": -0.04,
+   "H": 0.22
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0567,
+   "H": 0.0478
+  },
+  "ikReachErrorByLimbM": {
+   "FL": 0.0567,
+   "HR": 0.0237,
+   "FR": 0.0553,
+   "HL": 0.0478
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
+  },
+  "soleStanceMeanM": {
+   "F": 0.0065,
+   "H": -0.0014
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.031,
+   "H": 0.0543
+  },
+  "toeSwingPeakMps": 9.16,
+  "toeSwingMeanMps": 6.19,
+  "toeSwingPeak3dMps": 9.16,
+  "toeSwingMaxHeightM": 0.218,
+  "slipRmsMps": 0.176,
+  "slipMaxMps": 0.496,
+  "frames": 22,
+  "samples": 24
+ },
+ "Canter_R": {
+  "v": 4.83,
+  "T": 0.6,
+  "strideLength": 2.898,
+  "strideFrequency": 1.667,
+  "lead": "R",
+  "contacts": {
+   "HL": [
+    0.0,
+    0.33
+   ],
+   "HR": [
+    0.29,
+    0.33
+   ],
+   "FL": [
+    0.29,
+    0.28
+   ],
+   "FR": [
+    0.5,
+    0.28
+   ]
+  },
+  "duty": {
+   "F": 0.28,
+   "H": 0.33
+  },
+  "airborneFraction": 0.22,
+  "sweepM": {
+   "F": 0.811,
+   "H": 0.956
+  },
+  "biasM": {
+   "F": -0.02,
+   "H": 0.22
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0561,
+   "H": 0.0649
+  },
+  "ikReachErrorByLimbM": {
+   "HL": 0.0649,
+   "HR": 0.0418,
+   "FL": 0.0451,
+   "FR": 0.0561
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
+  },
+  "soleStanceMeanM": {
+   "F": 0.0092,
+   "H": -0.0013
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0399,
+   "H": 0.0444
+  },
+  "toeSwingPeakMps": 11.73,
+  "toeSwingMeanMps": 7.46,
+  "toeSwingPeak3dMps": 11.74,
+  "toeSwingMaxHeightM": 0.303,
+  "slipRmsMps": 0.233,
+  "slipMaxMps": 0.561,
+  "frames": 18,
+  "samples": 28
+ },
+ "Canter_L": {
+  "v": 4.83,
+  "T": 0.6,
+  "strideLength": 2.898,
+  "strideFrequency": 1.667,
+  "lead": "L",
+  "contacts": {
+   "HR": [
+    0.0,
+    0.33
+   ],
+   "HL": [
+    0.29,
+    0.33
+   ],
+   "FR": [
+    0.29,
+    0.28
+   ],
+   "FL": [
+    0.5,
+    0.28
+   ]
+  },
+  "duty": {
+   "F": 0.28,
+   "H": 0.33
+  },
+  "airborneFraction": 0.22,
+  "sweepM": {
+   "F": 0.811,
+   "H": 0.956
+  },
+  "biasM": {
+   "F": -0.02,
+   "H": 0.22
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0645,
+   "H": 0.0436
+  },
+  "ikReachErrorByLimbM": {
+   "HR": 0.0297,
+   "HL": 0.0436,
+   "FR": 0.0447,
+   "FL": 0.0645
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
+  },
+  "soleStanceMeanM": {
+   "F": 0.0098,
+   "H": -0.0015
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0379,
+   "H": 0.0539
+  },
+  "toeSwingPeakMps": 11.8,
+  "toeSwingMeanMps": 7.47,
+  "toeSwingPeak3dMps": 11.8,
+  "toeSwingMaxHeightM": 0.297,
+  "slipRmsMps": 0.221,
+  "slipMaxMps": 0.628,
+  "frames": 18,
+  "samples": 28
+ },
+ "Gallop_R": {
+  "v": 10.0,
+  "T": 0.42,
+  "strideLength": 4.2,
+  "strideFrequency": 2.381,
+  "lead": "R",
+  "contacts": {
+   "HL": [
+    0.0,
+    0.22
+   ],
+   "HR": [
+    0.14,
+    0.22
+   ],
+   "FL": [
+    0.3,
+    0.19
+   ],
+   "FR": [
+    0.46,
+    0.19
+   ]
+  },
+  "duty": {
+   "F": 0.19,
+   "H": 0.22
+  },
+  "airborneFraction": 0.35,
+  "sweepM": {
+   "F": 0.798,
+   "H": 0.924
+  },
+  "biasM": {
+   "F": -0.02,
+   "H": 0.22
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0963,
+   "H": 0.0653
+  },
+  "ikReachErrorByLimbM": {
+   "HL": 0.0653,
+   "HR": 0.0305,
+   "FL": 0.0963,
+   "FR": 0.0442
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
+  },
+  "soleStanceMeanM": {
+   "F": 0.0142,
+   "H": 0.0033
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0765,
+   "H": 0.0131
+  },
+  "toeSwingPeakMps": 24.84,
+  "toeSwingMeanMps": 13.77,
+  "toeSwingPeak3dMps": 27.19,
+  "toeSwingMaxHeightM": 0.879,
+  "slipRmsMps": 0.573,
+  "slipMaxMps": 1.856,
+  "frames": 13,
+  "samples": 30
+ },
+ "Gallop_L": {
+  "v": 10.0,
+  "T": 0.42,
+  "strideLength": 4.2,
+  "strideFrequency": 2.381,
+  "lead": "L",
+  "contacts": {
+   "HR": [
+    0.0,
+    0.22
+   ],
+   "HL": [
+    0.14,
+    0.22
+   ],
+   "FR": [
+    0.3,
+    0.19
+   ],
+   "FL": [
+    0.46,
+    0.19
+   ]
+  },
+  "duty": {
+   "F": 0.19,
+   "H": 0.22
+  },
+  "airborneFraction": 0.35,
+  "sweepM": {
+   "F": 0.798,
+   "H": 0.924
+  },
+  "biasM": {
+   "F": -0.02,
+   "H": 0.22
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0927,
+   "H": 0.0341
+  },
+  "ikReachErrorByLimbM": {
+   "HR": 0.0341,
+   "HL": 0.0286,
+   "FR": 0.0927,
+   "FL": 0.0526
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
+  },
+  "soleStanceMeanM": {
+   "F": 0.0145,
+   "H": 0.0016
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0791,
+   "H": 0.0093
+  },
+  "toeSwingPeakMps": 25.09,
+  "toeSwingMeanMps": 13.8,
+  "toeSwingPeak3dMps": 26.88,
+  "toeSwingMaxHeightM": 0.885,
+  "slipRmsMps": 0.526,
+  "slipMaxMps": 1.823,
+  "frames": 13,
+  "samples": 30
+ },
+ "Sprint_R": {
+  "v": 12.0,
+  "T": 0.383,
+  "strideLength": 4.596,
+  "strideFrequency": 2.611,
+  "lead": "R",
+  "contacts": {
+   "HL": [
+    0.0,
+    0.2
+   ],
+   "HR": [
+    0.13,
+    0.2
+   ],
+   "FL": [
+    0.29,
+    0.17
+   ],
+   "FR": [
+    0.44,
+    0.17
+   ]
+  },
+  "duty": {
+   "F": 0.17,
+   "H": 0.2
+  },
+  "airborneFraction": 0.389,
+  "sweepM": {
+   "F": 0.781,
+   "H": 0.919
+  },
+  "biasM": {
+   "F": -0.02,
+   "H": 0.2
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0801,
+   "H": 0.0666
+  },
+  "ikReachErrorByLimbM": {
+   "HL": 0.0666,
+   "HR": 0.0335,
+   "FL": 0.0801,
+   "FR": 0.0325
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
+  },
+  "soleStanceMeanM": {
+   "F": 0.0086,
+   "H": 0.0043
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0623,
+   "H": 0.0117
+  },
+  "toeSwingPeakMps": 29.0,
+  "toeSwingMeanMps": 15.91,
+  "toeSwingPeak3dMps": 30.96,
+  "toeSwingMaxHeightM": 0.953,
+  "slipRmsMps": 0.572,
+  "slipMaxMps": 1.762,
+  "frames": 11,
+  "samples": 30
+ },
+ "Sprint_L": {
+  "v": 12.0,
+  "T": 0.383,
+  "strideLength": 4.596,
+  "strideFrequency": 2.611,
+  "lead": "L",
+  "contacts": {
+   "HR": [
+    0.0,
+    0.2
+   ],
+   "HL": [
+    0.13,
+    0.2
+   ],
+   "FR": [
+    0.29,
+    0.17
+   ],
+   "FL": [
+    0.44,
+    0.17
+   ]
+  },
+  "duty": {
+   "F": 0.17,
+   "H": 0.2
+  },
+  "airborneFraction": 0.389,
+  "sweepM": {
+   "F": 0.781,
+   "H": 0.919
+  },
+  "biasM": {
+   "F": -0.02,
+   "H": 0.2
+  },
+  "ikReachErrorStanceMaxM": {
+   "F": 0.0765,
+   "H": 0.0456
+  },
+  "ikReachErrorByLimbM": {
+   "HR": 0.0339,
+   "HL": 0.0456,
+   "FR": 0.0765,
+   "FL": 0.0387
+  },
+  "stanceCentreY": {
+   "FL": -0.613,
+   "FR": -0.613,
+   "HL": 0.479,
+   "HR": 0.479
+  },
+  "soleStanceMeanM": {
+   "F": 0.0091,
+   "H": 0.0034
+  },
+  "soleStanceMaxAbsM": {
+   "F": 0.0647,
+   "H": 0.0185
+  },
+  "toeSwingPeakMps": 28.78,
+  "toeSwingMeanMps": 15.95,
+  "toeSwingPeak3dMps": 30.68,
+  "toeSwingMaxHeightM": 0.951,
+  "slipRmsMps": 0.581,
+  "slipMaxMps": 1.727,
+  "frames": 11,
+  "samples": 30
+ },
+ "Stop": {
+  "T": 1.8,
+  "note": "planted feet; forelimbs braced 0.11 m forward, hindlimbs 0.07 m under; plays over the stand"
+ },
+ "Alert": {
+  "T": 4.0,
+  "note": "looping hold; combine with Idle_Breathing and Blink at runtime"
+ },
+ "_meta": {
+  "units": "metres, seconds",
+  "convention": "body frame +Y toward tail; clips are in place (no root motion); runtime advances the root at v",
+  "sources": [
+   "Hildebrand 1977 (gait classification)",
+   "Biancardi & Minetti 2012, J Exp Biol (transverse gallop duty factors and lags)"
+  ]
+ }
+}

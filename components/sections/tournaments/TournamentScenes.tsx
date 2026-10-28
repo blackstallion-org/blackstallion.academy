@@ -18,8 +18,8 @@ import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicS
 export function CircuitTitle() {
   return (
     <section aria-labelledby="circuit-title" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden">
-      <motion.div className="absolute inset-0" initial={{ x: "4%" }} animate={{ x: "0%" }} transition={{ duration: 2.4, ease: ease.citadel }}>
+<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
+      <motion.div className="absolute inset-x-0 bottom-0 top-16 md:top-20" initial={{ x: "4%" }} animate={{ x: "0%" }} transition={{ duration: 2.4, ease: ease.citadel }}>
         <FilmImage name="bgCharge" priority bleed />
       </motion.div>
       <div aria-hidden className="widget-hud absolute inset-0 overflow-hidden">

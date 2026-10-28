@@ -18,17 +18,18 @@ export function ScienceTitle() {
   const t = (d: number) => ({ duration: 1.6, ease: ease.citadel, delay: d });
   return (
     <section aria-labelledby="science-h" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden">
-      <motion.div className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2.2, delay: 1.2 }}>
-        <FilmImage name="scienceRider" priority grade="deep" />
+<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
+      {/* The photograph starts below the fixed nav (h-16 / md:h-20) so the bar never covers the rider; the overlay below is registered to the same box. */}
+      <motion.div className="absolute inset-x-0 bottom-0 top-16 md:top-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2.2, delay: 1.2 }}>
+        <FilmImage name="scienceRider" priority grade="deep" scale={1} />
       </motion.div>
-      <div aria-hidden className="absolute inset-0 shade-l" />
+      <div aria-hidden className="absolute inset-x-0 bottom-0 top-16 shade-l md:top-20" />
       {/*
         Motion-capture overlay, registered to science-rider.png (rider's spine at x≈54.6 of 100, seat at y≈23.6 of 56.25).
         The SVG slices exactly as the photo covers, so the marks stay on the rider at any desktop size. Hidden on phones,
         where the portrait crop puts the rider behind the headline.
       */}
-      <svg viewBox="0 0 100 56.25" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 hidden h-full w-full md:block" aria-hidden>
+      <svg viewBox="0 0 100 56.25" preserveAspectRatio="xMidYMid slice" className="absolute left-0 top-20 hidden h-[calc(100%-5rem)] w-full md:block" aria-hidden>
         <g fill="none" stroke="var(--color-antique)" strokeWidth="0.12">
           <motion.line x1="54.6" y1="3.2" x2="54.6" y2="34" strokeDasharray="0.6 0.6" {...draw} transition={t(0.2)} />
           <motion.circle cx="54.8" cy="5.8" r="2" {...draw} transition={t(0.35)} />

@@ -5,6 +5,7 @@ import path from "node:path";
 import ts from "typescript";
 import { MEDIA_PREFIXES } from "../lib/content/media-base.mjs";
 import { root } from "./helpers/load-ts.mjs";
+import { SITE_ONLY } from "../scripts/lib/media-refs.mjs";
 
 // Every path to a still, model, video or audio file must go through asset() so that one setting
 // (NEXT_PUBLIC_MEDIA_BASE_URL) moves the whole site to the media bucket. A path written as a bare string would silently
@@ -44,7 +45,7 @@ function unwrappedMediaPaths(file) {
     let literal = null;
     if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) literal = node.text;
     else if (ts.isTemplateExpression(node)) literal = node.head.text;
-    if (literal !== null && startsWithMediaPrefix(literal) && !isWrapped(node)) {
+    if (literal !== null && startsWithMediaPrefix(literal) && !SITE_ONLY.has(literal) && !isWrapped(node)) {
       const { line } = source.getLineAndCharacterOfPosition(node.getStart());
       found.push(`${path.relative(root, file)}:${line + 1}  ${literal.slice(0, 80)}`);
     }

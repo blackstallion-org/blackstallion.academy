@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>One conversation. Two bodies. — Black Stallion Academy</title>
+  <meta name="robots" content="noindex" />
+  <!-- Self-hosted brand fonts (SIL OFL 1.1, licences beside the files) -->
+  <link rel="preload" href="/anatomy/fonts/noto-serif-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/anatomy/fonts/plus-jakarta-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <style>
+    @font-face { font-family: 'Noto Serif Display'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('/anatomy/fonts/noto-serif-display-latin-wght-normal.woff2') format('woff2'); }
+    @font-face { font-family: 'Noto Serif Display'; font-style: italic; font-weight: 100 900; font-display: swap; src: url('/anatomy/fonts/noto-serif-display-latin-wght-italic.woff2') format('woff2'); }
+    @font-face { font-family: 'Plus Jakarta Sans'; font-style: normal; font-weight: 200 800; font-display: swap; src: url('/anatomy/fonts/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2'); }
+  </style>
+  <!-- Prebuilt utility subset -->
+  <link rel="stylesheet" href="/anatomy/exhibit.css">
+  <!-- three.js r186 and the site's Marwari helpers, hosted locally (scripts/build-anatomy-vendor.mjs) -->
+  <script type="importmap">
+  {"imports":{"three":"/anatomy/vendor/three/build/three.module.js","three/examples/jsm/":"/anatomy/vendor/three/examples/jsm/"}}
+  </script>
+  <link rel="modulepreload" href="/anatomy/vendor/three/build/three.module.js">
+  <link rel="modulepreload" href="/anatomy/exhibit.js">
+  <!-- GSAP 3.12.5 for Cinematic UI & Camera Motion -->
+  <script src="/anatomy/vendor/gsap.min.js"></script>
+  <!-- motion (the site's animation library, vanilla build): springs, hover and press for the control deck -->
+  <script src="/anatomy/vendor/motion.js"></script>
+
+  <style>
+    :root {
+      --bg-ivory: #EAE0D2;
+      --bg-sand: #DDD0BE;
+      --bg-warm-umber: #CBB9A1;
+      --ink-espresso: #28170D;
+      --ink-brown: #4A3323;
+      --ink-muted: #6E5744;
+      --card-active: #543825;
+      --card-active-dark: #3E2718;
+      --card-idle: rgba(236, 226, 212, 0.78);
+      --panel-glass: rgba(240, 232, 220, 0.90);
+      --gold-line: #9E7B50;
+      --gold-bright: #DFB77C;
+      --gold-glow: #FFF2D6;
+      --border-subtle: rgba(133, 102, 70, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-ivory);
+      color: var(--ink-espresso);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
+      overflow-y: hidden; /* the parent page sizes the frame to the content */
+    }
+
+    .font-editorial {
+      font-family: 'Noto Serif Display', Georgia, 'Times New Roman', serif;
+    }
+
+    /* Museum exhibition studio background with warm sunlit shafts & floor horizon */
+    .bsah-stage-bg {
+      background:
+        radial-gradient(ellipse 62% 52% at 50% 48%, rgba(252, 247, 239, 0.92) 0%, rgba(234, 223, 207, 0.55) 54%, rgba(206, 190, 168, 0.78) 100%),
+        linear-gradient(122deg, rgba(255, 251, 244, 0.45) 0%, rgba(232, 220, 202, 0.12) 36%, rgba(255, 250, 240, 0.38) 52%, rgba(212, 195, 173, 0.28) 74%, rgba(238, 228, 214, 0.5) 100%),
+        linear-gradient(180deg, #E8DFD2 0%, #E1D5C4 72%, #D4C3AC 83%, #E5DACB 100%);
+      position: relative;
+    }
+
+    /* Subtle museum diagonal light rays */
+    .sunlight-rays {
+      background: linear-gradient(
+        125deg,
+        transparent 16%,
+        rgba(255, 250, 242, 0.38) 28%,
+        transparent 40%,
+        rgba(255, 249, 238, 0.32) 53%,
+        transparent 66%
+      );
+      pointer-events: none;
+    }
+
+    /* Connection Cards (Right Column) */
+    .connection-card {
+      background: var(--card-idle);
+      border: 1px solid rgba(138, 108, 76, 0.32);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      /* colour and background switch together so text never sits dark-on-dark mid-transition */
+      transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.36s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.36s ease;
+      box-shadow: 0 6px 20px -6px rgba(58, 36, 19, 0.08);
+      cursor: pointer;
+    }
+
+    .connection-card:hover {
+      border-color: rgba(138, 108, 76, 0.62);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px -8px rgba(58, 36, 19, 0.15);
+    }
+
+    .connection-card.active {
+      background: linear-gradient(135deg, #5B3E29 0%, #462D1C 100%);
+      border-color: #8E6C44;
+      color: #F9F3EA;
+      box-shadow: 0 16px 34px -8px rgba(43, 26, 16, 0.42);
+    }
+
+    .connection-card.active .card-sub {
+      color: rgba(242, 230, 213, 0.78);
+    }
+
+    .connection-card.active .card-arrow {
+      border-color: rgba(245, 233, 216, 0.34);
+      background: rgba(255, 248, 237, 0.08);
+      color: #F7EFE4;
+    }
+
+    .connection-card .card-arrow {
+      border: 1px solid rgba(110, 87, 68, 0.30);
+      color: #4A3323;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .connection-card:hover .card-arrow {
+      transform: translateX(2px);
+    }
+
+    /* Lower-left explanation panel */
+    .explanation-panel {
+      background: linear-gradient(160deg, rgba(242, 235, 224, 0.92) 0%, rgba(234, 224, 210, 0.86) 100%);
+      border: 1px solid rgba(156, 126, 92, 0.28);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 18px 40px -15px rgba(45, 28, 15, 0.12), inset 0 1px 0 rgba(255, 252, 246, 0.68);
+    }
+
+    /* Mode Selector Buttons */
+    .mode-btn {
+      background: rgba(236, 226, 212, 0.78);
+      border: 1px solid rgba(138, 108, 76, 0.30);
+      color: #4A3323;
+      transition: border-color 0.28s ease, box-shadow 0.28s ease;
+      cursor: pointer;
+    }
+
+    .mode-btn:hover {
+      border-color: rgba(138, 108, 76, 0.62);
+      background: rgba(242, 234, 222, 0.94);
+    }
+
+    .mode-btn.active {
+      background: #482E1D;
+      border-color: #482E1D;
+      color: #F9F2E7;
+      box-shadow: 0 6px 16px -4px rgba(43, 26, 16, 0.38);
+    }
+
+    /* 3D Callout Pins projected from WebGL coordinates with collision avoidance */
+    .callout-pin {
+      position: absolute;
+      pointer-events: none;
+      transform: translate(-50%, 0);
+      transition: left 0.18s ease-out, top 0.18s ease-out, opacity 0.3s ease;
+      z-index: 15;
+    }
+
+    .callout-dashed-line {
+      width: 1.5px;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(139, 98, 53, 0.75) 0px,
+        rgba(139, 98, 53, 0.75) 4px,
+        transparent 4px,
+        transparent 8px
+      );
+      margin: 0 auto;
+    }
+
+    /* Bottom layer timeline dots */
+    .timeline-node {
+      cursor: pointer;
+      transition: all 0.25s ease;
+      background: transparent;
+      border: none;
+    }
+
+    .timeline-node.active .timeline-label {
+      color: #28170D;
+      font-weight: 700;
+    }
+
+    .timeline-node.active .timeline-dot {
+      background: #3E2718;
+      transform: scale(1.35);
+      box-shadow: 0 0 0 4px rgba(158, 123, 80, 0.25);
+    }
+
+    /* Self-contained layout fallback rules so headless/offline browsers match Tailwind 100% */
+    .bsah-header-bar {
+      width: 100%;
+      border-bottom: 1px solid rgba(138, 108, 76, 0.24);
+      background: rgba(234, 224, 210, 0.92);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .bsah-header-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+      height: 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bsah-main-section {
+      position: relative;
+      width: 100%;
+      min-height: calc(100vh - 4.5rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      user-select: none;
+    }
+    .bsah-stage-grid {
+      position: relative;
+      z-index: 20;
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.75rem 2.5rem 0.5rem 2.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    #stageWrapper {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    #equineCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+      outline: none;
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    @media (min-width: 1024px) {
+      .bsah-stage-grid {
+        display: block;
+        min-height: 730px;
+      }
+      #editorialHeader {
+        max-width: 440px;
+        position: relative;
+        z-index: 30;
+      }
+      #stageWrapper {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #connectionCardsContainer {
+        position: absolute;
+        right: 2.5rem;
+        top: 2.25rem;
+        width: 345px;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      #explanationCard {
+        position: absolute;
+        left: 2.5rem;
+        bottom: 1.15rem;
+        width: 365px;
+        z-index: 30;
+      }
+      #controlsCluster {
+        position: absolute;
+        right: 2.5rem;
+        bottom: 1.15rem;
+        width: 245px;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+      }
+      #mobileModeBar {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .bsah-header-inner {
+        padding: 0 1rem;
+        height: 4rem;
+      }
+      .bsah-stage-grid {
+        padding: 1rem;
+        gap: 0.75rem;
+      }
+      #stageWrapper {
+        height: 360px;
+        order: 2;
+      }
+      #editorialHeader {
+        order: 1;
+      }
+      #mobileModeBar {
+        order: 3;
+        display: flex;
+      }
+      #connectionCardsContainer {
+        order: 4;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+      #explanationCard {
+        order: 5;
+      }
+      #controlsCluster {
+        order: 6;
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #E5DACB;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #9E7B50;
+      border-radius: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+<style>
+html,body{min-height:0!important;height:auto!important}
+.bsah-main-section{min-height:0!important}
+.bsah-stage-grid{padding-top:1.5rem!important;padding-bottom:2rem!important}
+.font-editorial{font-weight:420!important;letter-spacing:-0.01em}
+.headline-voice{font-style:italic;color:#78472F;font-weight:400}
+/* Visible keyboard focus on every control */
+button:focus-visible,#equineCanvas:focus-visible{outline:2px solid #543825;outline-offset:3px;border-radius:6px}
+.connection-card:focus-visible{outline:2px solid #543825;outline-offset:3px}
+.connection-card.active:focus-visible{outline-color:#9E7B50}
+.connection-card.active > div > div:first-child{color:#F2E6D5!important;opacity:1!important}
+#equineCanvas:focus-visible{outline-offset:-3px}
+.rider-toggle{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .8rem;border-radius:9999px;border:1px solid rgba(138,108,76,.4);background:rgba(243,236,225,.8);color:#3E2718;font:600 10px/1.2 'Plus Jakarta Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.rider-toggle .dot{width:8px;height:8px;border-radius:9999px;border:1px solid #9E7B50;background:#9E7B50}
+.region-chip{min-height:22px}
+#resetCameraBtn[hidden]{display:none!important}
+/* Accessible fallback when WebGL is unavailable */
+#noWebglFallback{display:none}
+.no-webgl #noWebglFallback{display:flex}
+.no-webgl #equineCanvas,.no-webgl .callout-pin,.no-webgl #controlsCluster,.no-webgl #loadingOverlay,.no-webgl #anatomicalHoverTooltip{display:none!important}
+#noWebglFallback{position:relative;z-index:12;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;width:100%;height:100%;text-align:center;color:#3E2718}
+#noWebglFallback svg{width:min(100%,640px);height:auto;max-height:78%}
+#noWebglFallback p{margin:0;font-size:12.5px;line-height:1.5;max-width:34rem;color:#4E3929}
+.fallback-list{margin:.5rem 0 0;padding:0;list-style:none;display:none;gap:.6rem;text-align:left;max-width:40rem}
+/* Script could not start at all: the static list carries the three connections */
+.no-exhibit-js .fallback-list{display:grid}
+.no-exhibit-js #connectionCardsContainer,.no-exhibit-js #explanationCard{display:none!important}
+.no-exhibit-js #stageWrapper{position:relative!important;height:auto!important;aspect-ratio:auto!important}
+.fallback-list li{font-size:12.5px;line-height:1.5;color:#3E2A1C}
+.fallback-list strong{display:block;font-size:13px;color:#28170D}
+@media (min-width:1024px){
+  .bsah-stage-grid{min-height:780px}
+  #editorialHeader{max-width:400px!important}
+  #explanationCard{bottom:2rem!important;width:350px!important}
+  #controlsCluster{bottom:2rem!important;width:300px!important}
+  #connectionCardsContainer{top:1.5rem!important;width:300px!important}
+}
+@media (max-width:1023px){
+  .bsah-stage-grid{gap:1rem!important}
+  #stageWrapper{height:auto!important;aspect-ratio:5/4;max-height:560px}
+  .no-webgl #stageWrapper{aspect-ratio:auto;max-height:none}
+  #controlsCluster{display:flex;flex-direction:column;gap:1.1rem;order:3!important}
+  #connectionCardsContainer{order:4!important}
+  #explanationCard{order:5!important}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style><style>
+/* ---- Control deck (right column): quiet pills, springs from motion ---- */
+.deck{display:flex;flex-direction:column;gap:.6rem;padding:.9rem;border-radius:1.15rem;background:rgba(246,239,228,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(138,108,76,.26);box-shadow:0 14px 34px -16px rgba(58,36,19,.28)}
+.deck button{font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.deck-line{display:flex;align-items:center;justify-content:space-between;gap:.5rem;min-height:1.1rem}
+.deck-label{font:700 10px/1 'Plus Jakarta Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#3E2718}
+.deck-hint{font:500 9.5px/1 'Plus Jakarta Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#6E5744}
+.deck-rows{position:relative;display:flex;flex-direction:column;gap:.15rem}
+.deck-thumb,.seg-thumb{position:absolute;left:0;top:0;border-radius:.8rem;background:linear-gradient(135deg,#5B3E29,#3A2415);box-shadow:0 8px 18px -8px rgba(43,26,16,.55);pointer-events:none;will-change:transform,width,height}
+.deck .connection-card.deck-row{all:unset;box-sizing:border-box;position:relative;z-index:1;display:flex;align-items:center;gap:.75rem;width:100%;min-height:3.25rem;padding:.5rem .7rem;border-radius:.8rem;cursor:pointer;color:#3E2718;transition:color .25s ease}
+.deck .connection-card.deck-row:hover{color:#28170D}
+.deck .connection-card.deck-row.active{color:#F9F3EA;background:none;box-shadow:none}
+.deck .connection-card.deck-row:focus-visible{outline:2px solid #543825;outline-offset:2px}
+.deck-icon{display:grid;place-items:center;width:2.1rem;height:2.1rem;flex:none;border-radius:999px;border:1px solid currentColor;opacity:.85}
+.deck-text{display:flex;flex-direction:column;gap:.18rem;flex:1;min-width:0}
+.deck-text b{font:600 15px/1.1 'Plus Jakarta Sans',sans-serif;letter-spacing:-.01em}
+.deck-text i{font:400 11.5px/1.25 'Plus Jakarta Sans',sans-serif;font-style:normal;opacity:.75}
+.deck-num{font:600 10px/1 'Plus Jakarta Sans',sans-serif;letter-spacing:.14em;opacity:.6}
+.seg{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:.22rem;border-radius:999px;background:rgba(222,208,188,.62);border:1px solid rgba(138,108,76,.22)}
+.seg-thumb{border-radius:999px;top:.22rem;left:.22rem;height:calc(100% - .44rem)}
+.seg-btn{all:unset;box-sizing:border-box;position:relative;z-index:1;display:grid;place-items:center;min-height:2.2rem;padding:0 .35rem;border-radius:999px;cursor:pointer;font:600 10.5px/1 'Plus Jakarta Sans',sans-serif!important;letter-spacing:.12em;text-transform:uppercase;color:#4A3323;transition:color .25s ease;text-align:center}
+.seg-btn.active{color:#F9F3EA}
+.seg-btn:focus-visible,.play-btn:focus-visible,.rider-switch:focus-visible,.stride-dot:focus-visible{outline:2px solid #543825;outline-offset:2px}
+.deck-play{display:flex;align-items:center;gap:.6rem}
+.deck-play .seg{flex:1}
+.play-btn{all:unset;box-sizing:border-box;flex:none;display:grid;place-items:center;width:2.7rem;height:2.7rem;border-radius:999px;background:#3E2718;color:#F9F3EA;cursor:pointer;box-shadow:0 8px 18px -8px rgba(43,26,16,.6)}
+.scrub{position:relative;display:flex;align-items:center;justify-content:space-between;height:1.1rem;padding:0 .25rem}
+.scrub-line{position:absolute;left:.25rem;right:.25rem;height:1.5px;background:rgba(158,123,80,.45)}
+.scrub-fill{position:absolute;left:.25rem;height:2px;background:#3E2718;width:0}
+.stride-dot{all:unset;position:relative;z-index:1;width:8px;height:8px;border-radius:999px;background:#9E7B50;cursor:pointer;box-shadow:0 0 0 6px transparent}
+.rider-switch{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:.55rem;cursor:pointer;font:600 10px/1.2 'Plus Jakarta Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#3E2718}
+.rider-switch .knob{position:relative;width:2.1rem;height:1.2rem;border-radius:999px;background:#3E2718;transition:background .25s ease}
+.rider-switch .knob::after{content:"";position:absolute;top:.15rem;left:.15rem;width:.9rem;height:.9rem;border-radius:999px;background:#F9F3EA;transform:translateX(.9rem);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.rider-switch[aria-pressed="false"] .knob{background:#BFAE96}
+.rider-switch[aria-pressed="false"] .knob::after{transform:none}
+#obsidianVeil{position:absolute;inset:-4% 16%;z-index:0;opacity:0;pointer-events:none;background:radial-gradient(ellipse 50% 54% at 50% 50%,rgba(16,13,10,.94) 0%,rgba(22,18,14,.78) 46%,rgba(22,18,14,0) 74%);filter:blur(10px)}
+#equineCanvas{position:relative;z-index:1}
+#telemetryHud{position:absolute;z-index:3;left:50%;bottom:.6rem;transform:translateX(-50%);display:none;align-items:center;gap:.4rem 1.1rem;flex-wrap:wrap;justify-content:center;max-width:92%;padding:.45rem .9rem;border-radius:999px;background:rgba(22,18,14,.82);color:#E8D6B0;font:500 10px/1.2 'Plus Jakarta Sans',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;pointer-events:none;opacity:0}
+#telemetryHud .hud-title{color:#C9A66B;font-weight:700}
+#telemetryHud b{font-weight:700;color:#FFF3D6;font-variant-numeric:tabular-nums;display:inline-block;min-width:2.2ch;text-align:right}
+@media (min-width:1024px){#connectionCardsContainer{width:310px!important}#controlsCluster{width:310px!important}}
+@media (max-width:640px){#telemetryHud .hud-title{display:none}}
+@media (max-width:1023px){.deck{padding:.8rem}#telemetryHud{bottom:.2rem;font-size:8.5px;letter-spacing:.1em;padding:.35rem .7rem}}
+@media(prefers-reduced-motion:reduce){.rider-switch .knob::after,.seg-btn,.deck .connection-card.deck-row{transition:none}}
+</style>
+</head>
+<body class="selection:bg-[#513624] selection:text-[#F9F3EA]">
+
+
+  <!-- ===================================================================== -->
+  <!-- MAIN INTERACTIVE SECTION: "One conversation. Two bodies."             -->
+  <!-- ===================================================================== -->
+  <main id="bsah-anatomy-section" class="bsah-stage-bg bsah-main-section">
+    <!-- Ambient Sunlight Rays Overlay -->
+    <div class="sunlight-rays absolute inset-0 z-0" style="position:absolute;inset:0;z-index:0;"></div>
+
+
+    <!-- =================================================================== -->
+    <!-- DESKTOP & RESPONSIVE STAGE CONTAINER                                -->
+    <!-- =================================================================== -->
+    <div class="bsah-stage-grid">
+
+      <!-- ----------------------------------------------------------------- -->
+      <!-- 1. UPPER-LEFT EDITORIAL HEADLINE & INTRODUCTION                   -->
+      <!-- ----------------------------------------------------------------- -->
+      <div id="editorialHeader" class="lg:max-w-[440px] relative z-30 pointer-events-auto">
+        <h1 class="font-editorial text-[2.6rem] sm:text-[3.4rem] xl:text-[3.85rem] leading-[0.98] font-semibold text-[#28170D] tracking-[-0.015em] mb-3"
+            style="font-size:clamp(2.1rem, 3vw, 3.1rem);line-height:1.02;color:#28170D;margin:0 0 0.75rem 0;">
+          One conversation.<br />
+          <span class="headline-voice">Two bodies.</span>
+        </h1>
+        <p class="text-[13.5px] sm:text-[14.5px] leading-[1.56] text-[#4E3929] max-w-[300px] font-normal"
+           style="font-size:14px;line-height:1.55;color:#4E3929;max-width:295px;margin:0;">
+          Select a connection to explore how balanced riding helps both horse and rider reach the same purpose.
+        </p>
+
+        <!-- Return to Full Horse Button (Revealed when zoomed into a specific region) -->
+        <div class="mt-3 flex flex-wrap items-center gap-2" style="margin-top:0.75rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;">
+          <button id="resetCameraBtn" type="button" hidden
+            class="px-3 py-1 rounded-full text-[10px] tracking-[0.16em] uppercase font-semibold bg-[#482E1D]/90 text-[#F9F3EA] border border-[#9E7B50]/50 shadow-sm hover:bg-[#28170D] transition-all"
+            style="padding:0.35rem 0.8rem;border-radius:9999px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;background:#482E1D;color:#F9F3EA;border:1px solid rgba(158,123,80,0.5);cursor:pointer;">
+            Show the whole horse
+          </button>
+        </div>
+      </div>
+
+      <!-- ----------------------------------------------------------------- -->
+      <!-- 2. CENTRAL 3D MARWARI HORSE & CADET RIDER STAGE (65-70% Desktop)  -->
+      <!-- ----------------------------------------------------------------- -->
+      <div id="stageWrapper">
+        <div id="obsidianVeil" aria-hidden="true"></div>
+        <canvas id="equineCanvas" tabindex="0" aria-label="Three-dimensional Marwari horse with a seated cadet rider. Drag to turn the model; use the connection choices to change the highlighted anatomy."></canvas>
+
+        <!-- Accessible fallback when WebGL is unavailable -->
+        <div id="noWebglFallback" hidden>
+          <svg viewBox="0 0 640 380" role="img" aria-labelledby="fallbackTitle">
+            <title id="fallbackTitle">Side view of a Marwari horse with a seated cadet rider</title>
+            <ellipse cx="330" cy="352" rx="250" ry="14" fill="#9E7B50" opacity="0.18"/>
+            <g fill="#5B3E29" stroke="#3E2718" stroke-width="2" stroke-linejoin="round">
+              <!-- body, neck and head (facing left) -->
+              <path d="M150 92 C138 70 150 52 158 46 L166 62 C172 54 180 50 186 54 L180 72 C196 86 214 112 232 140 C262 150 330 150 400 146 C452 142 500 150 520 178 C540 206 538 236 524 258 L516 262 C510 240 498 230 486 232 L470 340 L456 340 L458 248 C430 254 360 256 300 252 L288 340 L274 340 L270 248 C250 244 236 236 228 226 L214 340 L200 340 L206 214 C196 196 188 176 180 158 C160 160 136 176 116 186 C104 192 92 188 94 176 C98 160 120 132 150 92 Z"/>
+              <!-- tail -->
+              <path d="M520 178 C556 196 566 250 560 310 C548 280 534 250 522 226" fill="#3E2718"/>
+            </g>
+            <!-- saddle -->
+            <path d="M262 146 C280 132 330 134 352 144 L346 176 L270 176 Z" fill="#2B1A10"/>
+            <!-- cadet: boots, breeches, jacket, helmet -->
+            <path d="M286 176 L270 236 L262 262 L286 264 L290 240 L300 186 Z" fill="#16110E"/>
+            <path d="M296 150 C276 150 268 168 276 196 L292 196 L306 156 Z" fill="#F2EEE6" stroke="#B9A88F" stroke-width="1.5"/>
+            <path d="M298 152 L294 74 C294 62 318 60 322 72 L324 150 Z" fill="#1F2638"/>
+            <path d="M300 84 C290 104 270 118 252 128" stroke="#1F2638" stroke-width="12" stroke-linecap="round" fill="none"/>
+            <circle cx="308" cy="50" r="14" fill="#C99A74"/>
+            <path d="M292 48 C292 30 324 28 326 46 Z" fill="#141312"/>
+            <path d="M252 128 C220 120 190 100 168 84" stroke="#4A3323" stroke-width="2" fill="none"/>
+            <!-- brass posture line -->
+            <path d="M160 70 C230 120 330 120 470 150" stroke="#DFB77C" stroke-width="3" fill="none" stroke-dasharray="6 6"/>
+          </svg>
+          <p>The interactive 3D model is not available in this browser. The drawing shows the cadet seated on the horse; each connection is explained in words.</p>
+          <ul class="fallback-list">
+            <li><strong>Cervical alignment — Ears &amp; attention</strong>A steady trunk and balanced seat help the rider follow the horse’s movement without gripping. Instructor feedback connects posture to a quieter, more responsive horse.</li>
+            <li><strong>Core posture — Withers &amp; seat</strong>When the cadet’s ribcage aligns vertically over the ischial seat bones, the horse’s trapezius and thoracolumbar bridge lift freely underneath the saddle tree without hollowing.</li>
+            <li><strong>Lumbar balance — Reins &amp; contact</strong>A supple lumbar spine absorbs the three-dimensional oscillation of the horse’s back, allowing hindquarter impulsion to flow through the lumbosacral junction into a soft, elastic rein.</li>
+          </ul>
+        </div>
+
+        <!-- Loading / Asset Preparation Progress Overlay -->
+        <div id="loadingOverlay" class="absolute inset-0 flex flex-col items-center justify-center bg-[#EAE0D2]/90 backdrop-blur-sm z-30 transition-opacity duration-500" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(234,224,210,0.9);z-index:30;">
+          <div class="w-12 h-12 rounded-full border-2 border-[#8C6A43]/30 border-t-[#4A3323] animate-spin mb-3"></div>
+          <div class="text-xs tracking-[0.22em] uppercase font-semibold text-[#3E2718]" id="loadingStatusText">
+            Preparing the exhibit
+          </div>
+          <div class="w-48 h-1 bg-[#D5C4AE] rounded-full overflow-hidden mt-2">
+            <div id="loadingProgressBar" class="h-full bg-[#513624] transition-all duration-300" style="width: 35%"></div>
+          </div>
+        </div>
+
+        <!-- 3D Projected Callout Pin 1: CADET SPINE (Collision-Aware Leader Line) -->
+        <div id="pinCadetSpine" class="callout-pin" style="left: 38.5%; top: 20%;">
+          <div class="text-[10px] sm:text-[10.5px] tracking-[0.18em] uppercase font-semibold text-[#3E2718] whitespace-nowrap mb-2 text-center"
+               style="font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;color:#3E2718;white-space:nowrap;margin-bottom:6px;text-align:center;">
+            <span id="pinCadetLabel">CADET SPINE</span>
+          </div>
+          <div class="w-2 h-2 rounded-full bg-[#8B6235] mx-auto shadow-xs" style="width:7px;height:7px;border-radius:9999px;background:#8B6235;margin:0 auto;"></div>
+          <div id="leaderLineCadet" class="callout-dashed-line" style="height: 62px;"></div>
+        </div>
+
+        <!-- 3D Projected Callout Pin 2: MARWARI EQUINE (Collision-Aware Leader Line) -->
+        <div id="pinMarwariEquine" class="callout-pin" style="left: 63.5%; top: 20%;">
+          <div class="text-[10px] sm:text-[10.5px] tracking-[0.18em] uppercase font-semibold text-[#3E2718] whitespace-nowrap mb-2 text-center"
+               style="font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;color:#3E2718;white-space:nowrap;margin-bottom:6px;text-align:center;">
+            <span id="pinEquineLabel">MARWARI EQUINE</span>
+          </div>
+          <div class="w-2 h-2 rounded-full bg-[#8B6235] mx-auto shadow-xs" style="width:7px;height:7px;border-radius:9999px;background:#8B6235;margin:0 auto;"></div>
+          <div id="leaderLineEquine" class="callout-dashed-line" style="height: 118px;"></div>
+        </div>
+
+        <!-- Telemetry readout: measured from the model's seat frame, not invented -->
+        <div id="telemetryHud" aria-hidden="true">
+          <span class="hud-title">Pelvic kinematics · 3D core realignment</span>
+          <span class="hud-read">Seat lift <b id="hudLift">0</b> mm</span>
+          <span class="hud-read">Pelvic tilt <b id="hudTilt">0.0</b>°</span>
+        </div>
+
+        <!-- Interactive 3D Hover Tooltip -->
+        <div id="anatomicalHoverTooltip" class="hidden fixed pointer-events-none z-50 px-3 py-1.5 rounded-lg bg-[#2B1A10]/95 text-[#F9F3EA] text-xs shadow-xl border border-[#9E7B50]/50">
+          <div class="text-[9px] tracking-[0.18em] uppercase text-[#DFB77C]" id="tooltipCategory">ANATOMICAL STRUCTURE</div>
+          <div class="font-semibold" id="tooltipTitle">Longissimus Dorsi</div>
+          <div class="text-[10px] text-[#E5D8C5]/80" id="tooltipSub">Click to inspect biomechanical role</div>
+        </div>
+      </div>
+
+
+      <!-- ----------------------------------------------------------------- -->
+      <!-- 4. THREE INTERACTIVE CONNECTION CARDS (Right Column on Desktop)   -->
+      <!-- ----------------------------------------------------------------- -->
+      <div id="connectionCardsContainer" class="pointer-events-auto deck" role="group" aria-label="Choose a system to follow">
+        <div class="deck-line"><span class="deck-label">Follow the system</span><span class="deck-hint">Tap one</span></div>
+        <div class="deck-rows" id="systemRows">
+          <span class="deck-thumb" id="systemThumb" aria-hidden="true"></span>
+        <button type="button" id="connCard0" data-connection="0" aria-pressed="true" class="connection-card deck-row active">
+          <span class="deck-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4.5a3 3 0 0 0-3 3 3 3 0 0 0-1.5 5.2A3.2 3.2 0 0 0 8 17.5h.5V4.6A3 3 0 0 0 9 4.5Z"/><path d="M15 4.5a3 3 0 0 1 3 3 3 3 0 0 1 1.5 5.2 3.2 3.2 0 0 1-3.5 4.8h-.5"/><path d="M12 5v14M8.5 17.5V20M15.5 17.5V20"/></svg></span>
+          <span class="deck-text"><b>Brain</b><i>Cervical alignment · Ears &amp; attention</i></span>
+          <span class="deck-num" aria-hidden="true">01</span>
+        </button>
+        <button type="button" id="connCard1" data-connection="1" aria-pressed="false" class="connection-card deck-row">
+          <span class="deck-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.4A4 4 0 0 1 19 10c0 5.600-7 10-7 10Z"/><path d="M6.500 12h3l1.500-2.500 2 4.500 1.200-2h3.300"/></svg></span>
+          <span class="deck-text"><b>Heart</b><i>Core posture · Withers &amp; seat</i></span>
+          <span class="deck-num" aria-hidden="true">02</span>
+        </button>
+        <button type="button" id="connCard2" data-connection="2" aria-pressed="false" class="connection-card deck-row">
+          <span class="deck-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><rect x="9" y="4" width="6" height="3" rx="1.300"/><rect x="8.500" y="9" width="7" height="3" rx="1.300"/><rect x="8" y="14" width="8" height="3" rx="1.300"/><path d="M9 20h6"/></svg></span>
+          <span class="deck-text"><b>Spine</b><i>Lumbar balance · Reins &amp; contact</i></span>
+          <span class="deck-num" aria-hidden="true">03</span>
+        </button>
+        </div>
+      </div>
+
+      <!-- ----------------------------------------------------------------- -->
+      <!-- 5. LOWER-LEFT DYNAMIC ANATOMICAL EXPLANATION PANEL                -->
+      <!-- ----------------------------------------------------------------- -->
+      <aside id="explanationCard" class="explanation-panel rounded-2xl p-5 sm:p-6 pointer-events-auto"
+             style="border-radius:1rem;padding:1.35rem 1.5rem;">
+        <div class="flex items-center justify-between mb-1.5" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.35rem;">
+          <div>
+            <span id="expIndex" class="text-xs font-bold tracking-[0.14em] text-[#4A3323] block" style="font-size:12px;font-weight:700;color:#4A3323;display:block;">01</span>
+            <span class="w-4 h-[1.5px] bg-[#9E7B50] block mt-0.5" style="width:16px;height:1.5px;background:#9E7B50;display:block;margin-top:3px;"></span>
+          </div>
+          <span id="expModeBadge" class="text-[9.5px] tracking-[0.16em] uppercase font-semibold px-2.5 py-0.5 rounded-full bg-[#DED0BC]/80 text-[#4A3323] border border-[#8A6C4C]/25"
+                style="font-size:9.5px;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;padding:2px 8px;border-radius:9999px;background:rgba(222,208,188,0.75);color:#4A3323;border:1px solid rgba(138,108,76,0.25);">
+            POSTURE LINE
+          </span>
+        </div>
+
+        <h2 id="expTitle" class="font-editorial text-[1.85rem] sm:text-[2.1rem] leading-[1.08] font-semibold text-[#28170D] mt-1"
+            style="font-size:2rem;line-height:1.08;font-weight:600;color:#28170D;margin:0.2rem 0;">
+          Cervical alignment
+        </h2>
+
+        <div id="expSubtitle" class="text-[11px] tracking-[0.18em] uppercase font-semibold text-[#6E5744] mt-1 mb-3"
+             style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;color:#6E5744;margin:0.25rem 0 0.7rem 0;">
+          EARS &amp; ATTENTION
+        </div>
+
+        <p id="expDescription" class="text-[13.5px] leading-[1.58] text-[#3E2A1C] mb-3.5"
+           style="font-size:13.5px;line-height:1.58;color:#3E2A1C;margin:0 0 0.85rem 0;">
+          A steady trunk and balanced seat help the rider follow the horse’s movement without gripping. Instructor feedback connects posture to a quieter, more responsive horse.
+        </p>
+
+        <div id="expAnatomyReadout" class="rounded-xl bg-[#E4D7C4]/65 border border-[#8A6C4C]/22 p-2.5 mb-3.5 text-xs"
+             style="border-radius:0.65rem;background:rgba(228,215,196,0.65);border:1px solid rgba(138,108,76,0.22);padding:0.55rem 0.7rem;margin-bottom:0.85rem;">
+          <div class="grid grid-cols-2 gap-2" style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+            <div>
+              <span class="text-[9px] tracking-[0.14em] uppercase text-[#7A5E42] block font-semibold" style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#7A5E42;display:block;font-weight:600;">CADET FOCUS</span>
+              <span id="expRiderStructure" class="font-semibold text-[#28170D] text-[11px] leading-snug block mt-0.5" style="font-size:11px;font-weight:600;color:#28170D;">
+                Cranio-Cervical &amp; Rein Contact
+              </span>
+            </div>
+            <div class="border-l border-[#8A6C4C]/25 pl-2" style="border-left:1px solid rgba(138,108,76,0.25);padding-left:0.5rem;">
+              <span class="text-[9px] tracking-[0.14em] uppercase text-[#7A5E42] block font-semibold" style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#7A5E42;display:block;font-weight:600;">EQUINE ANATOMY</span>
+              <span id="expHorseStructure" class="font-semibold text-[#28170D] text-[11px] leading-snug block mt-0.5" style="font-size:11px;font-weight:600;color:#28170D;">
+                Poll, C1–C7 &amp; Splenius
+              </span>
+            </div>
+          </div>
+
+          <div id="anatomicalSubfilters" class="mt-2 pt-2 border-t border-[#8A6C4C]/20 flex flex-wrap items-center gap-1" style="margin-top:0.45rem;padding-top:0.45rem;border-top:1px solid rgba(138,108,76,0.18);display:flex;flex-wrap:wrap;gap:4px;">
+            <button type="button" data-focus-region="poll_cervical" class="region-chip px-2 py-0.5 rounded text-[9px] tracking-wider uppercase font-medium bg-[#513624] text-[#F9F3EA]" style="font-size:8.5px;padding:2px 5px;border-radius:4px;border:none;cursor:pointer;">
+              C1–C7 Cervical &amp; Lyre Ears
+            </button>
+            <button type="button" data-focus-region="withers_thorax" class="region-chip px-2 py-0.5 rounded text-[9px] tracking-wider uppercase font-medium bg-[#DFD1BD] text-[#4A3323]" style="font-size:8.5px;padding:2px 5px;border-radius:4px;border:none;cursor:pointer;">
+              Withers &amp; Trapezius
+            </button>
+            <button type="button" data-focus-region="thoracolumbar" class="region-chip px-2 py-0.5 rounded text-[9px] tracking-wider uppercase font-medium bg-[#DFD1BD] text-[#4A3323]" style="font-size:8.5px;padding:2px 5px;border-radius:4px;border:none;cursor:pointer;">
+              Longissimus Bridge
+            </button>
+            <button type="button" data-focus-region="lumbosacral_pelvis" class="region-chip px-2 py-0.5 rounded text-[9px] tracking-wider uppercase font-medium bg-[#DFD1BD] text-[#4A3323]" style="font-size:8.5px;padding:2px 5px;border-radius:4px;border:none;cursor:pointer;">
+              Lumbosacral &amp; Gluteals
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between" style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="flex items-center gap-3" style="display:flex;align-items:center;gap:0.75rem;">
+            <button type="button" id="prevConnBtn" aria-label="Previous connection"
+              class="w-8 h-8 rounded-full border border-[#8A6C4C]/40 flex items-center justify-center text-[#3E2718] hover:bg-[#513624] hover:text-[#F9F3EA] transition-all"
+              style="width:2rem;height:2rem;border-radius:9999px;border:1px solid rgba(138,108,76,0.42);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+              <svg class="w-3.5 h-3.5" style="width:0.85rem;height:0.85rem;" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M10 3.5 L5.5 8 L10 12.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <span id="expPaginationText" class="text-xs font-semibold tracking-[0.2em] text-[#3E2718]" style="font-size:12px;font-weight:600;letter-spacing:0.18em;color:#3E2718;">
+              1 / 3
+            </span>
+            <button type="button" id="nextConnBtn" aria-label="Next connection"
+              class="w-8 h-8 rounded-full border border-[#8A6C4C]/40 flex items-center justify-center text-[#3E2718] hover:bg-[#513624] hover:text-[#F9F3EA] transition-all"
+              style="width:2rem;height:2rem;border-radius:9999px;border:1px solid rgba(138,108,76,0.42);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+              <svg class="w-3.5 h-3.5" style="width:0.85rem;height:0.85rem;" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+                <path d="M6 3.5 L10.5 8 L6 12.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <span id="activeSelectionPill" class="text-[10px] tracking-[0.12em] uppercase font-medium text-[#6E5744]" style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6E5744;">
+            DUAL-BODY SYNC ACTIVE
+          </span>
+        </div>
+      </aside>
+
+      <!-- ----------------------------------------------------------------- -->
+      <!-- 6. LOWER-RIGHT VIEW MODE & PLAY MOVEMENT CONTROLS                 -->
+      <!-- ----------------------------------------------------------------- -->
+      <div id="controlsCluster" class="pointer-events-auto deck">
+        <div class="deck-line"><span class="deck-label">View</span><span id="viewModeNameLabel" class="deck-hint">Posture line</span></div>
+        <div class="seg" id="viewSeg" role="group" aria-label="View mode">
+          <span class="seg-thumb" aria-hidden="true"></span>
+          <button type="button" id="modeBtnPosture" data-mode="posture" class="mode-btn seg-btn active" aria-pressed="true" aria-label="Posture line view">Align</button>
+          <button type="button" id="modeBtnSkeletal" data-mode="skeletal" class="mode-btn seg-btn" aria-pressed="false" aria-label="Skeleton view">Bone</button>
+          <button type="button" id="modeBtnMuscular" data-mode="muscular" class="mode-btn seg-btn" aria-pressed="false" aria-label="Muscle view">Muscle</button>
+          <button type="button" id="modeBtnExternal" data-mode="external" class="mode-btn seg-btn" aria-pressed="false" aria-label="Coat view">Coat</button>
+        </div>
+
+        <div class="deck-line"><span class="deck-label">Movement</span><span id="gaitBeatBadge" class="deck-hint">4-BEAT LATERAL</span></div>
+        <div class="deck-play">
+          <button type="button" id="playPauseBtn" class="play-btn" aria-label="Play movement" aria-pressed="false"><svg id="playIconSvg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4 2.500 L13 8 L4 13.500 Z"/></svg><svg id="pauseIconSvg" class="hidden" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="3.500" y="2.500" width="3.200" height="11" rx="0.800"/><rect x="9.300" y="2.500" width="3.200" height="11" rx="0.800"/></svg></button>
+          <div class="seg" id="gaitSeg" role="group" aria-label="Gait">
+            <span class="seg-thumb" aria-hidden="true"></span>
+            <button type="button" id="gaitWalkBtn" data-gait="walk" class="gait-btn seg-btn active" aria-pressed="true">Walk</button>
+            <button type="button" id="gaitTrotBtn" data-gait="trot" class="gait-btn seg-btn" aria-pressed="false">Trot</button>
+            <button type="button" id="gaitCanterBtn" data-gait="canter" class="gait-btn seg-btn" aria-pressed="false">Canter</button>
+          </div>
+        </div>
+        <div class="scrub" id="strideScrubberTrack">
+          <span class="scrub-line"></span><span class="scrub-fill" id="strideProgressFill"></span>
+          <button type="button" class="stride-dot" data-stride-phase="0" aria-label="Stride phase 0%"></button>
+          <button type="button" class="stride-dot" data-stride-phase="0.25" aria-label="Stride phase 25%"></button>
+          <button type="button" class="stride-dot" data-stride-phase="0.5" aria-label="Stride phase 50%"></button>
+          <button type="button" class="stride-dot" data-stride-phase="0.75" aria-label="Stride phase 75%"></button>
+          <button type="button" class="stride-dot" data-stride-phase="1.0" aria-label="Stride phase 100%"></button>
+        </div>
+
+        <div class="deck-line">
+          <button id="toggleRiderBtn" type="button" class="rider-switch" aria-pressed="true"><span class="knob" aria-hidden="true"></span><span id="riderToggleLabel">Cadet rider: on</span></button>
+          <span class="deck-hint">Drag to turn</span>
+          <span id="riderStatusDot" hidden></span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ===================================================================== -->
+  <!-- EXHIBIT STAGE: the Marwari (its own rig and gait clips), the cadet, the   -->
+  <!-- skeleton and muscle layers. All in /anatomy/exhibit.js                    -->
+  <!-- ===================================================================== -->
+  <script type="module" src="/anatomy/exhibit.js"></script>
+<script>
+// If the exhibit script could not start (for example a blocked script file), show the static fallback.
+window.addEventListener('load', function () {
+  if (window.bsahExhibit) return;
+  document.documentElement.classList.add('no-webgl', 'no-exhibit-js');
+  var fb = document.getElementById('noWebglFallback');
+  if (fb) fb.hidden = false;
+});
+</script>
+<script>
+// Height reporting to the parent page (same origin only).
+(function () {
+  if (window.parent === window) return;
+  let last = 0;
+  function reportHeight(force) {
+    const h = Math.ceil(document.querySelector('main').getBoundingClientRect().height);
+    if (h && (force === true || Math.abs(h - last) > 1)) {
+      last = h;
+      parent.postMessage({ type: 'bsah-anatomy-height', height: h }, location.origin);
+    }
+  }
+  if ('ResizeObserver' in window) new ResizeObserver(reportHeight).observe(document.querySelector('main'));
+  window.addEventListener('load', function () { reportHeight(true); });
+  // The parent re-sends visibility whenever it (re)attaches; answer with the current height.
+  window.addEventListener('message', function (e) {
+    if (e.origin === location.origin && e.data && e.data.type === 'bsah-anatomy-visibility') reportHeight(true);
+  });
+  window.addEventListener('resize', reportHeight);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(reportHeight);
+  reportHeight();
+})();
+</script></body>
+</html>
