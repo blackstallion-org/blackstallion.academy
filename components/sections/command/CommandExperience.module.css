@@ -80,3 +80,5 @@
 
 /* The terminal and its reading column have an opaque canvas. */
 .teaserBackground{position:relative;inset:auto;grid-column:1/-1;height:clamp(260px,40vw,520px);opacity:1;z-index:0}.teaser{padding-top:0;row-gap:3rem}.teaserIntro>p:not(.eyebrow){line-height:1.7}.teaserIntro>a{font-size:.8rem}.panelLabel{font-size:.7rem}.eyebrow{font-size:.7rem}
+
+.page .eyebrow{text-align:center;margin-bottom:1.5rem}.page .workspace{display:block;margin-top:0}.page .main{max-width:980px}

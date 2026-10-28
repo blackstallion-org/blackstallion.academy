@@ -17,7 +17,7 @@ import { creed, day, passport, reels, spotlights, uniform } from "@/lib/content/
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { QrSeal } from "@/components/brand/QrSeal";
-import { ViscousLiquidCanvas, type ViscousSlide } from "@/components/sections/shared/ViscousLiquidCanvas";
+import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
 /** Title card · Editorial hero with DESERT AURA in transparent liquid font and 1.9s decelerating pop animation */
 export function CadetsTitle() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -161,60 +161,46 @@ export function Spotlights() {
   );
 }
 
-/** §1b · Fullscreen Navier-Stokes Fluid Cadet Action Gallery */
+/** §1b · Cadet stills replace the fluid effect so the action stays legible. */
 export function CadetDrillShowcase() {
-  const cadetSlides: ViscousSlide[] = [
+  const cadetImages: StaticImageReelItem[] = [
     {
       image: "cadetZayd",
-      badge: "01 · TENT-PEGGING",
-      tag: "Tent-Pegging",
       title: "Cadet Alpha (Zayd)",
-      subtitle: "Target interception at full gallop with lowered lance. First rider in Zone 01 to record clean pegs across six consecutive passes.",
-      caption: "BSAH Sovereign Cadet Record · Zone 01A Hub",
-      ctaText: "Explore Curriculum",
-      ctaHref: "/curriculum",
+      copy: "Target interception at full gallop with a lowered lance.",
+      cta: "Explore curriculum",
+      href: "/curriculum",
     },
     {
       image: "cadetAnanya",
-      badge: "02 · MOUNTED ARCHERY",
-      tag: "Mounted Archery",
       title: "Cadet Bravo (Ananya)",
-      subtitle: "Recurve release at the sitting canter. National Junior STPCI qualifier with 88 points on the Hungarian target run.",
-      caption: "BSAH Sovereign Cadet Record · Zone 01B Hub",
-      ctaText: "Tournament Records",
-      ctaHref: "/tournaments",
+      copy: "Recurve release at the sitting canter, in a still that makes the form visible.",
+      cta: "Tournament records",
+      href: "/tournaments",
     },
     {
       image: "cadetRohan",
-      badge: "03 · ARENA STRIDE",
-      tag: "Arena Stride",
       title: "Cadet Echo (Rohan)",
-      subtitle: "First unassisted canter without stirrups. Biomechanically tracked posture with 92% vertical spine alignment.",
-      caption: "BSAH Sovereign Cadet Record · Zone 01A Hub",
-      ctaText: "Science of the Seat",
-      ctaHref: "/science",
+      copy: "A first unassisted canter: balance, pace and attention held in one frame.",
+      cta: "Science of the seat",
+      href: "/science",
     },
     {
       image: "currBatch",
-      badge: "04 · SQUADRON DRILLS",
-      tag: "Line Maneuver",
       title: "The Sovereign Cohort",
-      subtitle: "Synchronized cavalry line maneuvers at dusk. Cadets learn troop cohesion, distance control, and absolute quiet in the saddle.",
-      caption: "BSAH Field Academy · Collective Formations",
-      ctaText: "Cadet Admissions",
-      ctaHref: "/parents",
+      copy: "Synchronized line work for distance control and quiet communication.",
+      cta: "Cadet admissions",
+      href: "/parents",
     },
   ];
 
   return (
-    <ViscousLiquidCanvas
+    <StaticImageReel
       id="cadet-gallery"
       label="REEL 07 · CADET FIELD REELS"
-      title="Cadet Alpha (Zayd)"
-      subtitle="Target interception at full gallop with lowered lance."
-      fullScreen={true}
-      slides={cadetSlides}
-      showTabs={true}
+      title="Field studies."
+      intro="The details stay crisp when the photographs remain still."
+      items={cadetImages}
     />
   );
 }

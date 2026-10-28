@@ -18,18 +18,19 @@ export const metadata: Metadata = {
 export default function FleetPage() {
   return (
     <>
+      <FleetCovenantScene />
       <FleetTitle />
       <MarwariPortrait />
-      <HorizontalChapter typeface="western" chapter="The horses" text="Every horse has a name. Every name has a story." tone="light" />
       <PageCurtain page="fleet" />
+      <HorizontalChapter typeface="western" chapter="The horses" text="Every horse has a name. Every name has a story." tone="light" />
       <Registry />
       <StallionGallery />
       <CoatRegistry />
       <StallionBentoGallery />
+      <LightTheStable />
       <CctvGrid />
       <CareLog />
       <ReplayHeadline typeface="elegant" id="fleet-replay" label="Beyond the registry" text="No two horses tell the same story." tone="dark" defaultMode="lines" />
-      <FleetCovenantScene />
       <EndCard current={7} />
     </>
   );

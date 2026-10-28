@@ -6,7 +6,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Arrow, ReelMark } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { FieldSphereHero } from "@/components/sections/journal/FieldSphereHero";
-import { ViscousLiquidCanvas } from "@/components/sections/shared/ViscousLiquidCanvas";
+import { StaticImageReel } from "@/components/sections/shared/StaticImageReel";
 import { posts } from "@/lib/content/journal";
 
 export const metadata: Metadata = {
@@ -55,15 +55,12 @@ export default function JournalPage() {
         </Link>
       </section>
 
-      {/* Interactive Viscous Liquid Simulation Canvas */}
-      <ViscousLiquidCanvas
+      <StaticImageReel
         id="journal-viscous-liquid"
-        label="REEL 14B · INTERACTIVE ARENA LIQUID DYNAMICS"
-        title="The Viscous Fluid Sovereign"
-        subtitle="Hover and sweep across the canvas to interact with Navier-Stokes fluid tension, chromatic dispersion, and viscous return mechanics."
-        imageUrl="/images/black-marwari-stallion.webp"
-        fullScreen={true}
-        tone="dark"
+        label="REEL 14B · STUDBOOK PORTRAIT"
+        title="The sovereign stallion"
+        intro="A still study of the Marwari: calm, clear and undistorted."
+        items={[{ image: "legendBlack", title: "Presence", copy: "The visual study remains a photograph—not an interactive effect.", href: "/fleet", cta: "Meet the fleet" }]}
       />
 
       {/* Editorial list: alternating image side, no cards */}

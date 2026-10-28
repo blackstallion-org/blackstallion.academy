@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
-import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { SafetyKineticStage } from "@/components/sections/safety/SafetyKineticStage";
-import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { NumberWall, OrdersOfTheDay, People, SafetyTitle, ShieldColumns } from "@/components/sections/safety/SafetyScenes";
+import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/safety" },
@@ -16,10 +15,9 @@ export default function SafetyPage() {
     <>
       <SafetyTitle />
       <ShieldColumns />
-      <PageCurtain page="safety" />
       <OrdersOfTheDay />
+      <PageCurtain page="safety" />
       <SafetyKineticStage />
-      <HorseEquipmentSection />
       <NumberWall />
       <People />
       <EndCard current={10} />

@@ -142,9 +142,6 @@ export function Footer() {
                 {l.label}
               </Link>
             ))}
-            <Link href="/about">About</Link>
-            <Link href="/lore">Lore of the Bards</Link>
-            <Link href="/privacy">Privacy Notice</Link>
           </div>
         </div>
       </div>

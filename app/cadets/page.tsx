@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
 import { CadetsTitle, CadetDrillShowcase, CreedCard, DayClock, MilestoneReels, PassportObject, Spotlights, UniformSpec } from "@/components/sections/cadets/CadetScenes";
-import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
+import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { CadetOpening } from "@/components/sections/cadets/CadetOpening";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
-import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/cadets" },
@@ -18,9 +17,8 @@ export default function CadetsPage() {
     <>
       <CadetsTitle />
       <CadetOpening />
-      <FirstRideEditorial />
-      <PageCurtain page="cadets" />
       <HorizontalChapter typeface="brush" chapter="The first lesson" text="The first command is to listen." />
+      <PageCurtain page="cadets" />
       <CadetDrillShowcase />
       <PassportObject />
       <UniformSpec />

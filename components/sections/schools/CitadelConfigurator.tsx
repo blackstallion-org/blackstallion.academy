@@ -1,11 +1,20 @@
 "use client";
 
-import React, { useActionState, useEffect, useState, useRef } from "react";
+import React, { useActionState, useEffect, useState, useRef, type Ref } from "react";
+import dynamic from "next/dynamic";
 import { CitadelHubImage } from "./CitadelHubImage";
 import { submitLead } from "@/app/actions";
 import { clearLeadKey, LeadFormExtras } from "@/components/sections/shared/LeadFormExtras";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
-import { CitadelScene, type CitadelSceneHandle } from "./citadel/CitadelScene";
+import { ScenePoster } from "./ScenePoster";
+import { useNearViewport } from "@/lib/motion/use-near-viewport";
+import type { CitadelSceneHandle, CitadelSceneProps } from "./citadel/CitadelScene";
+
+// three.js and the campus scene load in a chunk of their own, fetched three screens ahead and mounted one screen ahead.
+const CitadelScene = dynamic<CitadelSceneProps & { ref?: Ref<CitadelSceneHandle> }>(
+  () => import("./citadel/CitadelScene").then((m) => m.CitadelScene),
+  { ssr: false },
+);
 import { CitadelSitePlanCanvas } from "./citadel/CitadelSitePlanCanvas";
 import {
   HUB_DATA,
@@ -56,6 +65,13 @@ export function CitadelConfigurator() {
   const [pinsState, setPinsState] = useState<{ id: string; x: number; y: number; visible: boolean }[]>([]);
 
   const sceneRef = useRef<CitadelSceneHandle>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const sceneNear = useNearViewport(viewportRef);
+  const sceneSoon = useNearViewport(viewportRef, "300% 0px");
+  const [sceneReady, setSceneReady] = useState(false);
+  useEffect(() => {
+    if (sceneSoon) void import("./citadel/CitadelScene").catch(() => {});
+  }, [sceneSoon]);
 
   const hubInfo = HUB_DATA[currentHub];
   const facilityInfo = FACILITY_INFO[activeFacility] || FACILITY_INFO.arena;
@@ -106,29 +122,34 @@ export function CitadelConfigurator() {
       {/* ===================================================================== */}
       <section
         id="citadel-hero"
-        className="relative w-full min-h-screen lg:h-screen lg:max-h-[960px] flex flex-col justify-between overflow-hidden border-b border-[#DCD0B8] pt-16 md:pt-20"
+        className="relative w-full min-h-screen lg:min-h-[1100px] flex flex-col justify-between overflow-hidden border-b border-[#DCD0B8] pt-24 md:pt-28"
       >
-        {/* 3D WebGL Canvas */}
-        <CitadelScene
-          ref={sceneRef}
-          currentHub={currentHub}
-          lightingMode={lightingMode}
-          layerVisibility={layerVisibility}
-          onAzimuthChange={setCompassDeg}
-          onPinsUpdate={setPinsState}
-          onSelectFacility={handleFocusFacility}
-        />
-
-        {/* Editorial Left Vignette */}
-        <div className="hero-editorial-mask absolute inset-0 z-[2]" />
+        {/* 3D viewport: in normal flow under the copy on phones; the clear right-hand stage on desktop. No wash over it. */}
+        <div ref={viewportRef} className="citadel-viewport relative order-2 h-[60svh] min-h-[340px] w-full lg:absolute lg:inset-y-0 lg:left-[46%] lg:right-0 lg:order-none lg:h-auto lg:w-auto xl:left-[44%]">
+        <ScenePoster src="/images/schools/citadel-standard-poster.webp" ready={sceneReady} sizes="(min-width: 1024px) 56vw, 100vw" />
+        {sceneNear && (
+          <CitadelScene
+            ref={sceneRef}
+            currentHub={currentHub}
+            lightingMode={lightingMode}
+            layerVisibility={layerVisibility}
+            onAzimuthChange={setCompassDeg}
+            onPinsUpdate={setPinsState}
+            onSelectFacility={handleFocusFacility}
+            onReady={() => setSceneReady(true)}
+          />
+        )}
 
         {/* Floating 3D Architectural Facility Pins */}
         <div
           id="pins-container"
-          className="absolute inset-0 z-[12] pointer-events-none overflow-hidden transition-opacity duration-300"
+          className="absolute inset-0 z-[12] hidden pointer-events-none overflow-hidden transition-opacity duration-300 lg:block"
           style={{ opacity: layerVisibility.interface ? 1 : 0 }}
         >
-          {PIN_CONFIGS.map((pc) => {
+          {(() => {
+            // Skip any pin whose badge would collide with one already placed (badges are about 140 × 30 px).
+            const placed: { x: number; y: number }[] = [];
+            return PIN_CONFIGS.map((pc) => {
             const shouldShow =
               pc.minHub === 'standard' ||
               (pc.minHub === 'signature' && (currentHub === 'signature' || currentHub === 'royal')) ||
@@ -143,6 +164,9 @@ export function CitadelConfigurator() {
               pc.id === 'pin-stables'
                 ? hubInfo.stablesLabel
                 : pc.labelKey;
+
+            if (placed.some((q) => Math.abs(q.x - pinPos.x) < 150 && Math.abs(q.y - pinPos.y) < 40)) return null;
+            placed.push({ x: pinPos.x, y: pinPos.y });
 
             return (
               <div
@@ -160,14 +184,16 @@ export function CitadelConfigurator() {
                 <div className="pin-dot" />
               </div>
             );
-          })}
+            });
+          })()}
+        </div>
         </div>
 
         {/* MAIN HERO BODY */}
-        <div className="relative z-20 flex-1 w-full px-5 sm:px-8 lg:px-12 pt-24 pb-5 md:pt-28 lg:pt-24 lg:pb-6 flex flex-col lg:flex-row justify-between items-start lg:items-stretch pointer-events-none">
-          {/* LEFT COLUMN: Editorial */}
-          <div className="w-full lg:w-[54%] xl:w-[50%] flex flex-col justify-between pointer-events-auto z-20 pt-1 lg:pt-2 pb-2">
-            <div className="max-w-xl">
+        <div className="contents lg:relative lg:z-20 lg:flex lg:flex-1 lg:w-full lg:px-12 lg:pt-8 lg:pb-6 lg:flex-row lg:justify-between lg:items-stretch lg:pointer-events-none">
+          {/* LEFT COLUMN: Editorial (a solid column on desktop; on phones its parts join the page flow) */}
+          <div className="contents lg:w-[44%] xl:w-[42%] lg:flex lg:flex-col lg:justify-between lg:pointer-events-auto lg:z-20 lg:pt-2 lg:pb-2">
+            <div className="order-1 max-w-xl px-5 pb-6 pt-6 sm:px-8 lg:px-0 lg:pt-0">
               <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-[11px] font-semibold tracking-[0.22em] text-[#4A3E35] uppercase mb-2 sm:mb-3">
                 <span>REEL 10</span>
                 <span className="text-[#6B3A24]">·</span>
@@ -213,7 +239,7 @@ export function CitadelConfigurator() {
             </div>
 
             {/* Bottom-Left: 3 Hub Cards Tray */}
-            <div className="w-full max-w-[660px] bg-[#F6F1E7]/85 backdrop-blur-md p-2.5 sm:p-3 rounded-[4px] border border-[#DCD0B8] shadow-xl">
+            <div className="order-4 mx-5 mb-6 w-auto max-w-[660px] bg-[#F6F1E7] p-2.5 sm:mx-8 sm:p-3 rounded-[4px] border border-[#DCD0B8] lg:mx-0 lg:mb-0 lg:w-full">
               <div className="flex items-center justify-between px-1 pb-2 mb-2 border-b border-[#1A1512]/10 text-[10px] tracking-[0.16em] uppercase text-[#5C5046]">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#6B3A24]" />
@@ -339,7 +365,7 @@ export function CitadelConfigurator() {
           </div>
 
           {/* RIGHT COLUMN */}
-          <div className="w-full lg:w-[46%] xl:w-[50%] flex flex-col justify-between items-end pointer-events-none mt-5 lg:mt-0 lg:pl-8">
+          <div className="order-3 w-full px-5 py-4 sm:px-8 lg:w-[54%] xl:w-[56%] flex flex-col justify-between items-end pointer-events-none lg:px-0 lg:py-0 lg:pl-8">
             {/* The scene controls live in their own rail, below the global navigation. */}
             <div className="w-full flex flex-col items-end gap-3 pointer-events-auto">
               <div className="citadel-scene-rail w-full max-w-[520px] bg-[#1B1612]/88 backdrop-blur-md border border-[#F6F1E7]/20 rounded-[5px] px-3 py-2.5 text-[#F6F1E7] shadow-lg">
@@ -348,7 +374,7 @@ export function CitadelConfigurator() {
                     <span className="inline-block w-2 h-2 rounded-full bg-[#C49A6C] animate-pulse shrink-0" />
                     <div className="min-w-0">
                       <p className="font-semibold text-[10px] tracking-[0.15em] uppercase text-[#E5C396] truncate">{facilityInfo.title}</p>
-                      <p className="text-[11px] leading-snug text-[#F6F1E7]/80 line-clamp-1">{facilityInfo.desc}</p>
+                      <p className="text-[11px] leading-snug text-[#F6F1E7]">{facilityInfo.desc}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
@@ -510,7 +536,7 @@ export function CitadelConfigurator() {
         </div>
 
         {/* BOTTOM KPI VALUE PROPOSITION BAR */}
-        <div className="relative z-20 w-full bg-[#F4EFE4]/95 backdrop-blur-md border-t border-[#D6C9B4] px-5 sm:px-8 lg:px-12 py-3">
+        <div className="order-5 relative z-20 w-full bg-[#F4EFE4] border-t border-[#D6C9B4] px-5 sm:px-8 lg:px-12 py-3">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 items-center">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full border border-[#6B3A24]/40 flex items-center justify-center text-[#6B3A24] shrink-0">

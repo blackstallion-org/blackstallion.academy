@@ -37,7 +37,7 @@ const csp = [
   `media-src 'self' blob: ${MEDIA.join(" ")}`,
   `connect-src 'self' blob: data: ${MEDIA.join(" ")} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
-  "frame-src https://challenges.cloudflare.com",
+  "frame-src 'self' https://challenges.cloudflare.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -75,7 +75,13 @@ const nextConfig = {
       source: "/models/:path*",
       has: [{ type: "query", key: "v", value: MODEL_VERSION }],
       headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
-    }] : [])];
+    }] : []), {
+      source: "/anatomy/dual-body.html",
+      headers: [
+        { key: "Content-Security-Policy", value: csp.replace("frame-ancestors 'none'", "frame-ancestors 'self'") },
+        { key: "X-Frame-Options", value: "SAMEORIGIN" },
+      ],
+    }];
   },
   async redirects() {
     return [

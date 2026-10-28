@@ -11,6 +11,7 @@ import { StoryStrip } from "@/components/sections/home/StoryStrip";
 import { Studbook } from "@/components/sections/home/Studbook";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { Atelier } from "@/components/sections/home/Atelier";
+import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
 /**
@@ -35,6 +36,7 @@ export default function Home() {
       {/* Zone A · Hook */}
       <Hero />
       <div data-home-story><StoryStrip /></div>
+      <FirstRideEditorial />
       <Instrument />
       <HorizontalChapter typeface="western" chapter="The first bond" text="Every ride begins with a moment of trust." />
 

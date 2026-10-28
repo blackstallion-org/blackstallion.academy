@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ViscousLiquidCanvas } from "@/components/sections/shared/ViscousLiquidCanvas";
 import styles from "./ReferencePanels.module.css";
 
 const firstRide = [
@@ -46,7 +45,15 @@ export function FirstRideEditorial() {
       <div className={styles.rideGrid}>
         {firstRide.map((item, index) => (
           <article className={styles.ridePanel} key={item.title}>
-            <div className={styles.ridePhoto}><Image src={item.image} alt={item.alt} fill sizes="(min-width: 800px) 50vw, 100vw" style={{ objectPosition: item.position }} /></div>
+            <div className={styles.ridePhoto}>
+              <Image
+                src={item.image}
+                alt={item.alt}
+                fill
+                sizes="(min-width: 1280px) 46vw, (min-width: 800px) 48vw, 100vw"
+                style={{ objectPosition: item.position }}
+              />
+            </div>
             <div className={styles.rideCopy}>
               <span className={styles.panelNumber}>0{index + 1}</span>
               <h3>{item.title}</h3>
@@ -106,18 +113,37 @@ export function MarwariInterlude() {
   );
 }
 
-/** An original Marwari portrait with full-bleed Navier-Stokes liquid reveal. */
+/**
+ * The Sovereign Marwari: one clear, uninterrupted photograph at full width on the light page, with the title and
+ * lineage line above it and the route to the legend below. No overlay, no reveal effect.
+ */
 export function MarwariPortrait() {
   return (
-    <ViscousLiquidCanvas
-      id="marwari-portrait"
-      label="REEL 07A · STUDBOOK VISUAL STUDY"
-      title="The Sovereign Marwari"
-      subtitle="Indigenous Rajasthani warhorse lineage. Microchipped under ISO 11784 telemetry with distinct lyre-curved ears and unyielding composure."
-      imageUrl="/images/editorial/marwari-study.webp"
-      fullScreen={true}
-      ctaText="Explore Marwari Legend"
-      ctaHref="/legend"
-    />
+    <section aria-labelledby="marwari-portrait-h" className="relative bg-night" data-parallax-skip>
+      <div className="gutter pb-10 pt-[clamp(5rem,12vh,9rem)] md:pb-14">
+        <p className="label text-brass">Reel 07A · Studbook visual study</p>
+        <h2 id="marwari-portrait-h" className="t-voice mt-4 text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.02] text-bone">
+          The Sovereign Marwari
+        </h2>
+        <p className="t-story mt-5 max-w-2xl text-lede text-sand">
+          Indigenous Rajasthani warhorse lineage. Microchipped under ISO 11784 telemetry with distinct lyre-curved ears and unyielding composure.
+        </p>
+      </div>
+      <div className="relative aspect-[4/5] w-full sm:aspect-[4/3]">
+        <Image
+          src="/images/editorial/marwari-study.webp"
+          alt="A bay Marwari stallion with inward-curving ears and a white blaze, against a warm studio backdrop"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: "50% 0%" }}
+        />
+      </div>
+      <div className="gutter py-8 md:py-10">
+        <Link href="/legend" className="label inline-block border-b border-line pb-1 text-sand transition-colors hover:border-gold hover:text-bone">
+          Explore Marwari Legend
+        </Link>
+      </div>
+    </section>
   );
 }

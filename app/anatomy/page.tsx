@@ -6,11 +6,12 @@ import { EditorialHeadline as Headline } from "@/components/motion/EditorialMoti
 import { Label } from "@/components/film/Marks";
 import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
 import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anatomy/AnatomyScenes";
-import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { DualBody } from "@/components/sections/anatomy/DualBody";
 import { Unveiling } from "@/components/sections/shared/Unveiling";
 import { unveilings } from "@/lib/content/unveiling";
+import { RelightScene } from "@/components/sections/shared/RelightScene";
+import { marbleScene, marbleStallion } from "@/lib/content/relight";
 import { breedStandard } from "@/lib/content/anatomy";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
@@ -28,7 +29,7 @@ export default function AnatomyPage() {
       <AnatomyTitle />
 
       {/* §1 · S03 full specimen plate with four layers */}
-      <section aria-labelledby="plate-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+      <section data-parallax-skip aria-labelledby="plate-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
         <Label>Read it four ways</Label>
         <Headline id="plate-h" technique="words" className="mt-4" inscription="Six points," voice="six lessons." />
         <ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">
@@ -47,8 +48,8 @@ export default function AnatomyPage() {
       {/* §3 · S26 */}
       <EarDial />
 
-      {/* §3b · Horse shoes & equipment */}
-      <HorseEquipmentSection />
+      {/* §3b · S72 lantern relight, mirrored: a marble study read by raking light */}
+      <RelightScene id="marble" copy={marbleScene} items={marbleStallion} preset="marble" flip />
 
       {/* §4 · S27 spec sheet */}
       <section aria-labelledby="spec-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">

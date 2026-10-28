@@ -10,13 +10,9 @@ export function CommandExperience() {
   return (
     <section aria-labelledby="cmd-h" className={styles.page} data-parallax-skip>
       <div className={styles.main}>
-        <header className={styles.intro}>
-          <p className={styles.eyebrow}>Information desk</p>
-          <h1 id="cmd-h">Questions,<br />answered.</h1>
-          <p>Find clear, published information about enrolment, programmes, campus partnerships and records.</p>
-        </header>
+        <p className={styles.eyebrow}>Information desk</p>
         <div className={styles.workspace}>
-          <Terminal variant="editorial" opening="What does it cost a parent?" chips={knowledge.map((entry) => entry.ask)} />
+          <Terminal variant="editorial" titleAs="h1" titleId="cmd-h" chips={knowledge.map((entry) => entry.ask)} />
         </div>
       </div>
     </section>
@@ -34,6 +30,6 @@ export function CommandTeaser() {
       <Link href="/command">Find an answer <ArrowRight size={20} strokeWidth={1} /></Link>
       <div className={styles.folio}><span>13</span><p>Discipline<br />Character<br />Leadership</p></div>
     </div>
-    <Terminal variant="editorial" opening={command.question} chips={command.chips} className={styles.teaserTerminal} />
+    <Terminal variant="editorial" titleAs="h3" chips={command.chips} className={styles.teaserTerminal} />
   </section>;
 }
