@@ -1,3 +1,4 @@
+import { asset } from "@/lib/content/asset";
 /**
  * "The unveiling": the opening of a page, in three beats that never share the screen.
  *   1. STONE   a white marble statue of the Marwari, lit by a gallery light.
@@ -57,13 +58,13 @@ export const unveilings = {
       line: "Everything below is how to read it: six points on one stallion, and what each one asks of a young rider.",
     },
     statue: {
-      image: "/images/unveil/stone-anatomy.webp",
-      depth: "/images/unveil/stone-anatomy-depth.webp",
+      image: asset("/images/unveil/stone-anatomy.webp"),
+      depth: asset("/images/unveil/stone-anatomy-depth.webp"),
       alt: "A white marble statue of a Marwari stallion in profile on a black plinth, with inward-curving ears, a carved bridle with tassels and a long carved mane and tail.",
     },
     living: {
-      image: "/images/unveil/living-anatomy.webp",
-      depth: "/images/unveil/living-anatomy-depth.webp",
+      image: asset("/images/unveil/living-anatomy.webp"),
+      depth: asset("/images/unveil/living-anatomy-depth.webp"),
       alt: "The same Marwari stallion alive: a glossy black horse in profile on a dark studio floor, rim-lit along the crest and croup, with a bridle and small brass tassels.",
     },
     path: [[0.24, 0.3], [0.42, 0.36], [0.58, 0.46], [0.72, 0.5]],
@@ -87,13 +88,13 @@ export const unveilings = {
       line: "The curriculum below is that lantern, held steady, one lesson after another.",
     },
     statue: {
-      image: "/images/unveil/stone-curriculum.webp",
-      depth: "/images/unveil/stone-curriculum-depth.webp",
+      image: asset("/images/unveil/stone-curriculum.webp"),
+      depth: asset("/images/unveil/stone-curriculum-depth.webp"),
       alt: "A white marble bust of a Marwari stallion seen from three-quarter front, head high, with inward-curving ears, a carved bridle with tassels and a flowing carved mane.",
     },
     living: {
-      image: "/images/unveil/living-curriculum.webp",
-      depth: "/images/unveil/living-curriculum-depth.webp",
+      image: asset("/images/unveil/living-curriculum.webp"),
+      depth: asset("/images/unveil/living-curriculum-depth.webp"),
       alt: "The same Marwari stallion alive: a glossy black horse, head high and alert, in a three-quarter view with a long mane and a bridle with small brass tassels, rim-lit against darkness.",
     },
     path: [[0.4, 0.26], [0.46, 0.4], [0.52, 0.58], [0.66, 0.5]],
@@ -117,13 +118,13 @@ export const unveilings = {
       line: "Below: what a morning looks like, what we promise and what we do not, and how to ask for a place.",
     },
     statue: {
-      image: "/images/unveil/stone-parents.webp",
-      depth: "/images/unveil/stone-parents-depth.webp",
+      image: asset("/images/unveil/stone-parents.webp"),
+      depth: asset("/images/unveil/stone-parents-depth.webp"),
       alt: "A white marble study of a calm Marwari stallion's head and neck in profile, head lowered, with a carved bridle with tassels and a long carved mane falling forward.",
     },
     living: {
-      image: "/images/unveil/living-parents.webp",
-      depth: "/images/unveil/living-parents-depth.webp",
+      image: asset("/images/unveil/living-parents.webp"),
+      depth: asset("/images/unveil/living-parents-depth.webp"),
       alt: "The same Marwari stallion alive: a glossy black horse, head gently lowered, in profile with a soft eye, a long mane and a bridle with small brass tassels.",
     },
     path: [[0.36, 0.38], [0.5, 0.46], [0.62, 0.52], [0.72, 0.42]],

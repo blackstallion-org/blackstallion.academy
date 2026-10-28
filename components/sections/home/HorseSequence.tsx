@@ -5,9 +5,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrambleText } from "@/components/motion/ScrambleText";
 import styles from "./HorseSequence.module.css";
+import { asset } from "@/lib/content/asset";
 
 const FRAME_COUNT = 32;
-const frameUrl = (index: number) => `/images/horse-sequence/${String(index + 1).padStart(3, "0")}.webp`;
+const frameUrl = (index: number) => asset(`/images/horse-sequence/${String(index + 1).padStart(3, "0")}.webp`);
 
 const chapters = [
   { number: "01 / 03", title: "Presence.", copy: "Before the ride, there is the horse. A moment to pause, observe, and meet." },

@@ -8,6 +8,7 @@ import { PASSPORT_HREF, preloadHeroAssets, stallionEnabledNow, useStallionEnable
 import type { FilmEngine } from "@/components/stallion-film/engine";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/content/asset";
 
 const StallionStage = dynamic(() => import("@/components/hero/StallionStage").then((m) => m.StallionStage), { ssr: false });
 
@@ -131,7 +132,7 @@ export function StallionHero() {
       <div className={cn("absolute inset-x-0 bottom-0", filmOn ? "top-0" : "top-24 md:top-28")}>
         {failed ? (
           <Link href={PASSPORT_HREF} className="relative block h-full w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-gold">
-            <Image src="/models/marwari-hero-poster.webp" alt="A black Marwari stallion with inward-curving ears." fill sizes="100vw" className="object-contain" />
+            <Image src={asset("/models/marwari-hero-poster.webp")} alt="A black Marwari stallion with inward-curving ears." fill sizes="100vw" className="object-contain" />
             <span className="label absolute bottom-[8%] right-4 border border-line bg-night/70 px-3 py-2 text-sand sm:right-[6%]">Open the Sovereign Passport →</span>
           </Link>
         ) : (

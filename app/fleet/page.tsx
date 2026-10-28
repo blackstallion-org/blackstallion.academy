@@ -6,7 +6,6 @@ import { MarwariPortrait } from "@/components/sections/editorial/ReferencePanels
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { FleetCovenantScene } from "@/components/sections/fleet/FleetCovenantScene";
-import { LightTheStable } from "@/components/sections/fleet/LightTheStable";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
 export const metadata: Metadata = {

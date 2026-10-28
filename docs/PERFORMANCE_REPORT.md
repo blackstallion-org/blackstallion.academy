@@ -54,6 +54,54 @@ tiles, canvas measurements (forced layouts during hydration), the ASCII panel fe
 ember trail's WebGL set-up all ran at page load, screens away from their sections. All of that now starts only when the
 section is within a screen of the viewport; the remaining differences are within run-to-run noise (about ±3 points).
 
+## 2c. Request hygiene (24 Oct, last pass before the preview was re-checked)
+
+Four additive edits (details and verification: `docs/PERF_NOTES.md` section 8): the paper "deed" still, the footer
+poster and the four anatomy overlay plates are requested when they are about to be seen instead of at load, and
+`public/` media now carries `Cache-Control: public, max-age=86400, stale-while-revalidate=604800` (it was
+`max-age=0, must-revalidate`). Home, mobile, 4 interleaved runs each on a quiet machine:
+
+| `/` | Perf | LCP | Speed Index | TBT | Requests | Bytes |
+| --- | --- | --- | --- | --- | --- | --- |
+| before | 60 (58–64) | 7.21 s | 5.15 s | 477 ms | 64 | 3.16 MB |
+| after | 60 (55–70) | **6.00 s** | **4.62 s** | 540 ms (noisy: 226–695) | 58 | **2.89 MB** |
+
+The real saving is 267 KB less before the first paint and 0.27 MB less per visit; the lab *score* is unchanged
+because it is limited by main-thread work, not by bytes (an offline model with every font and image removed still
+scores only 71: `docs/PERF_NOTES.md` 8a). Run-to-run noise is about ±5 points.
+
+## 2d. Server region (24 Oct, after the request-hygiene pass)
+
+The database is in Seoul; the Vercel functions defaulted to Washington, D.C. (`iad1`). `vercel.json` now pins them to
+Seoul (`icn1`). The read-only database probe behind `GET /api/health?deep=1`, eight samples each, from a browser in
+India: median **635 ms before, 45 ms after** (clean run; range 39–179 ms). This is the server-to-database leg only; it
+does not change the Lighthouse scores above (which measure the statically served home page) but applies to every
+enquiry, passport lookup and admin page. Method, all samples and limits: `docs/DEPLOYMENT_RUNBOOK.md` section 10.
+
+## 2e. Media served by the image provider's CDN (24 Oct, measured from the browser, not Lighthouse)
+
+Lighthouse could not see this because the sandbox cannot reach the provider's CDN (the proxy refuses it), so every
+size below comes from `HEAD` requests (`Content-Length`) made by the browser on the protected preview. They are what a
+visitor downloads on top of the numbers in §2.
+
+| Group | Used by | Items | Size |
+| --- | --- | --- | --- |
+| The eight new stills (peg run, academy morning), **as the CDN stores them** | `/tournaments` (4), `/parents` (4), `/about` ribbon (3 of them + `pegLift`) | 8 PNG, 2K | 7.2–8.0 MB **each, 60.8 MB in all** |
+| The same eight stills **through the provider's resizer** (`w=1920`, WebP, q 82) — shipped in `561c8c8` | same | 8 WebP | landscape 0.21–0.28 MB; portrait 0.42–0.78 MB; **about 3.5 MB in all** |
+| Journal sphere (`FieldSphereHero`) | `/journal` | 21 `_min.webp` | 6.2 MB in all (largest 0.72 MB); the first four were also seen requested through `<link rel="preload">` hints while browsing `/tournaments` (probably Next's prefetch of `/journal`; not investigated further) |
+| Videos that exist only on the CDN | `/fleet` (4), `/legend` (1), `/curriculum` (1) | 6 MP4 | 3.6–15.1 MB each |
+| Videos with a local first choice and the CDN as fallback | footer, `/why` | 2 MP4 | 3.6 and 5.1 MB, fetched only if the local file fails |
+| Lithos hero | `LithosHero` (through the resizer); the component exists but no route renders it today | 2 WebP | one measured at 0.13 MB; the other could not be read by a cross-origin `HEAD` |
+
+Before `561c8c8` the four peg-run stages alone were about 30 MB on `/tournaments` and the four morning stills about
+30 MB on `/parents`; after it the peg run loads about 1 MB (verified on the preview: 213, 255, 281 and 225 KB, stage
+switching and the WebGL transition still work, no console errors except Vercel's own feedback toolbar being refused by
+the CSP) and the morning stills 2.5 MB. The resizer is an interim measure: the real fix is to download the masters,
+ship WebP copies in git and drop the third-party dependency (`scripts/fetch-media.sh`, then switch `cdnOnly(...)` to
+`m(...)` in `lib/content/media.ts`). Self-hosting also settles the licence question in `docs/BUSINESS_LEGAL_REVIEW.md`
+(D8) because the files become ours to keep. Every item above is third-party-dependent: if the provider removes or
+renames a file the page shows the gradient placeholder.
+
 ## 3. What changed
 
 - The hero poster paints from the first frame (home LCP 17.4 s → 6.5 s).
@@ -67,7 +115,12 @@ section is within a screen of the viewport; the remaining differences are within
 
 ## 4. Target and what remains
 
-Target 80+ (stretch 90+) on mobile is **not reached** in this lab (66–76 on the reel pages). Measured bottlenecks:
+Target 80+ (stretch 90+) on mobile is **not reached** in this lab (home 60–67 depending on machine load, reels 70–77,
+`/schools` 32–33). Home cannot get there without removing fonts, images or effects the brief says to keep (offline
+what-if: `docs/PERF_NOTES.md` 8a), and `/schools` is dominated by software rendering of its WebGL opening (the
+page does continuous GPU work that a phone's GPU is expected to absorb; not yet confirmed on a device). The honest
+verdict is "as good as the design allows in the lab; re-measure on a real device and PageSpeed Insights after the
+production deploy". Measured bottlenecks:
 1. **Bytes before first paint on slow 4G** — ~0.4–0.7 MB of JavaScript (React, GSAP, motion, Lenis on every page) and
    six preloaded font files (~265 KB). Options: preload only the two Noto Serif Display faces and Plus Jakarta Sans
    normal (≈ −120 KB at high priority, small risk of a font swap on body text); split GSAP plugins per route.

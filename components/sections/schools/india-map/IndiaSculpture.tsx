@@ -10,11 +10,12 @@ import { useNearViewport, useOnScreen } from "@/lib/motion/use-near-viewport";
 import { cn } from "@/lib/utils";
 import { coastUrl, loadMeta, loadRivers, loadTerrain } from "./data";
 import type { IndiaEngine } from "./engine";
+import { asset } from "@/lib/content/asset";
 
 type Side = "r" | "l" | "t" | "b";
 type Rect = { l: number; t: number; r: number; b: number };
 
-const POSTER = "/images/schools/india-sculpture-poster.webp";
+const POSTER = asset("/images/schools/india-sculpture-poster.webp");
 const WIDE = 820; // the card sits beside the map from this frame width up, below it under that
 
 const hit = (a: Rect, b: Rect, pad = 4) => a.l < b.r + pad && a.r > b.l - pad && a.t < b.b + pad && a.b > b.t - pad;

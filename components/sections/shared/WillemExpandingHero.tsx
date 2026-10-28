@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import Link from "next/link";
+import { asset } from "@/lib/content/asset";
 
 interface WillemExpandingHeroProps {
   id?: string;
@@ -23,10 +24,10 @@ export function WillemExpandingHero({
   tagline = "THE TRADITIONAL LORE OF THE BARDS",
   subtitle = "Eight hundred years of the sovereign horse that would not leave the field.",
   images = [
-    "/images/fleet/fleet-chetak.webp",
-    "/images/fleet/fleet-veer.webp",
-    "/images/legend/legend-bahadur.webp",
-    "/images/black-marwari-stallion.webp",
+    asset("/images/fleet/fleet-chetak.webp"),
+    asset("/images/fleet/fleet-veer.webp"),
+    asset("/images/legend/legend-bahadur.webp"),
+    asset("/images/black-marwari-stallion.webp"),
   ],
   replayEnabled = true,
 }: WillemExpandingHeroProps) {

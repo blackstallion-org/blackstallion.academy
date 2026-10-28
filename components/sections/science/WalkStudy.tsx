@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { useInView } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import styles from "./WalkStudy.module.css";
+import { asset } from "@/lib/content/asset";
 
 const axes = [
   { symbol: "↕", title: "Up / down", detail: "Vertical", path: "M0 65 Q60 0 120 65 T240 65 T360 65 T480 65 T600 65 T720 65 T840 65 T960 65 T1080 65 T1200 65" },
@@ -35,7 +36,7 @@ export function WalkStudy() {
         </div>
         <div className={styles.stage}>
           {/* The photograph remains still; the overlay illustrates movement, not measured data. */}
-          <Image width={1376} height={768} src="/images/science-rider-posture.webp" alt="A young rider sitting upright on a walking bay horse" className={styles.horse} />
+          <Image width={1376} height={768} src={asset("/images/science-rider-posture.webp")} alt="A young rider sitting upright on a walking bay horse" className={styles.horse} />
           <svg viewBox="0 0 1000 700" className={styles.tracking} aria-hidden="true">
             <path d="M370 365 Q460 340 530 350 T685 335" />
             <ellipse cx="515" cy="350" rx="72" ry="43" />
@@ -71,7 +72,7 @@ export function WalkStudy() {
           <div className={styles.graphFoot}><span>{axes[axis].detail} movement</span><span>Illustration of rhythm · not a clinical measurement</span></div>
         </div>
       </div>
-      <div className={styles.filmstrip} aria-hidden="true">{Array.from({ length: 9 }, (_, i) => <div key={i} style={{ animationDelay: `${i * -0.27}s` }}><Image width={1376} height={768} src="/images/science-rider-posture.webp" alt="" /><span>{String(i + 1).padStart(2, "0")}</span></div>)}</div>
+      <div className={styles.filmstrip} aria-hidden="true">{Array.from({ length: 9 }, (_, i) => <div key={i} style={{ animationDelay: `${i * -0.27}s` }}><Image width={1376} height={768} src={asset("/images/science-rider-posture.webp")} alt="" /><span>{String(i + 1).padStart(2, "0")}</span></div>)}</div>
       <footer className={styles.bottomline}><span>The walk / motion study</span><span>Balance begins with movement</span></footer>
     </section>
   );

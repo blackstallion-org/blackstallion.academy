@@ -305,8 +305,8 @@ Branch `session/2026-10-24-final-completion` (rollback tag `checkpoint/pre-final
   - [x] secret scan of all history (placeholders only)
   - [x] CI: lint, types, unit, build, audit, both DB suites, browser smoke (new `e2e` job)
   - [x] uptime workflow
-  - [ ] push of this branch (B: GitHub identity check for the token)
-  - [ ] branch protection on `main` (after the push)
+  - [x] push of this branch (done later on 24 Oct, after the owner finished the GitHub identity check; draft pull request #1; see the final completion checklist below)
+  - [ ] branch protection on `main` (owner: the push token has no administration permission; runbook §6)
 - 03 Supabase
   - [x] live schema reconciled (`docs/DATABASE_ARCHITECTURE.md`)
   - [x] website layer + F1/F2 live
@@ -355,7 +355,7 @@ Branch `session/2026-10-24-final-completion` (rollback tag `checkpoint/pre-final
   - [x] uptime workflow
   - [x] consent-free analytics behind a flag (A: switch on)
 - 12 Tests
-  - [x] 79 unit, 176 + 179 SQL, 18 browser, 410 audit runs, targeted re-checks
+  - [x] 85 unit, 176 + 179 + 12 SQL, 19 browser, 410 + 240 audit runs, targeted re-checks (numbers as re-run on the final code: `docs/TEST_RESULTS.md`)
 - 13 Infrastructure
   - [x] Vercel project, env, previews
   - [ ] production (A)
@@ -388,8 +388,64 @@ every new section (320–1920 px, reduced motion, keyboard) found 2 high, 6 medi
   (no forced layouts or still downloads during hydration). Lighthouse mobile, without → with effects: `/` 67 → 66,
   `/why` 69 → 70, `/tournaments` 75 → 75, `/legend` 74 → 75, `/parents` 72 → 74 (before the fixes `/` and `/why` lost
   5 points each). Details: `docs/PERFORMANCE_REPORT.md` §2b.
-- [ ] Eight new stills load as 2K PNGs from the Higgsfield CDN (not reachable from this sandbox): run
+- [~] Eight new stills were 2K PNGs (7.2–8.0 MB each) loaded from the Higgsfield CDN, which this sandbox cannot reach.
+  Since `561c8c8` they are requested through the provider's resizer as WebP (0.2–0.8 MB each). Still open: run
   `sh scripts/fetch-media.sh` on the Mac, commit the WebPs, switch `cdnOnly` → `m` in `lib/content/media.ts`.
 - [ ] Pre-existing: on phones ≤ 430 px the finale motto and "Begin at reel one" sit over the horse silhouette (design
   decision: shorter copy, different crop or a darker band).
 
+
+## Session 24 October 2026 · Final Production Completion (layers L01–L13) — checklist
+
+Branch `session/2026-10-24-final-completion` (code head `561c8c8` on GitHub; document-only commits follow), draft pull
+request #1 into `main`. Legend as above: [x] done and verified · [~] partial · [ ] open · (A) needs owner approval ·
+(B) the owner signs in or enters a secret personally. Verdict and score: `PRODUCTION_READINESS.md`.
+
+- L01 GitHub
+  - [x] branch pushed, remote head compared with the local head, secret scan of every pushed range (no secret-shaped line)
+  - [x] CI green: `verify`, `database`, `e2e` on the code head (push run and pull-request run) and four earlier heads
+  - [x] draft pull request #1 (84 commits, mergeable, not to be merged before the launch approval)
+  - [ ] branch protection on `main` (B: the token has no administration permission; steps in the runbook §6)
+  - [ ] revoke the temporary push token `bsah-temp-push-2026-10-24` after the last push (B)
+- L02 Vercel preview
+  - [x] two commits built and went Ready; environment variables present for Preview; database reachable (`db: "up"`,
+    45 ms median); routes, mobile widths and media checked; enquiry pipeline exercised on an earlier preview
+  - [x] production **not** deployed; Deployment Protection untouched (S17: set "All Deployments" before the merge, A)
+- L03 Admin login and dashboard
+  - [ ] the owner's staff account does not exist yet (B: Supabase → Authentication → Add user, Auto Confirm); then it is
+    mapped to `SUPER_ADMIN` and the owner signs in personally. Login, logout, reset, session expiry, protected routes,
+    non-admin denial and every dashboard workflow are **untested** until then (unit tests and the signed-out redirect only)
+- L04 Supabase security
+  - [x] read-only pre-flight for 001200: clean; API logs for 24 h: no other consumer of the restricted tables
+  - [ ] apply 001200 (A, with a logical backup first); S7 role policies need the apps team
+- L05 Test accounts and QA data
+  - [x] plan: ban the five `@test.com` accounts (reversible), delete later; list of synthetic QA rows prepared
+  - [ ] ban / delete / clean-up (A)
+- L06 Credential rotation
+  - [x] consumers mapped, procedure staged (`docs/ENVIRONMENT_VARIABLES.md`)
+  - [ ] the owner pastes the new Resend and Supabase secret keys into Vercel and `.env.local`; revoke the old keys only
+    after a synthetic enquiry succeeds (A + B)
+- L07 Mobile performance
+  - [x] done earlier (`docs/PERF_NOTES.md`); lab scores in `docs/PERFORMANCE_REPORT.md`
+- L08 Media and frontend
+  - [x] a forbidden font hard-coded in the home anatomy labels and two canvases replaced by the role tokens
+  - [x] the eight 7.5 MB stills now arrive as 0.2–0.8 MB WebP through the provider's resizer (60.8 → about 3.5 MB)
+  - [x] 240-run route × width matrix and a WCAG 2.2 target-size check: 0 failures
+  - [ ] self-host the media (B: `sh scripts/fetch-media.sh` on the Mac) and fix the damaged `royal` thumbnail (needs the original image)
+- L09 Monitoring, backups, bot protection
+  - [x] health endpoint, redacted error reporting, uptime workflow (needs `UPTIME_URL` after a production deployment)
+  - [x] backup and restore rehearsal in CI (12/12); runbook §8.3–§8.4
+  - [ ] alert e-mail address, Turnstile (a free Cloudflare account), backups (paid plan, cost shown in the approval message)
+- L10 Business and legal (prepared for approval only)
+  - [x] `docs/BUSINESS_LEGAL_REVIEW.md` D1–D12; nothing invented, nothing approved
+- L11 End-to-end tests
+  - [x] 85 unit, 19 browser, 176 + 179 + 12 SQL, `npm audit` 0, 410 + 240 audit runs, previews; evidence in `docs/TEST_RESULTS.md`
+  - [ ] admin flows, password-reset e-mail, Formspree inbox, real devices (see §6 of that document)
+- L12 Production release preparation
+  - [x] `docs/LAUNCH_INSTRUCTIONS.md` (five separate approvals, gates G1–G16, undo table), draft pull request #1
+  - [x] merge into `main`: 24 Oct 2026, 19:25 UTC, merge commit `b76131b`, on the owner's approval ("Make it public on the vercel.app address"); production is public at `https://project-t9r95.vercel.app`
+  - [ ] DNS, Resend domain, indexing, payments: none done, each needs its own approval
+- L13 Final handover
+  - [x] this checklist, `PRODUCTION_READINESS.md`, `PROGRESS.md`, `docs/WEBSITE_HANDOVER.md`, `docs/DATABASE_ARCHITECTURE.md`,
+    `docs/SECURITY_AUDIT.md`, `docs/PERFORMANCE_REPORT.md`, `docs/TEST_RESULTS.md`, `docs/DEPLOYMENT_RUNBOOK.md`,
+    `docs/MOBILE_BACKEND_CONTRACTS.md`

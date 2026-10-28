@@ -8,6 +8,7 @@ import Link from "next/link";
 import { pillars, ranks } from "@/lib/content/curriculum";
 import { ledger } from "@/lib/content/home";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/content/asset";
 
 const VIEW_W = 1440;
 const VIEW_H = 680;
@@ -21,19 +22,19 @@ interface NodeConfig {
 }
 
 const NODES: NodeConfig[] = [
-  { n: 1, x: 135, y: 470, rankIndex: 0, image: "/images/ledger/node_01.png" },
-  { n: 2, x: 315, y: 460, rankIndex: 0, image: "/images/ledger/node_02.png" },
-  { n: 3, x: 280, y: 390, rankIndex: 0, image: "/images/ledger/node_03.png" },
-  { n: 4, x: 455, y: 465, rankIndex: 1, image: "/images/ledger/node_04.png" },
-  { n: 6, x: 555, y: 345, rankIndex: 1, image: "/images/ledger/node_06.png" },
-  { n: 5, x: 655, y: 420, rankIndex: 1, image: "/images/ledger/node_05.png" },
-  { n: 7, x: 805, y: 390, rankIndex: 2, image: "/images/ledger/node_07.png" },
-  { n: 8, x: 960, y: 360, rankIndex: 2, image: "/images/ledger/node_08.png" },
-  { n: 9, x: 920, y: 290, rankIndex: 2, image: "/images/ledger/node_09.png" },
-  { n: 10, x: 1195, y: 335, rankIndex: 3, image: "/images/ledger/node_10.png" },
-  { n: 11, x: 1160, y: 255, rankIndex: 3, image: "/images/ledger/node_11.png" },
-  { n: 12, x: 1130, y: 180, rankIndex: 3, image: "/images/ledger/node_12.png" },
-  { n: 13, x: 1195, y: 115, rankIndex: 3, image: "/images/ledger/node_13.png" },
+  { n: 1, x: 135, y: 470, rankIndex: 0, image: asset("/images/ledger/node_01.png") },
+  { n: 2, x: 315, y: 460, rankIndex: 0, image: asset("/images/ledger/node_02.png") },
+  { n: 3, x: 280, y: 390, rankIndex: 0, image: asset("/images/ledger/node_03.png") },
+  { n: 4, x: 455, y: 465, rankIndex: 1, image: asset("/images/ledger/node_04.png") },
+  { n: 6, x: 555, y: 345, rankIndex: 1, image: asset("/images/ledger/node_06.png") },
+  { n: 5, x: 655, y: 420, rankIndex: 1, image: asset("/images/ledger/node_05.png") },
+  { n: 7, x: 805, y: 390, rankIndex: 2, image: asset("/images/ledger/node_07.png") },
+  { n: 8, x: 960, y: 360, rankIndex: 2, image: asset("/images/ledger/node_08.png") },
+  { n: 9, x: 920, y: 290, rankIndex: 2, image: asset("/images/ledger/node_09.png") },
+  { n: 10, x: 1195, y: 335, rankIndex: 3, image: asset("/images/ledger/node_10.png") },
+  { n: 11, x: 1160, y: 255, rankIndex: 3, image: asset("/images/ledger/node_11.png") },
+  { n: 12, x: 1130, y: 180, rankIndex: 3, image: asset("/images/ledger/node_12.png") },
+  { n: 13, x: 1195, y: 115, rankIndex: 3, image: asset("/images/ledger/node_13.png") },
 ];
 
 const INTERMEDIATE_DOTS = [
@@ -101,7 +102,7 @@ const RANK_CARDS = [
     numeral: "I",
     name: "Cadet Squire",
     short: "Ground care and trot",
-    image: "/images/ledger/rank_clean_1.jpg",
+    image: asset("/images/ledger/rank_clean_1.jpg"),
     href: "/curriculum#squire",
     pillars: [1, 2, 3],
   },
@@ -110,7 +111,7 @@ const RANK_CARDS = [
     numeral: "II",
     name: "Cadet Rider",
     short: "Independent canter",
-    image: "/images/ledger/rank_clean_2.jpg",
+    image: asset("/images/ledger/rank_clean_2.jpg"),
     href: "/curriculum#rider",
     pillars: [4, 5, 6],
   },
@@ -119,7 +120,7 @@ const RANK_CARDS = [
     numeral: "III",
     name: "Cadet Knight",
     short: "Lance and bow",
-    image: "/images/ledger/rank_clean_3.jpg",
+    image: asset("/images/ledger/rank_clean_3.jpg"),
     href: "/curriculum#knight",
     pillars: [7, 8, 9],
   },
@@ -128,7 +129,7 @@ const RANK_CARDS = [
     numeral: "IV",
     name: "Sovereign Lancer",
     short: "National competition",
-    image: "/images/ledger/rank_clean_4.jpg",
+    image: asset("/images/ledger/rank_clean_4.jpg"),
     href: "/curriculum#lancer",
     pillars: [10, 11, 12, 13],
   },
@@ -202,7 +203,7 @@ export function LedgerAscent() {
           {/* Backdrop cinematic image */}
           <div className="absolute inset-0">
             <Image
-              src="/images/ledger-ascent-bg.jpg"
+              src={asset("/images/ledger-ascent-bg.jpg")}
               alt="Cadet on a Marwari stallion ascending towards the mountain fortress"
               fill
               className="object-cover object-center pointer-events-none"
