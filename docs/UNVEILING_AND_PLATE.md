@@ -45,12 +45,12 @@ Two changes the owner asked for after seeing the lantern effect on `/fleet` and 
 
 Screenshots in `docs/qa/unveiling-and-plate/` at 1440 and 390 px: the three openings at several scroll positions, the phone layout, reduced motion, no WebGL,
 keyboard steering (arrow keys move the lantern; the picture shows a focus ring), the plate on desktop and phone, and three hotspot views. No console error came
-from these components in any of them. `npm run lint` and `npx tsc --noEmit` pass.
+from these components in any of them. `npm run lint` and `npx tsc --noEmit` pass, and so does `npm run build`.
 
 ## Limits to know about
 
-- **Not checked:** `next build` (the dev server holds `.next`), a real phone or an integrated GPU. The reflection and the two relight canvases were
-  only measured on a fast Apple-silicon GPU.
+- **Not checked:** a real phone or an integrated GPU. The reflection and the two relight canvases were only measured on a fast Apple-silicon GPU.
+  (`npm run build` was run later, with the whole branch, and passes: `/anatomy`, `/curriculum` and `/parents` prerender.)
 - The horse is the existing model: the plate looks much closer to the studio render, but it is not a photograph; the mane and tail cards still show
   at some angles.
 - The stills are AI placeholder art with a depth map estimated from each picture; the lantern's relief is an approximation of real geometry.

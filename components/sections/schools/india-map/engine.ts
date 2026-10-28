@@ -14,6 +14,8 @@ export type EngineOptions = {
   coast: HTMLImageElement;
   quality: "high" | "low";
   reducedMotion: boolean;
+  /** Pixels at the top and bottom of the canvas the picture keeps clear (the site's navigation, the controls). */
+  inset?: { top: number; bottom: number };
   /** Called after every drawn frame (the overlay follows the camera from here). */
   onFrame?: () => void;
   onContextLost?: () => void;
@@ -154,6 +156,7 @@ export class IndiaEngine {
     this.scene.add(kicker);
 
     this.rig = new CameraRig(this.camera, meta.plate, meta.india, this.heights);
+    this.rig.setInset(o.inset?.top ?? 0, o.inset?.bottom ?? 0);
     this.setSize(canvas.clientWidth || 800, canvas.clientHeight || 500);
     this.rig.pose = this.rig.overviewPose();
     this.riverFlow(this.reduced ? 0 : 1);
@@ -181,13 +184,18 @@ export class IndiaEngine {
     if (active) this.invalidate();
   }
 
+  /** Call before `setSize` when the clear margins change (they follow the breakpoint of the site's navigation). */
+  setInset(top: number, bottom: number) {
+    this.rig.setInset(top, bottom);
+  }
+
   setSize(w: number, h: number) {
     this.width = Math.max(1, Math.round(w));
     this.height = Math.max(1, Math.round(h));
     this.renderer.setSize(this.width, this.height, false);
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
-    this.rig.setAspect(this.camera.aspect);
+    this.rig.setAspect(this.camera.aspect, this.height);
     this.river.uniforms.uPixel.value = (2 * Math.tan(THREE.MathUtils.degToRad(FOV) / 2)) / this.height;
     this.invalidate();
   }
@@ -220,7 +228,7 @@ export class IndiaEngine {
   }
 
   reset() {
-    this.moveTo({ ...this.rig.overviewPose(), sx: 0, sy: 0 }, 1.5);
+    this.moveTo(this.rig.overviewPose(), 1.5);
   }
 
   zoomBy(factor: number) {

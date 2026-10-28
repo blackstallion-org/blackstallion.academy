@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent, type ReactNode, type RefObject } from "react";
 import { useCapabilities } from "@/lib/3d/use-capabilities";
@@ -15,8 +14,12 @@ import { asset } from "@/lib/content/asset";
 type Side = "r" | "l" | "t" | "b";
 type Rect = { l: number; t: number; r: number; b: number };
 
-const POSTER = asset("/images/schools/india-sculpture-poster.webp");
-const WIDE = 820; // the card sits beside the map from this frame width up, below it under that
+/** First paint and fallback: a render of the model made for a wide stage and one for a tall one. */
+const POSTER = { wide: asset("/images/schools/india-sculpture-poster.webp"), narrow: asset("/images/schools/india-sculpture-poster-narrow.webp") };
+const WIDE = 820; // the card sits beside the map from this stage width up, as a sheet over its lower part below that
+
+/** What the picture keeps clear: the site's fixed navigation above (64 px, 80 px from lg) and the controls below. */
+const insetNow = () => ({ top: window.innerWidth >= 1024 ? 96 : 76, bottom: 76 });
 
 const hit = (a: Rect, b: Rect, pad = 4) => a.l < b.r + pad && a.r > b.l - pad && a.t < b.b + pad && a.b > b.t - pad;
 
@@ -32,7 +35,8 @@ function loadImage(src: string) {
 /**
  * The national sculpture: a lit relief model of India you can turn and zoom, with the six target circuits and two heritage places
  * as floating markers. Choosing one flies the camera there and opens an editorial card tied to its marker by a line of light.
- * The three.js side is in engine.ts; this file is the frame around it: loading, controls, markers, card, fallbacks.
+ * The three.js side is in engine.ts; this file is the stage around it: loading, controls, markers, card, fallbacks.
+ * It fills its parent (the /schools hero gives it the whole first screen) and keeps the picture clear of the site's navigation.
  */
 export function IndiaSculpture({ className }: { className?: string }) {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -40,6 +44,8 @@ export function IndiaSculpture({ className }: { className?: string }) {
   const cardRef = useRef<HTMLElement>(null);
   const controlsRef = useRef<HTMLDivElement>(null);
   const legendRef = useRef<HTMLUListElement>(null);
+  const chipsRef = useRef<HTMLDivElement>(null);
+  const insetRef = useRef({ top: 0, bottom: 0 });
   const lineRef = useRef<SVGPathElement>(null);
   const markerRefs = useRef(new Map<string, HTMLLIElement>());
   const engineRef = useRef<IndiaEngine | null>(null);
@@ -75,7 +81,9 @@ export function IndiaSculpture({ className }: { className?: string }) {
       return b.width > 0 && b.height > 0 ? { l: b.left - frameBox.left, t: b.top - frameBox.top, r: b.right - frameBox.left, b: b.bottom - frameBox.top } : null;
     };
     const cardRect = rectOf(cardRef.current);
-    const obstacles = [cardRect, rectOf(controlsRef.current), selectedRef.current ? null : rectOf(legendRef.current)].filter((r): r is Rect => r !== null);
+    // the fixed navigation covers the top of whatever part of the stage is under it as the page scrolls: keep markers and labels out of it
+    const nav: Rect = { l: 0, t: -frameBox.top, r: fw, b: -frameBox.top + insetRef.current.top };
+    const obstacles = [nav, cardRect, rectOf(controlsRef.current), rectOf(chipsRef.current), selectedRef.current ? null : rectOf(legendRef.current)].filter((r): r is Rect => r !== null);
     const taken: Rect[] = proj.filter((p) => p.visible).map((p) => ({ l: p.x - 13, t: p.y - 13, r: p.x + 13, b: p.y + 13 }));
     const order = [...proj].sort((a, b) => (a.id === selectedRef.current ? -1 : b.id === selectedRef.current ? 1 : 0));
     for (const p of order) {
@@ -155,10 +163,12 @@ export function IndiaSculpture({ className }: { className?: string }) {
           coast,
           quality,
           reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+          inset: insetNow(),
           onFrame: updateOverlay,
           onContextLost: () => setResult("fallback"),
         });
         engineRef.current = engine;
+        insetRef.current = insetNow();
         if (process.env.NODE_ENV !== "production") (window as unknown as { __indiaMap?: IndiaEngine }).__indiaMap = engine;
         const frame = frameRef.current;
         if (frame) engine.setSize(frame.clientWidth, frame.clientHeight);
@@ -188,6 +198,8 @@ export function IndiaSculpture({ className }: { className?: string }) {
       widths.current.clear();
       wideRef.current = frame.clientWidth >= WIDE;
       setWide(wideRef.current);
+      insetRef.current = insetNow();
+      engineRef.current?.setInset(insetRef.current.top, insetRef.current.bottom);
       engineRef.current?.setSize(frame.clientWidth, frame.clientHeight);
     });
     ro.observe(frame);
@@ -196,8 +208,8 @@ export function IndiaSculpture({ className }: { className?: string }) {
   }, []);
 
   // ------------------------------------------------------------------ choosing a place
-  // beside the map the card covers its right side, so the picture slides left; under the map nothing is covered
-  const shiftFor = useCallback(() => ((frameRef.current?.clientWidth ?? 0) >= WIDE ? { sx: 0.16, sy: 0 } : { sx: 0, sy: 0 }), []);
+  // beside the map the card covers its right side, so the picture slides left; a sheet over the lower part of a phone's stage slides it up
+  const shiftFor = useCallback(() => ((frameRef.current?.clientWidth ?? 0) >= WIDE ? { sx: 0.16, sy: 0 } : { sx: 0, sy: 0.2 }), []);
 
   const select = useCallback((id: string) => {
     selectedRef.current = id;
@@ -215,17 +227,19 @@ export function IndiaSculpture({ className }: { className?: string }) {
     const engine = engineRef.current;
     engine?.setCardShift(0, 0);
     engine?.reset();
+    frameRef.current?.focus({ preventScroll: true });
   }, []);
 
-  // the card has just mounted or gone: draw the overlay again so the markers and the line agree with it; under the map, bring it into view
+  // the card has just mounted or gone: draw the overlay again so the markers and the line agree with it, and move focus into the card
+  // (the chip or marker that was pressed may be hidden by now, and Escape only reaches us while focus is inside)
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       updateOverlay();
       engineRef.current?.invalidate();
-      if (selected && !wide) cardRef.current?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "nearest" });
+      if (selected) cardRef.current?.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(id);
-  }, [selected, wide, reduced, updateOverlay]);
+  }, [selected, wide, updateOverlay]);
 
   // ------------------------------------------------------------------ pointer, wheel, keys
   const pointers = useRef(new Map<number, { x: number; y: number }>());
@@ -240,7 +254,6 @@ export function IndiaSculpture({ className }: { className?: string }) {
     if (!engine) return;
     e.currentTarget.setPointerCapture(e.pointerId);
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    frameRef.current?.setAttribute("data-engaged", "true");
     begin();
     const pts = [...pointers.current.values()];
     if (pts.length === 2) {
@@ -280,19 +293,18 @@ export function IndiaSculpture({ className }: { className?: string }) {
   useEffect(() => {
     const frame = frameRef.current;
     if (!frame) return;
-    // Scrolling the page must not be swallowed by the map: wheel zooms only with Ctrl or ⌘ (also a trackpad pinch), or once the map has been touched.
+    // The map fills the first screen, so scrolling the page must never be swallowed by it: the wheel zooms only with Ctrl or ⌘ held
+    // (a trackpad pinch arrives as Ctrl + wheel); a plain wheel scrolls the page.
     const wheel = (e: WheelEvent) => {
       const engine = engineRef.current;
-      if (!engine || !(e.ctrlKey || e.metaKey || frame.dataset.engaged === "true")) return;
+      if (!engine || !(e.ctrlKey || e.metaKey)) return;
       e.preventDefault();
       engine.stopTween();
       engine.rig.zoom(Math.exp(e.deltaY * (e.ctrlKey ? 0.01 : 0.0016)));
       engine.invalidate();
     };
-    const leave = () => { frame.dataset.engaged = "false"; };
     frame.addEventListener("wheel", wheel, { passive: false });
-    frame.addEventListener("pointerleave", leave);
-    return () => { frame.removeEventListener("wheel", wheel); frame.removeEventListener("pointerleave", leave); };
+    return () => frame.removeEventListener("wheel", wheel);
   }, []);
 
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -316,7 +328,7 @@ export function IndiaSculpture({ className }: { className?: string }) {
   const ready = status === "ready";
 
   return (
-    <div className={className} onKeyDown={onKeyDown}>
+    <div className={cn("relative h-full w-full", className)} onKeyDown={onKeyDown}>
       <div
         ref={frameRef}
         role="group"
@@ -326,18 +338,20 @@ export function IndiaSculpture({ className }: { className?: string }) {
         tabIndex={ready ? 0 : -1}
         onContextMenu={(e) => { if (ready) e.preventDefault(); }}
         style={{ backgroundColor: mapPalette.background }}
-        className="tone-dark relative isolate h-[clamp(25rem,62svh,31rem)] w-full overflow-hidden border border-line min-[820px]:h-[clamp(30rem,78svh,58rem)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+        className="tone-dark absolute inset-0 isolate overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-gold"
       >
-        {status !== "fallback" && (
-          <Image
-            src={POSTER}
+        {/* the picture of the model: first paint, and all a device without WebGL sees. A plain picture element, so the browser
+            fetches only the shape that fits (next/image cannot art-direct). */}
+        <picture>
+          <source media="(min-width: 820px)" srcSet={POSTER.wide} />
+          <img
+            src={POSTER.narrow}
             alt=""
-            fill
-            sizes="(min-width: 1024px) 90vw, 100vw"
-            priority={false}
-            className={cn("object-cover object-center transition-opacity duration-1000", ready ? "pointer-events-none opacity-0" : "opacity-100")}
+            fetchPriority="high"
+            decoding="async"
+            className={cn("absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-1000", ready ? "pointer-events-none opacity-0" : "opacity-100")}
           />
-        )}
+        </picture>
         <canvas
           ref={canvasRef}
           aria-hidden
@@ -347,7 +361,7 @@ export function IndiaSculpture({ className }: { className?: string }) {
           onPointerCancel={onPointerUp}
           className={cn("absolute inset-0 block h-full w-full cursor-grab touch-pan-y select-none transition-opacity duration-1000 active:cursor-grabbing", ready ? "opacity-100" : "pointer-events-none opacity-0")}
         />
-        {/* a vignette keeps the plate in the gallery; it never takes part in the pointer */}
+        {/* a vignette keeps the model in the gallery; it never takes part in the pointer */}
         <div aria-hidden className="pointer-events-none absolute inset-0 [background:radial-gradient(ellipse_at_50%_46%,transparent_58%,color-mix(in_srgb,var(--color-night)_55%,transparent)_100%)]" />
 
         {status === "loading" && (
@@ -357,9 +371,6 @@ export function IndiaSculpture({ className }: { className?: string }) {
         {ready && (
           <>
             <svg aria-hidden className="pointer-events-none absolute inset-0 z-20 h-full w-full overflow-visible">
-              <defs>
-                <filter id="india-line-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.2" /></filter>
-              </defs>
               <motion.path key={selected ?? "none"} ref={lineRef} fill="none" stroke="var(--color-gold)" strokeWidth={1.1} strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: reduced ? 0 : 0.9, delay: reduced ? 0 : 0.5 }} style={{ opacity: 0, filter: "drop-shadow(0 0 4px var(--color-gold))" }} />
             </svg>
             <ul aria-label="Places on the map" className="pointer-events-none absolute inset-0 z-30 m-0 list-none p-0">
@@ -368,7 +379,24 @@ export function IndiaSculpture({ className }: { className?: string }) {
               ))}
             </ul>
 
-            <div ref={controlsRef} className={cn("absolute bottom-4 left-4 z-40 flex items-center gap-2", selected && "max-sm:hidden")}>
+            {/* On a narrow stage the places are also a row of chips (the anchors are small targets), above the controls. */}
+            {!wide && (
+              <div ref={chipsRef} role="group" aria-label="Choose a place" className={cn("absolute inset-x-0 bottom-[4.75rem] z-40 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden", selected && "hidden")}>
+                {mapPlaces.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    aria-pressed={selected === p.id}
+                    onClick={() => select(p.id)}
+                    className="label min-h-11 shrink-0 border border-line bg-night/80 px-3 text-sand backdrop-blur-sm transition-colors hover:text-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div ref={controlsRef} className={cn("absolute bottom-4 left-4 z-40 flex items-center gap-2", selected && !wide && "hidden")}>
               <ControlButton label={mapCopy.zoomIn} onClick={() => engineRef.current?.zoomBy(0.7)}>+</ControlButton>
               <ControlButton label={mapCopy.zoomOut} onClick={() => engineRef.current?.zoomBy(1.4)}>−</ControlButton>
               <button type="button" onClick={close} className="label min-h-11 border border-line bg-night/80 px-4 text-sand backdrop-blur-sm transition-colors hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
@@ -376,39 +404,20 @@ export function IndiaSculpture({ className }: { className?: string }) {
               </button>
             </div>
             {wide && <Legend legendRef={legendRef} className={cn("pointer-events-none absolute bottom-4 right-4 z-30", selected && "invisible")} />}
+            <p aria-hidden className={cn("t-ui pointer-events-none absolute bottom-5 left-1/2 z-30 hidden max-w-[34rem] -translate-x-1/2 text-center text-xs text-dust xl:block", selected && "xl:invisible")}>
+              {mapCopy.hintPointer}
+            </p>
 
-            {place && wide && <Card key={place.id} place={place} cardRef={cardRef} onClose={close} />}
+            {place && <Card key={place.id} place={place} cardRef={cardRef} onClose={close} wide={wide} />}
           </>
         )}
 
         {status === "fallback" && <FallbackList onSelect={select} selected={selected} place={place} onClose={close} />}
       </div>
 
-      {ready && !wide && <Legend className="mt-3" />}
-      {ready && place && !wide && <Card key={place.id} place={place} cardRef={cardRef} onClose={close} inline />}
-
-      {ready && (
-        <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Choose a place">
-          {mapPlaces.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              aria-pressed={selected === p.id}
-              onClick={() => select(p.id)}
-              className={cn(
-                "label min-h-11 border px-3 py-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
-                selected === p.id ? "border-gold text-gold" : "border-line text-sand hover:text-bone",
-              )}
-            >
-              {p.label}
-            </button>
-          ))}
-        </div>
-      )}
-      <p id="india-sculpture-hint" className="t-ui mt-3 text-xs text-dust">
-        <span className="[@media(hover:none)]:hidden">{mapCopy.hintPointer}. </span>
-        <span className="hidden [@media(hover:none)]:inline">{mapCopy.hintTouch}. </span>
-        {mapCopy.hintKeys}
+      {/* what a screen reader is told about the controls, whatever is drawn */}
+      <p id="india-sculpture-hint" className="sr-only">
+        {mapCopy.hintPointer}. {mapCopy.hintTouch}. {mapCopy.hintKeys}
         {reduced ? ` ${mapCopy.noMotionNote}` : ""}
         {!webgl ? ` ${mapCopy.fallbackNote}` : ""}
       </p>
@@ -509,43 +518,37 @@ function CardBody({ place, onClose, closeLabel = mapCopy.close }: { place: MapPl
   );
 }
 
-function Card({ place, cardRef, onClose, inline = false }: { place: MapPlace; cardRef: RefObject<HTMLElement | null>; onClose: () => void; inline?: boolean }) {
-  if (inline) {
-    return (
-      <motion.aside ref={cardRef as RefObject<HTMLElement>} aria-live="polite" aria-label={place.title} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }} className="plate mt-4 scroll-mb-24 p-5">
-        <CardBody place={place} onClose={onClose} />
-      </motion.aside>
-    );
-  }
+function Card({ place, cardRef, onClose, wide }: { place: MapPlace; cardRef: RefObject<HTMLElement | null>; onClose: () => void; wide: boolean }) {
   return (
     <motion.aside
       ref={cardRef as RefObject<HTMLElement>}
       aria-live="polite"
       aria-label={place.title}
+      tabIndex={-1}
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="plate absolute bottom-5 right-5 top-5 z-40 w-[min(23rem,40%)] overflow-y-auto p-6"
+      className={cn("plate absolute z-40 overflow-y-auto focus:outline-none", wide ? "bottom-5 right-5 top-24 w-[min(23rem,40%)] p-6" : "inset-x-3 bottom-3 max-h-[56%] p-5")}
     >
       <CardBody place={place} onClose={onClose} />
     </motion.aside>
   );
 }
 
-/** Without WebGL (or after a failure) the same places stay readable: the picture of the model and a list of the cards. */
+/** Without WebGL (or after a failure) the picture of the model stays and the same places are listed under it as cards. */
 function FallbackList({ onSelect, selected, place, onClose }: { onSelect: (id: string) => void; selected: string | null; place: MapPlace | null; onClose: () => void }) {
   return (
-    <div className="absolute inset-0 z-10 overflow-y-auto bg-night/85 p-5 backdrop-blur-sm">
+    <div className="absolute inset-x-0 bottom-0 z-10 max-h-[64%] overflow-y-auto bg-gradient-to-t from-night from-70% via-night/90 to-transparent p-4 pt-16 sm:p-6 sm:pt-20">
       <p className="t-ui max-w-xl text-sm text-sand">{mapCopy.fallbackNote}</p>
-      <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+      <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {mapPlaces.map((p) => (
-          <li key={p.id} className="plate p-4">
+          <li key={p.id} className={cn("plate p-4", selected === p.id && place && "sm:col-span-2 lg:col-span-2")}>
             {selected === p.id && place ? (
               <CardBody place={place} onClose={onClose} />
             ) : (
               <button type="button" onClick={() => onSelect(p.id)} className="block w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
                 <span className="label text-brass">{p.eyebrow}</span>
-                <span className="t-voice mt-2 block text-xl text-bone">{p.title}</span>
+                <span className="t-voice mt-2 block text-lg leading-snug text-bone">{p.title}</span>
                 <span className="font-mono mt-1 block text-[0.68rem] uppercase tracking-[0.14em] text-copper">{p.location}</span>
               </button>
             )}

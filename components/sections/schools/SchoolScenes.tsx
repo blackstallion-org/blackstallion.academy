@@ -7,7 +7,6 @@ import Link from "next/link";
 import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { preload } from "react-dom";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Cta, Label, ReelMark } from "@/components/film/Marks";
@@ -19,25 +18,21 @@ import { BlueprintPlan } from "./BlueprintPlan";
 import { r3 } from "@/lib/round";
 import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
 import { ScenePoster } from "./ScenePoster";
+import { IndiaSculpture } from "./india-map/IndiaSculpture";
+import { mapCopy } from "@/lib/content/india-map";
 import { useNearViewport } from "@/lib/motion/use-near-viewport";
 
-// The 3D maps load in a chunk of their own: the India relief map at once (it is the first screen), the Hyderabad diorama
-// three screens ahead of its section. Each shows a still of its opening view until the live scene has drawn.
-const India3DMap = dynamic(() => import("./India3DMap").then((m) => m.India3DMap), { ssr: false });
+// The Hyderabad diorama loads in a chunk of its own, three screens ahead of its section, and shows a still of its opening view until
+// the live scene has drawn. (The India model on the first screen loads its three.js code the same way, from inside its own component.)
 const Hyderabad3DMap = dynamic(() => import("./Hyderabad3DMap").then((m) => m.Hyderabad3DMap), { ssr: false });
 
-/** Title card · T11 Pan-India Sovereign Hub Network 3D India Map Hero */
+/** Title card · T11 Pan-India Sovereign Hub Network: the lit relief model of India (components/sections/schools/india-map) is the first screen. */
 export function SchoolsTitle() {
   const ref = useRef<HTMLElement>(null);
-  const [mapReady, setMapReady] = useState(false);
-  // The relief map's two textures are fetched with the page, not after the 3D code arrives and asks for them.
-  preload(asset("/images/schools/india-relief-color.webp"), { as: "image" });
-  preload(asset("/images/schools/india-relief-bump.webp"), { as: "image" });
   return (
     <section ref={ref} aria-labelledby="schools-title" className="editorial-scene">
       <div className="tone-dark relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-black isolate">
-        <ScenePoster src={asset("/images/schools/india-relief-poster.webp")} ready={mapReady} priority />
-        <India3DMap className="absolute inset-0 h-full w-full z-10" onReady={() => setMapReady(true)} />
+        <IndiaSculpture />
       </div>
       <div className="tone-light editorial-details gutter">
         <ReelMark n={11} act="ledger" />
@@ -46,9 +41,10 @@ export function SchoolsTitle() {
         <div className="flex flex-wrap items-center gap-4">
           <Cta href="/schools/mou" variant="solid">Request a draft MOU</Cta>
           <Cta href="#simulator">Run the numbers</Cta>
-          <a href="#network" className="label inline-flex items-center gap-2 text-gold"><span>28 Hubs Mapped</span><Arrow /></a>
+          <a href="#network" className="label inline-flex items-center gap-2 text-gold"><span>{network.length} circuits mapped</span><Arrow /></a>
         </div>
-        <p className="label text-brass">Orbital telemetry · Pan-India sovereign network · 6 sovereign circuits · 3D relief</p>
+        <p className="label text-brass">Pan-India sovereign network · {network.length} target circuits · lit 3D relief</p>
+        <p className="t-ui max-w-3xl text-xs leading-relaxed text-dust">{mapCopy.sources}</p>
       </div>
     </section>
   );

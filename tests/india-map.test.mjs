@@ -145,6 +145,21 @@ for (const level of ["hi", "lo"]) {
   });
 }
 
+test("the coast walls take their own country's colour: its owner changes only where India's coast meets a neighbour's", () => {
+  // With the sea counted as "not India" the walls flickered between the two tints along the whole coast: 498 owner changes on the high mesh
+  // and 304 on the low. With each cell owned by its nearest land they are 26 and 18 (the Rann of Kutch, the Bengal delta, the Pakistan junction).
+  for (const level of ["hi", "lo"]) assert.ok(meta.variants[level].coast_sign_flips <= 60, `${level}: ${meta.variants[level].coast_sign_flips} owner changes along the walls`);
+});
+
+test("both posters (wide and tall) exist, are WebP and are light", async () => {
+  for (const name of ["india-sculpture-poster.webp", "india-sculpture-poster-narrow.webp"]) {
+    const bytes = await readFile(path.join(root, "public/images/schools", name));
+    assert.equal(bytes.subarray(0, 4).toString("latin1"), "RIFF", name);
+    assert.equal(bytes.subarray(8, 12).toString("latin1"), "WEBP", name);
+    assert.ok(bytes.length < 120_000, `${name} is ${bytes.length} bytes`);
+  }
+});
+
 test("the high mesh is the more detailed one", () => {
   assert.ok(meta.variants.hi.triangles > 1.8 * meta.variants.lo.triangles);
   assert.ok(meta.variants.hi.error.india_p95_m < meta.variants.lo.error.india_p95_m);

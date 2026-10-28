@@ -116,10 +116,6 @@ const heritage: MapPlace[] = [
 export const mapPlaces: MapPlace[] = [...circuits, ...heritage];
 
 export const mapCopy = {
-  label: "The national map",
-  inscription: "The country,",
-  voice: "as an exhibit.",
-  lede: "A model of the subcontinent, lit like a museum piece. Turn it, zoom in, and choose a marker to fly there.",
   regionLabel: "Interactive relief map of India with six target circuits and two heritage places",
   hintPointer: "Drag to turn · Ctrl or ⌘ + scroll, or the buttons, to zoom · Shift + drag to move",
   hintTouch: "Drag sideways to turn · pinch to zoom · two fingers to move",

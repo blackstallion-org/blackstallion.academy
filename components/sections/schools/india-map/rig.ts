@@ -27,6 +27,7 @@ const CLEARANCE = 0.55;
 export class CameraRig {
   pose: Pose;
   private fit = 20;
+  private inset = { top: 0, bottom: 0 };
   private readonly target = new THREE.Vector3();
   private readonly overview: Pose;
 
@@ -46,8 +47,13 @@ export class CameraRig {
   get maxDist() { return this.fit * 1.12; }
   get fitDistance() { return this.fit; }
 
-  /** Distance at which India's whole outline fits the view at the overview tilt. */
-  setAspect(aspect: number) {
+  /** Pixels at the top (the site's navigation) and the bottom (the controls) that the picture must keep clear. */
+  setInset(top: number, bottom: number) {
+    this.inset = { top, bottom };
+  }
+
+  /** Distance at which India's whole outline fits the clear part of the view at the overview tilt. */
+  setAspect(aspect: number, viewH: number) {
     // a narrow frame looks more nearly straight down, so the country fills its height instead of a thin band across the middle
     const narrow = THREE.MathUtils.clamp((1.3 - aspect) / 0.8, 0, 1);
     this.overview.pol = 0.74 - 0.32 * narrow;
@@ -55,8 +61,11 @@ export class CameraRig {
     const w = (this.india.x[1] - this.india.x[0]) * 1.03;
     const d = (this.india.z[1] - this.india.z[0]) * 1.02;
     const depth = d * Math.cos(this.overview.pol) + 1.1 * Math.sin(this.overview.pol);
-    this.fit = Math.max(depth / 2 / tan, w / 2 / (tan * aspect)) * 1.0;
+    const clear = THREE.MathUtils.clamp((viewH - this.inset.top - this.inset.bottom) / viewH, 0.55, 1);
+    this.fit = Math.max(depth / 2 / tan / clear, w / 2 / (tan * aspect)) * 1.0;
     this.overview.dist = this.fit;
+    // centre the country in the clear band: the picture moves down by half the difference of the insets
+    this.overview.sy = -(this.inset.top - this.inset.bottom) / 2 / viewH;
     this.pose.dist = Math.min(this.pose.dist, this.maxDist);
   }
 
@@ -66,7 +75,7 @@ export class CameraRig {
 
   /** The pose for looking at a marker. */
   focusPose(x: number, z: number, shift: { sx: number; sy: number }): Pose {
-    return { az: THREE.MathUtils.clamp(this.pose.az * 0.4, -AZ, AZ), pol: 0.7, dist: Math.max(this.minDist, this.fit * 0.4), tx: x, tz: z, ...shift };
+    return { az: THREE.MathUtils.clamp(this.pose.az * 0.4, -AZ, AZ), pol: 0.7, dist: Math.max(this.minDist, this.fit * 0.4), tx: x, tz: z, sx: shift.sx, sy: shift.sy + this.overview.sy };
   }
 
   clamp() {

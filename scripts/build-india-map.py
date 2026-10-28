@@ -61,8 +61,8 @@ UNIT = 250_000.0      # metres per world unit
 EXAGGERATION = 12.0   # vertical exaggeration of the relief
 SLAB = 0.10           # thickness of the land above the water, in world units (the coast reads as a cliff, not a line)
 FLOOR = -0.34         # underside of the whole block
-BEVEL = 0.03          # size of the chamfer along the coast
-CLOSE = 1800.0        # inlets narrower than twice this (metres) are closed: creeks and estuaries that a pixel could not show
+BEVEL = 0.022         # size of the chamfer along the coast
+CLOSE = 3200.0        # inlets narrower than twice this (metres) are closed, and spits narrower than half of it are cut: the coast keeps no detail the chamfer could not follow
 CELL = 2000.0         # fine grid spacing, metres
 MARGIN = 300_000.0    # plate margin around India's bounding box, metres
 LAND_MIN_AREA = 40e6  # m2: smaller islands are dropped (Lakshadweep is below a pixel at this scale)
@@ -364,6 +364,7 @@ def walls(C, v):
     X, Y, Z = v["X"], v["Y"], v["Z"]
     lo_x, hi_x, lo_z, hi_z = (C.X0 - C.cx) / UNIT, (C.X0 + C.w - C.cx) / UNIT, -(C.Y0 + C.h - C.cy) / UNIT, -(C.Y0 - C.cy) / UNIT
     pos, nrm, ao, sd, idx = [], [], [], [], []
+    flips = 0  # how often the owner of the coast changes along a wall: only where India's coast meets a neighbour's
     base = len(X)
     for loop in loops:
         L = len(loop)
@@ -379,6 +380,10 @@ def walls(C, v):
         n0 = edge_out(prv_p, P)
         out = n1 + n0  # (-dz, dx) points away from the land for front-face-up triangles with Z south
         out = out / np.maximum(np.linalg.norm(out, axis=1, keepdims=True), 1e-9)
+        # smooth the outward direction along the loop (a jagged boundary would otherwise throw neighbouring offsets across each other)
+        for _ in range(4):
+            out = out + 0.9 * (np.roll(out, 1, axis=0) + np.roll(out, -1, axis=0))
+            out = out / np.maximum(np.linalg.norm(out, axis=1, keepdims=True), 1e-9)
         on_edge = (np.abs(P[:, 0] - lo_x) < 1e-3) | (np.abs(P[:, 0] - hi_x) < 1e-3) | (np.abs(P[:, 1] - lo_z) < 1e-3) | (np.abs(P[:, 1] - hi_z) < 1e-3)
         bev = np.where(on_edge, 0.0, BEVEL)
         o3 = np.stack([out[:, 0], np.zeros(L), out[:, 1]], 1)
@@ -391,6 +396,7 @@ def walls(C, v):
         nB /= np.maximum(np.linalg.norm(nB, axis=1, keepdims=True), 1e-9)
         nA /= np.maximum(np.linalg.norm(nA, axis=1, keepdims=True), 1e-9)
         s = v["sd"][loop]
+        flips += int(np.count_nonzero(np.diff(np.signbit(np.append(s, s[0])).astype(int))))
         start = base + sum(len(p) for p in pos)
         pos += [A, B, Cc]
         nrm += [nA, nB, o3]
@@ -414,7 +420,7 @@ def walls(C, v):
     avg = allnrm[tri].mean(axis=1)
     flip = (fn * avg).sum(axis=1) < 0
     tri[flip] = tri[flip][:, [0, 2, 1]]
-    return dict(pos=pos, nrm=nrm, ao=np.concatenate(ao), sd=np.concatenate(sd), tri=tri)
+    return dict(pos=pos, nrm=nrm, ao=np.concatenate(ao), sd=np.concatenate(sd), tri=tri, flips=flips)
 
 
 def quantise_unit(a, lo, hi, dtype):
@@ -510,7 +516,10 @@ def bake(C):
     from scipy.ndimage import binary_dilation  # noqa: PLC0415
     border_cells = binary_dilation(other, iterations=1) & C.india_m
     d_in = distance_transform_edt(~border_cells) * CELL / 1e3
-    sign = np.where(C.india_m, 1.0, -1.0)
+    # Who owns a cell is extended over the sea to the nearest land, so a vertex on the coast (and the wall below it) always takes the
+    # sign of its own country; the sea counting as "not India" would flip it from one sample to the next.
+    _, (near_y, near_x) = distance_transform_edt(~C.land_m, return_indices=True)
+    sign = np.where(C.india_m[near_y, near_x], 1.0, -1.0)
     grids["sd"] = (sign * d_in).astype(np.float32)
     del neigh
 
@@ -558,7 +567,8 @@ def bake(C):
                   "bounds": {"x": [px_lo, px_hi], "y": [y_lo, y_hi], "z": [pz_lo, pz_hi]}}
         raw, gz = write_bin(os.path.join(C.out, f"terrain-{name}.bin.gz"), header, arrays)
         log(f"[{name}] wrote terrain-{name}.bin.gz: {raw / 1e6:.2f} MB raw, {gz / 1e6:.2f} MB gzip")
-        meta["variants"][name] = {"vertices": int(nt + nw), "triangles": int(len(tris)), "bytes_gzip": gz, "error": v["report"]}
+        meta["variants"][name] = {"vertices": int(nt + nw), "triangles": int(len(tris)), "bytes_gzip": gz, "error": v["report"], "coast_sign_flips": w_["flips"]}
+        log(f"[{name}] coast owner changes along the walls: {w_['flips']}")
         results[name] = v
     # rivers on the hi mesh (the low mesh has the same shape within its own tolerance; the browser lifts the lines slightly)
     rivers = rivers_on(C, results["hi"])
@@ -647,9 +657,9 @@ def main():
     near = [project_geom(g).intersection(rect.buffer(50_000)) for g in others_ll if g.distance(india_ll) < 20]
     land = unary_union([india.intersection(rect)] + [g for g in near if not g.is_empty])
     land = unary_union([p for p in to_polys(land) if p.area >= LAND_MIN_AREA])
-    land = land.buffer(CLOSE).buffer(-CLOSE).simplify(1000, preserve_topology=True).intersection(rect)
+    land = land.buffer(CLOSE).buffer(-CLOSE).buffer(-CLOSE / 2).buffer(CLOSE / 2).simplify(1200, preserve_topology=True).intersection(rect)
     land = unary_union([p for p in to_polys(land) if p.area >= LAND_MIN_AREA])
-    india_s = india.buffer(CLOSE).buffer(-CLOSE).simplify(1000, preserve_topology=True).intersection(rect)
+    india_s = india.buffer(CLOSE).buffer(-CLOSE).buffer(-CLOSE / 2).buffer(CLOSE / 2).simplify(1200, preserve_topology=True).intersection(rect)
     log(f"land polygons: {len(to_polys(land))}, India: {len(to_polys(india_s))} parts")
 
     # ---- the fine grid: elevation, land mask, India mask

@@ -548,3 +548,16 @@ Client brief section 6. **Audit first:** the slider already existed (`components
     first it must be pushed and merged (`docs/MEDIA_HOSTING.md` §0; the merge is the owner's approval). Then: upgrade
     Supabase to Pro (approval block §3), double-click `upload-media.command`, and add the variable in Vercel and redeploy
     (or say "go" and I do the Vercel step).
+
+## Session 28 Oct 2026 · The India sculpture is the /schools hero (branch `feature/marwari-film-world`)
+
+- **Owner chose "swap hero"**: `SchoolsTitle` now shows the lit relief model of India as the first screen (it fills the stage under the fixed navigation and keeps 96 px / 76 px
+  clear of it, 76 px clear of the controls). The old Earth-to-India map (`India3DMap`) and its textures are unused now but left in place. The duplicate section lower on the
+  page (`IndiaNetworkMap`) is removed. "28 Hubs Mapped" became "6 circuits mapped": nothing in the data supports 28.
+- Hero behaviour: a plain wheel always scrolls the page (zoom is Ctrl/⌘ + wheel, pinch, buttons or keys); a card beside the map on desktop, a bottom sheet and a row of chips on a phone;
+  focus moves into the card and Esc returns it; two posters (wide, tall) as first paint and for devices without WebGL, with the places listed along the bottom.
+- **Fixed on the way**: the Godavari delta coast showed dark, self-crossing wall fins (a 7.5 km chamfer folding over a 3 km coastline, and the sea counting as "not India" so walls
+  flickered between two tints: 498 owner changes along the walls, now 26). Coast closed and opened at 6.4 / 3.2 km, wall directions smoothed, bevel 0.022; tests added.
+- Measured on the hero: 150 frames in a camera move, median 16.7 ms, p95 17.6 ms (60 Hz); 8 draw calls, 380k triangles (140k on the phone profile); drag, zoom and terrain-clearance limits hold.
+- `npm run build` now run on the whole branch: passes. Lint 0 errors; `tests/india-map.test.mjs` 11 pass. Details: `docs/INDIA_MAP.md`, screenshots in `docs/qa/india-sculpture/`.
+- Not measured: a real phone, the production JavaScript size of the page.
