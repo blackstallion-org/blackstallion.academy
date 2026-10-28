@@ -6,7 +6,6 @@ import { HomeChronicle, HomeCommand, Finale } from "@/components/sections/home/H
 import { HomeShield, HomeStandings, HomeVerifier } from "@/components/sections/home/HomeConvert";
 import { Instrument } from "@/components/sections/home/Instrument";
 import { LedgerAscent } from "@/components/sections/home/LedgerAscent";
-import { Matrix } from "@/components/sections/home/Matrix";
 import { StoryStrip } from "@/components/sections/home/StoryStrip";
 import { Studbook } from "@/components/sections/home/Studbook";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
@@ -42,8 +41,7 @@ export default function Home() {
 
       <Intermission act="citadel" line="Now, the proof." />
 
-      {/* Zone B · Proof */}
-      <Matrix />
+      {/* Zone B · Proof. The Matrix (brain, spine, muscle, heart, the walk) lives on /science, in 3D; it no longer repeats here. */}
       <CrisisCure />
       <Doors />
       <LedgerAscent />
