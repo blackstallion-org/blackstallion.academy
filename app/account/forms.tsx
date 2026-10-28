@@ -42,9 +42,9 @@ function Field({ spec, defaultValue }: { spec: FieldSpec; defaultValue?: string 
 }
 
 /** Create an account: pick who you are, then only the questions that apply. Works with the keyboard and a screen reader. */
-export function SignUpForm() {
+export function SignUpForm({ initialKind = "student" }: { initialKind?: MemberKind }) {
   const [state, action, pending] = useActionState<AccountFormState, FormData>(createAccount, null);
-  const [kind, setKind] = useState<MemberKind>("student");
+  const [kind, setKind] = useState<MemberKind>(initialKind);
   const info = KINDS[kind];
   return (
     <form action={action} className="flex flex-col gap-6" aria-busy={pending}>
