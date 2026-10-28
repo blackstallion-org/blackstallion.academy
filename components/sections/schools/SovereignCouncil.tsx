@@ -1,3 +1,4 @@
+import { asset } from "@/lib/content/asset";
 import Image from "next/image";
 const seats = [
   { name: "Senior institutional stewardship", role: "Honorary Patron & Senior Governor", initials: "SG", detail: "Proposed senior stewardship seat. The appointment, approved biography, consent and portrait await confirmation." },
@@ -25,7 +26,7 @@ export function SovereignCouncil() {
             <figure>
               <div className="relative aspect-[4/5] overflow-hidden bg-umber">
                 <Image
-                  src={`/images/council/portrait-${index + 1}.jpg`}
+                  src={asset(`/images/council/portrait-${index + 1}.jpg`)}
                   alt={`Illustrative placeholder portrait for the proposed ${seat.name.toLowerCase()} seat; not a council member`}
                   fill
                   sizes="(min-width: 1024px) 23vw, (min-width: 640px) 46vw, 92vw"

@@ -15,6 +15,7 @@ import { entity } from "@/lib/content/site";
 import { crucible, why } from "@/lib/content/science";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/content/asset";
 
 /** Title card · The Sovereign Truth. Features the monolithic glowing portal video plate with cinematic rising text and the central seam of light. */
 export function WhyTitle() {
@@ -45,10 +46,10 @@ export function WhyTitle() {
           loop
           playsInline
           preload="auto"
-          poster="/video/portal-loop-poster.jpg"
+          poster={asset("/video/portal-loop-poster.jpg")}
           aria-label="Monolithic illuminated doorway background film"
         >
-          <source src="/video/portal-loop.mp4" type="video/mp4" />
+          <source src={asset("/video/portal-loop.mp4")} type="video/mp4" />
           <source
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_112712_da9d53df-6d27-4b12-bdf6-aa9dc2622bdf.mp4"
             type="video/mp4"

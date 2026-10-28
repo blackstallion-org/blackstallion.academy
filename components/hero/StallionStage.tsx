@@ -10,6 +10,7 @@ import { heroModelUrl, PASSPORT_HREF } from "./stallion-flags";
 import { RevealDirector, type Pose } from "./reveal";
 import type { FilmEngine } from "@/components/stallion-film/engine";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/content/asset";
 
 type Status = "loading" | "ready" | "failed";
 

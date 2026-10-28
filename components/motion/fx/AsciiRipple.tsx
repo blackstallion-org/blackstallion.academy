@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { mediaCrossOrigin } from "@/lib/content/asset";
 import { mediaSrc, type MediaKey } from "@/lib/content/media";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { cn } from "@/lib/utils";
@@ -169,6 +170,9 @@ export function AsciiRipple({ image, cell = 11, ramp = " .·:-=+*%#@", gamma = 0
       dim = style.getPropertyValue(dimVar).trim() || style.color;
       hot = style.getPropertyValue(hotVar).trim() || style.color;
       font = style.getPropertyValue("--font-mono").trim() || "monospace";
+      // Stills from the media bucket are cross-origin: ask for CORS so getImageData can still sample them.
+      const crossOrigin = mediaCrossOrigin(src);
+      if (crossOrigin) img.crossOrigin = crossOrigin;
       img.src = src;
       ro.observe(wrap);
       io.observe(wrap);

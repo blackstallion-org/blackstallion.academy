@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { Arrow, Label } from "@/components/film/Marks";
 import { mediaSrc, type MediaKey } from "@/lib/content/media";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
+import { asset } from "@/lib/content/asset";
 
 export interface ReelSlide {
   id: string;
@@ -381,7 +382,7 @@ export function CinematicStoryReel({
           const resolvedSrc =
             typeof slide.imageKey === "string" && slide.imageKey.startsWith("/")
               ? slide.imageKey
-              : mediaSrc(slide.imageKey as MediaKey) || `/media/${slide.imageKey}.png`;
+              : mediaSrc(slide.imageKey as MediaKey) || asset(`/media/${slide.imageKey}.png`);
 
           const isLeft = slide.align ? slide.align === "left" : idx % 2 === 0;
 

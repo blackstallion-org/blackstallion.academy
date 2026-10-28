@@ -1,31 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./ReferencePanels.module.css";
+import { asset } from "@/lib/content/asset";
 
 const firstRide = [
   {
-    image: "/media/legend-today.webp",
+    image: asset("/media/legend-today.webp"),
     alt: "A young cadet touching the curled ear of a Marwari stallion at dawn",
     title: "First, meet the horse.",
     copy: "Before the saddle, there is a conversation. Learn to notice, approach and listen.",
     position: "49% 50%",
   },
   {
-    image: "/media/curr-groundcare.webp",
+    image: asset("/media/curr-groundcare.webp"),
     alt: "A cadet picking a horse's hoof in a sunlit stable",
     title: "Build trust on the ground.",
     copy: "A calm beginning makes room for confidence to follow.",
     position: "50% 45%",
   },
   {
-    image: "/media/legend-chetak.webp",
+    image: asset("/media/legend-chetak.webp"),
     alt: "Weathered leather tack and oxidized bronze stirrups on dark stone",
     title: "Get to know the tack.",
     copy: "The small details matter when horse and rider begin to move together.",
     position: "50% 50%",
   },
   {
-    image: "/images/science-rider-posture.webp",
+    image: asset("/images/science-rider-posture.webp"),
     alt: "A rider sitting on a horse in profile",
     title: "Then, find your seat.",
     copy: "Start with balance, attention and a pace you can understand.",
@@ -68,10 +69,10 @@ export function FirstRideEditorial() {
 }
 
 const materials = [
-  { image: "/images/legend/legend-sand.png", alt: "Light-coated Marwari horse", name: "Ivory", color: "#e2d3c2" },
-  { image: "/images/equipment/stable-bridles.webp", alt: "Leather bridles in the stable", name: "Chestnut", color: "#844628" },
-  { image: "/images/equipment/horseshoe-farrier.webp", alt: "Farrier at work with a horseshoe", name: "Sage", color: "#78735b" },
-  { image: "/images/equipment/traditional-saddle.webp", alt: "Traditional riding saddle", name: "Leather", color: "#271c17" },
+  { image: asset("/images/legend/legend-sand.png"), alt: "Light-coated Marwari horse", name: "Ivory", color: "#e2d3c2" },
+  { image: asset("/images/equipment/stable-bridles.webp"), alt: "Leather bridles in the stable", name: "Chestnut", color: "#844628" },
+  { image: asset("/images/equipment/horseshoe-farrier.webp"), alt: "Farrier at work with a horseshoe", name: "Sage", color: "#78735b" },
+  { image: asset("/images/equipment/traditional-saddle.webp"), alt: "Traditional riding saddle", name: "Leather", color: "#271c17" },
 ];
 
 /** The reference palette becomes a useful visual index of the equipment story. */
@@ -101,7 +102,7 @@ export function MarwariInterlude() {
   return (
     <section className={styles.interlude} aria-labelledby="interlude-title">
       <div className={styles.interludePhoto}>
-        <Image src="/images/presence/presence-mist-traveler.webp" alt="A person walking beside a horse in a misty landscape" fill sizes="(min-width: 800px) 58vw, 100vw" />
+        <Image src={asset("/images/presence/presence-mist-traveler.webp")} alt="A person walking beside a horse in a misty landscape" fill sizes="(min-width: 800px) 58vw, 100vw" />
       </div>
       <div className={styles.interludeWords}>
         <p className={styles.folio}>The Marwari · an opening note</p>
@@ -131,7 +132,7 @@ export function MarwariPortrait() {
       </div>
       <div className="relative aspect-[4/5] w-full sm:aspect-[4/3]">
         <Image
-          src="/images/editorial/marwari-study.webp"
+          src={asset("/images/editorial/marwari-study.webp")}
           alt="A bay Marwari stallion with inward-curving ears and a white blaze, against a warm studio backdrop"
           fill
           sizes="100vw"

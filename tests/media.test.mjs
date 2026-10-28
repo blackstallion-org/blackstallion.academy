@@ -8,6 +8,7 @@ import { loadTs, root } from "./helpers/load-ts.mjs";
 // public/media are git-ignored, so every still must resolve to its shipped WebP copy or to a remote URL.
 test("every media key resolves to a shipped file or a remote URL when local media is off", async () => {
   delete process.env.NEXT_PUBLIC_LOCAL_MEDIA;
+  delete process.env.NEXT_PUBLIC_MEDIA_BASE_URL;
   const { media, mediaSrc } = await loadTs("lib/content/media.ts");
   const missing = [];
   for (const key of Object.keys(media)) {
@@ -18,6 +19,24 @@ test("every media key resolves to a shipped file or a remote URL when local medi
     if (!existsSync(path.join(root, "public", src))) missing.push(`${key} → ${src}`);
   }
   assert.deepEqual(missing, []);
+});
+
+// The eight stills that exist only on the image provider's CDN are 2K PNG masters of about 7.5 MB each. Until they are
+// downloaded and shipped as WebP they must go through the provider's resizer (about 0.2 MB), never straight to the master.
+test("CDN-only stills are requested through the resizer as WebP, not as the PNG master", async () => {
+  delete process.env.NEXT_PUBLIC_LOCAL_MEDIA;
+  delete process.env.NEXT_PUBLIC_MEDIA_BASE_URL;
+  const { media, mediaSrc } = await loadTs("lib/content/media.ts");
+  const cdnOnly = Object.keys(media).filter((k) => media[k].file === "" && /^https:\/\//.test(media[k].remote || ""));
+  assert.ok(cdnOnly.length >= 8, `expected the eight new stills, found ${cdnOnly.length}`);
+  for (const key of cdnOnly) {
+    const src = mediaSrc(key);
+    const u = new URL(src);
+    assert.equal(u.origin, "https://images.higgs.ai", `${key} does not use the resizer`);
+    assert.equal(u.searchParams.get("output"), "webp", `${key} is not requested as WebP`);
+    assert.ok(Number(u.searchParams.get("w")) <= 1920, `${key} is not limited to 1920 px`);
+    assert.match(u.searchParams.get("url") || "", /^https:\/\/d8j0ntlcm91z4\.cloudfront\.net\/user_[A-Za-z0-9]+\/hf_[\w-]+\.png$/, `${key} source is not a CDN master`);
+  }
 });
 
 test("shippedFile swaps only /media stills to WebP", async () => {

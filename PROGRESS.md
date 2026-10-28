@@ -473,3 +473,78 @@ Client brief section 6. **Audit first:** the slider already existed (`components
 - Fallbacks: poster plus a card list without WebGL; reduced motion moves in one step with the river light off; the wheel never traps page scroll.
 - **Not done / not measured**: `next build` (dev server holds `.next`, disk under 400 MB free), the production chunk size, a real phone. The hero map (`India3DMap`) is untouched.
   The Mahanadi is not in the river dataset. `app/schools/page.tsx` carries my two lines; another session's commit `48b109a` had already swept them in before these files were committed.
+
+- [x] **Session 28 Oct 2026 · The Science of the Stride, `/stride` (owner request: an independent cinematic study of how a horse's walk moves the rider).** Branch `feature/marwari-film-world`; local commit, not pushed. Full note: `docs/STRIDE_REPORT.md`; QA scripts `tools/qa-stride/`; captures and numbers `docs/qa/stride/`. **The two reference screenshots in the brief were not attached**; designed from the text and the site's design system.
+  - **What.** New route `/stride` (linked from `/science` and the sitemap only). One pinned R3F canvas behind the page: opening ("A hundred steps. A minute."), three beats (four beats, the moving back, a seat that follows) steering the camera, then the laboratory: play / pause, ¼× ½× 1×, frame stepping, stride timeline (hooves on the ground), graph (horse's back at the saddle against the rider's pelvis, five movements, units on every axis, "Illustrative: derived from the animation, not measured."), views (horse and rider / horse / rider / skeleton), five cameras plus drag-orbit, six hotspots (spine, pelvis, shoulder, hindquarters, rider pelvis, hoof and ground) with ledger-safe text and live numbers. Reuses `anatomy-exhibit.glb` (horse, rig, Walk clip, anchors), `cadet-rider.glb` and `components/3d/marwari*.ts`; no new dependency. `lib/stride/` is the engine (clock, rig, analysis, plant), `components/stride/` the page.
+  - **Audit of the Walk.** Credible four-beat lateral walk (left hind, left fore, right hind, right fore at 0 / 25 / 50 / 75 %, 2 to 3 hooves down at every sample), but: the authored cadence is 75 strides a minute (150 seat cycles a minute in the channels that repeat twice a stride), the trunk does not bob (`Body.position` is constant; the seat moves 3 mm up and down, 14 mm sideways, 9 mm fore and aft, 2.4° of tilt), and a point of each planted hoof drifts 3 to 9 cm across the ground (hoof mesh).
+  - **Decisions.** (1) Retimed to 1.2 s a stride so the seat runs **100 a minute** (the ledger's "about a hundred"); said on the page. (2) A stateless stance hold (`lib/stride/plant.ts`, the CCD of `footlock.ts` as a function of phase, `footlock.ts` untouched): drift 0.4 to 0.8 cm and at most 13 cm/s over the planted period, against 3.0 to 8.7 cm and 2 m/s as authored; joints change by at most 0.5 to 4° except the fetlocks (up to 28°); nothing passes 180°. (3) The rider has no animation of its own: it rides four skinned coat vertices, the pelvis follows through a soft-seat model (5 Hz, 0.7: gain 0.996, 46 ms), torso keeps 55 / 34 / 20 / 12 % of the tilt: a modelling choice, said on the page. GSAP not used (a second ticker); one clock, one loop.
+  - **Checked** (own headless Chrome, M2 Metal, dev server): `interact.mjs` 35 / 35 (playback measured 50.00 / 25.00 / 12.50 strides a minute; frame steps, keys, scrubbing; graph curves equal the live saddle and pelvis bone in the scene to 0.0000 mm; views, cameras, six hotspots, Escape, wheel over the canvas scrolls the page); `reduced.mjs` (nothing sticky, still pose, byte-identical captures, Play works); `a11y.mjs` (no overflow at 1440 and 390, nothing in the top 80 px, focus ring on all 33 / 34 stops, phone tap and swipe); `perf.mjs`: 1.4 ms CPU a frame, 9.4 ms no-vsync GPU-waited at 1440x900 @2x, 49 draw calls, 0 frames while paused or off screen. `npm run lint` 0 errors, `npm run typecheck` clean, `npm test` 132 / 132 (8 new). Reduced motion and no-WebGL layouts captured.
+  - **Not verified.** A phone, Safari, Firefox; `next build` (the dev server holds `.next`; a clean worktree of this branch does not build for reasons outside /stride: `app/legend/page.tsx` has an `import` inside `export const metadata`, `CampusScene.tsx` needs `../scene-kit` and the untracked `components/3d/ErrorBoundary.tsx`); frame rate on integrated or mobile GPUs; a screen reader. The tail strands look dithered on a light floor at 1x (alpha to coverage in the site's hair shader). The Walk is authored, not motion capture: nothing here is a measurement of a horse.
+
+## Session 28 Oct 2026 · Unveiling openings and the studio plate (branch `feature/marwari-film-world`)
+
+- **Unveiling** at the top of `/anatomy`, `/curriculum` and `/parents`: a white marble statue, then the lantern carried over it turns it into the living stallion, then the
+  lit horse holds the frame and the page follows. Higgsfield stills (a statue and its living twin per page, each with a neural depth map), the relighting shader drawn over the
+  photographs so the stone stays white and the coat keeps its rim light; scroll, pointer, finger or arrow keys steer the lantern. Components: `Unveiling.tsx`, `lib/content/unveiling.ts`.
+- **Instrument plate**: the 3D living horse is back on `/anatomy` (full mode keeps its four-layer panel). Side-on framing with a slow ±15° turn, fitted to any plate shape, a low-key
+  studio with two edge lights, a warm backdrop, and a mirrored glossy floor on the high device tier only (`components/3d/studio-floor.ts`). Phones get a 4:5 plate.
+- Measured: unveiling scroll 241 frames, median 16.7 ms, p95 17.8 ms; plate 61 frames a second with the mirror on. Screenshots and limits: `docs/UNVEILING_AND_PLATE.md`, `docs/qa/unveiling-and-plate/`.
+- **Not done / not measured**: `next build`, a real phone. The tail still reads as a stiff plank from some side angles. Depends on `components/3d/relight/*` and `ErrorBoundary.tsx`
+  (another session's, committed with this work so the pages build).
+
+- [x] **Session 24 Oct 2026 · Final completion pass** (branch `session/2026-10-24-final-completion`, pushed to GitHub with
+  a draft pull request #1; CI `verify`, `database`, `e2e` green on the code head). What changed and what is still open:
+  - **Shipped to GitHub and previewed on Vercel** (two commits built and checked against the real database).
+  - **Fonts:** `Inter` and `DM Mono` were hard-coded in the home anatomy labels and in two canvas textures; they now
+    follow the role tokens (`--font-sans`, `--font-mono`).
+  - **Media payload:** the eight new stills were 7.2–8.0 MB PNG masters each (60.8 MB); they are requested through the
+    image provider's resizer as WebP (0.2–0.8 MB each, about 3.5 MB in all; `cdnOnly()` in `lib/content/media.ts`, with
+    a test). Permanent fix still open: run `sh scripts/fetch-media.sh` on the Mac, commit the eight WebPs, switch
+    `cdnOnly(...)` to `m(...)`.
+  - **Launch plan and decisions:** `docs/LAUNCH_INSTRUCTIONS.md` (five separate approvals, gates G1–G16, undo table) and
+    `docs/BUSINESS_LEGAL_REVIEW.md` (D1–D12, nothing invented). First production deployment is to be kept private by
+    setting Vercel Deployment Protection to "All Deployments" before the merge (S17).
+  - **Security:** findings S15–S18 added; live read-only evidence for hardening 001200 (clean) and for the seed accounts
+    and pasted keys; nothing live was changed in this pass.
+  - **Verified on the final code:** lint 0 errors, typecheck, 85/85 unit tests, build, 19/19 browser smoke, 176 + 179 + 12
+    SQL checks, `npm audit` 0, plus a 240-run route × width matrix and a WCAG 2.2 target-size check (0 failures).
+    One minor defect found and left open: the embedded `royal` hub thumbnail in `CitadelConfigurator.tsx` is damaged.
+  - **Documents refreshed:** `PRODUCTION_READINESS.md` (re-scored: 82.5 %, verdict "not yet"), `docs/TEST_RESULTS.md`,
+    `docs/SECURITY_AUDIT.md`, `docs/PERFORMANCE_REPORT.md`, `docs/DATABASE_ARCHITECTURE.md`,
+    `docs/MOBILE_BACKEND_CONTRACTS.md` (readiness verdict), `docs/WEBSITE_HANDOVER.md`, `docs/DEPLOYMENT_RUNBOOK.md`.
+  - **Waiting for the owner:** the staff account (so the admin console can be tested), approvals for 001200, the seed
+    accounts, QA data clean-up, key rotation, plans, domain and indexing; the media download; branch protection;
+    revoking the temporary GitHub token. Exact list: `PRODUCTION_READINESS.md` §5.
+
+- [x] **24 Oct 2026, evening · Public launch on the vercel.app address.** The owner approved ("Make it public on the
+  vercel.app address"); pull request #1 was marked ready and merged into `main` at 19:25 UTC (merge commit `b76131b`,
+  owner's signed-in browser session, no token). Vercel built production; it is public at `https://project-t9r95.vercel.app`.
+  Checked: 34 routes 200, database up, robots `Disallow: /`, models and hero video served, security headers (record:
+  `docs/LAUNCH_INSTRUCTIONS.md` §3, `docs/TEST_RESULTS.md` §3a). Not done: custom domain and DNS, Resend domain,
+  indexing, payments, analytics, a live enquiry test, staff sign-in. Open and approved in principle: move the images,
+  video, audio and 3D models to Supabase Storage after the owner upgrades to Supabase Pro.
+
+- [x] **25 Oct 2026 · Media on Supabase Storage: built, tested, switched OFF** (branch `feat/media-on-supabase`, on top of
+  the launch documents). The owner chose to move the pictures, 3D models, video and audio to Supabase after upgrading to
+  Pro. Everything that does not need the owner's own accounts is done; nothing exists in Supabase yet and the live site is
+  unchanged.
+  - **One switch:** `NEXT_PUBLIC_MEDIA_BASE_URL` (build-time, public). `asset()` (`lib/content/asset.ts`) wraps every path to
+    `/images`, `/media`, `/models`, `/video` and `/audio` (32 component and library files, plus `mediaSrc()`); unset = today's
+    behaviour, an invalid value is ignored. The security policy and `images.remotePatterns` learn the bucket's origin;
+    `AsciiRipple` sets `crossOrigin`. Undo: delete the variable and redeploy (the files stay in `public/`).
+  - **Guards and tests:** `asset-guard` fails if a media path skips `asset()`; `media-manifest` pins the 185-file list
+    (118.1 MB; names valid for Storage; nothing over 50 MB; every address the site can build is listed); `upload-media`
+    runs the owner's tool end to end against a stand-in Storage. 133 unit tests pass, typecheck passes, lint 0 errors
+    (the same 8 warnings as before).
+  - **Owner's upload tool:** `scripts/upload-media.mjs` + `scripts/media-manifest.json`, with a double-click launcher and a
+    README in `output/media-upload/`. Creates the public bucket `website-media`, uploads only what is missing, checks size,
+    type, CORS, cache and Range, prints the variable. Never deletes. The secret key stays on the owner's Mac.
+  - **Proof:** `scripts/e2e-media.mjs` crawled 54 page views (38 pages) with the switch off and on, against a stand-in
+    bucket: the same 123 files, 0 errors, nothing served from the site when on; 21 of 26 first-screen screenshot pairs
+    without a visible difference (the other five: video frame, rotating sphere, navigation caught mid-slide). Heaviest page
+    view 24.0 MB (home, laptop), middle one 4.1 MB. Limits (stand-in, 62 files never asked for, software 3D) are in
+    `docs/MEDIA_HOSTING.md` §11.
+  - **Waiting for the owner:** the code is only on this branch (no GitHub write path yet), and Vercel builds from `main`, so
+    first it must be pushed and merged (`docs/MEDIA_HOSTING.md` §0; the merge is the owner's approval). Then: upgrade
+    Supabase to Pro (approval block §3), double-click `upload-media.command`, and add the variable in Vercel and redeploy
+    (or say "go" and I do the Vercel step).

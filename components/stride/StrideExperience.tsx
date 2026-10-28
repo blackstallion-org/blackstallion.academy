@@ -14,8 +14,9 @@ import { Chapter, Notes, Opening, StaticFootfalls } from "./StrideNarrative";
 import { HotspotMarkers, StrideStage } from "./StrideStage";
 import type { StageController } from "./stage-controller";
 import type { StrideData } from "@/lib/stride/rig";
+import { asset } from "@/lib/content/asset";
 
-const POSTER = "/models/marwari-hero-poster.webp";
+const POSTER = asset("/models/marwari-hero-poster.webp");
 const REST_PHASE = 0.12; // the still pose under reduced motion: three hooves down, the rider upright
 
 /**

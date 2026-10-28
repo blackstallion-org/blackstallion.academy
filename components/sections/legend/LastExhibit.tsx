@@ -1,5 +1,6 @@
 "use client";
 
+import { asset } from "@/lib/content/asset";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -92,7 +93,7 @@ export function LastExhibit() {
       >
         {/* The photograph holds the frame until the 3D stage is drawing (and stays where 3D cannot run). */}
         <Image
-          src="/images/black-marwari-stallion.webp"
+          src={asset("/images/black-marwari-stallion.webp")}
           alt={copy.alt}
           fill
           sizes="100vw"

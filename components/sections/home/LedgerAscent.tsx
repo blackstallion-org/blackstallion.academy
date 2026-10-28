@@ -8,6 +8,7 @@ import { Label } from "@/components/film/Marks";
 import { pillars, ranks } from "@/lib/content/curriculum";
 import { ledger } from "@/lib/content/home";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/content/asset";
 
 /**
  * §7 · The ledger, simplified: one full-width instruction photograph, the four ranks as a selectable row beneath it,
@@ -42,7 +43,7 @@ export function LedgerAscent() {
 
       <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]">
         <Image
-          src="/images/cadet-arena-instructor.webp"
+          src={asset("/images/cadet-arena-instructor.webp")}
           alt="A cadet riding in the arena while an academy instructor watches"
           fill
           sizes="100vw"

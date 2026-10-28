@@ -1,3 +1,4 @@
+import { asset } from "./asset";
 import { fleet } from "./fleet";
 
 /**
@@ -69,8 +70,8 @@ function pick(id: string, file: string, depth: string) {
     name: s.name,
     character: s.character,
     coat: s.coat,
-    image: `/images/fleet/${file}.webp`,
-    depth: `/images/relight/${depth}-depth.webp`,
+    image: asset(`/images/fleet/${file}.webp`),
+    depth: asset(`/images/relight/${depth}-depth.webp`),
   };
 }
 
@@ -95,8 +96,8 @@ export const marbleStallion: RelightItem[] = [
   {
     id: "marble-marwari",
     name: "Marwari head, marble study",
-    image: "/images/anatomy/marble-stallion.webp",
-    depth: "/images/relight/marble-stallion-depth.webp",
+    image: asset("/images/anatomy/marble-stallion.webp"),
+    depth: asset("/images/relight/marble-stallion-depth.webp"),
     alt: "A white marble bust of a Marwari stallion with inward-curving ears, a carved bridle with tassels and a long wavy mane, on a black plinth.",
     caption: "Study in white marble: the ears, the eye, the jaw, the neck.",
   },

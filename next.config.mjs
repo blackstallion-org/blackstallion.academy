@@ -5,9 +5,12 @@ import { readFileSync } from "node:fs";
  * Security headers (23 Oct 2026). The CSP is an allow-list of origins rather than a nonce policy: nonces would force
  * every page to render dynamically and undo static/partial prerendering, so inline scripts/styles stay allowed while
  * every external origin must be named here. Origins in use: Higgsfield CDN media (CloudFront, images.higgs.ai),
- * Google Fonts (referenced by app/globals.css and Matrix.tsx) and Cloudflare Turnstile (only when configured).
+ * Google Fonts (referenced by app/globals.css and Matrix.tsx), Cloudflare Turnstile (only when configured) and the
+ * Supabase Storage media bucket (only when NEXT_PUBLIC_MEDIA_BASE_URL is set).
  * 'wasm-unsafe-eval' + blob: workers are required by the Draco decoder used for the 3D models.
  */
+import { parseMediaBase } from "./lib/content/media-base.mjs";
+
 const isDev = process.env.NODE_ENV !== "production";
 /**
  * Model versioning (Marwari cinematic pass, A6). In a production build the hero, mobile and anatomy GLBs are requested as
@@ -26,8 +29,12 @@ const MODEL_VERSION = (() => {
   }
 })();
 const SUPABASE_ORIGIN = (() => { try { return new URL(process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "").origin; } catch { return ""; } })();
-// Higgsfield CDN media, plus the project's Supabase Storage for images uploaded through the staff console.
-const MEDIA = ["https://d8j0ntlcm91z4.cloudfront.net", "https://d2ol7oe51mr4n9.cloudfront.net", "https://images.higgs.ai", SUPABASE_ORIGIN].filter(Boolean);
+// Optional: serve stills, models, video and audio from a public Supabase Storage bucket (lib/content/asset.ts, docs/MEDIA_HOSTING.md).
+// Empty unless NEXT_PUBLIC_MEDIA_BASE_URL holds a clean https URL; then the site works exactly as before.
+const MEDIA_BASE = parseMediaBase(process.env.NEXT_PUBLIC_MEDIA_BASE_URL);
+const MEDIA_BASE_URL = MEDIA_BASE ? new URL(MEDIA_BASE) : null;
+// Higgsfield CDN media, plus the project's Supabase Storage for images uploaded through the staff console (and the media bucket).
+const MEDIA = [...new Set(["https://d8j0ntlcm91z4.cloudfront.net", "https://d2ol7oe51mr4n9.cloudfront.net", "https://images.higgs.ai", SUPABASE_ORIGIN, MEDIA_BASE_URL?.origin].filter(Boolean))];
 const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
@@ -55,6 +62,9 @@ const securityHeaders = [
   ...(isDev ? [] : [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains" }]),
 ];
 
+/** Directories of static files under public/ that pages load (media, video, models, brand art, audio, decoders). */
+const assetDirs = ["animations", "audio", "brand", "draco", "images", "media", "models", "textures", "video"];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Next 16 defaults for new projects
@@ -63,6 +73,12 @@ const nextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 90, 95],
+    // next/image may fetch (and resize) stills from the media bucket, and from nowhere else. Only that exact folder, no query strings.
+    remotePatterns: MEDIA_BASE_URL
+      ? [{ protocol: MEDIA_BASE_URL.protocol.replace(":", ""), hostname: MEDIA_BASE_URL.hostname, port: MEDIA_BASE_URL.port, pathname: `${MEDIA_BASE_URL.pathname.replace(/\/+$/, "")}/**`, search: "" }]
+      : [],
+    // Test-only switch for scripts/e2e-media.mjs and tests/asset.test.mjs: their stand-in bucket listens on 127.0.0.1, which Next refuses by default.
+    ...(process.env.BSAH_ALLOW_LOCAL_IMAGE_HOST === "1" ? { dangerouslyAllowLocalIP: true } : {}),
   },
   // Routes named in the client PDFs → the blueprint's routes (docs/BLUEPRINT.md Part 5)
   poweredByHeader: false,
@@ -70,18 +86,27 @@ const nextConfig = {
   // Admin media uploads go through a server action; Vercel caps request bodies at about 4.5 MB.
   experimental: { serverActions: { bodySizeLimit: "4.5mb" } },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders },
-    ...(MODEL_VERSION ? [{
-      source: "/models/:path*",
-      has: [{ type: "query", key: "v", value: MODEL_VERSION }],
-      headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
-    }] : []), {
-      source: "/anatomy/dual-body.html",
-      headers: [
-        { key: "Content-Security-Policy", value: csp.replace("frame-ancestors 'none'", "frame-ancestors 'self'") },
-        { key: "X-Frame-Options", value: "SAMEORIGIN" },
-      ],
-    }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // Files under public/ keep their names when they change, so they are not marked immutable; a day in the browser's
+      // cache plus a week of revalidate-in-the-background spares repeat visitors a round trip for every still, clip and
+      // model (the platform default for public files is max-age=0, must-revalidate).
+      ...assetDirs.map((dir) => ({ source: `/${dir}/:path*`, headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] })),
+      // Model URLs carry their content hash (?v=): those are immutable. Listed after the rule above so it wins for them.
+      ...(MODEL_VERSION ? [{
+        source: "/models/:path*",
+        has: [{ type: "query", key: "v", value: MODEL_VERSION }],
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      }] : []),
+      // The "One conversation. Two bodies." exhibit page is framed by this origin only (the site-wide rule forbids framing).
+      {
+        source: "/anatomy/dual-body.html",
+        headers: [
+          { key: "Content-Security-Policy", value: csp.replace("frame-ancestors 'none'", "frame-ancestors 'self'") },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [

@@ -139,7 +139,9 @@ function createDioramaTerrainTexture(): THREE.CanvasTexture {
     }
 
     ctx.save();
-    ctx.font = '500 28px "Inter", sans-serif';
+    // The site's UI face (Plus Jakarta Sans) as resolved from the CSS token; canvas cannot read var() itself.
+    const uiFont = (typeof document !== "undefined" && getComputedStyle(document.body).getPropertyValue("--font-sans").trim()) || "sans-serif";
+    ctx.font = `500 28px ${uiFont}`;
     ctx.fillStyle = "rgba(72, 56, 45, 0.72)";
     ctx.textAlign = "center";
     ctx.fillText("H  Y  D  E  R  A  B  A  D", 470, 518);

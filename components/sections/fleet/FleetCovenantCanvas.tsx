@@ -6,12 +6,13 @@ import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ModelBoundary } from "@/components/three/ModelBoundary";
+import { asset } from "@/lib/content/asset";
 
 /**
  * The covenant's WebGL layer, split out of FleetCovenantScene so three.js, R3F, drei and the 5 MB model are only
  * fetched when the scene approaches the viewport (the model used to be preloaded the moment the page's JS ran).
  */
-export const COVENANT_MODEL_URL = "/models/fleet-covenant-draco.glb";
+export const COVENANT_MODEL_URL = asset("/models/fleet-covenant-draco.glb");
 
 /* ------------------------------------------------------------------
    1. Keyframes & Landmark Definitions

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { CrestMark } from "@/components/brand/CrestMark";
+import { asset } from "@/lib/content/asset";
 
 /* ================= Field Shots Data ================= */
 interface Shot {
@@ -804,13 +805,13 @@ export function FieldSphereHero() {
             muted
             playsInline
             preload="auto"
-            poster="/images/bsah-horse-eye.webp"
+            poster={asset("/images/bsah-horse-eye.webp")}
             aria-label="Close-up cinematic film of a Marwari horse's eye"
             onEnded={revealSphere}
             onError={revealSphere}
           >
-            <source src="/video/eye-intro-film.webm" type="video/webm" />
-            <source src="/video/eye-intro-film.mp4" type="video/mp4" />
+            <source src={asset("/video/eye-intro-film.webm")} type="video/webm" />
+            <source src={asset("/video/eye-intro-film.mp4")} type="video/mp4" />
             Your browser does not support the opening film.
           </video>
           <div className="veil" aria-hidden="true" />

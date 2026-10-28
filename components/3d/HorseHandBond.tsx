@@ -5,8 +5,9 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { asset } from "@/lib/content/asset";
 
-export const BOND_MODEL_URL = "/models/horse-hand-draco.glb";
+export const BOND_MODEL_URL = asset("/models/horse-hand-draco.glb");
 
 /** Geometry-space x where the muzzle ends and the fingertips begin (the gap between them). */
 const HAND_FROM = 0.098;

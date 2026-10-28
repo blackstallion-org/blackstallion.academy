@@ -10,6 +10,7 @@ import { SplitText } from "gsap/SplitText";
 import { useLenis } from "lenis/react";
 import { AnimatePresence, motion } from "motion/react";
 import { ease } from "@/lib/motion/tokens";
+import { asset } from "@/lib/content/asset";
 
 interface BentoStallion {
   id: string;
@@ -38,7 +39,7 @@ const STALLIONS: BentoStallion[] = [
     quote: "A fortress of composure. Chetak grounds anxious first-time cadets.",
     hands: "15.2",
     age: 7,
-    image: "/images/fleet/fleet-chetak.webp",
+    image: asset("/images/fleet/fleet-chetak.webp"),
     alt: "Chetak IX flagship purebred Marwari stallion",
   },
   {
@@ -52,7 +53,7 @@ const STALLIONS: BentoStallion[] = [
     quote: "Relentless focus under momentum. Veer answers ten grams of rein.",
     hands: "15.0",
     age: 6,
-    image: "/images/fleet/fleet-veer.webp",
+    image: asset("/images/fleet/fleet-veer.webp"),
     alt: "Veer chestnut gold Kathiawari stallion",
   },
   {
@@ -66,7 +67,7 @@ const STALLIONS: BentoStallion[] = [
     quote: "Rare dual-tone coat pattern. Steps lightly and loves an audience.",
     hands: "14.3",
     age: 8,
-    image: "/images/fleet/fleet-kesar.webp",
+    image: asset("/images/fleet/fleet-kesar.webp"),
     alt: "Kesar skewbald Marwari stallion",
   },
   {
@@ -80,7 +81,7 @@ const STALLIONS: BentoStallion[] = [
     quote: "Never the fastest. Never the first to tire.",
     hands: "15.0",
     age: 10,
-    image: "/images/fleet/fleet-arbudh.webp",
+    image: asset("/images/fleet/fleet-arbudh.webp"),
     alt: "Arbudh light bay Marwari stallion",
   },
   {
@@ -94,7 +95,7 @@ const STALLIONS: BentoStallion[] = [
     quote: "Commanding presence, unshakable patience in tactical formation.",
     hands: "15.3",
     age: 8,
-    image: "/images/fleet/fleet-zilzal.webp",
+    image: asset("/images/fleet/fleet-zilzal.webp"),
     alt: "Zilzal obsidian black Marwari stallion",
   },
   {
@@ -108,7 +109,7 @@ const STALLIONS: BentoStallion[] = [
     quote: "High sensitivity. Demands absolute rider composure at full speed.",
     hands: "15.1",
     age: 9,
-    image: "/images/fleet/fleet-tofan.webp",
+    image: asset("/images/fleet/fleet-tofan.webp"),
     alt: "Tofan dappled grey Marwari stallion",
   },
   {
@@ -122,7 +123,7 @@ const STALLIONS: BentoStallion[] = [
     quote: "Untroubled by sudden desert dust or flashing steel.",
     hands: "15.1",
     age: 8,
-    image: "/images/legend/legend-bahadur.webp",
+    image: asset("/images/legend/legend-bahadur.webp"),
     alt: "Bahadur Marwari stallion on desert ridge",
   },
   {
@@ -136,7 +137,7 @@ const STALLIONS: BentoStallion[] = [
     quote: "The sovereign vow of fidelity. Traces back six documented generations.",
     hands: "15.4",
     age: 9,
-    image: "/images/black-marwari-stallion.webp",
+    image: asset("/images/black-marwari-stallion.webp"),
     alt: "Kala Bhairav midnight obsidian Marwari stallion",
   },
 ];

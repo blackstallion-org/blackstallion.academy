@@ -81,8 +81,14 @@ Changes only what **anonymous** visitors can do (signed-in behaviour is byte-for
 - `mou_requests`, `executive_appointments`, `qr_lead_captures`: anonymous insert stays, with NOT VALID format checks
   and a per-client rate limit (5 rows / 10 min / table); `submit_lead_v2` is exempt.
 Impact on other apps, pre-flight queries, verification and rollback: `supabase/live/HARDENING_NOTES.md`. Replica
-suite: 179/179. **Remaining exposure even after it:** any signed-in user (e.g. a self-registered parent) can still read
-camera links, revenue shares and all achievements; fixing that needs role-based policies agreed with the app owners.
+suite: 179/179. The read-only pre-flight queries were run against the live project on 24 Oct and came back clean, and the
+project's API logs for the previous 24 hours showed no other client using the restricted tables (`docs/SECURITY_AUDIT.md`,
+"Live evidence"). **Remaining exposure even after it** (`HARDENING_NOTES.md` §9): any signed-in user (anyone who can
+sign up becomes a parent) can still read camera links, microchips, revenue shares, school e-mails and all achievements;
+direct anonymous inserts can still set any column of the intake tables; `anon` and `authenticated` keep Supabase's default
+`TRUNCATE`/`REFERENCES`/`TRIGGER` grants; and the limiter uses fixed windows (a burst of up to twice the limit across a
+boundary; clients behind one address share a bucket). Fixing the first needs role-based policies agreed with the app
+owners.
 
 ## 6. Migration process
 
@@ -96,12 +102,21 @@ applied is §1 of this file plus `docs/evidence/`. (The operations apps' own mig
 
 ## 7. Backups and recovery
 
-- Plan: the project's plan determines backups. On the Free plan Supabase keeps **no downloadable backups and no
-  point-in-time recovery**; on Pro there are daily backups (7 days) and PITR as an add-on. Upgrading is a paid change
-  → owner decision.
+- Plan: the project is on the **Free plan** (region `ap-northeast-2`, Seoul). On the Free plan Supabase keeps **no
+  downloadable backups and no point-in-time recovery**; on Pro there are daily backups (7 days) and PITR as an add-on
+  (Pro starts at about $25 per month per organisation; PITR is extra). Upgrading is a paid change → owner decision
+  (`docs/LAUNCH_INSTRUCTIONS.md` G12).
 - Until then, a logical backup can be taken from the Mac: `pg_dump "$DATABASE_URL" --schema=public --schema=app_private
   --no-owner -Fc -f bsah-$(date +%F).dump` (connection string from Supabase → Connect; store the file encrypted, never in
-  git; it contains children's data). Restore into a new project with `pg_restore --no-owner -d "$NEW_DATABASE_URL" file`.
+  git; it contains children's data). **Do not restore it the naive way**: the tested procedure with the extra steps is
+  `docs/DEPLOYMENT_RUNBOOK.md` §8.3–§8.4. Storage objects (the private MOU PDFs) are not part of a database dump and need
+  their own copy.
 - Schema-only recovery is always possible from the repository: baseline snapshot + `supabase/live/migrations/` in order.
-- A restore drill (dump → restore into a scratch project → run `supabase/live/tests` style checks) has **not** been
-  performed yet.
+- **Rehearsal (24 Oct, local Postgres 16, synthetic data; `bash supabase/live/tests/backup_restore_rehearsal.sh`, 12/12
+  and part of CI):** dump the replica, restore it into a second database by the runbook steps, and compare. Row counts,
+  row-level security flags, 64 policies, schema/table/column/default privileges, 16 functions with their execute grants
+  and the audit rows are identical, and anonymous visitors still cannot read enquiries. The same run restores *without*
+  the extra steps (a naive `pg_restore`) as a control: 9 policy lines and 16 privilege lines differ and anonymous
+  visitors regain read access to enquiries, which is why the steps matter.
+- What the rehearsal cannot prove: restoring into a real Supabase project (needs the database password and a scratch
+  project, owner). That one rehearsal is gate G12 and should be done once before launch.

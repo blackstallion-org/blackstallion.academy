@@ -6,6 +6,7 @@ import { useReducedMotion } from "@/lib/motion/reduced";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
 import { SomaticMap } from "./SomaticMap";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
+import { asset } from "@/lib/content/asset";
 
 export type AnatomicalPart = "brain" | "spine" | "muscle" | "heart";
 
@@ -125,6 +126,9 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
   const [compositeMode, setCompositeMode] = useState<boolean>(false);
   const [showRegGrid, setShowRegGrid] = useState<boolean>(false);
   const [forceReducedMotion, setForceReducedMotion] = useState<boolean>(false);
+  // The four overlay plates (about 100 kB) are first seen when the stage is on screen: they are requested a screen and
+  // a half ahead of it instead of at load (they used to be fetched with the page although the stage sits far down).
+  const [layersNear, setLayersNear] = useState<boolean>(false);
 
   // Deep links (#part or ?part=) are read after hydration, in a frame callback rather than synchronously in the effect.
   useEffect(() => {
@@ -408,6 +412,12 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
     return () => { cancel(); context?.revert(); };
   }, [selectedPart, compositeMode, updateCalloutStyles, animateLayers]);
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    return whenNearViewport(container, () => setLayersNear(true), "150% 0px");
+  }, []);
+
   // Handle global Escape key for modals
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -688,7 +698,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
               <div className="flex items-center gap-3.5">
                 <div className="w-11 h-11 rounded-full overflow-hidden border border-[#C5B9A5] shrink-0">
                   <img
-                    src="/images/matrix/child-rider-thumb.webp"
+                    src={asset("/images/matrix/child-rider-thumb.webp")}
                     loading="lazy"
                     decoding="async"
                     alt="Equestrian child rider thumbnail"
@@ -717,7 +727,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
             <div className="bsah-stage-wrapper max-w-[880px] w-full">
               {/* LAYER 0: Base Rider & Horse Image (Stationary, 1600x1200 Coordinate Space) */}
               <img
-                src="/images/matrix/rider-base.webp"
+                src={asset("/images/matrix/rider-base.webp")}
                 loading="lazy"
                 decoding="async"
                 alt="Realistic child equestrian rider in side-profile composition on a dapple-grey horse facing right"
@@ -784,7 +794,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 01: BRAIN */}
                 <g id="bsah-overlay-layer-brain" opacity={selectedPart === "brain" || compositeMode ? 1 : 0}>
                   <image
-                    href="/images/matrix/brain-overlay.webp"
+                    href={layersNear ? asset("/images/matrix/brain-overlay.webp") : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -806,7 +816,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 02: SPINE */}
                 <g id="bsah-overlay-layer-spine" opacity={selectedPart === "spine" || compositeMode ? 1 : 0}>
                   <image
-                    href="/images/matrix/spine-overlay.webp"
+                    href={layersNear ? asset("/images/matrix/spine-overlay.webp") : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -828,7 +838,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 03: MUSCLE */}
                 <g id="bsah-overlay-layer-muscle" opacity={selectedPart === "muscle" || compositeMode ? 1 : 0}>
                   <image
-                    href="/images/matrix/muscle-overlay.webp"
+                    href={layersNear ? asset("/images/matrix/muscle-overlay.webp") : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -890,7 +900,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                 {/* REGISTERED OVERLAY 04: HEART */}
                 <g id="bsah-overlay-layer-heart" opacity={selectedPart === "heart" || compositeMode ? 1 : 0}>
                   <image
-                    href="/images/matrix/heart-overlay.webp"
+                    href={layersNear ? asset("/images/matrix/heart-overlay.webp") : undefined}
                     x="0"
                     y="0"
                     width="1600"
@@ -943,10 +953,10 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                   <line id="bsah-line-brain" x1="760" y1="149" x2="768" y2="235" stroke="#4A3525" strokeWidth="1.6" />
                   <circle id="bsah-anchor-brain" cx="768" cy="235" r="4" fill="#C8923E" />
                   <circle className="bsah-badge" id="bsah-badge-brain" cx="760" cy="125" r="24" fill="#4A3525" stroke="#4A3525" strokeWidth="1.6" />
-                  <text id="bsah-num-brain" x="760" y="130" textAnchor="middle" fill="#F3EFE6" fontSize="14" fontFamily="DM Mono, monospace" fontWeight="500">
+                  <text id="bsah-num-brain" x="760" y="130" textAnchor="middle" fill="#F3EFE6" fontSize="14" style={{ fontFamily: "var(--font-mono)" }} fontWeight="500">
                     01
                   </text>
-                  <text id="bsah-label-brain" x="798" y="130" textAnchor="start" fill="#3B291D" fontSize="14" fontFamily="Inter, sans-serif" fontWeight="600" letterSpacing="0.16em">
+                  <text id="bsah-label-brain" x="798" y="130" textAnchor="start" fill="#3B291D" fontSize="14" style={{ fontFamily: "var(--font-sans)" }} fontWeight="600" letterSpacing="0.16em">
                     BRAIN
                   </text>
                 </g>
@@ -962,10 +972,10 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                   <line id="bsah-line-spine" x1="557" y1="465" x2="695" y2="525" stroke="#8C7B69" strokeWidth="1.15" />
                   <circle id="bsah-anchor-spine" cx="695" cy="525" r="3.2" fill="#6E5D4E" />
                   <circle className="bsah-badge" id="bsah-badge-spine" cx="535" cy="455" r="24" fill="#EBE5D7" stroke="#8C7B69" strokeWidth="1.3" />
-                  <text id="bsah-num-spine" x="535" y="460" textAnchor="middle" fill="#4A3525" fontSize="14" fontFamily="DM Mono, monospace" fontWeight="500">
+                  <text id="bsah-num-spine" x="535" y="460" textAnchor="middle" fill="#4A3525" fontSize="14" style={{ fontFamily: "var(--font-mono)" }} fontWeight="500">
                     02
                   </text>
-                  <text id="bsah-label-spine" x="535" y="498" textAnchor="middle" fill="#5C4938" fontSize="13.5" fontFamily="Inter, sans-serif" fontWeight="600" letterSpacing="0.16em">
+                  <text id="bsah-label-spine" x="535" y="498" textAnchor="middle" fill="#5C4938" fontSize="13.5" style={{ fontFamily: "var(--font-sans)" }} fontWeight="600" letterSpacing="0.16em">
                     SPINE
                   </text>
                 </g>
@@ -981,10 +991,10 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                   <line id="bsah-line-muscle" x1="489" y1="740" x2="645" y2="775" stroke="#8C7B69" strokeWidth="1.15" />
                   <circle id="bsah-anchor-muscle" cx="645" cy="775" r="3.2" fill="#6E5D4E" />
                   <circle className="bsah-badge" id="bsah-badge-muscle" cx="465" cy="735" r="24" fill="#EBE5D7" stroke="#8C7B69" strokeWidth="1.3" />
-                  <text id="bsah-num-muscle" x="465" y="740" textAnchor="middle" fill="#4A3525" fontSize="14" fontFamily="DM Mono, monospace" fontWeight="500">
+                  <text id="bsah-num-muscle" x="465" y="740" textAnchor="middle" fill="#4A3525" fontSize="14" style={{ fontFamily: "var(--font-mono)" }} fontWeight="500">
                     03
                   </text>
-                  <text id="bsah-label-muscle" x="465" y="778" textAnchor="middle" fill="#5C4938" fontSize="13.5" fontFamily="Inter, sans-serif" fontWeight="600" letterSpacing="0.16em">
+                  <text id="bsah-label-muscle" x="465" y="778" textAnchor="middle" fill="#5C4938" fontSize="13.5" style={{ fontFamily: "var(--font-sans)" }} fontWeight="600" letterSpacing="0.16em">
                     MUSCLE
                   </text>
                 </g>
@@ -1000,10 +1010,10 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                   <line id="bsah-line-heart" x1="972" y1="499" x2="774" y2="568" stroke="#8C7B69" strokeWidth="1.15" />
                   <circle id="bsah-anchor-heart" cx="774" cy="568" r="3.2" fill="#6E5D4E" />
                   <circle className="bsah-badge" id="bsah-badge-heart" cx="995" cy="492" r="24" fill="#EBE5D7" stroke="#8C7B69" strokeWidth="1.3" />
-                  <text id="bsah-num-heart" x="995" y="497" textAnchor="middle" fill="#4A3525" fontSize="14" fontFamily="DM Mono, monospace" fontWeight="500">
+                  <text id="bsah-num-heart" x="995" y="497" textAnchor="middle" fill="#4A3525" fontSize="14" style={{ fontFamily: "var(--font-mono)" }} fontWeight="500">
                     04
                   </text>
-                  <text id="bsah-label-heart" x="1032" y="497" textAnchor="start" fill="#5C4938" fontSize="13.5" fontFamily="Inter, sans-serif" fontWeight="600" letterSpacing="0.16em">
+                  <text id="bsah-label-heart" x="1032" y="497" textAnchor="start" fill="#5C4938" fontSize="13.5" style={{ fontFamily: "var(--font-sans)" }} fontWeight="600" letterSpacing="0.16em">
                     HEART
                   </text>
                 </g>
@@ -1092,7 +1102,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
                     }`}
                   >
                     <img
-                      src={`/images/matrix/${id}-thumb.webp`}
+                      src={asset(`/images/matrix/${id}-thumb.webp`)}
                       loading="lazy"
                       decoding="async"
                       alt={`${DATA[id].label} anatomical detail`}

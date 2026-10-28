@@ -1,5 +1,6 @@
 "use client";
 
+import { asset } from "@/lib/content/asset";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import Link from "next/link";
@@ -30,12 +31,12 @@ export function SchoolsTitle() {
   const ref = useRef<HTMLElement>(null);
   const [mapReady, setMapReady] = useState(false);
   // The relief map's two textures are fetched with the page, not after the 3D code arrives and asks for them.
-  preload("/images/schools/india-relief-color.webp", { as: "image" });
-  preload("/images/schools/india-relief-bump.webp", { as: "image" });
+  preload(asset("/images/schools/india-relief-color.webp"), { as: "image" });
+  preload(asset("/images/schools/india-relief-bump.webp"), { as: "image" });
   return (
     <section ref={ref} aria-labelledby="schools-title" className="editorial-scene">
       <div className="tone-dark relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-black isolate">
-        <ScenePoster src="/images/schools/india-relief-poster.webp" ready={mapReady} priority />
+        <ScenePoster src={asset("/images/schools/india-relief-poster.webp")} ready={mapReady} priority />
         <India3DMap className="absolute inset-0 h-full w-full z-10" onReady={() => setMapReady(true)} />
       </div>
       <div className="tone-light editorial-details gutter">
@@ -292,7 +293,7 @@ export function HubMap() {
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:items-center">
         {/* 3D Hyderabad Architectural Diorama Map Viewport */}
         <div ref={frameRef} className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line/60 shadow-xl min-h-[500px] lg:min-h-[620px]">
-          <ScenePoster src="/images/schools/hyderabad-diorama-poster.webp" ready={dioramaReady} sizes="(min-width: 1024px) 60vw, 100vw" />
+          <ScenePoster src={asset("/images/schools/hyderabad-diorama-poster.webp")} ready={dioramaReady} sizes="(min-width: 1024px) 60vw, 100vw" />
           {diorama && (
             <Hyderabad3DMap
               activeHubId={activeHubId}

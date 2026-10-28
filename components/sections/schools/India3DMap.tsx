@@ -1,5 +1,6 @@
 "use client";
 
+import { asset } from "@/lib/content/asset";
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import * as THREE from "three";
 import { useInView } from "motion/react";
@@ -277,8 +278,8 @@ const RELIEF_BOUNDS = { minLat: 4.0, maxLat: 38.0, minLon: 64.0, maxLon: 98.0 };
  * load like any other image (86 KB together). The function stays as the source of truth for the images and as the
  * fallback if they cannot be loaded.
  */
-const RELIEF_COLOR_URL = "/images/schools/india-relief-color.webp";
-const RELIEF_BUMP_URL = "/images/schools/india-relief-bump.webp";
+const RELIEF_COLOR_URL = asset("/images/schools/india-relief-color.webp");
+const RELIEF_BUMP_URL = asset("/images/schools/india-relief-bump.webp");
 
 function buildSubcontinentTextures() {
   const width = 1024;

@@ -1,3 +1,4 @@
+import { asset } from "@/lib/content/asset";
 import Image from "next/image";
 import { GALLERY } from "@/lib/content/museum";
 import styles from "./overlay.module.css";
@@ -12,7 +13,7 @@ import styles from "./overlay.module.css";
 export function LoadingScreen({ visible, slow }: { visible: boolean; slow: boolean }) {
   return (
     <div className={styles.loader} data-visible={visible} role="status" aria-live="polite">
-      <Image src="/images/legend/museum/entrance-poster.webp" alt="" fill priority sizes="100vw" className={styles.loaderPoster} />
+      <Image src={asset("/images/legend/museum/entrance-poster.webp")} alt="" fill priority sizes="100vw" className={styles.loaderPoster} />
       <span className={styles.loaderScrim} aria-hidden="true" />
       <div className={styles.loaderBody}>
         <p className={styles.loaderBrand}>{GALLERY.name}</p>

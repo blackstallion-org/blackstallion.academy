@@ -1,3 +1,4 @@
+import { asset } from "@/lib/content/asset";
 /**
  * Facts the stride study is built on. Nothing here is measured from a living horse.
  *
@@ -5,8 +6,8 @@
  * stride data, written in Blender (tools/blender/03_animation), not captured from a horse. The clip, its length and its stride
  * length come from public/models/marwari-gaits.json ("Walk").
  */
-export const STRIDE_MODEL_URL = "/models/anatomy-exhibit.glb";
-export const STRIDE_RIDER_URL = "/models/cadet-rider.glb";
+export const STRIDE_MODEL_URL = asset("/models/anatomy-exhibit.glb");
+export const STRIDE_RIDER_URL = asset("/models/cadet-rider.glb");
 export const WALK_CLIP = "Walk";
 
 /** The authored clip: one stride lasts 0.8 s (75 strides a minute), the horse advances 1.152 m, 24 frames at 30 per second. */

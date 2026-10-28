@@ -5,6 +5,11 @@ import { useEffect, useRef } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { SealRing } from "@/components/motion/fx/SealRing";
 import { corridors, entity, legalNav } from "@/lib/content/site";
+import { whenNearViewport } from "@/lib/motion/near-viewport";
+import { asset } from "@/lib/content/asset";
+
+/** A 76 kB still that only matters once the footer is about to be seen (it sits ~23,000 px down the home page). */
+const FOOTER_POSTER = asset("/video/footer-ambient-poster.webp");
 
 const sealLegend = "THE BLACK STALLION ACADEMY · DOMINUS SUI · DOMINUS EQUI · ";
 
@@ -32,6 +37,16 @@ const COPYRIGHT_YEAR = 2026;
  */
 export function Footer() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
+
+  // Poster: set a screen and a half ahead of the footer instead of fetching it at load. Same picture, same place; the
+  // video has preload="none", so nothing else of it is requested until it plays.
+  useEffect(() => {
+    const footer = footerRef.current;
+    const video = videoRef.current;
+    if (!footer || !video) return;
+    return whenNearViewport(footer, () => { video.poster = FOOTER_POSTER; }, "150% 0px");
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -66,7 +81,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="footer-meridian no-print" aria-label="Site Footer">
+    <footer ref={footerRef} className="footer-meridian no-print" aria-label="Site Footer">
       {/* Background ambient video (rendered first in DOM, visually placed lower via CSS flex order) */}
       <video
         ref={videoRef}
@@ -75,13 +90,12 @@ export function Footer() {
         loop
         playsInline
         preload="none"
-        poster="/video/footer-ambient-poster.webp"
         aria-hidden="true"
         tabIndex={-1}
         disablePictureInPicture
       >
-        <source src="/video/footer-ambient-h264.mp4" type="video/mp4" />
-        <source src="/video/footer-ambient.mp4" type="video/mp4" />
+        <source src={asset("/video/footer-ambient-h264.mp4")} type="video/mp4" />
+        <source src={asset("/video/footer-ambient.mp4")} type="video/mp4" />
         <source
           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260928_144832_2b6b23aa-4416-4fcb-9df4-132349c59edc.mp4"
           type="video/mp4"

@@ -1,3 +1,4 @@
+import { asset } from "./asset";
 import type { Painting } from "@/lib/museum/artwork-types";
 
 /**
@@ -46,8 +47,8 @@ export const paintings: Painting[] = [
     title: "Driven into the desert",
     chapter: "II · Marwar, 1193",
     image: {
-      src: "/images/legend/legend-fort.webp",
-      srcSmall: "/images/legend/museum/fort-small.webp",
+      src: asset("/images/legend/legend-fort.webp"),
+      srcSmall: asset("/images/legend/museum/fort-small.webp"),
       width: 1920,
       height: 1072,
       alt: "A wall of dust rolling across red desert sand under a heavy sky.",
@@ -64,8 +65,8 @@ export const paintings: Painting[] = [
     title: "The tips touch",
     chapter: "IV · The ears",
     image: {
-      src: "/images/legend/legend-ears.webp",
-      srcSmall: "/images/legend/museum/ears-small.webp",
+      src: asset("/images/legend/legend-ears.webp"),
+      srcSmall: asset("/images/legend/museum/ears-small.webp"),
       width: 1434,
       height: 1920,
       alt: "A horse seen from behind, its two ears curving inward until the tips meet, edged in warm light against darkness.",
@@ -82,8 +83,8 @@ export const paintings: Painting[] = [
     title: "Victory. Death. Or home.",
     chapter: "VI · Three reasons",
     image: {
-      src: "/images/legend/legend-cavalry.webp",
-      srcSmall: "/images/legend/museum/cavalry-small.webp",
+      src: asset("/images/legend/legend-cavalry.webp"),
+      srcSmall: asset("/images/legend/museum/cavalry-small.webp"),
       width: 1920,
       height: 1072,
       alt: "A line of horsemen riding out of golden dust at dusk, seen in silhouette.",
@@ -100,8 +101,8 @@ export const paintings: Painting[] = [
     title: "The leap from the wall",
     chapter: "VII · Roll of honour",
     image: {
-      src: "/images/legend/legend-bahadur.webp",
-      srcSmall: "/images/legend/museum/bahadur-small.webp",
+      src: asset("/images/legend/legend-bahadur.webp"),
+      srcSmall: asset("/images/legend/museum/bahadur-small.webp"),
       width: 1920,
       height: 1072,
       alt: "A single black stallion in silhouette on a desert dune against an amber sunset.",
@@ -118,8 +119,8 @@ export const paintings: Painting[] = [
     title: "From royalty to the cart",
     chapter: "VIII · The fall",
     image: {
-      src: "/images/legend/legend-fall.webp",
-      srcSmall: "/images/legend/museum/fall-small.webp",
+      src: asset("/images/legend/legend-fall.webp"),
+      srcSmall: asset("/images/legend/museum/fall-small.webp"),
       width: 1920,
       height: 1072,
       alt: "A worn black-and-white scene of a horse pulling a cart heaped with sacks along a dirt road.",
@@ -136,8 +137,8 @@ export const paintings: Painting[] = [
     title: "The line that refused to end",
     chapter: "IX · The revival",
     image: {
-      src: "/images/legend/legend-revival.webp",
-      srcSmall: "/images/legend/museum/revival-small.webp",
+      src: asset("/images/legend/legend-revival.webp"),
+      srcSmall: asset("/images/legend/museum/revival-small.webp"),
       width: 1920,
       height: 815,
       alt: "A herd of horses galloping toward the viewer through golden dust.",

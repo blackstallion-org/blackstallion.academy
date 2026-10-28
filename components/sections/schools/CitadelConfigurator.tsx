@@ -1,5 +1,6 @@
 "use client";
 
+import { asset } from "@/lib/content/asset";
 import React, { useActionState, useEffect, useState, useRef, type Ref } from "react";
 import dynamic from "next/dynamic";
 import { CitadelHubImage } from "./CitadelHubImage";
@@ -126,7 +127,7 @@ export function CitadelConfigurator() {
       >
         {/* 3D viewport: in normal flow under the copy on phones; the clear right-hand stage on desktop. No wash over it. */}
         <div ref={viewportRef} className="citadel-viewport relative order-2 h-[60svh] min-h-[340px] w-full lg:absolute lg:inset-y-0 lg:left-[46%] lg:right-0 lg:order-none lg:h-auto lg:w-auto xl:left-[44%]">
-        <ScenePoster src="/images/schools/citadel-standard-poster.webp" ready={sceneReady} sizes="(min-width: 1024px) 56vw, 100vw" />
+        <ScenePoster src={asset("/images/schools/citadel-standard-poster.webp")} ready={sceneReady} sizes="(min-width: 1024px) 56vw, 100vw" />
         {sceneNear && (
           <CitadelScene
             ref={sceneRef}
