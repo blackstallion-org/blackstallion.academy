@@ -4,7 +4,9 @@ import "lenis/dist/lenis.css";
 import "./globals.css";
 import "./editorial.css";
 import { Atmosphere } from "@/components/film/Atmosphere";
-import { Loader, loaderBootScript } from "@/components/motion/Loader";
+import { Loader } from "@/components/motion/Loader";
+import { OpeningFilm } from "@/components/motion/OpeningFilm";
+import { loaderBootScript } from "@/lib/opening/boot";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { SiteParallax } from "@/components/motion/SiteParallax";
@@ -53,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Skip to content
             </a>
             <Loader />
+            <OpeningFilm />
             <SiteNav />
             <Soundscape />
             <Atmosphere />

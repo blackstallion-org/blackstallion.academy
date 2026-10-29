@@ -45,24 +45,27 @@ export function HeroFilm() {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     // Data Saver or a 2G link: the film stays on its poster (the 3 to 8 MB file is never played), like reduced motion.
     const saveData = saveDataMode();
+    // The home page opening (components/motion/OpeningFilm.tsx) covers this film on a first visit: it waits, so none of it plays unseen.
+    const holding = () => document.documentElement.dataset.bsahOpening === "1";
     const failure = () => { failed.current = true; if (!disposed) setState("failed"); };
     // Source errors can happen before hydration and do not bubble from <source>.
     // Inspect the native state too, including the all-sources-failed browser case.
     const mediaStarted = performance.now();
     const watchdog = window.setInterval(() => {
-      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (!preference.matches && !saveData && video.readyState < 2 && performance.now() - mediaStarted > 12000)) failure();
+      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (!preference.matches && !saveData && !holding() && video.readyState < 2 && performance.now() - mediaStarted > 12000)) failure();
       if (video.readyState >= 2 || failed.current) window.clearInterval(watchdog);
     }, 200);
     const sync = () => {
-      if (document.hidden || !inView.current || userPaused.current || preference.matches || saveData) video.pause();
+      if (document.hidden || !inView.current || userPaused.current || preference.matches || saveData || holding()) video.pause();
       else { prime(); video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); }); }
     };
     const observer = new IntersectionObserver(([entry]) => { inView.current = entry.isIntersecting; sync(); }, { threshold: 0.05 });
     observer.observe(video);
     document.addEventListener("visibilitychange", sync);
     preference.addEventListener("change", sync);
+    window.addEventListener("bsah:opening-done", sync);
     sync();
-    return () => { disposed = true; clearInterval(watchdog); observer.disconnect(); document.removeEventListener("visibilitychange", sync); preference.removeEventListener("change", sync); video.pause(); };
+    return () => { disposed = true; clearInterval(watchdog); observer.disconnect(); document.removeEventListener("visibilitychange", sync); preference.removeEventListener("change", sync); window.removeEventListener("bsah:opening-done", sync); video.pause(); };
   }, []);
 
   /** Jump to the title card once, just before the first playback (needs metadata; otherwise onLoadedMetadata does it). */
