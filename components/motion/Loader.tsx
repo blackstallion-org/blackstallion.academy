@@ -5,7 +5,7 @@ import { PixelHorse } from "./PixelHorse";
 import { RunningHorse } from "./RunningHorse";
 import { usePathname } from "next/navigation";
 import { LOADER_SESSION_KEY } from "@/lib/opening/boot";
-import { LOADER_HORSE } from "@/lib/opening/config";
+import { LOADER_HORSE, OPENING_ENABLED } from "@/lib/opening/config";
 import styles from "./Loader.module.css";
 
 const SESSION_KEY = LOADER_SESSION_KEY;
@@ -18,35 +18,32 @@ const SESSION_KEY = LOADER_SESSION_KEY;
 export function Loader() {
   const pathname = usePathname();
   const lastPath = useRef(pathname);
-  const [load, setLoad] = useState({ id: 0, phase: "running" as "running" | "settling" | "fading" | "gone" });
+  const [load, setLoad] = useState({ id: 0, phase: "running" as "running" | "settling" | "zooming" | "fading" | "gone" });
   const fallback = useRef<ReturnType<typeof setTimeout> | null>(null);
   const readyFrames = useRef<number[]>([]);
   const settle = () => setLoad((current) => current.phase === "running" ? { ...current, phase: "settling" } : current);
-  const finishSettling = useCallback(() => setLoad((current) => current.phase === "settling" ? { ...current, phase: "fading" } : current), []);
+  // The opening: on the first visit to the home page the loader does not simply fade; the horse zooms into itself and the website opens.
+  // Page changes and reloads keep the plain fade.
+  const opening = useRef(false);
+  const finishSettling = useCallback(() => setLoad((current) => current.phase === "settling" ? { ...current, phase: opening.current && current.id === 0 ? "zooming" : "fading" } : current), []);
 
   useEffect(() => {
     if (document.documentElement.dataset.bsahLoaded) {
       const frame = requestAnimationFrame(() => setLoad((current) => ({ ...current, phase: "gone" })));
       return () => cancelAnimationFrame(frame);
     }
+    opening.current = OPENING_ENABLED && location.pathname === "/";
     try { sessionStorage.setItem(SESSION_KEY, "1"); } catch {}
     // Hydration + first DOM paint are essential; below-fold media stays lazy.
     const frames = readyFrames.current;
     const poster = document.querySelector<HTMLImageElement>("[data-hero-poster]");
-    // When the home page is about to play its opening, the loader waits until the opening's pictures are decoded, so the screen
-    // is never an empty page between the two. The 3.5 s deadline below ends it whatever happens.
-    const settleWhenOpeningIsReady = () => {
-      const root = document.documentElement;
-      if (root.dataset.bsahOpening === "1" && !root.dataset.bsahOpeningReady) window.addEventListener("bsah:opening-ready", settle, { once: true });
-      else settle();
-    };
-    const ready = () => { frames.push(requestAnimationFrame(settleWhenOpeningIsReady)); };
+    const ready = () => { frames.push(requestAnimationFrame(settle)); };
     const frame = requestAnimationFrame(() => {
       if (!poster || poster.complete) ready();
       else { poster.addEventListener("load", ready, { once: true }); poster.addEventListener("error", ready, { once: true }); }
     });
     const deadline = setTimeout(settle, 3500);
-    return () => { cancelAnimationFrame(frame); frames.forEach(cancelAnimationFrame); clearTimeout(deadline); window.removeEventListener("bsah:opening-ready", settle); poster?.removeEventListener("load", ready); poster?.removeEventListener("error", ready); };
+    return () => { cancelAnimationFrame(frame); frames.forEach(cancelAnimationFrame); clearTimeout(deadline); poster?.removeEventListener("load", ready); poster?.removeEventListener("error", ready); };
   }, []);
 
   useEffect(() => {
@@ -80,21 +77,21 @@ export function Loader() {
   }, [load.id, load.phase]);
 
   useEffect(() => {
-    if (load.phase !== "fading") return;
-    const timer = setTimeout(() => setLoad((current) => ({ ...current, phase: "gone" })), 260);
+    if (load.phase !== "zooming") return;
+    const timer = setTimeout(() => setLoad((current) => ({ ...current, phase: "gone" })), 1350);
     return () => clearTimeout(timer);
   }, [load.phase]);
 
   useEffect(() => {
-    if (load.phase !== "gone") return;
-    document.documentElement.dataset.bsahLoaderGone = "1";
-    window.dispatchEvent(new Event("bsah:loader-gone"));
+    if (load.phase !== "fading") return;
+    const timer = setTimeout(() => setLoad((current) => ({ ...current, phase: "gone" })), 260);
+    return () => clearTimeout(timer);
   }, [load.phase]);
 
   if (load.phase === "gone") return null;
   return <div key={load.id} className={`bsah-loader ${styles.overlay}`} data-loading-phase={load.phase} data-horse={LOADER_HORSE} aria-hidden>
     {LOADER_HORSE === "pixel"
       ? <PixelHorse settling={load.phase === "settling"} onSettled={finishSettling} />
-      : <RunningHorse settling={load.phase === "settling"} onSettled={finishSettling} />}
+      : <RunningHorse settling={load.phase === "settling"} zooming={load.phase === "zooming"} onSettled={finishSettling} />}
   </div>;
 }

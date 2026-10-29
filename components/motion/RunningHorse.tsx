@@ -5,14 +5,15 @@ import styles from "./RunningHorse.module.css";
 
 /**
  * The loader's horse: the supplied running-rider GIF, placed as it is. Same two props as the pixel horse it replaces, so Loader.tsx
- * treats them alike: `settling` (the page is ready) and `onSettled` (call me when the horse is done).
+ * treats them alike: `settling` (the page is ready) and `onSettled` (call me when the horse is done). `zooming` is the opening on the
+ * first visit to the home page: the camera goes into the horse (it keeps galloping) and the overlay dissolves into the website.
  */
-export function RunningHorse({ settling, onSettled }: { settling: boolean; onSettled: () => void }) {
+export function RunningHorse({ settling, zooming = false, onSettled }: { settling: boolean; zooming?: boolean; onSettled: () => void }) {
   useEffect(() => {
     if (!settling) return;
     const timer = setTimeout(onSettled, 200);
     return () => clearTimeout(timer);
   }, [settling, onSettled]);
   // eslint-disable-next-line @next/next/no-img-element -- an animated GIF, which next/image would flatten
-  return <img className={styles.horse} src="/opening/loader.gif" alt="" width={500} height={333} draggable={false} />;
+  return <img className={styles.horse} src="/opening/loader.gif" alt="" width={500} height={333} draggable={false} data-zooming={zooming || undefined} />;
 }
