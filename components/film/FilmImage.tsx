@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, type MotionValue } from "motion/react";
 import { useState } from "react";
-import { LOCAL_MEDIA, media, mediaSrc, type MediaKey } from "@/lib/content/media";
+import { avifTwin, LOCAL_MEDIA, media, mediaSrc, type MediaKey } from "@/lib/content/media";
 import { cn } from "@/lib/utils";
 
 type FilmImageProps = {
@@ -64,6 +64,29 @@ export function FilmImage({
   const item = media[name];
   const src = mediaSrc(name);
   const isLayer = blend === "screen";
+  // Shipped stills have an AVIF copy at the same size (about a third of the bytes); browsers that cannot read it keep the WebP.
+  // A `priority` still would preload its WebP while the picture loads the AVIF, so with a copy it is marked eager and high priority.
+  const twin = src ? avifTwin(src) : null;
+  const hints = twin ? (priority ? { loading: "eager" as const, fetchPriority: "high" as const, preload: false } : {}) : { priority };
+  const image = src ? (
+    <Image
+      src={src}
+      unoptimized={!LOCAL_MEDIA || /^https?:/.test(src)}
+      alt={isLayer ? "" : (item?.alt ?? "")}
+      fill
+      sizes={sizes}
+      quality={95}
+      {...hints}
+      onLoad={() => setState("ok")}
+      onError={() => setState("missing")}
+      className={cn(
+        "object-cover transition-opacity duration-200 ease-out opacity-100",
+        !isLayer && grades[grade],
+        imgClassName,
+      )}
+      style={{ objectPosition: position ?? item?.focus ?? "50% 50%" }}
+    />
+  ) : null;
 
   return (
     <motion.div
@@ -76,23 +99,14 @@ export function FilmImage({
           className={cn("absolute will-change-transform", bleed ? "-inset-[7%]" : "inset-0")}
           style={{ scale, y, x, filter }}
         >
-          <Image
-            src={src}
-            unoptimized={!LOCAL_MEDIA || /^https?:/.test(src)}
-            alt={isLayer ? "" : (item?.alt ?? "")}
-            fill
-            sizes={sizes}
-            quality={95}
-            priority={priority}
-            onLoad={() => setState("ok")}
-            onError={() => setState("missing")}
-            className={cn(
-              "object-cover transition-opacity duration-200 ease-out opacity-100",
-              !isLayer && grades[grade],
-              imgClassName,
-            )}
-            style={{ objectPosition: position ?? item?.focus ?? "50% 50%" }}
-          />
+          {twin ? (
+            <picture className="contents">
+              <source srcSet={twin} type="image/avif" />
+              {image}
+            </picture>
+          ) : (
+            image
+          )}
         </motion.div>
       )}
     </motion.div>

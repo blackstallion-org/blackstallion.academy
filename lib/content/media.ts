@@ -150,6 +150,14 @@ export const shippedFile = (file: string) => file.replace(/^(\/media\/[^/]+)\.(p
  * With NEXT_PUBLIC_MEDIA_BASE_URL set, site paths come from the media bucket (lib/content/asset.ts). That bucket mirrors
  * the shipped WebP copies, never the PNG masters, so the masters are used only when the media stays on this site.
  */
+/**
+ * The AVIF copy of a shipped still (scripts/make-still-avif.mjs): the same pixels at about a third of the bytes. Only for
+ * stills this site serves as /media/<name>.webp. A remote URL, the provider's resizer, the PNG masters (NEXT_PUBLIC_LOCAL_MEDIA)
+ * and the media bucket (it mirrors the manifest, which lists no twins) get null and keep their own file.
+ */
+export const avifTwin = (src: string): string | null =>
+  !LOCAL_MEDIA && !MEDIA_REMOTE && /^\/media\/[^/?#]+\.webp$/.test(src) ? src.replace(/\.webp$/, ".avif") : null;
+
 export function mediaSrc(key: MediaKey): string | null {
   const item: Media = media[key];
   if (!item) return null;
