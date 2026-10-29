@@ -4,19 +4,18 @@ import { useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OPENING_ENABLED } from "@/lib/opening/config";
-import { OPENING_SHOTS } from "@/lib/opening/layout";
 import styles from "./OpeningFilm.module.css";
 
 type Phase = "idle" | "waiting" | "playing" | "leaving" | "done";
 
 /**
- * The home page opening: two shots of an ink horse at the gallop, then the site's line. First visit of a session only, on "/"
+ * The home page opening: the two supplied ink-horse pictures, one after the other, then the site's line. First visit of a session only, on "/"
  * only (the head script, lib/opening/boot.ts, marks <html data-bsah-opening> when it should run), never with reduced motion or
  * ?noload. `?opening` on the home page plays it again. It waits for its own pictures, then for the loader to finish, then plays
  * for about 5.6 seconds; Skip, Escape, or a click anywhere ends it at once. If anything fails it simply does not appear.
  *
- * The three pictures it is made from are small (about 100 KB together) and were requested by the head script, so it adds
- * almost nothing to the first load. See docs/OPENING.md, including how to switch it off or undo it.
+ * The two pictures are small (about 60 KB together) and the first was requested by the head script, so it adds almost nothing
+ * to the first load. See docs/OPENING.md, including how to switch it off or undo it.
  */
 export function OpeningFilm() {
   const pathname = usePathname();
@@ -111,21 +110,10 @@ export function OpeningFilm() {
       onClick={leave}
       onAnimationEnd={(event) => { if (event.target === event.currentTarget && event.animationName.includes("master")) setPhase("done"); }}
     >
-      {OPENING_SHOTS.map((shot, index) => (
-        <div key={shot.n} className={`${styles.shot} ${index === 0 ? styles.shot1 : styles.shot2}`} aria-hidden>
-          <div className={styles.stage} style={{ "--hx": (shot.box.left + shot.box.width / 2) / 100 } as React.CSSProperties}>
-            <div className={styles.strip}>
-              {[0, 1, 2].map((copy) => (
-                // eslint-disable-next-line @next/next/no-img-element -- three copies of one small picture, laid edge to edge
-                <img key={copy} src={`/opening/plate-${shot.n}.webp`} alt="" decoding="async" fetchPriority={index === 0 ? "high" : "auto"} draggable={false} />
-              ))}
-            </div>
-            <div className={styles.horseBox} style={{ left: `${shot.box.left}%`, top: `${shot.box.top}%`, width: `${shot.box.width}%`, height: `${shot.box.height}%` }}>
-              <div className={styles.shadow} />
-              {/* eslint-disable-next-line @next/next/no-img-element -- the cut-out horse, positioned over its own plate */}
-              <img className={styles.horse} src={`/opening/horse-${shot.n}.webp`} alt="" decoding="async" draggable={false} />
-            </div>
-          </div>
+      {[1, 2].map((n) => (
+        <div key={n} className={`${styles.shot} ${n === 1 ? styles.shot1 : styles.shot2}`} aria-hidden>
+          {/* eslint-disable-next-line @next/next/no-img-element -- the supplied picture, shown as it is */}
+          <img className={styles.pic} src={`/opening/ink-${n}.webp`} alt="" decoding="async" fetchPriority={n === 1 ? "high" : "auto"} draggable={false} />
         </div>
       ))}
       <div className={`gutter ${styles.caption}`}>

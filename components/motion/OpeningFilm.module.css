@@ -1,5 +1,5 @@
-/* The home page opening: two ink shots, then the line. About 5.6 seconds, skippable at any moment. Every time below is
-   seconds from the moment the loader has gone (class data-phase="playing"); the master animation at the foot is the clock. */
+/* The home page opening: the two supplied ink-horse pictures as they are, one after the other, then the line. About 5.6 seconds,
+   skippable at any moment. Times are seconds from the moment the loader has gone (data-phase="playing"); `master` is the clock. */
 .root {
   position: fixed;
   inset: 0;
@@ -15,48 +15,15 @@
 :global(html[data-bsah-opening]) { overflow: hidden; overscroll-behavior: none; }
 :global(html[data-bsah-loaded]) .root { display: none; }
 
-/* ---------------------------------------------------------------- the two shots */
-.shot { position: absolute; inset: 0; mix-blend-mode: multiply; } /* the plates' white becomes the page's ivory */
+.shot { position: absolute; inset: 0; mix-blend-mode: multiply; } /* the pictures' white becomes the page's ivory */
 .shot1 { opacity: 1; }
 .shot2 { opacity: 0; }
 .root[data-phase="playing"] .shot1 { animation: shotOut 3.7s linear both; }
 .root[data-phase="playing"] .shot2 { animation: shotIn 5.6s linear both; }
+.pic { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 42% 60%; }
+.root[data-phase="playing"] .shot1 .pic { animation: push 3.9s cubic-bezier(0.25, 0.1, 0.25, 1) both; will-change: transform; }
+.root[data-phase="playing"] .shot2 .pic { animation: push 3.4s cubic-bezier(0.25, 0.1, 0.25, 1) 2.6s both; will-change: transform; }
 
-/* The stage is the picture's own space: the plate covers the screen, and the horse sits where it did in the plate, so the two
-   stay registered however the screen is shaped. The stage is moved so the horse is in the middle of the screen. */
-.stage {
-  --sw: max(100vw, calc(100svh * 500 / 281));
-  position: absolute;
-  top: 50%;
-  left: calc(50% - var(--hx) * var(--sw));
-  width: var(--sw);
-  aspect-ratio: 500 / 281;
-  transform: translateY(-50%);
-}
-.root[data-phase="playing"] .stage { animation: push 3.9s cubic-bezier(0.25, 0.1, 0.25, 1) both; }
-.root[data-phase="playing"] .shot2 .stage { animation-delay: 2.6s; }
-
-/* Three copies of the plate side by side (the plates fade to mist at their edges, so each join is a bank of fog): the ground slides under the horse. */
-.strip { position: absolute; top: 0; left: -100%; width: 300%; height: 100%; display: flex; }
-.strip img { display: block; width: 33.3334%; height: 100%; }
-.root[data-phase="playing"] .shot1 .strip { animation: pan1 3.9s cubic-bezier(0.4, 0, 0.2, 1) both; will-change: transform; }
-.root[data-phase="playing"] .shot2 .strip { animation: pan2 3.3s cubic-bezier(0.4, 0, 0.2, 1) 2.6s both; will-change: transform; }
-
-.horseBox { position: absolute; }
-.horse { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 45% 85%; }
-.shadow {
-  position: absolute;
-  left: 6%;
-  right: 10%;
-  bottom: -3%;
-  height: 9%;
-  background: radial-gradient(closest-side, rgb(48 37 30 / 0.3), transparent);
-  filter: blur(2px);
-}
-.root[data-phase="playing"] .horse { animation: gallop 0.44s ease-in-out infinite; will-change: transform; }
-.root[data-phase="playing"] .shadow { animation: shade 0.44s ease-in-out infinite; }
-
-/* ---------------------------------------------------------------- the line and the way out */
 .caption {
   position: absolute;
   inset-inline: 0;
@@ -76,20 +43,11 @@
 .root[data-phase="playing"] .line2 { animation: rise 1s cubic-bezier(0.16, 1, 0.3, 1) 3.1s both; }
 .skip { flex: none; }
 
-/* ---------------------------------------------------------------- motion */
 @keyframes master { 0%, 90.7% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes lastResort { to { visibility: hidden; opacity: 0; } }
 @keyframes shotOut { 0%, 78.4% { opacity: 1; } 97.3%, 100% { opacity: 0; } }
 @keyframes shotIn { 0%, 51.8% { opacity: 0; } 64.3%, 100% { opacity: 1; } }
-@keyframes push { from { transform: translateY(-50%) scale(1); } to { transform: translateY(-50%) scale(1.07); } }
-@keyframes pan1 { from { transform: translateX(0); } to { transform: translateX(-17%); } }
-@keyframes pan2 { from { transform: translateX(0); } to { transform: translateX(-15%); } }
-@keyframes gallop {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  30% { transform: translateY(-4.5%) rotate(-1deg); }
-  60% { transform: translateY(1%) rotate(0.6deg); }
-}
-@keyframes shade { 0%, 100% { transform: scaleX(1); opacity: 1; } 30% { transform: scaleX(0.86); opacity: 0.7; } }
+@keyframes push { from { transform: scale(1); } to { transform: scale(1.07); } }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (prefers-reduced-motion: reduce) {

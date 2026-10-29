@@ -4,13 +4,13 @@
 // Does NOT prove how it looks or runs on a device: that is checked in a browser (see PROGRESS.md). Run with `npm test`.
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { loadTs, root } from "./helpers/load-ts.mjs";
 
 const { buildLoaderBootScript, LOADER_SESSION_KEY } = await loadTs("lib/opening/boot.ts");
-const { OPENING_SHOTS, RUNNER_SHEET } = await loadTs("lib/opening/layout.ts");
 const read = (rel) => readFileSync(path.join(root, rel), "utf8");
 
 /** Runs the head script in a stand-in browser and reports what it did. */
@@ -35,11 +35,11 @@ function visit({ path: pathname = "/", search = "", seen = false, reduced = fals
 
 // ------------------------------------------------------------------ what a visit shows
 
-test("first visit to the home page: loader with the running silhouette, and the opening, with their pictures requested at once", () => {
+test("first visit to the home page: loader with the running horse, and the opening, with their pictures requested at once", () => {
   const v = visit();
   assert.equal(v.dataset.bsahOpening, "1");
   assert.equal(v.dataset.bsahLoaded, undefined);
-  assert.deepEqual(v.links.map((l) => [l.href, l.as, l.rel]), [["/opening/runner.webp", "image", "preload"], ["/opening/plate-1.webp", "image", "preload"], ["/opening/horse-1.webp", "image", "preload"]]);
+  assert.deepEqual(v.links.map((l) => [l.href, l.as, l.rel]), [["/opening/loader.gif", "image", "preload"], ["/opening/ink-1.webp", "image", "preload"]]);
 });
 
 test("the opening never holds the page for ever: a last-resort timer clears the flag and says so", () => {
@@ -56,7 +56,7 @@ test("first visit to any other page: the loader, not the opening", () => {
   const v = visit({ path: "/legend" });
   assert.equal(v.dataset.bsahOpening, undefined);
   assert.equal(v.dataset.bsahLoaded, undefined);
-  assert.deepEqual(v.links.map((l) => l.href), ["/opening/runner.webp"]);
+  assert.deepEqual(v.links.map((l) => l.href), ["/opening/loader.gif"]);
   assert.equal(v.timers.length, 0);
 });
 
@@ -84,11 +84,11 @@ test("?opening on the home page forgets the session and plays it all again, but 
 test("the switches: no opening when it is off, and the earlier pixel horse when asked for", () => {
   const off = visit({ opening: false });
   assert.equal(off.dataset.bsahOpening, undefined);
-  assert.deepEqual(off.links.map((l) => l.href), ["/opening/runner.webp"]);
+  assert.deepEqual(off.links.map((l) => l.href), ["/opening/loader.gif"]);
   assert.equal(visit({ opening: false, seen: true, search: "?opening" }).dataset.bsahLoaded, "1", "?opening does nothing when it is off");
   const pixel = visit({ horse: "pixel" });
   assert.deepEqual(pixel.links[0], { href: "/animations/pixel-horse.js", as: "script", rel: "preload" });
-  assert.ok(!pixel.links.some((l) => l.href.includes("runner.webp")));
+  assert.ok(!pixel.links.some((l) => l.href.includes("loader.gif")));
 });
 
 test("both switches read their environment variables, and default to on", async () => {
@@ -110,46 +110,18 @@ test("both switches read their environment variables, and default to on", async 
 
 // ------------------------------------------------------------------ the pictures
 
-/** Pixel size of a WebP that carries an alpha channel (VP8X) or a plain lossy one (VP8 ). */
-function webpSize(rel) {
-  const b = readFileSync(path.join(root, rel));
-  assert.equal(b.toString("ascii", 0, 4) + b.toString("ascii", 8, 12), "RIFFWEBP", `${rel} is a WebP`);
-  const kind = b.toString("ascii", 12, 16);
-  if (kind === "VP8X") return { w: 1 + b.readUIntLE(24, 3), h: 1 + b.readUIntLE(27, 3), alpha: Boolean(b[20] & 0x10) };
-  if (kind === "VP8 ") return { w: b.readUInt16LE(26) & 0x3fff, h: b.readUInt16LE(28) & 0x3fff, alpha: false };
-  throw new Error(`${rel}: unexpected WebP kind ${kind}`);
-}
-
-test("the pictures are small enough to load with the page: about 100 KB for the opening and a loader sheet under 120 KB", () => {
-  const kb = (rel) => statSync(path.join(root, rel)).size / 1024;
+test("the three pictures are the supplied files, untouched, and small enough to load with the page", () => {
+  const sha = (rel) => createHash("sha256").update(readFileSync(path.join(root, rel))).digest("hex");
+  // the sizes and fingerprints of the files as supplied on 30 Oct 2026
+  assert.equal(statSync(path.join(root, "public/opening/ink-1.webp")).size, 30666);
+  assert.equal(statSync(path.join(root, "public/opening/ink-2.webp")).size, 31404);
+  assert.equal(statSync(path.join(root, "public/opening/loader.gif")).size, 348453);
+  assert.equal(readFileSync(path.join(root, "public/opening/loader.gif")).subarray(0, 6).toString("ascii"), "GIF89a");
+  assert.notEqual(sha("public/opening/ink-1.webp"), sha("public/opening/ink-2.webp"));
   for (const n of [1, 2]) {
-    assert.ok(kb(`public/opening/plate-${n}.webp`) <= 60, `plate ${n}: ${kb(`public/opening/plate-${n}.webp`)} KB`);
-    assert.ok(kb(`public/opening/horse-${n}.webp`) <= 15, `horse ${n}: ${kb(`public/opening/horse-${n}.webp`)} KB`);
+    const b = readFileSync(path.join(root, `public/opening/ink-${n}.webp`));
+    assert.equal(b.toString("ascii", 0, 4) + b.toString("ascii", 8, 12), "RIFFWEBP");
   }
-  assert.ok(kb("public/opening/runner.webp") <= 120, `runner: ${kb("public/opening/runner.webp")} KB`);
-  const total = [1, 2].reduce((s, n) => s + kb(`public/opening/plate-${n}.webp`) + kb(`public/opening/horse-${n}.webp`), 0) + kb("public/opening/runner.webp");
-  assert.ok(total <= 300, `everything together: ${total.toFixed(0)} KB`);
-});
-
-test("each horse fits the place recorded for it in its plate, and the runner sheet is the grid the loader's styles expect", () => {
-  assert.deepEqual(OPENING_SHOTS.map((s) => s.n), [1, 2]);
-  for (const shot of OPENING_SHOTS) {
-    const plate = webpSize(`public/opening/plate-${shot.n}.webp`);
-    const horse = webpSize(`public/opening/horse-${shot.n}.webp`);
-    assert.ok(horse.alpha, `horse ${shot.n} keeps its transparency`);
-    assert.ok(Math.abs(plate.w / plate.h - 500 / 281) < 0.01, `plate ${shot.n} is 500:281 (the stage's aspect ratio)`);
-    const { left, top, width, height } = shot.box;
-    assert.ok(left >= 0 && top >= 0 && left + width <= 100 && top + height <= 100, `horse ${shot.n} sits inside its plate`);
-    const boxRatio = ((width / 100) * plate.w) / ((height / 100) * plate.h);
-    assert.ok(Math.abs(horse.w / horse.h - boxRatio) / boxRatio < 0.03, `horse ${shot.n} has the proportions of its box (${(horse.w / horse.h).toFixed(3)} vs ${boxRatio.toFixed(3)})`);
-  }
-  const sheet = webpSize("public/opening/runner.webp");
-  assert.deepEqual([sheet.w, sheet.h, sheet.alpha], [RUNNER_SHEET.grid.cols * RUNNER_SHEET.frame.w, RUNNER_SHEET.grid.rows * RUNNER_SHEET.frame.h, true]);
-  assert.equal(RUNNER_SHEET.frames, 15);
-  const css = read("components/motion/SilhouetteRunner.module.css");
-  assert.match(css, /mask-size: 500% 300%/, "5 columns by 3 rows");
-  const run = css.slice(css.indexOf("@keyframes run"));
-  assert.equal([...run.matchAll(/(?<!-webkit-)mask-position/g)].length, 16, "15 poses and the return to the first");
 });
 
 // ------------------------------------------------------------------ the component rules
@@ -179,6 +151,7 @@ test("the opening's own words are the site's: the project's big idea, backed by 
   assert.match(read("docs/BLUEPRINT.md"), /Rathores expelled from Kannauj in 1193[^|]*\| Supported \| Yes/, "and the supported claim under it: 1193 to now is more than 800 years");
   const tsx = read("components/motion/OpeningFilm.tsx");
   assert.match(tsx, /t-inscribe[^>]*>An 800-year lineage,</);
+  assert.doesNotMatch(tsx, /plate|cut-out|horseBox|strip/i, "the supplied pictures are shown as they are, not rebuilt");
   assert.match(tsx, /t-voice[^>]*>handed to your child\.</);
 });
 

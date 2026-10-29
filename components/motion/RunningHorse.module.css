@@ -1,0 +1,9 @@
+/* The supplied running-rider animation, placed as it is. Its white ground is multiplied into the page's ivory so it has no box. */
+.horse {
+  display: block;
+  width: clamp(150px, 26vw, 300px);
+  height: auto;
+  aspect-ratio: 500 / 333;
+  mix-blend-mode: multiply;
+  user-select: none;
+}

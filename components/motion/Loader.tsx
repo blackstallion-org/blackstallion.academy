@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PixelHorse } from "./PixelHorse";
-import { SilhouetteRunner } from "./SilhouetteRunner";
+import { RunningHorse } from "./RunningHorse";
 import { usePathname } from "next/navigation";
 import { LOADER_SESSION_KEY } from "@/lib/opening/boot";
 import { LOADER_HORSE } from "@/lib/opening/config";
@@ -11,7 +11,7 @@ import styles from "./Loader.module.css";
 const SESSION_KEY = LOADER_SESSION_KEY;
 
 /**
- * One controller for first hydration and internal route handoffs. Shows the running horse: the ink silhouette, or the earlier pixel
+ * One controller for first hydration and internal route handoffs. Shows the running horse (the supplied GIF), or the earlier pixel
  * horse when NEXT_PUBLIC_LOADER_HORSE=pixel (lib/opening/config.ts). The script that decides, before first paint, whether the
  * loader (and the home page opening) shows is in lib/opening/boot.ts.
  */
@@ -95,6 +95,6 @@ export function Loader() {
   return <div key={load.id} className={`bsah-loader ${styles.overlay}`} data-loading-phase={load.phase} data-horse={LOADER_HORSE} aria-hidden>
     {LOADER_HORSE === "pixel"
       ? <PixelHorse settling={load.phase === "settling"} onSettled={finishSettling} />
-      : <SilhouetteRunner settling={load.phase === "settling"} onSettled={finishSettling} />}
+      : <RunningHorse settling={load.phase === "settling"} onSettled={finishSettling} />}
   </div>;
 }
