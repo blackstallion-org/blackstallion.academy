@@ -6,7 +6,7 @@ into cut-outs and a traced silhouette, then used two ink-horse frames as a separ
 | Piece | What the visitor sees | Where |
 | --- | --- | --- |
 | **Loader** | On a first load, a reload, or a click to another section: the running rider on the page's ivory while it loads, then a short fade. | `components/motion/Loader.tsx`, `RunningHorse.tsx`, `public/opening/loader.gif` |
-| **Opening** | The first visit of a session, home page only: the same running rider, and then, instead of the fade, the camera **zooms into the horse** (2.3 s) until it fills the screen, then fades (0.6 s) and the website is there. | the "zooming" phase of the same loader; `RunningHorse.module.css` (`into`), `Loader.module.css` (`opens`) |
+| **Opening** | The first visit of a session, home page only: the same running rider, and then, instead of the fade, the camera **zooms into the horse** (1.3 s) and the website opens out of it. | the "zooming" phase of the same loader; `RunningHorse.module.css` (`into`), `Loader.module.css` (`opens`) |
 
 The opening is not a separate overlay: it is the loader's last step on the first visit to `/`. Reloads and page changes never zoom.
 
@@ -23,8 +23,8 @@ The opening is not a separate overlay: it is the loader's last step on the first
 - The head script (`lib/opening/boot.ts`) decides before first paint whether the loader shows (not when seen this session, reduced motion or `?noload`;
   `?opening` forgets the session) and requests the GIF at once.
 - The GIF is multiplied into the page's ivory (`mix-blend-mode: multiply`), so its white ground has no box.
-- At the end of the first load on `/`, the loader goes to a "zooming" phase: the GIF scales from 1 to 22 over 2.3 s (origin at the horse's chest, behind the rider,
-  ease-in) with the overlay fully opaque; only once the horse fills the screen does the overlay fade (0.6 s). The overlay is removed after 2.95 s.
+- At the end of the first load on `/`, the loader goes to a "zooming" phase: the GIF scales from 1 to 22 (origin at the horse's chest, behind the rider,
+  ease-in) while the ivory overlay holds for 30 % of the 1.3 s and then dissolves, so the page appears inside the silhouette. After 1.35 s the overlay is removed.
 - Nothing else waits on it: the hero film starts as it did before, and the 3.5 s / 4.5 s / 6 s deadlines of the loader still stop it whatever happens.
 
 ## Where the picture came from (please confirm the rights)

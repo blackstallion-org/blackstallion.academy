@@ -97,20 +97,20 @@ test("the zoom happens only as the last step of the first load on the home page;
   assert.match(loader, /opening\.current = OPENING_ENABLED && location\.pathname === "\/"/, "home page, and only when switched on");
   assert.match(loader, /opening\.current && current\.id === 0 \? "zooming" : "fading"/, "only the first load (id 0), never a page change");
   assert.match(loader, /load\.phase !== "zooming"/);
-  assert.match(loader, /setTimeout\(\(\) => setLoad\(\(current\) => \(\{ \.\.\.current, phase: "gone" \}\)\), 2950\)/, "gone just after the 2.3 s zoom and 0.6 s fade");
+  assert.match(loader, /setTimeout\(\(\) => setLoad\(\(current\) => \(\{ \.\.\.current, phase: "gone" \}\)\), 1350\)/, "gone just after the 1.3 s zoom");
   assert.match(loader, /setTimeout\(settle, 3500\)/, "the 3.5 s deadline still ends the loader whatever happens");
   assert.match(loader, /LOADER_HORSE === "pixel"/);
   assert.match(loader, /OPENING_ENABLED/);
   assert.doesNotMatch(loader, /opening-ready|loader-gone|opening-done/, "no waiting between two overlays any more: it is one loader");
 });
 
-test("the zoom: the horse grows until it fills the screen, and only then does the overlay fade", () => {
+test("the zoom: the horse grows into the screen while the ivory dissolves into the page", () => {
   const horse = read("components/motion/RunningHorse.module.css");
-  assert.match(horse, /\.horse\[data-zooming\][\s\S]*animation: into 2\.3s/);
+  assert.match(horse, /\.horse\[data-zooming\][\s\S]*animation: into 1\.3s/);
   assert.match(horse, /@keyframes into \{ from \{ transform: scale\(1\); \} to \{ transform: scale\(22\); \} \}/);
   const loader = read("components/motion/Loader.module.css");
-  assert.match(loader, /\[data-loading-phase="zooming"\] \{ animation: opens 2\.9s/);
-  assert.match(loader, /@keyframes opens \{ 0%, 79% \{ opacity: 1; \} 100% \{ opacity: 0; \} \}/);
+  assert.match(loader, /\[data-loading-phase="zooming"\] \{ animation: opens 1\.3s/);
+  assert.match(loader, /@keyframes opens \{ 0%, 30% \{ opacity: 1; \} 100% \{ opacity: 0; \} \}/);
   assert.match(loader, /z-index: 100/);
   assert.match(read("components/motion/RunningHorse.tsx"), /data-zooming=\{zooming \|\| undefined\}/);
 });

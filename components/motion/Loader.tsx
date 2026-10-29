@@ -78,7 +78,7 @@ export function Loader() {
 
   useEffect(() => {
     if (load.phase !== "zooming") return;
-    const timer = setTimeout(() => setLoad((current) => ({ ...current, phase: "gone" })), 2950);
+    const timer = setTimeout(() => setLoad((current) => ({ ...current, phase: "gone" })), 1350);
     return () => clearTimeout(timer);
   }, [load.phase]);
 
