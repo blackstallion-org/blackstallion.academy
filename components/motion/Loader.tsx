@@ -88,6 +88,9 @@ export function Loader() {
     return () => clearTimeout(timer);
   }, [load.phase]);
 
+  // Tell the page the loader has left (the hero film waits for this before it starts playing).
+  useEffect(() => { if (load.phase === "gone") window.dispatchEvent(new Event("bsah:loader-gone")); }, [load.phase]);
+
   if (load.phase === "gone") return null;
   return <div key={load.id} className={`bsah-loader ${styles.overlay}`} data-loading-phase={load.phase} data-horse={LOADER_HORSE} aria-hidden>
     {LOADER_HORSE === "pixel"

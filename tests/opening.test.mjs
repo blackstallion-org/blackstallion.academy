@@ -101,7 +101,7 @@ test("the zoom happens only as the last step of the first load on the home page;
   assert.match(loader, /setTimeout\(settle, 3500\)/, "the 3.5 s deadline still ends the loader whatever happens");
   assert.match(loader, /LOADER_HORSE === "pixel"/);
   assert.match(loader, /OPENING_ENABLED/);
-  assert.doesNotMatch(loader, /opening-ready|loader-gone|opening-done/, "no waiting between two overlays any more: it is one loader");
+  assert.doesNotMatch(loader, /opening-ready|opening-done/, "no waiting between two overlays any more: it is one loader");
 });
 
 test("the zoom: the horse grows into the screen while the ivory dissolves into the page", () => {
@@ -125,5 +125,8 @@ test("the head script comes from a plain module (not a client component); there 
   assert.match(layout, /import \{ loaderBootScript \} from "@\/lib\/opening\/boot"/);
   assert.doesNotMatch(read("components/motion/Loader.tsx"), /export const loaderBootScript/);
   assert.doesNotMatch(layout, /OpeningFilm/);
-  assert.doesNotMatch(read("components/sections/home/HeroFilm.tsx"), /bsah:opening|holding\(\)/, "the hero film does not wait for anything");
+  const hero = read("components/sections/home/HeroFilm.tsx");
+  assert.match(hero, /querySelector\("\.bsah-loader"\)/, "the hero film is held while the loader is on screen");
+  assert.match(hero, /bsah:loader-gone/, "and starts when the loader has gone");
+  assert.match(read("components/motion/Loader.tsx"), /dispatchEvent\(new Event\("bsah:loader-gone"\)\)/);
 });

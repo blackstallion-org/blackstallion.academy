@@ -53,16 +53,20 @@ export function HeroFilm() {
       if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (!preference.matches && !saveData && video.readyState < 2 && performance.now() - mediaStarted > 12000)) failure();
       if (video.readyState >= 2 || failed.current) window.clearInterval(watchdog);
     }, 200);
+    // The film starts when the loader (and the opening zoom) has gone, so none of it plays unseen behind the overlay.
+    const holding = () => !!document.querySelector(".bsah-loader");
     const sync = () => {
-      if (document.hidden || !inView.current || userPaused.current || preference.matches || saveData) video.pause();
+      if (holding()) video.pause();
+      else if (document.hidden || !inView.current || userPaused.current || preference.matches || saveData) video.pause();
       else { prime(); video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); }); }
     };
     const observer = new IntersectionObserver(([entry]) => { inView.current = entry.isIntersecting; sync(); }, { threshold: 0.05 });
     observer.observe(video);
     document.addEventListener("visibilitychange", sync);
+    window.addEventListener("bsah:loader-gone", sync);
     preference.addEventListener("change", sync);
     sync();
-    return () => { disposed = true; clearInterval(watchdog); observer.disconnect(); document.removeEventListener("visibilitychange", sync); preference.removeEventListener("change", sync); video.pause(); };
+    return () => { disposed = true; clearInterval(watchdog); observer.disconnect(); document.removeEventListener("visibilitychange", sync); window.removeEventListener("bsah:loader-gone", sync); preference.removeEventListener("change", sync); video.pause(); };
   }, []);
 
   /** Jump to the title card once, just before the first playback (needs metadata; otherwise onLoadedMetadata does it). */

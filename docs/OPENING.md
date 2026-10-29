@@ -25,7 +25,7 @@ The opening is not a separate overlay: it is the loader's last step on the first
 - The GIF is multiplied into the page's ivory (`mix-blend-mode: multiply`), so its white ground has no box.
 - At the end of the first load on `/`, the loader goes to a "zooming" phase: the GIF scales from 1 to 22 (origin at the horse's chest, behind the rider,
   ease-in) while the ivory overlay holds for 30 % of the 1.3 s and then dissolves, so the page appears inside the silhouette. After 1.35 s the overlay is removed.
-- Nothing else waits on it: the hero film starts as it did before, and the 3.5 s / 4.5 s / 6 s deadlines of the loader still stop it whatever happens.
+- The hero film is held while the loader is on screen and starts playing (from its title card) when the loader sends `bsah:loader-gone`. The 3.5 s / 4.5 s / 6 s deadlines of the loader still stop it whatever happens.
 
 ## Where the picture came from (please confirm the rights)
 
