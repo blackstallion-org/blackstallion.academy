@@ -4,16 +4,28 @@ import { Suspense, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { clone as cloneSkeleton } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { ModelBoundary } from "@/components/three/ModelBoundary";
 import { detectQualityTier } from "@/lib/3d/device-tier";
 import { useReducedMotion } from "@/lib/motion/reduced";
 
-/** Centres the model and scales it so its bounding sphere has radius 1, whatever size it was exported at. */
+/**
+ * Centres the model and scales it so its bounding sphere has radius 1, whatever size it was exported at. Uploaded files can be
+ * rigged: a plain clone of a skinned mesh still points at the original skeleton, so it is cloned with SkeletonUtils, and its
+ * size is measured in the posed state (not from the unposed mesh) so it is neither lost nor off-centre.
+ */
 function FittedModel({ url }: { url: string }) {
   const { scene } = useGLTF(url, "/draco/");
   const fitted = useMemo(() => {
-    const root = scene.clone(true);
-    const box = new THREE.Box3().setFromObject(root);
+    const root = cloneSkeleton(scene);
+    root.updateMatrixWorld(true);
+    root.traverse((node) => {
+      if (node instanceof THREE.SkinnedMesh) {
+        node.frustumCulled = false;
+        node.skeleton.update();
+      }
+    });
+    const box = new THREE.Box3().setFromObject(root, true);
     const radius = box.getBoundingSphere(new THREE.Sphere()).radius || 1;
     root.position.sub(box.getCenter(new THREE.Vector3()));
     const wrapper = new THREE.Group();
@@ -33,7 +45,7 @@ export function GalleryModelStage({ url, active }: { url: string; active: boolea
   const maxDpr = detectQualityTier() === "low" ? 1.5 : 2;
   return (
     <Canvas
-      camera={{ position: [0, 0.25, 4.2], fov: 32, near: 0.1, far: 50 }}
+      camera={{ position: [0, 0.25, 3.7], fov: 32, near: 0.1, far: 50 }}
       dpr={[1, Math.min(window.devicePixelRatio || 1, maxDpr)]}
       frameloop={active ? "always" : "never"}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}

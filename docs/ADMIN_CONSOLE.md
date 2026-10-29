@@ -106,6 +106,8 @@ are dropped, and the page lists each one under "Filters adjusted". Filters are p
 ### `/admin/media`
 - Unchanged apart from the new navigation, whole-page rendering, a logged load error, and a fix for horizontal overflow
   at 390 px (the native file input).
+- **Media library section (29 Oct 2026):** images, MP4/WebM video and GLB models up to 50 MB into the public `bsah-media` bucket, shown on
+  `/gallery`; actions in `app/admin/library-actions.ts`; needs the migration and a staff account. See [`MEDIA_LIBRARY.md`](MEDIA_LIBRARY.md).
 
 ## Server actions (`app/admin/actions.ts`)
 
