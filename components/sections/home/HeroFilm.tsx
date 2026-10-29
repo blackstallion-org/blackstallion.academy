@@ -5,7 +5,6 @@ import { useLenis } from "lenis/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { asset } from "@/lib/content/asset";
 import { FilmImage } from "@/components/film/FilmImage";
-import { HeroOpening } from "./HeroOpening";
 
 type Playback = "loading" | "buffering" | "playing" | "paused" | "blocked" | "failed" | "ended" | "skipped";
 
@@ -87,7 +86,8 @@ export function HeroFilm() {
     userPaused.current = true;
     videoRef.current?.pause();
     setState("skipped");
-    const target = document.getElementById("doctrine");
+    // Skipping lands on the animated stallion that follows the film.
+    const target = document.getElementById("stallion") ?? document.getElementById("doctrine");
     if (!target) return;
     if (lenis && !reduced) lenis.scrollTo(target, { immediate: true });
     else target.scrollIntoView({ behavior: "instant" });
@@ -129,7 +129,6 @@ export function HeroFilm() {
     {/* Held shades: the nav above and the controls below stay legible whatever frame is playing. */}
     <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[22%] bg-gradient-to-b from-night/75 to-transparent" />
     <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-night/85 to-transparent" />
-    <HeroOpening />
 
     {/* Controls sit on the foot of the screen (never in the top 80 px, which belongs to the nav). */}
     <div data-sound="off" className="no-print gutter absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pb-5 pt-12 md:pb-7">
