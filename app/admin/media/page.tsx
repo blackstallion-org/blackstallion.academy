@@ -5,7 +5,7 @@ import { LIBRARY_BUCKET, publicObjectUrl } from "@/lib/storage/library";
 import { supabaseConfig } from "@/lib/supabase/rest";
 import { deleteMedia } from "../actions";
 import { deleteLibraryItem } from "../library-actions";
-import { AdminNav } from "../AdminNav";
+import { AdminShell } from "../AdminShell";
 import { UploadForm } from "../forms";
 import { CopyLink, LibraryUploader } from "../LibraryUploader";
 
@@ -30,8 +30,7 @@ export default async function MediaPage() {
   const images = rows.filter((m) => m.bucket !== LIBRARY_BUCKET);
   const library = rows.filter((m) => m.bucket === LIBRARY_BUCKET);
   return (
-    <div>
-      <AdminNav name={profile.display_name} current="media" />
+    <AdminShell name={profile.display_name} current="media">
       <h1 className="t-voice mt-8 text-[clamp(1.8rem,4vw,3rem)] text-bone">Website images</h1>
       <p className="t-ui mt-2 max-w-2xl text-sm text-dust">Images uploaded here are public (website-assets bucket). Existing site photography and 3D models stay where they are.</p>
       <div className="mt-8"><UploadForm /></div>
@@ -92,6 +91,6 @@ export default async function MediaPage() {
           })}
         </ul>
       </section>
-    </div>
+    </AdminShell>
   );
 }

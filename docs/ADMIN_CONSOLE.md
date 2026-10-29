@@ -32,7 +32,12 @@ per page (`.range()`), with an exact count (`Prefer: count=exact`) and a stable 
 number past the end (PostgREST `PGRST103`) shows "past the end of the list" instead of an error. Invalid filter values
 are dropped, and the page lists each one under "Filters adjusted". Filters are parsed with zod in `lib/admin/filters.ts`.
 
-### `/admin` · Enquiries
+### `/admin` · Overview (29 Oct 2026)
+The live dashboard: key figures, animated charts, a live feed, widgets each person arranges. Full note:
+[`ADMIN_DASHBOARD.md`](ADMIN_DASHBOARD.md). An old link with filters in it (`/admin?status=new`) is passed on to `/admin/enquiries`
+with the same filters.
+
+### `/admin/enquiries` · Enquiries (this list was at `/admin` until 29 Oct 2026)
 - Query: `onboarding_leads?select=id,lead_type,gate,status,contact_name,email,phone,payload,attribution,assigned_to,created_at`
   with these filters:
   - `q` (search): `or=(contact_name.ilike.%t%,email.ilike.%t%,phone.ilike.%t%,payload->>organisation.ilike.%t%)`

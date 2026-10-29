@@ -1,49 +1,31 @@
-import Link from "next/link";
-import { signOut } from "./actions";
+/**
+ * The staff console's sections, in the order the sidebar lists them. The shell (AdminShell.tsx) draws them; this file holds only the
+ * data, so a new section is one line here. The icon names are lucide-react components.
+ */
+export type AdminSection = "overview" | "leads" | "accounts" | "mou" | "qr" | "documents" | "audit" | "media";
 
-export type AdminSection = "leads" | "accounts" | "mou" | "qr" | "documents" | "audit" | "media";
+export type SectionIcon = "overview" | "leads" | "accounts" | "mou" | "qr" | "documents" | "audit" | "media";
 
-const SECTIONS: readonly { key: AdminSection; href: string; label: string }[] = [
-  { key: "leads", href: "/admin", label: "Enquiries" },
-  { key: "accounts", href: "/admin/accounts", label: "Accounts" },
-  { key: "mou", href: "/admin/mou", label: "MOU requests" },
-  { key: "qr", href: "/admin/qr", label: "QR captures" },
-  { key: "documents", href: "/admin/documents", label: "Documents" },
-  { key: "audit", href: "/admin/audit", label: "Audit log" },
-  { key: "media", href: "/admin/media", label: "Website images" },
+export const ADMIN_GROUPS: readonly { label: string; items: readonly { key: AdminSection; href: string; label: string; icon: SectionIcon; hint: string }[] }[] = [
+  {
+    label: "Workspace",
+    items: [
+      { key: "overview", href: "/admin", label: "Overview", icon: "overview", hint: "Live figures and activity" },
+      { key: "leads", href: "/admin/enquiries", label: "Enquiries", icon: "leads", hint: "Every website enquiry" },
+      { key: "accounts", href: "/admin/accounts", label: "Accounts", icon: "accounts", hint: "Members awaiting review" },
+      { key: "mou", href: "/admin/mou", label: "MOU requests", icon: "mou", hint: "School board agreements" },
+      { key: "qr", href: "/admin/qr", label: "QR captures", icon: "qr", hint: "Scans from flyers and hubs" },
+    ],
+  },
+  {
+    label: "Records",
+    items: [
+      { key: "documents", href: "/admin/documents", label: "Documents", icon: "documents", hint: "Generated MOU drafts" },
+      { key: "audit", href: "/admin/audit", label: "Audit log", icon: "audit", hint: "Who changed what" },
+      { key: "media", href: "/admin/media", label: "Website images", icon: "media", hint: "Stills, video and models" },
+    ],
+  },
 ];
 
-/**
- * Staff console navigation. The current section is marked with aria-current ("page" on the section's own page,
- * "true" on a page inside it, such as one enquiry) and with an underline, so the state never depends on colour alone.
- */
-export function AdminNav({ name, current, inside = false }: { name: string; current: AdminSection; inside?: boolean }) {
-  return (
-    <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-line pb-5">
-      <nav aria-label="Staff console">
-        <ul className="flex flex-wrap gap-x-6 gap-y-1">
-          {SECTIONS.map((s) => {
-            const active = s.key === current;
-            return (
-              <li key={s.key}>
-                <Link
-                  href={s.href}
-                  aria-current={active ? (inside ? "true" : "page") : undefined}
-                  className={active
-                    ? "label inline-block py-2 text-gold underline decoration-gold decoration-1 underline-offset-[6px]"
-                    : "label inline-block py-2 text-sand hover:text-gold"}
-                >
-                  {s.label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-      <form action={signOut} className="flex flex-wrap items-center gap-4">
-        <span className="t-ui text-sm text-dust">{name}</span>
-        <button className="label border border-line px-4 py-2 text-bone hover:border-gold hover:text-gold">Sign out</button>
-      </form>
-    </div>
-  );
-}
+export const ADMIN_SECTIONS = ADMIN_GROUPS.flatMap((g) => g.items);
+export const sectionTitle = (key: AdminSection) => ADMIN_SECTIONS.find((s) => s.key === key)?.label ?? "Staff console";

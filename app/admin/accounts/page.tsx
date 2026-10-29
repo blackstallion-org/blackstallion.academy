@@ -4,7 +4,7 @@ import { MEMBER_COLUMNS, toMember, type Member } from "@/lib/accounts/server";
 import { formatDateTimeIST } from "@/lib/admin/present";
 import { logAdminError } from "@/lib/admin/server";
 import { requireStaff } from "@/lib/auth/admin";
-import { AdminNav } from "../AdminNav";
+import { AdminShell } from "../AdminShell";
 import { EmptyState, FilterForm, LoadError, PageHeading, SelectFilter, Tag, TableRegion, td, th } from "../ui";
 import { ReviewButtons } from "./ReviewButtons";
 
@@ -45,8 +45,7 @@ export default async function AccountsPage({ searchParams }: PageProps<"/admin/a
   const filtered = Boolean(kind || status);
 
   return (
-    <div>
-      <AdminNav name={profile.display_name} current="accounts" />
+    <AdminShell name={profile.display_name} current="accounts">
       <PageHeading title="Accounts">
         People who created an account from the sign-in page: students, parents, teachers and schools. Students and parents are active at once; teachers and
         schools wait here for approval. Every approval or hold is written to the audit log. Times are India Standard Time.
@@ -105,6 +104,6 @@ export default async function AccountsPage({ searchParams }: PageProps<"/admin/a
           </TableRegion>
         </>
       )}
-    </div>
+    </AdminShell>
   );
 }

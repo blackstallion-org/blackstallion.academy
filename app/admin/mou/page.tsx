@@ -5,7 +5,7 @@ import { MOU_STATUSES, REFERENCE_PATTERN } from "@/lib/admin/constants";
 import { applyMouFilters, hasFilters, isPastLastPage, listHref, pageWindow, parseMouFilters, totalPages, type MouFilters } from "@/lib/admin/filters";
 import { documentReference, formatCalendarDay, formatDateTimeIST, indexLeads, leadForReference, mouReference, referenceLookups, statusLabel, type LeadLink } from "@/lib/admin/present";
 import { logAdminError, signDocumentPaths } from "@/lib/admin/server";
-import { AdminNav } from "../AdminNav";
+import { AdminShell } from "../AdminShell";
 import { EmptyState, FilterForm, FilterNotes, LoadError, PageHeading, Pagination, PastLastPage, ResultCount, SelectFilter, Tag, TextFilter } from "../ui";
 
 type MouRow = {
@@ -62,8 +62,7 @@ export default async function MouPage({ searchParams }: PageProps<"/admin/mou">)
   const href = (p: number) => listHref("/admin/mou", criteria, p);
 
   return (
-    <div>
-      <AdminNav name={profile.display_name} current="mou" />
+    <AdminShell name={profile.display_name} current="mou">
       <PageHeading title="MOU requests">
         Requests in the operations table, newest first, including those mirrored from the website MOU form. Read-only here:
         statuses are changed in the operations system.
@@ -123,7 +122,7 @@ export default async function MouPage({ searchParams }: PageProps<"/admin/mou">)
           <Pagination page={page} pages={totalPages(total)} hrefFor={href} />
         </>
       )}
-    </div>
+    </AdminShell>
   );
 }
 

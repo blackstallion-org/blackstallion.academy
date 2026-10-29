@@ -5,7 +5,7 @@ import { QR_SOURCES } from "@/lib/admin/constants";
 import { applyQrFilters, hasFilters, isPastLastPage, listHref, pageWindow, parseQrFilters, totalPages, type QrFilters } from "@/lib/admin/filters";
 import { NO_HUB, formatDateTimeIST, summariseByHub, type HubCount } from "@/lib/admin/present";
 import { logAdminError } from "@/lib/admin/server";
-import { AdminNav } from "../AdminNav";
+import { AdminShell } from "../AdminShell";
 import { DateFilter, EmptyState, FilterForm, FilterNotes, LoadError, PageHeading, Pagination, PastLastPage, ResultCount, TableRegion, TextFilter, td, th } from "../ui";
 
 type CaptureRow = {
@@ -50,8 +50,7 @@ export default async function QrPage({ searchParams }: PageProps<"/admin/qr">) {
   const href = (p: number) => listHref("/admin/qr", criteria, p);
 
   return (
-    <div>
-      <AdminNav name={profile.display_name} current="qr" />
+    <AdminShell name={profile.display_name} current="qr">
       <PageHeading title="QR captures">
         Parent leads captured from hub QR codes, flyers and the website (operations table), newest first. Read-only here. Times are India Standard Time.
       </PageHeading>
@@ -103,7 +102,7 @@ export default async function QrPage({ searchParams }: PageProps<"/admin/qr">) {
           </>
         )}
       </section>
-    </div>
+    </AdminShell>
   );
 }
 
