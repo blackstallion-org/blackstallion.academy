@@ -639,7 +639,7 @@ export function FieldSphereHero() {
               >
                 <figure>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`${CDN}${s.id}_min.webp`} alt={s.title} loading="eager" />
+                  <img src={`${CDN}${s.id}_min.webp`} alt={s.title} loading="eager" decoding="async" />
                 </figure>
               </div>
             ))}

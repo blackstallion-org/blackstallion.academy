@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { mediaSrc, type MediaKey } from "@/lib/content/media";
+import { sizedAvif, mediaSrc, type MediaKey } from "@/lib/content/media";
+import { Still } from "@/components/film/Still";
+import { supportsAvif } from "@/lib/content/avif-support";
 import { cn } from "@/lib/utils";
 import { asset } from "@/lib/content/asset";
 
@@ -512,9 +514,16 @@ export function WebGLNoiseTransition({
       s.rafId = requestAnimationFrame(render);
     };
 
-    resolvedUrls.forEach((url, i) => {
+    // Each texture comes from the smallest AVIF that covers the canvas at this screen's density (capped at the renderer's 1.5), when the browser
+    // can decode AVIF; otherwise the WebP as before. A phone used to download every slide at 2752 px.
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const textureUrls = (avif: boolean) => resolvedUrls.map((url) => (avif ? sizedAvif(url, width, dpr) : null) ?? url);
+    supportsAvif().then((avif) => {
+    if (!isMounted) return;
+    const urls = textureUrls(avif);
+    resolvedUrls.forEach((_url, i) => {
       loader.load(
-        url,
+        urls[i],
         (tex) => {
           tex.minFilter = THREE.LinearFilter;
           tex.generateMipmaps = false;
@@ -544,6 +553,7 @@ export function WebGLNoiseTransition({
           if (loadedCount === resolvedUrls.length) onAllLoaded();
         }
       );
+    });
     });
 
     // Resize handling with aspect compensation
@@ -653,8 +663,7 @@ export function WebGLNoiseTransition({
 
         {/* Fallback & Initial Image */}
         {!isLoaded && resolvedUrls[activeIdx] && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Still
             src={resolvedUrls[activeIdx] || resolvedUrls[0]}
             alt={activeSlide?.title || "BSAH Visual"}
             className="absolute inset-0 h-full w-full object-cover"

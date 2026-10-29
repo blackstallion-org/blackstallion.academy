@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Arrow, Label } from "@/components/film/Marks";
+import { Still } from "@/components/film/Still";
 import { mediaSrc, type MediaKey } from "@/lib/content/media";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { asset } from "@/lib/content/asset";
@@ -401,8 +402,7 @@ export function CinematicStoryReel({
               }}
             >
               {/* Drifting Background Image - Full screen clear with zero fade */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Still
                 src={idx === 0 || armed ? resolvedSrc : undefined}
                 alt={slide.alt}
                 loading="lazy"

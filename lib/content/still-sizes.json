@@ -1,0 +1,587 @@
+{
+ "anatomy-profile": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "bg-arena": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "bg-charge": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "bg-fort": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "bg-passport": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "bg-pavilion": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "bg-stable": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "bond-field-cadet": {
+  "width": 2400,
+  "height": 1340,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "cadet-ananya": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "cadet-rohan": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "cadet-zayd": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "contact-gate": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "covenant-eye": {
+  "width": 2400,
+  "height": 1340,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "covenant-profile": {
+  "width": 2400,
+  "height": 1436,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "covenant-stillness": {
+  "width": 2400,
+  "height": 1340,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "covenant-touch": {
+  "width": 2400,
+  "height": 1340,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "curr-archery": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "curr-barrel": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "curr-batch": {
+  "width": 3168,
+  "height": 1344,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "curr-formation": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "curr-groundcare": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "curr-ledger": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "curr-tentpeg": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "dune-silhouette": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "dust-plume": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "dust-wall": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "eye": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "fleet-arbudh": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "fleet-chetak": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "fleet-kesar": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "fleet-stallcam": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "fleet-veer": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "gallop": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "hero-dust": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "hub-royal": {
+  "width": 2400,
+  "height": 1340,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "hub-signature": {
+  "width": 2400,
+  "height": 1340,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "hub-standard": {
+  "width": 2400,
+  "height": 1340,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "journal-reins": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-bahadur": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-black": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-cavalry": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-chetak": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-ears": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-fall": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-grey": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-nachni": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-revival": {
+  "width": 3168,
+  "height": 1344,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-sand": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "legend-today": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "lore-kala": {
+  "width": 1856,
+  "height": 2304,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "lore-nukra": {
+  "width": 1856,
+  "height": 2304,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "parents-rail": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "rearing": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "rider-lance": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "safety-instructor": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "safety-kit": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "safety-vet": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "school-aerial": {
+  "width": 3168,
+  "height": 1344,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "school-arena-night": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "science-rider": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "tourn-crowd": {
+  "width": 3168,
+  "height": 1344,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "tourn-cup": {
+  "width": 1792,
+  "height": 2400,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "tourn-podium": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "why-crisis": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ },
+ "why-cure": {
+  "width": 2752,
+  "height": 1536,
+  "widths": [
+   640,
+   1080,
+   1440
+  ]
+ }
+}

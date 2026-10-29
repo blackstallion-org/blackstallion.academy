@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
+import { AnimatePresence, motion, useIsPresent, useMotionValueEvent, useScroll } from "motion/react";
 import { useLenis } from "lenis/react";
 import { useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
@@ -25,8 +25,30 @@ export function SiteNav() {
   const reel = reelFor(pathname);
   const [hidden, setHidden] = useState(false);
   const [solid, setSolid] = useState(false);
-  const [open, setOpen] = useState(false);
+  // The menu belongs to the route it was opened on: a new route closes it without an effect (and a locked page cannot outlive it).
+  const [openAt, setOpenAt] = useState<string | null>(null);
+  const open = openAt === pathname;
   const { scrollY } = useScroll();
+  const lenis = useLenis();
+
+  // The page is locked while the menu is open and released the moment it starts to close (not when its 0.8 s exit has finished, which is
+  // when the old code released it: a tap on a link left the new page unscrollable for most of a second, and any re-render in between
+  // re-locked it). Cleanup restores both locks, so nothing else can leave the page stuck.
+  useEffect(() => {
+    if (!open) return;
+    lenis?.stop();
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.documentElement.style.overflow = "";
+      lenis?.start();
+    };
+  }, [open, lenis]);
+  // A page restored from the back-forward cache never comes back locked.
+  useEffect(() => {
+    const onShow = (e: PageTransitionEvent) => { if (e.persisted && !open) { document.documentElement.style.overflow = ""; lenis?.start(); } };
+    window.addEventListener("pageshow", onShow);
+    return () => window.removeEventListener("pageshow", onShow);
+  }, [open, lenis]);
   /* Over dark hero scenes (home, science, why, schools, cadets, statue, equipment, and the marble-to-living-horse openings of anatomy, curriculum and parents), the bar reads light-on-dark; everywhere else it is ivory and ink. */
   const isDarkHero = ["/", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment", "/anatomy", "/curriculum", "/parents"].includes(pathname);
   const overFilm = isDarkHero && !solid;
@@ -82,6 +104,7 @@ export function SiteNav() {
           <div className="flex items-center gap-3">
             <Link
               href="/admin/login"
+              prefetch={false} // visitors do not need the staff login page fetched in the background on every page
               aria-label="Staff sign-in"
               title="Staff sign-in"
               className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line text-bone transition-colors hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
@@ -97,7 +120,7 @@ export function SiteNav() {
             </Link>
             <button
               type="button"
-              onClick={() => setOpen(true)}
+              onClick={() => setOpenAt(pathname)}
               aria-expanded={open}
               aria-controls="site-menu"
               className="label flex items-center gap-3 px-2 py-2.5 text-bone hover:text-gold"
@@ -111,23 +134,25 @@ export function SiteNav() {
           </div>
         </div>
       </motion.header>
-      <AnimatePresence>{open && <Menu onClose={() => setOpen(false)} />}</AnimatePresence>
+      <AnimatePresence>{open && <Menu onClose={() => setOpenAt(null)} />}</AnimatePresence>
     </>
   );
 }
 
 function Menu({ onClose }: { onClose: () => void }) {
   const pathname = usePathname();
-  const lenis = useLenis();
   const panel = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const onCloseRef = useRef(onClose);
+  useEffect(() => { onCloseRef.current = onClose; });
+  // While the menu wipes away (0.8 s) it is already closed: let touches and the wheel through to the page underneath.
+  const present = useIsPresent();
 
   useEffect(() => {
-    lenis?.stop();
     const opener = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") onCloseRef.current();
       if (e.key === "Tab" && panel.current) {
         const items = panel.current.querySelectorAll<HTMLElement>("a, button");
         const first = items[0];
@@ -142,14 +167,11 @@ function Menu({ onClose }: { onClose: () => void }) {
       }
     };
     document.addEventListener("keydown", onKey);
-    document.documentElement.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.documentElement.style.overflow = "";
-      lenis?.start();
       opener?.focus();
     };
-  }, [lenis, onClose]);
+  }, []);
 
   const byAct = (act: Act) => reels.filter((r) => r.act === act);
 
@@ -160,7 +182,9 @@ function Menu({ onClose }: { onClose: () => void }) {
       role="dialog"
       aria-modal="true"
       aria-label="All reels"
-      className="tone-dark surface-leather no-print fixed inset-0 z-[80] overflow-y-auto"
+      data-lenis-prevent
+      className="tone-dark surface-leather no-print fixed inset-0 z-[80] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
+      style={present ? undefined : { pointerEvents: "none" }}
       initial={{ clipPath: "inset(0 0 100% 0)" }}
       animate={{ clipPath: "inset(0 0 0% 0)" }}
       exit={{ clipPath: "inset(0 0 100% 0)" }}

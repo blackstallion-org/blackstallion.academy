@@ -95,6 +95,7 @@ export function Footer() {
         tabIndex={-1}
         disablePictureInPicture
       >
+        <source src={asset("/video/footer-ambient-web.mp4")} type="video/mp4" />
         <source src={asset("/video/footer-ambient-h264.mp4")} type="video/mp4" />
         <source src={asset("/video/footer-ambient.mp4")} type="video/mp4" />
         <source

@@ -101,16 +101,24 @@ export function HeroFilm() {
   // The film is a scope picture (about 2.5:1) delivered inside 16:9 files with black bars baked in (the picture is 71 % of the frame's
   // height: rows 130 to 770 of 900), and its title cards run across 71 % of the picture's width. So the film fills the first screen as
   // far as it can without cutting a word: the frame is made 1.28 screens wide (the picture then shows 78 % of itself, the title cards
-  // whole) and the picture's soft top and bottom edges dissolve into the dark of the screen, where the baked bars are. On a phone the
+  // whole) and the baked bars are cropped away, so the picture's own top and bottom edges are the sharp edges of the film. On a phone the
   // same rule makes a band across the middle of the dark, under the dust.
-  const FRAME_ASPECT = "1606 / 900";
+  // Measured on the poster and a video frame: the picture is rows 131 to 769 of the 900-row frame (1606 wide), but its first and last rows
+  // are half-dark blends of the bar (row 131 reads 64 against 100, row 768 reads 86), which scaling smears into a dark hairline. The crop
+  // starts two rows in and ends one row early: rows 133 to 767.
+  const PICTURE_ASPECT = "1606 / 635";
+  const PICTURE_TOP = 133 / 635; // the rows above the crop, as a share of the crop's height
+  const FRAME_HEIGHT = 900 / 635; // the whole frame, as a share of the crop's height
   return <section id="top" aria-label="Opening Film" data-playback={state} className="tone-dark relative h-[100svh] min-h-[540px] w-full overflow-hidden bg-night">
     {/* On a phone the film is a band across the middle; the dust still fills the dark around it so the screen is never empty. */}
     <div aria-hidden className="absolute inset-0 md:hidden">
       <FilmImage name="heroDust" grade="none" sizes="100vw" position="50% 50%" className="opacity-40" />
       <div className="absolute inset-0 bg-gradient-to-b from-night via-night/55 to-night" />
     </div>
-    <div className="absolute left-1/2 top-1/2 w-[130vw] -translate-x-1/2 -translate-y-1/2 md:w-[128%]" style={{ aspectRatio: FRAME_ASPECT, maskImage: "linear-gradient(to bottom, transparent 14.5%, black 24%, black 76%, transparent 85.5%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 14.5%, black 24%, black 76%, transparent 85.5%)" }}>
+    <div className="absolute left-1/2 top-1/2 w-[130vw] -translate-x-1/2 -translate-y-1/2 overflow-hidden md:w-[128%]" style={{ aspectRatio: PICTURE_ASPECT }}>
+      {/* The files are 16:9 with the scope picture in rows 131 to 769 of 900. The picture is cropped to rows 133 to 767 (nothing is masked or faded:
+          its own top and bottom edges are sharp), so the baked black bars are never drawn. */}
+      <div className="absolute inset-x-0" style={{ top: `${-PICTURE_TOP * 100}%`, height: `${FRAME_HEIGHT * 100}%` }}>
       <picture className="absolute inset-0">
         <source media="(max-width: 767px)" srcSet={asset("/video/hero-main-poster-mobile.webp")} />
         {/* Native picture is deliberately available before JS and video decoding. */}
@@ -127,21 +135,19 @@ export function HeroFilm() {
         <source media="(max-width: 767px)" src={asset("/video/hero-main-mobile.mp4")} type="video/mp4" />
         <source src={asset("/video/hero-main-desktop.mp4")} type="video/mp4" />
       </video>
+      </div>
     </div>
 
-    {/* Held shades: the nav above and the controls below stay legible whatever frame is playing. */}
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[22%] bg-gradient-to-b from-night/75 to-transparent" />
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-night/85 to-transparent" />
 
     {/* Controls sit on the foot of the screen (never in the top 80 px, which belongs to the nav). */}
     <div data-sound="off" className="no-print gutter absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pb-5 pt-12 md:pb-7">
-      <button type="button" onClick={skip} className="label min-h-11 rounded-full border border-brass/50 bg-night/40 px-4 text-sand backdrop-blur-[2px] hover:text-gold">Skip intro</button>
+      <button type="button" onClick={skip} className="label min-h-11 rounded-full border border-brass/50 bg-night/75 px-4 text-sand hover:text-gold">Skip intro</button>
       <p className="order-last w-full text-center text-xs text-sand sm:order-none sm:w-auto sm:flex-1" role="status" aria-live="polite">
         {state === "buffering" ? (longStall ? "Buffering film…" : null) : state === "failed" ? "The film is unavailable. Continue to explore the academy." : state === "blocked" ? "Press play to watch the opening film." : null}
       </p>
       <div className="flex items-center gap-2">
-        <button type="button" disabled={state === "failed"} onClick={() => { if (videoRef.current) videoRef.current.muted = !videoRef.current.muted; }} aria-pressed={!muted} aria-label={muted ? "Sound off. Unmute the film" : "Sound on. Mute the film"} className="label min-h-11 rounded-full border border-brass/50 bg-night/40 px-4 text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50">Sound {muted ? "off" : "on"}</button>
-        <button type="button" disabled={state === "failed"} onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"} className="grid h-11 w-11 place-items-center rounded-full border border-brass/50 bg-night/40 text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50"><span aria-hidden>{playing ? "Ⅱ" : "▶"}</span></button>
+        <button type="button" disabled={state === "failed"} onClick={() => { if (videoRef.current) videoRef.current.muted = !videoRef.current.muted; }} aria-pressed={!muted} aria-label={muted ? "Sound off. Unmute the film" : "Sound on. Mute the film"} className="label min-h-11 rounded-full border border-brass/50 bg-night/75 px-4 text-sand hover:text-gold disabled:opacity-50">Sound {muted ? "off" : "on"}</button>
+        <button type="button" disabled={state === "failed"} onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"} className="grid h-11 w-11 place-items-center rounded-full border border-brass/50 bg-night/75 text-sand hover:text-gold disabled:opacity-50"><span aria-hidden>{playing ? "Ⅱ" : "▶"}</span></button>
       </div>
     </div>
     {/* Progress sits on the screen's bottom edge. */}

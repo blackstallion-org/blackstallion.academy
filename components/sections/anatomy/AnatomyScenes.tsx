@@ -146,6 +146,8 @@ export function EarDial() {
               poster={asset("/video/marwari-ear-poster.jpg")}
               aria-label="Marwari horse ear movement and independent 180-degree listening biomechanics film"
             >
+              {/* The web encode (546 KB, 44 dB PSNR against the 7 MB master); the master stays as the fallback. */}
+              <source src={asset("/video/marwari-ear-loop-web.mp4")} type="video/mp4" />
               <source src={asset("/video/marwari_horse_ear_biomechanics_loop.mp4")} type="video/mp4" />
             </video>
 

@@ -9,6 +9,7 @@
  */
 
 import { asset, MEDIA_REMOTE } from "./asset";
+import stillSizes from "./still-sizes.json";
 
 const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/";
 
@@ -157,6 +158,32 @@ export const shippedFile = (file: string) => file.replace(/^(\/media\/[^/]+)\.(p
  */
 export const avifTwin = (src: string): string | null =>
   !LOCAL_MEDIA && !MEDIA_REMOTE && /^\/media\/[^/?#]+\.webp$/.test(src) ? src.replace(/\.webp$/, ".avif") : null;
+
+/**
+ * The `srcset` of a still's AVIF twin: the smaller sizes from scripts/make-still-sizes.mjs (640, 1080, 1440 px wide, where they are below the
+ * original's width) and the full-size twin last, each with its width, so a phone fetches 40 to 150 KB where it used to fetch about 500 KB.
+ * Null when the still has no twin (see avifTwin) or no smaller sizes.
+ */
+export function avifSrcSet(src: string): string | null {
+  const twin = avifTwin(src);
+  const info = (stillSizes as Record<string, { width: number; widths: number[] }>)[twin?.replace(/^\/media\//, "").replace(/\.avif$/, "") ?? ""];
+  if (!twin || !info || !info.widths.length) return null;
+  const stem = twin.replace(/\.avif$/, "");
+  return [...info.widths.map((w) => `${stem}-${w}.avif ${w}w`), `${twin} ${info.width}w`].join(", ");
+}
+
+/**
+ * The AVIF of a still sized for a picture `cssWidth` CSS pixels wide on a screen of density `dpr`: the smallest listed width that covers it,
+ * else the full twin. For code that loads a still itself (WebGL textures) and so cannot hand the choice to <picture>. Null when there is no twin.
+ */
+export function sizedAvif(src: string, cssWidth: number, dpr: number): string | null {
+  const twin = avifTwin(src);
+  const info = (stillSizes as Record<string, { width: number; widths: number[] }>)[twin?.replace(/^\/media\//, "").replace(/\.avif$/, "") ?? ""];
+  if (!twin || !info) return null;
+  const need = cssWidth * dpr;
+  const w = info.widths.find((x) => x >= need);
+  return w ? twin.replace(/\.avif$/, `-${w}.avif`) : twin;
+}
 
 export function mediaSrc(key: MediaKey): string | null {
   const item: Media = media[key];

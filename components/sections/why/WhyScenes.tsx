@@ -45,10 +45,11 @@ export function WhyTitle() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           poster={asset("/video/portal-loop-poster.jpg")}
           aria-label="Monolithic illuminated doorway background film"
         >
+          <source src={asset("/video/portal-loop-web.mp4")} type="video/mp4" />
           <source src={asset("/video/portal-loop.mp4")} type="video/mp4" />
           <source
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_112712_da9d53df-6d27-4b12-bdf6-aa9dc2622bdf.mp4"

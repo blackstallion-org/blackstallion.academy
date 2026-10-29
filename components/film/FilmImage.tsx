@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion, type MotionValue } from "motion/react";
 import { useState } from "react";
-import { avifTwin, LOCAL_MEDIA, media, mediaSrc, type MediaKey } from "@/lib/content/media";
+import { avifSrcSet, avifTwin, LOCAL_MEDIA, media, mediaSrc, type MediaKey } from "@/lib/content/media";
 import { cn } from "@/lib/utils";
 
 type FilmImageProps = {
@@ -67,6 +67,7 @@ export function FilmImage({
   // Shipped stills have an AVIF copy at the same size (about a third of the bytes); browsers that cannot read it keep the WebP.
   // A `priority` still would preload its WebP while the picture loads the AVIF, so with a copy it is marked eager and high priority.
   const twin = src ? avifTwin(src) : null;
+  const twinSet = src ? avifSrcSet(src) : null;
   const hints = twin ? (priority ? { loading: "eager" as const, fetchPriority: "high" as const, preload: false } : {}) : { priority };
   const image = src ? (
     <Image
@@ -101,7 +102,7 @@ export function FilmImage({
         >
           {twin ? (
             <picture className="contents">
-              <source srcSet={twin} type="image/avif" />
+              <source srcSet={twinSet ?? twin} sizes={twinSet ? sizes : undefined} type="image/avif" />
               {image}
             </picture>
           ) : (
