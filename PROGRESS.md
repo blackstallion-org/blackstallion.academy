@@ -355,6 +355,35 @@ Branch `session/2026-10-24-fx-integration`. New shared primitives in `components
   the home first-ride panels are replaced by AI stills (`legend-today`, `legend-chetak`); the unused `ImageCubeGallery` still lists the same
   two stock files. **Not done:** realism of the home "Instrument" 3D plate (mane cards, coat): not reproduced here, the plate did not
   render in the headless browser; proposed as its own session.
+- [x] **Session 29 Oct 2026 · Black Marwari realism: mane, forelock, tail, coat sheen, hoof contact** (branch `feature/horse-realism`, cut
+  from `origin/main` `e47a770`; committed locally only: not merged, pushed or deployed; no image credits spent; body, gaits, controls,
+  places and clips untouched; pictures, numbers and the full list in `docs/qa/horse-realism/`). The three scenes are the home film's
+  chapters (Desert, Village, Horse Field); "One horse, three horizons" is not a name in the code and `/anatomy` does not draw this horse
+  (the film, the home Instrument plate and the unlinked `public/anatomy` exhibit do). (1) **Hair** (`components/3d/hair-locks.ts`: pure
+  geometry, tested in node; `marwari-hair-locks.ts`: shading, skinning, tiers): the 125 exported ribbons are hidden (they come back if the
+  build throws) and replaced by 170 mane locks in three layers that lie on the measured neck surface, taper, are rounded cards, root
+  within 20 degrees of the crest and fade in (no square tops); a 13-lock forelock from the poll between the ears (its profile is found
+  geometrically: the skin there is weighted to the ear bones, and a weight filter had silently built none); 110 tail strands that open
+  into separate strands, with Gaussian bone weights and a transported frame; an opaque dock with a rounded start whose root follows the
+  pelvis. Shading: an opaque core pass plus a blended fringe pass at the top tier (no alpha-to-coverage dither), near-black roots to
+  slightly bleached tips, Kajiya-Kay lobes with each atlas strand tilted on its own, the stock isotropic highlight cut to a fifth and the
+  sum of the strand highlights bounded (the first version went light grey under the home hero's studio rig: found by looking at the hero,
+  fixed). Movement: damped-spring lag, flutter and tail lift, off under reduced motion. (2) **Coat**: curvature cavity darkening and a
+  blue-black sky sheen on the rounded masses; the pale ragged flap at the tail root (it is in the old picture too) was a normal-map defect
+  (empty atlas texels), now guarded in the shader. (3) **Ground**: contact blobs only when the sun's shadow is off; the ambient dust
+  system removed; hoof dust small, low, clamped to the terrain (cap 0.4 m) and fading (highest grain 4 cm, was 1.1 m); faint U-shaped hoof
+  prints, lifted by the terrain's facet clearance (the 1.25 m ground mesh stands above the true height in dune hollows and had half buried
+  them); arena sand drifts, scuffs and grain. (4) **Tiers**: hair tier 0, 1, 2 (16.6k, 8.0k, 3.4k triangles) from the film's quality
+  governor and, before any frame is timed, from the device (cores, memory, Data Saver, phone-sized coarse pointer). (5)
+  `public/anatomy/exhibit.js` drives the new hair layer instead of turning the ribbons back on. **Measured** (production builds of main
+  and this branch, Apple M2 on Metal, headless Chrome, emulated phone, other programs running): 60 Hz held in every scene in the quiet
+  rounds; GPU about +1.1 ms per frame at desktop 1x, +0.5 at 2x, +0.3 on the phone profile, less than the run-to-run spread of the same
+  build (2.6 ms at 1x). **Checked**: `npm test` 160 pass (133 on main and 27 new in `tests/horse-realism.test.mjs`), lint 0 errors (21
+  existing warnings, none in these files), typecheck and `next build` pass; before/after stills at 1440 and 390 in all three places (mane,
+  tail, hooves, trot, forelock, ears, eye, shoulder), the home hero and the Instrument plate. **Not perfect**: cards not strands, a small
+  dark tab at the end of the crest, a sparse forelock, prints and kicks that are easy to miss, the baked coat colour, nothing run on a
+  real phone; see `docs/qa/horse-realism/README.md`. Expect conflicts in `marwari.ts` and `engine.ts` when this meets
+  `feature/marwari-film-world` (35 commits ahead).
 
 ## Session 24 Oct 2026 · Implementation brief (CLAUDE_IMPLEMENTATION_PROMPT.md), uncommitted on `session/2026-10-24-fx-integration`
 - Anatomy: one light "One conversation. Two bodies." exhibit (`public/anatomy/dual-body.html` in a same-origin iframe via `components/sections/anatomy/DualBody.tsx`) on `/anatomy` and the homepage (Matrix → SomaticMap). The old dark three.js port (`dual-body/engine.ts`, `loft.ts`, `lib/content/anatomy-dualbody.ts`) and unused vendor loaders were removed. Developer tools, header and Google Fonts are gone; self-hosted fonts in `public/anatomy/fonts/`; seated cadet visible by default; idle motion, Walk/Trot/Canter, Play/Pause; pauses off screen; non-WebGL fallback.

@@ -188,12 +188,19 @@ export class Terrain {
             float dz = abs(p.y - uArena.y) - uArena.w;
             float out_ = smoothstep(0.0, 1.2, max(dx, dz));
             float rake = sin(p.x * 14.0 + vnoise(p * 0.4, 41) * 4.0) * 0.5 + 0.5;
-            vec3 sand = mix(uSandLight, uSandDark, 0.35 + 0.35 * fbm2(p * 0.3, 42)) * (0.965 + 0.05 * rake * (0.5 + vnoise(p * 0.2, 51)));
+            // arena sand is not one tone: broad drifts of drier and damper sand, scuffed tracks where hooves have turned it over, a fine
+            // grain and the odd glinting grain; the fine terms fade out with distance so they cannot shimmer
+            float grainFade = 1.0 - smoothstep(0.015, 0.07, length(fwidth(p)));
+            vec3 sand = mix(uSandLight, uSandDark, 0.3 + 0.35 * fbm2(p * 0.3, 42) + 0.3 * (vnoise(p * 0.55, 52) - 0.5)) * (0.965 + 0.05 * rake * (0.5 + vnoise(p * 0.2, 51)));
+            sand *= 1.0 - 0.13 * smoothstep(0.5, 0.82, vnoise(p * 1.8 + 11.0, 53));
+            sand *= 1.0 + (vnoise(p * 38.0, 54) - 0.5) * 0.24 * grainFade;
+            sand += vec3(0.011, 0.009, 0.006) * (vnoise(p * 70.0, 55) - 0.5) * 2.0 * grainFade;
             vec3 grass = mix(uAccent * 0.8, uAccent * 1.25, fbm2(p * 0.7, 43)) * (0.9 + 0.2 * vnoise(p * 9.0, 44));
             // a paddock is not one green: patches of sun-bleached grass and darker ones where it stands long
             grass = mix(grass, grass * vec3(1.4, 1.14, 0.62), smoothstep(0.45, 0.8, vnoise(p * 0.018, 60)) * 0.6);
             grass *= 1.0 - 0.16 * smoothstep(0.55, 0.85, vnoise(p * 0.045 + 17.0, 61));
             bump = vec2(vnoise(p * 7.0, 45) - 0.5, vnoise(p * 7.0 + 5.0, 46) - 0.5) * 0.04 * out_ + vec2(0.0, (rake - 0.5) * 0.018) * (1.0 - out_);
+            bump += vec2(vnoise(p * 26.0, 56) - 0.5, vnoise(p * 26.0 + 9.0, 57) - 0.5) * 0.035 * (1.0 - out_) * grainFade;
             rough = mix(0.98, 0.93, out_);
             float drive = (1.0 - smoothstep(2.6, 3.5, abs(p.x))) * (1.0 - smoothstep(uArena.y - uArena.w - 1.5, uArena.y - uArena.w + 0.2, p.y));
             vec3 gravel = mix(vec3(0.27, 0.215, 0.15), vec3(0.43, 0.345, 0.24), fbm2(p * 1.6, 47)) * (0.92 + 0.16 * vnoise(p * 9.0, 48));
@@ -231,6 +238,18 @@ export class Terrain {
 
   height(x: number, z: number) {
     return terrainHeight(this.kind, x, z);
+  }
+
+  /**
+   * How far the drawn ground can stand above the true height at (x, z). The mesh is straight between its vertices (one cell is 1.25 m), so
+   * in a hollow it sits above the curve by about the second difference over a cell, divided by eight. A decal laid at the true height there
+   * is half buried: the clearance lifts it clear of the facet (a few millimetres on flat sand, a couple of centimetres in a dune hollow).
+   */
+  facetClearance(x: number, z: number) {
+    const c = this.cell, h = terrainHeight(this.kind, x, z);
+    const dx = Math.abs(terrainHeight(this.kind, x + c, z) - 2 * h + terrainHeight(this.kind, x - c, z));
+    const dz = Math.abs(terrainHeight(this.kind, x, z + c) - 2 * h + terrainHeight(this.kind, x, z - c));
+    return (Math.max(dx, dz) / 8) * 1.25 + 0.004;
   }
 
   normal(x: number, z: number, out?: THREE.Vector3) {

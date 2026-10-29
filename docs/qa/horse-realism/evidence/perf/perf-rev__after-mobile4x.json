@@ -1,0 +1,385 @@
+{
+ "profile": "mobile4x",
+ "baseUrl": "http://localhost:3400",
+ "uncapped": false,
+ "device": {
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "hw": 8,
+  "dprReal": 3,
+  "innerWidth": 390,
+  "innerHeight": 844
+ },
+ "readyMs": 4713,
+ "when": "Thu Oct 29 2026 19:31:38 GMT+0530 (India Standard Time)",
+ "cfg": {
+  "width": 390,
+  "height": 844,
+  "dpr": 3,
+  "mobile": true,
+  "cpu": 4
+ },
+ "scenarios": [
+  {
+   "syncRenderMs": [
+    {
+     "min": 1,
+     "median": 3,
+     "p90": 5
+    },
+    {
+     "min": 1,
+     "median": 2,
+     "p90": 3
+    },
+    {
+     "min": 1,
+     "median": 3,
+     "p90": 4
+    }
+   ],
+   "scenario": "hero idle (chapter 0)",
+   "loadBefore": "6.34 8.99 14.52",
+   "loadAfter": "5.65 8.71 14.32",
+   "frames": 747,
+   "fps": 62.2,
+   "frameMs": {
+    "mean": 16.09,
+    "p50": 16,
+    "p95": 18,
+    "p99": 22,
+    "max": 50
+   },
+   "over20ms": 12,
+   "over33ms": 3,
+   "gpuMs": {
+    "mean": 2.84,
+    "p50": 2.71,
+    "p95": 3.77,
+    "max": 4.11,
+    "samples": 746
+   },
+   "drawCalls": {
+    "min": 9,
+    "median": 9,
+    "max": 9
+   },
+   "triangles": {
+    "median": 43566,
+    "max": 43566
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 4,
+   "geometries": 6,
+   "textures": 10,
+   "gait": "stand",
+   "speed": 0,
+   "env": ""
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 7
+    },
+    {
+     "min": 2,
+     "median": 5,
+     "p90": 6
+    },
+    {
+     "min": 4,
+     "median": 6,
+     "p90": 8
+    }
+   ],
+   "scenario": "desert, standing",
+   "loadBefore": "5.54 8.59 14.21",
+   "loadAfter": "5.38 8.45 14.1",
+   "frames": 748,
+   "fps": 62.1,
+   "frameMs": {
+    "mean": 16.11,
+    "p50": 16,
+    "p95": 18,
+    "p99": 21,
+    "max": 97
+   },
+   "over20ms": 8,
+   "over33ms": 1,
+   "gpuMs": {
+    "mean": 4.31,
+    "p50": 4.12,
+    "p95": 5.45,
+    "max": 7.08,
+    "samples": 746
+   },
+   "drawCalls": {
+    "min": 18,
+    "median": 18,
+    "max": 18
+   },
+   "triangles": {
+    "median": 209810,
+    "max": 209810
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 24,
+   "geometries": 29,
+   "textures": 15,
+   "gait": "stand",
+   "speed": 0,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 5
+    },
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 6
+    },
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 5
+    }
+   ],
+   "scenario": "desert, gallop 10 m/s (side track)",
+   "loadBefore": "5.75 8.48 14.07",
+   "loadAfter": "5.07 8.19 13.87",
+   "frames": 739,
+   "fps": 61.5,
+   "frameMs": {
+    "mean": 16.26,
+    "p50": 16,
+    "p95": 19,
+    "p99": 22,
+    "max": 114
+   },
+   "over20ms": 10,
+   "over33ms": 2,
+   "gpuMs": {
+    "mean": 4.36,
+    "p50": 4.21,
+    "p95": 5.76,
+    "max": 9.68,
+    "samples": 738
+   },
+   "drawCalls": {
+    "min": 18,
+    "median": 18,
+    "max": 18
+   },
+   "triangles": {
+    "median": 211166,
+    "max": 211370
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 24,
+   "geometries": 29,
+   "textures": 15,
+   "gait": "gallop",
+   "speed": 9.99,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 6
+    },
+    {
+     "min": 3,
+     "median": 5,
+     "p90": 8
+    },
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 6
+    }
+   ],
+   "scenario": "village, trot 3.4 m/s",
+   "loadBefore": "6.23 8.35 13.86",
+   "loadAfter": "6.05 8.24 13.76",
+   "frames": 731,
+   "fps": 60.6,
+   "frameMs": {
+    "mean": 16.5,
+    "p50": 16,
+    "p95": 20,
+    "p99": 26,
+    "max": 187
+   },
+   "over20ms": 25,
+   "over33ms": 3,
+   "gpuMs": {
+    "mean": 4.56,
+    "p50": 4.59,
+    "p95": 5.55,
+    "max": 6.94,
+    "samples": 730
+   },
+   "drawCalls": {
+    "min": 36,
+    "median": 36,
+    "max": 36
+   },
+   "triangles": {
+    "median": 422308,
+    "max": 425532
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 25,
+   "geometries": 37,
+   "textures": 18,
+   "gait": "trot",
+   "speed": 3.41,
+   "env": "village"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 4,
+     "median": 5,
+     "p90": 7
+    },
+    {
+     "min": 4,
+     "median": 5,
+     "p90": 8
+    },
+    {
+     "min": 3,
+     "median": 5,
+     "p90": 8
+    }
+   ],
+   "scenario": "campus, canter 5.2 m/s",
+   "loadBefore": "5.81 8.11 13.65",
+   "loadAfter": "5.55 7.94 13.49",
+   "frames": 739,
+   "fps": 61.4,
+   "frameMs": {
+    "mean": 16.28,
+    "p50": 16,
+    "p95": 19,
+    "p99": 23,
+    "max": 124
+   },
+   "over20ms": 20,
+   "over33ms": 3,
+   "gpuMs": {
+    "mean": 5.41,
+    "p50": 5.4,
+    "p95": 7.21,
+    "max": 9.62,
+    "samples": 739
+   },
+   "drawCalls": {
+    "min": 29,
+    "median": 32,
+    "max": 35
+   },
+   "triangles": {
+    "median": 293676,
+    "max": 299716
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 30,
+   "geometries": 40,
+   "textures": 25,
+   "gait": "canter",
+   "speed": 5.19,
+   "env": "campus"
+  }
+ ],
+ "logs": [
+  "requestfailed: http://localhost:3400/video/hero-main-mobile.mp4 net::ERR_ABORTED",
+  "warning: The resource http://localhost:3400/animations/pixel-horse.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionall",
+  "warning: The resource http://localhost:3400/animations/pixel-horse.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionall",
+  "warning: The resource http://localhost:3400/animations/pixel-horse.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionall",
+  "warning: The resource http://localhost:3400/animations/pixel-horse.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionall"
+ ]
+}

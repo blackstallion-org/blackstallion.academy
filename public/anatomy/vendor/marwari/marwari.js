@@ -17,6 +17,7 @@ import { HoofContacts } from "./contact.js";
 import { installCoat } from "./marwari-coat.js";
 import { installEye, reseatEyes } from "./marwari-eye.js";
 import { installHair } from "./marwari-hair.js";
+import { hairLodForDevice, installHairLocks } from "./marwari-hair-locks.js";
 /** Loads a GLB with the bundled local Draco decoder (public/draco). The caller disposes the returned loader. */
 export function loadMarwari(url, onProgress) {
     const draco = new DRACOLoader();
@@ -38,7 +39,9 @@ export function loadMarwari(url, onProgress) {
 function prepare(gltf) {
     const root = gltf.scene;
     let mesh = null;
-    let hair = { wind: { value: new THREE.Vector3() }, sheen: { value: 0 }, flow: { value: 0 } };
+    let ribbons = { wind: { value: new THREE.Vector3() }, sheen: { value: 0 }, flow: { value: 0 } };
+    let ribbonMesh = null;
+    let ribbonMaterial = null;
     let eyes = { L: new THREE.Vector3(0.1, 1.89, 1.17), R: new THREE.Vector3(-0.1, 1.9, 1.16) };
     const bones = {};
     root.traverse((o) => {
@@ -49,8 +52,11 @@ function prepare(gltf) {
             if (m.name === "Marwari_Coat")
                 mesh = sm;
             // hair cards: coverage-tested strands, double-sided, no sorting problems; eyes: wet, high reflection
-            if (m.name === "Marwari_Hair")
-                hair = installHair(sm, m);
+            if (m.name === "Marwari_Hair") {
+                ribbons = installHair(sm, m);
+                ribbonMesh = sm;
+                ribbonMaterial = m;
+            }
             if (m.name === "Marwari_Eye") {
                 // a wet cornea over the dark eye: a thin clear layer that carries the catch-light
                 const eye = new THREE.MeshPhysicalMaterial();
@@ -87,6 +93,31 @@ function prepare(gltf) {
     skinned.material = material;
     base.dispose();
     const highlight = installCoat(skinned, material, muzzleTip(skinned.geometry), eyes);
+    // The mane, forelock, tail and dock are rebuilt as soft locks on the real neck and tail bones; the exported ribbons stay hidden unless that fails.
+    let locks = null;
+    if (ribbonMesh && ribbonMaterial) {
+        const nav = typeof navigator !== "undefined" ? navigator : null;
+        const lod = hairLodForDevice({
+            cores: nav?.hardwareConcurrency, memoryGb: nav?.deviceMemory, saveData: nav?.connection?.saveData,
+            coarse: typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches, width: typeof window !== "undefined" ? window.innerWidth : undefined,
+        });
+        try {
+            locks = installHairLocks(skinned, ribbonMesh, ribbonMaterial, bones, { lod, wind: ribbons.wind, sheen: ribbons.sheen, reducedMotion: false });
+        }
+        catch (error) {
+            console.warn("[marwari] the new hair could not be built; showing the exported ribbons", error);
+            locks = null;
+        }
+    }
+    const hair = {
+        ...ribbons,
+        // the film, the stride stage and the bronze scene set `flow` (0 off, 1 full): it now scales the new hair's lag, flutter and lift
+        flow: locks ? locks.flow : ribbons.flow,
+        locks,
+        get lod() { return locks?.lod ?? 2; },
+        setLod(l) { locks?.setLod(l); },
+        setReducedMotion(r) { locks?.setReducedMotion(r); },
+    };
     return { root, mesh: skinned, bones, clips: new Map(gltf.animations.map((c) => [c.name, c])), material, highlight, contacts: new HoofContacts(bones), hair };
 }
 /** Bind-pose position of the muzzle: the most forward vertex of the body mesh. */

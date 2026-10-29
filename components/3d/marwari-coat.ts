@@ -12,6 +12,10 @@
  *    groomed coat gets long soft highlights across the muscle) and for a hair-scale bump made of fibres that run along it. The bump
  *    fades out when a pixel covers more than a fibre, so it costs nothing at hero distances and cannot shimmer.
  *  - Region roughness: oiled hooves, a matte muzzle, wet lid margins, a little hair-scale roughness variation up close.
+ *  - Form (added 29 Oct 2026). At load the surface's curvature is measured (`coatCurvature`): hollows (elbow, flank fold, between the legs,
+ *    under the jaw, round the eye and nostril) get a cavity term that takes light away, and the rounded masses (shoulder, barrel, hindquarters, jaw,
+ *    the ears' rims) get a convexity term that carries a cool blue-black sheen, the reflection of the sky in a healthy black coat. The head is
+ *    measured at a finer scale and with more gain, so the eye, nostril and jaw read sharply.
  *  - Anatomy highlight: up to four world-space spheres that glow (the plate's hotspots).
  */
 import * as THREE from "three";
@@ -30,6 +34,10 @@ export type Highlight = {
   chroma: { value: number };
   /** Strength of the hair-scale bump (0 switches it off). */
   micro: { value: number };
+  /** Strength (0..1.5) of the blue-black sheen on the rounded masses; 1 is the designed look. */
+  blueSheen: { value: number };
+  /** Strength (0..1.5) of the cavity darkening in hollows; 1 is the designed look. */
+  cavity: { value: number };
 };
 
 /** Studio grade of the coat colour map: a third of the baked saturation is left, the original level. */
@@ -72,8 +80,77 @@ function hairFlow(mesh: THREE.SkinnedMesh): Float32Array {
   return out;
 }
 
+/**
+ * Per-vertex (cavity, convexity), both 0..1, from the mean curvature of the mesh: how far each vertex lies below the average of its
+ * neighbours along its normal (a hollow) or above it (a swelling), smoothed over the surface at a fine scale (the head) and a broader one
+ * (the body). Coincident vertices (the UV seams split them) are welded first so a seam is not read as a crease.
+ */
+export function coatCurvature(mesh: THREE.SkinnedMesh): Float32Array {
+  const geo = mesh.geometry;
+  const pos = geo.attributes.position, nor = geo.attributes.normal, idx = geo.index, si = geo.attributes.skinIndex, sw = geo.attributes.skinWeight;
+  const n = pos.count;
+  const rep = new Int32Array(n);
+  const seen = new Map<string, number>();
+  for (let i = 0; i < n; i++) {
+    const key = `${Math.round(pos.getX(i) * 2000)},${Math.round(pos.getY(i) * 2000)},${Math.round(pos.getZ(i) * 2000)}`;
+    const r = seen.get(key);
+    if (r === undefined) { seen.set(key, i); rep[i] = i; } else rep[i] = r;
+  }
+  const adj: number[][] = Array.from({ length: n }, () => []);
+  const link = (a: number, b: number) => { if (a !== b && !adj[a].includes(b)) { adj[a].push(b); adj[b].push(a); } };
+  const triCount = idx ? idx.count / 3 : n / 3;
+  for (let f = 0; f < triCount; f++) {
+    const a = rep[idx ? idx.getX(f * 3) : f * 3], b = rep[idx ? idx.getX(f * 3 + 1) : f * 3 + 1], c = rep[idx ? idx.getX(f * 3 + 2) : f * 3 + 2];
+    link(a, b); link(b, c); link(c, a);
+  }
+  // raw curvature: (mean of neighbours - p) . n, in units of the mean edge length
+  const raw = new Float32Array(n);
+  let edge = 0, edges = 0;
+  for (let i = 0; i < n; i++) {
+    if (rep[i] !== i || !adj[i].length) continue;
+    for (const j of adj[i]) { edge += Math.hypot(pos.getX(i) - pos.getX(j), pos.getY(i) - pos.getY(j), pos.getZ(i) - pos.getZ(j)); edges++; }
+  }
+  const h = edge / Math.max(1, edges);
+  for (let i = 0; i < n; i++) {
+    if (rep[i] !== i || !adj[i].length) continue;
+    let lx = 0, ly = 0, lz = 0;
+    for (const j of adj[i]) { lx += pos.getX(j); ly += pos.getY(j); lz += pos.getZ(j); }
+    const k = adj[i].length;
+    raw[i] = ((lx / k - pos.getX(i)) * nor.getX(i) + (ly / k - pos.getY(i)) * nor.getY(i) + (lz / k - pos.getZ(i)) * nor.getZ(i)) / h;
+  }
+  const smooth = (src: Float32Array, iterations: number) => {
+    let a = Float32Array.from(src), b = new Float32Array(n);
+    for (let it = 0; it < iterations; it++) {
+      for (let i = 0; i < n; i++) {
+        if (rep[i] !== i || !adj[i].length) continue;
+        let sum = a[i] * 2, w = 2;
+        for (const j of adj[i]) { sum += a[j]; w++; }
+        b[i] = sum / w;
+      }
+      [a, b] = [b, a];
+    }
+    return a;
+  };
+  const fine = smooth(raw, 2), broad = smooth(raw, 10);
+  const names = mesh.skeleton.bones.map((bn) => bn.name);
+  const head = new Set(names.map((nm, i) => [nm, i] as const).filter(([nm]) => nm === "Head").map(([, i]) => i));
+  const out = new Float32Array(n * 2);
+  for (let i = 0; i < n; i++) {
+    const r = rep[i];
+    let hw = 0;
+    for (let k = 0; k < 4; k++) if (head.has(si.getComponent(i, k))) hw += sw.getComponent(i, k);
+    // the head: fine scale and more gain; the body: a blend of the broad and the fine
+    const c = hw > 0.5 ? fine[r] * 1.0 : broad[r] * 0.7 + fine[r] * 0.3;
+    const gain = hw > 0.5 ? 9 : 5.5;
+    out[i * 2] = THREE.MathUtils.clamp(c * gain, 0, 1);
+    out[i * 2 + 1] = THREE.MathUtils.clamp(-c * gain * 0.8, 0, 1);
+  }
+  return out;
+}
+
 export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysicalMaterial, muzzle: THREE.Vector3, eyes: { L: THREE.Vector3; R: THREE.Vector3 }): Highlight {
   mesh.geometry.setAttribute("aFlow", new THREE.BufferAttribute(hairFlow(mesh), 3));
+  mesh.geometry.setAttribute("aCav", new THREE.BufferAttribute(coatCurvature(mesh), 2));
   material.anisotropy = 0.38; // switches the anisotropic BRDF on; its frame is replaced by the hair direction in the shader below
   const spheres = { value: [0, 1, 2, 3].map(() => new THREE.Vector4(0, 0, 0, 0)) };
   const strength = { value: 0 };
@@ -81,6 +158,8 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
   const coat = { value: COAT_HOME.clone() };
   const black = { value: new THREE.Vector4(0.12, COOL.x, COOL.y, COOL.z) };
   const micro = { value: 0.2 };
+  const blueSheen = { value: 1 };
+  const cavityK = { value: 1 };
   const chroma = {
     get value() {
       return black.value.x;
@@ -98,16 +177,18 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
     shader.uniforms.uMuzzle = { value: muzzle };
     shader.uniforms.uEye = { value: [eyes.L, eyes.R] };
     shader.uniforms.uMicro = micro;
+    shader.uniforms.uBlueSheen = blueSheen;
+    shader.uniforms.uCavity = cavityK;
     shader.vertexShader = shader.vertexShader
-      .replace("#include <common>", "#include <common>\nvarying vec3 vHiW; varying vec3 vRest; varying vec3 vFlowR; varying vec3 vNR; varying vec3 vFlow; attribute vec3 aFlow;")
+      .replace("#include <common>", "#include <common>\nvarying vec3 vHiW; varying vec3 vRest; varying vec3 vFlowR; varying vec3 vNR; varying vec3 vFlow; attribute vec3 aFlow; attribute vec2 aCav; varying vec2 vCav;")
       .replace("#include <skinnormal_vertex>", "#include <skinnormal_vertex>\nvFlow = normalize(mat3(modelViewMatrix) * (skinMatrix * vec4(aFlow, 0.0)).xyz);")
-      .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position; vFlowR = aFlow; vNR = normal;")
+      .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position; vFlowR = aFlow; vNR = normal; vCav = aCav;")
       .replace("#include <project_vertex>", "#include <project_vertex>\nvHiW = (modelMatrix * vec4(transformed, 1.0)).xyz;");
     shader.fragmentShader = shader.fragmentShader
       .replace(
         "#include <common>",
         `#include <common>
-        varying vec3 vHiW; varying vec3 vRest; varying vec3 vFlowR; varying vec3 vNR; varying vec3 vFlow; uniform vec4 uHi[4]; uniform float uHiK; uniform vec3 uHiCol; uniform vec3 uMuzzle; uniform vec3 uEye[2]; uniform vec2 uCoat; uniform vec4 uBlack; uniform float uMicro;
+        varying vec3 vHiW; varying vec3 vRest; varying vec3 vFlowR; varying vec3 vNR; varying vec3 vFlow; varying vec2 vCav; uniform float uBlueSheen; uniform float uCavity; uniform vec4 uHi[4]; uniform float uHiK; uniform vec3 uHiCol; uniform vec3 uMuzzle; uniform vec3 uEye[2]; uniform vec2 uCoat; uniform vec4 uBlack; uniform float uMicro;
         float h3(vec3 p) { p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
         float vn3(vec3 x) {
           vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);
@@ -125,11 +206,23 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
           cap = mix(0.0125, cap, 0.55); // the baked colour map is cloudy: keep a little of it, the rest is the hair
           diffuseColor.rgb *= cap / max(l, 1e-5);
           diffuseColor.rgb = mix(diffuseColor.rgb, vec3(cap), uCoat.x) * uCoat.y * uBlack.yzw;
+          // the lid's rim and the nostril sit in their own hollows: the curvature measure finds the nostril, the eye is added by position
+          vec3 ee = vRest - (vRest.x > 0.0 ? uEye[0] : uEye[1]);
+          float orbit = 1.0 - smoothstep(0.03, 0.075, length(ee * vec3(0.6, 1.0, 1.0)));
+          diffuseColor.rgb *= 1.0 - 0.3 * clamp(vCav.x * uCavity + 0.45 * orbit, 0.0, 1.0);
         }`,
       )
       .replace(
         "#include <normal_fragment_maps>",
         `#include <normal_fragment_maps>
+        #ifdef USE_NORMALMAP_TANGENTSPACE
+        {
+          // texels the atlas never painted (blue = 0) decode to a normal pointing into the body and catch a bright reflection: round the tail
+          // root that showed as a pale ragged flap. Wherever the map is empty the geometry's own normal is used.
+          float painted = smoothstep(0.42, 0.56, texture2D(normalMap, vNormalMapUv).z);
+          normal = normalize(mix(nonPerturbedNormal, normal, painted));
+        }
+        #endif
         {
           // the sculpt's sock edges are baked into the normal map as zig-zag creases at the pasterns: calm them there
           float band = smoothstep(0.09, 0.13, vRest.y) * (1.0 - smoothstep(0.27, 0.33, vRest.y));
@@ -192,12 +285,30 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
         totalEmissiveRadiance += uHiCol * hi * uHiK * 0.32;`,
       )
       .replace(
+        "#include <lights_fragment_end>",
+        `#include <lights_fragment_end>
+        {
+          float cav = clamp(vCav.x * uCavity, 0.0, 1.0);
+          float cvx = vCav.y;
+          // hollows (elbow, flank fold, between the legs, under the jaw) take less light of every kind
+          reflectedLight.indirectDiffuse *= 1.0 - 0.65 * cav;
+          reflectedLight.indirectSpecular *= 1.0 - 0.85 * cav;
+          reflectedLight.directDiffuse *= 1.0 - 0.4 * cav;
+          reflectedLight.directSpecular *= 1.0 - 0.55 * cav;
+          // blue-black sheen: the sky's cool reflection on the rounded masses, strongest at a grazing view and on surfaces that face up
+          vec3 nW = normal * mat3(viewMatrix);
+          float fres = pow(1.0 - clamp(dot(normal, geometryViewDir), 0.0, 1.0), 3.0);
+          float skyFacing = 0.35 + 0.65 * clamp(nW.y * 0.5 + 0.5, 0.0, 1.0);
+          reflectedLight.indirectSpecular += vec3(0.030, 0.050, 0.105) * fres * skyFacing * (0.3 + 0.7 * cvx) * (1.0 - cav) * uBlueSheen;
+        }`,
+      )
+      .replace(
         "vec3 totalDiffuse = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;",
         `vec3 totalDiffuse = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
         { float dl = dot(totalDiffuse, vec3(0.2126, 0.7152, 0.0722)); totalDiffuse = mix(vec3(dl) * uBlack.yzw, totalDiffuse, uBlack.x); }`,
       );
   };
-  material.customProgramCacheKey = () => "marwari-coat-v8";
+  material.customProgramCacheKey = () => "marwari-coat-v10";
   return {
     set(list) {
       spheres.value.forEach((v, i) => {
@@ -212,5 +323,7 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
     coatHome: COAT_HOME,
     chroma,
     micro,
+    blueSheen,
+    cavity: cavityK,
   };
 }

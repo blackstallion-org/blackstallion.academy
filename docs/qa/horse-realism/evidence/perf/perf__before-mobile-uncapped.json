@@ -1,0 +1,240 @@
+{
+ "profile": "mobile",
+ "baseUrl": "http://localhost:3500",
+ "uncapped": true,
+ "device": {
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "hw": 8,
+  "dprReal": 3,
+  "innerWidth": 390,
+  "innerHeight": 844
+ },
+ "readyMs": 5394,
+ "when": "Thu Oct 29 2026 17:49:31 GMT+0530 (India Standard Time)",
+ "cfg": {
+  "width": 390,
+  "height": 844,
+  "dpr": 3,
+  "mobile": true
+ },
+ "scenarios": [
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 3
+    },
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 6
+    },
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 5
+    }
+   ],
+   "scenario": "desert, standing",
+   "loadBefore": "9.06 13.41 18.96",
+   "loadAfter": "8.28 13.1 18.79",
+   "frames": 754,
+   "fps": 62.4,
+   "frameMs": {
+    "mean": 16.02,
+    "p50": 16,
+    "p95": 18,
+    "p99": 19,
+    "max": 36
+   },
+   "over20ms": 1,
+   "over33ms": 1,
+   "gpuMs": {
+    "mean": 3.87,
+    "p50": 3.56,
+    "p95": 5.24,
+    "max": 5.42,
+    "samples": 753
+   },
+   "drawCalls": {
+    "min": 23,
+    "median": 23,
+    "max": 23
+   },
+   "triangles": {
+    "median": 197990,
+    "max": 197990
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 24,
+   "geometries": 30,
+   "textures": 15,
+   "gait": "stand",
+   "speed": 0,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 2,
+     "median": 3,
+     "p90": 6
+    },
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 5
+    },
+    {
+     "min": 2,
+     "median": 4,
+     "p90": 6
+    }
+   ],
+   "scenario": "desert, gallop 10 m/s (side track)",
+   "loadBefore": "7.94 12.95 18.7",
+   "loadAfter": "8.92 12.94 18.6",
+   "frames": 753,
+   "fps": 62.3,
+   "frameMs": {
+    "mean": 16.06,
+    "p50": 16,
+    "p95": 18,
+    "p99": 19,
+    "max": 55
+   },
+   "over20ms": 3,
+   "over33ms": 1,
+   "gpuMs": {
+    "mean": 4.29,
+    "p50": 3.93,
+    "p95": 5.61,
+    "max": 6.87,
+    "samples": 752
+   },
+   "drawCalls": {
+    "min": 19,
+    "median": 19,
+    "max": 19
+   },
+   "triangles": {
+    "median": 199338,
+    "max": 199542
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 24,
+   "geometries": 30,
+   "textures": 15,
+   "gait": "gallop",
+   "speed": 10,
+   "env": "desert"
+  },
+  {
+   "syncRenderMs": [
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 5
+    },
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 6
+    },
+    {
+     "min": 3,
+     "median": 4,
+     "p90": 6
+    }
+   ],
+   "scenario": "campus, canter 5.2 m/s",
+   "loadBefore": "11.73 13.43 18.71",
+   "loadAfter": "11.22 13.27 18.59",
+   "frames": 751,
+   "fps": 62.3,
+   "frameMs": {
+    "mean": 16.05,
+    "p50": 16,
+    "p95": 18,
+    "p99": 19,
+    "max": 45
+   },
+   "over20ms": 2,
+   "over33ms": 1,
+   "gpuMs": {
+    "mean": 5.2,
+    "p50": 4.79,
+    "p95": 6.46,
+    "max": 17.57,
+    "samples": 749
+   },
+   "drawCalls": {
+    "min": 30,
+    "median": 33,
+    "max": 36
+   },
+   "triangles": {
+    "median": 281848,
+    "max": 287888
+   },
+   "heapMB": {
+    "start": null,
+    "end": null
+   },
+   "pixelRatio": [
+    1.25,
+    1.25
+   ],
+   "tier": [
+    2,
+    2
+   ],
+   "canvasPx": [
+    487,
+    1055
+   ],
+   "programs": 29,
+   "geometries": 41,
+   "textures": 25,
+   "gait": "canter",
+   "speed": 5.19,
+   "env": "campus"
+  }
+ ],
+ "logs": [
+  "requestfailed: http://localhost:3500/video/hero-main-mobile.mp4 net::ERR_ABORTED",
+  "warning: The resource http://localhost:3500/animations/pixel-horse.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionall",
+  "warning: The resource http://localhost:3500/animations/pixel-horse.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionall"
+ ]
+}
