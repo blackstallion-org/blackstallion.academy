@@ -43,6 +43,8 @@ all three** (the ink frames and the gallop cycle look like parts of other people
 
 ## Not verified
 
-Speed and smoothness on a real phone or GPU (checked only in a software-rendered browser: the opening's own clock ran at 5.8 s, but
-a busy development server delayed it once to 9 s); Safari and Firefox (the sprite uses CSS `mask-image`, with the `-webkit-` form too);
-the opening on very wide or very short windows beyond 1440 x 900 and 390 x 844.
+Speed and smoothness on a real phone or GPU. It was checked only in a software-rendered browser, where the home page itself blocks the
+main thread for up to about 9 s while it starts up (the same blocks occur with the loader and opening switched off). The opening's
+pictures keep their 5.6 s on the compositor, but its "finished" event, and so the removal of the overlay, waits for the main thread: in
+that browser it ranged from 5.8 s to 15 s. Also not checked: Safari and Firefox (the sprite uses CSS `mask-image`, with the `-webkit-`
+form too), and windows other than 1440 x 900 and 390 x 844.
