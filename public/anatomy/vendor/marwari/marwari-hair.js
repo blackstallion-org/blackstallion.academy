@@ -107,7 +107,7 @@ export function installHair(mesh, material) {
     material.depthWrite = true;
     material.side = THREE.DoubleSide;
     material.roughness = 0.62;
-    material.envMapIntensity = 0.2;
+    material.envMapIntensity = 0.28;
     const time = { value: 0 };
     const wind = { value: new THREE.Vector3(0.012, 0, -0.008) };
     const sheen = { value: 0.022 };
@@ -241,30 +241,42 @@ export function installHair(mesh, material) {
         float hh(float x) { return fract(sin(x * 127.1 + 31.7) * 43758.5453); }
         float hv(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
           return mix(mix(hh(i.x + i.y * 57.0), hh(i.x + 1.0 + i.y * 57.0), f.x), mix(hh(i.x + (i.y + 1.0) * 57.0), hh(i.x + 1.0 + (i.y + 1.0) * 57.0), f.x), f.y); }
-        vec3 hairTangent() { return normalize(vHairT); }`)
+        vec3 hairTangentScreen() {
+          vec3 q0 = dFdx(-vViewPosition), q1 = dFdy(-vViewPosition);
+          vec2 s0 = dFdx(vHairUv), s1 = dFdy(vHairUv);
+          float det = s0.x * s1.y - s1.x * s0.y;
+          vec3 pt = (-q0 * s1.x + q1 * s0.x) / (abs(det) < 1e-12 ? 1e-12 : det);
+          return normalize(-pt);
+        }
+        // The tail takes its strand direction per vertex (smooth); the mane keeps the screen-space estimate it always had.
+        vec3 hairTangent() { return normalize(mix(hairTangentScreen(), normalize(vHairT), step(0.5, vTail))); }`)
             .replace("#include <alphatest_fragment>", `{
           float lu = fract(vHairUv.x * 8.0);
           float tip = 1.0 - vHairUv.y;
-          // About thirty strands across a ribbon, their boundaries wandering a little along the length so they never line up on a grid
-          // (the old sixteen hard-edged columns read as blocks in the mane and stripes in the tail).
-          float sx = lu * 30.0 + (hv(vec2(tip * 4.0 + vSeed * 17.0, vSeed * 40.0)) - 0.5) * 1.4;
-          float sId = floor(sx);
-          float sf = fract(sx) - 0.5;
-          // each strand has its own length, blended smoothly into its neighbours' so the tips run in clumps, not in steps
-          float sl = mix(0.72, 1.0, mix(hh(sId + vSeed * 31.0), hh(sId + 1.0 + vSeed * 31.0), smoothstep(0.0, 1.0, fract(sx))));
-          // and each strand narrows to a point: touching its neighbours up the length, parting into wisps toward the tip
-          float parting = mix(0.2, 0.42, vTail);
-          float toTip = clamp((sl - tip) / parting, 0.0, 1.0);
-          float halfW = 0.64 * smoothstep(0.0, 0.9, toTip);
-          float strandA = 1.0 - smoothstep(halfW - 0.14, halfW, abs(sf));
           float edge = min(lu, 1.0 - lu);
-          float wisp = smoothstep(0.0, mix(0.17 + 0.1 * vSeed, 0.04, vTail), edge + (hv(vec2(sId, tip * 7.0)) - 0.5) * mix(0.14, 0.04, vTail)); // the tail keeps its ribbons butted together: dissolving every edge leaves a bright line between neighbours against a pale background
-          // the atlas leaves gaps between strands; seen against the sky they make the tail look see-through, so the gaps are mostly filled and
-          // the strand character comes from the tapering tips, the feathered sides and a soft variation in tone
-          diffuseColor.a = mix(diffuseColor.a, 1.0, mix(0.18, 0.97, vTail)) * strandA * wisp;
-          // tone drifts smoothly across and along the ribbon (clumps of hair), instead of one flat value per strand
-          float tone = 0.8 + 0.4 * hv(vec2(sx * 0.35 + vSeed * 9.0, tip * 2.2 + vSeed * 5.0));
-          diffuseColor.rgb *= mix(tone, 1.0, 0.45 * vTail);
+          float isT = step(0.5, vTail);
+          // MANE (as before): sixteen strands across a ribbon, each with its own length
+          float sIdM = floor(lu * 16.0 + vSeed * 7.0);
+          float slM = 0.72 + 0.28 * hh(sIdM + vSeed * 31.0);
+          float lenM = 1.0 - smoothstep(slM - 0.12, slM, tip);
+          float wispM = smoothstep(0.0, 0.17 + 0.1 * vSeed, edge + (hv(vec2(sIdM, tip * 7.0)) - 0.5) * 0.14);
+          float toneM = 0.5 + 0.6 * hh(sIdM * 1.7 + vSeed * 13.0);
+          // TAIL: about thirty strands across a ribbon, their boundaries wandering a little along the length so they never line up on a
+          // grid; each strand has its own length (blended smoothly into its neighbours') and narrows to a point, touching its neighbours
+          // up the length and parting into wisps toward the tip; tone drifts smoothly in clumps
+          float sx = lu * 30.0 + (hv(vec2(tip * 4.0 + vSeed * 17.0, vSeed * 40.0)) - 0.5) * 1.4;
+          float sIdT = floor(sx);
+          float sf = fract(sx) - 0.5;
+          float slT = mix(0.72, 1.0, mix(hh(sIdT + vSeed * 31.0), hh(sIdT + 1.0 + vSeed * 31.0), smoothstep(0.0, 1.0, fract(sx))));
+          float toTip = clamp((slT - tip) / 0.42, 0.0, 1.0);
+          float halfW = 0.64 * smoothstep(0.0, 0.9, toTip);
+          float strandT = 1.0 - smoothstep(halfW - 0.14, halfW, abs(sf));
+          // the tail keeps its ribbons butted together: dissolving every edge leaves a bright line between neighbours against a pale background
+          float wispT = smoothstep(0.0, 0.04, edge + (hv(vec2(sIdT, tip * 7.0)) - 0.5) * 0.04);
+          float toneT = 0.8 + 0.4 * hv(vec2(sx * 0.35 + vSeed * 9.0, tip * 2.2 + vSeed * 5.0));
+          // the atlas leaves gaps between strands; seen against the sky they make the tail look see-through, so the gaps are mostly filled
+          diffuseColor.a = mix(diffuseColor.a, 1.0, mix(0.18, 0.97, isT)) * mix(lenM * wispM, strandT * wispT, isT);
+          diffuseColor.rgb *= mix(toneM, mix(toneT, 1.0, 0.45), isT);
         }
         #include <alphatest_fragment>`)
             .replace("#include <normal_fragment_maps>", `#include <normal_fragment_maps>
@@ -276,6 +288,7 @@ export function installHair(mesh, material) {
           normal = normalize(normal + side * (lu2 - 0.5) * 1.3);
         }`)
             .replace("#include <lights_fragment_end>", `#include <lights_fragment_end>
+        reflectedLight.indirectSpecular *= mix(1.0, 0.72, step(0.5, vTail)); // the tail sits darker against a pale sky
         #if NUM_DIR_LIGHTS > 0
         {
           vec3 T = hairTangent();
@@ -291,6 +304,6 @@ export function installHair(mesh, material) {
         }
         #endif`);
     };
-    material.customProgramCacheKey = () => "marwari-hair-v8";
+    material.customProgramCacheKey = () => "marwari-hair-v9";
     return { wind, sheen, flow };
 }
