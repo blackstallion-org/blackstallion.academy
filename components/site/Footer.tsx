@@ -6,6 +6,7 @@ import { CrestMark } from "@/components/brand/CrestMark";
 import { SealRing } from "@/components/motion/fx/SealRing";
 import { corridors, entity, legalNav } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
+import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
 
 /** A 76 kB still that only matters once the footer is about to be seen (it sits ~23,000 px down the home page). */
@@ -52,7 +53,7 @@ export function Footer() {
     const video = videoRef.current;
     if (!video) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || saveDataMode()) {
       video.removeAttribute("autoplay");
       video.pause();
       return;

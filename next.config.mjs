@@ -22,7 +22,7 @@ const MODEL_VERSION = (() => {
   if (isDev) return "";
   try {
     const hash = createHash("sha1");
-    for (const f of ["marwari-hero.glb", "marwari-hero-mobile.glb", "marwari-anatomy.glb"]) hash.update(readFileSync(new URL(`./public/models/${f}`, import.meta.url)));
+    for (const f of ["marwari-hero.glb", "marwari-hero-mobile.glb", "marwari-anatomy.glb", "riding-gear-high.glb", "riding-gear-low.glb"]) hash.update(readFileSync(new URL(`./public/models/${f}`, import.meta.url)));
     return hash.digest("hex").slice(0, 10);
   } catch {
     return "";

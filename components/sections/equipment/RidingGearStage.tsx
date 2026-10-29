@@ -1,18 +1,24 @@
 "use client";
 
 import { Suspense, useMemo, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ModelBoundary } from "@/components/three/ModelBoundary";
-import { asset } from "@/lib/content/asset";
+import { RIDING_GEAR_MODEL, RIDING_GEAR_MODEL_LOW } from "@/components/3d/marwari-paths";
+import { detectQualityTier } from "@/lib/3d/device-tier";
+import { saveDataMode } from "@/lib/motion/save-data";
 
 /**
- * The riding-gear WebGL stage, split out of HorseEquipmentSection so three.js, R3F, drei and the 5 MB model are only
+ * The riding-gear WebGL stage, split out of HorseEquipmentSection so three.js, R3F, drei and the model are only
  * fetched when the stage approaches the viewport (the model used to be preloaded the moment the page's JS ran).
+ *
+ * Phones, low-core or low-memory devices and data-saver visitors get the 94 000-triangle copy (0.8 MB); everyone else the
+ * 282 000-triangle one (1.4 MB). The scan it came from has 1.9 million triangles, which a phone must decode and redraw every frame.
+ * This module only loads in the browser (the stage is `ssr: false`), so the device is known when the constant is set.
  */
-export const RIDING_GEAR_MODEL_URL = asset("/models/riding-gear-draco.glb");
+export const RIDING_GEAR_MODEL_URL = detectQualityTier() === "low" || saveDataMode() ? RIDING_GEAR_MODEL_LOW : RIDING_GEAR_MODEL;
 
 /* ------------------------------------------------------------------
    1. Interactive 3D Composite Riding Gear Model Component
@@ -21,6 +27,9 @@ function RidingGearModel() {
   const { scene } = useGLTF(RIDING_GEAR_MODEL_URL, "/draco/");
   const groupRef = useRef<THREE.Group>(null);
   const reduced = useReducedMotion();
+  // The kit is about 1.15 times as wide as the picture is tall. On a tall stage (a phone) it would be cropped at both sides,
+  // so it shrinks to the stage's width; a wider stage (desktop, tablet, the home panel) is left exactly as it was.
+  const fit = useThree((state) => Math.min(1, state.size.width / state.size.height / 1.15));
 
   // Center model and enhance luxury leather & brass materials
   const centeredModel = useMemo(() => {
@@ -51,11 +60,12 @@ function RidingGearModel() {
     if (!groupRef.current) return;
     const t = clock.elapsedTime;
     const floatY = reduced ? 0 : Math.sin(t * 0.9) * 0.015;
-    groupRef.current.position.y = floatY;
+    // On a tall stage the caption sits under the kit, so it is also raised a little (nothing changes where fit is 1).
+    groupRef.current.position.y = floatY + (1 - fit) * 0.35;
   });
 
   return (
-    <group ref={groupRef} scale={1.45}>
+    <group ref={groupRef} scale={1.45 * fit}>
       <primitive object={centeredModel} />
     </group>
   );

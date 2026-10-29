@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
 import { FilmImage } from "@/components/film/FilmImage";
 
@@ -42,16 +43,18 @@ export function HeroFilm() {
     if (!video) return;
     let disposed = false;
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Data Saver or a 2G link: the film stays on its poster (the 3 to 8 MB file is never played), like reduced motion.
+    const saveData = saveDataMode();
     const failure = () => { failed.current = true; if (!disposed) setState("failed"); };
     // Source errors can happen before hydration and do not bubble from <source>.
     // Inspect the native state too, including the all-sources-failed browser case.
     const mediaStarted = performance.now();
     const watchdog = window.setInterval(() => {
-      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (!preference.matches && video.readyState < 2 && performance.now() - mediaStarted > 12000)) failure();
+      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (!preference.matches && !saveData && video.readyState < 2 && performance.now() - mediaStarted > 12000)) failure();
       if (video.readyState >= 2 || failed.current) window.clearInterval(watchdog);
     }, 200);
     const sync = () => {
-      if (document.hidden || !inView.current || userPaused.current || preference.matches) video.pause();
+      if (document.hidden || !inView.current || userPaused.current || preference.matches || saveData) video.pause();
       else { prime(); video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); }); }
     };
     const observer = new IntersectionObserver(([entry]) => { inView.current = entry.isIntersecting; sync(); }, { threshold: 0.05 });

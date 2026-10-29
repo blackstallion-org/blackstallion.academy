@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { ease } from "@/lib/motion/tokens";
+import { saveDataMode } from "@/lib/motion/save-data";
 import { useNearViewport, useOnScreen } from "@/lib/motion/use-near-viewport";
 import { asset } from "@/lib/content/asset";
 
@@ -84,7 +85,8 @@ export function HorseEquipmentSection() {
   const stageNear = useNearViewport(stageRef);
   const stageOnScreen = useOnScreen(stageRef);
   const stageSoon = useNearViewport(stageRef, "300% 0px");
-  useEffect(() => { if (stageSoon) void import("./RidingGearStage").catch(() => {}); }, [stageSoon]);
+  // (Not for visitors with Data Saver or a 2G link: the stage still loads when it is actually reached.)
+  useEffect(() => { if (stageSoon && !saveDataMode()) void import("./RidingGearStage").catch(() => {}); }, [stageSoon]);
 
   const handleCopy = (hex: string) => {
     navigator.clipboard?.writeText(hex);
