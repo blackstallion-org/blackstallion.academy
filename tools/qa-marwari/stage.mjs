@@ -1,7 +1,8 @@
 // Page helpers for the BSAH stallion stage: open it, hide dev chrome, drive the film engine, place a custom camera.
 import { sleep } from "./harness.mjs";
 
-export const URL_HOME = "http://localhost:3100/?stallion=preview&filmdebug=1";
+// QA_BASE points the scripts at another origin (a production server, a second checkout); the default is the dev server
+export const URL_HOME = (process.env.QA_BASE || "http://localhost:3100") + "/?stallion=preview&filmdebug=1";
 
 export async function newPage(browser, { width = 1440, height = 900, mobile = false, dpr = 1, hour = null, reduced = false, assets = null } = {}) {
   const ctx = await browser.newContext({

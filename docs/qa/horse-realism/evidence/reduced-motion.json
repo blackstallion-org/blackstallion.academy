@@ -1,0 +1,7 @@
+{
+  "what": "Home stallion stage, 1440 x 900, two frames 1.6 s apart, production build of this branch",
+  "reducedMotionOn":  { "changedPixels": 0,      "of": 1296000, "maxDifference": 0 },
+  "reducedMotionOff": { "changedPixels": 501428, "of": 1296000, "maxDifference": 252 },
+  "note": "Under the setting the film is not started at all (no engine, no hair). The hair's own movement factor (uMotion) is also 0 under the setting for any other place the horse is drawn (unit-tested; read live from matchMedia).",
+  "hairMovementAtACanterWithMotionOn": { "gait": "canter, 6.5 m/s commanded", "motionFactor": 1, "tailLagMax_m": 0.3588, "maneLagMax_m": 0.1589, "tailLiftMax_m": 0.26 }
+}

@@ -1,0 +1,23 @@
+{
+ "before_desert": {
+  "samples": 80,
+  "highestGrainAboveGround_m": 1.144,
+  "mostGrainsAlive": 60
+ },
+ "before_field": {
+  "samples": 80,
+  "highestGrainAboveGround_m": 1.135,
+  "mostGrainsAlive": 48
+ },
+ "after_desert": {
+  "samples": 80,
+  "highestGrainAboveGround_m": 0.043,
+  "mostGrainsAlive": 22
+ },
+ "after_field": {
+  "samples": 80,
+  "highestGrainAboveGround_m": 0.031,
+  "mostGrainsAlive": 13
+ },
+ "what": "Canter at 5.2 m/s for 20 s (80 samples): the highest dust grain above the terrain under it, and the most grains alive at once. Hoof dust only; the old ambient motes (a second system, 0.25 to 2.65 m above the ground by construction) are not included in the 'before' figures. tools/qa-marwari/realism/ground_contact.mjs"
+}

@@ -43,6 +43,10 @@ export class DustSystem {
   private readonly growth: Float32Array;
   private readonly geo: THREE.BufferGeometry;
   readonly uniforms: Record<string, THREE.IUniform>;
+  /** Height of the terrain under (x, z). Grains never go below it (plus a hair) or more than `maxRise` above it. */
+  private groundAt: ((x: number, z: number) => number) | null = null;
+  private maxRise = 1e9;
+  private gravity = 0.35;
 
   constructor(capacity: number) {
     this.cap = capacity;
@@ -74,6 +78,13 @@ export class DustSystem {
     this.points.frustumCulled = false;
     this.points.renderOrder = 5;
     this.points.name = "dust";
+  }
+
+  /** Ground clamp and fall speed. Without a ground the system behaves as before (floating grains, almost no gravity). */
+  configure(o: { groundAt?: ((x: number, z: number) => number) | null; maxRise?: number; gravity?: number }) {
+    if (o.groundAt !== undefined) this.groundAt = o.groundAt;
+    if (o.maxRise !== undefined) this.maxRise = o.maxRise;
+    if (o.gravity !== undefined) this.gravity = o.gravity;
   }
 
   /** Quality tiers cap how many pooled particles may be live. */
@@ -108,9 +119,15 @@ export class DustSystem {
       if (t >= 1) { this.alpha[i] = 0; continue; }
       const k = i * 3;
       this.vel[k] = this.vel[k] * drag + wind.x * dt * 0.6;
-      this.vel[k + 1] = this.vel[k + 1] * drag - 0.35 * dt;
+      this.vel[k + 1] = this.vel[k + 1] * drag - this.gravity * dt;
       this.vel[k + 2] = this.vel[k + 2] * drag + wind.z * dt * 0.6;
       this.pos[k] += this.vel[k] * dt; this.pos[k + 1] += this.vel[k + 1] * dt; this.pos[k + 2] += this.vel[k + 2] * dt;
+      if (this.groundAt) {
+        // dust lies on the ground: a grain that reaches it stops falling and slides to rest; none climbs past the cap
+        const ground = this.groundAt(this.pos[k], this.pos[k + 2]);
+        if (this.pos[k + 1] < ground + 0.012) { this.pos[k + 1] = ground + 0.012; this.vel[k + 1] = 0; this.vel[k] *= 0.6; this.vel[k + 2] *= 0.6; }
+        else if (this.pos[k + 1] > ground + this.maxRise) { this.pos[k + 1] = ground + this.maxRise; if (this.vel[k + 1] > 0) this.vel[k + 1] = 0; }
+      }
       this.size[i] = this.size0[i] * (1 + this.growth[i] * t);
       this.alpha[i] = this.base[i] * Math.min(1, t * 9) * (1 - t) * (1 - t);
     }
@@ -144,17 +161,26 @@ void main() {
 const PRINT_FS = /* glsl */ `
 uniform vec3 uTint; uniform float uStrength;
 varying vec2 vUv; varying float vA;
+float h2(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float n2(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(h2(i), h2(i + vec2(1, 0)), f.x), mix(h2(i + vec2(0, 1)), h2(i + vec2(1, 1)), f.x), f.y); }
 void main() {
   vec2 p = (vUv - 0.5) * 2.0;
   p.y = -p.y;                                   // toe at +y
-  float r = length(p * vec2(0.95, 0.88));
-  float outer = smoothstep(1.0, 0.82, r);
-  float inner = smoothstep(0.50, 0.66, r);
-  float heelGap = smoothstep(-0.55, -0.15, p.y);   // open heel
-  float dish = smoothstep(0.9, 0.2, r);
-  float shoe = outer * mix(0.55, 1.0, inner) * mix(0.55, 1.0, heelGap);
-  float a = (shoe * 0.55 + dish * 0.35) * vA * uStrength;
-  if (a < 0.01) discard;
+  // a hoof's print: a rounded wall that breaks open toward the heel (a U), a darker floor where the sole pressed, and a pale wedge (the frog)
+  // down the middle of the sole
+  float width = mix(0.74, 1.0, smoothstep(-0.8, 0.5, p.y));
+  vec2 q = vec2(p.x / width, p.y * 0.93);
+  float edgeWobble = (n2(vUv * 9.0) - 0.5) * 0.14;   // the wall of a print is ragged, not a clean curve
+  float r = length(q) + edgeWobble;
+  float outer = 1.0 - smoothstep(0.84, 0.97, r);
+  float rim = outer * smoothstep(0.62, 0.8, r);
+  float heelOpen = smoothstep(-0.8, -0.3, p.y);
+  float frogHalf = mix(0.05, 0.3, smoothstep(-0.8, 0.0, p.y)) * (1.0 - smoothstep(0.0, 0.55, p.y));
+  float frog = 1.0 - smoothstep(frogHalf * 0.5, frogHalf, abs(p.x));
+  float floorFill = outer * (1.0 - smoothstep(0.55, 0.7, r)) * (1.0 - 0.7 * frog);
+  float grain = 0.75 + 0.25 * h2(floor(vUv * 40.0));
+  float a = (rim * mix(0.15, 0.75, heelOpen) + floorFill * 0.32) * grain * vA * uStrength;
+  if (a < 0.012) discard;
   gl_FragColor = vec4(uTint, a);
 }`;
 
@@ -206,7 +232,7 @@ export class PrintSystem {
     this.q2.setFromAxisAngle(this.up, heading);
     this.q.multiply(this.q2);
     this.s.set(scale, 1, scale);
-    this.m.compose(new THREE.Vector3(x, y + 0.006, z), this.q, this.s);
+    this.m.compose(new THREE.Vector3(x, y + 0.002, z), this.q, this.s);
     this.mesh.setMatrixAt(i, this.m);
     this.mesh.instanceMatrix.needsUpdate = true;
     this.birth[i] = now;

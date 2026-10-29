@@ -33,7 +33,7 @@ fs.writeFileSync(path.join(out, "three/VERSION"), `three ${version} (MIT), copie
 // motion (vanilla UMD build) drives the control deck
 fs.copyFileSync(path.join(root, "node_modules/motion/dist/motion.js"), path.join(out, "motion.js"));
 
-const helpers = ["marwari", "marwari-coat", "marwari-eye", "marwari-hair", "contact"];
+const helpers = ["marwari", "marwari-coat", "marwari-eye", "marwari-hair", "hair-locks", "marwari-hair-locks", "contact"];
 fs.mkdirSync(path.join(out, "marwari"), { recursive: true });
 for (const name of helpers) {
   const source = fs.readFileSync(path.join(root, "components/3d", `${name}.ts`), "utf8");

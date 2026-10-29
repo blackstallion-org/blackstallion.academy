@@ -405,9 +405,10 @@ function sortLayers(root) {
       } else if (n.startsWith("Tack_")) {
         layers.tack.push(o);
       }
-      if (n === "Marwari_Hair") layers.hairMeshes.push(o);
+      // the hair layer: the new locks (core and fringe passes); the exported ribbons only if the locks could not be built
+      if (n.startsWith("Marwari_HairLocks") || (n === "Marwari_Hair" && !o.userData.replacedByLocks)) layers.hairMeshes.push(o);
       if (n === "Marwari_Eyes") layers.eyeMeshes.push(o);
-      o.castShadow = !(n === "Marwari_Hair" || n.startsWith("Muscle_") || n.startsWith("Bone_"));
+      o.castShadow = !(n === "Marwari_Hair" || n === "Marwari_HairLocks_fringe" || n.startsWith("Muscle_") || n.startsWith("Bone_"));
       o.receiveShadow = n === "Marwari_Low" || n.startsWith("Tack_") || n.startsWith("Cadet_");
     }
   });
@@ -517,7 +518,10 @@ function assemble(horseData, riderGltf) {
     if (o.isSkinnedMesh) o.frustumCulled = false;
   });
   horse.mesh.renderOrder = 4;
-  if (state.reducedMotion) horse.hair.wind.value.set(0, 0, 0); // the mane and tail shader flutters on its own clock: still when motion is reduced
+  if (state.reducedMotion) {
+    horse.hair.wind.value.set(0, 0, 0); // the mane and tail shader flutters on its own clock: still when motion is reduced
+    if (horse.hair.setReducedMotion) horse.hair.setReducedMotion(true); // and so does the new hair's lag, flutter and lift
+  }
   world.userData.horseRig = horseRig;
 
   // clips: the gaits are driven by stride phase; the idle clips run on their own

@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import type { Marwari } from "@/components/3d/marwari";
 import { DustSystem, PrintSystem } from "./effects";
+import { contactBlobStrength, KICK_GRAVITY, KICK_MAX_RISE, liftKick, PRINTS, touchdownKick, type Kick } from "./ground-policy";
+import { hairLodForTier } from "@/components/3d/hair-locks";
 import { QUALITY_TIERS, type Environment, type EnvId, type Quality } from "./environment";
 import { LifeLayer, SecondaryMotion } from "./life";
 import { loadGaits, Locomotor, LIMBS, type FootEvent, type GaitTable } from "./locomotion";
@@ -106,7 +108,6 @@ export class FilmEngine {
   private sky = new Sky();
   private envSky: Sky | null = null;
   private dust: DustSystem | null = null;
-  private ambient: DustSystem | null = null;
   private prints: PrintSystem | null = null;
   private veil: THREE.Mesh | null = null;
   private veilState = { p: 0, target: 0, mode: 0 as 0 | 1 | 2, phase: "idle" as "idle" | "out" | "in", pendingChapter: -1, waiting: false };
@@ -159,9 +160,11 @@ export class FilmEngine {
     this.secondary = new SecondaryMotion(ctx.horse);
     this.shots = buildShots();
     this.dust = new DustSystem(this.opts.mobile ? 360 : 720);
-    this.ambient = new DustSystem(this.opts.mobile ? 90 : 220);
     this.prints = new PrintSystem(this.opts.mobile ? 70 : 140);
-    for (const d of [this.dust, this.ambient]) { d.points.visible = false; ctx.scene.add(d.points); }
+    // dust lies on the terrain and stays low (see ground-policy.ts)
+    this.dust.configure({ groundAt: (x, z) => this.env?.terrain.height(x, z) ?? 0, maxRise: KICK_MAX_RISE, gravity: KICK_GRAVITY });
+    this.dust.points.visible = false;
+    ctx.scene.add(this.dust.points);
     this.prints.mesh.visible = false;
     ctx.scene.add(this.prints.mesh);
     this.sky.mesh.visible = false;
@@ -208,10 +211,10 @@ export class FilmEngine {
     if (this.active) this.deactivate();
     this.env?.dispose();
     if (ctx) {
-      for (const o of [this.dust?.points, this.ambient?.points, this.prints?.mesh, this.sky.mesh, this.veil, this.sun, this.sun.target, this.hemi]) if (o) ctx.scene.remove(o);
+      for (const o of [this.dust?.points, this.prints?.mesh, this.sky.mesh, this.veil, this.sun, this.sun.target, this.hemi]) if (o) ctx.scene.remove(o);
     }
     this.hoofSound.dispose();
-    this.dust?.dispose(); this.ambient?.dispose(); this.prints?.dispose(); this.sky.dispose(); this.envSky?.dispose();
+    this.dust?.dispose(); this.prints?.dispose(); this.sky.dispose(); this.envSky?.dispose();
     this.envTarget?.dispose();
     this.envTarget = null;
     this.envTexture = null;
@@ -352,9 +355,10 @@ export class FilmEngine {
     }
     const lightTint = new THREE.Color(atm.sunColor).lerp(new THREE.Color(atm.hemiSky), 0.55);
     this.dust?.setLook(env.surface(0, 0).color, lightTint);
-    this.ambient?.setLook(env.surface(0, 0).color, lightTint);
-    this.prints?.setLook(new THREE.Color(env.surface(0, 0).color).multiplyScalar(0.28), env.id === "desert" ? 0.55 : env.id === "campus" ? 0.4 : 0.22, 16);
+    this.prints?.setLook(new THREE.Color(env.surface(0, 0).color).multiplyScalar(0.34), PRINTS.strength[env.id] ?? 0.2, PRINTS.life);
     this.wind.copy(env.wind);
+    // the hair flutters with the wind of the place (metres of sway at the free end)
+    this.ctx?.horse.hair.wind.value.set(env.wind.x * 0.004, 0, env.wind.z * 0.004);
     this.secondary?.setWind(env.wind);
     this.sun.shadow.camera.left = -env.shadowRadius;
     this.sun.shadow.camera.right = env.shadowRadius;
@@ -373,9 +377,9 @@ export class FilmEngine {
     ctx.heroLights.forEach((l) => (l.visible = false));
     // outdoors the coat is graded a touch darker than in the studio, and the sun's warmth stays on the highlights
     ctx.horse.highlight.coat.value.set(0.5, 0.92);
-    ctx.horse.contacts.strength = 0.6; // the sun casts the real shadow; the blobs add the soft occlusion at the sole
+    ctx.horse.contacts.strength = contactBlobStrength(this.quality.shadows); // the sun's shadow is the only shadow; the blobs return only with no cast shadow
     if (ctx.heroShadow) ctx.heroShadow.visible = false;
-    for (const d of [this.dust, this.ambient]) if (d) d.points.visible = true;
+    if (this.dust) this.dust.points.visible = true;
     if (this.prints) this.prints.mesh.visible = true;
     this.sky.mesh.visible = true;
     this.sun.visible = true;
@@ -395,8 +399,9 @@ export class FilmEngine {
     ctx.horse.highlight.coat.value.copy(ctx.horse.highlight.coatHome);
     ctx.horse.contacts.strength = 1;
     ctx.horse.contacts.ground = () => 0;
+    ctx.horse.hair.wind.value.set(0.012, 0, -0.008);
     if (ctx.heroShadow) ctx.heroShadow.visible = true;
-    for (const d of [this.dust, this.ambient]) if (d) { d.points.visible = false; d.clear(); }
+    if (this.dust) { this.dust.points.visible = false; this.dust.clear(); }
     if (this.prints) { this.prints.mesh.visible = false; this.prints.clear(); }
     this.sky.mesh.visible = false;
     this.sun.visible = false;
@@ -549,8 +554,6 @@ export class FilmEngine {
     // snap the shadow frustum to texel steps to avoid crawling
     this.sun.castShadow = this.quality.shadows;
     this.dust?.update(dt, this.wind, ctx.renderer.domElement.height, ctx.camera.fov);
-    this.emitAmbient(dt);
-    this.ambient?.update(dt, this.wind, ctx.renderer.domElement.height, ctx.camera.fov);
     this.prints?.update(this.time);
     this.sky.follow(ctx.camera, this.time);
     void LIMBS;
@@ -579,30 +582,14 @@ export class FilmEngine {
   private applyQuality() {
     const q = this.quality;
     this.dust?.setBudget(Math.floor((this.opts.mobile ? 360 : 720) * q.dust));
-    this.ambient?.setBudget(Math.floor((this.opts.mobile ? 90 : 220) * q.dust));
     this.prints?.setBudget(Math.floor((this.opts.mobile ? 70 : 140) * Math.max(0.5, q.dust)));
     this.sun.castShadow = q.shadows;
+    if (this.ctx && this.active) this.ctx.horse.contacts.strength = contactBlobStrength(q.shadows);
+    this.ctx?.horse.hair.setLod(hairLodForTier(q.tier)); // weak devices drop to fewer locks and one pass
     if (this.sun.shadow.mapSize.x !== q.shadowSize) {
       this.sun.shadow.mapSize.set(q.shadowSize, q.shadowSize);
       this.sun.shadow.map?.dispose();
       this.sun.shadow.map = null;
-    }
-  }
-
-  private emitAmbient(dt: number) {
-    const a = this.ambient;
-    if (!a || !this.loco) return;
-    const rate = (this.env?.id === "desert" ? 26 : 9) * this.quality.dust;
-    let n = rate * dt;
-    while (n > 0) {
-      if (n < 1 && this.rng() > n) break;
-      n -= 1;
-      const p = this.loco.position;
-      const r = 3 + this.rng() * 16;
-      const ang = this.rng() * Math.PI * 2;
-      const x = p.x + Math.cos(ang) * r, z = p.z + Math.sin(ang) * r;
-      const y = (this.env?.terrain.height(x, z) ?? 0) + 0.25 + this.rng() * 2.4;
-      a.emit(x, y, z, this.wind.x * 0.5, 0.05, this.wind.z * 0.5, 0.03 + this.rng() * 0.05, 2.5 + this.rng() * 2.5, 0.5, 0.2);
     }
   }
 
@@ -619,26 +606,26 @@ export class FilmEngine {
     const q = this.quality;
     const dust = this.dust;
     if (!dust || s.dust <= 0) return;
-    const vN = clamp(e.speed / 12, 0, 1);
     const fx = Math.sin(e.heading), fz = Math.cos(e.heading);
-    const gy = (this.env?.terrain.height(e.pos.x, e.pos.z) ?? 0) + 0.04;
     const r = this.rng;
-    if (e.kind === "touchdown") {
-      const n = Math.round((1 + 6 * vN * vN) * s.dust * q.dust * (0.6 + 0.7 * e.impact));
-      for (let i = 0; i < n; i++) {
-        const k = 0.15 + r() * 0.35;
-        dust.emit(e.pos.x, gy, e.pos.z, -fx * e.speed * 0.1 * k + (r() - 0.5) * 0.9, 0.3 + r() * (0.7 + vN * 1.4), -fz * e.speed * 0.1 * k + (r() - 0.5) * 0.9, 0.22 + r() * 0.3, 0.9 + r() * 1.2, (0.16 + r() * 0.2) * s.dust);
+    const gy = (this.env?.terrain.height(e.pos.x, e.pos.z) ?? 0) + 0.02;
+    const kick = (k: Kick, back: number) => {
+      for (let i = 0; i < k.count; i++) {
+        const a = r() * Math.PI * 2;
+        const sp = k.speed[0] + (k.speed[1] - k.speed[0]) * r();
+        // mostly out to the sides and back from the hoof (back = how much of the speed is backward), low and brief
+        const vx = Math.cos(a) * sp * (1 - back) - fx * sp * back, vz = Math.sin(a) * sp * (1 - back) - fz * sp * back;
+        dust.emit(e.pos.x, gy, e.pos.z, vx, k.rise[0] + (k.rise[1] - k.rise[0]) * r(), vz, k.size[0] + (k.size[1] - k.size[0]) * r(), k.life[0] + (k.life[1] - k.life[0]) * r(), k.alpha[0] + (k.alpha[1] - k.alpha[0]) * r(), k.growth);
       }
+    };
+    if (e.kind === "touchdown") {
+      kick(touchdownKick(e.speed, e.impact, s.dust, q.dust), 0.35);
       if (s.prints > 0 && e.speed > 0.25) {
         const n3 = this.env!.terrain.normal(e.pos.x, e.pos.z, this.tmpV);
-        this.prints?.place(e.pos.x, this.env!.terrain.height(e.pos.x, e.pos.z), e.pos.z, e.heading, n3, this.time, e.limb[0] === "F" ? 1 : 0.92);
+        this.prints?.place(e.pos.x, this.env!.terrain.height(e.pos.x, e.pos.z) + this.env!.terrain.facetClearance(e.pos.x, e.pos.z), e.pos.z, e.heading, n3, this.time, e.limb[0] === "F" ? 1 : 0.92);
       }
-    } else if (e.speed > 2.5) {
-      const n = Math.round((1 + 8 * vN * vN) * s.dust * q.dust);
-      for (let i = 0; i < n; i++) {
-        const back = (0.18 + r() * 0.35) * e.speed;
-        dust.emit(e.pos.x, gy + 0.05, e.pos.z, -fx * back + (r() - 0.5) * 1.2, 0.5 + r() * (0.9 + vN * 2.2), -fz * back + (r() - 0.5) * 1.2, 0.14 + r() * 0.22, 0.8 + r() * 1.3, (0.22 + r() * 0.26) * s.dust, 2.0);
-      }
+    } else {
+      kick(liftKick(e.speed, s.dust, q.dust), 0.8);
     }
     void damp;
   }
