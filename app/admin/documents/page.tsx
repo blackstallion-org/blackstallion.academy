@@ -4,7 +4,7 @@ import { requireStaff } from "@/lib/auth/admin";
 import { REFERENCE_PATTERN } from "@/lib/admin/constants";
 import { formatDateTimeIST, type LeadLink } from "@/lib/admin/present";
 import { logAdminError, signDocumentPaths } from "@/lib/admin/server";
-import { AdminNav } from "../AdminNav";
+import { AdminShell } from "../AdminShell";
 
 type DocRow = { id: string; kind: string; title: string; storage_path: string; lead_reference: string | null; created_at: string };
 
@@ -22,8 +22,7 @@ export default async function DocumentsPage() {
   if (leadsRes.error) logAdminError("admin.documents_lead_links_failed", leadsRes.error);
   const leadByRef = new Map(((leadsRes.data ?? []) as LeadLink[]).map((l) => [l.idempotency_key, l]));
   return (
-    <div>
-      <AdminNav name={profile.display_name} current="documents" />
+    <AdminShell name={profile.display_name} current="documents">
       <h1 className="t-voice mt-8 text-[clamp(1.8rem,4vw,3rem)] text-bone">Documents</h1>
       <p className="t-ui mt-2 text-sm text-dust">Draft MOUs generated from requests. Download links expire after five minutes.</p>
       {error && <p role="alert" className="mt-4 text-blood">Documents could not be loaded.</p>}
@@ -49,6 +48,6 @@ export default async function DocumentsPage() {
           );
         })}
       </ul>}
-    </div>
+    </AdminShell>
   );
 }

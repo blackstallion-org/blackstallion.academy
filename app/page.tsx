@@ -6,11 +6,12 @@ import { HomeChronicle, HomeCommand, Finale } from "@/components/sections/home/H
 import { HomeShield, HomeStandings, HomeVerifier } from "@/components/sections/home/HomeConvert";
 import { Instrument } from "@/components/sections/home/Instrument";
 import { LedgerAscent } from "@/components/sections/home/LedgerAscent";
-import { Matrix } from "@/components/sections/home/Matrix";
 import { StoryStrip } from "@/components/sections/home/StoryStrip";
 import { Studbook } from "@/components/sections/home/Studbook";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { Atelier } from "@/components/sections/home/Atelier";
+import { BronzeAndTime } from "@/components/sections/home/BronzeAndTime";
+import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
 /**
@@ -35,23 +36,25 @@ export default function Home() {
       {/* Zone A · Hook */}
       <Hero />
       <div data-home-story><StoryStrip /></div>
+      <FirstRideEditorial />
+      {/* Bronze and Time: the lineage turned into metal, one slow turn around the academy's own Marwari (pinned, scroll-driven). */}
+      <BronzeAndTime />
       <Instrument />
       <HorizontalChapter typeface="western" chapter="The first bond" text="Every ride begins with a moment of trust." />
 
       <Intermission act="citadel" line="Now, the proof." />
 
-      {/* Zone B · Proof */}
-      <Matrix />
+      {/* Zone B · Proof. The Matrix (brain, spine, muscle, heart, the walk) lives on /science, in 3D; it no longer repeats here. */}
       <CrisisCure />
       <Doors />
       <LedgerAscent />
       <Studbook />
-      <PageCurtain page="home" />
       <Atelier />
 
       <Intermission act="ledger" line="Now, the decision." />
 
       {/* Zone C · Convert */}
+      <PageCurtain page="home" />
       <HomeVerifier />
       <HomeStandings />
       <HomeShield />

@@ -25,12 +25,14 @@ export const AUDIT_ENTITIES: readonly { value: string; label: string; types: rea
   { value: "onboarding_leads", label: "Enquiries", types: LEAD_ENTITY_TYPES },
   { value: "generated_documents", label: "Generated documents", types: ["generated_documents"] },
   { value: "media_assets", label: "Website images", types: ["media_assets"] },
+  { value: "member_account", label: "Member accounts", types: ["member_account"] },
 ];
 export const AUDIT_ACTIONS: readonly { value: string; label: string }[] = [
   { value: "lead.submitted", label: "Enquiry received" },
   { value: "row.update", label: "Record changed" },
   { value: "row.insert", label: "Record created" },
   { value: "row.delete", label: "Record deleted" },
+  { value: "member.status_changed", label: "Account reviewed" },
 ];
 
 /** Capture sources the website and the operations flyers write; the filter accepts others too. */

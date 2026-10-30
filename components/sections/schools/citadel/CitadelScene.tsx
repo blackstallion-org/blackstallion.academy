@@ -5,13 +5,15 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { HUB_DATA, LIGHTING_PRESETS, PIN_CONFIGS, HORSE_PATHS } from "./citadelData";
 import { disposeThreeScene } from "@/lib/three-dispose";
+import { detectQualityTier } from "@/lib/3d/device-tier";
+import { sameMarkers, warmUp, watchSize } from "../scene-kit";
 
 export interface CitadelSceneHandle {
   flyTo: (cam: { theta: number; phi: number; radius: number; targetX: number; targetY: number; targetZ: number }, duration?: number) => void;
   replayAssembly: (hub: 'standard' | 'signature' | 'royal') => void;
 }
 
-interface CitadelSceneProps {
+export interface CitadelSceneProps {
   currentHub: 'standard' | 'signature' | 'royal';
   lightingMode: number;
   layerVisibility: {
@@ -24,6 +26,8 @@ interface CitadelSceneProps {
   onAzimuthChange?: (deg: number) => void;
   onPinsUpdate?: (pins: { id: string; x: number; y: number; visible: boolean }[]) => void;
   onSelectFacility?: (facility: string) => void;
+  /** Called once, when the shaders are ready and the first frame has been drawn. */
+  onReady?: () => void;
 }
 
 // Procedural Canvas Textures
@@ -117,13 +121,13 @@ function createCedarLouverTexture(): THREE.CanvasTexture {
 }
 
 export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(function CitadelScene(
-  { currentHub, lightingMode, layerVisibility, onAzimuthChange, onPinsUpdate },
+  { currentHub, lightingMode, layerVisibility, onAzimuthChange, onPinsUpdate, onReady },
   ref
 ) {
   const mountRef = useRef<HTMLDivElement>(null);
   const [unavailable, setUnavailable] = useState(false);
-  const callbacks = useRef({ onAzimuthChange, onPinsUpdate });
-  useEffect(() => { callbacks.current = { onAzimuthChange, onPinsUpdate }; }, [onAzimuthChange, onPinsUpdate]);
+  const callbacks = useRef({ onAzimuthChange, onPinsUpdate, onReady });
+  useEffect(() => { callbacks.current = { onAzimuthChange, onPinsUpdate, onReady }; }, [onAzimuthChange, onPinsUpdate, onReady]);
 
   // References to three.js objects
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -164,9 +168,14 @@ export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(fu
     const ty = camState.current.targetY;
     const tz = camState.current.targetZ;
 
-    const x = tx + camState.current.radius * Math.sin(camState.current.phi) * Math.sin(camState.current.theta);
-    const y = ty + camState.current.radius * Math.cos(camState.current.phi);
-    const z = tz + camState.current.radius * Math.sin(camState.current.phi) * Math.cos(camState.current.theta);
+    // The poses were framed for a landscape stage. On a taller, narrower one (the right-hand column on a laptop, or a
+    // phone) the camera backs off in proportion, so the campus is never cropped at the sides.
+    // (The wide layout asks for more room: the right edge of its stage carries the menu cards.)
+    const fit = Math.min(isMobile ? 2 : 2.6, Math.max(1, (isMobile ? 1.55 : 2.05) / (cameraRef.current.aspect || 1)));
+    const radius = camState.current.radius * fit;
+    const x = tx + radius * Math.sin(camState.current.phi) * Math.sin(camState.current.theta);
+    const y = ty + radius * Math.cos(camState.current.phi);
+    const z = tz + radius * Math.sin(camState.current.phi) * Math.cos(camState.current.theta);
 
     cameraRef.current.position.set(x, y, z);
     cameraRef.current.lookAt(tx, ty, tz);
@@ -245,10 +254,12 @@ export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(fu
     cameraRef.current = camera;
 
     let renderer: THREE.WebGLRenderer;
-    try { renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' }); }
+    // Phones and low-power laptops draw fewer pixels, skip anti-aliasing and use a smaller shadow map; the scene is identical.
+    const lowTier = detectQualityTier() === 'low';
+    try { renderer = new THREE.WebGLRenderer({ antialias: !lowTier, powerPreference: 'high-performance' }); }
     catch { const frame = requestAnimationFrame(() => setUnavailable(true)); return () => cancelAnimationFrame(frame); }
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, lowTier ? 1.25 : 1.5));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -304,8 +315,8 @@ export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(fu
     const sunLight = new THREE.DirectionalLight(0xFFD699, 1.55);
     sunLight.position.set(38, 26, -28);
     sunLight.castShadow = true;
-    sunLight.shadow.mapSize.width = 2048;
-    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.mapSize.width = lowTier ? 1024 : 2048;
+    sunLight.shadow.mapSize.height = lowTier ? 1024 : 2048;
     sunLight.shadow.camera.near = 5;
     sunLight.shadow.camera.far = 130;
     const d = 34;
@@ -778,21 +789,31 @@ export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(fu
       const w = container.clientWidth || window.innerWidth;
       const h = container.clientHeight || window.innerHeight;
       cameraRef.current.aspect = w / h;
+      // On the wide layout the right edge of the stage carries the menu and the site plan, so the picture is shifted left
+      // an eighth of its width to keep the campus clear of them.
+      const shift = window.matchMedia('(min-width: 1024px)').matches ? Math.round(w * 0.12) : 0;
+      if (shift) cameraRef.current.setViewOffset(w, h, shift, 0, w, h);
+      else cameraRef.current.clearViewOffset();
       cameraRef.current.updateProjectionMatrix();
       rendererRef.current.setSize(w, h);
       updateCamera();
     };
-    window.addEventListener('resize', handleResize);
+    // Watches the stage itself, not only the window: its width changes with the layout, and a canvas left at the
+    // size it was first measured at is what cropped the campus.
+    const stopWatching = watchSize(container, handleResize);
 
     // Render loop
     const clock = new THREE.Clock();
     let visible = false;
+    let compiled = false;
+    let disposed = false;
     let lastProjection = 0;
+    let lastPins: { x: number; y: number; visible: boolean }[] | null = null;
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
     observer.observe(container);
     const animate = () => {
       animFrameRef.current = requestAnimationFrame(animate);
-      if (!visible || document.hidden) return;
+      if (!compiled || !visible || document.hidden) return;
       const elapsed = clock.getElapsedTime();
 
       animatedHorsesRef.current.forEach(hMesh => {
@@ -833,12 +854,26 @@ export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(fu
           const py = (-(v.y * 0.5) + 0.5) * ch;
           return { id: pc.id, x: px, y: py, visible };
         });
-        callbacks.current.onPinsUpdate(pins);
+        // Only when a pin has moved: a new array every 80 ms re-rendered this whole section about twelve times a second.
+        if (!sameMarkers(lastPins, pins)) {
+          lastPins = pins;
+          callbacks.current.onPinsUpdate(pins);
+        }
       }
     };
     animate();
 
+    // Compile every shader in the background, draw one frame, then tell the page the scene is ready.
+    void warmUp(renderer, scene, camera).then(() => {
+      if (disposed) return;
+      compiled = true;
+      renderer.render(scene, camera);
+      callbacks.current.onReady?.();
+    });
+
     return () => {
+      disposed = true;
+      stopWatching();
       observer.disconnect();
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       container.removeEventListener('pointerdown', handlePointerDown);
@@ -846,7 +881,6 @@ export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(fu
       window.removeEventListener('pointerup', handlePointerUp);
       window.removeEventListener('pointercancel', handlePointerUp);
       container.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('resize', handleResize);
       if (rendererRef.current?.domElement && container.contains(rendererRef.current.domElement)) {
         container.removeChild(rendererRef.current.domElement);
       }

@@ -13,7 +13,9 @@ export const title = {
   sub: "Marwar is often translated as “the land of death”. It gave India a horse that would not die easily, and would not leave the field.",
 };
 
+/** The museum walk opens the page (chapter 0); the story runs I to X; the last exhibit closes it. */
 export const chapters = [
+  { id: "museum", numeral: "0", name: "The museum" },
   { id: "ocean", numeral: "I", name: "One bloodline" },
   { id: "marwar", numeral: "II", name: "Marwar, 1193" },
   { id: "bred", numeral: "III", name: "Bred by law" },
@@ -24,6 +26,7 @@ export const chapters = [
   { id: "fall", numeral: "VIII", name: "The fall" },
   { id: "revival", numeral: "IX", name: "The revival" },
   { id: "today", numeral: "X", name: "Every cadet rides one" },
+  { id: "exhibit", numeral: "XI", name: "The last exhibit" },
 ] as const;
 
 export const ocean = {

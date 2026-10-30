@@ -98,9 +98,16 @@ export function listPublicMedia(root) {
 export const SITE_ONLY = new Set(["/models/marwari-gaits.json"]);
 
 /**
+ * A video straight inside /media is a git-ignored scratch file (.gitignore: /public/media/*.mp4; .vercelignore keeps it out of
+ * deployments). It can exist on the owner's Mac and never in a clean checkout, so it is never part of the list: the list is then the
+ * same on every computer and in CI, whether or not the scratch file is there (lib/content/media.ts still names hero-loop.mp4).
+ */
+export const localOnly = (p) => /^\/media\/[^/]+\.mp4$/i.test(p);
+
+/**
  * Splits the media folders into files the site can request (`served`) and the rest (`unserved`), and lists references
  * that match no file (`absent`). A file is served if the code names it or a template matches it, except the PNG/JPEG masters
- * in /media whose WebP twin exists (see below).
+ * in /media whose WebP twin exists (see below) and the scratch videos in /media (`localOnly`).
  */
 export function classifyMedia(root) {
   const { exact, patterns } = collectMediaRefs(root);
@@ -116,7 +123,7 @@ export function classifyMedia(root) {
     // requests the twin, so the list is the same on every computer whether or not the masters are present.
     const master = shippedTwin(file.web) !== file.web && byPath.has(shippedTwin(file.web));
     if (named && !master && !CONTENT_TYPES[file.ext] && !SITE_ONLY.has(file.web)) namedButNotUploadable.push(file.web);
-    (named && !master && CONTENT_TYPES[file.ext] ? served : unserved).push(file);
+    (named && !master && !localOnly(file.web) && CONTENT_TYPES[file.ext] ? served : unserved).push(file);
   }
   const absent = [...exact.keys()].filter((p) => !byPath.has(p)).sort();
   const unmatchedPatterns = regexes.filter(({ re }) => !files.some((f) => re.test(f.web))).map(({ glob }) => glob);

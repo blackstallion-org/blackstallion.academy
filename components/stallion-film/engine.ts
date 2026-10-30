@@ -157,6 +157,8 @@ export class FilmEngine {
     this.ctx = ctx;
     this.life = new LifeLayer(ctx.horse);
     this.secondary = new SecondaryMotion(ctx.horse);
+    // the hair shader's own flow (lag, lift, fan) adds to the bone springs above; a little less of it here keeps the two from doubling
+    ctx.horse.hair.flow.value = 0.8;
     this.shots = buildShots();
     this.dust = new DustSystem(this.opts.mobile ? 360 : 720);
     this.ambient = new DustSystem(this.opts.mobile ? 90 : 220);

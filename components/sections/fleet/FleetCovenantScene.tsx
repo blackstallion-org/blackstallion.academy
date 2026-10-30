@@ -96,8 +96,9 @@ export function FleetCovenantScene() {
   const canvasOnScreen = useOnScreen(containerRef);
   const canvasSoon = useNearViewport(containerRef, "300% 0px");
   useEffect(() => { if (canvasSoon) void import("./FleetCovenantCanvas").catch(() => {}); }, [canvasSoon]);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeSceneIndex, setActiveSceneIndex] = useState(0);
+  // Start on the stallion study so the 3D model is present immediately at the top of the Fleet page.
+  const [scrollProgress, setScrollProgress] = useState(0.41);
+  const [activeSceneIndex, setActiveSceneIndex] = useState(2);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -170,18 +171,18 @@ export function FleetCovenantScene() {
           {/* Scene 0: Sky & Prologue Centered Header */}
           {activeSceneIndex === 0 && (
             <div className="pointer-events-auto mx-auto max-w-2xl text-center my-auto transition-opacity duration-700">
-              <span className="font-mono text-[0.75rem] uppercase tracking-[0.3em] text-gold/90 block mb-3">
+              <span className="font-mono text-[0.75rem] uppercase tracking-[0.3em] text-[#e8c47c] block mb-3">
                 PROLOGUE · THE DESERT DAWN
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-light leading-tight tracking-tight text-bone">
-                <span className="block text-sand/90 font-serif italic text-xl sm:text-2xl md:text-3xl mb-1">
+              <h2 className="rounded-sm bg-black/50 px-5 py-4 text-3xl font-display font-light leading-tight tracking-tight text-[#f6efe5] backdrop-blur-sm sm:text-4xl md:text-5xl">
+                <span className="block font-serif text-xl italic text-[#f6efe5]/90 sm:text-2xl md:text-3xl mb-1">
                   Before the command.
                 </span>
-                <span className="block text-gold font-normal">
+                <span className="block text-[#e8c47c] font-normal">
                   The covenant.
                 </span>
               </h2>
-              <p className="mt-4 text-sm sm:text-base leading-relaxed text-sand/80 max-w-lg mx-auto">
+              <p className="mt-4 rounded-sm bg-black/50 px-5 py-3 text-sm leading-relaxed text-[#f6efe5]/90 backdrop-blur-sm sm:text-base max-w-lg mx-auto">
                 Under the quiet sky of dawn, the bond begins not with reins, but with stillness. High above the sand, silence precedes the first step.
               </p>
               <div className="mt-8 flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-[0.25em] text-gold/70 animate-bounce">
@@ -210,27 +211,27 @@ export function FleetCovenantScene() {
                         : "opacity-0 translate-y-6 absolute inset-0 pointer-events-none"
                     )}
                   >
-                    <div className="rounded-none border-l-2 border-gold/70 bg-[#080706]/85 backdrop-blur-md p-4 sm:p-6 shadow-2xl">
+                    <div className="rounded-none border-l-2 border-[#e8c47c] bg-black/90 backdrop-blur-md p-4 sm:p-6 shadow-2xl">
                       <div className="flex items-center gap-2.5">
-                        <span className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-gold font-semibold">
+                        <span className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-[#e8c47c] font-semibold">
                           {scene.reelNumber}
                         </span>
                         <span className="h-px w-4 bg-gold/40" />
-                        <span className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-sand/80">
+                        <span className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-[#f6efe5]/80">
                           {scene.badge}
                         </span>
                       </div>
 
-                      <h2 className="mt-2.5 text-xl sm:text-2xl font-display font-light leading-tight tracking-tight text-bone">
-                        <span className="block text-sand/80 font-serif italic text-sm sm:text-base">
+                      <h2 className="mt-2.5 text-xl sm:text-2xl font-display font-light leading-tight tracking-tight text-[#f6efe5]">
+                        <span className="block text-[#f6efe5]/85 font-serif italic text-sm sm:text-base">
                           {scene.titleInscription}
                         </span>
-                        <span className="block text-gold font-normal">
+                        <span className="block text-[#e8c47c] font-normal">
                           {scene.titleVoice}
                         </span>
                       </h2>
 
-                      <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-sand/90 font-sans">
+                      <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-[#f6efe5]/90 font-sans">
                         {scene.description}
                       </p>
                     </div>

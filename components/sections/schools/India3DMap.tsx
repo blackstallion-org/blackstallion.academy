@@ -1,10 +1,13 @@
 "use client";
 
+import { asset } from "@/lib/content/asset";
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import * as THREE from "three";
 import { useInView } from "motion/react";
 import { disposeThreeScene } from "@/lib/three-dispose";
 import gsap from "gsap";
+import { detectQualityTier } from "@/lib/3d/device-tier";
+import { sameMarkers, warmUp, watchSize } from "./scene-kit";
 
 // ============================================================================
 // GEOGRAPHIC DATA & 6 BSAH REGIONAL CIRCUITS (SOVEREIGN PAN-INDIA NETWORK)
@@ -265,6 +268,19 @@ function evaluateIndiaDEM(lat: number, lon: number): number {
   return Math.min(1.0, elev);
 }
 
+/** The area the relief textures cover. */
+const RELIEF_BOUNDS = { minLat: 4.0, maxLat: 38.0, minLon: 64.0, maxLon: 98.0 };
+
+/**
+ * The relief textures are the output of buildSubcontinentTextures() below, rendered once and saved as images
+ * (scripts/bake-india-textures.mjs). Filling the 1024 x 1024 grids pixel by pixel took about a second on a laptop and
+ * about four on a phone, all of it on the main thread, which is why this page used to freeze on arrival. They now
+ * load like any other image (86 KB together). The function stays as the source of truth for the images and as the
+ * fallback if they cannot be loaded.
+ */
+const RELIEF_COLOR_URL = asset("/images/schools/india-relief-color.webp");
+const RELIEF_BUMP_URL = asset("/images/schools/india-relief-bump.webp");
+
 function buildSubcontinentTextures() {
   const width = 1024;
   const height = 1024;
@@ -433,15 +449,23 @@ interface India3DMapProps {
   activeCircuitId?: string;
   onSelectCircuit?: (circuit: RegionalCircuit) => void;
   className?: string;
+  /** Called once, when the shaders are ready and the first frame has been drawn. */
+  onReady?: () => void;
 }
 
 export function India3DMap({
   activeCircuitId = "01",
   onSelectCircuit,
   className = "",
+  onReady,
 }: India3DMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const nearViewport = useInView(containerRef, { once: true, margin: "250px" });
+  // Builds a screen ahead of the panel, so the model is drawn by the time it is reached.
+  const nearViewport = useInView(containerRef, { once: true, margin: "100% 0px" });
+  const onReadyRef = useRef(onReady);
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
   const [selection, setSelection] = useState({ source: activeCircuitId, id: activeCircuitId });
   const selectedCircuit = selection.source === activeCircuitId ? selection.id : activeCircuitId;
   const [activeStage, setActiveStage] = useState<"orbit" | "relief" | "circuits">("circuits");
@@ -483,13 +507,15 @@ export function India3DMap({
 
     let renderer: THREE.WebGLRenderer;
     try {
+      // Phones and low-power laptops draw fewer pixels and skip anti-aliasing; the scene is identical.
+      const lowTier = detectQualityTier() === "low";
       renderer = new THREE.WebGLRenderer({
-        antialias: true,
+        antialias: !lowTier,
         alpha: true,
         powerPreference: "high-performance",
       });
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, lowTier ? 1.25 : 1.5));
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFShadowMap;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -518,7 +544,25 @@ export function India3DMap({
     scene.add(ambientLight, hemiLight, sunLight);
 
     // 3. Build Geometries
-    const { colorTex, bumpTex, minLat, maxLat, minLon, maxLon } = buildSubcontinentTextures();
+    const { minLat, maxLat, minLon, maxLon } = RELIEF_BOUNDS;
+    const colorTex = new THREE.Texture();
+    const bumpTex = new THREE.Texture();
+    colorTex.anisotropy = 4;
+    const imageLoader = new THREE.ImageLoader();
+    const texturesLoaded = Promise.all([imageLoader.loadAsync(RELIEF_COLOR_URL), imageLoader.loadAsync(RELIEF_BUMP_URL)])
+      .then(([color, bump]) => {
+        colorTex.image = color;
+        bumpTex.image = bump;
+      })
+      .catch(() => {
+        const built = buildSubcontinentTextures();
+        colorTex.image = built.colorTex.image;
+        bumpTex.image = built.bumpTex.image;
+      })
+      .then(() => {
+        colorTex.needsUpdate = true;
+        bumpTex.needsUpdate = true;
+      });
 
     // Curved Earth Sphere
     const earthGeo = new THREE.SphereGeometry(EARTH_RADIUS - 0.08, 64, 64);
@@ -718,13 +762,16 @@ export function India3DMap({
 
     // Render & Projection Loop
     let visible = false;
+    let compiled = false;
+    let disposed = false;
     let lastProjection = 0;
+    let lastMarkers: { x: number; y: number; visible: boolean }[] | null = null;
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
     observer.observe(container);
     const projVec = new THREE.Vector3();
     const animate = () => {
       animFrameRef.current = requestAnimationFrame(animate);
-      if (!visible || document.hidden) return;
+      if (!compiled || !visible || document.hidden) return;
 
       // Project 3D circuit anchors to 2D screen positions
       if (containerRef.current && cameraRef.current && performance.now() - lastProjection > 80) {
@@ -747,12 +794,24 @@ export function India3DMap({
             visible: isVisible,
           };
         });
-        setProjectedMarkers(nextMarkers);
+        if (!sameMarkers(lastMarkers, nextMarkers)) {
+          lastMarkers = nextMarkers;
+          setProjectedMarkers(nextMarkers);
+        }
       }
 
       renderer.render(scene, camera);
     };
     animate();
+
+    // Compile every shader in the background and wait for the relief images, draw one frame, then tell the page the
+    // scene is ready.
+    void Promise.all([warmUp(renderer, scene, camera), texturesLoaded]).then(() => {
+      if (disposed) return;
+      compiled = true;
+      renderer.render(scene, camera);
+      onReadyRef.current?.();
+    });
 
     const handleResize = () => {
       if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
@@ -761,11 +820,13 @@ export function India3DMap({
       cameraRef.current.aspect = w / h;
       cameraRef.current.updateProjectionMatrix();
       rendererRef.current.setSize(w, h);
+      if (compiled) rendererRef.current.render(scene, camera);
     };
-    window.addEventListener("resize", handleResize);
+    const stopWatching = watchSize(container, handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      disposed = true;
+      stopWatching();
       canvasEl.removeEventListener("pointerdown", handleDown);
       window.removeEventListener("pointermove", handleMove);
       window.removeEventListener("pointerup", handleUp);

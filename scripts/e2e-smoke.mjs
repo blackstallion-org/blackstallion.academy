@@ -198,24 +198,44 @@ try {
     await context.close();
   });
 
-  // ---- homepage film frame: the film's own ratio at every width, controls attached under the frame
-  await check("hero film: scope ratio frame (no black bars) with attached controls at 360/390/430/1440", async () => {
+  // ---- homepage film: it fills the first screen (HeroFilm.tsx). The frame is 1.28 screens wide (1.3 on a phone), centred, in the film's
+  // own 1606:900 shape, so the title cards run across it whole; its soft top and bottom (a mask) dissolve the baked-in bars into the
+  // dark; on a phone dust fills the dark around the band; the controls sit on the foot of the screen, nothing in the top 80 px.
+  await check("hero film: fills the first screen, centred frame in the film's shape, controls on the foot of the screen at 360/390/430/1440", async () => {
     const out = [];
     for (const [w, h] of [[360, 740], [390, 844], [430, 932], [1440, 900]]) {
       const { page, context } = await newPage({ width: w, height: h });
       await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
       await page.waitForTimeout(800);
       const m = await page.evaluate(() => {
-        const frame = document.querySelector("#top > div");
-        const bar = frame?.nextElementSibling;
-        const f = frame.getBoundingClientRect(), b = bar.getBoundingClientRect();
-        return { fw: f.width, fh: f.height, ftop: f.top, fbottom: f.bottom, btop: b.top, vw: window.innerWidth };
+        const rect = (el) => { const r = el.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, w: r.width, h: r.height }; };
+        const section = document.querySelector("section#top");
+        const frame = section.querySelector("video").parentElement;
+        const dust = section.firstElementChild;
+        const style = getComputedStyle(frame);
+        return {
+          vw: window.innerWidth,
+          section: rect(section),
+          frame: rect(frame),
+          controls: rect(section.querySelector("[data-sound]")),
+          interactiveTops: [...section.querySelectorAll("button, a")].map((el) => el.getBoundingClientRect().top),
+          dustDisplay: getComputedStyle(dust).display,
+          dust: rect(dust),
+          mask: style.maskImage !== "none" || style.webkitMaskImage !== "none",
+        };
       });
-      assert.ok(Math.abs(m.fw - m.vw) <= 1, `${w}: frame spans the viewport`);
-      assert.ok(Math.abs(m.fh - (m.fw * 518) / 1284) <= 2, `${w}: frame ratio ${m.fw}x${m.fh}`);
-      assert.ok(Math.abs(m.btop - m.fbottom) <= 1, `${w}: control bar attached to the frame`);
-      assert.ok(m.ftop >= 63, `${w}: frame starts below the fixed navigation`);
-      out.push(`${w}:${Math.round(m.fh)}px`);
+      assert.ok(Math.abs(m.section.top) <= 1 && Math.abs(m.section.h - Math.max(h, 540)) <= 2, `${w}: the film section fills the first screen (${Math.round(m.section.h)}px of ${h})`);
+      const wanted = w < 768 ? 1.3 * m.vw : 1.28 * m.section.w;
+      assert.ok(Math.abs(m.frame.w - wanted) <= 2, `${w}: frame is 1.28 screens wide (1.3 on a phone): ${Math.round(m.frame.w)} not ${Math.round(wanted)}`);
+      assert.ok(Math.abs(m.frame.h - (m.frame.w * 900) / 1606) <= 2, `${w}: frame ratio ${Math.round(m.frame.w)}x${Math.round(m.frame.h)}`);
+      assert.ok(Math.abs((m.frame.left + m.frame.right) / 2 - m.vw / 2) <= 1, `${w}: frame centred across the screen`);
+      assert.ok(Math.abs((m.frame.top + m.frame.bottom) / 2 - (m.section.top + m.section.bottom) / 2) <= 1, `${w}: frame centred down the screen`);
+      assert.ok(m.mask, `${w}: the frame's soft top and bottom (mask) are in place`);
+      assert.ok(Math.abs(m.controls.bottom - m.section.bottom) <= 1 && m.controls.top > m.section.top + m.section.h / 2, `${w}: controls on the foot of the screen`);
+      assert.ok(m.interactiveTops.length > 0 && m.interactiveTops.every((top) => top >= 80), `${w}: nothing to press in the top 80 px (${m.interactiveTops.map(Math.round).join(", ")})`);
+      if (w < 768) assert.ok(m.dustDisplay !== "none" && Math.abs(m.dust.w - m.vw) <= 1 && Math.abs(m.dust.h - m.section.h) <= 1, `${w}: dust fills the dark around the band on a phone`);
+      else assert.equal(m.dustDisplay, "none", `${w}: no dust layer on a wide screen`);
+      out.push(`${w}:${Math.round(m.frame.h)}px`);
       await context.close();
     }
     return out.join(" ");

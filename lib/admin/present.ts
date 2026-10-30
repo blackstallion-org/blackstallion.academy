@@ -209,6 +209,7 @@ const isLeadEntity = (entityType: string) => (LEAD_ENTITY_TYPES as readonly stri
 
 export function auditActionLabel(action: string, entityType: string): string {
   if (action === "lead.submitted") return "Enquiry received";
+  if (action === "member.status_changed") return "Account reviewed";
   if (action === "row.update") return isLeadEntity(entityType) ? "Enquiry updated" : entityType === "generated_documents" ? "Document changed" : "Record changed";
   if (action === "row.insert") return entityType === "generated_documents" ? "Document generated" : entityType === "media_assets" ? "Image uploaded" : "Record created";
   if (action === "row.delete") return entityType === "media_assets" ? "Image deleted" : isLeadEntity(entityType) ? "Enquiry deleted" : "Record deleted";

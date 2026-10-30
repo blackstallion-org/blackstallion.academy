@@ -1,0 +1,81 @@
+/*
+ * The invitation palette and its quiet controls, shared (first used by the /schools presentation box).
+ * Put `theme` on a section to get the tokens; `OutlineButton` and `LineLink` read them. Gold is an accent here, never a fill.
+ *   obsidian #171916 · ivory #F3EFE5 · antique brass #B69A64 · deep forest #24352B · saddle leather #815B43
+ */
+
+.theme {
+  --inv-obsidian: var(--color-charcoal);
+  --inv-ivory: #f3efe5;
+  --inv-brass: #b69a64;
+  --inv-forest: var(--color-leather); /* was a black-green; the brand has no green (30 Oct 2026) */
+  --inv-leather: #815b43;
+  --inv-line: color-mix(in srgb, var(--inv-brass) 28%, transparent);
+  --inv-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* a fine underline that draws in from the left */
+.line {
+  display: inline-block;
+  padding-bottom: 0.4rem;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.55s var(--inv-ease, ease), color 0.35s ease;
+}
+
+.button {
+  min-height: 2.75rem;
+  padding: 0.9rem 1.6rem;
+  border: 1px solid var(--inv-brass, currentColor);
+  background: transparent;
+  color: var(--inv-brass, currentColor);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.35s ease, background-color 0.35s ease;
+}
+
+.button .line {
+  padding-bottom: 0;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: color-mix(in srgb, var(--inv-brass, currentColor) 10%, transparent);
+  color: var(--inv-ivory, currentColor);
+}
+
+.button:hover .line,
+.button:focus-visible .line,
+.link:hover,
+.link:focus-visible {
+  background-size: 100% 1px;
+}
+
+.link {
+  color: var(--inv-ivory, currentColor);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.link:hover {
+  color: var(--inv-brass, currentColor);
+}
+
+.caption {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--inv-ivory, currentColor) 55%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line,
+  .button {
+    transition: none;
+  }
+}

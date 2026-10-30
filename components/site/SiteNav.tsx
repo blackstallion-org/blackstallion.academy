@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useLenis } from "lenis/react";
@@ -26,8 +27,8 @@ export function SiteNav() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
-  /* Over dark hero scenes (home, science, why, schools, cadets, statue, equipment), the bar reads light-on-dark; everywhere else it is ivory and ink. */
-  const isDarkHero = ["/", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment"].includes(pathname);
+  /* Over dark hero scenes (home, science, why, schools, cadets, statue, equipment, and the marble-to-living-horse openings of anatomy, curriculum and parents), the bar reads light-on-dark; everywhere else it is ivory and ink. */
+  const isDarkHero = ["/", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment", "/anatomy", "/curriculum", "/parents"].includes(pathname);
   const overFilm = isDarkHero && !solid;
 
   useMotionValueEvent(scrollY, "change", (y) => {
@@ -42,9 +43,8 @@ export function SiteNav() {
         className={cn(
           "no-print fixed inset-x-0 top-0 z-[60] transition-colors duration-500",
           overFilm && "tone-dark",
-          solid
-            ? "border-b border-line/60 bg-night/95"
-            : "bg-gradient-to-b from-night/90 via-night/55 to-transparent",
+          // A solid brand surface with a hairline rule in every state, so the bar stays legible over light sections.
+          "border-b border-line/60 bg-night",
         )}
         animate={{ y: hidden ? "-110%" : "0%" }}
         transition={{ duration: 0.6, ease: ease.citadel }}
@@ -80,6 +80,14 @@ export function SiteNav() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <Link
+              href="/admin/login"
+              aria-label="Staff sign-in"
+              title="Staff sign-in"
+              className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line text-bone transition-colors hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            >
+              <UserRound size={18} strokeWidth={1.5} aria-hidden />
+            </Link>
             <SoundToggle />
             <Link
               href={navCta.href}

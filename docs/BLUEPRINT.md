@@ -269,6 +269,9 @@ Each section is built from one archetype. **Rule:** an archetype may appear once
 | S67 | ASCII ripple | Photo re-set as characters; the pointer ripples it (frost, crisis side) | Why §1b |
 | S68 | Curtain day | Pinned chapters that slide over one another; titles rise letter by letter | Parents §1b |
 | S69 | Depth ribbon | Frames winding past in 3D depth as you scroll | About §2a |
+| S70 | Museum corridor | A sticky 3D hall walked by scrolling: six plates on the walls, camera on waypoints, chapter nav and a label per plate | Legend "The museum" |
+| S71 | Cloaked stallion | The Marwari model whose coat dissolves to glass under the pointer (hover / press-hold / pin) | Legend "The last exhibit" |
+| S72 | Lantern relight | A photograph lit like a relief by the pointer: raking light, self-shadow (neural depth map) | Fleet "Light the stallion", Anatomy "Read it in stone" (mirrored) |
 
 Treatments (not archetypes; may repeat): **FilmNoise** (projected-film grain/dust/scratches: home act cards, Legend ch. VIII), **EmberTrail** (mouse-only ember trail: home act cards only), **BrassBorder** (travelling point of light on the one primary CTA: home finale), **SealRing** (turning seal legend around the crest: footer), **VelocityMarquee** (inside S63). All live in `components/motion/fx/` and honour reduced motion.
 
@@ -551,6 +554,8 @@ Long-read in eleven chapters with a sticky chapter rail (S16). Written fresh fro
 
 ---
 
+**Added 25 Oct 2026 · The museum and the last exhibit** (S70, S71). After the chapters, a dark scene (`tone-dark`) takes the visitor through *The Marwari: a museum of the horse*: six plates from the story above (the desert, the tips that touch, "Victory. Death. Or home.", the leap from the wall, the cart, the revival), each labelled with its chapter and its basis (folklore is marked as folklore; the images say "Illustration (placeholder art)"). It ends at *The last exhibit*, the Marwari under the cloak. Reduced motion or no WebGL: a short note and the six plates as a plain catalogue. Content: `lib/content/museum.ts`, `lib/content/exhibit.ts`. Technique sources and licences: `docs/THIRD_PARTY.md`.
+
 ### R02 · The Instrument `/anatomy` (Act I)
 
 Content: `lib/content/anatomy.ts`.
@@ -768,6 +773,8 @@ Microchip note: ISO 11784/11785, 15 digits, read at the stall door.
 **End card** → REEL 07 · The Hall of Valour
 
 ---
+
+**Added 25 Oct 2026 · Light the stallion** (S72). A dark scene on the studbook page: the pointer is a lantern over a portrait of Chetak IX, Veer or Zilzal. Profiles and character names stay SAMPLE. Keyboard users steer the lantern with the arrow keys; reduced motion shows one fixed lighting. Content: `lib/content/relight.ts`.
 
 ### R07 · The Hall of Valour `/cadets` (Act II)
 

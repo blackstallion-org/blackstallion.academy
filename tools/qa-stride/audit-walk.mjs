@@ -1,0 +1,20 @@
+// Audit of the authored Walk clip (clip list, cadence, seat movement, hoof toe paths) on the exhibit model. Run: PLAYWRIGHT_CORE=... node audit-walk.mjs (needs the dev server).
+import { createRequire } from "node:module";
+import fs from "node:fs";
+import path from "node:path";
+const require = createRequire(process.env.PLAYWRIGHT_CORE.replace(/\/?$/, "/"));
+const { chromium } = require("playwright-core");
+const here = path.dirname(new URL(import.meta.url).pathname);
+const html = fs.readFileSync(path.join(here, "audit-walk.html"), "utf8");
+const BIN = path.join(process.env.HOME, "Library/Caches/ms-playwright/chromium_headless_shell-1248/chrome-headless-shell-mac-arm64/chrome-headless-shell");
+const browser = await chromium.launch({ executablePath: BIN, headless: true, args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+const page = await browser.newPage();
+page.on("console", (m) => { if (m.type() === "error") console.log("[console error]", m.text()); });
+page.on("pageerror", (e) => console.log("[pageerror]", e.message));
+await page.route("http://localhost:3100/__audit__.html", (r) => r.fulfill({ status: 200, contentType: "text/html", body: html }));
+await page.goto("http://localhost:3100/__audit__.html");
+await page.waitForFunction(() => window.__ready, null, { timeout: 30000 });
+const out = await page.evaluate(() => window.__audit({ N: 960 }));
+fs.writeFileSync(path.join(here, "audit-walk.json"), JSON.stringify(out, null, 1));
+await browser.close();
+console.log("ok", Object.keys(out).join(","));
