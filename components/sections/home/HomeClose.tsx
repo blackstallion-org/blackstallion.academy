@@ -12,7 +12,7 @@ import { posts } from "@/lib/content/journal";
 import { corridors, entity } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
-import { DeckCorners, DeckFrame, DeckLockup } from "@/components/film/Deck";
+import { BrassBorder } from "@/components/motion/fx/BrassBorder";
 
 /** §13 Command AI · S13 terminal. Signature: the question types itself, the answer streams in. */
 export function HomeCommand() {
@@ -77,60 +77,80 @@ export function HomeChronicle() {
   );
 }
 
-/**
- * §15 Finale · the closing slide (30 Oct 2026, after the owner's references: the "contacts" slide). The dune still full-bleed in
- * a dark panel on the ivory margin, one lockup in the centre, the three doors as text links beneath it, the e-mail corridors and
- * the motto in the corners. Was a stack of boxed buttons and e-mail chips.
- */
+/** §15 Finale · S15 The Arena is Open · Stealth Bomber & Snow Gallop Finale */
 export function Finale() {
   return (
-    <section aria-label="The arena is open">
-      <DeckFrame>
-        <div className="relative flex min-h-[92svh] flex-col items-center justify-center overflow-hidden px-6 pb-60 pt-28 md:pb-36">
-          <FilmImage name="duneSilhouette" grade="deep" sizes="100vw" />
-          <div aria-hidden className="absolute inset-0 bg-night/45" />
-          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_45%,transparent_0%,color-mix(in_srgb,var(--color-night)_75%,transparent)_100%)]" />
-
-          <DeckLockup as="h2" caps="The arena" script="is open." left="Reel 16" right="The gate" sub={finale.voice} className="relative z-10" />
-
-          <ul className="relative z-10 mt-10 flex flex-wrap justify-center gap-x-8 gap-y-4">
-            {finale.ctas.map((c, i) => (
-              <li key={c.href}>
-                <Link
-                  href={c.href}
-                  className={cn(
-                    "label group inline-flex items-center gap-3 border-b pb-1.5 transition-colors hover:border-gold hover:text-gold",
-                    i === 0 ? "border-gold text-gold" : "border-line text-bone",
-                  )}
-                >
-                  {c.label}
-                  <Arrow className="transition-transform group-hover:translate-x-1" />
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <DeckCorners tag={entity.motto} />
-          <div className="absolute inset-x-0 bottom-0 z-20 flex flex-wrap items-end justify-between gap-x-10 gap-y-5 p-[clamp(20px,3vw,40px)]">
-            <p className="t-ui max-w-[16rem] text-xs leading-relaxed text-sand">
-              {entity.mottoEn}.{" "}
-              <Link href="/legend" className="whitespace-nowrap text-gold underline decoration-line underline-offset-4 hover:text-bone">
-                Begin at reel one
-              </Link>
-            </p>
-            <ul className="t-ui flex flex-col gap-1 text-xs text-sand md:items-end">
-              {corridors.map((c) => (
-                <li key={c.id}>
-                  <span className="text-dust">{c.title}:</span>{" "}
-                  <a href={`mailto:${c.email}`} className="hover:text-gold">
-                    {c.email}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </DeckFrame>
+    <section aria-label="The arena is open" className="relative tone-dark surface-leather min-h-[100svh] overflow-hidden bg-night">
+      <FinaleFrame />
     </section>
+  );
+}
+
+function FinaleFrame({ inline = false }: { inline?: boolean }) {
+  return (
+    <div className={cn("relative min-h-[100svh] w-full flex items-center justify-center py-12 md:py-16 overflow-hidden bg-night", inline && "min-h-full py-0")}>
+      {/* Edge-to-edge full screen cinematic background image */}
+      <FilmImage name="duneSilhouette" grade="deep" className="opacity-100" />
+
+      {/* Minimized, Elegant Editorial Content */}
+      <div data-home-final-copy className="relative mx-auto max-w-3xl px-6 py-8 text-center z-20 flex flex-col items-center">
+        {/* Minimized Inscription */}
+        <p data-home-final-intro className="font-mono text-[0.68rem] sm:text-xs tracking-[0.3em] uppercase text-gold/90 mb-2 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+          {finale.inscription}
+        </p>
+
+        {/* Minimized, Refined Headline */}
+        <h2 data-home-phrase data-home-final-title className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-bone tracking-tight leading-snug [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] max-w-xl mx-auto">
+          {finale.voice}
+        </h2>
+
+        {/* Action Buttons - Sleek, Compact Luxury Pills */}
+        <div data-home-detail className="mt-8 flex flex-wrap justify-center gap-3">
+          {finale.ctas.map((c, i) =>
+            i === 0 ? (
+              <BrassBorder key={c.href} as={Link} href={c.href} className="tone-dark group bg-night px-5 py-3 text-bone sm:px-7 sm:py-4">
+                <span>{c.label}</span>
+                <Arrow className="transition-transform group-hover:translate-x-1" />
+              </BrassBorder>
+            ) : (
+              <Link
+                key={c.href}
+                href={c.href}
+                className="tone-dark label group inline-flex items-center gap-3 border border-line bg-night/85 px-5 py-3 text-sand transition-colors hover:border-gold hover:text-bone sm:px-7 sm:py-4"
+              >
+                <span>{c.label}</span>
+                <Arrow className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            ),
+          )}
+        </div>
+
+        {/* Email Corridors - Clean Compact Micro Pills */}
+        <ul className="mt-5 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+          {corridors.map((c) => (
+            <li key={c.id}>
+              <a
+                href={`mailto:${c.email}`}
+                className="inline-block border border-line bg-night/80 px-3 py-1 font-mono text-[0.66rem] tracking-wider text-sand transition-colors hover:border-gold hover:text-gold"
+              >
+                {c.email}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* Motto & Reel One Link */}
+        <p className="mt-5 font-serif italic text-xs sm:text-sm text-sand/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
+          {entity.motto}. {entity.mottoEn}.
+        </p>
+        <Link
+          href="/legend"
+          className="mt-2 inline-flex min-h-6 items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.22em] text-gold hover:text-bone transition-colors"
+        >
+          <span>Begin at reel one</span>
+          <Arrow />
+        </Link>
+      </div>
+    </div>
   );
 }

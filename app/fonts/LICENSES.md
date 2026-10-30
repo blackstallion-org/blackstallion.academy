@@ -34,9 +34,3 @@ Replaces the condensed blackletter display voice (Pirata One) and the condensed 
 | plus-jakarta-sans-latin-wght-{normal,italic}.woff2 | Plus Jakarta Sans (variable: wght 200–800) | Labels, navigation, buttons, controls and supporting UI text | @fontsource-variable/plus-jakarta-sans 5.3.0 · `plus-jakarta-sans-LICENSE.txt` |
 
 Newsreader stays as the long-form reading serif and Martian Mono for codes. Kalnia, Mona Sans and the reference display faces stay in the repository but are no longer preloaded or referenced by the type tokens.
-
-## Deck script — 30 October 2026
-
-| File | Family | Role | Source |
-| --- | --- | --- | --- |
-| pinyon-script-latin-400-normal.woff2 | Pinyon Script 400 | The one script word in deck lockups (`.t-script`: end cards, act breaks) | @fontsource/pinyon-script 5.3.0 · SIL OFL 1.1 · `pinyon-script-LICENSE.txt` |

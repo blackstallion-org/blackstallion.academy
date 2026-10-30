@@ -226,15 +226,6 @@
     letter-spacing: -0.015em;
   }
 
-  /* Deck script (30 Oct 2026): the one calligraphic word in a lockup, woven through the capitals. Never for body or labels. */
-  .t-script {
-    font-family: var(--font-pinyon), "Snell Roundhand", cursive;
-    font-weight: 400;
-    font-style: normal;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
   /* Animated display copy uses the same editorial pair (previously a condensed blackletter). */
   .headline-motion-font :is(.t-inscribe, .t-voice) {
     font-family: var(--font-display);
