@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+import { EnquiryBento } from "@/components/sections/admin/dashboard/EnquiryBento";
 import { LiveDashboard } from "@/components/sections/admin/dashboard/LiveDashboard";
 import { sampleNow } from "@/lib/admin/sample";
 import { AdminShell } from "@/app/admin/AdminShell";
@@ -20,10 +21,12 @@ export const metadata: Metadata = { title: "Overview preview (SAMPLE)", robots: 
 export default async function AdminDashboardPreview() {
   if (process.env.NODE_ENV === "production") notFound();
   await connection();
+  const sample = sampleNow();
   return (
     <section data-parallax-skip className="gutter min-h-[80svh] bg-night pb-24 pt-28 md:pt-32">
       <AdminShell name="Preview" current="overview">
-        <LiveDashboard initial={sampleNow()} refresh={refreshSample} intervalMs={6000} />
+        <EnquiryBento snapshot={sample} nowMs={Date.parse(sample.generatedAt)} />
+        <LiveDashboard initial={sample} refresh={refreshSample} intervalMs={6000} />
       </AdminShell>
     </section>
   );

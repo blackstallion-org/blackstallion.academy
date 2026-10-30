@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
 import { CircuitTitle, FixtureBoard, Podium, StandingsLanes, TournamentActionGallery } from "@/components/sections/tournaments/TournamentScenes";
+import { CrowdGallery } from "@/components/sections/tournaments/CrowdGallery";
 import { PegRun } from "@/components/sections/tournaments/PegRun";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
@@ -20,6 +21,7 @@ export default function TournamentsPage() {
       <PegRun />
       <HorizontalChapter typeface="western" chapter="Before the field" text="Precision begins before the starting line." />
       <TournamentActionGallery />
+      <CrowdGallery />
       <Podium />
       <ReplayHeadline typeface="condensed" id="tournaments-replay" label="The circuit doctrine" text="Victory belongs to the disciplined rein." tone="dark" defaultMode="words" />
       <EndCard current={13} />

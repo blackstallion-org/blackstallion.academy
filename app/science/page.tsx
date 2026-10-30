@@ -4,6 +4,7 @@ import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { ComparisonLedger, ScienceTitle } from "@/components/sections/science/ScienceScenes";
+import { RobotScene } from "@/components/sections/science/RobotScene";
 import { DualBody } from "@/components/sections/anatomy/DualBody";
 import { StrideExperience } from "@/components/stride/StrideExperience";
 import { claims, comparison, statusColor } from "@/lib/content/science";
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 export default function SciencePage() {
   return (
     <>
+      <RobotScene />
       <ScienceTitle />
       {/* The two studies that used to be flat 2D plates (the brain, spine, muscle and heart panel, and the "hundred steps" photograph)
           are the 3D versions now: the rider and the horse with their systems, then the stride laboratory. */}

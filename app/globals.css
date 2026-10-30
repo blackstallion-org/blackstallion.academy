@@ -72,6 +72,31 @@
 
   --ease-citadel: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-film: cubic-bezier(0.7, 0, 0.2, 1);
+
+  /* Console surface names used by the staff dashboard's chart components (components/ui/analytics-bento.tsx).
+     They are aliases of the role tokens above, so they follow `.tone-dark` like everything else. */
+  --color-background: var(--color-night);
+  --color-foreground: var(--color-bone);
+  --color-card: var(--color-ember);
+  --color-card-foreground: var(--color-bone);
+  --color-popover: var(--color-ember);
+  --color-popover-foreground: var(--color-bone);
+  --color-muted: var(--color-umber);
+  --color-muted-foreground: var(--color-dust);
+  --color-border: var(--color-line);
+  --color-ring: var(--color-gold);
+
+  /* The raking light that sweeps in behind a dark 3D stage (components/ui/spotlight.tsx). */
+  --animate-spotlight: spotlight 2s var(--ease-citadel) 0.75s 1 forwards;
+  @keyframes spotlight {
+    from { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+    to   { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+  }
+}
+
+/* Reduced motion: the light is simply there, it does not sweep. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spotlight { animation: none; opacity: 1; transform: translate(-50%, -40%) scale(1); }
 }
 
 @theme inline {

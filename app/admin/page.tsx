@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { connection } from "next/server";
 import { requireStaff } from "@/lib/auth/admin";
 import { loadOverview } from "@/lib/admin/overview-server";
+import { EnquiryBento } from "@/components/sections/admin/dashboard/EnquiryBento";
 import { LiveDashboard } from "@/components/sections/admin/dashboard/LiveDashboard";
 import { AdminShell } from "./AdminShell";
 import { refreshOverview } from "./overview-actions";
@@ -25,6 +26,7 @@ export default async function AdminOverview({ searchParams }: PageProps<"/admin"
   const initial = await loadOverview(supabase);
   return (
     <AdminShell name={profile.display_name} current="overview">
+      <EnquiryBento snapshot={initial} nowMs={Date.parse(initial.generatedAt)} />
       <LiveDashboard initial={initial} refresh={refreshOverview} />
     </AdminShell>
   );

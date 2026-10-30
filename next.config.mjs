@@ -35,14 +35,17 @@ const MEDIA_BASE = parseMediaBase(process.env.NEXT_PUBLIC_MEDIA_BASE_URL);
 const MEDIA_BASE_URL = MEDIA_BASE ? new URL(MEDIA_BASE) : null;
 // Higgsfield CDN media, plus the project's Supabase Storage for images uploaded through the staff console (and the media bucket).
 const MEDIA = [...new Set(["https://d8j0ntlcm91z4.cloudfront.net", "https://d2ol7oe51mr4n9.cloudfront.net", "https://images.higgs.ai", SUPABASE_ORIGIN, MEDIA_BASE_URL?.origin].filter(Boolean))];
+// Spline hosts the 3D scene on /science (components/ui/splite.tsx): the scene file and its textures come from prod/assets,
+// and the runtime fetches two WebAssembly files of its own. unpkg is narrowed to Spline's own packages by path.
+const SPLINE = ["https://prod.spline.design", "https://assets.spline.design", "https://cdn.spline.design", "https://unpkg.com/@splinetool/"];
 const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
-  `img-src 'self' data: blob: ${MEDIA.join(" ")}`,
+  `img-src 'self' data: blob: ${MEDIA.join(" ")} ${SPLINE.join(" ")}`,
   `media-src 'self' blob: ${MEDIA.join(" ")}`,
-  `connect-src 'self' blob: data: ${MEDIA.join(" ")} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self' blob: data: ${MEDIA.join(" ")} ${SPLINE.join(" ")} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
   "frame-src 'self' https://challenges.cloudflare.com",
   "frame-ancestors 'none'",
