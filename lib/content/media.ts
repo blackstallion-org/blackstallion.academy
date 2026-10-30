@@ -129,6 +129,7 @@ export const media = {
   covenantEye: m("covenant-eye.png", "hf_20261028_165311_6e109eee-9e49-4762-a1d4-8ee31ce8c952.png", "Close on a black Marwari stallion's eye and the curved tips of its ears, lit gold from behind, dust in the air", "62% 45%"),
   hubStandard: m("hub-standard.png", "hf_20261028_165411_55984b98-0b32-41f7-80e5-d540f29580d7.png", "A compact school riding hub at dusk: four timber stables, a fenced sand arena and brass lanterns, the school building behind", "50% 50%"),
   hubRoyal: m("hub-royal.png", "hf_20261028_165411_bea08e4f-3833-4673-b3a2-a16739c2b55e.png", "Horses look out from carved sandstone arches around a sand courtyard on a Rajasthan estate", "62% 50%"),
+  nightField: m("night-field.png", "hf_20261030_161740_399cc8d2-f3ce-492d-9d13-42f540684205.png", "A black Marwari stallion in a dark field at night, rim-lit gold along the mane by a glow on the horizon", "70% 45%"),
   hubSignature: m("hub-signature.png", "hf_20261028_165203_8c685475-6c10-4e1e-8d1f-d4a7752ab2f6.png", "Riders working in a large covered timber-roofed arena on a school campus", "50% 60%"),
 } satisfies Record<string, Media>;
 

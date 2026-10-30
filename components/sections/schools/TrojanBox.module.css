@@ -8,6 +8,8 @@
 /* ---------- the invitation section: a split screen, 40% words and 60% stage ---------- */
 
 .invitation {
+  position: relative;
+  isolation: isolate;
   display: grid;
   gap: clamp(2.5rem, 6vw, 4rem);
   padding-block: clamp(5rem, 12vh, 10rem);
@@ -53,10 +55,14 @@
 
 .panel {
   min-width: 0;
-  border: 1px solid var(--inv-line);
-  background:
-    radial-gradient(ellipse 70% 62% at 50% 46%, color-mix(in srgb, var(--inv-forest) 70%, transparent), transparent 78%),
-    var(--inv-obsidian);
+  /* no frame, no panel: the box stands in the night field behind the section (30 Oct 2026) */
+}
+
+/* the night field: a full-bleed still, darkened toward the words */
+.field {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
 }
 
 /* soft key light that drifts toward the pointer */

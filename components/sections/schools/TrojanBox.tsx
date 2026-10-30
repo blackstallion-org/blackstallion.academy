@@ -2,6 +2,7 @@
 
 import { AnimatePresence, animate, motion, useAnimationFrame, useInView, useMotionValue, useTransform } from "motion/react";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Reveal } from "@/components/film/Reveal";
 import { Label } from "@/components/film/Marks";
@@ -120,6 +121,12 @@ export function TrojanBox() {
 
   return (
     <section aria-labelledby="trojan-h" className={cn(invitationTheme, styles.invitation, "tone-dark gutter")}>
+      <div className={styles.field} aria-hidden="true">
+        <FilmImage name="nightField" sizes="100vw" />
+        <div className="shade-l absolute inset-0" />
+        {/* on a phone the words sit over the horse, so the picture goes down further */}
+        <div className="absolute inset-0 bg-night/60 lg:hidden" />
+      </div>
       <div className={styles.copy}>
         <Label className="text-brass">BSAH · Sovereign invitation</Label>
         <Headline id="trojan-h" className="mt-5 text-[clamp(3rem,4.7vw,4.4rem)]" inscription="The Sovereign" voice="invitation." />

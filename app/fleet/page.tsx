@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
 import { CareLog, CctvGrid, CoatRegistry, FleetTitle, Registry, StallionGallery } from "@/components/sections/fleet/FleetScenes";
-import { StallionBentoGallery } from "@/components/sections/fleet/StallionBentoGallery";
+import { BloodlineIndex } from "@/components/sections/fleet/BloodlineIndex";
 import { MarwariPortrait } from "@/components/sections/editorial/ReferencePanels";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
@@ -29,7 +29,7 @@ export default function FleetPage() {
       {/* The covenant: close shots, set in the middle of the page (it opened the page before, as a 3D scene). */}
       <CovenantFrames />
 
-      <StallionBentoGallery />
+      <BloodlineIndex />
       <LightTheStable />
       <CctvGrid />
       <CareLog />

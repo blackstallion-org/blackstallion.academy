@@ -5,10 +5,10 @@
  */
 
 .theme {
-  --inv-obsidian: #171916;
+  --inv-obsidian: var(--color-charcoal);
   --inv-ivory: #f3efe5;
   --inv-brass: #b69a64;
-  --inv-forest: #24352b;
+  --inv-forest: var(--color-leather); /* was a black-green; the brand has no green (30 Oct 2026) */
   --inv-leather: #815b43;
   --inv-line: color-mix(in srgb, var(--inv-brass) 28%, transparent);
   --inv-ease: cubic-bezier(0.16, 1, 0.3, 1);
