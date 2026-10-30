@@ -1105,51 +1105,6 @@
   pointer-events: none;
 }
 
-/* Grid button */
-.fsh-gridbtn {
-  position: absolute;
-  left: var(--fsh-pad);
-  bottom: calc(var(--fsh-pad) + 4px);
-  z-index: 35;
-  width: 44px;
-  height: 44px;
-  padding: 8px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 4px;
-  background: rgba(15, 14, 13, 0.6);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 8px;
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-  transition: border-color 0.3s ease, background 0.3s ease;
-}
-
-.fsh-gridbtn:hover {
-  border-color: #d4af37;
-  background: rgba(212, 175, 55, 0.15);
-}
-
-.fsh-gridbtn b {
-  background: #c9a66b;
-  border-radius: 1px;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.fsh-gridbtn:hover b {
-  background: #faf7f0;
-  transform: scale(0.9);
-}
-
-.fsh-root.gridview .fsh-gridbtn b:first-child {
-  transform: translate(2px, 2px);
-}
-
-.fsh-root.gridview .fsh-gridbtn b:last-child {
-  transform: translate(-2px, -2px);
-}
-
 /* Cue */
 .fsh-cue {
   position: absolute;
@@ -1160,11 +1115,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.24em;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: rgba(250, 247, 240, 0.5);
+  color: var(--color-dust);
   white-space: nowrap;
   pointer-events: none;
 }
@@ -1173,7 +1129,7 @@
   display: block;
   width: 42px;
   height: 1px;
-  background: rgba(212, 175, 55, 0.35);
+  background: var(--color-line);
   overflow: hidden;
   position: relative;
 }

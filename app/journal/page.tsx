@@ -6,7 +6,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Arrow, ReelMark } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { FieldSphereHero } from "@/components/sections/journal/FieldSphereHero";
-import { StaticImageReel } from "@/components/sections/shared/StaticImageReel";
+import { StallionPortrait } from "@/components/sections/journal/StallionPortrait";
 import { posts } from "@/lib/content/journal";
 
 export const metadata: Metadata = {
@@ -55,13 +55,7 @@ export default function JournalPage() {
         </Link>
       </section>
 
-      <StaticImageReel
-        id="journal-viscous-liquid"
-        label="REEL 14B · STUDBOOK PORTRAIT"
-        title="The sovereign stallion"
-        intro="A still study of the Marwari: calm, clear and undistorted."
-        items={[{ image: "legendBlack", title: "Presence", copy: "The visual study remains a photograph—not an interactive effect.", href: "/fleet", cta: "Meet the fleet" }]}
-      />
+      <StallionPortrait />
 
       {/* Editorial list: alternating image side, no cards */}
       <section aria-label="All stories" className="gutter mt-24 pb-[clamp(6rem,14vh,12rem)]">
