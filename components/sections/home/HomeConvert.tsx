@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
+import { DeckCorners, DeckFrame, DeckLockup } from "@/components/film/Deck";
 import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label } from "@/components/film/Marks";
 import { CountUp } from "@/components/motion/CountUp";
@@ -17,32 +18,36 @@ import { ease } from "@/lib/motion/tokens";
 /** The riding-gear 3D stage is fetched only when the shield section nears the viewport (three.js, R3F and the 5 MB model stay out of the home bundle). */
 const RidingGearStage = dynamic(() => import("@/components/sections/equipment/RidingGearStage").then((mod) => mod.RidingGearStage), { ssr: false });
 
-/** §10 Verifier · S10 seal verifier. A slim bar: the passport-code check stays, the scroll curtain above it carries the picture. */
+/**
+ * §10 Verifier · set as a deck slide (30 Oct 2026, after the owner's references; was a rounded glass box on a glow): the lockup large,
+ * then three columns under one hairline, the passport check across two of them. Ivory margin round the panel.
+ */
 export function HomeVerifier() {
   return (
-    <section aria-labelledby="verify-h" className="tone-dark relative overflow-hidden bg-night py-[clamp(4rem,9vh,7rem)]">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_20%_40%,rgba(184,142,74,0.07),transparent_70%)]"
-      />
-      <div className="gutter relative grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-6">
-          <Label reel={12}>The Seal</Label>
-          <Headline id="verify-h" className="mt-4" inscription={verifier.inscription} voice={verifier.voice} />
-          <ScrollRevealText data-home-detail className="mt-5 max-w-lg text-sand leading-relaxed">
-            {verifier.body}
-          </ScrollRevealText>
-        </div>
-        <div className="lg:col-span-6">
-          <div className="rounded-xl border border-line/60 bg-black/35 p-6 backdrop-blur-md sm:p-8">
-            <p className="label mb-4 text-gold">Passport registry</p>
-            <Verifier />
-            <div className="mt-6">
-              <Cta href="/verify">Open the registry</Cta>
+    <section aria-labelledby="verify-h">
+      <DeckFrame>
+        <div className="relative px-[clamp(20px,5vw,72px)] pb-24 pt-28">
+          <DeckLockup as="h2" id="verify-h" caps={verifier.inscription} script={verifier.voice} right="Reel 12" className="text-left" />
+          <div className="mt-16 grid border-t border-line md:grid-cols-3">
+            <div className="py-8 md:pr-10">
+              <p className="t-script text-5xl leading-none text-gold">01</p>
+              <p className="t-voice mt-4 text-2xl text-bone">What is checked?</p>
+              <ScrollRevealText data-home-detail className="t-ui mt-3 max-w-sm text-sm leading-relaxed text-sand">
+                {verifier.body}
+              </ScrollRevealText>
+            </div>
+            <div className="border-t border-line py-8 md:col-span-2 md:border-l md:border-t-0 md:pl-10">
+              <p className="t-script text-5xl leading-none text-gold">02</p>
+              <p className="t-voice mt-4 text-2xl text-bone">Enter a passport code.</p>
+              <Verifier className="mt-6" />
+              <div className="mt-8">
+                <Cta href="/verify">Open the registry</Cta>
+              </div>
             </div>
           </div>
+          <DeckCorners tag="The Seal" folio="12" />
         </div>
-      </div>
+      </DeckFrame>
     </section>
   );
 }

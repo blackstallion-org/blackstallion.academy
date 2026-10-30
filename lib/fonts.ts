@@ -74,6 +74,19 @@ export const martian = localFont({
   declarations: [{ prop: "font-stretch", value: "75% 112.5%" }],
 });
 
+/**
+ * 30 Oct 2026: the deck lockups (end cards, act breaks) weave one script word through the upright capitals, after the owner's
+ * editorial references. Only the `.t-script` class uses it; headlines stay Noto Serif Display.
+ */
+export const pinyon = localFont({
+  src: "../app/fonts/pinyon-script-latin-400-normal.woff2",
+  weight: "400",
+  variable: "--font-pinyon",
+  display: "swap",
+  preload: false,
+  fallback: ["Snell Roundhand", "cursive"],
+});
+
 /** ₹ only, cut from Inter: none of the fonts above include it. */
 export const rupee = localFont({
   src: "../app/fonts/inter-rupee-wght-normal.woff2",
@@ -85,4 +98,4 @@ export const rupee = localFont({
   declarations: [{ prop: "unicode-range", value: "U+20B9" }],
 });
 
-export const fontVariables = [serifDisplay, jakarta, kalnia, newsreader, mona, martian, rupee].map((f) => f.variable).join(" ");
+export const fontVariables = [serifDisplay, jakarta, kalnia, newsreader, mona, martian, rupee, pinyon].map((f) => f.variable).join(" ");

@@ -1,15 +1,12 @@
 "use client";
 
+import { Intermission } from "@/components/film/Intermission";
 import { useEffect, useRef, type ComponentProps, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { EditorialHeadline, EditorialScrollSync } from "@/components/motion/EditorialMotion";
-import { LanceRule } from "@/components/film/Marks";
-import { BreathCue } from "@/components/film/BreathCue";
-import { FilmNoise } from "@/components/motion/fx/FilmNoise";
-import { EmberTrail } from "@/components/motion/fx/EmberTrail";
-import { acts, type Act } from "@/lib/content/site";
+import type { Act } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import styles from "./HomeTypography.module.css";
 
@@ -78,14 +75,7 @@ export function HomeHeadline(props: ComponentProps<typeof EditorialHeadline>) {
     className={`${styles.heading} ${manifesto ? styles.manifesto : ""} ${props.id === "doctrine-answer" ? styles.answer : ""} ${props.className || ""}`} />;
 }
 
+/** Act break: the deck slide (30 Oct 2026, after the owner's references; was a leather band with an ember trail). */
 export function HomeAct({ act, line }: { act: Act; line: string }) {
-  return <section aria-label={`${acts[act].name}: ${line}`} className={`tone-dark surface-leather gutter ${styles.act}`}>
-    {/* Act breaks read as projected film: grain, a few specks, the odd scratch. */}
-    <FilmNoise opacity={0.14} dust={0.25} scratches={0.35} flicker={0.2} blendMode="soft-light" />
-    {/* Signature: an ember trail follows the mouse across the dark act card (mouse only, decorative). */}
-    <EmberTrail />
-    {act === "ledger" && <BreathCue />}
-    <LanceRule label={`Act ${acts[act].numeral} · ${acts[act].name}`} />
-    <div data-home-drift><h2 data-home-phrase className={styles.actTitle}>{line}</h2></div>
-  </section>;
+  return <Intermission act={act} line={line} />;
 }
