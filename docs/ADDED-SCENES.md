@@ -6,8 +6,7 @@ the colours and the reduced-motion behaviour were made the site's own.
 | Piece | Where | Files |
 | --- | --- | --- |
 | **The robot** | `/command` ("The Command"), the full-screen opening scene: dark band, raking light, one heading and one line, robot on the right (moved from `/science` 31 Oct, owner's request) | `components/sections/command/CommandHero.tsx`, `components/ui/splite.tsx`, `components/ui/spotlight.tsx` |
-| **The walking crowd** | `/tournaments`, the foot of the title scene; and the foot of the reels menu, above the word "Chapters", where the act zones (Hook / Proof / Convert) used to be (31 Oct) | `components/sections/tournaments/TournamentScenes.tsx` (`CircuitTitle`), `components/motion/CrowdCanvas.tsx`, `public/animations/crowd-peeps.png` |
-| **The chart set** | `/admin` (and the SAMPLE preview at `/dev/admin-dashboard`), above the existing dashboard | `components/sections/admin/dashboard/EnquiryBento.tsx`, `components/ui/analytics-bento.tsx` |
+| **The chart set** | `/admin` (and the SAMPLE preview at `/dev/admin-dashboard`), below the Overview and its stat cards | `components/sections/admin/dashboard/EnquiryBento.tsx`, `components/ui/analytics-bento.tsx` |
 
 ## The robot (Spline)
 
@@ -25,15 +24,9 @@ _31 Oct 2026: now on `/command` (`CommandHero.tsx`); the notes below were writte
 - **Not covered:** the robot itself cannot be made still for reduced motion (it is Spline's own idle animation inside their runtime).
   The raking light does respect it. If the owner wants the whole scene off on a phone, hide the wrapper under `md:`.
 
-## The walking crowd (canvas + GSAP)
+## The walking crowd (removed)
 
-- `gsap` was already a dependency; nothing new was installed.
-- The sprite sheet was downloaded from the CDN in the snippet and now lives in the repository (`public/animations/crowd-peeps.png`,
-  3600 × 2268, 15 × 7 figures), so the page does not depend on someone else's CDN.
-- `scale` was added to the component: the figures are drawn at about half size so whole people fit the band.
-- **Reduced motion:** the crowd is drawn once and stands still (no GSAP ticker). Checked in a browser both ways.
-- **Attribution:** Skiper UI's free version requires it; the credit block is kept verbatim at the foot of `CrowdCanvas.tsx`.
-  The figures are Open Peeps.
+Removed from the whole site on 31 Oct 2026 at the owner's request (it had been on `/tournaments`, in the reels menu and at the foot of the page). The component (`CrowdCanvas.tsx`, Skiper UI Skiper39, Open Peeps figures) and the sprite sheet (`public/animations/crowd-peeps.png`) are deleted; both are in git history (commit `a4348c8` and earlier) if it is ever wanted back.
 
 ## The chart set (staff dashboard)
 

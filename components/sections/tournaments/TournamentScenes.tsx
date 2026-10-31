@@ -10,7 +10,6 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Label, ReelMark } from "@/components/film/Marks";
 import { CountUp } from "@/components/motion/CountUp";
-import { CrowdCanvas } from "@/components/motion/CrowdCanvas";
 import { champions, standings, tournaments } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -20,7 +19,7 @@ import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicS
 export function CircuitTitle() {
   return (
     <section aria-labelledby="circuit-title" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[calc(100svh-13rem)] overflow-hidden bg-night">
+<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
       <motion.div className="absolute inset-x-0 bottom-0 top-16 md:top-20" initial={{ x: "4%" }} animate={{ x: "0%" }} transition={{ duration: 2.4, ease: ease.citadel }}>
         <FilmImage name="bgCharge" priority bleed />
       </motion.div>
@@ -37,17 +36,12 @@ export function CircuitTitle() {
         ))}
       </div>
       <div aria-hidden className="absolute inset-0 shade-b" />
-      <div className="gutter relative flex min-h-[calc(100svh-13rem)] flex-col justify-end pb-[8vh]">
+      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[8vh]">
         
         <Headline id="circuit-title" as="h1" size="poster" animate="mount" delay={0.4} className="mt-6" inscription="Lances down." voice="Zones on the circuit." />
         
       </div>
     </div>
-{/* The crowd: the people who came to watch walk the foot of the title scene, on the page's ivory (31 Oct 2026; was a mid-page band).
-    The canvas is decorative and stands still under reduced motion. */}
-<div className="tone-light relative h-[13rem] w-full overflow-hidden border-b border-line bg-night">
-  <CrowdCanvas src="/animations/crowd-peeps.png" rows={15} cols={7} scale={0.4} className="absolute bottom-0 h-full w-full" />
-</div>
 {/* The circuit is the council's: its seal stands beside the line that names it (supplied artwork, background removed). */}
 <div className="tone-light editorial-details gutter flex flex-wrap items-center justify-between gap-x-12 gap-y-8">
   <div className="min-w-0 max-w-2xl">
@@ -55,7 +49,7 @@ export function CircuitTitle() {
     <ScrollRevealText className="t-story mt-6 text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText>
   </div>
   <figure className="flex shrink-0 items-center gap-5">
-    <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-24 w-auto object-contain md:h-28" />
+    <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-16 w-auto object-contain md:h-20" />
     <figcaption className="label max-w-[12rem] leading-relaxed text-dust">Sanctioned by the School Tent Pegging Council of India</figcaption>
   </figure>
 </div>

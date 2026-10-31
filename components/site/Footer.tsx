@@ -110,15 +110,15 @@ function PublicFooter() {
       {/* Content block: brand emblem, wordmark, tagline, nav and legal copy */}
       <div className="footer-meridian__content">
         {/* The two seals as supplied (backgrounds removed, nothing redrawn): the academy and its governing council. */}
-        <div className="footer-meridian__mark flex flex-wrap items-end justify-center gap-x-10 gap-y-6">
+        <div className="footer-meridian__mark flex flex-wrap items-end justify-center gap-x-8 gap-y-5">
           <figure className="flex flex-col items-center gap-3">
             {/* The 192 px logo, served as is (unoptimized): it shows at 80 to 96 px, and the image optimiser can flatten a cut-out logo onto a dark square or serve a stale copy of it. */}
-            <Image src={LOGO.sm} alt="The Black Stallion Academy of Horsemanship crest" width={192} height={192} unoptimized className="h-20 w-20 sm:h-24 sm:w-24" />
+            <Image src={LOGO.sm} alt="The Black Stallion Academy of Horsemanship crest" width={192} height={192} unoptimized className="h-14 w-14 sm:h-16 sm:w-16" />
             <figcaption className="label text-[0.62rem]">The academy</figcaption>
           </figure>
-          <span aria-hidden="true" className="hidden h-16 w-px bg-current opacity-25 sm:block" />
+          <span aria-hidden="true" className="hidden h-10 w-px bg-current opacity-25 sm:block" />
           <figure className="flex flex-col items-center gap-3">
-            <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-20 w-auto object-contain sm:h-24" />
+            <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-14 w-auto object-contain sm:h-16" />
             <figcaption className="label text-[0.62rem]">The council</figcaption>
           </figure>
         </div>
