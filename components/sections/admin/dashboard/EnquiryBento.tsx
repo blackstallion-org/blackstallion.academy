@@ -4,16 +4,16 @@ import { useMemo } from "react";
 import { AnalyticsBento } from "@/components/ui/analytics-bento";
 import { aggregate, gateLabel, RANGES, statusName, WEEKDAYS, type OverviewSnapshot } from "@/lib/admin/overview";
 
-/** A vivid, repeatable colour per form, so a form keeps its colour between windows and reloads. */
+/** A repeatable colour per form, from the Mosaic template's violet, sky, green, yellow and red scales, so a form keeps its colour between windows and reloads. */
 const TILE = [
-  { color: "#7CFF5B", ink: "dark" as const },
-  { color: "#8B3DFF", ink: "light" as const },
-  { color: "#FFB800", ink: "dark" as const },
-  { color: "#FF5A1F", ink: "dark" as const },
-  { color: "#22D3EE", ink: "dark" as const },
-  { color: "#FF3DA5", ink: "light" as const },
-  { color: "#3BF08C", ink: "dark" as const },
-  { color: "#3c2cff", ink: "light" as const },
+  { color: "#8470ff", ink: "light" as const },
+  { color: "#67bfff", ink: "dark" as const },
+  { color: "#3ec972", ink: "dark" as const },
+  { color: "#f0bb33", ink: "dark" as const },
+  { color: "#ff5656", ink: "light" as const },
+  { color: "#4634b1", ink: "light" as const },
+  { color: "#3193da", ink: "light" as const },
+  { color: "#239f52", ink: "light" as const },
 ];
 
 /**
@@ -52,7 +52,7 @@ export function EnquiryBento({ snapshot, nowMs }: { snapshot: OverviewSnapshot; 
 
   if (!view) {
     return (
-      <p className="rounded-[28px] border border-line bg-ember p-6 text-sm text-dust">
+      <p className="rounded-xl bg-ember p-6 text-sm text-dust">
         No enquiries in the last {RANGES[RANGES.length - 1]} days yet, so there is nothing to chart.
       </p>
     );
@@ -70,6 +70,7 @@ export function EnquiryBento({ snapshot, nowMs }: { snapshot: OverviewSnapshot; 
       <AnalyticsBento
         credit
         currency=""
+        colors={{ revenue: ["#8470ff", "#67bfff"], desktop: ["#8470ff", "#67bfff"], mobile: ["#f0bb33", "#ff5656"], radar: "#3ec972" }}
         revenue={{
           label: "Enquiries · 30 days",
           value: mid.total,

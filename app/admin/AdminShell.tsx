@@ -74,51 +74,53 @@ export function AdminShell({ name, current, inside = false, children }: { name: 
   }, [drawer]);
 
   return (
-    <div ref={scopeRef} data-admin-shell className={cn("relative -mx-3 px-3 py-3 transition-colors duration-500 sm:-mx-5 sm:px-5 sm:py-5", dark ? "tone-dark border border-line bg-night" : "")}>
-      {/* The console's own header (the App1 reference): the crest, a greeting and the section, then new enquiries, the public
-          site and the signed-in initial. The public nav and footer are not shown on /admin. On a phone it carries the menu. */}
-      <header className="sticky top-0 z-30 -mx-3 mb-6 flex h-16 items-center gap-3 border-b border-line bg-night/95 px-3 backdrop-blur-sm sm:-mx-5 sm:px-5">
-        <button
-          type="button"
-          onClick={() => setDrawer(true)}
-          aria-label="Open the console menu"
-          aria-expanded={drawer}
-          className="grid h-11 w-11 shrink-0 place-items-center border border-line text-bone hover:border-gold hover:text-gold lg:hidden"
-        >
-          <Menu className="h-5 w-5" aria-hidden />
-        </button>
-        <Link href="/admin" className="hidden shrink-0 sm:block" aria-label="Console overview">
-          <CrestMark className="h-10 w-10" decorative />
-        </Link>
-        <div className="min-w-0 flex-1">
-          <p className="t-ui truncate text-[0.95rem] font-semibold text-bone">Welcome back, {name.trim().split(/\s+/)[0] || "staff"}</p>
-          <p className="label truncate text-[0.62rem] text-dust">{sectionTitle(current)}</p>
-        </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          <Link href="/admin/enquiries?status=new" aria-label="New enquiries" title="New enquiries" className="grid h-11 w-11 place-items-center text-sand transition-colors hover:text-gold">
-            <Bell className="h-[1.1rem] w-[1.1rem]" aria-hidden />
+    <div ref={scopeRef} data-admin-shell className={cn("console flex min-h-[100svh] transition-colors duration-300", dark && "tone-dark")}>
+      {/* The sidebar (Mosaic): a white, full-height column with rounded right corners; it collapses to icons on a desktop. */}
+      <aside aria-label="Staff console" className="hidden shrink-0 transition-[width] duration-200 lg:block" style={{ width: collapsed ? "5rem" : "16rem" }}>
+        <div className={cn("sticky top-0 flex h-[100svh] flex-col overflow-hidden rounded-r-2xl bg-ember shadow-[var(--plate-shadow)]", dark && "border-r border-line")}>
+          <Link href="/admin" className={cn("flex items-center gap-3 px-6 pb-4 pt-5", collapsed && "justify-center px-0")} aria-label="Console overview">
+            <CrestMark className="h-9 w-9 shrink-0" decorative />
+            <span className={cn("t-ui text-sm font-bold leading-tight text-bone", collapsed && "sr-only")}>Black Stallion<span className="block text-[0.65rem] font-semibold uppercase tracking-wide text-dust">Staff console</span></span>
           </Link>
-          <Link href="/" className="label hidden items-center gap-1.5 px-2 text-sand transition-colors hover:text-gold md:flex">
-            View site <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
-          </Link>
-          <span className="lg:hidden"><ThemeButton dark={dark} onToggle={() => setTheme(dark ? "light" : "dark")} /></span>
-          <span aria-hidden title={name} className="ml-1 hidden h-9 w-9 place-items-center rounded-full border border-line font-mono text-xs uppercase text-gold sm:grid">
-            {name.trim().slice(0, 1) || "S"}
-          </span>
+          <SideNav current={current} inside={inside} collapsed={collapsed} />
+          <SideFoot name={name} collapsed={collapsed} onCollapse={() => setCollapsedPref(collapsed ? "open" : "collapsed")} />
         </div>
-      </header>
+      </aside>
 
-      <div
-        className="grid gap-x-8 lg:grid-cols-[var(--side)_minmax(0,1fr)] lg:transition-[grid-template-columns] lg:duration-300"
-        style={{ ["--side" as string]: collapsed ? "4.25rem" : "15.5rem" }}
-      >
-        <aside aria-label="Staff console" className="hidden lg:block">
-          <div className="plate sticky top-24 flex max-h-[calc(100svh-7rem)] flex-col overflow-hidden">
-            <SideNav current={current} inside={inside} collapsed={collapsed} />
-            <SideFoot name={name} collapsed={collapsed} dark={dark} onTheme={() => setTheme(dark ? "light" : "dark")} onCollapse={() => setCollapsedPref(collapsed ? "open" : "collapsed")} />
+      <div className="flex min-w-0 flex-1 flex-col">
+        {/* The header (Mosaic): sticky, on the page colour with a hairline under it. The greeting and section on the left;
+            new enquiries, the public site, the theme and the signed-in initial on the right. The public nav and footer are not shown on /admin. */}
+        <header className="sticky top-0 z-30 border-b border-line bg-night/90 backdrop-blur-md">
+          <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-8">
+            <button
+              type="button"
+              onClick={() => setDrawer(true)}
+              aria-label="Open the console menu"
+              aria-expanded={drawer}
+              className="grid h-11 w-11 shrink-0 place-items-center text-sand hover:text-gold lg:hidden"
+            >
+              <Menu className="h-6 w-6" aria-hidden />
+            </button>
+            <div className="min-w-0 flex-1">
+              <p className="t-ui truncate text-[0.95rem] font-semibold text-bone">Welcome back, {name.trim().split(/\s+/)[0] || "staff"}</p>
+              <p className="label truncate text-[0.62rem] text-dust">{sectionTitle(current)}</p>
+            </div>
+            <div className="flex shrink-0 items-center gap-1">
+              <Link href="/admin/enquiries?status=new" aria-label="New enquiries" title="New enquiries" className="grid h-10 w-10 place-items-center rounded-full text-sand transition-colors hover:bg-umber hover:text-gold">
+                <Bell className="h-[1.05rem] w-[1.05rem]" aria-hidden />
+              </Link>
+              <ThemeButton dark={dark} onToggle={() => setTheme(dark ? "light" : "dark")} />
+              <Link href="/" className="label hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sand transition-colors hover:bg-umber hover:text-gold md:flex">
+                View site <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+              </Link>
+              <span aria-hidden className="mx-2 hidden h-6 w-px bg-line sm:block" />
+              <span aria-hidden title={name} className="hidden h-8 w-8 place-items-center rounded-full bg-gold text-xs font-semibold uppercase text-night sm:grid">
+                {name.trim().slice(0, 1) || "S"}
+              </span>
+            </div>
           </div>
-        </aside>
-        <div className="min-w-0">{children}</div>
+        </header>
+        <main className="mx-auto w-full max-w-[96rem] min-w-0 grow px-4 py-8 sm:px-6 lg:px-8">{children}</main>
       </div>
 
       <AnimatePresence>
@@ -138,20 +140,23 @@ export function AdminShell({ name, current, inside = false, children }: { name: 
               role="dialog"
               aria-modal="true"
               aria-label="Console menu"
-              className={cn("plate absolute inset-y-0 left-0 flex w-[min(20rem,88vw)] flex-col overflow-y-auto bg-night", dark && "tone-dark")}
+              className={cn("console absolute inset-y-0 left-0 flex w-[min(20rem,88vw)] flex-col overflow-y-auto rounded-r-2xl bg-ember shadow-xl", dark && "tone-dark")}
               initial={reduced ? false : { x: "-100%" }}
               animate={{ x: 0 }}
               exit={reduced ? { opacity: 0 } : { x: "-100%" }}
               transition={{ duration: reduced ? 0 : 0.4, ease: ease.citadel }}
             >
-              <div className="flex items-center justify-between border-b border-line px-4 py-3">
-                <p className="label text-brass">Staff console</p>
-                <button type="button" onClick={() => setDrawer(false)} aria-label="Close the console menu" className="grid h-11 w-11 place-items-center border border-line text-bone hover:border-gold hover:text-gold">
+              <div className="flex items-center justify-between px-5 pb-2 pt-4">
+                <span className="flex items-center gap-3">
+                  <CrestMark className="h-9 w-9" decorative />
+                  <span className="t-ui text-sm font-bold text-bone">Staff console</span>
+                </span>
+                <button type="button" onClick={() => setDrawer(false)} aria-label="Close the console menu" className="grid h-11 w-11 place-items-center text-sand hover:text-gold">
                   <X className="h-5 w-5" aria-hidden />
                 </button>
               </div>
               <SideNav current={current} inside={inside} collapsed={false} onNavigate={() => setDrawer(false)} />
-              <SideFoot name={name} collapsed={false} dark={dark} onTheme={() => setTheme(dark ? "light" : "dark")} />
+              <SideFoot name={name} collapsed={false} />
             </motion.div>
           </div>
         )}
@@ -162,11 +167,11 @@ export function AdminShell({ name, current, inside = false, children }: { name: 
 
 function SideNav({ current, inside, collapsed, onNavigate }: { current: AdminSection; inside: boolean; collapsed: boolean; onNavigate?: () => void }) {
   return (
-    <nav aria-label="Console sections" className="flex-1 overflow-y-auto px-2 py-3">
+    <nav aria-label="Console sections" className="no-scrollbar flex-1 overflow-y-auto px-4 py-3">
       {ADMIN_GROUPS.map((group, gi) => (
-        <div key={group.label} className={cn(gi > 0 && "mt-5 border-t border-line pt-4")}>
-          <p className={cn("label px-3 pb-2 text-dust", collapsed && "sr-only")}>{group.label}</p>
-          <ul className="flex flex-col gap-0.5">
+        <div key={group.label} className={cn(gi > 0 && "mt-7")}>
+          <p className={cn("px-3 text-xs font-semibold uppercase text-dust", collapsed && "sr-only")}>{group.label}</p>
+          <ul className="mt-3 flex flex-col gap-0.5">
             {group.items.map((s) => {
               const Icon = ICONS[s.icon];
               const active = s.key === current;
@@ -178,14 +183,13 @@ function SideNav({ current, inside, collapsed, onNavigate }: { current: AdminSec
                     title={collapsed ? s.label : undefined}
                     aria-current={active ? (inside ? "true" : "page") : undefined}
                     className={cn(
-                      "group relative flex min-h-11 items-center gap-3 px-3 transition-colors",
-                      active ? "bg-umber text-gold" : "text-sand hover:bg-umber/60 hover:text-bone",
+                      "group relative flex min-h-11 items-center gap-3 rounded-lg px-3 transition-colors",
+                      collapsed && "justify-center",
+                      active ? "bg-gradient-to-r from-gold/[0.12] to-gold/[0.04] text-bone" : "text-sand hover:text-bone",
                     )}
                   >
-                    {/* the current section: a gold rule on the left edge, so the state never rests on colour alone */}
-                    <span aria-hidden className={cn("absolute inset-y-1.5 left-0 w-0.5 transition-opacity", active ? "bg-gold opacity-100" : "opacity-0")} />
-                    <Icon className="h-[1.05rem] w-[1.05rem] shrink-0" aria-hidden />
-                    <span className={cn("t-ui truncate text-sm", collapsed && "sr-only")}>{s.label}</span>
+                    <Icon className={cn("h-4 w-4 shrink-0", active ? "text-gold" : "text-dust")} aria-hidden />
+                    <span className={cn("t-ui truncate text-sm font-medium", collapsed && "sr-only")}>{s.label}</span>
                   </Link>
                 </li>
               );
@@ -199,33 +203,30 @@ function SideNav({ current, inside, collapsed, onNavigate }: { current: AdminSec
 
 function ThemeButton({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
   return (
-    <button type="button" onClick={onToggle} aria-pressed={dark} aria-label={dark ? "Switch to the light console" : "Switch to the dark console"} className="grid h-11 w-11 place-items-center border border-line text-sand hover:border-gold hover:text-gold">
-      {dark ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
+    <button type="button" onClick={onToggle} aria-pressed={dark} aria-label={dark ? "Switch to the light console" : "Switch to the dark console"} className="grid h-10 w-10 place-items-center rounded-full text-sand transition-colors hover:bg-umber hover:text-gold">
+      {dark ? <Sun className="h-[1.05rem] w-[1.05rem]" aria-hidden /> : <Moon className="h-[1.05rem] w-[1.05rem]" aria-hidden />}
     </button>
   );
 }
 
-function SideFoot({ name, collapsed, dark, onTheme, onCollapse }: { name: string; collapsed: boolean; dark: boolean; onTheme: () => void; onCollapse?: () => void }) {
+function SideFoot({ name, collapsed, onCollapse }: { name: string; collapsed: boolean; onCollapse?: () => void }) {
   return (
-    <div className="border-t border-line p-2">
-      <div className={cn("flex items-center gap-2 px-1 pb-2", collapsed && "justify-center")}>
-        <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center border border-line font-mono text-xs uppercase text-gold">
+    <div className="border-t border-line p-4">
+      <div className={cn("flex items-center gap-3 px-1 pb-3", collapsed && "justify-center px-0")}>
+        <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold text-xs font-semibold uppercase text-night">
           {name.trim().slice(0, 1) || "S"}
         </span>
-        <p className={cn("t-ui min-w-0 flex-1 truncate text-sm text-bone", collapsed && "sr-only")}>{name}</p>
+        <p className={cn("t-ui min-w-0 flex-1 truncate text-sm font-medium text-bone", collapsed && "sr-only")}>{name}</p>
       </div>
-      <div className={cn("flex gap-1", collapsed ? "flex-col" : "items-stretch")}>
+      <div className={cn("flex gap-2", collapsed ? "flex-col" : "items-stretch")}>
         <form action={signOut} className={cn(!collapsed && "flex-1")}>
-          <button className="label flex min-h-11 w-full items-center justify-center gap-2 border border-line px-3 text-bone hover:border-gold hover:text-gold" title="Sign out">
+          <button className="t-ui flex min-h-10 w-full items-center justify-center gap-2 rounded-lg bg-umber px-3 text-sm font-medium text-bone transition-colors hover:text-gold" title="Sign out">
             <LogOut className="h-4 w-4 shrink-0" aria-hidden />
             <span className={cn(collapsed && "sr-only")}>Sign out</span>
           </button>
         </form>
-        <button type="button" onClick={onTheme} aria-pressed={dark} aria-label={dark ? "Switch to the light console" : "Switch to the dark console"} className="hidden min-h-11 w-11 shrink-0 place-items-center border border-line text-sand hover:border-gold hover:text-gold lg:grid">
-          {dark ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />}
-        </button>
         {onCollapse && (
-          <button type="button" onClick={onCollapse} aria-pressed={collapsed} aria-label={collapsed ? "Expand the sidebar" : "Collapse the sidebar"} className="grid min-h-11 w-11 shrink-0 place-items-center border border-line text-sand hover:border-gold hover:text-gold">
+          <button type="button" onClick={onCollapse} aria-pressed={collapsed} aria-label={collapsed ? "Expand the sidebar" : "Collapse the sidebar"} className="grid min-h-10 w-10 shrink-0 place-items-center rounded-lg bg-umber text-sand transition-colors hover:text-gold">
             {collapsed ? <PanelLeftOpen className="h-4 w-4" aria-hidden /> : <PanelLeftClose className="h-4 w-4" aria-hidden />}
           </button>
         )}

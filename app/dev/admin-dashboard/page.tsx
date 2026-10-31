@@ -23,7 +23,7 @@ export default async function AdminDashboardPreview() {
   await connection();
   const sample = sampleNow();
   return (
-    <section data-parallax-skip className="gutter min-h-[100svh] bg-night pb-24">
+    <section data-parallax-skip className="console min-h-[100svh]">
       <AdminShell name="Preview" current="overview">
         <LiveDashboard initial={sample} refresh={refreshSample} intervalMs={6000} />
         <div className="mt-10"><EnquiryBento snapshot={sample} nowMs={Date.parse(sample.generatedAt)} /></div>

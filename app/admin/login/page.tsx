@@ -33,7 +33,7 @@ type Search = { e?: string; mode?: string; kind?: string };
  */
 export default function LoginPage({ searchParams }: { searchParams: Promise<Search> }) {
   return (
-    <div className="mx-auto w-full max-w-[1100px]">
+    <div className="gutter mx-auto w-full max-w-[1100px] pb-24">
       <EntryHeader />
       <Suspense fallback={null}><Reason searchParams={searchParams} /></Suspense>
       <Suspense fallback={null}><Doors searchParams={searchParams} /></Suspense>

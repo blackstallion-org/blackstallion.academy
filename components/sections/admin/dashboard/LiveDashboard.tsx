@@ -83,20 +83,20 @@ export function LiveDashboard({ initial, refresh, intervalMs = REFRESH_MS }: { i
     <div>
       <header className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
         <div className="min-w-0">
-          <h1 className="t-voice text-[clamp(1.8rem,4vw,3rem)] leading-tight text-bone">Overview</h1>
+          <h1 className="text-2xl font-bold text-bone md:text-3xl">Overview</h1>
           <p className="t-ui mt-1 max-w-2xl text-sm text-dust">What is happening on the website, as it happens. Times are India Standard Time.</p>
         </div>
         <LiveBadge state={state} lastOkAt={lastOkAt} now={now} sample={snapshot.sample === true} onRefresh={refreshNow} />
       </header>
 
       {snapshot.sample && (
-        <p role="note" className="label mt-4 border border-gold/50 px-3 py-2 text-gold">
+        <p role="note" className="label mt-4 rounded-lg bg-gold/10 px-3 py-2 text-gold">
           SAMPLE data: every number on this page is invented, for the development preview only.
         </p>
       )}
 
-      <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-3 border-y border-line py-3">
-        <div role="radiogroup" aria-label="Period" className="flex">
+      <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-3">
+        <div role="radiogroup" aria-label="Period" className="flex rounded-lg bg-ember p-0.5 shadow-[var(--plate-shadow)]">
           {RANGES.map((r) => (
             <button
               key={r}
@@ -104,21 +104,21 @@ export function LiveDashboard({ initial, refresh, intervalMs = REFRESH_MS }: { i
               role="radio"
               aria-checked={range === r}
               onClick={() => setRange(String(r))}
-              className={cn("label min-h-11 min-w-[4.5rem] border border-line px-3 transition-colors first:border-r-0 last:border-l-0", range === r ? "bg-gold text-night" : "text-sand hover:text-gold")}
+              className={cn("t-ui min-h-10 min-w-[4.5rem] rounded-md px-3 text-sm font-medium transition-colors", range === r ? "bg-gold text-night" : "text-sand hover:text-bone")}
             >
               {r} days
             </button>
           ))}
         </div>
         <div className="ml-auto flex flex-wrap items-center gap-2">
-          <button type="button" onClick={() => setEditing((e) => !e)} aria-pressed={editing} className={cn("label inline-flex min-h-11 items-center gap-2 border px-3 transition-colors", editing ? "border-gold bg-umber text-gold" : "border-line text-sand hover:border-gold hover:text-gold")}>
+          <button type="button" onClick={() => setEditing((e) => !e)} aria-pressed={editing} className={cn("t-ui inline-flex min-h-10 items-center gap-2 rounded-lg px-3 text-sm font-medium shadow-[var(--plate-shadow)] transition-colors", editing ? "bg-gold/10 text-gold" : "bg-ember text-sand hover:text-bone")}>
             <SlidersHorizontal className="h-4 w-4" aria-hidden /> {editing ? "Done" : "Customise"}
           </button>
-          <button type="button" onClick={() => exportCsv(agg, snapshot)} className="label inline-flex min-h-11 items-center gap-2 border border-line px-3 text-sand hover:border-gold hover:text-gold" title="Counts only, no personal details">
+          <button type="button" onClick={() => exportCsv(agg, snapshot)} className="t-ui inline-flex min-h-10 items-center gap-2 rounded-lg bg-ember px-3 text-sm font-medium text-sand shadow-[var(--plate-shadow)] transition-colors hover:text-bone" title="Counts only, no personal details">
             <Download className="h-4 w-4" aria-hidden /> <span className="hidden sm:inline">Export summary</span>
             <span className="sm:hidden">Export</span>
           </button>
-          <button type="button" onClick={() => setDrawer(true)} className="label inline-flex min-h-11 items-center gap-2 bg-gold px-4 text-night hover:bg-bone">
+          <button type="button" onClick={() => setDrawer(true)} className="t-ui inline-flex min-h-10 items-center gap-2 rounded-lg bg-gold px-4 text-sm font-medium text-night shadow-[var(--plate-shadow)] transition-colors hover:brightness-110">
             <Plus className="h-4 w-4" aria-hidden /> Add widget
           </button>
         </div>
@@ -127,7 +127,7 @@ export function LiveDashboard({ initial, refresh, intervalMs = REFRESH_MS }: { i
       <div className="mt-3 min-h-[1.5rem] space-y-2" aria-live="polite">
         <AnimatePresence>
           {sinceOpen > 0 && (
-            <motion.p key="since" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="label inline-block border border-gold/50 px-3 py-1.5 text-gold">
+            <motion.p key="since" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="label inline-block rounded-full bg-gold/10 px-3 py-1.5 text-gold">
               +{sinceOpen} new {sinceOpen === 1 ? "enquiry" : "enquiries"} since you opened this page
             </motion.p>
           )}
@@ -142,7 +142,7 @@ export function LiveDashboard({ initial, refresh, intervalMs = REFRESH_MS }: { i
 
       {visible.length === 0 ? (
         <div className="plate mt-6 p-8 text-center">
-          <p className="t-voice text-xl text-bone">The dashboard is empty.</p>
+          <p className="text-xl font-bold text-bone">The dashboard is empty.</p>
           <p className="t-ui mt-2 text-sm text-dust">Add a widget to begin, or restore the default layout.</p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
             <button type="button" onClick={() => setDrawer(true)} className="label min-h-11 bg-gold px-4 text-night hover:bg-bone">Add widget</button>
@@ -180,7 +180,7 @@ function LiveBadge({ state, lastOkAt, now, sample, onRefresh }: { state: LiveSta
         <span aria-hidden className={cn(styles.dot, (state !== "live" && !sample) && styles.dotIdle)} />
         {text}
       </p>
-      <button type="button" onClick={onRefresh} aria-label="Refresh now" className="grid h-11 w-11 place-items-center border border-line text-sand hover:border-gold hover:text-gold">
+      <button type="button" onClick={onRefresh} aria-label="Refresh now" className="grid h-10 w-10 place-items-center rounded-lg bg-ember text-sand shadow-[var(--plate-shadow)] hover:text-gold">
         <RotateCw className="h-4 w-4" aria-hidden />
       </button>
     </div>
@@ -201,7 +201,7 @@ function WidgetCard({ w, ctx, index, editing, first, last, onMove, onRemove, red
       className={cn("plate relative flex min-w-0 flex-col rounded-xl p-4 sm:p-5", SPAN[w.size], w.tall && "xl:row-span-2", editing && "outline outline-1 -outline-offset-4 outline-dashed outline-brass/60")}
     >
       <div className="flex items-start justify-between gap-3">
-        <h2 className="label min-w-0 text-brass">
+        <h2 className="min-w-0 text-sm font-semibold text-bone">
           {w.href ? (
             <Link href={w.href} className="inline-flex items-center gap-1 hover:text-gold">
               {w.title}
@@ -230,7 +230,7 @@ function WidgetCard({ w, ctx, index, editing, first, last, onMove, onRemove, red
 
 function IconButton({ label, children, ...rest }: { label: string; children: ReactNode } & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button type="button" aria-label={label} title={label} className="grid h-11 w-11 place-items-center border border-line text-sand hover:border-gold hover:text-gold disabled:opacity-30 disabled:hover:border-line disabled:hover:text-sand sm:h-9 sm:w-9" {...rest}>
+    <button type="button" aria-label={label} title={label} className="grid h-11 w-11 place-items-center rounded-lg text-sand hover:bg-umber hover:text-gold disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-sand sm:h-9 sm:w-9" {...rest}>
       {children}
     </button>
   );

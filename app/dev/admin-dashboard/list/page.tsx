@@ -10,7 +10,7 @@ export const metadata: Metadata = { title: "Console list preview (SAMPLE)", robo
 export default function ListPreview() {
   if (process.env.NODE_ENV === "production") notFound();
   return (
-    <section data-parallax-skip className="gutter min-h-[80svh] bg-night pb-24 pt-28 md:pt-32">
+    <section data-parallax-skip className="console min-h-[100svh]">
       <AdminShell name="Preview" current="leads">
         <PageHeading title="Enquiries">Every website enquiry, newest first. Times are India Standard Time. (SAMPLE rows)</PageHeading>
         <FilterForm action="/dev/admin-dashboard/list" label="Filter enquiries" active={false}>

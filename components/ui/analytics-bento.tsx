@@ -177,7 +177,7 @@ const Delta = ({ children, className = "" }: { children: React.ReactNode; classN
   );
 };
 const Card = ({ className = "", children, ...rest }: React.JSX.IntrinsicElements["section"]) => (
-  <section className={`relative min-w-0 overflow-hidden rounded-[28px] border border-border bg-card p-5 text-card-foreground shadow-sm sm:p-6 ${className}`} {...rest}>
+  <section className={`relative min-w-0 overflow-hidden rounded-xl border-0 bg-card p-5 text-card-foreground shadow-sm sm:p-6 ${className}`} {...rest}>
     {children}
   </section>
 );

@@ -8,6 +8,7 @@ import { NewPasswordForm, ResetRequestForm } from "../forms";
 export default function ResetPage() {
   return (
     <>
+    <div className="gutter pb-24">
     <EntryHeader />
     <div className="max-w-xl">
       <p className="label text-brass">Staff console</p>
@@ -15,6 +16,7 @@ export default function ResetPage() {
       <div className="mt-10">
         <Suspense fallback={<p role="status" className="text-sand">Checking your link…</p>}><ResetStep /></Suspense>
       </div>
+    </div>
     </div>
     </>
   );

@@ -22,5 +22,5 @@ export const instant = false;
  * section headings onto the rules beneath them.
  */
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <section data-parallax-skip className="gutter min-h-[100svh] bg-night pb-24">{children}</section>;
+  return <section data-parallax-skip className="console min-h-[100svh]">{children}</section>;
 }

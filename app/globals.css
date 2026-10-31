@@ -51,12 +51,12 @@
   /* Swiss-editorial gallery pair (31 Oct 2026, owner's reference): off-white paper and black ink. */
   --color-paper: #f5f5f2;
   --color-ink: #111110;
-  /* Console category colours (31 Oct 2026, owner's request for a colourful dashboard): one per figure, matching the chart set. */
-  --color-signal-emerald: #10b981;
-  --color-signal-violet: #7c3aed;
-  --color-signal-amber: #f59e0b;
-  --color-signal-sky: #0ea5e9;
-  --color-signal-rose: #e11d48;
+  /* Console category colours: the Mosaic dashboard template's green-500, violet-500, yellow-500, sky-500 and red-500. */
+  --color-signal-emerald: #3ec972;
+  --color-signal-violet: #8470ff;
+  --color-signal-amber: #f0bb33;
+  --color-signal-sky: #67bfff;
+  --color-signal-rose: #ff5656;
 
   /* Official Marwari Studbook colour registry (coat colours, not UI colours) */
   --color-bhanwar: #2a1d15;
@@ -495,6 +495,79 @@
   .no-scrollbar { scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
 }
+
+/* ------------------------------------------------------------------
+   The staff console (1 Nov 2026, owner's request): the colours and surfaces of the Mosaic dashboard template (Cruip), as role
+   tokens, so every console page follows without edits: a gray-100 page, white rounded cards with a hairline shadow, violet accents
+   and a gray-900 / gray-800 dark mode. It sits on the shell's own element, next to `.tone-dark` (the two-class rule wins).
+   ------------------------------------------------------------------ */
+.console {
+  --color-night: #f3f4f6;
+  --color-umber: #e9eaee;
+  --color-ember: #ffffff;
+  --color-parchment: #ffffff;
+  --color-brass: #6b7280;
+  --color-copper: #5d47de;
+  --color-line: #e5e7eb;
+  --color-gold: #755ff8;
+  --color-bone: #1f2937;
+  --color-sand: #4b5563;
+  --color-dust: #6b7280;
+  --color-blood: #e63939;
+  --color-frost: #3193da;
+  --delta-good: #15773a;
+  --delta-bad: #c52727;
+  /* The shadcn-style names are resolved once at :root, so they are restated here to follow this scope's tokens (the chart set reads them). */
+  --color-background: var(--color-night);
+  --color-foreground: var(--color-bone);
+  --color-card: var(--color-ember);
+  --color-card-foreground: var(--color-bone);
+  --color-popover: var(--color-ember);
+  --color-popover-foreground: var(--color-bone);
+  --color-muted: var(--color-umber);
+  --color-muted-foreground: var(--color-dust);
+  --color-border: var(--color-line);
+  --color-ring: var(--color-gold);
+  --font-mono: var(--font-sans);
+  font-family: var(--font-sans);
+  --plate-shadow: 0 1px 1px 0 rgb(0 0 0 / 0.05), 0 1px 2px 0 rgb(0 0 0 / 0.02);
+  background-color: var(--color-night);
+  color: var(--color-bone);
+  color-scheme: light;
+}
+.console.tone-dark {
+  --color-night: #111827;
+  --color-umber: #1f2937;
+  --color-ember: #1f2937;
+  --color-parchment: #1f2937;
+  --color-brass: #9ca3af;
+  --color-copper: #9c8cff;
+  --color-line: rgb(55 65 81 / 0.6);
+  --color-gold: #9c8cff;
+  --color-bone: #f3f4f6;
+  --color-sand: #bfc4cd;
+  --color-dust: #9ca3af;
+  --color-blood: #ff7474;
+  --color-frost: #7bc8ff;
+  --delta-good: #4bd37d;
+  --delta-bad: #ff7474;
+  --plate-shadow: 0 1px 1px 0 rgb(0 0 0 / 0.05), 0 1px 2px 0 rgb(0 0 0 / 0.02);
+  color-scheme: dark;
+}
+.console .plate { background-color: var(--color-ember); border: 0; border-radius: 0.75rem; box-shadow: var(--plate-shadow); }
+.console.tone-dark .plate { border: 1px solid var(--color-line); }
+/* Mosaic's type: one clean sans, bold headings, tabular figures (the site's serif and mono stay on the public pages). */
+.console .t-voice, .console .t-inscribe, .console .font-display {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+.console .t-story { font-family: var(--font-sans); font-style: normal; }
+.console .font-mono { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+.console .label { letter-spacing: 0.03em; }
+.console :where(button, input, select, textarea, summary) { border-radius: 0.5rem; }
 
 /* ===== Meridian-Style Footer for BSAH ===== */
 .footer-meridian {

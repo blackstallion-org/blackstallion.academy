@@ -344,7 +344,7 @@ export function SplitBar({ parts, reduced }: { parts: readonly { key: string; la
   if (total === 0) return <p className="t-ui text-sm text-dust">Nothing in this period yet.</p>;
   return (
     <div>
-      <div className="flex h-3 w-full gap-px overflow-hidden bg-line/40" role="img" aria-label={parts.map((p) => `${p.label} ${fmt(p.count)}`).join(", ")}>
+      <div className="flex h-2.5 w-full gap-0.5 overflow-hidden rounded-full bg-line" role="img" aria-label={parts.map((p) => `${p.label} ${fmt(p.count)}`).join(", ")}>
         {parts.map((p, i) =>
           p.count === 0 ? null : (
             <motion.div
@@ -362,7 +362,7 @@ export function SplitBar({ parts, reduced }: { parts: readonly { key: string; la
         {parts.map((p) => (
           <li key={p.key} className="flex items-center justify-between gap-3">
             <span className="t-ui flex min-w-0 items-center gap-2 text-sm text-sand">
-              <span aria-hidden className="h-2.5 w-2.5 shrink-0" style={{ background: p.tone }} />
+              <span aria-hidden className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: p.tone }} />
               <span className="truncate">{p.label}</span>
             </span>
             <span className="font-mono text-sm text-bone">

@@ -43,8 +43,9 @@ const dayLabel = (day: string) => `${Number(day.slice(8, 10))} ${MONTHS[Number(d
 function DeltaPill({ delta, goodWhenUp = true }: { delta: Delta; goodWhenUp?: boolean }) {
   const Icon = delta.direction === "up" ? TrendingUp : delta.direction === "down" ? TrendingDown : Minus;
   const good = delta.direction === "flat" ? null : (delta.direction === "up") === goodWhenUp;
+  // Mosaic's delta: a green pill for a good move, a red one for a bad one, grey when flat; the arrow and the sign carry it too.
   return (
-    <span className={cn("label inline-flex items-center gap-1 border px-2 py-1", good === null ? "border-line text-dust" : good ? "border-gold/50 text-gold" : "border-line text-sand")}>
+    <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold", good === null ? "bg-line text-dust" : good ? "bg-signal-emerald/20 text-[var(--delta-good)]" : "bg-signal-rose/20 text-[var(--delta-bad)]")}>
       <Icon className="h-3 w-3" aria-hidden />
       {delta.pct === null ? (delta.direction === "up" ? "New" : "No change") : `${delta.pct > 0 ? "+" : ""}${delta.pct}%`}
     </span>
@@ -52,14 +53,14 @@ function DeltaPill({ delta, goodWhenUp = true }: { delta: Delta; goodWhenUp?: bo
 }
 
 function StatusChip({ status }: { status: string }) {
-  return <span className={cn("label inline-block border px-2 py-1", status === "new" ? "border-gold/60 text-gold" : "border-line text-sand")}>{statusName(status)}</span>;
+  return <span className={cn("inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold", status === "new" ? "bg-gold/15 text-gold" : "bg-line text-sand")}>{statusName(status)}</span>;
 }
 
 function Kpi({ value, reduced, label, foot, delta, spark, href }: { value: number | null; reduced: boolean; label: string; foot: ReactNode; delta?: Delta; spark?: readonly number[]; href: string }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-start justify-between gap-2">
-        <CountUp value={value} reduced={reduced} className="font-mono text-[clamp(1.9rem,3.3vw,2.7rem)] leading-none text-bone" />
+        <CountUp value={value} reduced={reduced} className="font-mono text-3xl font-bold leading-none text-bone" />
         {delta && <DeltaPill delta={delta} />}
       </div>
       {spark ? <Sparkline data={spark} reduced={reduced} className="mt-4" /> : <div className="mt-3 h-3" aria-hidden />}
@@ -221,8 +222,8 @@ export const WIDGETS: readonly WidgetDef[] = [
       <AreaChart
         reduced={c.reduced}
         unit="enquiries"
-        color="var(--color-signal-emerald)"
-        previousColor="var(--color-signal-violet)"
+        color="var(--color-signal-violet)"
+        previousColor="var(--color-dust)"
         data={c.agg.daily.map((d, i) => ({
           label: dayLabel(d.day),
           value: d.count,
@@ -396,9 +397,9 @@ export const WIDGETS: readonly WidgetDef[] = [
       <SplitBar
         reduced={c.reduced}
         parts={[
-          { key: "qr", label: "QR codes", count: c.agg.sources.qr, tone: "var(--color-gold)" },
-          { key: "campaign", label: "Campaign links", count: c.agg.sources.campaign, tone: "var(--color-brass)" },
-          { key: "direct", label: "Direct", count: c.agg.sources.direct, tone: "var(--color-dust)" },
+          { key: "qr", label: "QR codes", count: c.agg.sources.qr, tone: "var(--color-signal-violet)" },
+          { key: "campaign", label: "Campaign links", count: c.agg.sources.campaign, tone: "var(--color-signal-sky)" },
+          { key: "direct", label: "Direct", count: c.agg.sources.direct, tone: "var(--color-signal-emerald)" },
         ]}
       />
     ),
@@ -439,14 +440,14 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
 ];
 
-/** One tone per status, from the site's role tokens (the legend always names them, so colour is never the only signal). */
+/** One tone per status, from the console's Mosaic palette (the legend always names them, so colour is never the only signal). */
 const STATUS_TONE: Record<string, string> = {
-  new: "var(--color-gold)",
-  reviewing: "color-mix(in srgb, var(--color-gold) 62%, var(--color-ember))",
-  contacted: "var(--color-brass)",
-  qualified: "color-mix(in srgb, var(--color-brass) 60%, var(--color-ember))",
+  new: "var(--color-signal-violet)",
+  reviewing: "var(--color-signal-sky)",
+  contacted: "var(--color-signal-amber)",
+  qualified: "var(--color-signal-emerald)",
   closed: "var(--color-dust)",
-  rejected: "color-mix(in srgb, var(--color-dust) 40%, var(--color-ember))",
+  rejected: "var(--color-signal-rose)",
 };
 
 export const DEFAULT_LAYOUT: readonly string[] = ["kpi-enquiries", "kpi-new", "kpi-accounts", "kpi-mou", "trend", "activity", "forms", "pipeline", "latest", "handled", "weekday", "sources", "hubs"];
