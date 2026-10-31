@@ -35,9 +35,9 @@ export function RobotScene() {
         narrow screen the canvas is held at a minimum width and centred (the section clips the overflow) — otherwise the
         robot falls outside the view.
       */}
-      <div className="relative z-0 mt-[clamp(1rem,3vh,2.5rem)] h-[clamp(320px,52vh,520px)] w-full">
+      <div className="relative z-0 -mt-[clamp(0rem,4vh,3rem)] h-[clamp(400px,min(84vh,105vw),900px)] w-full">
         {/* The scene's frame ends mid-leg: the lower edge fades into the page instead of showing a cut. */}
-        <div aria-hidden className="absolute left-1/2 h-full w-[max(100%,44rem)] -translate-x-1/2 [mask-image:linear-gradient(to_bottom,#000_78%,transparent)]">
+        <div aria-hidden className="absolute left-1/2 h-full w-[max(100%,56rem)] -translate-x-1/2 [mask-image:linear-gradient(to_bottom,#000_82%,transparent)]">
           <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="h-full w-full" />
         </div>
       </div>
