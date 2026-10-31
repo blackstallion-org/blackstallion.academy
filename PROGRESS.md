@@ -659,6 +659,8 @@ Owner: the admin dashboard was very static; rebuild it with the references (a co
   - Galleries: `StaticImageReel` has two compositions of one system: "views" (campus: warm black, two columns, captions under unobstructed stills) and "editorial" (cadets: off-white paper, black ink, stills in black and white, uppercase captions, oversized sans heading). The home first-ride journey drops its brown ground, sepia filter and hover zoom.
   - Dark scope unified to the owner's palette: night #171412, bone #F0EBE4, sand #B8ADA2, brass #9A7859; new fixed tokens `paper` and `ink`.
   - Home film: no picture behind it, plain black around the frame on phone and desktop, edges cut clean, the top and bottom shades removed.
+  - Console body in the App1 order and colour: "Overview" and its stat cards first, each card with a coloured category icon (`--color-signal-*` tokens), the trend chart in emerald with the previous period dashed in violet, rounded cards; the colour chart set follows below. Still the real enquiry snapshot; nothing invented.
+  - STPCI seal also beside the home page's circuit standings; the current page in the top nav has a quiet underline.
   - QA: `docs/qa/redesign-31oct/` (1440 and 390). Typecheck and lint (0 errors) pass; build result in the commit message.
 - [x] **31 Oct 2026 · Supplied scenes moved (owner's request).**
   - `/science` robot: the dark stage and raking light are gone; the Spline scene (transparent backdrop, animation untouched) now stands on the page's ivory, its cut-off legs fading out. Spotlight no longer used there.

@@ -198,7 +198,7 @@ function WidgetCard({ w, ctx, index, editing, first, last, onMove, onRemove, red
       initial={reduced ? false : { opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : Math.min(index, 8) * 0.05, ease: ease.citadel, layout: { duration: 0.45, ease: ease.citadel } }}
-      className={cn("plate relative flex min-w-0 flex-col p-4 sm:p-5", SPAN[w.size], w.tall && "xl:row-span-2", editing && "outline outline-1 -outline-offset-4 outline-dashed outline-brass/60")}
+      className={cn("plate relative flex min-w-0 flex-col rounded-xl p-4 sm:p-5", SPAN[w.size], w.tall && "xl:row-span-2", editing && "outline outline-1 -outline-offset-4 outline-dashed outline-brass/60")}
     >
       <div className="flex items-start justify-between gap-3">
         <h2 className="label min-w-0 text-brass">
@@ -210,6 +210,11 @@ function WidgetCard({ w, ctx, index, editing, first, last, onMove, onRemove, red
             w.title
           )}
         </h2>
+        {!editing && w.icon && (
+          <span aria-hidden className="-mr-1 -mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-lg" style={{ color: w.accent, backgroundColor: `color-mix(in srgb, ${w.accent} 13%, transparent)` }}>
+            <w.icon className="h-4 w-4" strokeWidth={1.8} />
+          </span>
+        )}
         {editing && (
           <div className="-mr-1 -mt-1 flex shrink-0 gap-1" role="group" aria-label={`Arrange ${w.title}`}>
             <IconButton label={`Move ${w.title} earlier`} disabled={first} onClick={() => onMove(w.id, -1)}><ArrowUp className="h-4 w-4" /></IconButton>

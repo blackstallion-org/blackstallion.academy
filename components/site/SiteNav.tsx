@@ -276,7 +276,7 @@ function TopNavLink({ href, label, active }: { href: string; label: string; acti
       onMouseLeave={() => setHot(false)}
       onFocus={() => setHot(true)}
       onBlur={() => setHot(false)}
-      className={cn("label block py-1 transition-colors hover:text-gold", active ? "text-gold" : "text-sand")}
+      className={cn("label block border-b py-1 transition-colors hover:text-gold", active ? "border-current text-gold" : "border-transparent text-sand")}
     >
       <AnimatedMenuText center active={hot}>{label}</AnimatedMenuText>
     </Link>

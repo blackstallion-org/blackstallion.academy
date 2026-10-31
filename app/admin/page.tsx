@@ -26,8 +26,8 @@ export default async function AdminOverview({ searchParams }: PageProps<"/admin"
   const initial = await loadOverview(supabase);
   return (
     <AdminShell name={profile.display_name} current="overview">
-      <EnquiryBento snapshot={initial} nowMs={Date.parse(initial.generatedAt)} />
       <LiveDashboard initial={initial} refresh={refreshOverview} />
+      <div className="mt-10"><EnquiryBento snapshot={initial} nowMs={Date.parse(initial.generatedAt)} /></div>
     </AdminShell>
   );
 }

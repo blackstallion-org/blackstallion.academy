@@ -121,7 +121,7 @@ export type AreaPoint = { label: string; value: number; previous?: number };
  * Enquiries over time: a smooth line that draws itself, a soft fill, the previous period as a dashed line, a pointer (or finger)
  * that reads out any day, and a quiet pulse on today. The same data is in a hidden table for a screen reader.
  */
-export function AreaChart({ data, unit, reduced, height = 232 }: { data: readonly AreaPoint[]; unit: string; reduced: boolean; height?: number }) {
+export function AreaChart({ data, unit, reduced, height = 232, color = "var(--color-gold)", previousColor = "var(--color-dust)" }: { data: readonly AreaPoint[]; unit: string; reduced: boolean; height?: number; color?: string; previousColor?: string }) {
   const id = useId();
   const box = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(640);
@@ -175,8 +175,8 @@ export function AreaChart({ data, unit, reduced, height = 232 }: { data: readonl
       >
         <defs>
           <linearGradient id={`${id}-fill`} x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="var(--color-gold)" stopOpacity="0.3" />
-            <stop offset="1" stopColor="var(--color-gold)" stopOpacity="0" />
+            <stop offset="0" stopColor={color} stopOpacity="0.3" />
+            <stop offset="1" stopColor={color} stopOpacity="0" />
           </linearGradient>
         </defs>
         {ticks.map((t) => (
@@ -192,24 +192,24 @@ export function AreaChart({ data, unit, reduced, height = 232 }: { data: readonl
             {data[i]?.label}
           </text>
         ))}
-        {prev && <motion.path d={prev} fill="none" stroke="var(--color-dust)" strokeOpacity="0.7" strokeWidth="1.2" strokeDasharray="3 4" initial={false} animate={{ d: prev }} transition={{ duration: reduced ? 0 : 0.6, ease: ease.citadel }} />}
+        {prev && <motion.path d={prev} fill="none" stroke={previousColor} strokeOpacity="0.75" strokeWidth="1.4" strokeDasharray="3 4" initial={false} animate={{ d: prev }} transition={{ duration: reduced ? 0 : 0.6, ease: ease.citadel }} />}
         {area && <motion.path d={area} fill={`url(#${id}-fill)`} initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1, d: area }} transition={{ duration: reduced ? 0 : 0.9, delay: reduced ? 0 : 0.35, ease: ease.citadel }} />}
-        <motion.path d={line} fill="none" stroke="var(--color-gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" initial={reduced ? false : { pathLength: 0 }} animate={{ pathLength: 1, d: line }} transition={{ pathLength: { duration: reduced ? 0 : 1.3, ease: ease.citadel }, d: { duration: reduced ? 0 : 0.6, ease: ease.citadel } }} />
+        <motion.path d={line} fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" initial={reduced ? false : { pathLength: 0 }} animate={{ pathLength: 1, d: line }} transition={{ pathLength: { duration: reduced ? 0 : 1.3, ease: ease.citadel }, d: { duration: reduced ? 0 : 0.6, ease: ease.citadel } }} />
         {pts.length > 0 && (
           <g>
             {!reduced && (
-              <circle cx={pts.at(-1)![0]} cy={pts.at(-1)![1]} r="4" fill="var(--color-gold)" opacity="0.35">
+              <circle cx={pts.at(-1)![0]} cy={pts.at(-1)![1]} r="4" fill={color} opacity="0.35">
                 <animate attributeName="r" values="4;11;4" dur="2.6s" repeatCount="indefinite" />
                 <animate attributeName="opacity" values="0.35;0;0.35" dur="2.6s" repeatCount="indefinite" />
               </circle>
             )}
-            <circle cx={pts.at(-1)![0]} cy={pts.at(-1)![1]} r="3.5" fill="var(--color-ember)" stroke="var(--color-gold)" strokeWidth="2" />
+            <circle cx={pts.at(-1)![0]} cy={pts.at(-1)![1]} r="3.5" fill="var(--color-ember)" stroke={color} strokeWidth="2" />
           </g>
         )}
         {hover !== null && (
           <g pointerEvents="none">
             <line x1={x(hover)} x2={x(hover)} y1={pad.t} y2={baseY} stroke="var(--color-brass)" strokeOpacity="0.6" />
-            <circle cx={x(hover)} cy={y(data[hover].value)} r="4.5" fill="var(--color-gold)" stroke="var(--color-ember)" strokeWidth="2" />
+            <circle cx={x(hover)} cy={y(data[hover].value)} r="4.5" fill={color} stroke="var(--color-ember)" strokeWidth="2" />
           </g>
         )}
       </svg>

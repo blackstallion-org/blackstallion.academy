@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import type { ReactNode } from "react";
-import { ArrowUpRight, Inbox, ScrollText, TrendingDown, TrendingUp, Minus } from "lucide-react";
+import { Activity, ArrowUpRight, BarChart3, CalendarDays, CircleGauge, FileSignature, Inbox, ListChecks, MailQuestion, MapPin, ScrollText, Signpost, TrendingDown, TrendingUp, Minus, Users, type LucideIcon } from "lucide-react";
 import { gateLabel, relativeTime, statusName, type Aggregates, type Delta, type OverviewSnapshot, type RangeDays } from "@/lib/admin/overview";
 import { cn } from "@/lib/utils";
 import { ease } from "@/lib/motion/tokens";
@@ -25,6 +25,9 @@ export type WidgetDef = {
   tall?: boolean;
   /** Where the title links to, if anywhere. */
   href?: string;
+  /** The App1-style mark in the card's top-right corner, and its category colour (a `--color-signal-*` token). */
+  icon?: LucideIcon;
+  accent?: string;
   render: (c: WidgetCtx) => ReactNode;
   preview: ReactNode;
 };
@@ -124,6 +127,8 @@ const sketch = "h-full w-full text-brass";
 export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "kpi-enquiries",
+    icon: Inbox,
+    accent: "var(--color-signal-emerald)",
     title: "Enquiries",
     tag: "Key figure",
     blurb: "How many enquiries arrived in the period, against the period before.",
@@ -148,6 +153,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "kpi-new",
+    icon: MailQuestion,
+    accent: "var(--color-signal-amber)",
     title: "Waiting for a first reply",
     tag: "Key figure",
     blurb: "Enquiries still marked New, across all time, and how many of the period's have nobody assigned.",
@@ -170,6 +177,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "kpi-accounts",
+    icon: Users,
+    accent: "var(--color-signal-violet)",
     title: "Accounts to review",
     tag: "Key figure",
     blurb: "Teacher and school accounts waiting for a staff decision.",
@@ -185,6 +194,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "kpi-mou",
+    icon: FileSignature,
+    accent: "var(--color-signal-sky)",
     title: "MOU requests open",
     tag: "Key figure",
     blurb: "School board agreements that are pending or being reviewed.",
@@ -200,6 +211,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "trend",
+    icon: TrendingUp,
+    accent: "var(--color-signal-emerald)",
     title: "Enquiries over time",
     tag: "Chart",
     blurb: "A line for each day of the period, with the period before as a dashed line. Touch or hover any day.",
@@ -208,6 +221,8 @@ export const WIDGETS: readonly WidgetDef[] = [
       <AreaChart
         reduced={c.reduced}
         unit="enquiries"
+        color="var(--color-signal-emerald)"
+        previousColor="var(--color-signal-violet)"
         data={c.agg.daily.map((d, i) => ({
           label: dayLabel(d.day),
           value: d.count,
@@ -224,6 +239,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "activity",
+    icon: Activity,
+    accent: "var(--color-signal-rose)",
     title: "Live activity",
     tag: "Feed",
     blurb: "New enquiries and staff changes as they happen. New rows slide in and glow for a few seconds.",
@@ -243,6 +260,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "forms",
+    icon: BarChart3,
+    accent: "var(--color-signal-violet)",
     title: "By form",
     tag: "Bars",
     blurb: "Which website forms the enquiries came through.",
@@ -258,6 +277,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "pipeline",
+    icon: ListChecks,
+    accent: "var(--color-signal-amber)",
     title: "Where they stand",
     tag: "Pipeline",
     blurb: "The period's enquiries by status, from New to Closed.",
@@ -278,6 +299,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "latest",
+    icon: Inbox,
+    accent: "var(--color-signal-sky)",
     title: "Latest enquiries",
     tag: "Table",
     blurb: "The eight newest enquiries, each linking to its page.",
@@ -322,6 +345,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "handled",
+    icon: CircleGauge,
+    accent: "var(--color-signal-emerald)",
     title: "Picked up",
     tag: "Gauge",
     blurb: "The share of the period's enquiries that someone has moved on from New.",
@@ -344,6 +369,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "weekday",
+    icon: CalendarDays,
+    accent: "var(--color-signal-violet)",
     title: "Busiest days",
     tag: "Columns",
     blurb: "Which days of the week enquiries tend to arrive on (India time).",
@@ -359,6 +386,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "sources",
+    icon: Signpost,
+    accent: "var(--color-signal-amber)",
     title: "Where they came from",
     tag: "Split",
     blurb: "QR codes, campaign links and direct visits.",
@@ -384,6 +413,8 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "hubs",
+    icon: MapPin,
+    accent: "var(--color-signal-rose)",
     title: "QR captures by hub",
     tag: "List",
     blurb: "Which hubs the scanned QR codes brought the most families from.",

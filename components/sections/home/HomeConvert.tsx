@@ -3,6 +3,7 @@
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -99,7 +100,11 @@ export function HomeStandings() {
       </div>
 
       <div ref={ref} className="gutter mt-12">
-        <p className="label mb-3 text-dust">STPCI standings 2026–27 · sample</p>
+        <div className="mb-4 flex items-center gap-4">
+          {/* The standings are the council's: its seal, small, beside their label. */}
+          <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-14 w-auto object-contain" />
+          <p className="label text-dust">STPCI standings 2026–27 · sample</p>
+        </div>
         <ol className="border-t border-line">
           {standings.map((s, i) => (
             <li key={s.hub} className="relative border-b border-line py-5">

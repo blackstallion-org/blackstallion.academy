@@ -51,6 +51,12 @@
   /* Swiss-editorial gallery pair (31 Oct 2026, owner's reference): off-white paper and black ink. */
   --color-paper: #f5f5f2;
   --color-ink: #111110;
+  /* Console category colours (31 Oct 2026, owner's request for a colourful dashboard): one per figure, matching the chart set. */
+  --color-signal-emerald: #10b981;
+  --color-signal-violet: #7c3aed;
+  --color-signal-amber: #f59e0b;
+  --color-signal-sky: #0ea5e9;
+  --color-signal-rose: #e11d48;
 
   /* Official Marwari Studbook colour registry (coat colours, not UI colours) */
   --color-bhanwar: #2a1d15;
