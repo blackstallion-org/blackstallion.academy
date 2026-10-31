@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { corridors, entity, hidesFooter, legalNav } from "@/lib/content/site";
+import { corridors, entity, hidesFooter, legalNav, LOGO } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
@@ -112,7 +112,8 @@ function PublicFooter() {
         {/* The two seals as supplied (backgrounds removed, nothing redrawn): the academy and its governing council. */}
         <div className="footer-meridian__mark flex flex-wrap items-end justify-center gap-x-10 gap-y-6">
           <figure className="flex flex-col items-center gap-3">
-            <Image src="/brand/bsah-logo.webp" alt="The Black Stallion Academy of Horsemanship crest" width={900} height={900} className="h-20 w-20 sm:h-24 sm:w-24" />
+            {/* The 192 px logo, served as is (unoptimized): it shows at 80 to 96 px, and the image optimiser can flatten a cut-out logo onto a dark square or serve a stale copy of it. */}
+            <Image src={LOGO.sm} alt="The Black Stallion Academy of Horsemanship crest" width={192} height={192} unoptimized className="h-20 w-20 sm:h-24 sm:w-24" />
             <figcaption className="label text-[0.62rem]">The academy</figcaption>
           </figure>
           <span aria-hidden="true" className="hidden h-16 w-px bg-current opacity-25 sm:block" />

@@ -100,3 +100,6 @@ export const isConsolePath = (pathname: string) => pathname.startsWith("/admin")
 
 /** The signed-in member area keeps the site's nav (it is part of the site) but, being an application screen, not the public footer. */
 export const hidesFooter = (pathname: string) => isConsolePath(pathname) || pathname === "/account" || pathname.startsWith("/account/");
+
+/** The crest files. `?v=` is bumped whenever the artwork changes: `/brand/*` is cached by browsers for a day, so a new file at the old address would not show. */
+export const LOGO = { sm: "/brand/bsah-logo-sm.webp?v=2", lg: "/brand/bsah-logo.webp?v=2" } as const;

@@ -1,3 +1,4 @@
+import { LOGO } from "@/lib/content/site";
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,7 +11,7 @@ export function CrestMark({ size = "sm", className, decorative = false }: { size
   return (
     // eslint-disable-next-line @next/next/no-img-element -- a fixed local file shown at 40 to 48 px; next/image would add nothing
     <img
-      src={size === "sm" ? "/brand/bsah-logo-sm.webp" : "/brand/bsah-logo.webp"}
+      src={size === "sm" ? LOGO.sm : LOGO.lg}
       width={px}
       height={px}
       alt={decorative ? "" : "The Black Stallion Academy of Horsemanship crest"}
