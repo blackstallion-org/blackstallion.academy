@@ -1,30 +1,22 @@
 import { cn } from "@/lib/utils";
 
 /**
- * The BSAH mark: the horseman with the lance and pennant (supplied artwork, 28 Oct 2026). It replaces the earlier horse-head crest in the
- * nav, footer, seals and the sign-in page. The drawing is stored as an alpha mask (ink = opaque), and the box paints it in the current text
- * colour, so one file serves the ivory nav, the charcoal nav and the gold seals. Use `size="sm"` in the nav and `size="lg"` for the
- * footer and seals; the box is square and the drawing sits inside it at its own proportions (84 : 100).
+ * The official BSAH logo: the crest with the shield, horse and motto (supplied artwork, 31 Oct 2026), shown exactly as supplied on its
+ * dark leather ground. It replaces the earlier horseman mark everywhere (nav, sign-in, favicon, share image). The picture is square;
+ * `size="sm"` serves a 192 px copy for the nav and `size="lg"` the 900 px original for large uses.
  */
 export function CrestMark({ size = "sm", className, decorative = false }: { size?: "sm" | "lg"; className?: string; decorative?: boolean }) {
-  const src = size === "sm" ? "/brand/bsah-horseman-sm.webp" : "/brand/bsah-horseman.webp";
-  const mask = `url(${src})`;
+  const px = size === "sm" ? 192 : 900;
   return (
-    <span
-      role={decorative ? undefined : "img"}
+    // eslint-disable-next-line @next/next/no-img-element -- a fixed local file shown at 40 to 48 px; next/image would add nothing
+    <img
+      src={size === "sm" ? "/brand/bsah-logo-sm.webp" : "/brand/bsah-logo.webp"}
+      width={px}
+      height={px}
+      alt={decorative ? "" : "The Black Stallion Academy of Horsemanship crest"}
       aria-hidden={decorative ? true : undefined}
-      aria-label={decorative ? undefined : "The Black Stallion Academy of Horsemanship: a horseman with a lance"}
-      className={cn("inline-block select-none bg-current", className)}
-      style={{
-        WebkitMaskImage: mask,
-        maskImage: mask,
-        WebkitMaskRepeat: "no-repeat",
-        maskRepeat: "no-repeat",
-        WebkitMaskPosition: "center",
-        maskPosition: "center",
-        WebkitMaskSize: "contain",
-        maskSize: "contain",
-      }}
+      className={cn("inline-block select-none rounded-md object-contain", className)}
+      draggable={false}
     />
   );
 }
