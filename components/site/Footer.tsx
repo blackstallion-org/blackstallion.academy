@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { corridors, entity, legalNav } from "@/lib/content/site";
+import { corridors, entity, isConsolePath, legalNav } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
@@ -23,7 +24,7 @@ const navLinks = [
   { href: "/cadets", label: "Cadets" },
   { href: "/parents", label: "Parents" },
   { href: "/tournaments", label: "The Circuit" },
-  { href: "/command", label: "Information desk" },
+  { href: "/command", label: "The Command" },
   { href: "/contact", label: "The Gate" },
 ];
 
@@ -34,6 +35,12 @@ const COPYRIGHT_YEAR = 2026;
  * 70% warm natural editorial palette with atmospheric equine footage blend.
  */
 export function Footer() {
+  // The staff console (sign-in, dashboard, every /admin page) is an application, not a page of the film: no public footer.
+  if (isConsolePath(usePathname())) return null;
+  return <PublicFooter />;
+}
+
+function PublicFooter() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const footerRef = useRef<HTMLElement>(null);
 
@@ -105,12 +112,12 @@ export function Footer() {
         {/* The two seals as supplied (backgrounds removed, nothing redrawn): the academy and its governing council. */}
         <div className="footer-meridian__mark flex flex-wrap items-end justify-center gap-x-10 gap-y-6">
           <figure className="flex flex-col items-center gap-3">
-            <Image src="/brand/bsah-logo.webp" alt="The Black Stallion Academy of Horsemanship crest" width={900} height={900} className="h-28 w-28 sm:h-32 sm:w-32" />
+            <Image src="/brand/bsah-logo.webp" alt="The Black Stallion Academy of Horsemanship crest" width={900} height={900} className="h-20 w-20 sm:h-24 sm:w-24" />
             <figcaption className="label text-[0.62rem]">The academy</figcaption>
           </figure>
-          <span aria-hidden="true" className="hidden h-24 w-px bg-current opacity-25 sm:block" />
+          <span aria-hidden="true" className="hidden h-16 w-px bg-current opacity-25 sm:block" />
           <figure className="flex flex-col items-center gap-3">
-            <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-28 w-auto object-contain sm:h-32" />
+            <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-20 w-auto object-contain sm:h-24" />
             <figcaption className="label text-[0.62rem]">The council</figcaption>
           </figure>
         </div>

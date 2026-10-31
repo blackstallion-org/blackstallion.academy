@@ -6,6 +6,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { KINDS, MEMBER_KINDS, type MemberKind } from "@/lib/accounts/kinds";
 import type { MediaKey } from "@/lib/content/media";
 import { SignInForm } from "../forms";
+import { EntryHeader } from "../EntryHeader";
 
 const reasons: Record<string, string> = {
   forbidden: "That account does not have staff access.",
@@ -33,6 +34,7 @@ type Search = { e?: string; mode?: string; kind?: string };
 export default function LoginPage({ searchParams }: { searchParams: Promise<Search> }) {
   return (
     <div className="mx-auto w-full max-w-[1100px]">
+      <EntryHeader />
       <Suspense fallback={null}><Reason searchParams={searchParams} /></Suspense>
       <Suspense fallback={null}><Doors searchParams={searchParams} /></Suspense>
       <p className="label mt-16 text-center text-dust">Black Stallion Academy of Horsemanship</p>
@@ -94,7 +96,7 @@ async function Doors({ searchParams }: { searchParams: Promise<Search> }) {
 
         <div aria-hidden="true" className="hidden bg-line lg:block" />
 
-        <section aria-labelledby="signin-title" className={`${create ? "hidden lg:block" : ""} lg:sticky lg:top-32 lg:self-start`}>
+        <section aria-labelledby="signin-title" className={`${create ? "hidden lg:block" : ""} lg:sticky lg:top-8 lg:self-start`}>
           <h2 id="signin-title" className="t-inscribe text-center text-[clamp(1.1rem,2vw,1.5rem)] uppercase tracking-[0.2em] text-bone">Already a member? Sign in</h2>
           <p className="t-ui mx-auto mt-4 max-w-sm text-center text-sm text-sand">Students, parents, teachers, schools and academy staff sign in here.</p>
           <div className="mx-auto mt-10 w-full max-w-sm"><SignInForm /></div>

@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
+  ArrowUpRight,
+  Bell,
   FileSignature,
   FileText,
   ImageIcon,
@@ -21,6 +23,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
+import { CrestMark } from "@/components/brand/CrestMark";
 import { usePref } from "@/components/sections/admin/use-pref";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
 import { useReducedMotion } from "@/lib/motion/reduced";
@@ -57,12 +60,6 @@ export function AdminShell({ name, current, inside = false, children }: { name: 
   const dark = theme === "dark";
   const scopeRef = useRef<HTMLDivElement>(null);
   useDialogFocus(drawer, scopeRef);
-  // The site's own bar slides away on the way down the page (components/site/SiteNav.tsx: past 240 px and scrolling down). The
-  // phone bar under it follows the same rule, so it never leaves a 64 px gap above itself.
-  const [navHidden, setNavHidden] = useState(false);
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (y) => setNavHidden(y > 240 && y > (scrollY.getPrevious() ?? 0)));
-
   useEffect(() => {
     if (!drawer) return;
     const close = (e: KeyboardEvent) => e.key === "Escape" && setDrawer(false);
@@ -78,27 +75,45 @@ export function AdminShell({ name, current, inside = false, children }: { name: 
 
   return (
     <div ref={scopeRef} data-admin-shell className={cn("relative -mx-3 px-3 py-3 transition-colors duration-500 sm:-mx-5 sm:px-5 sm:py-5", dark ? "tone-dark border border-line bg-night" : "")}>
-      {/* phone: a bar under the site's own nav */}
-      <div className={cn("sticky z-30 -mx-3 mb-4 flex items-center justify-between gap-3 border-b border-line bg-night/95 px-3 py-2 backdrop-blur-sm transition-[top] duration-500 sm:-mx-5 sm:px-5 lg:hidden", navHidden ? "top-0" : "top-16")}>
+      {/* The console's own header (the App1 reference): the crest, a greeting and the section, then new enquiries, the public
+          site and the signed-in initial. The public nav and footer are not shown on /admin. On a phone it carries the menu. */}
+      <header className="sticky top-0 z-30 -mx-3 mb-6 flex h-16 items-center gap-3 border-b border-line bg-night/95 px-3 backdrop-blur-sm sm:-mx-5 sm:px-5">
         <button
           type="button"
           onClick={() => setDrawer(true)}
           aria-label="Open the console menu"
           aria-expanded={drawer}
-          className="grid h-11 w-11 place-items-center border border-line text-bone hover:border-gold hover:text-gold"
+          className="grid h-11 w-11 shrink-0 place-items-center border border-line text-bone hover:border-gold hover:text-gold lg:hidden"
         >
           <Menu className="h-5 w-5" aria-hidden />
         </button>
-        <p className="label min-w-0 flex-1 truncate text-brass">{sectionTitle(current)}</p>
-        <ThemeButton dark={dark} onToggle={() => setTheme(dark ? "light" : "dark")} />
-      </div>
+        <Link href="/admin" className="hidden shrink-0 sm:block" aria-label="Console overview">
+          <CrestMark className="h-10 w-10" decorative />
+        </Link>
+        <div className="min-w-0 flex-1">
+          <p className="t-ui truncate text-[0.95rem] font-semibold text-bone">Welcome back, {name.trim().split(/\s+/)[0] || "staff"}</p>
+          <p className="label truncate text-[0.62rem] text-dust">{sectionTitle(current)}</p>
+        </div>
+        <div className="flex shrink-0 items-center gap-1.5">
+          <Link href="/admin/enquiries?status=new" aria-label="New enquiries" title="New enquiries" className="grid h-11 w-11 place-items-center text-sand transition-colors hover:text-gold">
+            <Bell className="h-[1.1rem] w-[1.1rem]" aria-hidden />
+          </Link>
+          <Link href="/" className="label hidden items-center gap-1.5 px-2 text-sand transition-colors hover:text-gold md:flex">
+            View site <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+          </Link>
+          <span className="lg:hidden"><ThemeButton dark={dark} onToggle={() => setTheme(dark ? "light" : "dark")} /></span>
+          <span aria-hidden title={name} className="ml-1 hidden h-9 w-9 place-items-center rounded-full border border-line font-mono text-xs uppercase text-gold sm:grid">
+            {name.trim().slice(0, 1) || "S"}
+          </span>
+        </div>
+      </header>
 
       <div
         className="grid gap-x-8 lg:grid-cols-[var(--side)_minmax(0,1fr)] lg:transition-[grid-template-columns] lg:duration-300"
         style={{ ["--side" as string]: collapsed ? "4.25rem" : "15.5rem" }}
       >
         <aside aria-label="Staff console" className="hidden lg:block">
-          <div className="plate sticky top-28 flex max-h-[calc(100svh-8rem)] flex-col overflow-hidden">
+          <div className="plate sticky top-24 flex max-h-[calc(100svh-7rem)] flex-col overflow-hidden">
             <SideNav current={current} inside={inside} collapsed={collapsed} />
             <SideFoot name={name} collapsed={collapsed} dark={dark} onTheme={() => setTheme(dark ? "light" : "dark")} onCollapse={() => setCollapsedPref(collapsed ? "open" : "collapsed")} />
           </div>

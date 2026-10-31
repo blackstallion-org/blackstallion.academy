@@ -9,11 +9,11 @@ import { asset } from "@/lib/content/asset";
 
 export function CommandExperience() {
   return (
-    <section aria-labelledby="cmd-h" className={styles.page} data-parallax-skip>
+    <section id="desk" aria-labelledby="cmd-h" className={styles.page} data-parallax-skip>
       <div className={styles.main}>
-        <p className={styles.eyebrow}>Information desk</p>
+        <p className={styles.eyebrow}>The desk</p>
         <div className={styles.workspace}>
-          <Terminal variant="editorial" titleAs="h1" titleId="cmd-h" chips={knowledge.map((entry) => entry.ask)} />
+          <Terminal variant="editorial" titleAs="h2" titleId="cmd-h" chips={knowledge.map((entry) => entry.ask)} />
         </div>
       </div>
     </section>
@@ -25,7 +25,7 @@ export function CommandTeaser() {
   return <section id="home-command" aria-labelledby="command-h" className={styles.teaser} data-parallax-skip>
     <div className={styles.teaserBackground} aria-hidden><Image src={asset("/media/gallop.webp")} alt="" fill sizes="100vw" style={{ objectPosition: "30% 22%" }} /></div>
     <div className={styles.teaserIntro}>
-      <p className={styles.eyebrow}>Reel 14 / Information desk</p>
+      <p className={styles.eyebrow}>Reel 14 / The Command</p>
       <h2 id="command-h">{command.inscription}<br /><span>{command.voice}</span></h2>
       <p>For principals and trustees: returns, insurance, safety and curriculum, answered on the spot.</p>
       <Link href="/command">Find an answer <ArrowRight size={20} strokeWidth={1} /></Link>

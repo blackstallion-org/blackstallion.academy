@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 export const instant = false;
 
 /**
- * Staff console shell. Every page below re-checks the staff role on the server. `data-parallax-skip` keeps the
+ * Staff console shell (no public nav or footer: the console is an application). Every page below re-checks the staff role on the server. `data-parallax-skip` keeps the
  * site-wide scroll parallax (components/motion/SiteParallax.tsx) off console headings and images: it would drift
  * section headings onto the rules beneath them.
  */
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <section data-parallax-skip className="gutter min-h-[80svh] bg-night pb-24 pt-28 md:pt-32">{children}</section>;
+  return <section data-parallax-skip className="gutter min-h-[100svh] bg-night pb-24 pt-4 md:pt-6">{children}</section>;
 }

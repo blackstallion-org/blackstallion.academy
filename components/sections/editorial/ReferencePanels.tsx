@@ -37,7 +37,7 @@ const firstRide = [
 /** A photographic first-lesson sequence inspired by the supplied four-panel reference. */
 export function FirstRideEditorial() {
   return (
-    <section className={styles.firstRide} aria-labelledby="first-ride-title">
+    <section className={`tone-dark ${styles.firstRide}`} aria-labelledby="first-ride-title">
       <div className={styles.rideIntro}>
         <p className={styles.folio}>Black Stallion Academy of Horsemanship</p>
         <h2 id="first-ride-title">Every rider begins <em>somewhere.</em></h2>

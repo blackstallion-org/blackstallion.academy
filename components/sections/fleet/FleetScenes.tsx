@@ -1,13 +1,13 @@
 "use client";
 
+import { LastExhibit } from "@/components/sections/legend/LastExhibit";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
-import { AnimatePresence, motion, useInView, useScroll, useTransform } from "motion/react";
+import { AnimatePresence, motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Label, ReelMark, StatusDot } from "@/components/film/Marks";
-import { r } from "@/components/film/range";
 import { careLog, coatRegistry, feeds, fleet, FLEET_TOTAL, statusLabel, type Stallion } from "@/lib/content/fleet";
 import { hubs } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
@@ -18,22 +18,17 @@ const hubName = (slug: string) => hubs.find((h) => h.slug === slug)?.short ?? sl
 
 /** Title card · T7 lantern corridor. Signature: the lantern light swells as you scroll in. */
 export function FleetTitle() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const scale = useTransform(scrollYProgress, r(0, 1), [1, 1.12]);
   return (
-    <section ref={ref} aria-labelledby="fleet-h" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden">
-      <FilmImage name="bgStable" priority scale={scale} grade="none" />
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[10vh]">
-        
-        <Headline id="fleet-h" as="h1" size="1" animate="mount" className="mt-6 [text-shadow:0_3px_15px_rgba(0,0,0,0.7)]" inscription="Twenty-one stallions." voice="Every one has a name." />
-        
+    <section aria-labelledby="fleet-h" className="editorial-scene">
+      {/* The opening scene is the stallion itself (31 Oct 2026, owner's request; was a still of the stable): the same rigged
+          Marwari as the end of the museum on /legend, coat dissolving to glass on hover or press-and-hold. */}
+      <LastExhibit variant="hero" labelledBy="fleet-h" />
+      <div className="tone-light editorial-details gutter">
+        <ReelMark n={7} act="citadel" />
+        <Headline id="fleet-h" as="h1" size="1" animate="mount" className="mt-6" inscription="Twenty-one stallions." voice="Every one has a name." />
+        <ScrollRevealText className="t-story mt-6 max-w-2xl text-bone">Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.</ScrollRevealText>
       </div>
-    </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={7} act="citadel" />
-<ScrollRevealText className="t-story mt-6 max-w-2xl text-bone ">Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.</ScrollRevealText></div>
-</section>
+    </section>
   );
 }
 

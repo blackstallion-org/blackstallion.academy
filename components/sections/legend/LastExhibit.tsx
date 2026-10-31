@@ -26,7 +26,8 @@ const hasWebGPU = () => typeof navigator !== "undefined" && "gpu" in navigator;
  * Hover or press-and-hold dissolves the coat; the button pins it for keyboard and switch users.
  * Without WebGPU or WebGL 2 the stage shows a photograph and a short note instead.
  */
-export function LastExhibit() {
+export function LastExhibit({ variant = "chapter", labelledBy = "exhibit-h" }: { variant?: "chapter" | "hero"; labelledBy?: string } = {}) {
+  const hero = variant === "hero";
   const stageRef = useRef<HTMLDivElement>(null);
   const near = useNearViewport(stageRef);
   const onScreen = useOnScreen(stageRef);
@@ -76,16 +77,27 @@ export function LastExhibit() {
   };
 
   return (
-    <section id="exhibit" aria-labelledby="exhibit-h" data-parallax-skip className="tone-dark relative bg-night pt-[clamp(6rem,12vh,9rem)]">
-      <div className="gutter pb-10 md:pb-14">
-        <Label>{copy.label}</Label>
-        <Headline id="exhibit-h" className="mt-4" inscription={copy.inscription} voice={copy.voice} />
-        <p className="t-story mt-6 max-w-2xl text-lede text-sand">{copy.body}</p>
-      </div>
+    <section
+      id={hero ? undefined : "exhibit"}
+      aria-labelledby={labelledBy}
+      data-parallax-skip
+      className={cn("tone-dark relative bg-night", hero ? "pt-16 md:pt-20" : "pt-[clamp(6rem,12vh,9rem)]")}
+    >
+      {/* As a page's opening scene (/fleet) the stallion stands alone under the nav; the page sets its heading below. */}
+      {hero ? null : (
+        <div className="gutter pb-10 md:pb-14">
+          <Label>{copy.label}</Label>
+          <Headline id="exhibit-h" className="mt-4" inscription={copy.inscription} voice={copy.voice} />
+          <p className="t-story mt-6 max-w-2xl text-lede text-sand">{copy.body}</p>
+        </div>
+      )}
 
       <div
         ref={stageRef}
-        className="relative h-[78svh] min-h-[460px] w-full overflow-hidden bg-night lg:h-[84svh]"
+        className={cn(
+          "relative w-full overflow-hidden bg-night",
+          hero ? "h-[calc(100svh-4rem)] min-h-[520px] md:h-[calc(100svh-5rem)]" : "h-[78svh] min-h-[460px] lg:h-[84svh]",
+        )}
         onPointerDown={(event) => {
           if (event.button !== 0 || (event.target as HTMLElement).closest("button")) return;
           input.current.holding = true;

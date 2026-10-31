@@ -1,3 +1,4 @@
+import { EntryHeader } from "../EntryHeader";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
@@ -6,6 +7,8 @@ import { NewPasswordForm, ResetRequestForm } from "../forms";
 /** Without a session: request a reset link. With the session from the e-mail link: choose a new password. */
 export default function ResetPage() {
   return (
+    <>
+    <EntryHeader />
     <div className="max-w-xl">
       <p className="label text-brass">Staff console</p>
       <h1 className="t-voice mt-4 text-[clamp(2rem,5vw,3.5rem)] leading-tight text-bone">Reset password</h1>
@@ -13,6 +16,7 @@ export default function ResetPage() {
         <Suspense fallback={<p role="status" className="text-sand">Checking your link…</p>}><ResetStep /></Suspense>
       </div>
     </div>
+    </>
   );
 }
 

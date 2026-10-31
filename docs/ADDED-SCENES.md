@@ -5,11 +5,13 @@ the colours and the reduced-motion behaviour were made the site's own.
 
 | Piece | Where | Files |
 | --- | --- | --- |
-| **The robot** | `/science`, the top section, robot centred, on the site's ivory ground (moved off the dark stage 31 Oct) | `components/sections/science/RobotScene.tsx`, `components/ui/splite.tsx`, `components/ui/spotlight.tsx` |
-| **The walking crowd** | `/tournaments`, the foot of the title scene (moved from the mid-page "gallery" band 31 Oct) | `components/sections/tournaments/TournamentScenes.tsx` (`CircuitTitle`), `components/motion/CrowdCanvas.tsx`, `public/animations/crowd-peeps.png` |
+| **The robot** | `/command` ("The Command"), the full-screen opening scene: dark band, raking light, one heading and one line, robot on the right (moved from `/science` 31 Oct, owner's request) | `components/sections/command/CommandHero.tsx`, `components/ui/splite.tsx`, `components/ui/spotlight.tsx` |
+| **The walking crowd** | `/tournaments`, the foot of the title scene; and the foot of the reels menu, above the word "Chapters", where the act zones (Hook / Proof / Convert) used to be (31 Oct) | `components/sections/tournaments/TournamentScenes.tsx` (`CircuitTitle`), `components/motion/CrowdCanvas.tsx`, `public/animations/crowd-peeps.png` |
 | **The chart set** | `/admin` (and the SAMPLE preview at `/dev/admin-dashboard`), above the existing dashboard | `components/sections/admin/dashboard/EnquiryBento.tsx`, `components/ui/analytics-bento.tsx` |
 
 ## The robot (Spline)
+
+_31 Oct 2026: now on `/command` (`CommandHero.tsx`); the notes below were written for its earlier place on `/science`._
 
 - The scene is Spline's own, streamed at runtime from `prod.spline.design`; the animation is untouched. Only the wording changed
   ("Machines measure. / Horses teach.", setting up the page's own subject) and the robot was centred rather than set beside the text.

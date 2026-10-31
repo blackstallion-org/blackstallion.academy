@@ -60,7 +60,7 @@ export default function SchoolsPage() {
             Request a draft MOU
           </Cta>
           <Cta href="/contact?gate=audit">Schedule a board audit</Cta>
-          <Cta href="/command">Information desk</Cta>
+          <Cta href="/command">The Command</Cta>
         </div>
       </section>
 

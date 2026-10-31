@@ -38,7 +38,7 @@ export const reels: Reel[] = [
   { n: 11, href: "/schools", act: "ledger", title: "The Citadel", inscription: "Your campus", voice: "becomes a citadel.", blurb: "Tiers, returns and the draft MOU for school boards.", image: "schoolAerial" },
   { n: 12, href: "/verify", act: "ledger", title: "The Seal", inscription: "Every hour", voice: "sealed in brass.", blurb: "Verify a cadet's passport.", image: "bgPassport" },
   { n: 13, href: "/tournaments", act: "ledger", title: "The Circuit", inscription: "Lances down.", voice: "Zones on the circuit.", blurb: "STPCI standings and fixtures.", image: "bgCharge" },
-  { n: 14, href: "/command", act: "ledger", title: "Information desk", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
+  { n: 14, href: "/command", act: "ledger", title: "The Command", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
   { n: 15, href: "/journal", act: "ledger", title: "The Chronicle", inscription: "Stories", voice: "from the stable.", blurb: "Legends, science and the circuit.", image: "journalReins" },
   { n: 16, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
 ];
@@ -91,6 +91,9 @@ export const legalNav = [
   { label: "About", href: "/about" },
   { label: "Lore of the Bards", href: "/lore" },
   { label: "Journal", href: "/journal" },
-  { label: "Information desk", href: "/command" },
+  { label: "The Command", href: "/command" },
   { label: "Privacy", href: "/privacy" },
 ];
+
+/** Application screens (the staff console, its sign-in, and the dev preview of its overview): no public nav or footer. */
+export const isConsolePath = (pathname: string) => pathname.startsWith("/admin") || pathname.startsWith("/dev/admin-dashboard");

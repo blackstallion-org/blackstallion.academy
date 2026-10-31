@@ -107,6 +107,7 @@ export function CadetDrillShowcase() {
       title="Field studies."
       intro="The details stay crisp when the photographs remain still."
       items={cadetImages}
+      variant="editorial"
     />
   );
 }

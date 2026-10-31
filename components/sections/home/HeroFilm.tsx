@@ -5,7 +5,6 @@ import { useLenis } from "lenis/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
-import { FilmImage } from "@/components/film/FilmImage";
 
 type Playback = "loading" | "buffering" | "playing" | "paused" | "blocked" | "failed" | "ended" | "skipped";
 
@@ -108,13 +107,10 @@ export function HeroFilm() {
   // whole) and the picture's soft top and bottom edges dissolve into the dark of the screen, where the baked bars are. On a phone the
   // same rule makes a band across the middle of the dark, under the dust.
   const FRAME_ASPECT = "1606 / 900";
-  return <section id="top" aria-label="Opening Film" data-playback={state} className="tone-dark relative h-[100svh] min-h-[540px] w-full overflow-hidden bg-night">
-    {/* On a phone the film is a band across the middle; the dust still fills the dark around it so the screen is never empty. */}
-    <div aria-hidden className="absolute inset-0 md:hidden">
-      <FilmImage name="heroDust" grade="none" sizes="100vw" position="50% 50%" className="opacity-40" />
-      <div className="absolute inset-0 bg-gradient-to-b from-night via-night/55 to-night" />
-    </div>
-    <div className="absolute left-1/2 top-1/2 w-[130vw] -translate-x-1/2 -translate-y-1/2 md:w-[128%]" style={{ aspectRatio: FRAME_ASPECT, maskImage: "linear-gradient(to bottom, transparent 14.5%, black 24%, black 76%, transparent 85.5%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 14.5%, black 24%, black 76%, transparent 85.5%)" }}>
+  return <section id="top" aria-label="Opening Film" data-playback={state} className="tone-dark relative h-[100svh] min-h-[540px] w-full overflow-hidden bg-black">
+    {/* 31 Oct 2026 (owner's request): no picture behind the film. Around the frame the screen is plain black on phone and
+        desktop, and the frame's edges are cut clean where the baked bars begin (they used to dissolve into a dust still). */}
+    <div className="absolute left-1/2 top-1/2 w-[130vw] -translate-x-1/2 -translate-y-1/2 md:w-[128%]" style={{ aspectRatio: FRAME_ASPECT, maskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)" }}>
       <picture className="absolute inset-0">
         <source media="(max-width: 767px)" srcSet={asset("/video/hero-main-poster-mobile.webp")} />
         {/* Native picture is deliberately available before JS and video decoding. */}
@@ -132,10 +128,6 @@ export function HeroFilm() {
         <source src={asset("/video/hero-main-desktop.mp4")} type="video/mp4" />
       </video>
     </div>
-
-    {/* Held shades: the nav above and the controls below stay legible whatever frame is playing. */}
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[22%] bg-gradient-to-b from-night/75 to-transparent" />
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-night/85 to-transparent" />
 
     {/* Controls sit on the foot of the screen (never in the top 80 px, which belongs to the nav). */}
     <div data-sound="off" className="no-print gutter absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pb-5 pt-12 md:pb-7">

@@ -48,6 +48,9 @@
   --color-leather: #493126;
   --color-charcoal: #171513;
   --color-antique: #c9a66b;
+  /* Swiss-editorial gallery pair (31 Oct 2026, owner's reference): off-white paper and black ink. */
+  --color-paper: #f5f5f2;
+  --color-ink: #111110;
 
   /* Official Marwari Studbook colour registry (coat colours, not UI colours) */
   --color-bhanwar: #2a1d15;
@@ -163,15 +166,16 @@
 }
 
 .tone-dark {
-  --color-night: #171513;   /* charcoal */
+  /* 31 Oct 2026 (owner's gallery correction): one warm black, warm ivory text, muted warm grey, restrained bronze labels. */
+  --color-night: #171412;   /* warm black */
   --color-umber: #1f1b17;
   --color-ember: #2a221c;   /* dark leather panel */
-  --color-brass: #b88a62;   /* caramel */
+  --color-brass: #9a7859;   /* bronze */
   --color-copper: #b88a62;
   --color-line: rgb(201 166 107 / 0.28);
   --color-gold: #c9a66b;    /* antique gold */
-  --color-bone: #f3ede2;
-  --color-sand: #ddd0bc;
+  --color-bone: #f0ebe4;
+  --color-sand: #b8ada2;
   --color-dust: #a8957f;
   --color-blood: #dc6448;
   --color-frost: #9fb3c8;

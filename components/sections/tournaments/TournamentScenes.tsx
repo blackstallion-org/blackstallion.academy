@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import Link from "next/link";
@@ -47,8 +48,17 @@ export function CircuitTitle() {
 <div className="tone-light relative h-[13rem] w-full overflow-hidden border-b border-line bg-night">
   <CrowdCanvas src="/animations/crowd-peeps.png" rows={15} cols={7} scale={0.4} className="absolute bottom-0 h-full w-full" />
 </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={13} act="ledger" />
-<ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText></div>
+{/* The circuit is the council's: its seal stands beside the line that names it (supplied artwork, background removed). */}
+<div className="tone-light editorial-details gutter flex flex-wrap items-center justify-between gap-x-12 gap-y-8">
+  <div className="min-w-0 max-w-2xl">
+    <ReelMark n={13} act="ledger" />
+    <ScrollRevealText className="t-story mt-6 text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText>
+  </div>
+  <figure className="flex shrink-0 items-center gap-5">
+    <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-24 w-auto object-contain md:h-28" />
+    <figcaption className="label max-w-[12rem] leading-relaxed text-dust">Sanctioned by the School Tent Pegging Council of India</figcaption>
+  </figure>
+</div>
 </section>
   );
 }
