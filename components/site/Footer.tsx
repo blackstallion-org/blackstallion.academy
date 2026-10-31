@@ -105,7 +105,7 @@ export function Footer() {
         {/* The two seals as supplied (backgrounds removed, nothing redrawn): the academy and its governing council. */}
         <div className="footer-meridian__mark flex flex-wrap items-end justify-center gap-x-10 gap-y-6">
           <figure className="flex flex-col items-center gap-3">
-            <Image src="/brand/bsah-logo.webp" alt="The Black Stallion Academy of Horsemanship crest" width={900} height={900} className="h-28 w-28 rounded-md sm:h-32 sm:w-32" />
+            <Image src="/brand/bsah-logo.webp" alt="The Black Stallion Academy of Horsemanship crest" width={900} height={900} className="h-28 w-28 sm:h-32 sm:w-32" />
             <figcaption className="label text-[0.62rem]">The academy</figcaption>
           </figure>
           <span aria-hidden="true" className="hidden h-24 w-px bg-current opacity-25 sm:block" />

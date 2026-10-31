@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 
 /**
- * The official BSAH logo: the crest with the shield, horse and motto (supplied artwork, 31 Oct 2026), shown exactly as supplied on its
- * dark leather ground. It replaces the earlier horseman mark everywhere (nav, sign-in, favicon, share image). The picture is square;
+ * The official BSAH logo: the crest with the shield, horse and motto (supplied artwork, 31 Oct 2026), cut out of its
+ * dark leather ground (transparent background), otherwise exactly as supplied. It replaces the earlier horseman mark everywhere (nav, sign-in, favicon, share image). The picture is square;
  * `size="sm"` serves a 192 px copy for the nav and `size="lg"` the 900 px original for large uses.
  */
 export function CrestMark({ size = "sm", className, decorative = false }: { size?: "sm" | "lg"; className?: string; decorative?: boolean }) {
@@ -15,7 +15,7 @@ export function CrestMark({ size = "sm", className, decorative = false }: { size
       height={px}
       alt={decorative ? "" : "The Black Stallion Academy of Horsemanship crest"}
       aria-hidden={decorative ? true : undefined}
-      className={cn("inline-block select-none rounded-md object-contain", className)}
+      className={cn("inline-block select-none object-contain", className)}
       draggable={false}
     />
   );
