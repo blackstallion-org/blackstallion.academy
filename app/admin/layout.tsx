@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 export const instant = false;
 
 /**
- * Staff console shell (no public nav or footer: the console is an application). Every page below re-checks the staff role on the server. `data-parallax-skip` keeps the
+ * Staff console shell (no public nav or footer: the console is an application). The Mosaic colours come from the `.console` scope that AdminShell sets on itself; the sign-in and reset screens sit outside it and keep the site's own colours. Every page below re-checks the staff role on the server. `data-parallax-skip` keeps the
  * site-wide scroll parallax (components/motion/SiteParallax.tsx) off console headings and images: it would drift
  * section headings onto the rules beneath them.
  */
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <section data-parallax-skip className="console min-h-[100svh]">{children}</section>;
+  return <section data-parallax-skip className="min-h-[100svh] bg-night">{children}</section>;
 }
