@@ -8,6 +8,33 @@ import { useEffect, useRef, useState } from "react";
  * content height; this wrapper tells it when it is on screen so it can stop rendering offscreen.
  */
 export function DualBody() {
+  return (
+    <AnatomyFrame
+      src="/anatomy/dual-body.html"
+      label="One conversation. Two bodies."
+      title="One conversation. Two bodies. Interactive Marwari horse and cadet rider anatomy"
+      className="relative bg-umber pt-24 md:pt-28"
+    />
+  );
+}
+
+/**
+ * "What twenty minutes does to a child." — the brain, spine, muscle and heart plate (public/anatomy/matrix.html), the supplied
+ * 2D animation put back on /anatomy (1 Nov 2026). Same frame, same height message; no three.js, so the visibility message is ignored.
+ * The frame is #EBE5D7, the backdrop colour of the rider photograph inside it, so the picture has no visible edge.
+ */
+export function MatrixPlate() {
+  return (
+    <AnatomyFrame
+      src="/anatomy/matrix.html"
+      label="What twenty minutes does to a child."
+      title="What twenty minutes does to a child. Interactive plate of the brain, spine, muscle and heart of a young rider, with the research behind each"
+      className="relative bg-[#EBE5D7] pt-16 md:pt-20"
+    />
+  );
+}
+
+function AnatomyFrame({ src, label, title, className }: { src: string; label: string; title: string; className: string }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const visible = useRef(false);
   const [height, setHeight] = useState(1000);
@@ -43,11 +70,11 @@ export function DualBody() {
   }, []);
 
   return (
-    <section aria-label="One conversation. Two bodies." data-parallax-skip className="relative bg-umber pt-24 md:pt-28">
+    <section aria-label={label} data-parallax-skip className={className}>
       <iframe
         ref={frame}
-        src="/anatomy/dual-body.html"
-        title="One conversation. Two bodies. Interactive Marwari horse and cadet rider anatomy"
+        src={src}
+        title={title}
         loading="lazy"
         className="block w-full border-0"
         style={{ height }}

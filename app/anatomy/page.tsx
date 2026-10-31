@@ -7,7 +7,7 @@ import { Label } from "@/components/film/Marks";
 import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
 import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anatomy/AnatomyScenes";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
-import { DualBody } from "@/components/sections/anatomy/DualBody";
+import { DualBody, MatrixPlate } from "@/components/sections/anatomy/DualBody";
 import { Unveiling } from "@/components/sections/shared/Unveiling";
 import { unveilings } from "@/lib/content/unveiling";
 import { breedStandard } from "@/lib/content/anatomy";
@@ -37,6 +37,9 @@ export default function AnatomyPage() {
 
       {/* §1b · one conversation, two bodies (3D rider and horse) */}
       <DualBody />
+
+      {/* §1c · the brain, spine, muscle and heart plate (the supplied 2D animation, back on this page) */}
+      <MatrixPlate />
 
       {/* §2 · S25 */}
       <HorizontalChapter typeface="condensed" chapter="The living form" text="Read the horse before asking it to move." tone="light" />

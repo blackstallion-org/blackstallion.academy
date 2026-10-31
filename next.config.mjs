@@ -102,14 +102,14 @@ const nextConfig = {
         has: [{ type: "query", key: "v", value: MODEL_VERSION }],
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       }] : []),
-      // The "One conversation. Two bodies." exhibit page is framed by this origin only (the site-wide rule forbids framing).
-      {
-        source: "/anatomy/dual-body.html",
+      // The anatomy exhibit pages ("One conversation. Two bodies." and the brain, spine, muscle and heart plate) are framed by this origin only (the site-wide rule forbids framing).
+      ...["/anatomy/dual-body.html", "/anatomy/matrix.html"].map((source) => ({
+        source,
         headers: [
           { key: "Content-Security-Policy", value: csp.replace("frame-ancestors 'none'", "frame-ancestors 'self'") },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
         ],
-      },
+      })),
     ];
   },
   async redirects() {
