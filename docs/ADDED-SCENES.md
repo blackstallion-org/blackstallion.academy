@@ -5,8 +5,8 @@ the colours and the reduced-motion behaviour were made the site's own.
 
 | Piece | Where | Files |
 | --- | --- | --- |
-| **The robot** | `/science`, the top section, robot centred | `components/sections/science/RobotScene.tsx`, `components/ui/splite.tsx`, `components/ui/spotlight.tsx` |
-| **The walking crowd** | `/tournaments`, between the action gallery and the podium | `components/sections/tournaments/CrowdGallery.tsx`, `components/motion/CrowdCanvas.tsx`, `public/animations/crowd-peeps.png` |
+| **The robot** | `/science`, the top section, robot centred, on the site's ivory ground (moved off the dark stage 31 Oct) | `components/sections/science/RobotScene.tsx`, `components/ui/splite.tsx`, `components/ui/spotlight.tsx` |
+| **The walking crowd** | `/tournaments`, the foot of the title scene (moved from the mid-page "gallery" band 31 Oct) | `components/sections/tournaments/TournamentScenes.tsx` (`CircuitTitle`), `components/motion/CrowdCanvas.tsx`, `public/animations/crowd-peeps.png` |
 | **The chart set** | `/admin` (and the SAMPLE preview at `/dev/admin-dashboard`), above the existing dashboard | `components/sections/admin/dashboard/EnquiryBento.tsx`, `components/ui/analytics-bento.tsx` |
 
 ## The robot (Spline)

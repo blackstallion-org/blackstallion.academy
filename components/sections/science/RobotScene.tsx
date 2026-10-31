@@ -1,21 +1,19 @@
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { SplineScene } from "@/components/ui/splite";
-import { Spotlight } from "@/components/ui/spotlight";
 
 /**
- * Title scene · the measuring machine. A 3D robot (Spline, streamed at runtime) sits in the middle of a dark stage under a
- * raking light, and the line beside it sets up the page: a machine can measure what the saddle does; only the horse teaches it.
+ * Title scene · the measuring machine. A 3D robot (Spline, streamed at runtime) stands in the middle of the page on the site's own
+ * ivory ground (31 Oct 2026: was a dark stage with a raking light; the scene's own backdrop is transparent, so the black robot now
+ * reads against the page). The line above sets up the page: a machine can measure what the saddle does; only the horse teaches it.
  * The scene itself is Spline's, used as supplied; see docs/ADDED-SCENES.md.
  */
 export function RobotScene() {
   return (
     <section
       aria-labelledby="science-machine-h"
-      className="tone-dark relative overflow-hidden bg-night pb-[clamp(3rem,8vh,6rem)] pt-[clamp(5.5rem,9vh,7.5rem)]"
+      className="relative overflow-hidden bg-night pb-[clamp(3rem,8vh,6rem)] pt-[clamp(5.5rem,9vh,7.5rem)]"
     >
-      <Spotlight className="-top-40 left-0 md:-top-20 md:left-60" />
-
       <div className="gutter relative z-10 max-w-3xl">
         <Label>Before the evidence</Label>
         <Headline
@@ -38,7 +36,8 @@ export function RobotScene() {
         robot falls outside the view.
       */}
       <div className="relative z-0 mt-[clamp(1rem,3vh,2.5rem)] h-[clamp(320px,52vh,520px)] w-full">
-        <div aria-hidden className="absolute left-1/2 h-full w-[max(100%,44rem)] -translate-x-1/2">
+        {/* The scene's frame ends mid-leg: the lower edge fades into the page instead of showing a cut. */}
+        <div aria-hidden className="absolute left-1/2 h-full w-[max(100%,44rem)] -translate-x-1/2 [mask-image:linear-gradient(to_bottom,#000_78%,transparent)]">
           <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="h-full w-full" />
         </div>
       </div>
