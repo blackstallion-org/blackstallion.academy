@@ -663,6 +663,7 @@ Owner: the admin dashboard was very static; rebuild it with the references (a co
   - STPCI seal also beside the home page's circuit standings; the current page in the top nav has a quiet underline.
   - Follow-up check (1 Nov 2026): the robot's face is a video texture Spline inlines as a `data:` URI; the site's CSP (`media-src`) blocked it, so the dot-matrix eyes behind the visor never played. `media-src` now allows `data:` (media cannot run code); verified on a production build, 0 CSP errors. The eyes are subtle, as in Spline's own scene; no material was edited.
   - The signed-in member area (`/account`) also drops the public footer (`hidesFooter` in `lib/content/site.ts`); not checked signed in. Tests: `npm test` 256/256.
+  - Tablet pass (768 and 1024): no sideways scroll on `/command`, `/fleet`, the console, sign-in or the cadet gallery. Fixed one older overflow on `/fleet` at 768 px (the bloodline rows' four-column grid now starts at 1024 px).
   - QA: `docs/qa/redesign-31oct/` (1440 and 390). Typecheck and lint (0 errors) pass; build result in the commit message.
 - [x] **31 Oct 2026 · Supplied scenes moved (owner's request).**
   - `/science` robot: the dark stage and raking light are gone; the Spline scene (transparent backdrop, animation untouched) now stands on the page's ivory, its cut-off legs fading out. Spotlight no longer used there.

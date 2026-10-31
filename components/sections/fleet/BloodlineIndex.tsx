@@ -27,7 +27,7 @@ export function BloodlineIndex() {
 
         <ol className="divide-y divide-line">
           {bloodlines.map((b, i) => (
-            <li key={b.name} className="group grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 gap-y-1 py-6 md:grid-cols-[4rem_1fr_16rem_14rem] md:py-8">
+            <li key={b.name} className="group grid grid-cols-[2.5rem_1fr] items-baseline gap-x-4 gap-y-1 py-6 md:py-8 lg:grid-cols-[4rem_1fr_16rem_14rem]">
               <span className="font-mono text-xs text-dust">{String(i + 1).padStart(2, "0")}</span>
               <TextAnimate
                 as="h3"
@@ -36,8 +36,8 @@ export function BloodlineIndex() {
               >
                 {b.name}
               </TextAnimate>
-              <p className="t-voice col-start-2 text-lg text-gold md:col-start-auto">{b.trait}</p>
-              <p className="label col-start-2 text-dust md:col-start-auto md:text-right">
+              <p className="t-voice col-start-2 text-lg text-gold lg:col-start-auto">{b.trait}</p>
+              <p className="label col-start-2 text-dust lg:col-start-auto lg:text-right">
                 {b.breed} · {b.coat}
               </p>
             </li>
