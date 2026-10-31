@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { corridors, entity, isConsolePath, legalNav } from "@/lib/content/site";
+import { corridors, entity, hidesFooter, legalNav } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
@@ -35,8 +35,8 @@ const COPYRIGHT_YEAR = 2026;
  * 70% warm natural editorial palette with atmospheric equine footage blend.
  */
 export function Footer() {
-  // The staff console (sign-in, dashboard, every /admin page) is an application, not a page of the film: no public footer.
-  if (isConsolePath(usePathname())) return null;
+  // The staff console (sign-in, dashboard, every /admin page) and the member account are applications, not pages of the film: no public footer.
+  if (hidesFooter(usePathname())) return null;
   return <PublicFooter />;
 }
 

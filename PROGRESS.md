@@ -661,6 +661,8 @@ Owner: the admin dashboard was very static; rebuild it with the references (a co
   - Home film: no picture behind it, plain black around the frame on phone and desktop, edges cut clean, the top and bottom shades removed.
   - Console body in the App1 order and colour: "Overview" and its stat cards first, each card with a coloured category icon (`--color-signal-*` tokens), the trend chart in emerald with the previous period dashed in violet, rounded cards; the colour chart set follows below. Still the real enquiry snapshot; nothing invented.
   - STPCI seal also beside the home page's circuit standings; the current page in the top nav has a quiet underline.
+  - Follow-up check (1 Nov 2026): the robot's face is a video texture Spline inlines as a `data:` URI; the site's CSP (`media-src`) blocked it, so the dot-matrix eyes behind the visor never played. `media-src` now allows `data:` (media cannot run code); verified on a production build, 0 CSP errors. The eyes are subtle, as in Spline's own scene; no material was edited.
+  - The signed-in member area (`/account`) also drops the public footer (`hidesFooter` in `lib/content/site.ts`); not checked signed in. Tests: `npm test` 256/256.
   - QA: `docs/qa/redesign-31oct/` (1440 and 390). Typecheck and lint (0 errors) pass; build result in the commit message.
 - [x] **31 Oct 2026 · Supplied scenes moved (owner's request).**
   - `/science` robot: the dark stage and raking light are gone; the Spline scene (transparent backdrop, animation untouched) now stands on the page's ivory, its cut-off legs fading out. Spotlight no longer used there.

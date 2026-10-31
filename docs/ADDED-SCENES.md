@@ -56,3 +56,7 @@ Spline's account CDN, not from this repository.
 ## Not verified
 
 A real phone or GPU; Safari and Firefox; how the Spline scene behaves on a slow connection (the runtime is about a megabyte).
+
+## CSP note (1 Nov 2026)
+
+The robot's face is a video layer on the head material, delivered inside the scene file as a `data:video/mp4` URI. `media-src` in `next.config.mjs` therefore lists `data:`; without it the browser blocks the video and the robot shows no eyes.

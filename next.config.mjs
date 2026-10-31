@@ -44,7 +44,8 @@ const csp = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   `img-src 'self' data: blob: ${MEDIA.join(" ")} ${SPLINE.join(" ")}`,
-  `media-src 'self' blob: ${MEDIA.join(" ")}`,
+  // `data:` because the robot's face on /command is a video texture that Spline inlines in the scene file (its dotted eyes); media cannot run code.
+  `media-src 'self' blob: data: ${MEDIA.join(" ")}`,
   `connect-src 'self' blob: data: ${MEDIA.join(" ")} ${SPLINE.join(" ")} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
   "frame-src 'self' https://challenges.cloudflare.com",

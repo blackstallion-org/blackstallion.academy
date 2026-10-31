@@ -97,3 +97,6 @@ export const legalNav = [
 
 /** Application screens (the staff console, its sign-in, and the dev preview of its overview): no public nav or footer. */
 export const isConsolePath = (pathname: string) => pathname.startsWith("/admin") || pathname.startsWith("/dev/admin-dashboard");
+
+/** The signed-in member area keeps the site's nav (it is part of the site) but, being an application screen, not the public footer. */
+export const hidesFooter = (pathname: string) => isConsolePath(pathname) || pathname === "/account" || pathname.startsWith("/account/");
