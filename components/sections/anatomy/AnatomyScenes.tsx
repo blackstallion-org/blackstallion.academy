@@ -2,16 +2,15 @@
 
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
-import { motion, useInView, useScroll, useSpring, useTransform } from "motion/react";
-import { useEffect, useRef } from "react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { useRef } from "react";
 import { EditorialImage } from "@/components/motion/EditorialMotion";
 import { FilmImage } from "@/components/film/FilmImage";
 import { EditorialHeadline as Headline } from "@/components/motion/EditorialMotion";
 import { ReelMark } from "@/components/film/Marks";
+import { EarStudy } from "./EarStudy";
 import { r } from "@/components/film/range";
 import { useReducedMotion } from "@/lib/motion/reduced";
-import { whenNearViewport } from "@/lib/motion/near-viewport";
-import { asset } from "@/lib/content/asset";
 
 /** Title card · T3 specimen plate. Signature: catalogue lines rule in around the horse like a museum mount. */
 const catalogue: [string, string][] = [
@@ -104,86 +103,22 @@ export function ScaleBalance() {
   );
 }
 
-/** §3 · S26: The Marwari lyre ears - independent 180° auricular mobility looping biomechanics film. */
+/**
+ * §3 · S26: the ears. 2 Nov 2026 (R12): the looping ear film is gone (it served only as a movement reference); in its place the
+ * canonical 3D Marwari's head, whose two ear bones turn independently toward a chosen sound (EarStudy).
+ */
 export function EarDial() {
-  const reduced = useReducedMotion();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(containerRef, { amount: 0.3 });
-
-  // The 7 MB film starts downloading one screen before the plate is reached (it was fetched with the page).
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    return whenNearViewport(video, () => { video.preload = "auto"; });
-  }, []);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (reduced) {
-      video.pause();
-    } else if (inView) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  }, [reduced, inView]);
-
   return (
     <section aria-labelledby="dial-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
-        {/* Left Column: Looping Video Plate */}
-        <div ref={containerRef} className="relative mx-auto w-full max-w-xl select-none">
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-line/60 bg-night/80 shadow-2xl shadow-charcoal/15">
-            <video
-              ref={videoRef}
-              className="h-full w-full object-cover"
-              muted
-              loop
-              playsInline
-              preload="none"
-              poster={asset("/video/marwari-ear-poster.jpg")}
-              aria-label="Marwari horse ear movement and independent 180-degree listening biomechanics film"
-            >
-              <source src={asset("/video/marwari_horse_ear_biomechanics_loop.mp4")} type="video/mp4" />
-            </video>
-
-            {/* Subtle luxury vignette and depth shadow overlay */}
-            <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/20"
-              aria-hidden="true"
-            />
-
-            {/* Top Corner Editorial Badge */}
-            <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-3 py-1 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-[#FAF7F0]/90">
-                Independent 180° Mobility
-              </span>
-            </div>
-
-            {/* Bottom Left Specimen Marker */}
-            {/* Sits above the arc chip below 390 px wide frames, where the two shared one row and overlapped. */}
-            <div className="absolute bottom-11 left-4 flex items-center gap-2 font-mono text-[10px] tracking-[0.22em] text-[#FAF7F0]/80 min-[390px]:bottom-4">
-              <span className="h-px w-4 bg-brass" />
-              <span>AURICULAR BIOMECHANICS</span>
-            </div>
-
-            {/* Bottom Right Lyre Arc Indicator */}
-            <div className="absolute bottom-4 right-4 rounded border border-white/15 bg-black/40 px-2 py-0.5 font-mono text-[10px] text-antique backdrop-blur-sm">
-              <span>−90° ⟷ +90°</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Editorial Copy */}
+        <EarStudy className="mx-auto w-full max-w-2xl" />
         <div>
           <p className="label text-brass">The ears</p>
-          <Headline id="dial-h" className="mt-4" inscription="One hundred and eighty" voice="degrees of attention." />
-          <ScrollRevealText className="t-story mt-6 max-w-lg text-sand">
-            Each ear turns on its own. One can follow the instructor&rsquo;s voice while the other listens to the rider&rsquo;s breathing.
-          </ScrollRevealText>
+          <Headline id="dial-h" className="mt-4" inscription="Each ear" voice="listens on its own." />
+          <p className="t-story mt-6 max-w-lg text-sand">
+            A horse turns the opening of each ear toward what it is attending to. One can follow the instructor&rsquo;s voice while the
+            other stays with the rider. A cadet learns to read the ears before anything else.
+          </p>
         </div>
       </div>
     </section>

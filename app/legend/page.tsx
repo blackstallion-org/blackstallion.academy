@@ -8,11 +8,11 @@ import { EndCard } from "@/components/film/EndCard";
 import { FilmImage } from "@/components/film/FilmImage";
 import { EditorialHeadline as Headline } from "@/components/motion/EditorialMotion";
 import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
-import { Ascent, ChapterHead, ChapterRail, Descent, EarsZoom, LegendTitle, RouteMap, TharGallopReel, ThreeWords } from "@/components/sections/legend/LegendScenes";
+import { ChapterHead, ChapterRail, Descent, EarsZoom, LegendTitle, RouteMap, TharGallopReel, ThreeWords } from "@/components/sections/legend/LegendScenes";
 import { MarwariInterlude } from "@/components/sections/editorial/ReferencePanels";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
-import { LastExhibit } from "@/components/sections/legend/LastExhibit";
+import { RevivalTimeline } from "@/components/sections/legend/RevivalTimeline";
 import { MarwariMuseum } from "@/components/sections/legend/museum/MarwariMuseum";
 import { bred, honour, honourClose, lore, ocean, revival, today } from "@/lib/content/legend";
 import { cn } from "@/lib/utils";
@@ -189,9 +189,9 @@ export default function LegendPage() {
         </div>
         <div className="gutter relative">
           <ChapterHead id="revival" />
-          <Headline id="revival-h" className="mt-4 [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]" inscription={revival.inscription} voice={revival.voice} />
+          <Headline id="revival-h" className="mt-4" inscription={revival.inscription} voice={revival.voice} />
           <div className="mt-14">
-            <Ascent />
+            <RevivalTimeline />
           </div>
           <Reveal className="parchment mx-auto mt-24 max-w-2xl px-8 py-10 md:px-14 md:py-14 shadow-2xl">
             <p className="label text-brass">{revival.vignette.note}</p>
@@ -214,8 +214,7 @@ export default function LegendPage() {
         </div>
       </section>
 
-      {/* XI · The last exhibit */}
-      <LastExhibit />
+      {/* 2 Nov 2026 (R06): the glass-cloak "last exhibit" and its copy were removed; the story ends with the cadets. */}
 
       <ReplayHeadline typeface="elegant" id="legend-replay" label="The story continues" text="The story stays with the horse." tone="dark" defaultMode="words" />
       <EndCard current={1} />

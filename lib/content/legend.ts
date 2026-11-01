@@ -13,7 +13,7 @@ export const title = {
   sub: "Marwar is often translated as “the land of death”. It gave India a horse that would not die easily, and would not leave the field.",
 };
 
-/** The museum walk opens the page (chapter 0); the story runs I to X; the last exhibit closes it. */
+/** The museum walk opens the page (chapter 0); the story runs I to X. */
 export const chapters = [
   { id: "museum", numeral: "0", name: "The museum" },
   { id: "ocean", numeral: "I", name: "One bloodline" },
@@ -26,7 +26,6 @@ export const chapters = [
   { id: "fall", numeral: "VIII", name: "The fall" },
   { id: "revival", numeral: "IX", name: "The revival" },
   { id: "today", numeral: "X", name: "Every cadet rides one" },
-  { id: "exhibit", numeral: "XI", name: "The last exhibit" },
 ] as const;
 
 export const ocean = {
@@ -79,7 +78,7 @@ export const ears = {
   voice: "touch.",
   beats: [
     "A Marwari's ears curve inward until the tips meet, like the arms of a lyre.",
-    "They can turn through 180 degrees, and the horse's hearing is famously sharp.",
+    "Each ear turns on its own, toward whatever the horse is listening to.",
     "When the blood is mixed, the curve is the first thing to go. Breeders read the ears as a seal of purity.",
     "That curve is our monogram.",
   ],
@@ -177,14 +176,19 @@ export const fall = {
 export const revival = {
   inscription: "The line",
   voice: "that refused to end.",
+  /**
+   * The revival timeline (R14, checked 2 Nov 2026 against Wikipedia "Marwari horse" and the FEI's "Discover... the Marwari", 2020).
+   * Where a source gives no year, the label says so ("first half of the 1900s", "2000s") rather than inventing one.
+   */
   milestones: [
-    { year: "Early 1900s", text: "Maharaja Umaid Singh of Jodhpur steps in to save the breed; his grandson, Maharaja Gaj Singh II, carries the work on." },
-    { year: "1995", text: "British horsewoman Francesca Kelly founds Marwari Bloodlines; a breed society forms in India." },
-    { year: "1999", text: "Kelly and Raghuvendra Singh Dundlod lead the founding of the Indigenous Horse Society of India." },
-    { year: "2000s", text: "Endurance wins at the national games persuade the Equestrian Federation of India to sanction shows for indigenous horses." },
-    { year: "2009", text: "Official registration begins; registered Marwaris are cold-branded." },
-    { year: "Today", text: "The breed is no longer at risk, working in endurance, tent pegging, weddings and festivals." },
-  ],
+    { year: "1900s", icon: "crown", title: "A Maharaja steps in", text: "In the first half of the twentieth century Maharaja Umaid Singh of Jodhpur keeps the breed from disappearing. His grandson, Maharaja Gaj Singh II, carries the work on." },
+    { year: "1995", icon: "scroll", title: "Marwari Bloodlines", text: "The British horsewoman Francesca Kelly founds Marwari Bloodlines to bring the breed back to notice." },
+    { year: "1999", icon: "seal", title: "A society for India's horses", text: "Kelly and Raghuvendra Singh Dundlod lead the group that founds the Indigenous Horse Society of India." },
+    { year: "2000s", icon: "laurel", title: "Proved on the course", text: "Marwaris win endurance races at India's national equestrian games, and the Equestrian Federation of India is persuaded to back shows for indigenous horses." },
+    { year: "2009", icon: "brand", title: "A register", text: "Official registration of the breed begins; each registered horse is cold-branded with its registration number." },
+    { year: "Today", icon: "ears", title: "No longer at risk", text: "Listed as not at risk (FAO 2007; DAD-IS 2020). Marwaris are ridden in endurance and shows, in ceremonies, weddings and festivals; at the academy, in tent pegging." },
+  ] as { year: string; icon: "crown" | "scroll" | "seal" | "laurel" | "brand" | "ears"; title: string; text: string }[],
+  sources: "Sources: Wikipedia, “Marwari horse”; FEI, “Discover… the Marwari” (2020). Checked 2 November 2026.",
   vignette: {
     title: "The stallion that stayed",
     note: "As told in Marwar",
