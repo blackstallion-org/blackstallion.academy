@@ -1,5 +1,7 @@
 # BSAH audio
 
+> **2 Nov 2026:** the sound stage now has three buses (music, ambience, effects) in `lib/audio/mixer.ts`; sources and licences for every file are in [LICENSES.md](./LICENSES.md). The sections below describe the October effects layer; where they differ (default state, background loop), LICENSES.md and the mixer's header comment are current.
+
 Sound effects are OFF for a new visitor. The existing nav Sound button controls the interaction layer. A remembered ON preference still requires a fresh pointer/keyboard gesture after a full load. No background drone loops, hover sounds, or typing sounds.
 
 ## User-supplied recordings

@@ -57,9 +57,10 @@ function PublicNav() {
       >
         <div className="gutter flex h-16 items-center justify-between gap-6 md:h-20">
           <div className="flex min-w-0 items-center gap-4">
-            <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap" aria-label="Black Stallion Academy, home">
-              <CrestMark className="h-12 w-12" decorative />
-              <Wordmark layout="inline" className="hidden sm:inline" />
+            <Link href="/" className="flex shrink-0 items-center gap-2.5 whitespace-nowrap sm:gap-3" aria-label="The Black Stallion Academy of Horsemanship, home">
+              {/* Crest a quarter larger (2 Nov 2026): 52 px inside the 64 px phone bar, 60 px inside the 80 px desktop bar. */}
+              <CrestMark className="h-[3.25rem] w-[3.25rem] md:h-[3.75rem] md:w-[3.75rem]" decorative />
+              <Wordmark layout="inline" className="hidden min-[360px]:inline-flex" />
             </Link>
             {reel && (
               // Only where the primary links leave room (from 1536 px); between 1280 and 1440 px it made the bar wrap.
@@ -85,12 +86,12 @@ function PublicNav() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 sm:gap-3">
             <Link
               href="/admin/login"
               aria-label="Staff sign-in"
               title="Staff sign-in"
-              className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line text-bone transition-colors hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              className="hidden h-11 w-11 shrink-0 place-items-center rounded-full border border-line text-bone transition-colors hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:grid"
             >
               <UserRound size={18} strokeWidth={1.5} aria-hidden />
             </Link>
@@ -106,9 +107,11 @@ function PublicNav() {
               onClick={() => setOpen(true)}
               aria-expanded={open}
               aria-controls="site-menu"
-              className="label flex items-center gap-3 px-2 py-2.5 text-bone hover:text-gold"
+              aria-label="Reels: all pages"
+              className="label flex min-h-11 items-center gap-3 px-2 py-2.5 text-bone hover:text-gold"
             >
-              <span>Reels</span>
+              {/* Phones show the menu mark only, so the full academy name fits beside the crest. */}
+              <span className="hidden sm:inline">Reels</span>
               <span aria-hidden className="flex flex-col gap-[5px]">
                 <span className="block h-px w-6 bg-current" />
                 <span className="block h-px w-4 self-end bg-current" />
@@ -174,8 +177,8 @@ function Menu({ onClose }: { onClose: () => void }) {
       transition={{ duration: 0.8, ease: ease.inOut }}
     >
       <div className="gutter flex h-16 items-center justify-between gap-6 md:h-20">
-        <Link href="/" onClick={onClose} className="flex items-center gap-3">
-          <CrestMark className="h-11 w-11" decorative />
+        <Link href="/" onClick={onClose} className="flex items-center gap-3" aria-label="The Black Stallion Academy of Horsemanship, home">
+          <CrestMark className="h-[3.25rem] w-[3.25rem] md:h-[3.75rem] md:w-[3.75rem]" decorative />
           <Wordmark layout="inline" />
         </Link>
         <Link href="/about" onClick={onClose} className="label hidden text-dust transition-colors hover:text-bone sm:inline">
@@ -232,9 +235,14 @@ function Menu({ onClose }: { onClose: () => void }) {
             </li>
           ))}
         </ul>
-        <Link href={navCta.href} onClick={onClose} className="label text-gold hover:text-bone">
-          {navCta.label} →
-        </Link>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+          <Link href="/admin/login" onClick={onClose} className="label text-dust hover:text-bone">
+            Staff sign-in
+          </Link>
+          <Link href={navCta.href} onClick={onClose} className="label text-gold hover:text-bone">
+            {navCta.label} →
+          </Link>
+        </div>
       </div>
 
       <p aria-hidden className="t-inscribe mt-4 select-none overflow-hidden whitespace-nowrap px-[1vw] text-center text-[16.5vw] leading-[0.78] tracking-[-0.02em] text-bone">

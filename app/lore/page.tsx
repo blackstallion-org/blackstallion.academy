@@ -8,7 +8,6 @@ import { Reveal } from "@/components/film/Reveal";
 import { ExpandableText } from "@/components/ui/ExpandableText";
 import { lore } from "@/lib/content/legend";
 import type { MediaKey } from "@/lib/content/media";
-import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { WillemExpandingHero } from "@/components/sections/shared/WillemExpandingHero";
 import { asset } from "@/lib/content/asset";
 
@@ -103,7 +102,6 @@ export default function LorePage() {
         );
       })}
 
-      <HorizontalChapter typeface="heritage" chapter="Stories and memory" text="Stories travel further than hoofprints." />
       <section aria-labelledby="vow-h" className="gutter relative border-t border-line py-[clamp(6rem,14vh,12rem)]">
         <Headline id="vow-h" inscription={lore.vow.inscription} voice={lore.vow.voice} voiceColor="blood" size="2" />
         <Reveal>

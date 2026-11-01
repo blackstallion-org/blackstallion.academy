@@ -5,7 +5,6 @@ import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
 import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
 import { CadetAdmissionPortal } from "@/components/sections/parents/CadetAdmissionPortal";
-import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 
 export const metadata: Metadata = {
@@ -21,7 +20,6 @@ export default function ParentsPage() {
       <PinnedPhone />
       <ParentVantageGallery />
       <MorningCurtain />
-      <HorizontalChapter typeface="elegant" chapter="A parent's view" text="Watch who they are becoming." />
       <HoofPath />
       <Receipt />
       <StandingOrders />

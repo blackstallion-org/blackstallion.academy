@@ -3,7 +3,6 @@ import { EndCard } from "@/components/film/EndCard";
 import { EquipmentCrispHeader } from "@/components/sections/equipment/EquipmentCrispHeader";
 import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { MaterialsEditorial } from "@/components/sections/editorial/ReferencePanels";
-import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/equipment" },
@@ -17,7 +16,6 @@ export default function EquipmentPage() {
       <EquipmentCrispHeader />
       <div className="pt-10">
         <HorseEquipmentSection />
-        <HorizontalChapter typeface="condensed" chapter="The rider's tools" text="What touches the horse must earn its place." />
         <MaterialsEditorial />
         <EndCard current={2} />
       </div>

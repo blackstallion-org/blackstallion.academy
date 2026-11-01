@@ -12,7 +12,6 @@ import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { Atelier } from "@/components/sections/home/Atelier";
 import { BronzeAndTime } from "@/components/sections/home/BronzeAndTime";
 import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
-import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
 /**
  * R00 · The Trailer. Fifteen sections in three zones (Blueprint Part 6, home).
@@ -40,7 +39,6 @@ export default function Home() {
       {/* Bronze and Time: the lineage turned into metal, one slow turn around the academy's own Marwari (pinned, scroll-driven). */}
       <BronzeAndTime />
       <Instrument />
-      <HorizontalChapter typeface="western" chapter="The first bond" text="Every ride begins with a moment of trust." />
 
       <Intermission act="citadel" line="Now, the proof." />
 

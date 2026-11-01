@@ -1,33 +1,46 @@
 "use client";
 
 import { asset } from "@/lib/content/asset";
+import { duckMusic, effectsBus, getMusicState, pauseAmbience, releaseMusic, resumeAmbience, setMusicWanted, startMusic, stopMusic } from "./mixer";
 
-/** Opt-in, lazy, single-voice sound effects. No autoplay or background loop. */
+/**
+ * Opt-in, lazy, single-voice sound effects, routed through the mixer's effects bus once the visitor's gesture has built it.
+ *
+ * The horse palette (2 Nov 2026, seven sounds, sources in public/audio/LICENSES.md):
+ *   calls        neigh, horseCall
+ *   breath       snort, breath
+ *   hoofbeats    gallop, walk
+ *   interaction  saddle (leather creak of a rider settling)
+ * Plus two synthetic UI accents (leather, tack) and the legacy keystroke.
+ */
 export const SOUND_FILES = {
-  ambient: asset("/audio/bsah_ambient_432hz_drone.mp3"), // retained legacy asset; no longer looped
-  breath: asset("/audio/interactions/snort.mp3"),
-  key: asset("/audio/bsah_keystroke.wav"),
-  gallop: asset("/audio/interactions/gallop.mp3"),
   neigh: asset("/audio/interactions/neigh.mp3"),
-  snort: asset("/audio/interactions/snort.mp3"),
-  chase: asset("/audio/interactions/desert-chase.mp3"),
-  herd: asset("/audio/interactions/herd.mp3"),
-  chariot: asset("/audio/interactions/chariot.mp3"),
   horseCall: asset("/audio/interactions/horse-call.mp3"),
+  snort: asset("/audio/interactions/snort.mp3"),
+  breath: asset("/audio/interactions/breath.mp3"),
+  gallop: asset("/audio/interactions/gallop.mp3"),
+  walk: asset("/audio/interactions/walk.mp3"),
+  saddle: asset("/audio/interactions/saddle.mp3"),
   leather: asset("/audio/interactions/leather.wav"),
   tack: asset("/audio/interactions/tack.wav"),
+  key: asset("/audio/bsah_keystroke.wav"),
 } as const;
-export type SoundEffect = Exclude<keyof typeof SOUND_FILES, "ambient">;
-const EQUINE = new Set<SoundEffect>(["breath", "gallop", "neigh", "snort", "chase", "herd", "chariot", "horseCall"]);
-const LEVELS: Record<SoundEffect, number> = { breath: .12, key: .08, gallop: .16, neigh: .08, snort: .12, chase: .13, herd: .11, chariot: .13, horseCall: .1, leather: .16, tack: .1 };
+export type SoundEffect = keyof typeof SOUND_FILES;
+export const HORSE_PALETTE: readonly SoundEffect[] = ["neigh", "horseCall", "snort", "breath", "gallop", "walk", "saddle"];
+/** The occasional idle call while music plays: the quieter, non-alarming members of the palette. */
+export const IDLE_CALLS: readonly SoundEffect[] = ["horseCall", "snort", "breath", "neigh"];
+const EQUINE = new Set<SoundEffect>(HORSE_PALETTE);
+const LEVELS: Record<SoundEffect, number> = { neigh: 0.08, horseCall: 0.1, snort: 0.12, breath: 0.14, gallop: 0.16, walk: 0.16, saddle: 0.14, leather: 0.16, tack: 0.1, key: 0.08 };
 const KEY = "bsah-sound";
+/** Through the graph, effects sit about 7 dB above their old element volume so they read over the (ducked) music bed. */
+const GRAPH_EFFECT_GAIN = 2.2;
 let enabled = true;
 let hydrated = false;
 let unlocked = false;
 let lastAny = -Infinity;
 let lastEquine = -Infinity;
 const lastPlayed = new Map<string, number>();
-const players = new Map<string, HTMLAudioElement>();
+const players = new Map<string, { el: HTMLAudioElement; gain: GainNode | null }>();
 const listeners = new Set<() => void>();
 const emit = () => listeners.forEach((listener) => listener());
 
@@ -35,28 +48,41 @@ export function subscribeSound(listener: () => void): () => void {
   listeners.add(listener);
   return () => { listeners.delete(listener); };
 }
+
+/** Sound defaults to ON, except for visitors who ask their system for reduced motion (then OFF until they turn it on). */
 export function soundEnabled(): boolean {
   if (typeof window === "undefined") return true;
   if (!hydrated) {
     hydrated = true;
-    try { enabled = window.localStorage.getItem(KEY) !== "off"; } catch { enabled = true; }
+    try {
+      const saved = window.localStorage.getItem(KEY);
+      enabled = saved ? saved !== "off" : !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    } catch { enabled = true; }
   }
   return enabled;
 }
+
 export function stopEffects(): void {
-  players.forEach((player) => {
-    player.pause();
-    try { player.currentTime = 0; } catch { /* Unloaded media has no seek range. */ }
+  players.forEach(({ el }) => {
+    el.pause();
+    try { el.currentTime = 0; } catch { /* Unloaded media has no seek range. */ }
   });
+  releaseMusic("effect");
 }
+
+/** Called by the visitor's explicit toggle gesture: on starts the music right away, off silences everything. */
 export function setSound(on: boolean): void {
   enabled = on;
   hydrated = true;
-  unlocked = on; // called by the visitor's explicit toggle gesture
+  unlocked = on;
   try { window.localStorage.setItem(KEY, on ? "on" : "off"); } catch { /* Optional persistence. */ }
-  if (!on) stopEffects();
+  if (!on) { stopEffects(); stopMusic(); pauseAmbience(); }
   emit();
-  if (on) playEffect("snort");
+  if (on) {
+    setMusicWanted(true);
+    void startMusic().then(() => resumeAmbience());
+    playEffect("snort");
+  }
 }
 
 /**
@@ -67,26 +93,41 @@ export function unlockSoundFromGesture(): void {
   if (soundEnabled()) unlocked = true;
 }
 
-/** Restoring a saved preference or default-on requires a user gesture in browsers. */
+function saveData(): boolean {
+  const c = (navigator as unknown as { connection?: { saveData?: boolean } }).connection;
+  return !!c?.saveData;
+}
+
+/**
+ * Restoring a saved preference or the default-on state needs a real activation gesture. Touch `pointerdown` is not one, so this
+ * listens to click, key, pointer-up and touch-end, and keeps listening until the music has actually started. Presses on the nav's
+ * Sound control are left to that control. Save-Data visitors get effects but no automatic music (the toggle can still start it).
+ */
 export function resumeSoundOnGesture(): () => void {
-  const resume = () => {
-    if (soundEnabled()) unlocked = true;
-    window.removeEventListener("pointerdown", resume);
-    window.removeEventListener("keydown", resume);
-    window.removeEventListener("click", resume);
-  };
-  window.addEventListener("pointerdown", resume);
-  window.addEventListener("keydown", resume);
-  window.addEventListener("click", resume);
-  return () => {
-    window.removeEventListener("pointerdown", resume);
-    window.removeEventListener("keydown", resume);
-    window.removeEventListener("click", resume);
-  };
+  const events = ["click", "keydown", "pointerup", "touchend"] as const;
+  const remove = () => events.forEach((e) => window.removeEventListener(e, resume, true));
+  let starting = false;
+  function resume(event: Event) {
+    const target = event.target;
+    if (target instanceof Element && target.closest("[data-sound-toggle]")) return;
+    if (event instanceof KeyboardEvent && (event.key === "Escape" || event.key === "Tab" || event.metaKey || event.ctrlKey)) return;
+    if (!soundEnabled()) return;
+    unlocked = true;
+    if (saveData() || starting || getMusicState() === "playing") { if (getMusicState() === "playing") remove(); return; }
+    starting = true;
+    setMusicWanted(true);
+    void startMusic().then((ok) => { starting = false; if (ok) { remove(); resumeAmbience(); } });
+  }
+  events.forEach((e) => window.addEventListener(e, resume, true));
+  return remove;
 }
 
 export function isSoundEffect(name: string): name is SoundEffect {
-  return name !== "ambient" && Object.prototype.hasOwnProperty.call(SOUND_FILES, name);
+  return Object.prototype.hasOwnProperty.call(SOUND_FILES, name);
+}
+
+function filmPlaying(): boolean {
+  return Array.from(document.querySelectorAll("video")).some((video) => !video.paused && !video.muted && video.volume > 0);
 }
 
 /**
@@ -95,44 +136,63 @@ export function isSoundEffect(name: string): name is SoundEffect {
  */
 export function soundReady(): boolean {
   if (!soundEnabled() || !unlocked || typeof document === "undefined" || document.hidden) return false;
-  return !Array.from(document.querySelectorAll("video")).some((video) => !video.paused && !video.muted && video.volume > 0);
+  return !filmPlaying();
+}
+
+/** True while any effect is sounding (the idle calls wait for silence). */
+export function effectPlaying(): boolean {
+  return Array.from(players.values()).some(({ el }) => !el.paused && !el.ended);
 }
 
 /** Returns whether playback was attempted; blocked/missing media stays silent. */
 export function playEffect(name: SoundEffect, volume = LEVELS[name], minGapMs = 0): boolean {
   if (!soundEnabled() || !unlocked || document.hidden) return false;
   // Let a deliberately unmuted film own the sound stage.
-  if (Array.from(document.querySelectorAll("video")).some((video) => !video.paused && !video.muted && video.volume > 0)) return false;
+  if (filmPlaying()) return false;
   const now = Date.now();
   const equine = EQUINE.has(name);
   const gap = Math.max(minGapMs, equine ? 12000 : 900);
   if (now - lastAny < 700 || now - (lastPlayed.get(name) ?? -Infinity) < gap || (equine && now - lastEquine < 12000)) return false;
-  if (Array.from(players.values()).some((player) => !player.paused && !player.ended)) return false;
+  if (effectPlaying()) return false;
   lastAny = now;
   lastPlayed.set(name, now);
   if (equine) lastEquine = now;
   try {
-    let player = players.get(name);
-    if (!player) {
-      player = new Audio();
-      player.preload = "none";
-      player.src = SOUND_FILES[name];
-      player.dataset.bsahEffect = name;
-      player.hidden = true;
-      player.setAttribute("aria-hidden", "true");
-      document.body.appendChild(player);
-      players.set(name, player);
+    let entry = players.get(name);
+    if (!entry) {
+      const el = new Audio();
+      el.preload = "none";
+      el.src = SOUND_FILES[name];
+      el.dataset.bsahEffect = name;
+      el.hidden = true;
+      el.setAttribute("aria-hidden", "true");
+      document.body.appendChild(el);
+      let gain: GainNode | null = null;
+      const route = effectsBus();
+      if (route) {
+        try {
+          gain = route.context.createGain();
+          route.context.createMediaElementSource(el).connect(gain).connect(route.node);
+        } catch { gain = null; }
+      }
+      el.addEventListener("ended", () => releaseMusic("effect"));
+      el.addEventListener("pause", () => releaseMusic("effect"));
+      entry = { el, gain };
+      players.set(name, entry);
     }
-    player.volume = Math.max(0, Math.min(LEVELS[name], volume));
-    player.currentTime = 0;
-    void player.play().catch(() => { player?.pause(); });
+    const level = Math.max(0, Math.min(LEVELS[name], volume));
+    // Through the graph the element stays at full scale and the gain node sets the level (iOS ignores element volume).
+    if (entry.gain) { entry.el.volume = 1; entry.gain.gain.value = level * GRAPH_EFFECT_GAIN; } else entry.el.volume = level;
+    entry.el.currentTime = 0;
+    duckMusic("effect", 0.5);
+    void entry.el.play().catch(() => { entry?.el.pause(); });
     return true;
   } catch { return false; }
 }
 
 export function disposeSoundscape(): void {
   stopEffects();
-  players.forEach((player) => { player.removeAttribute("src"); player.load(); player.remove(); });
+  players.forEach(({ el }) => { el.removeAttribute("src"); el.load(); el.remove(); });
   players.clear();
   unlocked = false;
 }

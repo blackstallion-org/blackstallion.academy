@@ -7,7 +7,6 @@ import { CodexVault } from "@/components/sections/curriculum/CodexVault";
 import { ClockRing, CurriculumTitle, DisciplineActionGallery, DisciplinePanels, Staircase, ThreeStamps } from "@/components/sections/curriculum/CurriculumScenes";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { batches } from "@/lib/content/curriculum";
-import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 
 export const metadata: Metadata = {
@@ -24,7 +23,6 @@ export default function CurriculumPage() {
       <PageCurtain page="curriculum" />
       <CodexVault />
       <ClockRing />
-      <HorizontalChapter typeface="condensed" chapter="The work of learning" text="Discipline grows one quiet hour at a time." tone="light" />
 
       {/* §4 · S37 timetable board */}
       <section aria-labelledby="batches-h" className="relative py-[clamp(6rem,14vh,12rem)]">

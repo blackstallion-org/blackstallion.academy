@@ -3,7 +3,6 @@ import { EndCard } from "@/components/film/EndCard";
 import { CareLog, CctvGrid, CoatRegistry, FleetTitle, Registry, StallionGallery } from "@/components/sections/fleet/FleetScenes";
 import { BloodlineIndex } from "@/components/sections/fleet/BloodlineIndex";
 import { MarwariPortrait } from "@/components/sections/editorial/ReferencePanels";
-import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { CovenantFrames } from "@/components/sections/fleet/CovenantFrames";
 import { LightTheStable } from "@/components/sections/fleet/LightTheStable";
@@ -21,7 +20,6 @@ export default function FleetPage() {
       <FleetTitle />
       <MarwariPortrait />
       <PageCurtain page="fleet" />
-      <HorizontalChapter typeface="western" chapter="The horses" text="Every horse has a name. Every name has a story." tone="light" />
       <Registry />
       <StallionGallery />
       <CoatRegistry />

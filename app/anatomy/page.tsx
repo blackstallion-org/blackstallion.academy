@@ -11,7 +11,6 @@ import { DualBody, MatrixPlate } from "@/components/sections/anatomy/DualBody";
 import { Unveiling } from "@/components/sections/shared/Unveiling";
 import { unveilings } from "@/lib/content/unveiling";
 import { breedStandard } from "@/lib/content/anatomy";
-import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/anatomy" },
@@ -42,7 +41,6 @@ export default function AnatomyPage() {
       <MatrixPlate />
 
       {/* §2 · S25 */}
-      <HorizontalChapter typeface="condensed" chapter="The living form" text="Read the horse before asking it to move." tone="light" />
       <ScaleBalance />
 
       {/* §3 · S26 */}

@@ -9,7 +9,6 @@ import { CampusExperience } from "@/components/sections/schools/campus/CampusExp
 import { SovereignCouncil } from "@/components/sections/schools/SovereignCouncil";
 import { TrojanBox } from "@/components/sections/schools/TrojanBox";
 import { seals } from "@/lib/content/schools";
-import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
 export const metadata: Metadata = {
@@ -27,7 +26,6 @@ export default function SchoolsPage() {
       <CampusExperience />
       <SchoolArenaShowcase />
       <PageCurtain page="schools" />
-      <HorizontalChapter typeface="elegant" chapter="Space to grow" text="A school can give courage room to grow." tone="light" />
       <HubMap />
       <PanIndiaNetwork />
       <SovereignCouncil />
