@@ -159,3 +159,12 @@ export const atelier = {
     { name: "Caramel", className: "bg-caramel" },
   ],
 };
+
+/** Replaces the public colour-palette moodboard (2 Nov 2026): one photograph and a short story. */
+export const horseFirst = {
+  label: "The first lesson",
+  inscription: "Before the saddle,",
+  voice: "the horse.",
+  body: "In Marwar a horseman's first lesson is to stand beside his horse until it is at ease with him. Every cadet begins the same way: grooming, leading, listening. Riding comes after.",
+  cta: { label: "Meet the stallions", href: "/fleet" },
+};

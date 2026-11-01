@@ -1,9 +1,7 @@
 "use client";
 
-import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import { motion } from "motion/react";
-import { useReducedMotion } from "@/lib/motion/reduced";
 import { HeroFilm } from "./HeroFilm";
 import { StallionHero } from "./StallionHero";
 import { AcademyStats } from "./AcademyStats";
@@ -13,15 +11,15 @@ import { hero } from "@/lib/content/home";
 import { ease } from "@/lib/motion/tokens";
 
 /**
- * §1 Hero · Full-frame cinematic opening film + Institutional doctrine below.
- * The video plays full screen without obstruction, followed by the manifesto down below.
+ * §1 Hero (order since 2 Nov 2026): who we are and what we do first, then the full-frame opening film, then the Rajasthan
+ * desert horse. The doctrine is the first screen after the opening zoom, so it clears the fixed nav itself.
  */
 export function Hero() {
   return (
     <>
+      <HeroContentSection />
       <HeroVideoSection />
       <StallionHero />
-      <HeroContentSection />
     </>
   );
 }
@@ -32,8 +30,8 @@ function HeroVideoSection() {
 
 function HeroContentSection() {
   return (
-    <section id="doctrine" tabIndex={-1} aria-label="Institutional Doctrine" className="relative bg-night py-16 md:py-24">
-      <div className="gutter space-y-12 md:space-y-16">
+    <section id="doctrine" tabIndex={-1} aria-label="Who we are" className="relative flex min-h-[100svh] flex-col justify-center bg-night pb-16 pt-28 md:pb-24 md:pt-32">
+      <div className="gutter space-y-10 md:space-y-14">
         {/* Crest & Council badge */}
         <motion.p
           className="label flex items-center gap-3 text-sand"
@@ -43,7 +41,7 @@ function HeroContentSection() {
           transition={{ duration: 0.8, ease: ease.citadel }}
         >
           <Crest simple className="h-9 w-9" title="STPCI crest" />
-          <span className="max-w-[16rem] sm:max-w-none">{hero.badge}</span>
+          <span className="max-w-[16rem] sm:max-w-none">Who we are · {hero.badge}</span>
         </motion.p>
 
         {/* The doctrine: one confident statement. Each sentence is its own line so "We" never dangles at a break;
@@ -70,7 +68,8 @@ function HeroContentSection() {
 
         {/* Lede & CTAs */}
         <div className="grid gap-8 border-t border-brass/25 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-          <ScrollRevealText className="max-w-2xl text-lede text-sand leading-relaxed">{hero.sub}</ScrollRevealText>
+          {/* The first screen now: plain text, not the scroll-lit reveal, so it reads at once. */}
+          <p className="max-w-2xl text-lede leading-relaxed text-sand">{hero.sub}</p>
           <div className="flex flex-wrap gap-4">
             <Cta href={hero.ctas[0].href} variant="solid">
               {hero.ctas[0].label}
@@ -79,31 +78,12 @@ function HeroContentSection() {
           </div>
         </div>
 
-        {/* Stats and Ticker */}
-        <div className="pt-4">
+        {/* Stats. The sample-figures ticker was removed on 2 Nov 2026 (dense, and all of it sample data). */}
+        <div className="pt-2">
           <AcademyStats />
-          <Ticker />
         </div>
       </div>
     </section>
   );
 }
 
-function Ticker() {
-  const reduced = useReducedMotion();
-  // Reduced motion: one static set that wraps, so every figure is visible (a single cut-off row hid most of them).
-  const items = reduced ? hero.ticker : [...hero.ticker, ...hero.ticker];
-  return (
-    <div className="mt-8 overflow-hidden border-y border-brass py-2.5" aria-label="Live command figures (sample)">
-      <div className={reduced ? "flex flex-wrap gap-x-10 gap-y-2" : "animate-marquee flex w-max gap-10"}>
-        {items.map((t, i) => (
-          <span key={i} className="font-mono flex items-center gap-10 whitespace-nowrap text-[0.68rem] uppercase tracking-[0.12em] text-sand/80">
-            {i % hero.ticker.length === 0 && <span className="h-1.5 w-1.5 rounded-full bg-blood" aria-hidden />}
-            {t}
-            <span aria-hidden className="text-brass/50">·</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}

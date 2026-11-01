@@ -4,7 +4,7 @@ import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Hoof, Label, ReelMark } from "@/components/film/Marks";
@@ -15,46 +15,20 @@ import { entity } from "@/lib/content/site";
 import { crucible, why } from "@/lib/content/science";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
-import { asset } from "@/lib/content/asset";
 
-/** Title card · The Sovereign Truth. Features the monolithic glowing portal video plate with cinematic rising text and the central seam of light. */
+/** Title card · The Sovereign Truth: a threshold still (boy, stable door, waiting horse) with rising text and the central seam of light. */
 export function WhyTitle() {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const reducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (reducedMotion) {
-      video.pause();
-    } else {
-      video.play().catch(() => {});
-    }
-  }, [reducedMotion]);
 
   return (
     <section aria-labelledby="why-h" className="editorial-scene">
 <div className="tone-dark editorial-visual tone-dark relative min-h-[100svh] overflow-hidden bg-black text-bone">
-      {/* Background Plate: Looping Monolithic Portal Video */}
+      {/* Background plate (2 Nov 2026, R26): a boy walking out of the dark toward a stable door and a waiting Marwari. It replaced
+          the stock "portal" film, which had no horse in it. A slow push-in stands in for the film's motion (still under reduced motion). */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{ objectPosition: "50% 50%" }}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster={asset("/video/portal-loop-poster.jpg")}
-          aria-label="Monolithic illuminated doorway background film"
-        >
-          <source src={asset("/video/portal-loop.mp4")} type="video/mp4" />
-          <source
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_112712_da9d53df-6d27-4b12-bdf6-aa9dc2622bdf.mp4"
-            type="video/mp4"
-          />
-        </video>
+        <div className="why-threshold absolute inset-0">
+          <FilmImage name="whyThreshold" grade="none" priority sizes="100vw" />
+        </div>
 
         {/* Deep bottom gradient for strong text contrast on screen */}
         <div

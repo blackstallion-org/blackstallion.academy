@@ -46,7 +46,8 @@ export const media = {
   duneSilhouette: m("dune-silhouette.png", "hf_20261009_002317_0f749476-7e8d-47bf-b57a-9adcb7b21741.png", "A lone Marwari silhouetted on a dune at dusk"),
   bgFort: m("bg-fort.png", "hf_20261009_002435_531c9a37-9fa8-4152-ad47-e0d3d35105a4.png", "Ruins of a sandstone Rajput fort above the Thar at dusk"),
   bgArena: m("bg-arena.png", "hf_20261009_002435_e0aa5fef-e93d-4950-a155-e4c8a2883ae4.png", "An empty riding arena at dusk with tent-pegging pegs and a lance"),
-  bgStable: m("bg-stable.png", "hf_20261009_002640_d9a4c4d4-d61a-4660-a63c-857a874f56aa.png", "A lantern-lit stable corridor"),
+  /* 2 Nov 2026 (R27): the European barn of non-Marwari horses was replaced by a Rajasthan stable row. */
+  bgStable: m("stable-rajasthan.png", "hf_20261101_232018_8fe17b4f-b3cb-49a0-a0fa-4cd2bc445a25.png", "Black, bay and grey Marwari horses look out over the half-doors of a red sandstone stable row at dusk, lanterns lit", "35% 45%"),
   bgPavilion: m("bg-pavilion.png", "hf_20261009_002640_8d4143ab-a4d7-479b-86d6-aaa3edfc9947.png", "A sandstone pavilion beside a riding arena at dusk"),
   bgPassport: m("bg-passport.png", "hf_20261009_002640_5e132524-4ec5-4185-8dc4-76b49caab8e4.png", "A leather passport and a brass seal on dark wood"),
   bgCharge: m("bg-charge.png", "hf_20261009_002640_5b5f28cc-654a-499d-8b0e-35093d96acb5.png", "Three riders charging with lances lowered through dust"),
@@ -56,7 +57,8 @@ export const media = {
   /* Neutrality pass 11 Oct 2026: legendCavalry, legendChetak and legendBahadur were regenerated as banner-free, non-sectarian imagery (Directive §2). Keys kept to avoid churn. */
   /* ---------------------------------------------------- second set (Blueprint 8.2) */
   legendSand: m("legend-sand.png", "hf_20261009_133620_b9556c78-8c2d-482f-97cc-c5dc976e7787.png", "A Marwari's hooves lifting out of deep desert sand"),
-  legendEars: m("legend-ears.png", "hf_20261009_133621_5a3cedb7-3682-4992-9f09-58666b26f286.png", "A Marwari's lyre-shaped ears curving inward until the tips touch"),
+  /* 2 Nov 2026 (R04): the backlit ears seen from behind were replaced by a three-quarter head with the tips touching. */
+  legendEars: m("legend-ears-2026-11.png", "hf_20261101_232018_0e267353-3d97-45ad-8feb-635e2f5b34c8.png", "A black Marwari stallion's head in three-quarter view at golden hour, its lyre-shaped ears curving inward until the tips touch", "70% 40%"),
   legendGrey: m("legend-grey.png", "hf_20261009_134207_2579fc71-30ad-44d5-9a75-48d29801a99c.png", "A dappled grey Marwari stallion with a silver bridle by lantern light"),
   legendBlack: m("legend-black.png", "hf_20261009_134210_875318e8-ba4f-4012-86bd-3a472486c8a1.png", "A black Marwari stallion traced by a thin line of gold light"),
   legendCavalry: m("legend-cavalry.png", "hf_20261011_125701_03894133-4ebe-4853-bbf3-fb8b894c5b42.png", "Marwari horsemen as dark silhouettes riding through a plume of golden desert dust"),
@@ -95,7 +97,8 @@ export const media = {
   schoolAerial: m("school-aerial.png", "hf_20261009_141351_105fa634-2dcd-4313-902c-4720f60297d8.png", "Aerial view of a school campus with a new riding arena at dusk"),
   schoolArenaNight: m("school-arena-night.png", "hf_20261009_141352_f3f0129a-4d73-4510-b78f-5eaef0041c8b.png", "A floodlit school riding arena at night"),
   tournCup: m("tourn-cup.png", "hf_20261009_141653_3ffd5740-6fa9-4d99-890c-edc64312a25c.png", "A silver and brass trophy with crossed lances beside gold medals"),
-  tournCrowd: m("tourn-crowd.png", "hf_20261011_143142_68fdcc65-e301-4366-83a1-d74042dff88d.png", "A rider at full gallop with lance lowered before a school crowd"),
+  /* 2 Nov 2026 (R17, R27): the Western crowd was replaced by Indian parents and schoolchildren at a school tent-pegging fixture. */
+  tournCrowd: m("tourn-crowd-india.png", "hf_20261101_232214_85ec01a0-1bf3-4848-b2e3-380b25a491b2.png", "A cadet gallops a bay Marwari down a tent-pegging lane, lance lowered, as Indian parents and schoolchildren cheer under a striped shamiana", "45% 45%"),
   tournPodium: m("tourn-podium.png", "hf_20261009_141652_b40d5bb5-0add-4dbe-98fa-804b08055fa9.png", "Three cadets on a podium receiving medals"),
   journalReins: m("journal-reins.png", "hf_20261009_141653_ed15a453-da1c-4f1a-9507-25f09b028615.png", "Gloved hands holding leather reins lightly"),
   contactGate: m("contact-gate.png", "hf_20261009_142018_b4e92a4f-3602-4c04-85ce-1c80dfda6af5.png", "A studded Rajput fort gate at night between two lanterns"),
@@ -131,6 +134,19 @@ export const media = {
   hubRoyal: m("hub-royal.png", "hf_20261028_165411_bea08e4f-3833-4673-b3a2-a16739c2b55e.png", "Horses look out from carved sandstone arches around a sand courtyard on a Rajasthan estate", "62% 50%"),
   nightField: m("night-field.png", "hf_20261030_161740_399cc8d2-f3ce-492d-9d13-42f540684205.png", "A black Marwari stallion in a dark field at night, rim-lit gold along the mane by a glow on the horizon", "70% 45%"),
   hubSignature: m("hub-signature.png", "hf_20261028_165203_8c685475-6c10-4e1e-8d1f-d4a7752ab2f6.png", "Riders working in a large covered timber-roofed arena on a school campus", "50% 60%"),
+  /* ---------------------------------------------------- 2 Nov 2026 (Higgsfield gpt_image_2_5, high, 2K): one picture, one place */
+  homeHorseman: m("home-horseman.png", "hf_20261101_232050_95b7b7f2-8816-46ff-aeb0-2a33e181560d.png", "An elderly Marwar horseman in a white kurta and saffron turban rests his palm on the neck of a black Marwari stallion in a sandstone courtyard at sunrise", "50% 40%"),
+  whyThreshold: m("why-threshold.png", "hf_20261101_232049_b25bff3d-f66a-46a0-919b-97a345239952.png", "A boy walks out of a dark corridor toward an open stable door full of morning light, where a black Marwari waits", "50% 50%"),
+  journalStream: m("journal-stream.png", "hf_20261101_232050_73ebc351-9f4c-4e32-83b8-f242b60ad938.png", "A saddled, riderless black Marwari stands calmly at the edge of a desert stream at dawn", "45% 50%"),
+  journalEarTouch: m("journal-ear-touch.png", "hf_20261101_232018_354145c8-8afd-4091-acd8-45e6193d6bf5.png", "An elderly breeder's fingers touch the curved tip of a bay Marwari's ear, the two tips almost meeting", "40% 40%"),
+  journalWhorl: m("journal-whorl.png", "hf_20261101_232050_1dc3e792-5102-44e4-a309-c1f3618e6b9c.png", "A hair whorl on the forehead of a white-grey Marwari, lantern light and a brass bell on the halter", "55% 45%"),
+  journalRein: m("journal-rein.png", "hf_20261101_232018_0a8199f8-cc6c-4341-b5c1-e8549b93cba6.png", "A young cadet's hands hold a leather rein lightly beside the black mane of a Marwari", "40% 50%"),
+  journalLane: m("journal-jodhpur-lane.png", "hf_20261101_232216_b78890b3-8d46-4228-a23d-3e042bcd331d.png", "A young woman breeder leads a bay Marwari colt down a blue lane in Jodhpur, an old tonga cart against the wall", "30% 50%"),
+  journalDance: m("journal-wedding-dance.png", "hf_20261101_232214_6e22c914-48e7-4a8c-b0c2-8e46afc6696f.png", "The raised, belled foreleg of a decorated black Marwari dancing in a night wedding procession", "35% 50%"),
+  equipmentSaddling: m("equipment-saddling.png", "hf_20261101_232214_1c313537-bf11-4730-bdb3-3a46877d8622.png", "A groom settles a leather saddle on a calm bay Marwari mare at dawn while a young cadet holds the bridle", "60% 40%"),
+  fleetWorldCavalry: m("fleet-world-cavalry.png", "hf_20261101_232402_fb07d9d2-f9e2-4be1-a17c-5364834820b3.png", "A distant column of historical Marwar cavalry rides beneath a sandstone hill fort in the Thar at sunset", "50% 60%"),
+  fleetWorldVillage: m("fleet-world-village.png", "hf_20261101_232402_7510b335-ac32-4f86-8306-94b29b305798.png", "A Marwar village morning: thatched mud houses, women carrying water pots, a camel cart and goats under a khejri tree", "50% 60%"),
+  fleetWorldField: m("fleet-world-field.png", "hf_20261101_232403_fa8912b7-9ce4-4f30-a7dd-dce9f48fbb3a.png", "Grooms feed Marwari horses at hay racks under neem trees beside a tent-pegging lane and a striped shamiana", "50% 60%"),
 } satisfies Record<string, Media>;
 
 export type MediaKey = keyof typeof media;

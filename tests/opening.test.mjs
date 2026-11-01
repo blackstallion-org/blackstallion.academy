@@ -33,7 +33,7 @@ function visit({ search = "", seen = false, reduced = false, horse = "silhouette
 test("first visit: the loader shows, and the running-rider picture is requested at once", () => {
   const v = visit();
   assert.equal(v.dataset.bsahLoaded, undefined);
-  assert.deepEqual(v.links.map((l) => [l.href, l.as, l.rel]), [["/opening/loader.gif", "image", "preload"]]);
+  assert.deepEqual(v.links.map((l) => [l.href, l.as, l.rel]), [["/opening/loader-marwari.webp", "image", "preload"]]);
 });
 
 test("a visit later in the same session, reduced motion, and ?noload show neither the loader nor the opening", () => {
@@ -56,10 +56,10 @@ test("?opening forgets the session and plays it all again, but never against red
 
 test("the switches: ?opening does nothing when the opening is off; the earlier pixel horse when asked for", () => {
   assert.equal(visit({ opening: false, seen: true, search: "?opening" }).dataset.bsahLoaded, "1");
-  assert.deepEqual(visit({ opening: false }).links.map((l) => l.href), ["/opening/loader.gif"]);
+  assert.deepEqual(visit({ opening: false }).links.map((l) => l.href), ["/opening/loader-marwari.webp"]);
   const pixel = visit({ horse: "pixel" });
   assert.deepEqual(pixel.links[0], { href: "/animations/pixel-horse.js", as: "script", rel: "preload" });
-  assert.ok(!pixel.links.some((l) => l.href.includes("loader.gif")));
+  assert.ok(!pixel.links.some((l) => l.href.includes("loader-marwari")));
 });
 
 test("both switches read their environment variables, and default to on", async () => {
@@ -81,13 +81,15 @@ test("both switches read their environment variables, and default to on", async 
 
 // ------------------------------------------------------------------ the picture
 
-test("the animation is the supplied file, untouched; the two ink-horse pictures and the rebuilt opening are gone", () => {
+test("the supplied animation is kept untouched as the source of the loader; the two ink-horse pictures and the rebuilt opening are gone", () => {
   assert.equal(statSync(path.join(root, "public/opening/loader.gif")).size, 348453, "the size of the file as supplied on 30 Oct 2026");
   assert.equal(readFileSync(path.join(root, "public/opening/loader.gif")).subarray(0, 6).toString("ascii"), "GIF89a");
   for (const gone of ["public/opening/ink-1.webp", "public/opening/ink-2.webp", "components/motion/OpeningFilm.tsx", "components/motion/OpeningFilm.module.css"]) {
     assert.ok(!existsSync(path.join(root, gone)), `${gone} was deleted`);
   }
-  assert.match(read("components/motion/RunningHorse.tsx"), /src="\/opening\/loader\.gif"/);
+  // 2 Nov 2026 (R31): the loader shows a derivative of it (same silhouettes, one fixed site-image fill, transparent WebP).
+  assert.match(read("components/motion/RunningHorse.tsx"), /src=\{LOADER_IMAGE\}/);
+  assert.equal(readFileSync(path.join(root, "public/opening/loader-marwari.webp")).subarray(8, 12).toString("ascii"), "WEBP");
 });
 
 // ------------------------------------------------------------------ the component rules

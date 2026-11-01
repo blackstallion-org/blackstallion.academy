@@ -9,8 +9,7 @@ import { LedgerAscent } from "@/components/sections/home/LedgerAscent";
 import { StoryStrip } from "@/components/sections/home/StoryStrip";
 import { Studbook } from "@/components/sections/home/Studbook";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
-import { Atelier } from "@/components/sections/home/Atelier";
-import { BronzeAndTime } from "@/components/sections/home/BronzeAndTime";
+import { HorseFirst } from "@/components/sections/home/HorseFirst";
 import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
 
 /**
@@ -32,12 +31,11 @@ export default function Home() {
   return (
     <HomeTypography>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationJsonLd).replace(/</g, "\\u003c") }} />
-      {/* Zone A · Hook */}
+      {/* Zone A · Hook. Order (owner, 2 Nov 2026): the opening zoom (Loader) → who we are and what we do → the hero film →
+          the Rajasthan desert horse (StallionHero) → the rest. "Bronze and Time" was removed from here the same day. */}
       <Hero />
       <div data-home-story><StoryStrip /></div>
       <FirstRideEditorial />
-      {/* Bronze and Time: the lineage turned into metal, one slow turn around the academy's own Marwari (pinned, scroll-driven). */}
-      <BronzeAndTime />
       <Instrument />
 
       <Intermission act="citadel" line="Now, the proof." />
@@ -47,7 +45,9 @@ export default function Home() {
       <Doors />
       <LedgerAscent />
       <Studbook />
-      <Atelier />
+      {/* 2 Nov 2026: the public colour-palette moodboard (Atelier) is replaced by a photograph and a short story. The colour
+          tokens themselves are unchanged (app/globals.css). */}
+      <HorseFirst />
 
       <Intermission act="ledger" line="Now, the decision." />
 

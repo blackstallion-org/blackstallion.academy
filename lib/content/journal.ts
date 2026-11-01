@@ -26,7 +26,7 @@ export const posts: Post[] = [
     dek: "Victory, death, or the wounded rider: the vow behind the Marwari, and the stallion at the stream.",
     minutes: 5,
     date: "2026-10-01",
-    cover: "legendChetak",
+    cover: "journalStream",
     body: [
       { t: "p", text: "The horsemen of Marwar held a simple belief about their horses. A Marwari, they said, leaves a battlefield in only three ways: in victory, in death, or carrying its wounded rider to safety. It is the kind of line that sounds like poetry until you read how often the old ballads put it to the test." },
       { t: "p", text: "Their horses had been shaped by centuries of desert life and strict breeding: slim, hard-legged, enduring, and famous for a courage that bordered on stubbornness. The bards tell of Marwaris rearing over fallen riders, crossing rivers wounded, and refusing to turn until a hand on the rein told them to." },
@@ -48,7 +48,7 @@ export const posts: Post[] = [
     dek: "The lyre-shaped ears that turn 180 degrees, and why breeders read them as a seal of purity.",
     minutes: 4,
     date: "2026-09-24",
-    cover: "legendEars",
+    cover: "journalEarTouch",
     body: [
       { t: "p", text: "You can pick out a Marwari across a crowded fairground by its ears. They rise, curve inward, and meet at the tips, like the two arms of a lyre or a pair of hands about to touch. Only one other breed in the world shares the shape: its neighbour, the Kathiawari of Gujarat." },
       { t: "h", text: "A hundred and eighty degrees" },
@@ -69,7 +69,7 @@ export const posts: Post[] = [
     dek: "Greys, blazes, devman whorls and the black horse: how Marwar read a horse's future in its coat.",
     minutes: 4,
     date: "2026-09-17",
-    cover: "legendGrey",
+    cover: "journalWhorl",
     body: [
       { t: "p", text: "In old Marwar, buying a horse was part horsemanship and part astrology. Breeders read a horse's colour and the whorls in its coat as a forecast of the luck it would bring its rider, and much of that folklore is still alive in Rajasthan's stables today." },
       { t: "h", text: "The favoured colours" },
@@ -91,7 +91,7 @@ export const posts: Post[] = [
     dek: "How the Marwari nearly vanished after 1947, and the people who brought it back.",
     minutes: 6,
     date: "2026-09-10",
-    cover: "legendRevival",
+    cover: "journalLane",
     body: [
       { t: "p", text: "For most of its history the Marwari was a royal horse in the most literal sense. Only royal and Rajput warrior families could own one, and the old saying held that a Marwari stood above a prince. Its fall, when it came, was fast." },
       { t: "h", text: "The colonial years" },
@@ -115,7 +115,7 @@ export const posts: Post[] = [
     dek: "Nachni, the revaal, and the wedding processions where the warhorse becomes a dancer.",
     minutes: 3,
     date: "2026-09-03",
-    cover: "legendNachni",
+    cover: "journalDance",
     body: [
       { t: "p", text: "For a horse remembered for war, the Marwari has a surprisingly gentle second life. Walk through a Rajasthani town during wedding season and you may see one at the head of a procession, decked in mirror-work and tassels, stepping in time to the drums." },
       { t: "h", text: "Nachni: born to dance" },
@@ -133,7 +133,7 @@ export const posts: Post[] = [
     dek: "What a child learns when shouting does nothing and the lightest touch turns half a tonne.",
     minutes: 4,
     date: "2026-08-27",
-    cover: "journalReins",
+    cover: "journalRein",
     body: [
       { t: "p", text: "Every new cadet tries it once. The horse wanders toward the gate, and the child pulls harder on the reins. The horse braces, lifts its head and keeps going. Then an instructor says something that sounds impossible: let go a little, and ask again." },
       { t: "h", text: "Force fails, clarity works" },

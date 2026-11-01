@@ -11,3 +11,6 @@ export type LoaderHorse = "silhouette" | "pixel";
 
 export const OPENING_ENABLED: boolean = process.env.NEXT_PUBLIC_OPENING !== "off";
 export const LOADER_HORSE: LoaderHorse = process.env.NEXT_PUBLIC_LOADER_HORSE === "pixel" ? "pixel" : "silhouette";
+
+/** The running rider shown by the loader (R31, 2 Nov 2026): the supplied gallop silhouettes, one fixed Marwari-coat fill, transparent. */
+export const LOADER_IMAGE = "/opening/loader-marwari.webp";

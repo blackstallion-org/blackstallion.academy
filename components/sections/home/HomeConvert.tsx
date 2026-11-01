@@ -67,12 +67,12 @@ function Countdown({ to }: { to: string }) {
 }
 
 /** A small lance-bearing horse glyph that gallops along a lane. */
-function Rider() {
+/** The lane's end: a tent peg, the sport's own mark (replaced the blobby rider icon, 2 Nov 2026). */
+function Peg() {
   return (
-    <svg viewBox="0 0 48 28" className="h-6 w-10 text-gold md:h-7 md:w-12" fill="currentColor" aria-hidden>
-      <path d="M8 22c1-5 4-8 9-9l6-1c2-3 5-5 9-5l3-3 1 3 3 2-2 2h-3l-2 3 2 8-2 1-3-6-6 1-2 6-2-1 1-6c-3 0-5 2-6 5l-2 4-2-1 2-4c-2 1-3 2-4 3Z" />
-      <path d="M22 7 46 2" stroke="currentColor" strokeWidth="1" />
-      <circle cx="25" cy="6" r="2.2" />
+    <svg viewBox="0 0 12 24" className="h-6 w-3 text-gold" aria-hidden>
+      <path d="M6 1 10 5v12l-4 6-4-6V5Z" fill="currentColor" />
+      <path d="M2 8h8" stroke="var(--color-night)" strokeWidth="1" opacity="0.5" />
     </svg>
   );
 }
@@ -95,7 +95,7 @@ export function HomeStandings() {
           <Headline id="circuit-h" className="mt-4" inscription={circuit.inscription} voice={circuit.voice} />
         </div>
         <p className="label text-sand">
-          {circuit.cup.name} · 14 Nov · {circuit.cup.place} · in <Countdown to={circuit.cup.date} />
+          {circuit.cup.name} · 14 Nov · {circuit.cup.place} · in <Countdown to={circuit.cup.date} /> · sample fixture
         </p>
       </div>
 
@@ -111,21 +111,30 @@ export function HomeStandings() {
               <div className="flex items-baseline justify-between gap-4">
                 <span className="flex items-baseline gap-4">
                   <span className="font-mono text-sm text-dust">0{s.pos}</span>
-                  <span className="t-voice text-xl text-bone md:text-3xl">{s.hub}</span>
+                  <span className="t-voice text-xl text-bone md:text-3xl">{s.hub.replace(/^\d+\s*·\s*/, "")}</span>
                 </span>
                 <span className="font-mono text-right text-sm text-sand">
                   <span className="inline-block min-w-[3ch] text-xl tabular-nums text-gold md:text-2xl">{inView ? <CountUp value={s.points} /> : "0"}</span> pts · {s.gold} gold
                 </span>
               </div>
-              <div className="relative mt-4 h-8">
+              {/* The lane fills to the hub's points and ends at a peg. */}
+              <div className="relative mt-4 h-6">
                 <div aria-hidden className="absolute inset-x-0 top-1/2 border-t border-dashed border-line" />
                 <motion.div
+                  aria-hidden
+                  className="absolute left-0 top-1/2 h-[2px] -translate-y-1/2 bg-gold"
+                  initial={{ width: "0%" }}
+                  animate={inView ? { width: `calc(${(s.points / max) * 100}% - 0.75rem)` } : { width: "0%" }}
+                  transition={{ duration: 1.8 + i * 0.2, ease: ease.citadel, delay: 0.2 + i * 0.12 }}
+                />
+                <motion.div
+                  aria-hidden
                   className="absolute top-0"
-                  initial={{ left: "0%" }}
-                  animate={inView ? { left: `calc(${(s.points / max) * 100}% - 3rem)` } : { left: "0%" }}
-                  transition={{ duration: 2.2 + i * 0.25, ease: ease.citadel, delay: 0.2 + i * 0.15 }}
+                  initial={{ left: "0%", opacity: 0 }}
+                  animate={inView ? { left: `calc(${(s.points / max) * 100}% - 0.75rem)`, opacity: 1 } : { left: "0%", opacity: 0 }}
+                  transition={{ duration: 1.8 + i * 0.2, ease: ease.citadel, delay: 0.2 + i * 0.12 }}
                 >
-                  <Rider />
+                  <Peg />
                 </motion.div>
               </div>
             </li>

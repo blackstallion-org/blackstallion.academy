@@ -91,17 +91,19 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
     <div className={cn("relative min-h-[100svh] w-full flex items-center justify-center py-12 md:py-16 overflow-hidden bg-night", inline && "min-h-full py-0")}>
       {/* Edge-to-edge full screen cinematic background image */}
       <FilmImage name="duneSilhouette" grade="deep" className="opacity-100" />
+      {/* A soft dark pool behind the copy so the headline and its gold second line read on the pale sky (2 Nov 2026). */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_60%_45%_at_50%_45%,rgb(23_21_19/0.62),rgb(23_21_19/0.25)_60%,transparent_85%)]" />
 
       {/* Minimized, Elegant Editorial Content */}
-      <div data-home-final-copy className="relative mx-auto max-w-3xl px-6 py-8 text-center z-20 flex flex-col items-center">
-        {/* Minimized Inscription */}
-        <p data-home-final-intro className="font-mono text-[0.68rem] sm:text-xs tracking-[0.3em] uppercase text-gold/90 mb-2 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">
-          {finale.inscription}
-        </p>
-
-        {/* Minimized, Refined Headline */}
-        <h2 data-home-phrase data-home-final-title className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-bone tracking-tight leading-snug [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] max-w-xl mx-auto">
-          {finale.voice}
+      <div data-home-final-copy className="relative mx-auto max-w-5xl px-6 py-8 text-center z-20 flex flex-col items-center">
+        {/* R13 (2 Nov 2026): "The arena is open." is the headline, large and bold; the legacy line is its quieter second voice. */}
+        <h2 data-home-final-title className="[text-shadow:0_2px_18px_rgba(0,0,0,0.85)]">
+          <span className="t-inscribe block text-[clamp(2.6rem,8vw,6.5rem)] font-semibold leading-[0.95] tracking-[0.02em] text-bone">
+            {finale.inscription}
+          </span>
+          <span className="t-voice mt-4 block text-[clamp(1.35rem,3.2vw,2.4rem)] leading-tight text-gold [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
+            {finale.voice}
+          </span>
         </h2>
 
         {/* Action Buttons - Sleek, Compact Luxury Pills */}
