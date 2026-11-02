@@ -115,17 +115,6 @@
   --font-mono: var(--font-rupee), var(--font-martian), ui-monospace, monospace;
 }
 
-/* Cinematic gate composition: text occupies the upper-right negative space. */
-.gate-bond-copy {
-  left: clamp(1.5rem, 52vw, 58rem);
-  top: clamp(4.5rem, 12vh, 8rem);
-}
-
-@media (max-width: 639px) {
-  .gate-bond-scene { min-height: max(48rem, 100svh); }
-  .gate-bond-copy { left: 1.25rem; right: 1.25rem; top: 3.8rem; max-width: min(22rem, calc(100% - 2.5rem)); }
-}
-
 /* ------------------------------------------------------------------
    Tone scopes. Light is the default (the 70%). `.tone-dark` is the 30%:
    charcoal, leather and antique gold for act breaks, end cards, the terminal,

@@ -7,7 +7,7 @@ import type { MediaKey } from "@/lib/content/media";
  * no figures, no health claims (Blueprint Part 9). The home curtain uses the four stills no other page uses (28 Oct 2026, owner's request:
  * no /legend photographs on the home page); two of them are atmospheric dust frames until the shoot supplies more. `time` is the small mono kicker on each frame.
  */
-export type CurtainChapter = { image: MediaKey; time: string; title: string; line: string };
+export type CurtainChapter = { image: MediaKey; time: string; title: string; line: string; kicker?: string; cue?: "bow" };
 export type CurtainSet = { label: string; chapters: CurtainChapter[] };
 
 export const curtains = {
@@ -34,7 +34,7 @@ export const curtains = {
     chapters: [
       { image: "currGroundcare", time: "I", title: "Hooves before hands.", line: "Every session begins in the stable: groundcare before the saddle." },
       { image: "currBarrel", time: "II", title: "Turns that teach balance.", line: "A tight turn around the barrel asks for a quiet seat and clear aids." },
-      { image: "currArchery", time: "III", title: "Focus at the canter.", line: "A cadet draws a bow while the horse moves under her." },
+      { image: "currArchery", time: "III", kicker: "Mounted archery", cue: "bow", title: "Drawing at the canter.", line: "Both hands are on the bow, so seat and legs keep the horse cantering straight while the cadet draws the arrow back." },
       { image: "currTentpeg", time: "IV", title: "The peg.", line: "Tent pegging closes the progression: a lance, a gallop, a wooden peg." },
     ],
   },

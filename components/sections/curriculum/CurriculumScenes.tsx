@@ -233,7 +233,7 @@ export function DisciplineActionGallery() {
       titleLine1: "MOUNTED",
       titleLine2: "ARCHERY",
       alt: "A girl cadet drawing a bow at the canter",
-      caption: "Reins dropped to draw and loose arrows at targets in under twelve seconds along a 90-metre track.",
+      caption: "Reins dropped: seat and legs hold the canter while the cadet draws and looses at targets along the track.",
       align: "left",
     },
     {

@@ -16,7 +16,28 @@ import type { MediaKey } from "@/lib/content/media";
  * Accessibility: the animated stage is visual only (aria-hidden); every chapter is also rendered once as plain text for
  * screen readers, so no chapter depends on the scroll position to be read.
  */
-export type Chapter = { image: MediaKey; time: string; title: string; line: string };
+export type Chapter = {
+  image: MediaKey;
+  time: string;
+  title: string;
+  line: string;
+  /** Names the discipline in the photograph (e.g. "Mounted archery"), shown in the kicker with its cue mark. */
+  kicker?: string;
+  /** A small drawn mark matching what the rider is doing. */
+  cue?: "bow";
+};
+
+/** Recurve bow at full draw, arrow on the string: the cue for mounted archery frames. */
+function BowMark() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="mr-1.5 inline-block h-[1.15em] w-[1.15em] -translate-y-[0.08em] align-middle text-gold" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M15 3c-2 1.5 -2.4 3 -1.6 4.4C15 10 15 14 13.4 16.6c-0.8 1.4 -0.4 2.9 1.6 4.4" />
+      <path d="M15 3 7 12l8 9" />
+      <path d="M4 12h17" />
+      <path d="m19 10 2 2-2 2" />
+    </svg>
+  );
+}
 
 type CurtainChaptersProps = {
   id?: string;
@@ -35,6 +56,15 @@ function Frame({ c, i, total, timeNote }: { c: Chapter; i: number; total: number
         <p className="label text-sand">
           <span className="font-mono text-gold">{c.time}</span>
           {timeNote ? ` · ${timeNote}` : null} · {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          {c.kicker ? (
+            <>
+              {" · "}
+              <span className="text-bone">
+                {c.cue === "bow" ? <BowMark /> : null}
+                {c.kicker}
+              </span>
+            </>
+          ) : null}
         </p>
         <h3 className="t-voice mt-4 max-w-[14ch] text-display-2 text-bone" data-curtain-heading>
           {c.title}
@@ -155,7 +185,7 @@ export function CurtainChapters({ id, label, chapters, timeNote }: CurtainChapte
             <ol>
               {chapters.map((c) => (
                 <li key={c.title}>
-                  <h3>{c.title}</h3>
+                  <h3>{c.kicker ? `${c.kicker}: ${c.title}` : c.title}</h3>
                   <p>
                     {c.time}
                     {timeNote ? ` (${timeNote.toLowerCase()})` : ""}: {c.line}

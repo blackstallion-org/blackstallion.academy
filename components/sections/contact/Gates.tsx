@@ -14,15 +14,28 @@ import { network } from "@/lib/content/schools";
 /** Title card · T16 gate. Signature: two gate halves part to reveal the page. */
 export function GateTitle() {
   return (
-    <section aria-labelledby="gate-h" className="relative min-h-[92svh] overflow-hidden">
+    <section aria-labelledby="gate-h" className="tone-dark relative min-h-[92svh] overflow-hidden bg-night">
       <FilmImage name="contactGate" priority />
       <div aria-hidden className="absolute inset-0 shade-b" />
+      {/* a low scrim so the title and line stay readable where the lit gap between the doors runs behind them on phones */}
+      <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgb(14_10_8/0.82)_0%,rgb(14_10_8/0.35)_45%,transparent_70%)]" />
       <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-line bg-[linear-gradient(90deg,#2a1d15,#493126)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 2.25, ease: ease.inOut, delay: 0.45 }} />
       <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-line bg-[linear-gradient(270deg,#2a1d15,#493126)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 2.25, ease: ease.inOut, delay: 0.45 }} />
       <div className="gutter relative flex min-h-[92svh] flex-col justify-end pb-[10vh]">
         <ReelMark n={16} act="ledger" />
-        <Headline id="gate-h" as="h1" size="poster" animate="mount" delay={1.2} className="mt-6" inscription="The arena" voice="is open." />
-        <p className="t-story mt-6 text-sand">Three corridors. Choose yours.</p>
+        {/* R13 (2 Nov 2026): the title reads as one large, bold line on the dark gate (it was dark ink on a dark photograph). */}
+        <Headline
+          id="gate-h"
+          as="h1"
+          size="poster"
+          animate="mount"
+          delay={1.2}
+          className="mt-6 [text-shadow:0_2px_22px_rgba(0,0,0,0.75)] max-sm:text-[4rem]"
+          inscriptionClassName="text-[0.62em] font-semibold tracking-[0.03em] text-bone"
+          inscription="The arena"
+          voice="is open."
+        />
+        <p className="t-story mt-6 text-lede text-sand [text-shadow:0_1px_10px_rgba(0,0,0,0.8)]">Three corridors. Choose yours.</p>
       </div>
     </section>
   );
