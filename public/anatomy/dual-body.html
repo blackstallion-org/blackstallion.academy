@@ -457,6 +457,11 @@ button:focus-visible,#equineCanvas:focus-visible{outline:2px solid #543825;outli
 @media (max-width:1023px){.deck{padding:.8rem}#telemetryHud{bottom:.2rem;font-size:8.5px;letter-spacing:.1em;padding:.35rem .7rem}}
 @media(prefers-reduced-motion:reduce){.rider-switch .knob::after,.seg-btn,.deck .connection-card.deck-row{transition:none}}
 </style>
+<style id="calm-2026-11-02">
+  /* R15/R16 (2 Nov 2026): fewer layers over the moving horse and rider. The live readout, the floating labels, the structure
+     readout, the region chips, the mode badge and the second pager are hidden (the "Follow the system" list already chooses). */
+  #telemetryHud, .callout-pin, #expAnatomyReadout, #anatomicalSubfilters, #expModeBadge, #activeSelectionPill, #expPager { display: none !important; }
+</style>
 </head>
 <body class="selection:bg-[#513624] selection:text-[#F9F3EA]">
 
@@ -673,7 +678,7 @@ button:focus-visible,#equineCanvas:focus-visible{outline:2px solid #543825;outli
           </div>
         </div>
 
-        <div class="flex items-center justify-between" style="display:flex;align-items:center;justify-content:space-between;">
+        <div id="expPager" class="flex items-center justify-between" style="display:flex;align-items:center;justify-content:space-between;">
           <div class="flex items-center gap-3" style="display:flex;align-items:center;gap:0.75rem;">
             <button type="button" id="prevConnBtn" aria-label="Previous connection"
               class="w-8 h-8 rounded-full border border-[#8A6C4C]/40 flex items-center justify-center text-[#3E2718] hover:bg-[#513624] hover:text-[#F9F3EA] transition-all"
@@ -704,13 +709,13 @@ button:focus-visible,#equineCanvas:focus-visible{outline:2px solid #543825;outli
       <!-- 6. LOWER-RIGHT VIEW MODE & PLAY MOVEMENT CONTROLS                 -->
       <!-- ----------------------------------------------------------------- -->
       <div id="controlsCluster" class="pointer-events-auto deck">
-        <div class="deck-line"><span class="deck-label">View</span><span id="viewModeNameLabel" class="deck-hint">Posture line</span></div>
+        <div class="deck-line"><span class="deck-label">View</span><span id="viewModeNameLabel" class="deck-hint">Coat</span></div>
         <div class="seg" id="viewSeg" role="group" aria-label="View mode">
           <span class="seg-thumb" aria-hidden="true"></span>
-          <button type="button" id="modeBtnPosture" data-mode="posture" class="mode-btn seg-btn active" aria-pressed="true" aria-label="Posture line view">Align</button>
+          <button type="button" id="modeBtnExternal" data-mode="external" class="mode-btn seg-btn active" aria-pressed="true" aria-label="Coat view">Coat</button>
           <button type="button" id="modeBtnSkeletal" data-mode="skeletal" class="mode-btn seg-btn" aria-pressed="false" aria-label="Skeleton view">Bone</button>
           <button type="button" id="modeBtnMuscular" data-mode="muscular" class="mode-btn seg-btn" aria-pressed="false" aria-label="Muscle view">Muscle</button>
-          <button type="button" id="modeBtnExternal" data-mode="external" class="mode-btn seg-btn" aria-pressed="false" aria-label="Coat view">Coat</button>
+          <button type="button" id="modeBtnPosture" data-mode="posture" class="mode-btn seg-btn" aria-pressed="false" aria-label="Posture line view">Posture</button>
         </div>
 
         <div class="deck-line"><span class="deck-label">Movement</span><span id="gaitBeatBadge" class="deck-hint">4-BEAT LATERAL</span></div>

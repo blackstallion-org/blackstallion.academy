@@ -28,7 +28,7 @@ const CONNECTIONS = [
     title: "Cervical alignment",
     subtitle: "EARS & ATTENTION",
     description:
-      "A steady trunk and balanced seat help the rider follow the horse’s movement without gripping. Instructor feedback connects posture to a quieter, more responsive horse. Horse programmes have been linked to lower stress hormones in children (one trial: Pendry, Smith & Roeter, 2014).",
+      "A balanced head and a soft neck keep the rider’s hands quiet, and leave the horse’s poll and ears free to listen.",
     pill: "Brain · attention",
     riderStructure: "Cranio-Cervical Axis & Soft Rein Contact",
     horseStructure: "Poll (C1–C2), Cervical Arch & Lyre Ears",
@@ -45,7 +45,7 @@ const CONNECTIONS = [
     title: "Core posture",
     subtitle: "WITHERS & SEAT",
     description:
-      "When the cadet’s ribcage aligns vertically over the ischial seat bones, the horse’s trapezius and thoracolumbar bridge lift freely underneath the saddle tree without hollowing. Walk, trot and canter keep the heart and lungs working at a steady, moderate effort.",
+      "Ribcage stacked over the seat bones: the horse’s back can lift under the saddle instead of hollowing away from the weight.",
     pill: "Heart · steady effort",
     riderStructure: "Thoracic Core (T1–T12) & Balanced Seat",
     horseStructure: "Withers (T3–T8), Scapula & Longissimus Bridge",
@@ -62,7 +62,7 @@ const CONNECTIONS = [
     title: "Lumbar balance",
     subtitle: "REINS & CONTACT",
     description:
-      "A supple lumbar spine absorbs the three-dimensional oscillation of the horse’s back, allowing hindquarter impulsion to flow through the lumbosacral junction into a soft, elastic rein. At the walk the horse moves the rider’s pelvis about a hundred times a minute, much like human gait.",
+      "A supple lower back follows the horse’s back as it rises and swings. At the walk it moves the rider’s pelvis about a hundred times a minute, much like walking.",
     pill: "Spine · pelvis in motion",
     riderStructure: "Supple Lumbar L1–L5 & Following Pelvis",
     horseStructure: "Lumbosacral Junction, Pelvis & Gluteals",
@@ -129,7 +129,7 @@ const MODES = {
 const $ = (id) => document.getElementById(id);
 const state = {
   activeConnection: 0,
-  activeMode: "posture",
+  activeMode: "external", // the real coat first; bone, muscle and the posture line are optional reveals (R16, 2 Nov 2026)
   selectedRegion: "poll_cervical",
   isZoomedIn: false,
   focus: false,
@@ -713,7 +713,10 @@ const coatOpacity = { value: 1 };
 function applyCoatOpacity() {
   const m = horse.material;
   const o = coatOpacity.value;
-  m.transparent = o < 0.995;
+  const transparent = o < 0.995;
+  // three.js compiles an opaque material with its alpha forced to 1, so a change of `transparent` needs a recompile
+  if (m.transparent !== transparent) m.needsUpdate = true;
+  m.transparent = transparent;
   m.opacity = o;
   m.depthWrite = o >= 0.995;
 }
@@ -1307,7 +1310,7 @@ async function boot() {
     updateResponsiveFraming();
     new ResizeObserver(() => updateResponsiveFraming()).observe(stage);
     sceneReady = true;
-    applyVisualizationMode("posture", true);
+    applyVisualizationMode("external", true);
     selectConnection(0, true, false);
     applyQaParams();
     renderOnce(0);
