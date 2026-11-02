@@ -7,7 +7,7 @@ import { HubMap, ModelFlow, PanIndiaNetwork, SchoolArenaShowcase, SchoolsTitle }
 import { CitadelConfigurator } from "@/components/sections/schools/CitadelConfigurator";
 import { CampusExperience } from "@/components/sections/schools/campus/CampusExperience";
 import { SovereignCouncil } from "@/components/sections/schools/SovereignCouncil";
-import { TrojanBox } from "@/components/sections/schools/TrojanBox";
+import { SealedInvitation } from "@/components/sections/schools/SealedInvitation";
 import { seals } from "@/lib/content/schools";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
@@ -29,7 +29,8 @@ export default function SchoolsPage() {
       <HubMap />
       <PanIndiaNetwork />
       <SovereignCouncil />
-      <TrojanBox />
+      {/* R28/R29 (2 Nov 2026): the sealed card replaces the presentation box over the night-field photograph */}
+      <SealedInvitation />
 
       {/* §5 · S56 seal row */}
       <section aria-labelledby="seals-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">

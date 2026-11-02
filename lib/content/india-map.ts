@@ -35,7 +35,7 @@ export type MapPlace = {
   location: string;
   body: string;
   facts: { k: string; v: string }[];
-  /** Plain statement of what this marker is not. */
+  /** A short status label (R19, 2 Nov 2026): what this marker is, and that it is not a campus or an agreement. */
   status: string;
   link?: { label: string; href: string };
 };
@@ -76,7 +76,7 @@ const circuits: MapPlace[] = network.map((zone) => {
     location: a.location,
     body: a.body,
     facts: zone.subzones.map((s) => ({ k: s.code, v: s.name })),
-    status: "A target corridor, not a campus. No hub is contracted here and no partnership is implied for any institution in it.",
+    status: "Planned corridor · not a campus",
     link: a.link,
   };
 });
@@ -96,7 +96,7 @@ const heritage: MapPlace[] = [
       { k: "Origin", v: "Marwar, Rajasthan, India" },
       { k: "Registry", v: "Marwari Horse Society; government-authorised registration since 2009" },
     ],
-    status: "A place on the map of the breed, not a BSAH site.",
+    status: "Heritage · not an academy site",
   },
   {
     id: "jaipur",
@@ -109,7 +109,7 @@ const heritage: MapPlace[] = [
     location: "Jaipur, Rajasthan",
     body: "The Indian Army's 61st Cavalry is stationed here. Its retired non-commissioned officers are one of the pools the academy's faculty plan names.",
     facts: [{ k: "Faculty plan", v: "Retired RVC, 61st Cavalry JCOs and NCOs, NCC Equestrian Wings" }],
-    status: "A recruitment pipeline the academy is aiming at, not an agreement with any unit or person.",
+    status: "Proposed pipeline · no agreement signed",
   },
 ];
 

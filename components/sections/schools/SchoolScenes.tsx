@@ -381,7 +381,7 @@ export function PanIndiaNetwork() {
             </div>
           ))}
         </div>
-        <p className="t-ui mt-6 text-xs text-dust">Target educational corridors for the national rollout. Hub statuses are published only for operating zones; no partnership is implied for any institution within a corridor.</p>
+        <p className="label mt-6 text-dust">Planned corridors · no school partnership signed</p>
       </div>
     </section>
   );

@@ -508,7 +508,10 @@ function CardBody({ place, onClose, closeLabel = mapCopy.close }: { place: MapPl
           </div>
         ))}
       </dl>
-      <p className="t-ui mt-4 text-xs leading-relaxed text-dust">{place.status}</p>
+      <p className="label mt-4 inline-flex items-center gap-2 border border-line/60 px-2.5 py-1 text-[0.66rem] text-sand">
+        <span aria-hidden className="h-1.5 w-1.5 rounded-full border border-gold" />
+        {place.status}
+      </p>
       {place.link && (
         <a href={place.link.href} className="label mt-4 inline-flex min-h-11 items-center gap-2 text-gold underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
           {place.link.label}

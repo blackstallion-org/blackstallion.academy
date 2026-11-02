@@ -130,7 +130,7 @@ export const benchmark = {
 /** Commercial lifecycle (Architecture Blueprint L7). No hub is shown as contracted or active without evidence. */
 export type HubStatus = "prospect" | "pipeline" | "contracted" | "active" | "paused" | "closed";
 export const hubStatusLabel: Record<HubStatus, string> = {
-  prospect: "Prospect · not yet contracted",
+  prospect: "Proposed · not contracted",
   pipeline: "In pipeline",
   contracted: "Contracted",
   active: "Active",
