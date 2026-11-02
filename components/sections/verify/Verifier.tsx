@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
-import { useId, useState, useTransition, type FormEvent } from "react";
+import { useEffect, useId, useState, useTransition, type FormEvent } from "react";
 import { lookupCredential } from "@/app/verify/actions";
 import { Arrow } from "@/components/film/Marks";
-import { SealStamp } from "@/components/motion/SealStamp";
+import { AcademyStamp } from "@/components/brand/AcademyStamp";
 import { credentials } from "@/lib/content/records";
 import type { LookupResult } from "@/lib/verify/lookup";
 import { ease } from "@/lib/motion/tokens";
@@ -16,7 +16,8 @@ type Props = { showSamples?: boolean; className?: string };
 /**
  * S10 seal verifier. The lookup runs on the server (app/verify/actions.ts): SAMPLE codes return the labelled demo
  * record; any other code is checked against the live registry when it is connected, with valid / revoked / expired /
- * not-found answers and minimal disclosure. The brass seal stamps only for a valid record or a labelled sample.
+ * not-found answers and minimal disclosure. The registry stamp (AcademyStamp) reads VERIFIED only for a valid registry record and
+ * SAMPLE, in bronze, for a labelled demo record; nothing is stamped for any other answer.
  */
 export function Verifier({ showSamples = false, className }: Props) {
   const id = useId();
@@ -25,6 +26,16 @@ export function Verifier({ showSamples = false, className }: Props) {
   const [stamped, setStamped] = useState(false);
   const [pending, startLookup] = useTransition();
   const result = lookup?.kind === "sample" ? lookup.record : lookup ? null : undefined;
+
+  // The record's details come in once the stamp has landed; the page's "Verified" stamp (VerifyScenes · Chain) hears the result.
+  useEffect(() => {
+    if (!lookup) return;
+    const state = lookup.kind === "registry" && lookup.status === "valid" ? "verified" : lookup.kind === "sample" ? "sample" : "none";
+    window.dispatchEvent(new CustomEvent("bsah:verify", { detail: { state } }));
+    if (lookup.kind !== "sample") return;
+    const t = setTimeout(() => setStamped(true), 550);
+    return () => clearTimeout(t);
+  }, [lookup]);
 
   const verify = (e?: FormEvent, value = code) => {
     e?.preventDefault();
@@ -88,7 +99,7 @@ export function Verifier({ showSamples = false, className }: Props) {
             <motion.div key={`r-${lookup.kind}-${"status" in lookup ? lookup.status : ""}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-4">
               {lookup.kind === "registry" && lookup.status === "valid" ? (
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                  <SealStamp label="VERIFIED" trigger="manual" play className="h-28 w-28 shrink-0" />
+                  <AcademyStamp label="VERIFIED" pressed className="h-28 w-28 shrink-0" />
                   <dl className="grid flex-1 grid-cols-2 gap-x-6 gap-y-4">
                     <div><dt className="label text-dust">Status</dt><dd className="t-voice text-xl text-gold">Valid</dd></div>
                     <div><dt className="label text-dust">Rank at issue</dt><dd className="t-ui text-sand capitalize">{lookup.rank.replace(/_/g, " ")}</dd></div>
@@ -112,7 +123,7 @@ export function Verifier({ showSamples = false, className }: Props) {
           )}
           {result && (
             <motion.div key={result.code} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-6 sm:flex-row sm:items-start">
-              <SealStamp label="VERIFIED" trigger="manual" play onStamped={() => setStamped(true)} className="h-28 w-28 shrink-0" />
+              <AcademyStamp label="SAMPLE" pressed ink="#7b5636" title="SAMPLE: a demo record, not a verified cadet" className="h-28 w-28 shrink-0" />
               <motion.dl
                 className="grid flex-1 grid-cols-2 gap-x-6 gap-y-4"
                 initial={{ opacity: 0, y: 16 }}

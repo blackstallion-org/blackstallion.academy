@@ -8,6 +8,9 @@ import { SealStamp } from "@/components/motion/SealStamp";
 import { TextAnimate } from "@/components/motion/TextAnimate";
 
 import { TorchHorseStage } from "./TorchHorseStage";
+import { useEffect, useRef, useState } from "react";
+import { useInView } from "motion/react";
+import { AcademyStamp } from "@/components/brand/AcademyStamp";
 
 /** Title card · T12 seal with 3D Classical Equestrian Statue. */
 export function VerifyTitle() {
@@ -69,10 +72,55 @@ export function Chain() {
               {l.title}
             </TextAnimate>
             <p className="t-story mt-3 max-w-xs text-sand">{l.text}</p>
+            {i === 1 ? <ChainStamp step="sealed" /> : null}
+            {i === 2 ? <ChainStamp step="verified" /> : null}
           </li>
         ))}
       </ol>
     </section>
+  );
+}
+
+type CheckState = "none" | "verified" | "sample";
+
+/**
+ * R23 (2 Nov 2026): the registry stamp beside "Sealed" and "Verified". "Sealed" shows how a rank is stamped (it presses once when
+ * scrolled into view). "Verified" waits as a dotted ring and is stamped only when the code checker above reports a real result
+ * (Verifier dispatches `bsah:verify`): VERIFIED for a valid registry record, SAMPLE in bronze for a labelled demo record.
+ */
+function ChainStamp({ step }: { step: "sealed" | "verified" }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const seen = useInView(ref, { once: true, amount: 0.6 });
+  const [check, setCheck] = useState<CheckState>("none");
+  useEffect(() => {
+    if (step !== "verified") return;
+    const on = (e: Event) => {
+      const state = (e as CustomEvent<{ state?: CheckState }>).detail?.state;
+      setCheck(state === "verified" || state === "sample" ? state : "none");
+    };
+    window.addEventListener("bsah:verify", on);
+    return () => window.removeEventListener("bsah:verify", on);
+  }, [step]);
+  if (step === "sealed") {
+    return (
+      <div ref={ref} className="mt-6 flex items-center gap-4">
+        <AcademyStamp label="SEALED" pressed={seen} className="h-28 w-28 shrink-0" />
+        <p className="label max-w-[13rem] text-dust">The chief instructor&rsquo;s stamp, once for each rank</p>
+      </div>
+    );
+  }
+  return (
+    <div ref={ref} className="mt-6 flex items-center gap-4">
+      <AcademyStamp
+        label={check === "sample" ? "SAMPLE" : "VERIFIED"}
+        pressed={check !== "none"}
+        ink={check === "sample" ? "#7b5636" : undefined}
+        className="h-28 w-28 shrink-0"
+      />
+      <p className="label max-w-[13rem] text-dust" aria-live="polite">
+        {check === "verified" ? "This code checked out against the registry." : check === "sample" ? "A labelled sample record, not a real cadet." : "Stamped here only when a code checks out above."}
+      </p>
+    </div>
   );
 }
 
