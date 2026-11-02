@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Terminal } from "./Terminal";
+import { GuideDesk } from "./GuideDesk";
 import { knowledge } from "@/lib/content/command";
 import { command } from "@/lib/content/home";
 import styles from "./CommandExperience.module.css";
@@ -13,7 +14,7 @@ export function CommandExperience() {
       <div className={styles.main}>
         <p className={styles.eyebrow}>The desk</p>
         <div className={styles.workspace}>
-          <Terminal variant="editorial" titleAs="h2" titleId="cmd-h" chips={knowledge.map((entry) => entry.ask)} />
+          <GuideDesk chips={knowledge.map((entry) => entry.ask)} />
         </div>
       </div>
     </section>

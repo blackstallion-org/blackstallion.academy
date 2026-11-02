@@ -22,6 +22,8 @@ type Props = {
   /** Heading level and id for the desk's single heading ("What would you like to know?"). */
   titleAs?: "h1" | "h2" | "h3";
   titleId?: string;
+  /** Reports what the desk is doing, for the guide beside it (R21): typing a question, preparing, answering, or at rest. */
+  onStatus?: (status: "greeting" | "idle" | "listening" | "thinking" | "answering") => void;
 };
 
 const BOOT: Line[] = [
@@ -33,7 +35,7 @@ const BOOT: Line[] = [
  * S13 terminal. Questions type themselves out; answers stream in character by character.
  * Scripted knowledge today (lib/content/command.ts).
  */
-export function Terminal({ chips, opening, tall = false, className, variant = "editorial", titleAs = "h2", titleId }: Props) {
+export function Terminal({ chips, opening, tall = false, className, variant = "editorial", titleAs = "h2", titleId, onStatus }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const scroller = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
@@ -48,6 +50,16 @@ export function Terminal({ chips, opening, tall = false, className, variant = "e
   const inputId = useId();
   const chipList = chips ?? knowledge.slice(0, 4).map((k) => k.ask);
   useEffect(() => () => { request.current += 1; busyRef.current = false; }, []);
+  const [focused, setFocused] = useState(false);
+  const [greeted, setGreeted] = useState(false);
+  // the guide tips his hat once when the desk comes into view, then waits
+  useEffect(() => {
+    if (!inView || greeted) return;
+    const t = setTimeout(() => setGreeted(true), 2600);
+    return () => clearTimeout(t);
+  }, [inView, greeted]);
+  const status = typing !== null ? "answering" : busy ? "thinking" : focused || input.trim() ? "listening" : greeted ? "idle" : "greeting";
+  useEffect(() => { onStatus?.(status); }, [status, onStatus]);
 
   const ask = async (q: string, entry?: Entry) => {
     if (busyRef.current || !q.trim()) return;
@@ -111,7 +123,7 @@ export function Terminal({ chips, opening, tall = false, className, variant = "e
 
         <form onSubmit={submit} className={styles.deskComposer}>
           <label htmlFor={inputId} className="sr-only">Ask a question</label>
-          <input id={inputId} value={input} onChange={(event) => setInput(event.target.value)} placeholder="Ask your question…" autoComplete="off" maxLength={1000} />
+          <input id={inputId} value={input} onChange={(event) => setInput(event.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} placeholder="Ask your question…" autoComplete="off" maxLength={1000} />
           <button type="submit" disabled={busy || !input.trim()} aria-label="Send question"><ArrowUp size={21} strokeWidth={1.3} /></button>
         </form>
 

@@ -1,11 +1,11 @@
 import { Headline } from "@/components/film/Headline";
-import { SplineScene } from "@/components/ui/splite";
 import { Spotlight } from "@/components/ui/spotlight";
+import { CowboyGuide } from "./CowboyGuide";
 
 /**
- * Title scene · The Command. The supplied Spline robot, used as supplied (its eyes, its black shell, its own motion), stands on a
- * full-screen dark band under the raking light, as in the reference: one heading, one line, nothing over the figure.
- * Moved here from /science on 31 Oct 2026 (owner's request). The scene streams from Spline's CDN; see docs/ADDED-SCENES.md.
+ * Title scene · The Command. The academy's guide, a horseman in a wide-brim hat (CowboyGuide), tips his hat under the raking
+ * light: one heading, one line, nothing over the figure. He replaced the Spline robot on 2 Nov 2026 (R21); the same guide waits
+ * beside the desk below and follows the questions there.
  */
 export function CommandHero() {
   return (
@@ -27,11 +27,9 @@ export function CommandHero() {
           </a>
         </div>
 
-        {/* The robot: a wide stage centred on narrow screens (held at a minimum width, the section clips the rest). */}
-        <div className="relative h-[clamp(380px,62svh,820px)] w-full lg:h-[min(86svh,860px)]">
-          <div aria-hidden className="absolute left-1/2 h-full w-[max(100%,40rem)] -translate-x-1/2">
-            <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="h-full w-full" />
-          </div>
+        {/* The guide, full length, greeting; the section clips nothing of him. */}
+        <div className="relative mx-auto h-[clamp(360px,58svh,780px)] w-full max-w-[34rem] lg:h-[min(84svh,840px)]">
+          <CowboyGuide state="greeting" priority sizes="(min-width: 1024px) 34rem, 80vw" className="absolute inset-x-0 bottom-0 mx-auto h-full w-auto" />
         </div>
       </div>
     </section>
