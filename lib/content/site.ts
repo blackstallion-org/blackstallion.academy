@@ -27,7 +27,7 @@ export type Reel = {
 export const reels: Reel[] = [
   { n: 1, href: "/legend", act: "legend", title: "The Marwari", inscription: "The land", voice: "of death.", blurb: "Eight hundred years of the horse that would not leave the field.", image: "duneSilhouette" },
   { n: 2, href: "/anatomy", act: "legend", title: "The Instrument", inscription: "The", voice: "instrument.", blurb: "Five hundred kilograms that read you first.", image: "anatomyProfile" },
-  { n: 3, href: "/statue", act: "legend", title: "The 3D Monument", inscription: "Cast in bronze.", voice: "Built to endure.", blurb: "A five-chapter cinematic 3D journey through the Rossbändiger monument.", image: "curriculumHeroStatue" },
+  { n: 3, href: "/statue", act: "legend", title: "The 3D Monument", inscription: "Cast in bronze.", voice: "Built to endure.", blurb: "Six chapters around the academy's bronze of a cadet and a Marwari.", image: "curriculumHeroStatue" },
   { n: 4, href: "/science", act: "citadel", title: "The Matrix", inscription: "What the saddle", voice: "does to a child.", blurb: "Four systems, one twenty-minute session.", image: "scienceRider" },
   { n: 5, href: "/why", act: "citadel", title: "Crisis & Cure", inscription: "Digital fragility", voice: "is a choice.", blurb: "Character is forged in the arena.", image: "whyCure" },
   { n: 6, href: "/curriculum", act: "citadel", title: "The Ledger", inscription: "Four ranks.", voice: "Thirteen pillars.", blurb: "An athletic curriculum that builds character.", image: "currLedger" },

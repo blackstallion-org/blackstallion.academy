@@ -125,7 +125,8 @@ export function TorchHorseStage({ className = "" }: TorchHorseStageProps) {
     bounceLight.position.set(0, -1.2, 1.8);
     scene.add(bounceLight);
 
-    // 3. Load the Old 3D Model: Classical Equestrian Statue (/models/rossbandiger-1/statue.glb)
+    // 3. The academy's bronze (R03, 2 Nov 2026): the same cadet-and-Marwari statue as /statue, instead of the classical
+    //    Rossbändiger horse-tamer, which did not belong to the academy's story.
     modelGroup = new THREE.Group();
     scene.add(modelGroup);
 
@@ -133,7 +134,7 @@ export function TorchHorseStage({ className = "" }: TorchHorseStageProps) {
     const draco = new DRACOLoader();
     draco.setDecoderPath("/draco/");
     loader.setDRACOLoader(draco);
-    const modelUrl = asset("/models/statue-mobile.glb");
+    const modelUrl = asset("/models/statue-cadet-marwari.glb");
 
     loader.load(
       modelUrl,
@@ -184,9 +185,9 @@ export function TorchHorseStage({ className = "" }: TorchHorseStageProps) {
         }
       },
       (error) => {
-        console.warn(`Failed to load ${modelUrl}, trying fallback /models/rossbandiger.glb:`, error);
-        // Fallback to /models/rossbandiger.glb if needed
-        loader.load(asset("/models/rossbandiger.glb"), (fallbackGltf) => {
+        console.warn(`Failed to load ${modelUrl}, trying the earlier academy statue:`, error);
+        // fall back to the earlier cadet-and-horse bronze, never to an unrelated statue
+        loader.load(asset("/models/horse-statue-monument.glb"), (fallbackGltf) => {
           const fallbackRoot = fallbackGltf.scene;
           const box = new THREE.Box3().setFromObject(fallbackRoot);
           const center = box.getCenter(new THREE.Vector3());

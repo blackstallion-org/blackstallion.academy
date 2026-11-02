@@ -483,7 +483,7 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false }:
 
             <div className="flex items-center gap-3 sm:gap-4">
               <span className="hidden sm:inline-block font-mono text-[0.65rem] tracking-[0.3em] uppercase text-[#FAF7F0]/60">
-                Rossbändiger · Equestrian Monument
+                The cadet and the Marwari · Bronze
               </span>
               <span className="rounded-full border border-[#C5A059]/40 bg-black/60 px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#C5A059] backdrop-blur-md shadow-lg">
                 Chapter {SECTIONS[activeIdx].num} / 06
@@ -683,7 +683,7 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false }:
             </h2>
 
             <p className="t-story mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-[#FAF7F0]/80">
-              The Rossbändiger monument stands as the central keystone of the Black Stallion Academy of Horsemanship.
+              The bronze of a cadet and a Marwari stands at the centre of the Black Stallion Academy of Horsemanship.
               Here, cadets master composure before courage, and humility before command.
             </p>
 

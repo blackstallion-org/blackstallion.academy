@@ -6,7 +6,10 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, ContactShadows } from "@react-three/drei";
 import { asset } from "@/lib/content/asset";
 
-export const STATUE_MODEL_URL = asset("/models/horse-statue-monument.glb");
+// R20 (2 Nov 2026): the cadet-and-Marwari bronze rebuilt from a new studio reference (Hunyuan3D v3, 320 k triangles): a calm face,
+// five-fingered hands, flat reins from bit to hand and the breed's lyre ears; replaces horse-statue-monument.glb, whose face, hands
+// and reins were distorted at close range. Provenance: tools/blender/07_statue/README.md.
+export const STATUE_MODEL_URL = asset("/models/statue-cadet-marwari.glb");
 
 // Preload the model asset
 useGLTF.preload(STATUE_MODEL_URL, "/draco/");
@@ -270,8 +273,8 @@ function CameraController({ scrollProgressRef, statueX, isMobile }: CameraContro
       new THREE.Vector3(sX * 0.6 + 0.8, 3.2 + yOff, 2.2 * zMult),
       // 02 · The Steed (Horse's head, eye & lyre ears)
       new THREE.Vector3(sX * 0.6 + 1.2, 2.4 + yOff, 1.8 * zMult),
-      // 03 · The Rider (Commander head, vertical posture & reins)
-      new THREE.Vector3(sX * 0.6 - 0.6, 1.8 + yOff, 1.6 * zMult),
+      // 03 · The Rider (the cadet's face, posture & reins; raised for the cadet-and-Marwari bronze, 2 Nov 2026)
+      new THREE.Vector3(sX * 0.6 - 0.6, 2.05 + yOff, 1.6 * zMult),
       // 04 · Craft & Stone (Musculature, flanks & chiseled stone)
       new THREE.Vector3(sX * 0.6 + 1.6, 0.8 + yOff, 2.0 * zMult),
       // 05 · Archive (Wide complete monument & plinth base)
@@ -284,8 +287,8 @@ function CameraController({ scrollProgressRef, statueX, isMobile }: CameraContro
       new THREE.Vector3(sX, 2.8, 0),
       // 02 · The Steed (Horse head & expression)
       new THREE.Vector3(sX + 0.15, 2.3, 0.35),
-      // 03 · The Rider (Torso & reins)
-      new THREE.Vector3(sX, 1.7, 0.2),
+      // 03 · The Rider (face, hands & reins)
+      new THREE.Vector3(sX, 1.95, 0.2),
       // 04 · Craft & Stone (Lower torso / musculature)
       new THREE.Vector3(sX, 0.6, 0),
       // 05 · Archive (Complete statue visual center)
