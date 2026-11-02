@@ -186,6 +186,8 @@ function load(src: string): Promise<AudioBuffer | null> {
 type Bed = { key: AmbienceKey; source: AudioBufferSourceNode | null; gain: GainNode; timer: ReturnType<typeof setTimeout> | undefined; live: boolean };
 let bed: Bed | null = null;
 let requested: AmbienceKey | null = null;
+/** Bed sources started and not yet stopped (a fading bed counts until it stops): the proof that switching never doubles a bed. */
+let sounding = 0;
 
 function fadeOutBed(b: Bed) {
   b.live = false;
@@ -194,7 +196,7 @@ function fadeOutBed(b: Bed) {
   b.gain.gain.cancelScheduledValues(ctx.currentTime);
   b.gain.gain.setTargetAtTime(0, ctx.currentTime, 0.4);
   const src = b.source;
-  setTimeout(() => { try { src?.stop(); } catch { /* already stopped */ } src?.disconnect(); b.gain.disconnect(); }, 2200);
+  setTimeout(() => { try { src?.stop(); } catch { /* already stopped */ } if (src) sounding -= 1; src?.disconnect(); b.gain.disconnect(); }, 2200);
 }
 
 function scheduleCue(b: Bed) {
@@ -244,10 +246,14 @@ export async function setAmbience(key: AmbienceKey | null): Promise<void> {
   s.loopEnd = Math.max(s.loopStart + 0.5, buf.duration - 0.06);
   s.connect(gain);
   s.start(0, s.loopStart);
+  sounding += 1;
   mine.source = s;
   gain.gain.setTargetAtTime(1, ctx.currentTime, 0.5);
   scheduleCue(mine);
 }
+
+/** Development only: what the ambience is doing, for the headless sound checks. */
+export function ambienceDebug() { return { requested, current: bed?.live ? bed.key : null, sounding }; }
 
 /** True while a location bed is (or is about to be) sounding: the idle horse calls stay quiet then. */
 export function ambienceActive(): boolean { return !!bed?.live; }

@@ -106,3 +106,15 @@ export const bloodlines = [
   { name: "Bahadur", breed: "Purebred Marwari", coat: "Mahogany bay", trait: "The ridge sentinel" },
   { name: "Kala Bhairav", breed: "Purebred Marwari", coat: "Midnight black", trait: "The sovereign knight" },
 ] as const;
+
+/**
+ * R32 (2 Nov 2026): the opening of /fleet puts the academy's one rigged Marwari into three places it belongs, chosen with buttons.
+ * Each world is a photographic plate (Higgsfield stills, `fleetWorld*` in media.ts) with the same 3D horse standing in front, lit to
+ * match, and its own location sound (public/audio/LICENSES.md, "Location ambience"). `sound` says what the visitor will hear.
+ */
+export type FleetWorldId = "cavalry" | "village" | "field";
+export const fleetWorlds: { id: FleetWorldId; label: string; title: string; line: string; image: MediaKey; sound: string }[] = [
+  { id: "cavalry", label: "Cavalry", title: "Under the fort.", line: "A column of Marwar horsemen rides out below the hill fort at sunset: the work the breed was bred for, seen from a distance.", image: "fleetWorldCavalry", sound: "Desert wind, a distant drum, horses passing" },
+  { id: "village", label: "Village", title: "In the lane.", line: "Water carried home, goats driven out, an elder on his charpai. In Marwar the horse has always been part of the day.", image: "fleetWorldVillage", sound: "A village afternoon, herders whistling" },
+  { id: "field", label: "Field", title: "At the rack.", line: "Hay at the rack under the neem, and a tent-pegging lane marked out beyond the shamiana: where the horses spend their day.", image: "fleetWorldField", sound: "A horse eating, a far-off cheer" },
+];
