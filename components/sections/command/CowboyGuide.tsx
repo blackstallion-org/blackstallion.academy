@@ -15,10 +15,10 @@ export type GuideState = "greeting" | "idle" | "listening" | "thinking" | "answe
  * comes in. The poses cross-fade; a slow breath keeps him alive in between. Reduced motion: the poses change without the breath.
  */
 const POSES: Record<Exclude<GuideState, "idle">, { src: string; label: string }> = {
-  greeting: { src: "/media/guide-greet.webp", label: "tips his hat in greeting" },
-  listening: { src: "/media/guide-listen.webp", label: "is listening" },
-  thinking: { src: "/media/guide-think.webp", label: "is thinking" },
-  answering: { src: "/media/guide-answer.webp", label: "is answering" },
+  greeting: { src: asset("/media/guide-greet.webp"), label: "tips his hat in greeting" },
+  listening: { src: asset("/media/guide-listen.webp"), label: "is listening" },
+  thinking: { src: asset("/media/guide-think.webp"), label: "is thinking" },
+  answering: { src: asset("/media/guide-answer.webp"), label: "is answering" },
 };
 const ORDER = ["greeting", "listening", "thinking", "answering"] as const;
 
@@ -33,7 +33,7 @@ export function CowboyGuide({ state, className, sizes = "(min-width: 1024px) 30v
       {ORDER.map((key) => (
         <Image
           key={key}
-          src={asset(POSES[key].src)}
+          src={POSES[key].src}
           alt=""
           aria-hidden
           fill
