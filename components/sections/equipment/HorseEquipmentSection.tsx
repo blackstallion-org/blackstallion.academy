@@ -2,12 +2,11 @@
 
 import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { TextAnimate } from "@/components/motion/TextAnimate";
 import { Label } from "@/components/film/Marks";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { useNearViewport, useOnScreen } from "@/lib/motion/use-near-viewport";
-import { asset } from "@/lib/content/asset";
+import { FilmImage } from "@/components/film/FilmImage";
 
 /* ------------------------------------------------------------------
    1. Interactive 3D Composite Riding Gear Model (lazy: see RidingGearStage)
@@ -15,45 +14,7 @@ import { asset } from "@/lib/content/asset";
 const RidingGearStage = dynamic(() => import("./RidingGearStage").then((mod) => mod.RidingGearStage), { ssr: false });
 
 /* ------------------------------------------------------------------
-   2. The four pieces, set as a numbered editorial row (30 Oct 2026: replaced the swatch cards with hex codes)
-   ------------------------------------------------------------------ */
-const EQUIPMENT_ITEMS = [
-  {
-    id: "saddle",
-    name: "Cavalry saddle",
-    category: "Saddlery",
-    image: asset("/images/equipment/traditional-saddle.webp"),
-    spec: "High cantle, fur-lined seat, brass hardware.",
-    detail: "Built for desert endurance: the cantle holds the rider square at full gallop.",
-  },
-  {
-    id: "stirrup",
-    name: "Stirrup iron",
-    category: "Hardware",
-    image: asset("/images/equipment/english-stirrup.webp"),
-    spec: "Forged stainless iron, 12 cm tread.",
-    detail: "Weighted to hang true and release at once if a rider falls.",
-  },
-  {
-    id: "halters",
-    name: "Halter and bridle",
-    category: "Tack room",
-    image: asset("/images/equipment/stable-bridles.webp"),
-    spec: "Triple-ply webbing, cast-iron rings.",
-    detail: "Hung in the tack room for morning turnout, inspection and grooming.",
-  },
-  {
-    id: "horseshoe",
-    name: "Horseshoe",
-    category: "Farrier",
-    image: asset("/images/equipment/horseshoe-farrier.webp"),
-    spec: "Drop-forged steel, hot-fitted.",
-    detail: "Fitted by hand to each hoof and checked before every session.",
-  },
-];
-
-/* ------------------------------------------------------------------
-   3. Main HorseEquipmentSection Component
+   2. Main HorseEquipmentSection Component
    ------------------------------------------------------------------ */
 export function HorseEquipmentSection() {
   // The WebGL stage mounts one screen before it is reached and only renders while visible; the stage frame keeps its
@@ -93,33 +54,22 @@ export function HorseEquipmentSection() {
           <p className="label text-dust">Drag to turn · Leather, brass, steel</p>
         </div>
 
-        {/* 01 – 04: numbered columns with hairlines, like a folio */}
-        <ol className="mt-20 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
-          {EQUIPMENT_ITEMS.map((item, idx) => (
-            <li key={item.id} className="group border-t border-line pt-6">
-              <div className="flex items-baseline justify-between gap-4">
-                <span className="font-display text-[clamp(2.4rem,4vw,3.4rem)] leading-none text-gold">{String(idx + 1).padStart(2, "0")}</span>
-                <span className="label text-dust">{item.category}</span>
-              </div>
-              <div className="relative mt-6 aspect-[4/5] overflow-hidden bg-umber p-2">
-                <div className="relative h-full w-full overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
-                    className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
-                  />
-                </div>
-              </div>
-              <TextAnimate as="h3" animation="blurInUp" className="t-inscribe mt-6 text-2xl text-bone">
-                {item.name}
-              </TextAnimate>
-              <p className="t-voice mt-2 text-lg text-gold">{item.spec}</p>
-              <p className="t-story mt-3 text-sm leading-relaxed text-sand">{item.detail}</p>
-            </li>
-          ))}
-        </ol>
+        {/* R24 (2 Nov 2026): the four product cards (saddle, stirrup iron, bridle, horseshoe) read like a shop window; the section
+            now looks at the horse being saddled, and at what the horse says about the fit. */}
+        <div className="mt-20 grid gap-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:items-end">
+          <figure className="relative aspect-[4/3] overflow-hidden">
+            <FilmImage name="equipmentSaddling" sizes="(min-width: 1024px) 60vw, 100vw" grade="film" />
+          </figure>
+          <div className="max-w-md">
+            <Label>Tack, read from the horse</Label>
+            <p className="t-voice mt-4 text-3xl text-bone">The horse tells you if it fits.</p>
+            <p className="t-story mt-4 text-sand">
+              Before a cadet tacks up alone, a groom shows where the saddle sits behind the shoulder, how two fingers slide under the
+              girth, and how the bridle lies without pinching. Then they watch the horse: a soft eye, a swinging tail and an even
+              stride say the kit is right.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

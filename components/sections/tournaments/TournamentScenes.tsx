@@ -203,16 +203,6 @@ export function TournamentActionGallery() {
       caption: "Top-scoring cadet lancers receive medals and perpetual laurels after three rigorous circuit days.",
       align: "left",
     },
-    {
-      id: "trophy",
-      imageKey: "tournCup",
-      subtitle: "REEL 04 · SOVEREIGN CHALLENGE",
-      titleLine1: "PERPETUAL",
-      titleLine2: "TROPHY",
-      alt: "Solid silver and oxidized brass trophy featuring crossed Rajput cavalry lances",
-      caption: "Hand-chased solid silver and brass trophy awarded annually to highest aggregate discipline points.",
-      align: "right",
-    },
   ];
 
   return (
@@ -236,10 +226,7 @@ export function Podium() {
           <div className="relative aspect-[16/10] overflow-hidden">
             <FilmImage name="tournPodium" sizes="(min-width: 1024px) 60vw, 100vw" />
           </div>
-          {/* The cup, as a detail plate pinned to the corner of the scene. */}
-          <div className="absolute -bottom-8 right-4 h-44 w-32 overflow-hidden border border-line shadow-[0_24px_60px_rgb(0_0_0/0.7)] md:-bottom-10 md:right-8 md:h-56 md:w-40">
-            <FilmImage name="tournCup" sizes="10rem" />
-          </div>
+          {/* R17 (2 Nov 2026): the trophy plate that sat over this photograph is gone; the podium stands on its own. */}
         </div>
         <div>
           <Label>Hall of champions · 2025–26 · sample</Label>

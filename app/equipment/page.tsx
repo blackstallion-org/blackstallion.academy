@@ -7,7 +7,7 @@ import { MaterialsEditorial } from "@/components/sections/editorial/ReferencePan
 export const metadata: Metadata = {
   alternates: { canonical: "/equipment" },
   title: "Horse Shoes & Equipment",
-  description: "Traditional Marwari cavalry saddles, precision stirrup irons, stable halters, and hand-forged horseshoes fitted by hand.",
+  description: "How the academy fits and checks a horse's tack and shoes, and why the horse has the last word on the fit.",
 };
 
 export default function EquipmentPage() {

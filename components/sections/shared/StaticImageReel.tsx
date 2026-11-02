@@ -35,22 +35,31 @@ export function StaticImageReel({
   variant?: "views" | "editorial";
 }) {
   if (variant === "editorial") {
+    // R25 (2 Nov 2026): a plain heading at reading size above the stories (it was an 11rem extra-bold all-caps line under them),
+    // and the stories in sentence case so they can be read.
     return (
       <section id={id} aria-labelledby={`${id}-h`} className="bg-paper py-[clamp(4rem,8vw,7rem)] text-ink">
         <div className="gutter">
-          <ol className={cn("grid gap-x-3 gap-y-10 sm:grid-cols-2", items.length === 3 ? "lg:grid-cols-3" : "xl:grid-cols-4")}>
+          <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3 border-b border-ink/25 pb-5">
+            <h2 id={`${id}-h`} className="t-voice text-[clamp(2rem,4vw,3.25rem)] leading-[1.05]">
+              {title}
+            </h2>
+            <p className="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.06em] text-ink/70">{label}</p>
+          </div>
+          {intro ? <p className="t-story mt-4 max-w-xl text-ink/75">{intro}</p> : null}
+          <ol className={cn("mt-10 grid gap-x-4 gap-y-10 sm:grid-cols-2", items.length === 3 ? "lg:grid-cols-3" : "xl:grid-cols-4")}>
             {items.map((item, index) => (
               <li key={item.title} className="min-w-0">
                 <div className="relative aspect-[4/3] overflow-hidden bg-ink/10 [&_img]:grayscale">
                   <FilmImage name={item.image} sizes="(min-width: 1280px) 25vw, (min-width: 640px) 48vw, 92vw" grade="none" />
                 </div>
-                <div className="mt-4 grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-2 font-sans text-[0.72rem] font-semibold uppercase leading-[1.45] tracking-[0.04em]">
-                  <span className="tabular-nums">{String(index + 1).padStart(2, "0")}</span>
+                <div className="mt-4 grid grid-cols-[2rem_minmax(0,1fr)] gap-x-2">
+                  <span className="font-sans text-[0.72rem] font-semibold tabular-nums text-ink/60">{String(index + 1).padStart(2, "0")}</span>
                   <div className="min-w-0">
-                    <h3 className="font-bold">{item.title}</h3>
-                    <p className="mt-1 max-w-[38ch] font-medium text-ink/70">{item.copy}</p>
+                    <h3 className="t-voice text-xl leading-snug">{item.title}</h3>
+                    <p className="t-story mt-1 max-w-[38ch] text-[0.95rem] leading-relaxed text-ink/75">{item.copy}</p>
                     {item.href && item.cta ? (
-                      <Link href={item.href} className="mt-3 inline-block border-b border-ink pb-0.5 hover:text-ink/60">
+                      <Link href={item.href} className="mt-3 inline-block border-b border-ink pb-0.5 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.06em] hover:text-ink/60">
                         {item.cta} →
                       </Link>
                     ) : null}
@@ -59,17 +68,6 @@ export function StaticImageReel({
               </li>
             ))}
           </ol>
-
-          <div className="mt-[clamp(3rem,7vw,6rem)] flex flex-wrap items-end justify-between gap-x-10 gap-y-4 border-t border-ink pt-4">
-            <p className="font-sans text-[0.72rem] font-semibold uppercase tracking-[0.06em]">{label}</p>
-            {intro ? <p className="max-w-md font-sans text-[0.72rem] font-medium uppercase leading-[1.5] tracking-[0.04em] text-ink/70">{intro}</p> : null}
-          </div>
-          <h2
-            id={`${id}-h`}
-            className="mt-2 font-sans text-[clamp(3.2rem,11.5vw,11rem)] font-extrabold uppercase leading-[0.86] tracking-[-0.045em]"
-          >
-            {title}
-          </h2>
         </div>
       </section>
     );
