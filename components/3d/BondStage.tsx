@@ -147,6 +147,8 @@ export function BondStage({ theme = "light", className, label, fade }: { theme?:
       const nose = head ? head.localToWorld(muzzle.clone()) : new THREE.Vector3(0, 1.5, 1.3);
       const rest = new THREE.Vector3(nose.x + BOND.hand.x, nose.y + BOND.hand.y, nose.z + BOND.hand.z + 0.06 * (1 - close));
       hand.position.set(rest.x, rest.y, rest.z + BOND.handFrom * (1 - handIn));
+      // the hand waits off the stage until the horse has started to walk in (no floating hand before the scene plays)
+      hand.visible = time > 0.05 || !!still();
       hand.rotation.set(BOND.hand.rx, BOND.hand.ry, BOND.hand.rz + 0.25 * (1 - close));
     };
 
@@ -166,9 +168,11 @@ export function BondStage({ theme = "light", className, label, fade }: { theme?:
     const kick = () => { if (!raf && visible) raf = requestAnimationFrame(frame); };
     replay.current = () => { t = 0; started = true; setPlayed(true); kick(); };
 
+    let ratio = 0;
     const io = new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
-      if (visible && e.intersectionRatio > 0.45 && !started && horse && hand) { started = true; setPlayed(true); }
+      ratio = e.intersectionRatio;
+      if (visible && ratio > 0.45 && !started && horse && hand) { started = true; setPlayed(true); }
       if (visible) { timer.delta(); kick(); } else if (raf) { cancelAnimationFrame(raf); raf = 0; }
     }, { threshold: [0, 0.45] });
     io.observe(container);
@@ -211,6 +215,8 @@ export function BondStage({ theme = "light", className, label, fade }: { theme?:
       place();
       pose(0);
       setStatus("ready");
+      // already well in view when the models arrive (the stage at the top of /curriculum): no further observer event will come
+      if (visible && ratio > 0.45 && !started) { started = true; setPlayed(true); }
       if (process.env.NODE_ENV !== "production") (window as unknown as { __bond?: unknown }).__bond = { seek: (x: number) => { t = x; started = false; kick(); }, BOND, camera, look, place: () => { place(); kick(); } };
       kick();
     }).catch(() => { if (!disposed) setStatus("failed"); }).finally(() => { disposeLoader(); draco.dispose(); });

@@ -23,7 +23,9 @@ const PIECE: Record<TextAnimation, Variants> = {
   blurInUp: { hidden: { opacity: 0, y: "0.35em", filter: "blur(8px)" }, show: { opacity: 1, y: "0em", filter: "blur(0px)" } },
 };
 
-const FADE: Variants = { hidden: { opacity: 0 }, show: { opacity: 1 } };
+// Reduced motion is known only after hydration, when the first render may already have applied a blurred or offset "hidden"
+// state: the fade therefore also clears blur and offset, or the line stays blurred (seen on /verify, 2 Nov 2026).
+const FADE: Variants = { hidden: { opacity: 0, filter: "blur(0px)", y: 0 }, show: { opacity: 1, filter: "blur(0px)", y: 0 } };
 
 export function TextAnimate({
   children,

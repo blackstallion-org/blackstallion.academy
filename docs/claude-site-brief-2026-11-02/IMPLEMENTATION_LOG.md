@@ -78,3 +78,39 @@ Dependencies: 1 → everything (shared chrome); 2 → 6 (ambience API); 10 → 4
 | R20 | Statue: a crafted face, hands, reins and horse | `public/models/statue-cadet-marwari.glb` (new studio reference → Hunyuan3D v3 → `tools/blender/07_statue/prepare_statue.py`, 320 k triangles, 1.6 MB; provenance in `tools/blender/07_statue/README.md`), `StatueCanvas.tsx` (model; chapter 03 framed on the face and hands), names: "Rossbändiger" (a real classical statue's name) replaced by "The cadet and the Marwari" in `/statue`, `/lithos`, `CinematicStatueScroll.tsx`, `lib/content/site.ts` | `shots/statue2-sheet6.jpg` (chapters 01–06), Blender check `statue/renders/statue-sheet.jpg` (four sides) | ☑ (close-up bronze still reads glossy; patina is the generated texture) |
 | R03 | /verify title statue: no mismatched substitute | `TorchHorseStage.tsx`: the same cadet-and-Marwari bronze instead of the classical horse-tamer; the fallback is the earlier academy bronze, never an unrelated statue | `shots/ver-hero-pair.jpg` | ☑ |
 | Phase 10 · ears | Canonical horse: ears that read as ears, not horns | `tools/blender/08_ears/ear_cup.py` (+ `render_ears.py`, README): thinner above a third of the height, pointed tips, a hollow cup on the opening side, smoothed; applied to `marwari_hero_source.blend` and the anatomy master; re-exported `marwari-hero.glb`, `marwari-hero-mobile.glb`, `marwari-anatomy.glb` (same triangle counts, 37 640 / 63 194) and `anatomy-exhibit.glb` (exhibit chain rebuilt; seat pose unchanged) | Blender before/after `ears/ears-ab4.jpg` (four views); browser `shots/ear-after-sheet.jpg` (/anatomy ear study, four poses), `bond6-*`, `fleet4-*`, `dual8-*` (0 page errors) | ☑ ears · ◐ horse overall: coat still reads glossy-plastic in places, mane and tail cards look stringy in software rendering, rider limbs baked; see "Open" below |
+| R01 fix | The bond did not start when its stage was already in view as the models arrived (the /curriculum hero): no further observer event came | `BondStage.tsx` (starts once the models are in if the stage is ≥ 45 % visible; the hand waits off stage until the horse starts) | `shots/bondauto-pair.jpg` (page loaded and left alone 12 s: the touch, at 1440 and 390) | ☑ |
+| Reduced motion | Lines animated with `TextAnimate` stayed blurred under reduced motion (the fade did not clear the blur set before hydration) | `components/motion/TextAnimate.tsx` (fade clears blur and offset) | `shots/rm-verify2-crop.jpg`; `shots/reduced-sheet.jpg` (/fleet, /curriculum, /command, /verify, /legend at both sizes, reduced motion: static scenes, touch pose held, timeline usable) | ☑ |
+
+## Proof (Phase 11, 2 Nov 2026)
+
+- **Builds and checks** (on the Mac, through the job runner): `npm run lint` 0 errors (21 warnings, all in files this work did not
+  touch or in retired-path code: `tools/qa-marwari`, `India3DMap`, `CitadelScene`, `CinematicStatueScroll` hook deps,
+  `FleetCovenantCanvas`); `npm run typecheck` passes; `npm test` 256/256; `next build` passes (Next 16.4.2, Turbopack; the dev
+  server's isolated `.next/dev` lets it run alongside).
+- **Every route at 1440×900 and 390×844** (`pw/safezone.mjs`, `shots/final/final-{desktop,mobile}-sheet.jpg`): /, /legend,
+  /science, /anatomy, /stride, /curriculum, /contact, /fleet, /schools, /tournaments, /equipment, /cadets, /journal, /verify,
+  /command, /statue, /why. Nothing but the visually hidden skip links starts under the fixed nav (top 80 px / 64 px); 0 page errors.
+- **Hydration** (`pw/hydr.mjs`, 18 routes at 1440): 0 console or page errors. The dev overlay's intermittent "1 Issue" on /science
+  is a hydration race of the sitewide parallax on a first-viewport photograph (seen once in 6 loads); /fleet now opts out of it.
+- **Interactions**: sound (gesture gate, continuity across navigation, toggle, reduced-motion default) `pw/sound.mjs`; Fleet world
+  sound `pw/fleetsound.mjs`; revival timeline keys and taps `pw/timeline.mjs`; verify stamps tied to real results `pw/verify.mjs`;
+  guide states `pw/command.mjs`; sealed card open/close `pw/schools.mjs`.
+- **Not deployed, not pushed.** Branch `claude/site-refinement-2026-11-02`, local commits only.
+
+## Open (what a next session should pick up)
+
+1. **R08** — the "earlier photo" cannot be identified from history: owner to name it (candidates in the R08 row).
+2. **Music** — the requested YouTube track has no licence on record; "Windswept" (CC BY 4.0, credited in the footer and
+   `public/audio/LICENSES.md`) plays instead. If the owner obtains a licence, drop the file at `public/audio/music/` and change `MUSIC` in `lib/audio/mixer.ts`.
+3. **Rider motion** — the realistic rider's arms and legs are baked into the seat. Next: add upper-arm and forearm bones to the
+   five-bone `CadetRig` (weights are already separated by the Meshy rig in `build_rider_real.py`), then a two-bone IK in
+   `public/anatomy/exhibit.js` and `lib/stride/rig.ts` that keeps each hand on a point a fist above the withers so the elbows open
+   and close with the stride; same for a knee hinge to keep the ball of the foot on the stirrup.
+4. **Horse surface** — ears fixed; the coat still reads a little glossy in places and the mane and tail cards look stringy in
+   software rendering. Follow `docs/marwari-realism/WORKFLOW.md` (coat and hair stages) with before/after contact sheets.
+5. **Horse calls** — the idle call cadence (every 15–24 s, only when nothing else sounds) is verified in code and headless state,
+   not yet heard on real speakers.
+6. Dead code left in place (pre-existing, not on any page): `components/sections/fleet/StallionPortalHero.tsx`,
+   `FleetCovenantScene.tsx`, `FleetCovenantCanvas.tsx`, `components/film/OutlineControls.tsx`.
+7. `_to_delete/claude-transfer/` holds transfer bundles written by another process during this session (left untouched;
+   `tsc` and ESLint now skip `_to_delete/`).
