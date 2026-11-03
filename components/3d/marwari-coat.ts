@@ -12,6 +12,11 @@
  *    groomed coat gets long soft highlights across the muscle) and for a hair-scale bump made of fibres that run along it. The bump
  *    fades out when a pixel covers more than a fibre, so it costs nothing at hero distances and cannot shimmer.
  *  - Region roughness: oiled hooves, a matte muzzle, wet lid margins, a little hair-scale roughness variation up close.
+ *  - Markings and warmth (3 Nov 2026, the three-view refinement, tools/blender/10_refine): the refined colour map paints a blaze into
+ *    a pale pink muzzle, four white stockings and horn hooves (luminance far above any coat texel) and a warm brown over the barrel,
+ *    flank and lower neck (more red than the baked map has anywhere). Painted marks skip the black-coat grade and keep the light's
+ *    colour; the brown keeps most of its value and chroma. Off the ears, which reuse body texels. Older maps never reach either
+ *    threshold, so they render exactly as before.
  *  - Anatomy highlight: up to four world-space spheres that glow (the plate's hotspots).
  *  - The ears (3 Nov 2026): the model's second UV set (`EarMask`, from tools/blender/09_ear_crescent) says where the ear is (v > 0),
  *    how deep the cup is (u) and where the rim hairs grow (v toward 1). Inside the cup the coat keeps a dark warm brown (short inner
@@ -128,13 +133,22 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
       .replace(
         "#include <color_fragment>",
         `#include <color_fragment>
+        // The refined map (Nov 2026) paints a blaze, four stockings and a pink muzzle far brighter than any coat texel, and warm brown
+        // over the barrel, flank and lower neck with more red in it than the baked map has anywhere. Neither is graded like the coat.
+        float markK = 0.0, warmK = 0.0;
         {
           float l = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-          // a Kala coat has no markings: the sculpt's faint socks and blaze are pulled down with a soft knee (linear 0.022 .. 0.034)
+          float onEar = smoothstep(0.0, 0.5, vEar.y); // the ears reuse body texels: never markings or warmth there
+          markK = smoothstep(0.1, 0.3, l) * (1.0 - onEar);
+          warmK = smoothstep(0.45, 1.1, (diffuseColor.r - diffuseColor.b) / max(diffuseColor.g, 1e-4)) * (1.0 - markK) * (1.0 - onEar);
+          vec3 painted = diffuseColor.rgb;
+          // the coat itself stays near-black: the scan's faint old socks and blaze are pulled down with a soft knee (linear 0.022 .. 0.034)
           float cap = l > 0.022 ? 0.022 + 0.012 * (1.0 - exp(-(l - 0.022) / 0.012)) : l;
           cap = mix(0.0125, cap, 0.55); // the baked colour map is cloudy: keep a little of it, the rest is the hair
+          cap = mix(cap, l, 0.8 * warmK); // the warm brown keeps most of its own value
           diffuseColor.rgb *= cap / max(l, 1e-5);
-          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(cap), uCoat.x) * uCoat.y * uBlack.yzw;
+          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(cap), uCoat.x * (1.0 - 0.8 * warmK)) * uCoat.y * mix(uBlack.yzw, vec3(1.0), warmK);
+          diffuseColor.rgb = mix(diffuseColor.rgb, painted, markK);
         }
         // the ear: v > 0 on it, u the cup depth, v toward 1 along the rim hairs (see the header)
         float earK = smoothstep(0.0, 0.5, vEar.y);
@@ -225,10 +239,10 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
       .replace(
         "vec3 totalDiffuse = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;",
         `vec3 totalDiffuse = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
-        { float dl = dot(totalDiffuse, vec3(0.2126, 0.7152, 0.0722)); totalDiffuse = mix(vec3(dl) * uBlack.yzw, totalDiffuse, max(uBlack.x, cavK * 0.85 + rimK * 0.5)); }`,
+        { float dl = dot(totalDiffuse, vec3(0.2126, 0.7152, 0.0722)); totalDiffuse = mix(vec3(dl) * uBlack.yzw, totalDiffuse, max(max(uBlack.x, cavK * 0.85 + rimK * 0.5), max(markK, 0.5 * warmK))); }`,
       );
   };
-  material.customProgramCacheKey = () => "marwari-coat-v9";
+  material.customProgramCacheKey = () => "marwari-coat-v10";
   return {
     set(list) {
       spheres.value.forEach((v, i) => {

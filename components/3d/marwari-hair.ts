@@ -14,7 +14,15 @@
  *    the skeleton alone, so it moves in a treadmill study (the pelvis alone moves it), on the courtyard film (the horse travels) and
  *    in the exhibit. `flow.value` scales it (0 turns it off).
  *
- * UV layout of the ribbons (checked in Blender): u = 8 atlas slots across, one slot per ribbon; v = 1 at the root, 0 at the tip.
+ * Tail (rebuilt 3 Nov 2026, "Tail Refinement & Perfection"): the tail is a bundle of about 176 solid locks, not a screen of strands. The
+ * fine strands are shading only (tone and highlight lines that fade out when they get smaller than a pixel), coverage stays whole inside
+ * a lock and ends at its sides and its tip in a one-pixel soft edge, so alpha-to-coverage no longer breaks it into a dither. Locks are
+ * darker toward the core of the bundle and lighter on its outside (computed from the geometry when the model loads), and the dock is
+ * in shade.
+ *
+ * UV layout of the ribbons: u = 8 atlas slots across, one slot per ribbon (the atlas is not used by the tail). v runs 1 at the root and
+ * 0 at the tip in Blender, which the glTF exporter flips: in the browser uv.y is 0 at the root and 1 at the tip. (The mane branch of
+ * the shader below was written the other way round and is left as it was; the tail branch uses uv.y as it is.)
  */
 import * as THREE from "three";
 
@@ -92,6 +100,51 @@ function strandTangents(geo: THREE.BufferGeometry): Float32Array {
   return out;
 }
 
+/**
+ * Where each tail vertex sits in the bundle, from the geometry itself: x = how far out from the bundle's axis (0 on the axis, 1 at the
+ * outside), y = how far toward the horse's body (0 on the back, 1 against the buttocks). The axis and the extent are measured per height
+ * band of the rest pose, so it follows whatever tail the file carries. Used only for shading (darker core, lighter outside).
+ */
+function bundleDepth(geo: THREE.BufferGeometry, fwdX: number, fwdZ: number): Float32Array {
+  const pos = geo.attributes.position;
+  const n = pos.count;
+  const out = new Float32Array(n * 2).fill(0.5);
+  const BINS = 40, Y0 = 0, Y1 = 1.55;
+  const bin = (y: number) => Math.min(BINS - 1, Math.max(0, Math.floor(((y - Y0) / (Y1 - Y0)) * BINS)));
+  const cx = new Float64Array(BINS), cz = new Float64Array(BINS), cn = new Float64Array(BINS);
+  for (let i = 0; i < n; i++) {
+    const y = pos.getY(i);
+    if (y >= Y1) continue;
+    const b = bin(y);
+    cx[b] += pos.getX(i); cz[b] += pos.getZ(i); cn[b]++;
+  }
+  for (let b = 0; b < BINS; b++) if (cn[b]) { cx[b] /= cn[b]; cz[b] /= cn[b]; }
+  const dist: number[][] = Array.from({ length: BINS }, () => []);
+  for (let i = 0; i < n; i++) {
+    const y = pos.getY(i);
+    if (y >= Y1) continue;
+    const b = bin(y);
+    dist[b].push(Math.hypot(pos.getX(i) - cx[b], pos.getZ(i) - cz[b]));
+  }
+  const ext = new Float64Array(BINS);
+  for (let b = 0; b < BINS; b++) {
+    const d = dist[b].sort((p, q) => p - q);
+    ext[b] = d.length ? Math.max(0.02, d[Math.floor(d.length * 0.94)]) : 0.05;
+  }
+  for (let i = 0; i < n; i++) {
+    const y = pos.getY(i);
+    if (y >= Y1) continue;
+    const b = bin(y);
+    const dx = pos.getX(i) - cx[b], dz = pos.getZ(i) - cz[b];
+    const r = Math.hypot(dx, dz) / ext[b];
+    out[i * 2] = Math.min(1, r);
+    // + toward the horse: dot with forward, then 0.5 + 0.5 * that, weighted by how far out the vertex is
+    const f = (dx * fwdX + dz * fwdZ) / Math.max(1e-4, Math.hypot(dx, dz));
+    out[i * 2 + 1] = 0.5 + 0.5 * f * Math.min(1, r * 1.4);
+  }
+  return out;
+}
+
 export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandardMaterial): Hair {
   mesh.geometry.setAttribute("aSeed", new THREE.BufferAttribute(ribbonSeeds(mesh.geometry), 1));
   mesh.geometry.setAttribute("aTan", new THREE.BufferAttribute(strandTangents(mesh.geometry), 3));
@@ -140,6 +193,7 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
       right.value.set(-fwd.value.z, 0, fwd.value.x); // horizontal, at right angles to forward
     }
   }
+  mesh.geometry.setAttribute("aBundle", new THREE.BufferAttribute(bundleDepth(mesh.geometry, fwd.value.x, fwd.value.z), 2));
   const tailRoot = mesh.skeleton?.getBoneByName("Tail_1") ?? null;
 
   mesh.onBeforeRender = () => {
@@ -196,17 +250,19 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
     shader.uniforms.uHairFwd = fwd;
     shader.uniforms.uHairRight = right;
     shader.vertexShader = shader.vertexShader
-      .replace("#include <common>", "#include <common>\nattribute float aSeed; attribute vec3 aTan; varying vec3 vHairT; uniform float uHairTime; uniform vec3 uHairWind; uniform float uHairFlow; uniform vec3 uHairLag; uniform float uHairLift; uniform float uHairSpeed; uniform vec3 uHairFwd; uniform vec3 uHairRight; varying float vSeed; varying vec2 vHairUv; varying float vTail;")
+      .replace("#include <common>", "#include <common>\nattribute float aSeed; attribute vec3 aTan; attribute vec2 aBundle; varying vec2 vBundle; varying vec3 vHairT; uniform float uHairTime; uniform vec3 uHairWind; uniform float uHairFlow; uniform vec3 uHairLag; uniform float uHairLift; uniform float uHairSpeed; uniform vec3 uHairFwd; uniform vec3 uHairRight; varying float vSeed; varying vec2 vHairUv; varying float vTail;")
       .replace(
         "#include <skinning_vertex>",
         `#include <skinning_vertex>
-        vSeed = aSeed; vHairUv = uv; vTail = position.y < 1.55 ? 1.0 : 0.0;
+        vSeed = aSeed; vHairUv = uv; vBundle = aBundle; vTail = position.y < 1.55 ? 1.0 : 0.0;
         vHairT = normalize((modelViewMatrix * vec4((skinMatrix * vec4(aTan, 0.0)).xyz, 0.0)).xyz);
         {
           float rootK = clamp(1.0 - uv.y, 0.0, 1.0);
           float ph = aSeed * 6.2831 + uHairTime * 1.6;
           float fl = sin(ph + position.y * 2.5) * 0.65 + sin(ph * 2.3 + position.z * 3.1) * 0.35;
-          transformed += uHairWind * fl * rootK * rootK;
+          float tipK0 = 1.0 - rootK;
+          float isTail0 = position.y < 1.55 ? 1.0 : 0.0;
+          transformed += uHairWind * fl * mix(rootK * rootK, tipK0 * tipK0, isTail0); // the tail flutters at its free end (uv.y runs 0 root .. 1 tip)
           // flow: lag and lift (the spring in installHair), a fan across the ribbons so the sheet becomes a bundle, a wave root to tip
           float tipK = 1.0 - rootK;
           float isTail = position.y < 1.55 ? 1.0 : 0.0;
@@ -214,7 +270,7 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
           float wave = sin(uHairTime * 3.1 - tipK * 4.2 + aSeed * 6.2831);
           transformed += uHairLag * w;
           transformed.y += uHairLift * w;
-          transformed += uHairRight * ((aSeed - 0.5) * 0.11 * pow(tipK, 1.4) * isTail * uHairFlow + wave * 0.012 * w * (0.5 + uHairSpeed));
+          transformed += uHairRight * ((aSeed - 0.5) * 0.05 * pow(tipK, 1.4) * isTail * uHairFlow + wave * 0.012 * w * (0.5 + uHairSpeed));
           transformed += uHairFwd * wave * 0.009 * w * (0.4 + uHairSpeed);
         }`,
       );
@@ -222,7 +278,7 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
       .replace(
         "#include <common>",
         `#include <common>
-        varying float vSeed; varying vec2 vHairUv; varying float vTail; varying vec3 vHairT; uniform float uHairK;
+        varying float vSeed; varying vec2 vHairUv; varying float vTail; varying vec3 vHairT; varying vec2 vBundle; uniform float uHairK;
         float hh(float x) { return fract(sin(x * 127.1 + 31.7) * 43758.5453); }
         float hv(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
           return mix(mix(hh(i.x + i.y * 57.0), hh(i.x + 1.0 + i.y * 57.0), f.x), mix(hh(i.x + (i.y + 1.0) * 57.0), hh(i.x + 1.0 + (i.y + 1.0) * 57.0), f.x), f.y); }
@@ -249,22 +305,26 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
           float lenM = 1.0 - smoothstep(slM - 0.12, slM, tip);
           float wispM = smoothstep(0.0, 0.17 + 0.1 * vSeed, edge + (hv(vec2(sIdM, tip * 7.0)) - 0.5) * 0.14);
           float toneM = 0.5 + 0.6 * hh(sIdM * 1.7 + vSeed * 13.0);
-          // TAIL: about thirty strands across a ribbon, their boundaries wandering a little along the length so they never line up on a
-          // grid; each strand has its own length (blended smoothly into its neighbours') and narrows to a point, touching its neighbours
-          // up the length and parting into wisps toward the tip; tone drifts smoothly in clumps
-          float sx = lu * 30.0 + (hv(vec2(tip * 4.0 + vSeed * 17.0, vSeed * 40.0)) - 0.5) * 1.4;
-          float sIdT = floor(sx);
-          float sf = fract(sx) - 0.5;
-          float slT = mix(0.72, 1.0, mix(hh(sIdT + vSeed * 31.0), hh(sIdT + 1.0 + vSeed * 31.0), smoothstep(0.0, 1.0, fract(sx))));
-          float toTip = clamp((slT - tip) / 0.42, 0.0, 1.0);
-          float halfW = 0.64 * smoothstep(0.0, 0.9, toTip);
-          float strandT = 1.0 - smoothstep(halfW - 0.14, halfW, abs(sf));
-          // the tail keeps its ribbons butted together: dissolving every edge leaves a bright line between neighbours against a pale background
-          float wispT = smoothstep(0.0, 0.04, edge + (hv(vec2(sIdT, tip * 7.0)) - 0.5) * 0.04);
-          float toneT = 0.8 + 0.4 * hv(vec2(sx * 0.35 + vSeed * 9.0, tip * 2.2 + vSeed * 5.0));
-          // the atlas leaves gaps between strands; seen against the sky they make the tail look see-through, so the gaps are mostly filled
-          diffuseColor.a = mix(diffuseColor.a, 1.0, mix(0.18, 0.97, isT)) * mix(lenM * wispM, strandT * wispT, isT);
-          diffuseColor.rgb *= mix(toneM, mix(toneT, 1.0, 0.45), isT);
+          float aM = mix(diffuseColor.a, 1.0, 0.18) * lenM * wispM;
+          // TAIL: a solid lock. Coverage is whole across the card and ends in a soft one-pixel edge at its sides (which wander a little
+          // along the length, so no lock has a ruled edge) and at its tip; the card's own geometry narrows to a point, so the tip needs
+          // no strand pattern. The fine strands below change tone and highlight only, never coverage, and fade out when they are smaller
+          // than a pixel, so nothing here can turn into dither.
+          float along = vHairUv.y;                                   // 0 at the dock, 1 at the tip
+          float wob = (hv(vec2(along * 5.0 + vSeed * 17.0, vSeed * 40.0)) - 0.5) * 0.08;
+          float aT = smoothstep(0.03, 0.2, edge + wob) * (1.0 - smoothstep(0.945, 0.995, along));
+          diffuseColor.a = mix(aM, aT, isT);
+          float sw = lu * 22.0 + (hv(vec2(along * 2.0 + vSeed * 9.0, vSeed * 3.0)) - 0.5) * 1.6;
+          float swc = lu * 5.0 + (hv(vec2(along * 1.3 + vSeed * 5.0, vSeed * 7.0)) - 0.5) * 1.2;   // clumps of strands, about five across a lock
+          float groupK = (hh(floor(swc) + vSeed * 33.0) - 0.5) * (1.0 - smoothstep(0.1, 0.28, fwidth(swc)));
+          float strandK = (hh(floor(sw) + vSeed * 57.0) - 0.5) * (1.0 - smoothstep(0.1, 0.24, fwidth(sw))) + groupK * 0.8;
+                    float lockTone = 0.88 + 0.24 * hh(vSeed * 91.0 + 3.0);     // lock to lock
+          float outer = vBundle.x;                                    // 0 on the bundle's axis .. 1 on its outside
+          float against = vBundle.y;                                  // 1 against the buttocks
+          float bundleK = mix(0.62, 1.06, smoothstep(0.05, 0.95, outer)) * mix(1.0, 0.8, smoothstep(0.55, 0.95, against));
+          float dockShade = mix(0.38, 1.0, smoothstep(0.0, 0.26, along));  // the dock is in the shade of the croup
+          vec3 tailCol = vec3(0.0135, 0.0092, 0.0068) * (1.0 + strandK * 0.6) * lockTone * bundleK * dockShade;
+          diffuseColor.rgb = mix(diffuseColor.rgb * toneM, tailCol, isT);
         }
         #include <alphatest_fragment>`,
       )
@@ -276,13 +336,18 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
           // flashing across a whole plank.
           float lu2 = fract(vHairUv.x * 8.0);
           vec3 side = normalize(cross(normal, hairTangent()));
-          normal = normalize(normal + side * (lu2 - 0.5) * 1.3);
+          float sw2 = lu2 * 22.0 + (hv(vec2(vHairUv.y * 2.0 + vSeed * 9.0, vSeed * 3.0)) - 0.5) * 1.6;
+          float rip = (hh(floor(sw2) + vSeed * 57.0) - 0.5) * (1.0 - smoothstep(0.1, 0.24, fwidth(sw2))) * step(0.5, vTail);
+          normal = normalize(normal + side * ((lu2 - 0.5) * 1.3 + rip * 0.9));
         }`,
       )
       .replace(
         "#include <lights_fragment_end>",
         `#include <lights_fragment_end>
-        reflectedLight.indirectSpecular *= mix(1.0, 0.72, step(0.5, vTail)); // the tail sits darker against a pale sky
+        // the tail sits darker against a pale sky: the stock GGX lobes (a bright grey wash on every card, bent normals and all) are cut to a
+        // fraction and the highlight comes from the strand term below, which is narrow across the strand and long along it
+        reflectedLight.indirectSpecular *= mix(1.0, 0.3, step(0.5, vTail));
+        reflectedLight.directSpecular *= mix(1.0, 0.16, step(0.5, vTail));
         #if NUM_DIR_LIGHTS > 0
         {
           vec3 T = hairTangent();
@@ -293,12 +358,17 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
             float s = sqrt(max(0.0, 1.0 - th * th));
             float lit = clamp(dot(normal, L) * 0.5 + 0.5, 0.0, 1.0);
             float spec = pow(s, 28.0) * 0.55 + pow(s, 7.0) * 0.45;
-            reflectedLight.directSpecular += directionalLights[i].color * spec * lit * uHairK * (0.5 + 0.8 * hh(vSeed * 91.0));
+            float isTl = step(0.5, vTail);
+            float sw3 = fract(vHairUv.x * 8.0) * 22.0 + (hv(vec2(vHairUv.y * 2.0 + vSeed * 9.0, vSeed * 3.0)) - 0.5) * 1.6;
+            float strandHi = 1.0 + (hh(floor(sw3) + vSeed * 57.0) - 0.5) * 1.6 * (1.0 - smoothstep(0.1, 0.24, fwidth(sw3))) * isTl;
+            // the sheen of a bundle is not one grey sheet: it comes and goes from clump to clump and along the length, in long soft bands
+            strandHi *= mix(1.0, 0.25 + 1.5 * hv(vec2(fract(vHairUv.x * 8.0) * 4.0 + vSeed * 13.0, vHairUv.y * 3.0 + vSeed * 7.0)), isTl);
+            reflectedLight.directSpecular += directionalLights[i].color * spec * lit * uHairK * (0.5 + 0.8 * hh(vSeed * 91.0)) * mix(1.0, 0.32 * strandHi, isTl);
           }
         }
         #endif`,
       );
   };
-  material.customProgramCacheKey = () => "marwari-hair-v9";
+  material.customProgramCacheKey = () => "marwari-hair-v10";
   return { wind, sheen, flow };
 }

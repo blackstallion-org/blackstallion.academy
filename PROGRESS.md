@@ -712,6 +712,34 @@ Owner pasted three components and said where each should go. Full note, rights a
 - **Checked** (Chromium, /anatomy and the home film): five angles on the live shader (`docs/qa/film/ears_after_5angles_live.png`, before: `ears_before_6views.png`), three idle moments (`ears_idle_three_moments.png`); ears moved independently (left/right yaw correlation 0.28, irregular holds, one listening swivel to 0.69 rad); tip gap over 150-300 random poses per case: idle 6.2 mm, forward 16.5 mm, listening 9.6 mm (vertex to vertex; none touch); lint 0 errors, typecheck, 256 tests pass.
 - **Not done / limits**: no production build; not re-checked at 390 px or with reduced motion on every page; no individual hair strands (fur is shader-only); the ear root still sits on the scan's rough skin (hair cards cover most of it); the high-resolution sculpt keeps the old ears; the statue (`statue-cadet-marwari.glb`) was not rebuilt; the cavity colour is dark by design (a black coat), so it reads less golden than the reference photographs. `EarStudy` now sets `ears.enabled = false` and its own tip ease is 0 (the old -0.3 was for the over-hooked tips); it also has a development-only `__earStudy.view()` orbit.
 
+- [x] **3 Nov 2026 · Marwari three-view refinement (hero model).** `tools/blender/10_refine/` (see its README): a refined colour map
+  (blaze into a pale pink muzzle, four white stockings with ragged tops, horn hooves, warm brown on barrel, flank and lower neck)
+  from editable per-effect masks; the tail reshaped into a full bundle that falls near the ground, plus 72 added core ribbons; the
+  mane lengthened and draped. Master blend and old GLBs untouched; new `marwari-hero-refined.glb` / `-mobile-refined.glb` wired in
+  `components/3d/marwari-paths.ts`; coat shader v10 lets painted marks and the warm brown skip the black grade (inert on old maps).
+  Body and eyes byte-identical in the export; rig, bind matrices and all 18 clips unchanged; +2.6 % triangles, +4.6 % bytes.
+  L1 anatomy not changed (proportions match the reference within a few per cent). Open: anatomy plate/exhibit still all-black,
+  hero poster still the old coat, mane reads grey under strong sheen, lower tail can cross a hind leg in static canter/gallop poses.
+  Not measured here: frame time on a real GPU, `next build` (the Mac's node_modules do not run in the Linux shell).
+
+- [x] **3 Nov 2026 · Marwari tail perfected ("Tail Refinement & Perfection" sheet).** Why it looked speckled and thin: the tail shader
+  broke every ribbon into about thirty sub-pixel strands and read `uv.y` the wrong way round (in the browser it is 0 at the dock and 1
+  at the tip), so the dock dissolved into dither and the tips were cut square; the tail also started 20 cm behind the croup and the
+  body has a hole in its colour, occlusion and normal maps beside the dock (a dark-and-tan patch). Now: (1) the bundle starts inside
+  the croup on the quarters' midline and leaves it as a tight rounded collar, no gap; (2) 176 locks (72 original ribbons reshaped,
+  104 added as `Marwari_Hair_Add_Tail`) in three depth layers with their own width, length, phase and S-curve; (3) 7 cm at the dock to
+  about 25 cm across and 23 cm deep, flaring at the ends; (4) lengths staggered (tips 10 to 55 cm above ground), locks narrow to
+  points, so the end is soft; (5) shared slow bow plus spring flow. `marwari-hair.ts` v10 shades the tail as solid locks with a
+  one-pixel soft edge, strands as tone and highlight only (faded below two pixels), core darker than outside, dock in shade, stock
+  GGX wash replaced by clumpy strand sheen; the mane branch is untouched. `fix_dock_texture.py` + `build_refined.py` fill the hole in
+  the three coat maps. Export: hair 2 288 -> 5 408 vertices, triangles 49 364 -> 52 276 (+5.9 %), file +5.9 % (mobile +5.2 %);
+  body, eyes, rig, bind matrices and 18 clips unchanged; tail stays attached through Walk, Trot, Canter, Gallop and Tail_Sway.
+  `tsc` and eslint pass. Rollback: `marwari-paths.ts` back to `marwari-hero.glb` / `-mobile.glb` (untouched; the new hair shader draws their old
+  tail as plain solid cards), and `git checkout components/3d/marwari-hair.ts` to bring the old shader back. Open: still cards, not strands (very large close-ups show straight pointed blades); lower tail can
+  cross a hind leg in the static gallop pose; real-GPU frame time and `next build` not measured here. Captures:
+  `scratch/marwari-refine/captures/tail_closeups.png`, `tail_before_after.png`.
+
+
 ## 3 Nov 2026: paragraphs static, MapTiler hero map, full-screen Hyderabad map, Unveiling removed from /anatomy
 
 - **Paragraphs:** `ScrollRevealText` is now a plain paragraph (no word-by-word fade, no GSAP); the ~35 call sites are untouched and keep the `data-scroll-text-reveal` marker so the home page's own detail-rise skips them. Deleted its CSS module and the e2e script that tested the fade (`scripts/test-paragraph-reveal.mjs`).
