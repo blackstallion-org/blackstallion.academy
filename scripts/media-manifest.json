@@ -101,9 +101,9 @@
       "type": "audio/mpeg"
     },
     {
-      "path": "audio/music/windswept.mp3",
-      "bytes": 2918163,
-      "sha256": "7142a8f697193aeeb49d4a3a66c25c96b78e88edb6dac2fc3e5407e7b5483f78",
+      "path": "audio/music/open-range.mp3",
+      "bytes": 7200750,
+      "sha256": "89535c515647eb38c92e2855c10364534bfe191d65a8254c12efc6b28b424452",
       "type": "audio/mpeg"
     },
     {

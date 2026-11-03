@@ -5,7 +5,7 @@ import { asset, mediaCrossOrigin } from "@/lib/content/asset";
 /**
  * The site's sound stage (2 Nov 2026): one WebAudio graph with three buses under a master gain.
  *
- *   music     one licensed track that loops for the whole visit. It lives in this module (the root layout keeps it alive), so
+ *   music     one track (the first ten minutes of the supplied recording) that loops for the whole visit. It lives in this module (the root layout keeps it alive), so
  *             client-side navigation never restarts it; a full reload resumes from the last saved position.
  *   ambience  a page's location bed (the Fleet worlds), crossfaded, with sparse one-shot cues on top.
  *   effects   the existing single-voice horse and UI cues (lib/audio/engine.ts routes through here when the graph exists).
@@ -15,10 +15,9 @@ import { asset, mediaCrossOrigin } from "@/lib/content/asset";
  */
 
 export const MUSIC = {
-  src: asset("/audio/music/windswept.mp3"),
-  title: "Windswept",
-  author: "Kevin MacLeod (incompetech.com)",
-  licence: "CC BY 4.0",
+  src: asset("/audio/music/open-range.mp3"),
+  title: "A Melody from the Open Range",
+  author: "Music of the Valley",
 } as const;
 
 /** Linear bus ceilings. Music sits well under speech level; effects keep their own per-cue caps in engine.ts. */

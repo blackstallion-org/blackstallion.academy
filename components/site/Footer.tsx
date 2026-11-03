@@ -163,10 +163,9 @@ function PublicFooter() {
           <p>
             © {COPYRIGHT_YEAR} {entity.parent} · Operating arm: {entity.operator} (BSAH) · Sanctioned by the {entity.council} ({entity.councilShort}) · {entity.city}.
           </p>
-          {/* CC BY 4.0 credit for the sitewide music (public/audio/LICENSES.md). */}
+          {/* Music credit (public/audio/LICENSES.md). */}
           <p className="mt-2 opacity-80">
-            Music: “{MUSIC.title}” by {MUSIC.author}, licensed under{" "}
-            <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener" target="_blank" className="underline-offset-2 hover:underline">{MUSIC.licence}</a>. Field recordings: Freesound contributors (CC0).
+            Music: “{MUSIC.title}” by {MUSIC.author}. Field recordings: Freesound contributors (CC0).
           </p>
           <div className="footer-meridian__legal">
             {legalNav.map((l) => (

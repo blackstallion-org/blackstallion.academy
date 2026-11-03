@@ -23,7 +23,7 @@ export function SoundToggle() {
   const label = !on
     ? "Sound off. Turn sound and music on."
     : playing
-      ? `Sound on: music playing (“${MUSIC.title}” by ${MUSIC.author}, ${MUSIC.licence}). Turn all sound off.`
+      ? `Sound on: music playing (“${MUSIC.title}” by ${MUSIC.author}). Turn all sound off.`
       : "Sound on, waiting to start. Press to start the music.";
 
   return (

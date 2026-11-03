@@ -7,15 +7,14 @@ CC0 needs no attribution; authors are credited here anyway. All files below were
 
 ## Music (sitewide, loops for the whole visit)
 
-| File | Work | Licence | Credit required |
+| File | Work | Licence | Credit shown |
 | --- | --- | --- | --- |
-| `music/windswept.mp3` | "Windswept", Kevin MacLeod (incompetech.com), 2010, ISRC USUAN1100757 | Creative Commons: By Attribution 4.0 (https://creativecommons.org/licenses/by/4.0/) | Yes, shown in the site footer and on the nav Sound control |
+| `music/open-range.mp3` | "A Melody from the Open Range | Peaceful Cowboy Music for Relaxation", channel *Music of the Valley* | **Not verified.** Supplied by the owner on 3 Nov 2026; neither the video nor the channel publishes a licence or reuse terms | Title and channel in the site footer and on the nav Sound control |
 
-**Substitution.** The owner asked for https://youtu.be/iqw0IY1qJG8 ("A Melody from the Open Range | Peaceful Cowboy Music for
-Relaxation", channel *Music of the Valley*, per YouTube oEmbed on 2 Nov 2026). Neither the video nor the channel publishes a licence or
-reuse permission, and YouTube's terms allow playback only through its own visible player, so the audio was not downloaded or embedded.
-"Windswept" (relaxed guitar and strings, written for scenic outdoor scenes) was chosen as the nearest licensed match. If the owner
-obtains written permission or a licence file from the channel, replace `music/windswept.mp3` and the `MUSIC` record in `lib/audio/mixer.ts`.
+The supplied recording is 61 min 40 s (65 MB). The site plays its first ten minutes (`ffmpeg -t 600`, loudnorm to about -21.5 LUFS, 2 s fade in,
+6 s fade out, 96 kbps stereo, 7.2 MB) and loops it. Nothing was time-stretched or re-composed. The full file is kept outside the repo.
+Before a public launch the owner should obtain written permission or a licence file from the channel; until then this is a placeholder
+in the same sense as the Higgsfield imagery. The previous track, "Windswept" (Kevin MacLeod, CC BY 4.0), was removed on 3 Nov 2026.
 
 ## Horse palette (seven sounds, `interactions/`)
 
