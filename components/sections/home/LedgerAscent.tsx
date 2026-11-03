@@ -43,8 +43,8 @@ export function LedgerAscent() {
 
       <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]">
         <Image
-          src={asset("/images/cadet-arena-instructor.webp")}
-          alt="A cadet riding in the arena while an academy instructor watches"
+          src={asset("/images/ledger-ranks-arena.webp")}
+          alt="An academy instructor in olive uniform walks the arena while cadets in red and green polo shirts stand behind him"
           fill
           sizes="100vw"
           className="object-cover object-center"
