@@ -8,7 +8,8 @@ const versioned = (url: string) => (V ? `${url}?v=${V}` : url);
 // exports (marwari-hero.glb, marwari-hero-mobile.glb) are untouched; pointing these two lines back at them restores the old horse.
 export const HERO_MODEL = versioned(asset("/models/marwari-hero-refined.glb"));
 export const HERO_MODEL_MOBILE = versioned(asset("/models/marwari-hero-mobile-refined.glb"));
-export const ANATOMY_MODEL = versioned(asset("/models/marwari-anatomy.glb"));
+// The Instrument plate shows the same refined horse as the hero (identical rig and clips); marwari-anatomy.glb is left untouched, pointing this back at it restores the earlier one.
+export const ANATOMY_MODEL = versioned(asset("/models/marwari-hero-refined.glb"));
 // The riding kit (saddle, bridle, helmet, boots, stirrups) is one scan. The original, riding-gear-draco.glb, has 1.9 million
 // triangles (5.2 MB) and is no longer served; these two are simplified copies of it (282 000 and 94 000 triangles).
 export const RIDING_GEAR_MODEL = versioned(asset("/models/riding-gear-high.glb"));
