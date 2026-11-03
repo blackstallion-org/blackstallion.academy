@@ -65,9 +65,26 @@ export function PratapStory() {
       const last = SCENE_TOTAL - 1;
 
       SCENES.forEach((_scene: StoryScene, i) => {
+        // Each moment is on screen from `inStart` to `end`. It is fully shown from `i` to `i + 0.6`. The next moment
+        // starts coming in at `i + 0.75`, so the two overlap only briefly: the far layers linger while the near ones
+        // travel in, and there is no long double exposure.
+        const inStart = Math.max(0, i - 0.25);
+        const fadeIn = i === 0 ? 0 : 0.25;
+        const outStart = i + 0.6;
+        const outEnd = i + 0.85;
+        const end = i === last ? SCENE_TOTAL : outEnd;
+        const span = end - inStart;
+
         // The scene's own background (the dusk sunset) fades in over the end of its scene and stays.
         const bg = stage.querySelector<HTMLElement>(`.ps-bg[data-scene-bg="${i}"]`);
         if (bg) tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 0.7 }, i + 0.3);
+
+        // The moment's colour wash fades in and out with the moment.
+        const tint = stage.querySelector<HTMLElement>(`.ps-tint[data-scene-tint="${i}"]`);
+        if (tint) {
+          tl.fromTo(tint, { opacity: i === 0 ? 1 : 0 }, { opacity: 1, duration: fadeIn }, inStart);
+          if (i < last) tl.to(tint, { opacity: 0, duration: outEnd - outStart }, outStart);
+        }
 
         const layers = Array.from(stage.querySelectorAll<HTMLElement>(`.ps-layer[data-scene="${i}"]`));
         layers.forEach((el) => {
@@ -75,19 +92,19 @@ export function PratapStory() {
           const from = Number(el.dataset.from);
           const op = Number(el.style.getPropertyValue("--op") || 1);
           // Near layers travel furthest, far layers least: the parallax depth.
-          const reach = depth === 3 ? 34 : depth === 2 ? 20 : 8;
-          const startX = from * reach;
-          // The first scene is already on screen at the top of the page; later scenes enter from nothing.
-          tl.fromTo(
-            el,
-            { opacity: i === 0 ? op : 0, xPercent: startX, yPercent: 3 },
-            { opacity: op, xPercent: 0, yPercent: 0, duration: 0.45 },
-            i,
-          );
-          // Each scene leaves the way it came in less than halfway, so the next one can take its place.
-          if (i < last) tl.to(el, { opacity: 0, xPercent: -startX * 0.5, duration: 0.25 }, i + 0.75);
+          const reach = depth === 3 ? 26 : depth === 2 ? 14 : 6;
+          // A layer that enters from a side crosses to the other side over the whole moment, so the scene keeps moving
+          // while it is read. A layer that stays in place drifts gently across the middle.
+          const x0 = from === 0 ? -reach * 0.4 : from * reach;
+          const x1 = from === 0 ? reach * 0.4 : -from * reach * 0.8;
+          tl.fromTo(el, { xPercent: x0 }, { xPercent: x1, duration: span }, inStart);
+          tl.fromTo(el, { opacity: i === 0 ? op : 0 }, { opacity: op, duration: fadeIn }, inStart);
+          if (i < last) tl.to(el, { opacity: 0, duration: outEnd - outStart }, outStart);
         });
       });
+
+      // Pin the timeline to exactly one unit per moment, so progress * SCENE_TOTAL is the moment's time.
+      tl.set({}, {}, SCENE_TOTAL);
 
       let current = 0;
       ScrollTrigger.create({
@@ -100,7 +117,8 @@ export function PratapStory() {
         invalidateOnRefresh: true,
         animation: tl,
         onUpdate: (self) => {
-          const idx = Math.min(SCENE_TOTAL - 1, Math.floor(self.progress * SCENE_TOTAL));
+          // The copy changes just before its painting is fully in, so the words arrive with the picture.
+          const idx = Math.min(SCENE_TOTAL - 1, Math.max(0, Math.floor(self.progress * SCENE_TOTAL + 0.1)));
           if (idx !== current) {
             current = idx;
             pages.forEach((el, i) => el.setAttribute("data-active", i === idx ? "true" : "false"));
@@ -171,6 +189,9 @@ function Stage() {
           ) : null,
         )}
         {SCENES.map((scene, i) => scene.layers.map((l, j) => <Layer key={`${i}-${j}`} l={l} scene={i} />))}
+        {SCENES.map((scene, i) =>
+          scene.tint ? <div key={`tint-${i}`} className="ps-tint" data-scene-tint={i} style={{ background: scene.tint }} aria-hidden="true" /> : null,
+        )}
         <div className="ps-drift-wrap">
           <DriftCanvas />
         </div>
@@ -197,6 +218,7 @@ function Still() {
             {scene.layers.map((l, j) => (
               <Layer key={j} l={l} scene={null} />
             ))}
+            {scene.tint && <div className="ps-tint" style={{ background: scene.tint }} aria-hidden="true" />}
           </div>
           <Page scene={scene} index={i} active />
         </section>

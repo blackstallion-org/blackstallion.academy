@@ -339,3 +339,17 @@
     height: 58vh;
   }
 }
+
+/* A colour wash for one moment. It sits above the painted layers and below the particles and the copy, and the
+   timeline fades it in and out with its moment. In the still (reduced-motion) list it is simply shown. */
+.ps-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ps-still .ps-tint {
+  opacity: 1;
+}

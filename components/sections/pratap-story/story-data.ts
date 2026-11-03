@@ -26,6 +26,8 @@ export type StoryScene = {
   note?: string;
   pos: CopyPos;
   bg?: string;
+  /** A colour wash for this moment's light and atmosphere; it fades in and out with the moment. */
+  tint?: string;
   layers: LayerSpec[];
 };
 
@@ -35,8 +37,9 @@ export const SCENES: StoryScene[] = [
   {
     label: "The Bond",
     title: "Before the battle, there was a bond.",
-    body: "Maharana Pratap and his horse Chetak, in the Aravalli hills of Mewar, trusting one another.",
+    body: "Maharana Pratap and Chetak, trusting one another.",
     pos: "top-right",
+    tint: "linear-gradient(to top, rgba(244, 190, 110, 0.26), rgba(244, 190, 110, 0) 70%)",
     layers: [
       { src: "/images/story/pratap/aravalli.webp", alt: "", depth: 1, from: 0, d: { b: "34%", w: "100%" }, m: { x: "-15%", b: "40%", w: "130%" } },
       { src: "/images/story/pratap/bond.webp", alt: "Maharana Pratap stands beside his horse Chetak, one hand on the horse's neck", depth: 3, from: -1, d: { x: "10%", b: "0%", w: "38%" }, m: { x: "6%", b: "34%", w: "62%" } },
@@ -46,8 +49,9 @@ export const SCENES: StoryScene[] = [
   {
     label: "Mewar",
     title: "Hills that kept their own.",
-    body: "Mewar's forts stood above its passes, watching the roads below.",
+    body: "Mewar's forts watched the roads below.",
     pos: "top-left",
+    tint: "linear-gradient(to bottom, rgba(96, 60, 120, 0.22), rgba(96, 60, 120, 0) 60%)",
     layers: [
       { src: "/images/story/pratap/dusk-hills.webp", alt: "", depth: 1, from: 0, d: { b: "18%", w: "100%" }, m: { b: "22%", w: "120%" } },
       { src: "/images/story/pratap/fort.webp", alt: "A hill fort with ramparts, bastions and gateways on a ridge", depth: 2, from: 1, d: { r: "6%", b: "28%", w: "40%" }, m: { r: "-6%", b: "34%", w: "72%" } },
@@ -57,8 +61,9 @@ export const SCENES: StoryScene[] = [
   {
     label: "A Call to Courage",
     title: "Banners rise.",
-    body: "Pratap prepares to ride, and Chetak is ready beside him.",
+    body: "Pratap prepares to ride. Chetak is ready.",
     pos: "top-left",
+    tint: "linear-gradient(to top, rgba(232, 128, 58, 0.2), rgba(232, 128, 58, 0) 65%)",
     layers: [
       { src: "/images/story/pratap/aravalli.webp", alt: "", depth: 1, from: 0, d: { b: "30%", w: "100%" }, m: { x: "-15%", b: "34%", w: "130%" } },
       { src: "/images/story/pratap/banners.webp", alt: "Three Mewar banners on tall poles, saffron and crimson with gold borders", depth: 2, from: -1, d: { x: "4%", b: "22%", w: "26%" }, m: { x: "0%", b: "30%", w: "40%" } },
@@ -68,8 +73,9 @@ export const SCENES: StoryScene[] = [
   {
     label: "The March",
     title: "Riders gather at dawn.",
-    body: "Columns of Mewar cavalry move toward the hills of Haldighati.",
+    body: "Columns of cavalry move toward the hills.",
     pos: "top-right",
+    tint: "linear-gradient(to top, rgba(240, 200, 140, 0.24), rgba(240, 200, 140, 0) 70%)",
     layers: [
       { src: "/images/story/pratap/haldighati.webp", alt: "", depth: 1, from: 0, d: { b: "30%", w: "100%" }, m: { b: "34%", w: "130%" } },
       { src: "/images/story/pratap/cavalry.webp", alt: "A column of Mewar cavalry in procession across the hills", depth: 2, from: 1, d: { x: "0%", b: "20%", w: "80%" }, m: { x: "-6%", b: "24%", w: "120%" } },
@@ -79,8 +85,9 @@ export const SCENES: StoryScene[] = [
   {
     label: "Haldighati · 1576",
     title: "Haldighati. 1576.",
-    body: "Mewar's army meets the forces of the Mughal emperor Akbar among the ochre hills.",
+    body: "Mewar meets the Mughal army among the ochre hills.",
     pos: "top-left",
+    tint: "linear-gradient(to top, rgba(204, 132, 64, 0.28), rgba(204, 132, 64, 0) 70%)",
     layers: [
       { src: "/images/story/pratap/haldighati.webp", alt: "", depth: 1, from: 0, d: { b: "26%", w: "100%" }, m: { b: "30%", w: "130%" } },
       { src: "/images/story/pratap/melee.webp", alt: "The battle line at Haldighati: cavalry and foot soldiers in dust, painted without close detail", depth: 2, from: 1, d: { b: "6%", w: "100%" }, m: { x: "-25%", b: "14%", w: "150%" } },
@@ -90,8 +97,9 @@ export const SCENES: StoryScene[] = [
   {
     label: "Together",
     title: "Together through the storm.",
-    body: "Pratap and Chetak stay together while the battle moves around them.",
+    body: "Pratap and Chetak stay together through the battle.",
     pos: "top-right",
+    tint: "linear-gradient(to bottom, rgba(10, 14, 40, 0.42), rgba(10, 14, 40, 0.1) 70%)",
     layers: [
       { src: "/images/story/pratap/melee.webp", alt: "", depth: 1, from: 0, d: { b: "8%", w: "100%" }, m: { x: "-25%", b: "12%", w: "150%" }, opacity: 0.5 },
       { src: "/images/story/pratap/dust.webp", alt: "", depth: 2, from: 0, d: { b: "18%", w: "100%" }, m: { b: "18%", w: "120%" }, opacity: 0.6 },
@@ -101,9 +109,10 @@ export const SCENES: StoryScene[] = [
   {
     label: "The Carry",
     title: "Still, Chetak carries on.",
-    body: "Tradition says the wounded horse carried his rider out of the battle.",
+    body: "Tradition says the wounded horse carried his rider out.",
     note: "Remembered in tradition, not undisputed history.",
     pos: "top-left",
+    tint: "linear-gradient(to top, rgba(200, 150, 90, 0.2), rgba(200, 150, 90, 0) 70%)",
     layers: [
       { src: "/images/story/pratap/haldighati.webp", alt: "", depth: 1, from: 0, d: { b: "30%", w: "100%" }, m: { b: "34%", w: "130%" } },
       { src: "/images/story/pratap/dust.webp", alt: "", depth: 2, from: 0, d: { b: "18%", w: "100%" }, m: { b: "18%", w: "120%" }, opacity: 0.5 },
@@ -116,6 +125,7 @@ export const SCENES: StoryScene[] = [
     body: "Chetak is said to leap a stream with Pratap on his back.",
     note: "A legend told across generations, not a recorded event.",
     pos: "top-right",
+    tint: "linear-gradient(to top, rgba(40, 128, 136, 0.26), rgba(40, 128, 136, 0) 70%)",
     layers: [
       { src: "/images/story/pratap/aravalli.webp", alt: "", depth: 1, from: 0, d: { b: "32%", w: "100%" }, m: { x: "-15%", b: "36%", w: "130%" } },
       { src: "/images/story/pratap/stream.webp", alt: "", depth: 2, from: 0, d: { b: "0%", w: "100%" }, m: { x: "-15%", b: "0%", w: "130%" } },
@@ -125,8 +135,9 @@ export const SCENES: StoryScene[] = [
   {
     label: "A Bond Remembered",
     title: "A bond remembered.",
-    body: "The battle fades. The legend of Chetak lives on.",
+    body: "The battle fades. The legend lives on.",
     pos: "top-left",
+    tint: "linear-gradient(to top, rgba(232, 120, 60, 0.26), rgba(232, 120, 60, 0) 70%)",
     bg: "/images/story/pratap/sunset.webp",
     layers: [
       { src: "/images/story/pratap/dusk-hills.webp", alt: "", depth: 1, from: 0, d: { b: "20%", w: "100%" }, m: { b: "24%", w: "120%" } },
