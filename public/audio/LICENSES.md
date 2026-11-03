@@ -11,8 +11,9 @@ CC0 needs no attribution; authors are credited here anyway. All files below were
 | --- | --- | --- | --- |
 | `music/open-range.mp3` | "A Melody from the Open Range | Peaceful Cowboy Music for Relaxation", channel *Music of the Valley* | **Not verified.** Supplied by the owner on 3 Nov 2026; neither the video nor the channel publishes a licence or reuse terms | Title and channel in the site footer and on the nav Sound control |
 
-The supplied recording is 61 min 40 s (65 MB). The site plays its first ten minutes (`ffmpeg -t 600`, loudnorm to about -21.5 LUFS, 2 s fade in,
-6 s fade out, 96 kbps stereo, 7.2 MB) and loops it. Nothing was time-stretched or re-composed. The full file is kept outside the repo.
+The supplied recording is 61 min 40 s (65 MB). The site plays all of it (loudnorm to about -21.5 LUFS, 2 s fade in, 6 s fade out,
+64 kbps stereo, 29.6 MB), streamed by range requests (`preload="metadata"`) and looped. Nothing was time-stretched or re-composed.
+The original is kept outside the repo.
 Before a public launch the owner should obtain written permission or a licence file from the channel; until then this is a placeholder
 in the same sense as the Higgsfield imagery. The previous track, "Windswept" (Kevin MacLeod, CC BY 4.0), was removed on 3 Nov 2026.
 

@@ -5,7 +5,7 @@ import { asset, mediaCrossOrigin } from "@/lib/content/asset";
 /**
  * The site's sound stage (2 Nov 2026): one WebAudio graph with three buses under a master gain.
  *
- *   music     one track (the first ten minutes of the supplied recording) that loops for the whole visit. It lives in this module (the root layout keeps it alive), so
+ *   music     one track (the full hour-long recording, streamed in ranges) that loops for the whole visit. It lives in this module (the root layout keeps it alive), so
  *             client-side navigation never restarts it; a full reload resumes from the last saved position.
  *   ambience  a page's location bed (the Fleet worlds), crossfaded, with sparse one-shot cues on top.
  *   effects   the existing single-voice horse and UI cues (lib/audio/engine.ts routes through here when the graph exists).
@@ -114,7 +114,7 @@ function ensureElement(): HTMLAudioElement | null {
   if (cors) el.crossOrigin = cors;
   el.src = MUSIC.src;
   el.loop = true;
-  el.preload = "auto";
+  el.preload = "metadata"; // an hour-long file: stream it, do not prefetch it
   el.setAttribute("aria-hidden", "true");
   try {
     const saved = Number(window.sessionStorage.getItem(POSITION_KEY));
