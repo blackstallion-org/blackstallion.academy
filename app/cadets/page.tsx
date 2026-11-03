@@ -1,8 +1,8 @@
+import { UniformCollection } from "@/components/sections/cadets/UniformCollection";
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
 import { CadetsTitle, CadetDrillShowcase, CreedCard, DayClock, MilestoneReels, PassportObject, Spotlights, UniformSpec } from "@/components/sections/cadets/CadetScenes";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
-import { CadetOpening } from "@/components/sections/cadets/CadetOpening";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 
 export const metadata: Metadata = {
@@ -15,11 +15,11 @@ export default function CadetsPage() {
   return (
     <>
       <CadetsTitle />
-      <CadetOpening />
       <PageCurtain page="cadets" />
       <CadetDrillShowcase />
       <PassportObject />
       <UniformSpec />
+      <UniformCollection />
       <Spotlights />
       <DayClock />
       <CreedCard />

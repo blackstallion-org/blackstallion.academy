@@ -361,7 +361,7 @@ export function SatelliteZoneMap({ focus = null, highlightHubId = null, onSelect
             {/* View switch, tour and reset */}
             <div className={cn("absolute left-3 right-3 z-10 flex flex-wrap items-center justify-between gap-2", hero ? "top-24 md:top-28" : "top-3")}>
               <div className="bsah-seg" role="group" aria-label="Map view">
-                {(["hyderabad", "india"] as const).map((v) => (
+                {(["india"] as const).map((v) => (
                   <button
                     key={v}
                     type="button"

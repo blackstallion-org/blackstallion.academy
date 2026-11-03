@@ -6,7 +6,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { addLights, createTimer, daylight, disposeObject, loadMarwari, releaseRenderer, type Daylight, type Marwari } from "@/components/3d/marwari";
 import { HERO_MODEL, HERO_MODEL_MOBILE } from "@/components/3d/marwari-paths";
 import { createStudioEnv } from "@/components/3d/studio";
-import { ambienceDebug, setAmbience } from "@/lib/audio/mixer";
+import { ambienceDebug, setAmbience, setMusicWanted, startMusic, stopMusic } from "@/lib/audio/mixer";
 import { fleetWorlds, type FleetWorldId } from "@/lib/content/fleet";
 import { cn } from "@/lib/utils";
 
@@ -54,7 +54,34 @@ const mixLight = (a: Daylight, b: Daylight, t: number): Daylight => ({
 });
 const smooth = (x: number) => x * x * (3 - 2 * x);
 
+/** The reel's own sound choice: theme music (the default), the location's house sounds, or silence. Independent of the site's SOUND switch in the nav. */
+export type FleetSound = "theme" | "house" | "none";
+const FLEET_SOUNDS: { id: FleetSound; label: string }[] = [
+  { id: "theme", label: "Theme music" },
+  { id: "house", label: "House sounds" },
+  { id: "none", label: "No sound" },
+];
+
+/** Applies the reel's sound choice through the shared mixer. Browsers only start audio after a visitor gesture, so a scroll-in can be blocked. */
+function playFor(sound: FleetSound, world: FleetWorldId, gesture: boolean) {
+  if (sound === "theme") {
+    void setAmbience(null);
+    if (gesture) void startMusic();
+    return;
+  }
+  if (sound === "house") {
+    setMusicWanted(true);
+    stopMusic(true);
+    void setAmbience(world);
+    return;
+  }
+  void setAmbience(null);
+  stopMusic(true);
+}
+
 export function FleetWorlds({ children }: { children?: ReactNode }) {
+  const [sound, setSound] = useState<FleetSound>("theme");
+  const soundRef = useRef<FleetSound>("theme");
   const [world, setWorld] = useState<FleetWorldId>(fleetWorlds[0].id);
   const [status, setStatus] = useState<"loading" | "ready" | "failed">("loading");
   const section = useRef<HTMLDivElement>(null);
@@ -244,7 +271,8 @@ export function FleetWorlds({ children }: { children?: ReactNode }) {
       const on = e.isIntersecting && e.intersectionRatio >= 0.35;
       if (on === onScreen.current) return;
       onScreen.current = on;
-      void setAmbience(on ? worldRef.current : null);
+      if (on) playFor(soundRef.current, worldRef.current, false);
+      else void setAmbience(null);
     }, { threshold: [0, 0.35] });
     io.observe(el);
     return () => { io.disconnect(); onScreen.current = false; void setAmbience(null); };
@@ -255,7 +283,13 @@ export function FleetWorlds({ children }: { children?: ReactNode }) {
     worldRef.current = id;
     setWorld(id);
     go.current(id);
-    if (onScreen.current) void setAmbience(id);
+    if (onScreen.current && soundRef.current === "house") void setAmbience(id);
+  };
+
+  const chooseSound = (s: FleetSound) => {
+    soundRef.current = s;
+    setSound(s);
+    if (onScreen.current) playFor(s, worldRef.current, true);
   };
 
   const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -313,14 +347,24 @@ export function FleetWorlds({ children }: { children?: ReactNode }) {
               </button>
             ))}
           </div>
-          <div aria-live="polite" className="mt-5">
-            <p className="t-voice text-2xl text-bone sm:text-3xl">{active.title}</p>
-            <p className="t-story mt-2 max-w-[46ch] text-sand">{active.line}</p>
-            <p className="label mt-3 text-dust">
-              <span aria-hidden className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-gold align-middle" />
-              With sound: {active.sound.toLowerCase()}
-            </p>
+          <div role="radiogroup" aria-label="Sound" className="mt-3 flex flex-wrap gap-2">
+            {FLEET_SOUNDS.map((o) => (
+              <button
+                key={o.id}
+                type="button"
+                role="radio"
+                aria-checked={sound === o.id}
+                onClick={() => chooseSound(o.id)}
+                className={cn(
+                  "label min-h-11 border px-4 py-2.5 backdrop-blur-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
+                  sound === o.id ? "border-gold bg-[rgb(14_10_8/0.55)] text-gold" : "border-line bg-[rgb(14_10_8/0.35)] text-sand hover:text-bone",
+                )}
+              >
+                {o.label}
+              </button>
+            ))}
           </div>
+          <p aria-live="polite" className="sr-only">{active.title}</p>
         </div>
       </div>
     </div>
