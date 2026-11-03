@@ -336,40 +336,10 @@
 .bsah-sat .maplibregl-ctrl-group button + button {
   border-top: 1px solid var(--panel-line);
 }
-.bsah-logo {
-  display: block;
-  line-height: 0;
-  padding: 3px 6px;
-  border-radius: 6px;
-  background: rgba(27, 21, 16, 0.55);
-}
 .bsah-sat .maplibregl-cooperative-gesture-screen {
   font-family: inherit;
 }
 
-/* ---- Map key (below the frame) ---- */
-.bsah-key {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  flex: none;
-  background: var(--pin-core, #f2b787);
-  border: 2px solid #78472f;
-}
-.bsah-key--hub {
-  border-radius: 999px;
-  border-style: dashed;
-}
-.bsah-key--circuit {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  transform: rotate(45deg);
-}
-.bsah-key--heritage {
-  border-radius: 999px;
-  background: transparent;
-}
 
 @media (max-width: 639px) {
   .bsah-pin--heritage .bsah-pin__label {

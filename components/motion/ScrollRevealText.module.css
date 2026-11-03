@@ -1,7 +1,0 @@
-.paragraph:focus-within [data-text-reveal-unit] {
-  opacity: 1 !important;
-}
-
-@media print {
-  .paragraph [data-text-reveal-unit] { opacity: 1 !important; }
-}

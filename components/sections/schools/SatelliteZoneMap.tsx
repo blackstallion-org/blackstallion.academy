@@ -40,18 +40,23 @@ type Status = "loading" | "ready" | "nokey" | "nogl" | "fail";
 
 export interface SatelliteZoneMapProps {
   /** A request from outside (the hub directory) to fly to a hub; `nonce` lets the same hub be asked for twice. */
-  focus: { hubId: HubId; nonce: number } | null;
+  focus?: { hubId: HubId; nonce: number } | null;
   /** The hub the directory is pointing at (hover or selection); its pin glows. */
-  highlightHubId: HubId | null;
-  onSelectHub: (id: HubId) => void;
+  highlightHubId?: HubId | null;
+  onSelectHub?: (id: HubId) => void;
   onReady?: () => void;
   className?: string;
+  /** "panel" is the framed map in the Zones section; "hero" fills its parent edge to edge (the first screen of /schools). */
+  variant?: "panel" | "hero";
+  /** Which view the map opens on. */
+  initialMode?: Mode;
 }
 
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
-export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, className }: SatelliteZoneMapProps) {
+export function SatelliteZoneMap({ focus = null, highlightHubId = null, onSelectHub, onReady, className, variant = "panel", initialMode = "hyderabad" }: SatelliteZoneMapProps) {
+  const hero = variant === "hero";
   const rootRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MlMap | null>(null);
@@ -61,7 +66,10 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
   const live = useInView(rootRef, { amount: 0 });
 
   const [status, setStatus] = useState<Status>(KEY ? "loading" : "nokey");
-  const [mode, setMode] = useState<Mode>("hyderabad");
+  const [mode, setMode] = useState<Mode>(initialMode);
+  // Full screen: the browser's own full screen where there is one, a fixed overlay (Esc closes it) where there is not (iPhone Safari).
+  const [full, setFull] = useState(false);
+  const [overlay, setOverlay] = useState(false);
   const [placeId, setPlaceId] = useState<string | null>(null);
   const [touring, setTouring] = useState(false);
 
@@ -75,12 +83,15 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
 
   const padding = useCallback(() => {
     const narrow = (frameRef.current?.clientWidth ?? 800) < 640;
+    // The hero map sits under the site's bar (80 px), so its fit starts below it.
+    if (hero) return narrow ? { top: 120, bottom: 72, left: 24, right: 24 } : { top: 130, bottom: 72, left: 56, right: 56 };
     return narrow ? { top: 64, bottom: 64, left: 24, right: 24 } : { top: 72, bottom: 56, left: 56, right: 56 };
-  }, []);
+  }, [hero]);
   const cardPadding = useCallback(() => {
     const narrow = (frameRef.current?.clientWidth ?? 800) < 640;
+    if (hero) return narrow ? { top: 120, bottom: 250, left: 20, right: 20 } : { top: 120, bottom: 50, left: 330, right: 40 };
     return narrow ? { top: 56, bottom: 250, left: 20, right: 20 } : { top: 60, bottom: 50, left: 330, right: 40 };
-  }, []);
+  }, [hero]);
 
   /** One camera move: a flight, or a jump when motion is reduced. */
   const moveTo = useCallback((opts: { center: [number, number]; zoom: number; pitch?: number; bearing?: number; padding?: ReturnType<typeof padding>; duration?: number }) => {
@@ -121,7 +132,7 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
         setTouring(false);
       }
       setPlaceId(id);
-      if (place.hubId && !opts.fromOutside) onSelectRef.current(place.hubId);
+      if (place.hubId && !opts.fromOutside) onSelectRef.current?.(place.hubId);
       const slug = place.hubId ? (Object.keys(hubCoordinates) as (keyof typeof hubCoordinates)[]).find((s) => hubCoordinates[s].id === place.hubId) : undefined;
       if (place.kind === "hub" && slug) {
         moveTo({ center: place.lonLat, zoom: 14.4, pitch: 52, bearing: hubCoordinates[slug].bearing, padding: cardPadding(), duration: 2800 });
@@ -156,6 +167,54 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
     setTouring(false);
   }, [goView]);
 
+  const toggleFull = useCallback(() => {
+    const el = frameRef.current;
+    if (!el) return;
+    if (full) {
+      if (document.fullscreenElement) void document.exitFullscreen().catch(() => {});
+      setFull(false);
+      setOverlay(false);
+      return;
+    }
+    setFull(true);
+    if (el.requestFullscreen) el.requestFullscreen().catch(() => setOverlay(true));
+    else setOverlay(true);
+  }, [full]);
+
+  // The browser's own Esc (or a swipe down) leaves full screen without going through the button; the overlay has its own Esc.
+  useEffect(() => {
+    if (!full) return;
+    const onChange = () => {
+      if (!document.fullscreenElement && !overlay) setFull(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && overlay) {
+        setFull(false);
+        setOverlay(false);
+      }
+    };
+    document.addEventListener("fullscreenchange", onChange);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("fullscreenchange", onChange);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [full, overlay]);
+
+  // The frame changes size and the map has to follow; whole-page scrolling is the map's job while it fills the screen.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    if (full) map.cooperativeGestures.disable();
+    else map.cooperativeGestures.enable();
+    const frames = [requestAnimationFrame(() => map.resize())];
+    const late = window.setTimeout(() => map.resize(), 300);
+    return () => {
+      frames.forEach(cancelAnimationFrame);
+      window.clearTimeout(late);
+    };
+  }, [full]);
+
   // Build the map once.
   useEffect(() => {
     const container = frameRef.current;
@@ -170,8 +229,8 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
       map = new MlMap({
         container: mapEl,
         style: `${STYLE}?key=${KEY}`,
-        bounds: views.hyderabad.bounds as LngLatBoundsLike,
-        fitBoundsOptions: { padding: padding(), pitch: 30, bearing: -8 },
+        bounds: views[initialMode].bounds as LngLatBoundsLike,
+        fitBoundsOptions: { padding: padding(), pitch: initialMode === "hyderabad" ? 30 : 0, bearing: initialMode === "hyderabad" ? -8 : 0 },
         minZoom: 2.6,
         maxZoom: 16,
         maxBounds: [[52, -8], [112, 46]],
@@ -196,7 +255,7 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
     const setView = (v: Mode) => {
       if (container.dataset.view !== v) container.dataset.view = v;
     };
-    setView("hyderabad");
+    setView(initialMode);
 
     const onZoom = () => setView(map.getZoom() < VIEW_SWITCH_ZOOM ? "india" : "hyderabad");
     const onZoomEnd = () => setMode(map.getZoom() < VIEW_SWITCH_ZOOM ? "india" : "hyderabad");
@@ -242,7 +301,7 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
       map.remove();
       mapRef.current = null;
     };
-  }, [padding]);
+  }, [padding, initialMode]);
 
   // A request from the hub directory.
   useEffect(() => {
@@ -263,12 +322,20 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
   const failed = status === "nokey" || status === "nogl" || status === "fail";
 
   return (
-    <div ref={rootRef} className={cn("flex flex-col gap-3", className)}>
+    <div ref={rootRef} className={cn("flex flex-col gap-3", hero && "h-full", className)}>
       <div
         ref={frameRef}
         data-view="hyderabad"
         data-live={live ? "on" : "off"}
-        className="bsah-sat relative aspect-[4/3] min-h-[500px] w-full overflow-hidden rounded-2xl border border-line/60 bg-[#1b1510] shadow-xl lg:min-h-[620px]"
+        data-lenis-prevent={full ? "" : undefined}
+        className={cn(
+          "bsah-sat relative w-full overflow-hidden bg-[#1b1510]",
+          full
+            ? cn("h-full min-h-0", overlay && "fixed inset-0 z-[100] h-[100dvh]")
+            : hero
+              ? "h-full"
+              : "aspect-[4/3] min-h-[500px] rounded-2xl border border-line/60 shadow-xl lg:min-h-[620px]",
+        )}
         role="region"
         aria-label={copy.region}
       >
@@ -292,7 +359,7 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
         {status === "ready" && (
           <>
             {/* View switch, tour and reset */}
-            <div className="absolute left-3 right-3 top-3 z-10 flex flex-wrap items-center justify-between gap-2">
+            <div className={cn("absolute left-3 right-3 z-10 flex flex-wrap items-center justify-between gap-2", hero ? "top-24 md:top-28" : "top-3")}>
               <div className="bsah-seg" role="group" aria-label="Map view">
                 {(["hyderabad", "india"] as const).map((v) => (
                   <button
@@ -322,6 +389,11 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
                 >
                   {copy.reset}
                 </button>
+                {!hero && (
+                  <button type="button" className="bsah-chip" onClick={toggleFull} aria-pressed={full}>
+                    {full ? copy.exitFull : copy.fullScreen}
+                  </button>
+                )}
               </div>
             </div>
 
@@ -365,34 +437,15 @@ export function SatelliteZoneMap({ focus, highlightHubId, onSelectHub, onReady, 
               </div>
             )}
 
-            <a
-              href="https://www.maptiler.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bsah-logo absolute bottom-2 left-3 z-10"
-              aria-label="MapTiler"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element -- the provider's own logo, served from its API; attribution is a licence term */}
-              <img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler" width={77} height={20} loading="lazy" decoding="async" />
-            </a>
           </>
         )}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
-        <ul className="flex flex-wrap gap-x-5 gap-y-1" aria-label="Map key">
-          {copy.legend.map((l) => (
-            <li key={l.key} className="t-ui flex items-center gap-2 text-xs text-dust">
-              <span className={`bsah-key bsah-key--${l.key}`} aria-hidden="true" />
-              {l.label}
-            </li>
-          ))}
-        </ul>
-        <p className="label text-copper">{copy.standing}</p>
-      </div>
-      <p className="t-ui text-xs text-dust">
-        {copy.hint} {copy.sources}
-      </p>
+      {!hero && !full && (
+        <p className="t-ui text-xs text-dust">
+          {copy.hint} {copy.sources}
+        </p>
+      )}
     </div>
   );
 }

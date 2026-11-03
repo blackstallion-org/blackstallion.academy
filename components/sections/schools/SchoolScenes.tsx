@@ -17,21 +17,19 @@ import { cn } from "@/lib/utils";
 import { BlueprintPlan } from "./BlueprintPlan";
 import { r3 } from "@/lib/round";
 import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
-import { IndiaSculpture } from "./india-map/IndiaSculpture";
-import { mapCopy } from "@/lib/content/india-map";
 import { useNearViewport } from "@/lib/motion/use-near-viewport";
 import { hubCoordinates, type HubId } from "@/lib/content/satellite-map";
 
 // The satellite map (MapLibre GL JS and its stylesheet) loads in a chunk of its own, three screens ahead of its section.
 const SatelliteZoneMap = dynamic(() => import("./SatelliteZoneMap").then((m) => m.SatelliteZoneMap), { ssr: false });
 
-/** Title card · T11 Pan-India Sovereign Hub Network: the lit relief model of India (components/sections/schools/india-map) is the first screen. */
+/** Title card · T11 Pan-India Sovereign Hub Network: the MapTiler satellite map of India, edge to edge, is the first screen (it replaced the lit relief model, 3 Nov 2026). */
 export function SchoolsTitle() {
   const ref = useRef<HTMLElement>(null);
   return (
     <section ref={ref} aria-labelledby="schools-title" className="editorial-scene">
       <div className="tone-dark relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-black isolate">
-        <IndiaSculpture />
+        <SatelliteZoneMap variant="hero" initialMode="india" className="absolute inset-0" />
       </div>
       <div className="tone-light editorial-details gutter">
         <ReelMark n={11} act="ledger" />
@@ -42,8 +40,7 @@ export function SchoolsTitle() {
           <Cta href="#simulator">Run the numbers</Cta>
           <a href="#network" className="label inline-flex items-center gap-2 text-gold"><span>{network.length} circuits mapped</span><Arrow /></a>
         </div>
-        <p className="label text-brass">Pan-India sovereign network · {network.length} target circuits · lit 3D relief</p>
-        <p className="t-ui max-w-3xl text-xs leading-relaxed text-dust">{mapCopy.sources}</p>
+        <p className="label text-brass">Pan-India sovereign network · {network.length} target circuits · satellite map</p>
       </div>
     </section>
   );

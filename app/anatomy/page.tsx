@@ -9,8 +9,6 @@ import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
 import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anatomy/AnatomyScenes";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { MatrixPlate } from "@/components/sections/anatomy/DualBody";
-import { Unveiling } from "@/components/sections/shared/Unveiling";
-import { unveilings } from "@/lib/content/unveiling";
 import { breedStandard } from "@/lib/content/anatomy";
 
 export const metadata: Metadata = {
@@ -54,10 +52,6 @@ export default function AnatomyPage() {
 
       {/* §3 · S26 */}
       <EarDial />
-
-      {/* §3b · the stone, the lantern, the light: a pinned opening-style scene, placed after the first sections instead of at the top.
-          It is the same marble stallion the earlier relight study showed, so that study no longer repeats it here. */}
-      <Unveiling scene={unveilings.anatomy} />
 
       {/* §4 · S27 spec sheet */}
       <section aria-labelledby="spec-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
