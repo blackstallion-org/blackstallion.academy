@@ -1,30 +1,29 @@
 "use client";
 
-import { asset } from "@/lib/content/asset";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import Link from "next/link";
 import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { useLenis } from "lenis/react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Cta, Label, ReelMark } from "@/components/film/Marks";
 import { schoolsTeaser } from "@/lib/content/home";
-import { benchmark, formatINR, hubs, model, network, simulate, tierById, tiers, TUITION_PER_MONTH, type TierId } from "@/lib/content/schools";
+import { benchmark, formatINR, hubs, hubStatusLabel, model, network, simulate, tierById, tiers, TUITION_PER_MONTH, type TierId } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { BlueprintPlan } from "./BlueprintPlan";
 import { r3 } from "@/lib/round";
 import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
-import { ScenePoster } from "./ScenePoster";
 import { IndiaSculpture } from "./india-map/IndiaSculpture";
 import { mapCopy } from "@/lib/content/india-map";
 import { useNearViewport } from "@/lib/motion/use-near-viewport";
+import { hubCoordinates, type HubId } from "@/lib/content/satellite-map";
 
-// The Hyderabad diorama loads in a chunk of its own, three screens ahead of its section, and shows a still of its opening view until
-// the live scene has drawn. (The India model on the first screen loads its three.js code the same way, from inside its own component.)
-const Hyderabad3DMap = dynamic(() => import("./Hyderabad3DMap").then((m) => m.Hyderabad3DMap), { ssr: false });
+// The satellite map (MapLibre GL JS and its stylesheet) loads in a chunk of its own, three screens ahead of its section.
+const SatelliteZoneMap = dynamic(() => import("./SatelliteZoneMap").then((m) => m.SatelliteZoneMap), { ssr: false });
 
 /** Title card · T11 Pan-India Sovereign Hub Network: the lit relief model of India (components/sections/schools/india-map) is the first screen. */
 export function SchoolsTitle() {
@@ -255,48 +254,53 @@ export function SchoolArenaShowcase() {
   );
 }
 
-/** §4 · S55 3D Hyderabad Architectural Diorama Map. The 3 flagship hubs: 01A Narsingi, 01B Begumpet, 01C Gachibowli. */
+/**
+ * §4 · The Zones section: a real satellite map (MapTiler Hybrid, drawn by MapLibre GL JS) of the three proposed Hyderabad hub areas,
+ * 01A Narsingi, 01B Begumpet and 01C Gachibowli, that zooms out to the six planned circuits across India. The directory on the right
+ * flies the map to a hub; nothing on the map is an operating campus.
+ */
 export function HubMap() {
-  const [activeHubId, setActiveHubId] = useState<"01A" | "01B" | "01C">("01A");
-  const [hover, setHover] = useState<string | null>(null);
+  const [activeHubId, setActiveHubId] = useState<HubId | null>(null);
+  const [hover, setHover] = useState<HubId | null>(null);
+  const [focus, setFocus] = useState<{ hubId: HubId; nonce: number } | null>(null);
   const frameRef = useRef<HTMLDivElement>(null);
-  const diorama = useNearViewport(frameRef);
-  const dioramaSoon = useNearViewport(frameRef, "300% 0px");
-  const [dioramaReady, setDioramaReady] = useState(false);
+  const lenis = useLenis();
+  const mapNear = useNearViewport(frameRef);
+  const mapSoon = useNearViewport(frameRef, "300% 0px");
   useEffect(() => {
-    if (dioramaSoon) void import("./Hyderabad3DMap").catch(() => {});
-  }, [dioramaSoon]);
+    if (mapSoon) void import("./SatelliteZoneMap").catch(() => {});
+  }, [mapSoon]);
 
-  const slugToIdMap: Record<string, "01A" | "01B" | "01C"> = {
-    "zone-01a-financial-district": "01A",
-    "zone-01c-gachibowli": "01C",
-    "zone-01b-begumpet": "01B",
-  };
-
-  const idToSlugMap: Record<"01A" | "01B" | "01C", string> = {
-    "01A": "zone-01a-financial-district",
-    "01C": "zone-01c-gachibowli",
-    "01B": "zone-01b-begumpet",
-  };
-
-  const handleSelectFrom3D = (hubId: "01A" | "01B" | "01C") => {
+  const flyTo = (hubId: HubId) => {
     setActiveHubId(hubId);
-    setHover(idToSlugMap[hubId]);
+    setFocus({ hubId, nonce: Date.now() });
+    // On a phone the directory sits below the map: bring the map back into view so the move is seen.
+    const frame = frameRef.current;
+    if (frame && window.innerWidth < 1024) {
+      const r = frame.getBoundingClientRect();
+      if (r.bottom < 160 || r.top > window.innerHeight * 0.5) {
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const top = Math.max(0, r.top + window.scrollY - 96);
+        if (lenis) lenis.scrollTo(top, { duration: reduced ? 0 : 1.2 });
+        else window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+      }
+    }
   };
 
   return (
     <section id="hubs" aria-labelledby="hubs-h" className="relative scroll-mt-20 py-[clamp(6rem,14vh,12rem)]">
-      <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:items-center">
-        {/* 3D Hyderabad Architectural Diorama Map Viewport */}
-        <div ref={frameRef} className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line/60 shadow-xl min-h-[500px] lg:min-h-[620px]">
-          <ScenePoster src={asset("/images/schools/hyderabad-diorama-poster.webp")} ready={dioramaReady} sizes="(min-width: 1024px) 60vw, 100vw" />
-          {diorama && (
-            <Hyderabad3DMap
-              activeHubId={activeHubId}
-              onSelectHub={handleSelectFrom3D}
-              className="w-full h-full"
-              onReady={() => setDioramaReady(true)}
+      <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:items-start">
+        {/* Satellite map */}
+        <div ref={frameRef} className="min-w-0">
+          {mapNear ? (
+            <SatelliteZoneMap
+              focus={focus}
+              highlightHubId={hover ?? activeHubId}
+              onSelectHub={(id) => setActiveHubId(id)}
+              className="w-full"
             />
+          ) : (
+            <div className="aspect-[4/3] min-h-[500px] w-full rounded-2xl border border-line/60 bg-umber/40 lg:min-h-[620px]" aria-hidden="true" />
           )}
         </div>
 
@@ -306,44 +310,47 @@ export function HubMap() {
           <Headline id="hubs-h" className="mt-4" inscription="Zone 01," voice="live in Hyderabad." />
           <ul className="mt-10 border-t border-line">
             {hubs.map((h) => {
-              const hubCode = slugToIdMap[h.slug];
-              const isActive = activeHubId === hubCode || hover === h.slug;
+              const hubId = hubCoordinates[h.slug].id;
+              const isActive = activeHubId === hubId || hover === hubId;
               return (
-                <li key={h.slug}>
-                  <Link
-                    href={`/schools/${h.slug}`}
-                    onMouseEnter={() => {
-                      setHover(h.slug);
-                      if (hubCode) setActiveHubId(hubCode);
-                    }}
+                <li key={h.slug} className="flex items-stretch gap-2 border-b border-line">
+                  <button
+                    type="button"
+                    aria-pressed={activeHubId === hubId}
+                    onMouseEnter={() => setHover(hubId)}
                     onMouseLeave={() => setHover(null)}
-                    onClick={() => {
-                      if (hubCode) setActiveHubId(hubCode);
-                    }}
+                    onFocus={() => setHover(hubId)}
+                    onBlur={() => setHover(null)}
+                    onClick={() => flyTo(hubId)}
                     className={cn(
-                      "group grid grid-cols-[1fr_auto] items-center gap-4 border-b border-line py-5 px-3 -mx-3 rounded-xl transition-all duration-300",
-                      isActive ? "bg-umber/40 border-gold/40" : "hover:bg-umber/20"
+                      "group grid min-w-0 flex-1 grid-cols-[1fr_auto] items-center gap-4 rounded-xl px-3 py-5 -mx-3 text-left transition-all duration-300",
+                      isActive ? "bg-umber/40" : "hover:bg-umber/20"
                     )}
                   >
                     <span>
-                      <span className="font-mono text-xs uppercase tracking-wider text-copper">
-                        {hubCode || "HUB"}
-                      </span>
-                      <span className={cn("t-voice block text-xl transition-colors md:text-2xl mt-0.5", isActive ? "text-gold" : "text-bone")}>
+                      <span className="font-mono text-xs uppercase tracking-wider text-copper">{hubId}</span>
+                      <span className={cn("t-voice mt-0.5 block text-xl transition-colors md:text-2xl", isActive ? "text-gold" : "text-bone")}>
                         {h.name}
                       </span>
                       <span className="t-ui mt-1 block text-sm text-dust">
-                        {tierById(h.tier).name} · {h.stallions} stallions
+                        {tierById(h.tier).name} · {h.stallions} stallions · {hubStatusLabel[h.status]}
                       </span>
                     </span>
                     <Arrow className={cn("text-gold transition-transform", isActive ? "translate-x-1" : "group-hover:translate-x-1")} />
+                  </button>
+                  <Link
+                    href={`/schools/${h.slug}`}
+                    aria-label={`Open the ${h.short} hub page`}
+                    className="label self-center whitespace-nowrap px-1 text-copper underline underline-offset-4"
+                  >
+                    Page
                   </Link>
                 </li>
               );
             })}
           </ul>
           <p className="t-ui mt-6 text-sm text-dust">
-            Zones 02–06 — NCR, Mumbai–Pune, Bengaluru, the northern boarding corridor and the east — open for campus surveys (sample planning figures, not operational campuses).
+            Zones 02–06 — NCR, Mumbai–Pune, Bengaluru, the northern boarding corridor and the east — open for campus surveys (sample planning figures, not operational campuses). Zoom the map out, or choose All India, to see them.
           </p>
         </div>
       </div>

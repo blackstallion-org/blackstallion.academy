@@ -114,3 +114,25 @@ Dependencies: 1 → everything (shared chrome); 2 → 6 (ambience API); 10 → 4
    `FleetCovenantScene.tsx`, `FleetCovenantCanvas.tsx`, `components/film/OutlineControls.tsx`.
 7. `_to_delete/claude-transfer/` holds transfer bundles written by another process during this session (left untouched;
    `tsc` and ESLint now skip `_to_delete/`).
+
+## 3 Nov 2026 — Satellite map in the /schools Zones section (replaces the Hyderabad diorama)
+
+Request: replace the three.js diorama with a real satellite map (MapTiler Hybrid v4 + MapLibre GL JS): Hyderabad hubs with markers and
+cards, a zoom-out to the all-India circuits, copper glow markers, cinematic camera moves, and the zone directory driving the map.
+
+- New: `components/sections/schools/SatelliteZoneMap.tsx` + `satellite-map.css`, data in `lib/content/satellite-map.ts`
+  (reuses `hubs` in schools.ts and `mapPlaces` in india-map.ts; nothing new is invented), `tests/satellite-map.test.mjs` (6 tests).
+- `HubMap` in `SchoolScenes.tsx` now mounts the map near the viewport and the directory rows fly the map to a hub (they no longer
+  navigate; each row keeps a small "Page" link and the map card links to the hub page). On phones the page scrolls back to the map.
+- `maplibre-gl@6.16.0` added (asked for in the request). Key: `NEXT_PUBLIC_MAPTILER_KEY` in `.env.local` (git-ignored; the name is
+  in `.env.example`). It is a public client key: restrict it to the site's origins in the MapTiler dashboard.
+- CSP (`next.config.mjs`): `https://api.maptiler.com` added to `img-src` and `connect-src`. `setWorkerUrl` points MapLibre at its
+  packaged worker, which the bundler serves as an asset.
+- Retired to `_to_delete/satellite-2026-11-03/`: `Hyderabad3DMap.tsx`. `public/images/schools/hyderabad-diorama-poster.webp` is now unused (left in place; the media manifest still lists it).
+- Honesty: only the three Hyderabad hub areas, six circuits and two heritage places that already existed are marked (not 13 zones:
+  the project has three hubs and 17 planned sub-zones, and only the six circuit anchors have coordinates). No zone boundary is drawn
+  (none is surveyed); the rotating dashed ring is a marker halo. Every status says proposed / planned / heritage, never operating.
+- Checked: `tsc` clean, ESLint 0 errors, `next build` passes, new tests pass. Browser run (Playwright, swiftshader) at 1440×900 and
+  390×844, normal and reduced motion: overview, hub fly-in from the directory, All India, circuit card, tour; every MapTiler request 200,
+  0 console errors. `npm test`: 259 pass, 3 fail; those 3 (asset guard and media manifest) come from uncommitted changes elsewhere
+  (`CadetScenes`, `ReferencePanels`, `LedgerAscent` image), not from this work.

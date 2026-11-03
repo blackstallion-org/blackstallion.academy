@@ -1,0 +1,399 @@
+/* The satellite map in the Zones section of /schools (SatelliteZoneMap.tsx). Brand ink and ivory over the imagery; the copper glow is
+   a brighter step of the site's chestnut so it reads on dark satellite tiles. Animation is transform and opacity only. */
+
+.bsah-sat {
+  --pin-core: #f2b787;
+  --pin-glow: rgba(226, 140, 80, 0.85);
+  --pin-edge: #f3ede2;
+  --panel: rgba(243, 237, 226, 0.94);
+  --panel-ink: #30251e;
+  --panel-muted: #6f5b4b;
+  --panel-line: rgba(120, 71, 47, 0.32);
+  --chestnut: #78472f;
+}
+
+/* ---- Pins (MapLibre positions the button; the children are centred on its zero-size box) ---- */
+.bsah-pin {
+  position: relative;
+  display: block;
+  width: 0;
+  height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  transition: opacity 0.45s ease, visibility 0.45s;
+}
+.bsah-pin > span {
+  position: absolute;
+  display: block;
+}
+.bsah-pin__halo,
+.bsah-pin__ring {
+  pointer-events: none;
+}
+.bsah-pin__dot {
+  left: -7px;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--pin-core);
+  border: 2px solid var(--pin-edge);
+  box-shadow: 0 0 10px 3px var(--pin-glow), 0 0 26px 8px rgba(226, 140, 80, 0.35);
+  transition: transform 0.35s ease;
+}
+.bsah-pin__halo {
+  left: -22px;
+  top: -22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--pin-glow);
+  opacity: 0;
+  animation: bsah-pulse 3.4s ease-out infinite;
+}
+.bsah-pin__ring {
+  left: -18px;
+  top: -18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1.5px dashed rgba(242, 183, 135, 0.9);
+  animation: bsah-turn 28s linear infinite;
+}
+.bsah-pin__label {
+  left: 18px;
+  top: -11px;
+  white-space: nowrap;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(27, 21, 16, 0.78);
+  border: 1px solid rgba(242, 183, 135, 0.45);
+  color: #f3ede2;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  backdrop-filter: blur(4px);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.bsah-pin:hover .bsah-pin__dot,
+.bsah-pin:focus-visible .bsah-pin__dot,
+.bsah-pin.is-hot .bsah-pin__dot {
+  transform: scale(1.35);
+}
+.bsah-pin.is-hot .bsah-pin__label,
+.bsah-pin:hover .bsah-pin__label {
+  background: rgba(243, 237, 226, 0.96);
+  border-color: var(--chestnut);
+  color: var(--panel-ink);
+}
+.bsah-pin:focus-visible .bsah-pin__dot {
+  outline: 2px solid var(--pin-edge);
+  outline-offset: 4px;
+}
+.bsah-pin.is-open .bsah-pin__ring {
+  border-style: solid;
+  border-color: #f3ede2;
+}
+
+/* Planned circuits: a diamond, no ring. Heritage places: a hollow ring, no pulse. */
+.bsah-pin--circuit .bsah-pin__ring {
+  display: none;
+}
+.bsah-pin--circuit .bsah-pin__dot {
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+.bsah-pin--circuit:hover .bsah-pin__dot,
+.bsah-pin--circuit.is-hot .bsah-pin__dot {
+  transform: rotate(45deg) scale(1.3);
+}
+.bsah-pin--heritage .bsah-pin__ring,
+.bsah-pin--heritage .bsah-pin__halo {
+  display: none;
+}
+.bsah-pin--heritage .bsah-pin__dot {
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  background: transparent;
+  border-color: #f3ede2;
+  box-shadow: 0 0 8px 1px rgba(243, 237, 226, 0.5);
+}
+
+/* Which markers show: the hubs close in, the circuits and heritage places zoomed out. */
+.bsah-sat[data-view="hyderabad"] .bsah-pin--circuit,
+.bsah-sat[data-view="hyderabad"] .bsah-pin--heritage,
+.bsah-sat[data-view="india"] .bsah-pin--hub {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes bsah-pulse {
+  0% { transform: scale(0.35); opacity: 0.85; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes bsah-turn {
+  to { transform: rotate(360deg); }
+}
+@keyframes bsah-card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Off screen, the pulses rest. */
+.bsah-sat[data-live="off"] .bsah-pin__halo,
+.bsah-sat[data-live="off"] .bsah-pin__ring {
+  animation-play-state: paused;
+}
+
+/* ---- Controls ---- */
+.bsah-seg {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+}
+.bsah-seg button,
+.bsah-chip {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--panel-ink);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.bsah-seg button {
+  padding: 9px 13px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+}
+.bsah-seg button[aria-pressed="true"] {
+  background: var(--chestnut);
+  color: #f3ede2;
+}
+.bsah-chip {
+  padding: 10px 13px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+}
+.bsah-chip:hover,
+.bsah-chip[aria-pressed="true"] {
+  background: var(--chestnut);
+  color: #f3ede2;
+}
+.bsah-seg button:focus-visible,
+.bsah-chip:focus-visible,
+.bsah-card button:focus-visible,
+.bsah-card a:focus-visible {
+  outline: 2px solid var(--chestnut);
+  outline-offset: 2px;
+}
+
+/* ---- The open place ---- */
+.bsah-card {
+  padding: 16px 18px 14px;
+  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  box-shadow: 0 14px 40px rgba(20, 12, 6, 0.38);
+  color: var(--panel-ink);
+  max-height: 58%;
+  overflow: auto;
+  animation: bsah-card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.bsah-card__close {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--panel-muted);
+  cursor: pointer;
+}
+.bsah-card__eyebrow {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--chestnut);
+  padding-right: 24px;
+}
+.bsah-card__title {
+  margin-top: 6px;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--panel-ink);
+}
+.bsah-card__loc {
+  margin-top: 2px;
+  font-size: 0.8rem;
+  color: var(--panel-muted);
+}
+.bsah-card__status {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--panel-line);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--chestnut);
+}
+.bsah-card__status.is-proposed {
+  border-style: dashed;
+}
+.bsah-card__body {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #4d3c30;
+}
+.bsah-card__facts {
+  margin-top: 10px;
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid var(--panel-line);
+  padding-top: 9px;
+}
+.bsah-card__facts div {
+  display: grid;
+  grid-template-columns: 5.2rem 1fr;
+  gap: 8px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.bsah-card__facts dt {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--panel-muted);
+  padding-top: 1px;
+}
+.bsah-card__facts dd {
+  color: var(--panel-ink);
+}
+.bsah-card__actions {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+.bsah-card__link {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--chestnut);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---- Attribution, logo and MapLibre's own controls, in the brand's ivory ---- */
+.bsah-sat .maplibregl-ctrl-attrib {
+  background: rgba(243, 237, 226, 0.88);
+  color: #4d3c30;
+  font-size: 11px;
+  border-radius: 8px 0 0 0;
+}
+.bsah-sat .maplibregl-ctrl-attrib a {
+  color: var(--chestnut);
+}
+.bsah-sat .maplibregl-ctrl-group {
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  border-radius: 10px;
+  box-shadow: none;
+}
+.bsah-sat .maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--panel-line);
+}
+.bsah-logo {
+  display: block;
+  line-height: 0;
+  padding: 3px 6px;
+  border-radius: 6px;
+  background: rgba(27, 21, 16, 0.55);
+}
+.bsah-sat .maplibregl-cooperative-gesture-screen {
+  font-family: inherit;
+}
+
+/* ---- Map key (below the frame) ---- */
+.bsah-key {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  flex: none;
+  background: var(--pin-core, #f2b787);
+  border: 2px solid #78472f;
+}
+.bsah-key--hub {
+  border-radius: 999px;
+  border-style: dashed;
+}
+.bsah-key--circuit {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+}
+.bsah-key--heritage {
+  border-radius: 999px;
+  background: transparent;
+}
+
+@media (max-width: 639px) {
+  .bsah-pin--heritage .bsah-pin__label {
+    display: none;
+  }
+  .bsah-pin__label {
+    font-size: 9.5px;
+    padding: 2px 7px;
+  }
+  .bsah-card {
+    max-height: 52%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bsah-pin__halo,
+  .bsah-pin__ring {
+    animation: none;
+  }
+  .bsah-pin__halo {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+  .bsah-card {
+    animation: none;
+  }
+}

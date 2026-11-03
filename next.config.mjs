@@ -38,15 +38,17 @@ const MEDIA = [...new Set(["https://d8j0ntlcm91z4.cloudfront.net", "https://d2ol
 // Spline hosts the 3D scene on /science (components/ui/splite.tsx): the scene file and its textures come from prod/assets,
 // and the runtime fetches two WebAssembly files of its own. unpkg is narrowed to Spline's own packages by path.
 const SPLINE = ["https://prod.spline.design", "https://assets.spline.design", "https://cdn.spline.design", "https://unpkg.com/@splinetool/"];
+// MapTiler serves the satellite map on /schools (style, tiles, glyphs, sprites and its logo) from this one origin.
+const MAPTILER = "https://api.maptiler.com";
 const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
-  `img-src 'self' data: blob: ${MEDIA.join(" ")} ${SPLINE.join(" ")}`,
+  `img-src 'self' data: blob: ${MEDIA.join(" ")} ${SPLINE.join(" ")} ${MAPTILER}`,
   // `data:` because the robot's face on /command is a video texture that Spline inlines in the scene file (its dotted eyes); media cannot run code.
   `media-src 'self' blob: data: ${MEDIA.join(" ")}`,
-  `connect-src 'self' blob: data: ${MEDIA.join(" ")} ${SPLINE.join(" ")} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self' blob: data: ${MEDIA.join(" ")} ${SPLINE.join(" ")} ${MAPTILER} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
   "frame-src 'self' https://challenges.cloudflare.com",
   "frame-ancestors 'none'",
