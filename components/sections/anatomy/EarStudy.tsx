@@ -31,7 +31,7 @@ const MAX_TURN = 1.2;
 const AXIS_L = new THREE.Vector3(0, 1, 0);
 const AXIS_R = new THREE.Vector3(0, -1, 0);
 /** The sculpt hooks its ear tips inward more than a living Marwari: ease the tip bones out (radians about local X and Z). */
-const TIP = { x: 0, z: -0.3 }; // compared at 0, ±0.35 on each axis (docs/claude-site-brief-2026-11-02/IMPLEMENTATION_LOG.md, R12)
+const TIP = { x: 0, z: 0 }; // 3 Nov 2026: the crescent ears no longer over-hook, so the study's old -0.3 tip ease is gone (kept as a dev control)
 /** Camera direction from the head (x: toward the horse's left, y: up, z: in front) and how much room around it. */
 const VIEW = { x: 0.42, y: 0.08, fit: 1.3 };
 
@@ -166,6 +166,7 @@ export function EarStudy({ className }: { className?: string }) {
     promise.then((m) => {
       if (disposed) return disposeObject(m.root);
       horse = m;
+      m.ears.enabled = false; // the study poses the ears itself, from the visitor's choice
       scene.add(m.root);
       // A close-up of the face: the rim would turn the forelock and the crest pale, so the hair keeps a quieter sheen here.
       m.hair.sheen.value *= 0.3;
@@ -193,8 +194,17 @@ export function EarStudy({ className }: { className?: string }) {
       timer.delta();
       kick.current();
       if (process.env.NODE_ENV !== "production") (window as unknown as { __earStudy?: unknown }).__earStudy = {
+        ears: m.ears,
         setPose: (l: number, r: number) => { target.current = [l, r]; kick.current(); },
         setTip: (x: number, z: number) => { TIP.x = x; TIP.z = z; kick.current(); },
+        // development only: orbit the camera round the head (azimuth 0 = in front of the horse, degrees; distance as a share of the framed one)
+        view: (az: number, el = 8, dist = 0.6) => {
+          const a = THREE.MathUtils.degToRad(az), e = THREE.MathUtils.degToRad(el);
+          const mid = tipL.clone().add(tipR).multiplyScalar(0.5).add(new THREE.Vector3(0, -0.04, 0));
+          lookAt.copy(mid);
+          camera.position.set(mid.x + dist * Math.sin(a) * Math.cos(e), mid.y + dist * Math.sin(e), mid.z + dist * Math.cos(a) * Math.cos(e));
+          kick.current();
+        },
       };
     }).catch(() => { if (!disposed) setStatus("failed"); }).finally(disposeLoader);
 

@@ -3,8 +3,9 @@
  * Shared by the hero stage and the anatomy viewer: loading, the coat material, named clips,
  * time-of-day light, gaze and the anatomy highlight. Model space is glTF: +Y up, the horse faces +Z, metres.
  *
- * Clips (all loop in place): Idle_Breathing, Head_Turn, Ear_Rotate, Blink, Weight_Shift, Walk, Trot, Tail_Sway.
- * Each clip only animates the bones it needs, so several can play at once (breathing + tail + ears + blink).
+ * Clips (all loop in place): Idle_Breathing, Head_Turn, Blink, Weight_Shift, Walk, Trot, Tail_Sway (Ear_Rotate, Alert and
+ * Attention_Response keep their names but no longer carry ear tracks: ear-motion.ts moves the ears).
+ * Each clip only animates the bones it needs, so several can play at once (breathing + tail + blink).
  *
  * The shader work lives next to this file: `marwari-coat.ts` (coat grade, region roughness, anatomy glow),
  * `contact.ts` (hoof contact shadows, the hero's ground), `studio.ts` (the studio reflections).
@@ -12,6 +13,7 @@
 import * as THREE from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { attachEarMotion, EarMotion, stripEarTracks } from "./ear-motion";
 import { HoofContacts } from "./contact";
 import { installCoat, type Highlight } from "./marwari-coat";
 import { installEye, reseatEyes, type EyeCentres } from "./marwari-eye";
@@ -33,6 +35,11 @@ export type Marwari = {
   contacts: HoofContacts;
   /** Mane and tail shading controls (flutter amplitude, strand highlight). */
   hair: Hair;
+  /**
+   * The ears. They move on their own (independent idle, alert, listening) from the root's matrix update, so a page need not call it;
+   * `mood`, `attend()` and `speed` are hints, and `enabled = false` hands the ear bones to the caller.
+   */
+  ears: EarMotion;
 };
 
 /** Loads a GLB with the bundled local Draco decoder (public/draco). The caller disposes the returned loader. */
@@ -106,7 +113,16 @@ function prepare(gltf: GLTF): Marwari {
   skinned.material = material;
   base.dispose();
   const highlight = installCoat(skinned, material, muzzleTip(skinned.geometry), eyes);
-  return { root, mesh: skinned, bones, clips: new Map(gltf.animations.map((c) => [c.name, c])), material, highlight, contacts: new HoofContacts(bones), hair };
+  // The baked clips turn both ears together; the ears are driven by EarMotion instead (independent, never a loop).
+  stripEarTracks(gltf.animations);
+  const ears = new EarMotion(bones);
+  attachEarMotion(root, ears);
+  if (process.env.NODE_ENV !== "production" && typeof window !== "undefined") {
+    const w = window as unknown as { __marwariEars?: EarMotion; __marwariEarsAll?: EarMotion[] };
+    w.__marwariEars = ears;
+    (w.__marwariEarsAll ??= []).push(ears);
+  }
+  return { root, mesh: skinned, bones, clips: new Map(gltf.animations.map((c) => [c.name, c])), material, highlight, contacts: new HoofContacts(bones), hair, ears };
 }
 
 /** Bind-pose position of the muzzle: the most forward vertex of the body mesh. */

@@ -336,6 +336,9 @@ export class Locomotor {
     const idle = this.actions.get("Idle_Breathing");
     idle?.setEffectiveWeight(idleW);
     if (idle) idle.timeScale = this.idleTimeScale;
+    // the ears are driven by EarMotion (independent, never a loop): it only needs to know how fast the horse is going and when it is alert
+    this.horse.ears.speed = v;
+    this.horse.ears.mood = this.alertShare > 0.5 && stand > 0.5 ? "alert" : "idle";
     // layers on bones the gaits do not drive
     this.actions.get("Ear_Rotate")?.setEffectiveWeight(0.75 * (1 - 0.8 * smoothstep(3, 9, v)));
     this.actions.get("Mane_Sway")?.setEffectiveWeight(0.8);
