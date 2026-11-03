@@ -3,18 +3,27 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import { useLenis } from "lenis/react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { asset } from "@/lib/content/asset";
 import { DriftCanvas } from "@/components/sections/marwari-story/DriftCanvas";
 import { SCENES, SCENE_TOTAL, SKY, type LayerSpec, type StoryScene } from "./story-data";
 import "./pratap.css";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const pad = (n: number) => String(n).padStart(2, "0");
+const P = "/images/story/pratap/";
+
+/**
+ * The world that never changes. One blue sky sits behind everything; over it the clouds, two ridges, the ground and
+ * a band of grass slide past as the visitor scrolls, each at its own speed (`k`: how many screen widths it travels
+ * across the whole story). Every band is a row of tiles, every other one mirrored, so a band has no seams at any width.
+ */
+const BANDS = [
+  { id: "clouds", src: `${P}band-clouds.webp`, k: 0.03, tiles: 10 },
+  { id: "ridge-far", src: `${P}band-ridge-far.webp`, k: 0.05, tiles: 10 },
+  { id: "ridge-near", src: `${P}band-ridge-near.webp`, k: 0.09, tiles: 12 },
+  { id: "ground", src: `${P}band-ground.webp`, k: 0.16, tiles: 14 },
+  { id: "fg", src: `${P}band-fg.webp`, k: 0.3, tiles: 32 },
+] as const;
 
 /** Placement reaches the layer as custom properties, so the phone layout is a CSS media query, not a second scene. */
 function layerStyle(l: LayerSpec): CSSProperties {
@@ -23,7 +32,6 @@ function layerStyle(l: LayerSpec): CSSProperties {
     "--dr": l.d.r ?? "auto",
     "--db": l.d.b,
     "--dw": l.d.w,
-    "--z": String(l.depth),
   };
   if (l.m) {
     s["--mx"] = l.m.x ?? "auto";
@@ -35,138 +43,198 @@ function layerStyle(l: LayerSpec): CSSProperties {
   return s as CSSProperties;
 }
 
+const clamp = (v: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+const smooth = (v: number) => {
+  const x = clamp(v);
+  return x * x * (3 - 2 * x);
+};
+
 /**
- * The Maharana Pratap and Chetak story: nine scenes on one painted indigo sky. The scenes share one pinned stage and one
- * scrubbed timeline (one unit per scene), so scrolling back runs the scenes in reverse. The page switches by setting an
- * attribute, so React does not re-render on scroll. Under reduced motion nothing is pinned or moved: each scene is a
- * still painting with its copy under it.
+ * One function computes every moving value of a frame from one number, `t`: the moment the camera is at (0 is the
+ * first moment, 10 the last, 4.5 halfway between the fifth and the sixth). Nothing is stored between calls, so
+ * scrolling backwards runs the same story in reverse.
+ */
+function render(frame: HTMLElement, t: number) {
+  const W = frame.clientWidth;
+  const H = frame.clientHeight;
+
+  frame.querySelectorAll<HTMLElement>(".ps-band").forEach((el) => {
+    el.style.transform = `translate3d(${(-t * W * Number(el.dataset.k)).toFixed(1)}px,0,0)`;
+  });
+
+  frame.querySelectorAll<HTMLElement>(".ps-layer").forEach((el) => {
+    const u = t - Number(el.dataset.scene);
+    const a = Math.abs(u);
+    if (a >= 1) {
+      el.style.visibility = "hidden";
+      return;
+    }
+    const depth = Number(el.dataset.depth);
+    const from = Number(el.dataset.from);
+    const fromY = Number(el.dataset.fromy);
+    const op = Number(el.dataset.op || 1);
+    // A figure lingers around its own moment (the cubic term keeps it nearly still there) and then is carried off fast.
+    const f = 0.15 * u + 0.85 * u * u * u;
+    const reach = depth === 3 ? 0.95 : 0.6;
+    const x = from === 0 ? -u * W * 0.05 : -from * f * W * reach;
+    const y = fromY * (u < 0 ? 0.3 : -0.1) * H * u * u;
+    el.style.visibility = "visible";
+    el.style.opacity = String((op * (1 - smooth((a - 0.22) / 0.36))).toFixed(3));
+    el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0)`;
+  });
+
+  frame.querySelectorAll<HTMLElement>(".ps-tint").forEach((el) => {
+    const a = Math.abs(t - Number(el.dataset.scene));
+    el.style.opacity = String((1 - smooth((a - 0.25) / 0.55)).toFixed(3));
+  });
+
+  frame.querySelectorAll<HTMLElement>(".ps-page").forEach((el) => {
+    const u = t - Number(el.dataset.scene);
+    const a = Math.abs(u);
+    el.style.opacity = String((1 - smooth((a - 0.26) / 0.2)).toFixed(3));
+    el.style.transform = `translate3d(0,${(u * 28).toFixed(1)}px,0)`;
+  });
+
+  const rule = frame.querySelector<HTMLElement>(".ps-rule");
+  if (rule) rule.style.transform = `scaleX(${(clamp(t / (SCENE_TOTAL - 1)) || 0).toFixed(4)})`;
+  frame.dataset.active = String(Math.round(clamp(t, 0, SCENE_TOTAL - 1)));
+}
+
+/**
+ * The Maharana Pratap and Chetak story. One painted world stays on screen while the visitor scrolls the page past it
+ * (a sticky stage, not a pinned scroll: the page keeps scrolling normally and nothing traps it). The camera travels
+ * through eleven moments; each moment's figures come in from their own edge over the same blue sky, stand for a
+ * while, and leave the other way. Under reduced motion every moment is shown as its own still picture of the same world.
  */
 export function PratapStory() {
-  const rootRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const lenis = useLenis();
-
-  // Lenis drives the native scroll; ScrollTrigger must hear every frame of it.
-  useEffect(() => {
-    if (!lenis || reduced) return;
-    return lenis.on("scroll", ScrollTrigger.update);
-  }, [lenis, reduced]);
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (!root || reduced) return;
-    const stage = root.querySelector<HTMLElement>(".ps-stage");
-    if (!stage) return;
-    const pages = Array.from(stage.querySelectorAll<HTMLElement>(".ps-page"));
-    const rule = stage.querySelector<HTMLElement>(".ps-rule");
+    const track = trackRef.current;
+    if (!track) return;
+    const frames = Array.from(track.querySelectorAll<HTMLElement>(".ps-frame"));
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ paused: true, defaults: { ease: "none" } });
-      const last = SCENE_TOTAL - 1;
+    if (reduced) {
+      const paint = () => frames.forEach((f, i) => render(f, i));
+      paint();
+      window.addEventListener("resize", paint);
+      return () => window.removeEventListener("resize", paint);
+    }
 
-      SCENES.forEach((_scene: StoryScene, i) => {
-        // Each moment is on screen from `inStart` to `end`. It is fully shown from `i` to `i + 0.6`. The next moment
-        // starts coming in at `i + 0.75`, so the two overlap only briefly: the far layers linger while the near ones
-        // travel in, and there is no long double exposure.
-        const inStart = Math.max(0, i - 0.25);
-        const fadeIn = i === 0 ? 0 : 0.25;
-        const outStart = i + 0.6;
-        const outEnd = i + 0.85;
-        const end = i === last ? SCENE_TOTAL : outEnd;
-        const span = end - inStart;
-
-        // The scene's own background (the dusk sunset) fades in over the end of its scene and stays.
-        const bg = stage.querySelector<HTMLElement>(`.ps-bg[data-scene-bg="${i}"]`);
-        if (bg) tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 0.7 }, i + 0.3);
-
-        // The moment's colour wash fades in and out with the moment.
-        const tint = stage.querySelector<HTMLElement>(`.ps-tint[data-scene-tint="${i}"]`);
-        if (tint) {
-          tl.fromTo(tint, { opacity: i === 0 ? 1 : 0 }, { opacity: 1, duration: fadeIn }, inStart);
-          if (i < last) tl.to(tint, { opacity: 0, duration: outEnd - outStart }, outStart);
-        }
-
-        const layers = Array.from(stage.querySelectorAll<HTMLElement>(`.ps-layer[data-scene="${i}"]`));
-        layers.forEach((el) => {
-          const depth = Number(el.dataset.depth);
-          const from = Number(el.dataset.from);
-          const op = Number(el.style.getPropertyValue("--op") || 1);
-          // Near layers travel furthest, far layers least: the parallax depth.
-          const reach = depth === 3 ? 26 : depth === 2 ? 14 : 6;
-          // A layer that enters from a side crosses to the other side over the whole moment, so the scene keeps moving
-          // while it is read. A layer that stays in place drifts gently across the middle.
-          const x0 = from === 0 ? -reach * 0.4 : from * reach;
-          const x1 = from === 0 ? reach * 0.4 : -from * reach * 0.8;
-          tl.fromTo(el, { xPercent: x0 }, { xPercent: x1, duration: span }, inStart);
-          tl.fromTo(el, { opacity: i === 0 ? op : 0 }, { opacity: op, duration: fadeIn }, inStart);
-          if (i < last) tl.to(el, { opacity: 0, duration: outEnd - outStart }, outStart);
-        });
-      });
-
-      // Pin the timeline to exactly one unit per moment, so progress * SCENE_TOTAL is the moment's time.
-      tl.set({}, {}, SCENE_TOTAL);
-
-      let current = 0;
-      ScrollTrigger.create({
-        trigger: root,
-        start: "top top",
-        end: () => `+=${window.innerHeight * SCENE_TOTAL}`,
-        pin: stage,
-        pinSpacing: true,
-        scrub: 0.6,
-        invalidateOnRefresh: true,
-        animation: tl,
-        onUpdate: (self) => {
-          // The copy changes just before its painting is fully in, so the words arrive with the picture.
-          const idx = Math.min(SCENE_TOTAL - 1, Math.max(0, Math.floor(self.progress * SCENE_TOTAL + 0.1)));
-          if (idx !== current) {
-            current = idx;
-            pages.forEach((el, i) => el.setAttribute("data-active", i === idx ? "true" : "false"));
-          }
-          if (rule) rule.style.transform = `scaleX(${self.progress})`;
-        },
-      });
-    }, root);
-
-    const refresh = () => ScrollTrigger.refresh();
-    window.addEventListener("load", refresh);
-    void document.fonts?.ready.then(refresh);
-
+    const frame = frames[0];
+    let target = 0;
+    let cur = 0;
+    let raf = 0;
+    const read = () => {
+      const r = track.getBoundingClientRect();
+      const span = Math.max(1, track.offsetHeight - window.innerHeight);
+      const p = clamp(-r.top / span);
+      // A short hold at each end: the first and last moments are not skipped past.
+      target = (SCENE_TOTAL - 1) * clamp((p - 0.03) / 0.94);
+    };
+    const tick = () => {
+      cur += (target - cur) * 0.18;
+      if (Math.abs(target - cur) < 0.0005) cur = target;
+      render(frame, cur);
+      raf = cur === target ? 0 : requestAnimationFrame(tick);
+    };
+    const kick = () => {
+      read();
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    read();
+    cur = target;
+    render(frame, cur);
+    window.addEventListener("scroll", kick, { passive: true });
+    window.addEventListener("resize", kick);
     return () => {
-      window.removeEventListener("load", refresh);
-      ctx.revert();
+      window.removeEventListener("scroll", kick);
+      window.removeEventListener("resize", kick);
+      if (raf) cancelAnimationFrame(raf);
     };
   }, [reduced]);
 
   return (
-    <div ref={rootRef} className="ps-story" data-motion={reduced ? "reduced" : "full"}>
+    <div ref={trackRef} className="ps-story" data-motion={reduced ? "reduced" : "full"}>
       <h1 className="sr-only">Maharana Pratap and Chetak: a scroll story</h1>
-      {reduced ? <Still /> : <Stage />}
+      {reduced ? (
+        SCENES.map((scene, i) => (
+          <section key={i} className="ps-still" aria-label={`${scene.label}: ${scene.title}`}>
+            <Frame items={[{ scene, index: i }]} />
+          </section>
+        ))
+      ) : (
+        <div className="ps-track">
+          <div className="ps-sticky">
+            <div className="ps-drift-wrap" aria-hidden="true">
+              <DriftCanvas />
+            </div>
+            <Frame items={SCENES.map((scene, index) => ({ scene, index }))} live />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-function Layer({ l, scene }: { l: LayerSpec; scene: number | null }) {
+type Item = { scene: StoryScene; index: number };
+
+/** The stage: the constant sky and bands, then the figures of each moment, their colour wash, and their words. */
+function Frame({ items, live }: { items: Item[]; live?: boolean }) {
   return (
-    <img
-      className="ps-layer"
-      src={asset(l.src)}
-      alt={l.alt}
-      decoding="async"
-      data-scene={scene ?? undefined}
-      data-depth={l.depth}
-      data-from={l.from}
-      style={layerStyle(l)}
-      onError={(e) => {
-        e.currentTarget.style.display = "none";
-      }}
-    />
+    <div className="ps-frame" data-frame>
+      <div className="ps-sky" style={{ backgroundImage: `url(${asset(SKY)})` }} aria-hidden="true" />
+      <div className="ps-world">
+        {BANDS.map((b) => (
+          <div key={b.id} className={`ps-band ps-band--${b.id}`} data-k={b.k} aria-hidden="true">
+            {Array.from({ length: b.tiles }, (_, n) => (
+              <img key={n} className="ps-tile" src={asset(b.src)} alt="" decoding="async" loading="eager" style={n % 2 ? { transform: "scaleX(-1)" } : undefined} />
+            ))}
+          </div>
+        ))}
+        {items.map(({ scene, index }) =>
+          scene.layers.map((l, j) => (
+            <img
+              key={`${index}-${j}`}
+              className="ps-layer"
+              data-plane={l.plane ?? (l.depth === 3 ? "hero" : "mid")}
+              src={asset(l.src)}
+              alt={l.alt}
+              decoding="async"
+              loading="eager"
+              data-scene={index}
+              data-depth={l.depth}
+              data-from={l.from}
+              data-fromy={l.fromY ?? 0}
+              data-op={l.opacity ?? 1}
+              style={layerStyle(l)}
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          )),
+        )}
+        {items.map(({ scene, index }) =>
+          scene.tint ? <div key={index} className="ps-tint" data-scene={index} style={{ background: scene.tint }} aria-hidden="true" /> : null,
+        )}
+      </div>
+      <div className="ps-panel" aria-hidden="true" />
+      {items.map(({ scene, index }) => (
+        <Page key={index} scene={scene} index={index} />
+      ))}
+      {live && (
+        <div className="ps-rule-track" aria-hidden="true">
+          <div className="ps-rule" />
+        </div>
+      )}
+    </div>
   );
 }
 
-function Page({ scene, index, active }: { scene: StoryScene; index: number; active: boolean }) {
+function Page({ scene, index }: { scene: StoryScene; index: number }) {
   return (
-    <article className="ps-page" data-pos={scene.pos} data-active={active ? "true" : "false"}>
+    <article className="ps-page" data-pos={scene.pos} data-scene={index}>
       <p className="ps-page__count">
         {pad(index + 1)} / {pad(SCENE_TOTAL)}
       </p>
@@ -175,54 +243,5 @@ function Page({ scene, index, active }: { scene: StoryScene; index: number; acti
       <p className="ps-page__body">{scene.body}</p>
       {scene.note && <p className="ps-page__note">{scene.note}</p>}
     </article>
-  );
-}
-
-function Stage() {
-  return (
-    <section className="ps-chapter" aria-label="The story of Maharana Pratap and Chetak">
-      <div className="ps-stage">
-        <img className="ps-sky" src={asset(SKY)} alt="" decoding="async" />
-        {SCENES.map((scene, i) =>
-          scene.bg ? (
-            <img key={`bg-${i}`} className="ps-bg" data-scene-bg={i} src={asset(scene.bg)} alt="" decoding="async" />
-          ) : null,
-        )}
-        {SCENES.map((scene, i) => scene.layers.map((l, j) => <Layer key={`${i}-${j}`} l={l} scene={i} />))}
-        {SCENES.map((scene, i) =>
-          scene.tint ? <div key={`tint-${i}`} className="ps-tint" data-scene-tint={i} style={{ background: scene.tint }} aria-hidden="true" /> : null,
-        )}
-        <div className="ps-drift-wrap">
-          <DriftCanvas />
-        </div>
-        <div className="ps-frame" aria-hidden="true" />
-        {SCENES.map((scene, i) => (
-          <Page key={scene.label} scene={scene} index={i} active={i === 0} />
-        ))}
-        <div className="ps-rule-track" aria-hidden="true">
-          <span className="ps-rule" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Still() {
-  return (
-    <div className="ps-still-list">
-      {SCENES.map((scene, i) => (
-        <section key={scene.label} className="ps-still" aria-label={scene.label}>
-          <div className="ps-still__art">
-            <img className="ps-sky" src={asset(SKY)} alt="" decoding="async" />
-            {scene.bg && <img className="ps-bg" src={asset(scene.bg)} alt="" decoding="async" />}
-            {scene.layers.map((l, j) => (
-              <Layer key={j} l={l} scene={null} />
-            ))}
-            {scene.tint && <div className="ps-tint" style={{ background: scene.tint }} aria-hidden="true" />}
-          </div>
-          <Page scene={scene} index={i} active />
-        </section>
-      ))}
-    </div>
   );
 }

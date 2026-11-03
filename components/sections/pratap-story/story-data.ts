@@ -1,8 +1,16 @@
 /**
- * The nine scenes of the Maharana Pratap and Chetak story. The painting carries the story: copy is one title and
- * one or two short lines per scene. Positions are percentages of the stage, given for desktop (`d`) and for a phone
- * (`m`, falling back to `d`). `from` is the side a layer enters from: -1 left, 1 right, 0 fades in place.
- * `depth` sets how far a layer moves: 1 is far (moves least), 3 is near (moves most).
+ * The eleven moments of the Maharana Pratap and Chetak story, in six chapters: the bond, preparing for battle,
+ * Haldighati, courage, the legendary escape, and remembrance.
+ *
+ * The story is one continuous take. The sky, the clouds, the ridges, the ground and the grass in front are the same
+ * for every moment (see `BANDS` in PratapStory.tsx): they never change, they only slide past at their own speeds, so
+ * the eye always has one blue world to rest on. A moment is only what stands in that world: figures, scenery and
+ * weather. Each comes in from its own side, stays for its moment, and leaves the other way.
+ *
+ * Placement is in percentages of the stage (desktop `d`, phone `m`, falling back to `d`). `b` is the layer's foot
+ * above the bottom of the painted world: the ground runs from 0 to about 20%, so a figure standing on it has `b` of
+ * 4-8%. `from` is the side a layer enters from (-1 left, 1 right, 0 it fades in place), `fromY` the edge it also
+ * enters from (-1 above, 1 below). `depth` 3 is a hero (moves most), 2 is scenery (moves less).
  */
 
 export type Box = { x?: string; r?: string; b: string; w: string };
@@ -10,8 +18,12 @@ export type Box = { x?: string; r?: string; b: string; w: string };
 export type LayerSpec = {
   src: string;
   alt: string;
-  depth: 1 | 2 | 3;
+  depth: 2 | 3;
   from: -1 | 0 | 1;
+  fromY?: -1 | 0 | 1;
+  /** Where it stands: "sky" (behind the ridges), "back" (on the ridges, behind the ground), "mid" (on the ground),
+   *  "hero" (in front, the default for depth 3), "front" (in front of the grass). */
+  plane?: "sky" | "back" | "mid" | "hero" | "front";
   d: Box;
   m?: Box;
   opacity?: number;
@@ -25,125 +37,143 @@ export type StoryScene = {
   body: string;
   note?: string;
   pos: CopyPos;
-  bg?: string;
-  /** A colour wash for this moment's light and atmosphere; it fades in and out with the moment. */
+  /** A flat colour wash over the whole world for this moment's light: it fades in and out with the moment. */
   tint?: string;
   layers: LayerSpec[];
 };
 
-export const SKY = "/images/story/pratap/sky.webp";
+const P = "/images/story/pratap/";
+
+/** The constant blue the whole story sits on. */
+export const SKY = `${P}band-sky.webp`;
 
 export const SCENES: StoryScene[] = [
   {
-    label: "The Bond",
+    label: "I · The Bond",
     title: "Before the battle, there was a bond.",
     body: "Maharana Pratap and Chetak, trusting one another.",
     pos: "top-right",
-    tint: "linear-gradient(to top, rgba(244, 190, 110, 0.26), rgba(244, 190, 110, 0) 70%)",
+    tint: "rgba(244, 190, 110, 0.12)",
     layers: [
-      { src: "/images/story/pratap/aravalli.webp", alt: "", depth: 1, from: 0, d: { b: "34%", w: "100%" }, m: { x: "-15%", b: "40%", w: "130%" } },
-      { src: "/images/story/pratap/bond.webp", alt: "Maharana Pratap stands beside his horse Chetak, one hand on the horse's neck", depth: 3, from: -1, d: { x: "10%", b: "0%", w: "38%" }, m: { x: "6%", b: "34%", w: "62%" } },
-      { src: "/images/story/pratap/rocks.webp", alt: "", depth: 3, from: 0, d: { b: "-3%", w: "100%" }, m: { b: "-3%", w: "100%" } },
+      { src: `${P}el-birds.webp`, alt: "", depth: 2, from: 1, plane: "sky", d: { x: "8%", b: "62%", w: "30%" }, m: { x: "4%", b: "62%", w: "52%" } },
+      { src: `${P}bond.webp`, alt: "Maharana Pratap stands beside his horse Chetak, one hand on the horse's neck", depth: 3, from: -1, d: { x: "12%", b: "5%", w: "36%" }, m: { x: "8%", b: "5%", w: "62%" } },
     ],
   },
   {
-    label: "Mewar",
+    label: "I · The Bond",
     title: "Hills that kept their own.",
     body: "Mewar's forts watched the roads below.",
     pos: "top-left",
-    tint: "linear-gradient(to bottom, rgba(96, 60, 120, 0.22), rgba(96, 60, 120, 0) 60%)",
+    tint: "rgba(96, 60, 120, 0.14)",
     layers: [
-      { src: "/images/story/pratap/dusk-hills.webp", alt: "", depth: 1, from: 0, d: { b: "18%", w: "100%" }, m: { b: "22%", w: "120%" } },
-      { src: "/images/story/pratap/fort.webp", alt: "A hill fort with ramparts, bastions and gateways on a ridge", depth: 2, from: 1, d: { r: "6%", b: "28%", w: "40%" }, m: { r: "-6%", b: "34%", w: "72%" } },
-      { src: "/images/story/pratap/rocks.webp", alt: "", depth: 3, from: 0, d: { b: "-3%", w: "100%" }, m: { b: "-3%", w: "100%" } },
+      { src: `${P}dusk-hills.webp`, alt: "", depth: 2, from: 0, plane: "back", d: { b: "17%", w: "100%" }, m: { x: "-10%", b: "17%", w: "125%" }, opacity: 0.9 },
+      { src: `${P}fort.webp`, alt: "A hill fort with ramparts, bastions and gateways on a ridge", depth: 2, from: 1, fromY: 1, plane: "back", d: { r: "6%", b: "17%", w: "42%" }, m: { r: "-4%", b: "17%", w: "76%" } },
     ],
   },
   {
-    label: "A Call to Courage",
+    label: "II · Preparing for Battle",
     title: "Banners rise.",
     body: "Pratap prepares to ride. Chetak is ready.",
     pos: "top-left",
-    tint: "linear-gradient(to top, rgba(232, 128, 58, 0.2), rgba(232, 128, 58, 0) 65%)",
+    tint: "rgba(232, 128, 58, 0.12)",
     layers: [
-      { src: "/images/story/pratap/aravalli.webp", alt: "", depth: 1, from: 0, d: { b: "30%", w: "100%" }, m: { x: "-15%", b: "34%", w: "130%" } },
-      { src: "/images/story/pratap/banners.webp", alt: "Three Mewar banners on tall poles, saffron and crimson with gold borders", depth: 2, from: -1, d: { x: "4%", b: "22%", w: "26%" }, m: { x: "0%", b: "30%", w: "40%" } },
-      { src: "/images/story/pratap/mount.webp", alt: "Maharana Pratap mounts Chetak, a lance held upright", depth: 3, from: 1, d: { r: "6%", b: "0%", w: "42%" }, m: { r: "2%", b: "34%", w: "62%" } },
+      { src: `${P}banners.webp`, alt: "Mewar banners on tall poles, saffron and crimson with gold borders", depth: 2, from: -1, fromY: -1, plane: "mid", d: { x: "3%", b: "7%", w: "28%" }, m: { x: "-2%", b: "7%", w: "46%" } },
+      { src: `${P}mount.webp`, alt: "Maharana Pratap mounts Chetak, a lance held upright", depth: 3, from: 1, fromY: 1, d: { r: "8%", b: "5%", w: "38%" }, m: { r: "4%", b: "5%", w: "62%" } },
     ],
   },
   {
-    label: "The March",
+    label: "II · Preparing for Battle",
     title: "Riders gather at dawn.",
     body: "Columns of cavalry move toward the hills.",
     pos: "top-right",
-    tint: "linear-gradient(to top, rgba(240, 200, 140, 0.24), rgba(240, 200, 140, 0) 70%)",
+    tint: "rgba(240, 200, 140, 0.12)",
     layers: [
-      { src: "/images/story/pratap/haldighati.webp", alt: "", depth: 1, from: 0, d: { b: "30%", w: "100%" }, m: { b: "34%", w: "130%" } },
-      { src: "/images/story/pratap/cavalry.webp", alt: "A column of Mewar cavalry in procession across the hills", depth: 2, from: 1, d: { x: "0%", b: "20%", w: "80%" }, m: { x: "-6%", b: "24%", w: "120%" } },
-      { src: "/images/story/pratap/dust.webp", alt: "", depth: 2, from: 0, d: { b: "14%", w: "100%" }, m: { b: "14%", w: "120%" }, opacity: 0.6 },
+      { src: `${P}haldighati.webp`, alt: "", depth: 2, from: 0, plane: "back", d: { r: "-2%", b: "17%", w: "62%" }, m: { x: "-10%", b: "17%", w: "120%" }, opacity: 0.85 },
+      { src: `${P}cavalry.webp`, alt: "A column of Mewar cavalry in procession across the hills", depth: 2, from: 1, fromY: 1, plane: "mid", d: { x: "4%", b: "8%", w: "86%" }, m: { x: "-8%", b: "8%", w: "124%" } },
     ],
   },
   {
-    label: "Haldighati · 1576",
+    label: "III · Haldighati",
     title: "Haldighati. 1576.",
     body: "Mewar meets the Mughal army among the ochre hills.",
     pos: "top-left",
-    tint: "linear-gradient(to top, rgba(204, 132, 64, 0.28), rgba(204, 132, 64, 0) 70%)",
+    tint: "rgba(204, 132, 64, 0.16)",
     layers: [
-      { src: "/images/story/pratap/haldighati.webp", alt: "", depth: 1, from: 0, d: { b: "26%", w: "100%" }, m: { b: "30%", w: "130%" } },
-      { src: "/images/story/pratap/melee.webp", alt: "The battle line at Haldighati: cavalry and foot soldiers in dust, painted without close detail", depth: 2, from: 1, d: { b: "6%", w: "100%" }, m: { x: "-25%", b: "14%", w: "150%" } },
-      { src: "/images/story/pratap/dust.webp", alt: "", depth: 3, from: 0, d: { b: "24%", w: "100%" }, m: { b: "24%", w: "120%" }, opacity: 0.7 },
+      { src: `${P}haldighati.webp`, alt: "", depth: 2, from: 0, plane: "back", d: { x: "34%", b: "17%", w: "66%" }, m: { x: "-10%", b: "17%", w: "120%" } },
+      { src: `${P}melee.webp`, alt: "The battle line at Haldighati: cavalry and foot soldiers in dust, painted without close detail", depth: 2, from: 1, fromY: 1, plane: "mid", d: { x: "0%", b: "4%", w: "100%" }, m: { x: "-26%", b: "4%", w: "152%" } },
+      { src: `${P}dust.webp`, alt: "", depth: 2, from: -1, plane: "mid", d: { x: "-6%", b: "10%", w: "44%" }, m: { x: "-10%", b: "8%", w: "70%" }, opacity: 0.45 },
     ],
   },
   {
-    label: "Together",
+    label: "III · Haldighati",
+    title: "Into the line.",
+    body: "Pratap and Chetak meet the Mughal commander in battle.",
+    note: "Remembered in tradition and painting, not a documentary record.",
+    pos: "top-right",
+    tint: "rgba(190, 96, 48, 0.18)",
+    layers: [
+      { src: `${P}battle-army.webp`, alt: "Mewar horsemen, foot soldiers and two Mughal war elephants with golden canopies, in a painted battle column", depth: 2, from: 1, fromY: 1, plane: "mid", d: { x: "0%", b: "6%", w: "100%" }, m: { x: "-34%", b: "10%", w: "172%" } },
+      { src: `${P}battle-duel-cutout.webp`, alt: "A painted battle scene showing Maharana Pratap on Chetak confronting a mounted opponent", depth: 3, from: -1, fromY: -1, d: { x: "4%", b: "4%", w: "50%" }, m: { x: "2%", b: "4%", w: "92%" } },
+    ],
+  },
+  {
+    label: "IV · Courage",
     title: "Together through the storm.",
     body: "Pratap and Chetak stay together through the battle.",
     pos: "top-right",
-    tint: "linear-gradient(to bottom, rgba(10, 14, 40, 0.42), rgba(10, 14, 40, 0.1) 70%)",
+    tint: "rgba(10, 14, 40, 0.3)",
     layers: [
-      { src: "/images/story/pratap/melee.webp", alt: "", depth: 1, from: 0, d: { b: "8%", w: "100%" }, m: { x: "-25%", b: "12%", w: "150%" }, opacity: 0.5 },
-      { src: "/images/story/pratap/dust.webp", alt: "", depth: 2, from: 0, d: { b: "18%", w: "100%" }, m: { b: "18%", w: "120%" }, opacity: 0.6 },
-      { src: "/images/story/pratap/charge.webp", alt: "Maharana Pratap charges on Chetak, lance levelled, horse and rider as one silhouette", depth: 3, from: -1, d: { x: "4%", b: "0%", w: "56%" }, m: { x: "4%", b: "34%", w: "72%" } },
+      { src: `${P}dust.webp`, alt: "", depth: 2, from: 1, plane: "mid", d: { r: "-4%", b: "8%", w: "54%" }, m: { r: "-12%", b: "8%", w: "80%" }, opacity: 0.4 },
+      { src: `${P}charge.webp`, alt: "Maharana Pratap charges on Chetak, lance levelled, horse and rider as one silhouette", depth: 3, from: -1, d: { x: "4%", b: "5%", w: "56%" }, m: { x: "2%", b: "6%", w: "92%" } },
+      { src: `${P}el-spears.webp`, alt: "", depth: 2, from: 1, plane: "front", d: { x: "30%", b: "0%", w: "72%" }, m: { x: "26%", b: "0%", w: "104%" }, opacity: 0.55 },
     ],
   },
   {
-    label: "The Carry",
+    label: "V · The Legendary Escape",
     title: "Still, Chetak carries on.",
     body: "Tradition says the wounded horse carried his rider out.",
     note: "Remembered in tradition, not undisputed history.",
     pos: "top-left",
-    tint: "linear-gradient(to top, rgba(200, 150, 90, 0.2), rgba(200, 150, 90, 0) 70%)",
+    tint: "rgba(200, 150, 90, 0.12)",
     layers: [
-      { src: "/images/story/pratap/haldighati.webp", alt: "", depth: 1, from: 0, d: { b: "30%", w: "100%" }, m: { b: "34%", w: "130%" } },
-      { src: "/images/story/pratap/dust.webp", alt: "", depth: 2, from: 0, d: { b: "18%", w: "100%" }, m: { b: "18%", w: "120%" }, opacity: 0.5 },
-      { src: "/images/story/pratap/carry.webp", alt: "Chetak walks on with his rider upright in the saddle, head lowered and steady", depth: 3, from: 1, d: { r: "6%", b: "0%", w: "46%" }, m: { r: "4%", b: "34%", w: "64%" } },
+      { src: `${P}dust.webp`, alt: "", depth: 2, from: -1, plane: "mid", d: { x: "30%", b: "8%", w: "46%" }, m: { x: "10%", b: "8%", w: "78%" }, opacity: 0.35 },
+      { src: `${P}carry.webp`, alt: "Chetak walks on with his rider upright in the saddle, head lowered and steady", depth: 3, from: 1, fromY: 1, d: { r: "8%", b: "5%", w: "44%" }, m: { r: "6%", b: "5%", w: "66%" } },
     ],
   },
   {
-    label: "The Leap",
+    label: "V · The Legendary Escape",
     title: "Legend remembers one final leap.",
     body: "Chetak is said to leap a stream with Pratap on his back.",
     note: "A legend told across generations, not a recorded event.",
     pos: "top-right",
-    tint: "linear-gradient(to top, rgba(40, 128, 136, 0.26), rgba(40, 128, 136, 0) 70%)",
+    tint: "rgba(40, 128, 136, 0.16)",
     layers: [
-      { src: "/images/story/pratap/aravalli.webp", alt: "", depth: 1, from: 0, d: { b: "32%", w: "100%" }, m: { x: "-15%", b: "36%", w: "130%" } },
-      { src: "/images/story/pratap/stream.webp", alt: "", depth: 2, from: 0, d: { b: "0%", w: "100%" }, m: { x: "-15%", b: "0%", w: "130%" } },
-      { src: "/images/story/pratap/leap.webp", alt: "Chetak leaps over a stream with Maharana Pratap low on his back, lance forward", depth: 3, from: -1, d: { x: "6%", b: "14%", w: "56%" }, m: { x: "0%", b: "36%", w: "92%" } },
+      { src: `${P}band-stream.webp`, alt: "A shallow stream crossing the ground, painted in swirling teal and cream", depth: 2, from: 0, fromY: 1, plane: "mid", d: { b: "-1%", w: "104%", x: "-2%" }, m: { x: "-12%", b: "-1%", w: "126%" } },
+      { src: `${P}leap.webp`, alt: "Chetak leaps over a stream with Maharana Pratap low on his back, lance forward", depth: 3, from: -1, fromY: -1, d: { x: "6%", b: "16%", w: "56%" }, m: { x: "0%", b: "16%", w: "96%" } },
     ],
   },
   {
-    label: "A Bond Remembered",
+    label: "V · The Legendary Escape",
+    title: "Chetak rests.",
+    body: "Tradition says the wounded horse fell once his rider was safe, and Pratap stayed beside him.",
+    note: "A legend told across generations, not a recorded event.",
+    pos: "top-left",
+    tint: "rgba(10, 14, 40, 0.34)",
+    layers: [
+      { src: `${P}dusk-hills.webp`, alt: "", depth: 2, from: 0, plane: "back", d: { b: "17%", w: "100%" }, m: { x: "-10%", b: "17%", w: "125%" }, opacity: 0.7 },
+      { src: `${P}chetak-rest-cutout.webp`, alt: "Maharana Pratap kneels beside and holds the fallen Chetak", depth: 3, from: 1, fromY: 1, d: { r: "4%", b: "5%", w: "54%" }, m: { x: "2%", b: "5%", w: "94%" } },
+    ],
+  },
+  {
+    label: "VI · Remembrance",
     title: "A bond remembered.",
     body: "The battle fades. The legend lives on.",
     pos: "top-left",
-    tint: "linear-gradient(to top, rgba(232, 120, 60, 0.26), rgba(232, 120, 60, 0) 70%)",
-    bg: "/images/story/pratap/sunset.webp",
+    tint: "rgba(232, 120, 60, 0.18)",
     layers: [
-      { src: "/images/story/pratap/dusk-hills.webp", alt: "", depth: 1, from: 0, d: { b: "20%", w: "100%" }, m: { b: "24%", w: "120%" } },
-      { src: "/images/story/pratap/chhatri.webp", alt: "A small memorial pavilion, with a stone horse memorial beside it", depth: 2, from: 1, d: { r: "12%", b: "24%", w: "32%" }, m: { r: "6%", b: "36%", w: "46%" } },
-      { src: "/images/story/pratap/bond.webp", alt: "Maharana Pratap and Chetak together, at rest", depth: 3, from: -1, d: { x: "8%", b: "0%", w: "30%" }, m: { x: "4%", b: "36%", w: "46%" } },
-      { src: "/images/story/pratap/rocks.webp", alt: "", depth: 3, from: 0, d: { b: "-3%", w: "100%" }, m: { b: "-3%", w: "100%" } },
+      { src: `${P}el-birds.webp`, alt: "", depth: 2, from: -1, plane: "sky", d: { r: "10%", b: "60%", w: "28%" }, m: { r: "4%", b: "60%", w: "50%" } },
+      { src: `${P}chhatri.webp`, alt: "A small memorial pavilion, with a stone horse memorial beside it", depth: 2, from: 1, fromY: -1, plane: "mid", d: { r: "10%", b: "9%", w: "32%" }, m: { r: "4%", b: "9%", w: "52%" } },
+      { src: `${P}bond.webp`, alt: "Maharana Pratap and Chetak together, at rest", depth: 3, from: -1, d: { x: "10%", b: "5%", w: "32%" }, m: { x: "6%", b: "5%", w: "52%" } },
     ],
   },
 ];

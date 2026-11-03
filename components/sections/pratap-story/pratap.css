@@ -1,15 +1,16 @@
-/* The Maharana Pratap and Chetak story. Every selector is prefixed ps- so nothing leaks into the site.
-   Motion is transform and opacity only. The fixed nav is 80px on desktop and 64px on a phone: nothing sits under it. */
+/* The Maharana Pratap and Chetak story: one painted world on one constant blue sky. Every selector is prefixed ps- so
+   nothing leaks into the site. The stage is sticky, not pinned, so the page scrolls normally and nothing traps it. Motion
+   is transform and opacity only. The fixed nav is 80px on desktop and 64px on a phone; the copy sits below it. */
 
 .ps-story {
   --ps-nav: 80px;
   --ps-indigo: #1b2150;
   --ps-deep: #0e1232;
   --ps-ivory: #f3ede2;
-  --ps-ivory-soft: rgba(243, 237, 226, 0.88);
+  --ps-ivory-soft: rgba(243, 237, 226, 0.9);
   --ps-gold: #f4cf7e;
   --ps-gold-line: rgba(227, 184, 96, 0.7);
-  --ps-gold-faint: rgba(227, 184, 96, 0.3);
+  --ps-panel: 0px;
   position: relative;
   isolation: isolate;
   background: var(--ps-deep);
@@ -20,37 +21,118 @@
 @media (max-width: 639px) {
   .ps-story {
     --ps-nav: 64px;
+    /* The foot of a phone stage is a solid panel for the words; the painted world takes the rest. */
+    --ps-panel: clamp(290px, 34%, 330px);
   }
 }
 
-/* The pinned stage: one viewport tall, with the painted sky behind every scene. */
-.ps-stage {
-  position: relative;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
-  isolation: isolate;
-  background: var(--ps-indigo);
+/* The scroll runway: ten steps of the stage's own height between the first moment and the last. */
+.ps-track {
+  height: calc(100svh + 10 * 92svh);
 }
 
-.ps-sky,
-.ps-bg {
+.ps-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.ps-sticky::after {
+  content: "";
   position: absolute;
-  inset: 0;
+  inset: 0 8px;
+  z-index: 15;
+  border: 2px solid #c99448;
+  box-shadow: inset 0 0 0 3px rgba(230, 177, 91, 0.38);
+  pointer-events: none;
+}
+
+.ps-frame {
+  position: relative;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: 50% 40%;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ps-still {
+  position: relative;
+  height: max(100svh, 640px);
+  border-bottom: 2px solid #c99448;
+}
+
+/* The one blue every moment sits on. It is never swapped, never faded and never tinted by a plate. */
+.ps-sky {
+  position: absolute;
+  inset: 0;
   z-index: 0;
+  background-color: #1e3a63;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 30%;
   pointer-events: none;
+}
+
+/* The painted world: everything the camera travels through. On a phone it stops above the word panel. */
+.ps-world {
+  position: absolute;
+  inset: 0 0 var(--ps-panel) 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* A band is a row of mirrored tiles that slides across the world at its own speed. */
+.ps-band {
+  position: absolute;
+  left: 0;
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.ps-tile {
+  flex: none;
+  height: 100%;
+  width: auto;
+  max-width: none;
   user-select: none;
 }
 
-.ps-bg {
-  opacity: 0;
+.ps-band--clouds {
+  top: 6%;
+  height: 24%;
+  z-index: 1;
+  opacity: 0.3;
 }
 
-/* Each painted layer is placed by its custom properties. Depth sets the z-order: far layers sit behind. */
+.ps-band--ridge-far {
+  bottom: 17%;
+  height: 36%;
+  z-index: 3;
+}
+
+.ps-band--ridge-near {
+  bottom: 14%;
+  height: 24%;
+  z-index: 4;
+}
+
+.ps-band--ground {
+  bottom: 0;
+  height: 21%;
+  z-index: 6;
+}
+
+.ps-band--fg {
+  bottom: 0;
+  height: 7%;
+  z-index: 9;
+}
+
+/* A figure or a piece of scenery of one moment, placed by its custom properties. The render function moves and fades it. */
 .ps-layer {
   position: absolute;
   left: var(--dx, auto);
@@ -59,10 +141,42 @@
   width: var(--dw, 40%);
   height: auto;
   max-width: none;
-  z-index: var(--z, 1);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 8;
   pointer-events: none;
   user-select: none;
   will-change: transform, opacity;
+}
+
+.ps-layer[data-scene="0"] {
+  opacity: var(--op, 1);
+  visibility: visible;
+}
+
+[data-motion="reduced"] .ps-layer {
+  opacity: var(--op, 1);
+  visibility: visible;
+}
+
+.ps-layer[data-plane="sky"] {
+  z-index: 2;
+}
+
+.ps-layer[data-plane="back"] {
+  z-index: 5;
+}
+
+.ps-layer[data-plane="mid"] {
+  z-index: 7;
+}
+
+.ps-layer[data-plane="hero"] {
+  z-index: 8;
+}
+
+.ps-layer[data-plane="front"] {
+  z-index: 10;
 }
 
 @media (max-width: 639px) {
@@ -74,15 +188,24 @@
   }
 }
 
-/* Scenes after the first start hidden, so the first paint shows only the opening scene. */
-.ps-stage .ps-layer[data-scene]:not([data-scene="0"]) {
+/* A flat wash of one moment's light over the whole world. */
+.ps-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 11;
   opacity: 0;
+  pointer-events: none;
 }
 
+[data-motion="full"] .ps-tint[data-scene="0"] {
+  opacity: 1;
+}
+
+/* Embers and dust drift over the whole stage. They belong to the screen, not to a moment. */
 .ps-drift-wrap {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 12;
   pointer-events: none;
 }
 
@@ -92,44 +215,50 @@
   display: block;
 }
 
-/* The gold frame of the miniature: a rule and a fainter rule inside it. */
-.ps-frame {
-  position: absolute;
-  inset: 12px;
-  z-index: 5;
-  border: 1px solid var(--ps-gold-line);
-  pointer-events: none;
+/* The solid word panel of a phone. */
+.ps-panel {
+  display: none;
 }
 
-.ps-frame::before {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid var(--ps-gold-faint);
+@media (max-width: 639px) {
+  .ps-panel {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--ps-panel);
+    z-index: 13;
+    background: var(--ps-deep);
+    border-top: 2px solid var(--ps-gold-line);
+  }
 }
 
-/* The copy: one page per scene, shown by data-active. Scenes alternate the side the copy sits on. */
+/* The copy: one page per moment, below the nav. Moments alternate the side the copy sits on. */
 .ps-page {
   position: absolute;
-  z-index: 6;
-  top: calc(var(--ps-nav) + 4vh);
+  z-index: 14;
+  top: calc(var(--ps-nav) + 3svh);
   width: min(30rem, 40vw);
+  text-shadow: 0 1px 14px rgba(8, 6, 20, 0.7);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+[data-motion="full"] .ps-page {
   opacity: 0;
-  visibility: hidden;
-  transform: translate3d(0, 14px, 0);
-  transition:
-    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0s linear 0.8s;
-  text-shadow: 0 1px 18px rgba(8, 6, 20, 0.6);
+}
+
+[data-motion="full"] .ps-page[data-scene="0"] {
+  opacity: 1;
 }
 
 .ps-page::before {
   content: "";
   position: absolute;
-  inset: -56px -80px -48px -56px;
+  inset: -48px -64px -40px -48px;
   z-index: -1;
-  background: radial-gradient(closest-side, rgba(12, 14, 38, 0.7), rgba(12, 14, 38, 0));
+  background: radial-gradient(closest-side, rgba(12, 14, 38, 0.42), rgba(12, 14, 38, 0));
 }
 
 .ps-page[data-pos="top-left"] {
@@ -139,16 +268,6 @@
 .ps-page[data-pos="top-right"] {
   right: clamp(24px, 6vw, 104px);
   text-align: right;
-}
-
-.ps-page[data-active="true"] {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  transition:
-    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0s;
 }
 
 .ps-label {
@@ -206,37 +325,35 @@
   opacity: 0.9;
 }
 
-/* The scene progress rule: scaled by the scroll, so it runs back as well as forward. */
+/* A slim progress rule at the foot of the stage (desktop). */
 .ps-rule-track {
   position: absolute;
+  z-index: 14;
   left: clamp(24px, 6vw, 104px);
   bottom: 28px;
-  z-index: 6;
-  width: min(14rem, 40vw);
-  height: 1px;
-  overflow: hidden;
-  background: var(--ps-gold-faint);
+  width: 140px;
+  height: 2px;
+  background: rgba(244, 207, 126, 0.25);
 }
 
 .ps-rule {
-  display: block;
   height: 100%;
   background: var(--ps-gold);
-  transform-origin: 0 50%;
+  transform-origin: left center;
   transform: scaleX(0);
 }
 
-/* A phone: the copy takes the foot of the frame, the painted figures stand above it. */
+/* A phone: the words take the solid panel at the foot; the painted world stands above it. */
 @media (max-width: 639px) {
-  .ps-page {
-    top: auto;
-    bottom: 92px;
-    left: 20px;
-    right: 20px;
-    width: auto;
-  }
-
+  .ps-page,
+  .ps-page[data-pos="top-left"],
   .ps-page[data-pos="top-right"] {
+    /* From the top of the panel down: the foot of the stage stays clear for the site's round menu button. */
+    top: calc(100% - var(--ps-panel) + 20px);
+    bottom: auto;
+    left: 22px;
+    right: 22px;
+    width: auto;
     text-align: left;
   }
 
@@ -245,111 +362,50 @@
   }
 
   .ps-page::before {
-    inset: -112px -20px -28px -20px;
-    background: linear-gradient(
-      to top,
-      rgba(12, 14, 38, 0.92) 0%,
-      rgba(12, 14, 38, 0.82) 55%,
-      rgba(12, 14, 38, 0) 100%
-    );
+    display: none;
+  }
+
+  .ps-page {
+    text-shadow: none;
+  }
+
+  .ps-page__count {
+    margin-bottom: 0.4rem;
+  }
+
+  .ps-label {
+    margin-bottom: 0.5rem;
   }
 
   .ps-page__title {
-    font-size: clamp(1.8rem, 8.5vw, 2.4rem);
+    font-size: clamp(1.55rem, 7.4vw, 2.1rem);
+    margin-bottom: 0.5rem;
   }
 
   .ps-page__body {
-    font-size: 0.96rem;
-    line-height: 1.5;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .ps-page__note {
+    margin-top: 0.6rem;
+    font-size: 0.66rem;
   }
 
   .ps-rule-track {
-    left: 20px;
-    bottom: auto;
-    top: calc(var(--ps-nav) + 12px);
-  }
-
-  .ps-frame {
-    inset: 8px;
+    display: none;
   }
 }
 
-/* Reduced motion: nothing is pinned and nothing moves. Each scene is a still painting with its copy under it. */
-.ps-still-list {
-  position: relative;
-}
-
-.ps-still {
-  position: relative;
-  padding: calc(var(--ps-nav) + 40px) clamp(24px, 6vw, 104px) 72px;
-  border-top: 1px solid var(--ps-gold-faint);
-}
-
-.ps-still:first-child {
-  border-top: 0;
-}
-
-.ps-still__art {
-  position: relative;
-  height: 64vh;
-  min-height: 360px;
-  overflow: hidden;
-  margin-bottom: 2.5rem;
-  background: var(--ps-indigo);
-}
-
-.ps-still .ps-bg {
+/* Reduced motion: each moment is its own still picture of the same world; the words are always shown. */
+[data-motion="reduced"] .ps-page {
   opacity: 1;
 }
 
-.ps-still .ps-layer {
-  opacity: var(--op, 1);
-}
-
-.ps-still .ps-page {
-  position: relative;
-  top: auto;
-  left: auto;
-  right: auto;
-  bottom: auto;
-  width: auto;
-  max-width: 36rem;
+[data-motion="reduced"] .ps-tint {
   opacity: 1;
-  visibility: visible;
-  transform: none;
-  transition: none;
-  text-align: left;
 }
 
-.ps-still .ps-page[data-pos] {
-  left: auto;
-  right: auto;
-}
-
-.ps-still .ps-page::before {
+[data-motion="reduced"] .ps-sticky::after {
   display: none;
-}
-
-.ps-still .ps-page__body {
-  margin-left: 0;
-}
-
-@media (max-width: 639px) {
-  .ps-still__art {
-    height: 58vh;
-  }
-}
-
-/* A colour wash for one moment. It sits above the painted layers and below the particles and the copy, and the
-   timeline fades it in and out with its moment. In the still (reduced-motion) list it is simply shown. */
-.ps-tint {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.ps-still .ps-tint {
-  opacity: 1;
 }
