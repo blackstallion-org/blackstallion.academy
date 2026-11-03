@@ -27,6 +27,9 @@ export const Opening = forwardRef<HTMLElement, { pinned: boolean; /** Inside ano
           voice={strideCopy.headline.voice}
         />
         <p className="mt-7 max-w-[30rem] text-[1.1rem] leading-[1.6] text-sand sm:text-[1.2rem]">{strideCopy.lede}</p>
+        <p className="mt-7 max-w-[30rem] text-[1.1rem] leading-[1.5] text-bone sm:text-[1.2rem]">
+          <span>{strideCopy.transition.first}</span> <span className="t-voice text-gold">{strideCopy.transition.second}</span>
+        </p>
         <p className="label mt-8 flex max-w-[26rem] items-start gap-4 text-dust">
           <span aria-hidden className="mt-[0.45em] h-px w-10 shrink-0 bg-brass/60" />
           <span>Four beats · about a hundred movements a minute · one horse, one rider</span>

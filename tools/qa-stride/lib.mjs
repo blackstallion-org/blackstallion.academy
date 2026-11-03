@@ -9,8 +9,8 @@ export const { chromium } = require("playwright-core");
 
 const CACHE = path.join(process.env.HOME, "Library/Caches/ms-playwright");
 export const BIN = {
-  shell: path.join(CACHE, "chromium_headless_shell-1248/chrome-headless-shell-mac-arm64/chrome-headless-shell"),
-  full: path.join(CACHE, "chromium-1248/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"),
+  shell: path.join(CACHE, "chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell"),
+  full: path.join(CACHE, "chromium-1208/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing"),
 };
 export const BASE = process.env.STRIDE_BASE || "http://localhost:3100";
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

@@ -8,6 +8,8 @@ import type { HotspotId } from "@/lib/stride/store";
 export const strideCopy = {
   headline: { inscription: "A hundred steps.", voice: "A minute." },
   lede: "At the walk, a horse's back moves the rider's pelvis about a hundred times a minute, much like a person walking. The rider's job is to move with it. This is how the two bodies keep time.",
+  /** The house doctrine, the same two sentences as the home hero: the transition from the academy into the study. */
+  transition: { first: "We do not teach children to ride.", second: "We forge them to lead." },
   scrollCue: "Scroll to follow one stride",
   honestNote:
     "The horse is the academy's 3D Marwari. Its walk is an authored animation, built from published stride data and not captured from a living horse, so every curve on this page is illustrative.",
