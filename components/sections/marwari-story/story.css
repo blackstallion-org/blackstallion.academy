@@ -68,29 +68,6 @@
   will-change: transform;
 }
 
-/* The 3D horse sits here, between the middle and foreground layers. Its canvas is moved in by MarwariHorse.ts. */
-.ms-horse-slot {
-  position: absolute;
-  left: 14%;
-  right: 14%;
-  top: 12%;
-  bottom: 16%;
-  pointer-events: none;
-}
-
-.ms-horse {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.ms-horse canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 .ms-smoke {
   position: absolute;
   opacity: 0;
@@ -291,7 +268,7 @@
   transform: scaleX(0);
 }
 
-/* A phone: the copy takes the foot of the frame and the horse stands above it. */
+/* A phone: the copy takes the foot of the frame, above the painted layers. */
 @media (max-width: 639px) {
   .ms-stage {
     perspective: 900px;
@@ -313,13 +290,6 @@
     line-height: 1.55;
   }
 
-  .ms-horse-slot {
-    left: 4%;
-    right: 4%;
-    top: 12%;
-    bottom: 40%;
-  }
-
   .ms-flag {
     height: 30vh;
   }
@@ -330,7 +300,7 @@
 }
 
 /* Reduced motion: nothing is pinned and nothing moves. The painted layers stand still, every page is shown in
-   order beneath them, and there is no horse and no dust. */
+   order beneath them, and there is no dust. */
 .ms-story[data-motion="reduced"] .ms-stage {
   height: auto;
   overflow: visible;
@@ -369,7 +339,6 @@
   margin-bottom: 2.6rem;
 }
 
-.ms-story[data-motion="reduced"] .ms-horse-slot,
 .ms-story[data-motion="reduced"] .ms-rule-track {
   display: none;
 }

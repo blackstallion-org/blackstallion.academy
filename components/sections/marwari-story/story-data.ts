@@ -28,17 +28,6 @@ export type LayerSpec = {
 export type SmokeSpec = { file: string; left: string; top: string; width: string };
 export type FlagSpec = { left: string; top: string; height: string };
 
-/**
- * The 3D horse. `yaw` turns the camera around the horse across the chapter, `head` turns the neck and head,
- * both scrubbed from the chapter's progress as [start, end]. `fadeIn` and `fadeOut` are fractions of the chapter.
- */
-export type HorseSpec = {
-  yaw: [number, number];
-  head: [number, number];
-  fadeIn: number;
-  fadeOut: number;
-};
-
 export type StoryChapter = {
   id: ChapterId;
   numeral: string;
@@ -46,7 +35,6 @@ export type StoryChapter = {
   art: { bg: string; mid?: LayerSpec; fg?: LayerSpec };
   smoke?: SmokeSpec;
   flag?: FlagSpec;
-  horse?: HorseSpec;
   pages: StoryPage[];
 };
 
@@ -94,7 +82,6 @@ export const CHAPTERS: StoryChapter[] = [
       mid: { file: "/images/story/marwari/cavalry-mid.webp", width: "100%", bottom: "10%", drift: [-4, 4] },
       fg: { file: "/images/story/marwari/cavalry-fg.webp", width: "100%", bottom: "0%" },
     },
-    horse: { yaw: [-0.22, 0.22], head: [-0.05, 0.16], fadeIn: 0.12, fadeOut: 0.1 },
     pages: [
       {
         title: "Riders in red and gold",
@@ -157,15 +144,14 @@ export const CHAPTERS: StoryChapter[] = [
       mid: { file: "/images/story/marwari/legacy-mid.webp", width: "100%", bottom: "24%", drift: [3, -3] },
       fg: { file: "/images/story/marwari/legacy-fg.webp", width: "100%", bottom: "0%" },
     },
-    horse: { yaw: [0.22, 0.02], head: [0.16, -0.04], fadeIn: 0.15, fadeOut: 0 },
     pages: [
       {
         title: "Registered since 2009",
         body: "The Marwari Horse Society has held government-authorised registration of the breed since 2009.",
       },
       {
-        title: "A model that breathes",
-        body: "The horse on these pages is a 3D model of a Marwari, rigged to breathe, turn its head and move its ears.",
+        title: "Still in the saddle",
+        body: "The breed and its discipline are taught at the academy today, on horses that carry the same traditions.",
       },
       {
         title: "What the ears still show",

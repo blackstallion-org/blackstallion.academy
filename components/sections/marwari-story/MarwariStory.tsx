@@ -2,50 +2,31 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { useLenis } from "lenis/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { asset } from "@/lib/content/asset";
-import { CHAPTERS, PAGE_TOTAL, firstPageNumber, type HorseSpec, type StoryChapter } from "./story-data";
+import { CHAPTERS, PAGE_TOTAL, firstPageNumber, type StoryChapter } from "./story-data";
 import { DriftCanvas } from "./DriftCanvas";
-import type { HorseDrive, HorseHandle } from "./MarwariHorse";
 import "./story.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const FLAG = "/images/story/marwari/flag.webp";
 
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
-/** Opacity of the horse across its chapter: fades in over the first `fadeIn` and out over the last `fadeOut`. */
-function fadeCurve(p: number, fadeIn: number, fadeOut: number): number {
-  const a = fadeIn > 0 ? Math.min(1, p / fadeIn) : 1;
-  const b = fadeOut > 0 ? Math.min(1, (1 - p) / fadeOut) : 1;
-  return Math.max(0, Math.min(a, b));
-}
-
-function applyHorse(drive: HorseDrive, spec: HorseSpec, p: number) {
-  drive.yaw = lerp(spec.yaw[0], spec.yaw[1], p);
-  drive.head = lerp(spec.head[0], spec.head[1], p);
-  drive.fade = fadeCurve(p, spec.fadeIn, spec.fadeOut);
-}
-
 /**
- * The Marwari cavalry story: four chapters, eighteen pages, each chapter a pinned section whose layers, camera and
- * horse are scrubbed by its scroll progress. Scrolling back runs the same timelines in reverse. The 3D horse is one
- * WebGL context, created when the cavalry chapter nears the screen and carried between the horse slots of the
- * cavalry and legacy chapters. Under reduced motion nothing is pinned and nothing moves: every page is shown in order,
- * over the painted layers, with no horse and no dust. The page switches by setting attributes, so scrolling never
- * re-renders React.
+ * The Marwari cavalry story: four chapters, eighteen pages, each chapter a pinned section whose layers and light are
+ * scrubbed by its scroll progress. Scrolling back runs the same timelines in reverse. Under reduced motion nothing is
+ * pinned and nothing moves: every page is shown in order over the painted layers, with no dust. The page switches by
+ * setting attributes, so scrolling never re-renders React.
  */
 export function MarwariStory() {
   const rootRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const lenis = useLenis();
-  const [drive] = useState<HorseDrive>(() => ({ yaw: 0, head: 0, fade: 0 }));
 
   // Lenis drives the native scroll; ScrollTrigger must hear every frame of it.
   useEffect(() => {
@@ -56,29 +37,6 @@ export function MarwariStory() {
   useEffect(() => {
     const root = rootRef.current;
     if (!root || reduced) return;
-
-    const state: { horse: HorseHandle | null; slot: HTMLElement | null; cancelled: boolean; loading: boolean } = {
-      horse: null,
-      slot: null,
-      cancelled: false,
-      loading: false,
-    };
-
-    // three.js is loaded only when the cavalry chapter is about to show, in its own chunk.
-    const loadHorse = () => {
-      if (state.loading) return;
-      state.loading = true;
-      import("./MarwariHorse")
-        .then(({ createMarwariHorse }) => {
-          if (state.cancelled) return;
-          const mobile = window.matchMedia("(max-width: 639px)").matches;
-          state.horse = createMarwariHorse({ mobile }, drive);
-          if (state.horse && state.slot) state.horse.moveTo(state.slot);
-        })
-        .catch(() => {
-          /* the chapters read without the horse */
-        });
-    };
 
     const ctx = gsap.context(() => {
       CHAPTERS.forEach((chapter: StoryChapter) => {
@@ -94,7 +52,6 @@ export function MarwariStory() {
         const smoke = section.querySelector<HTMLElement>(".ms-smoke");
         const flag = section.querySelector<HTMLElement>(".ms-flag");
         const light = section.querySelector<HTMLElement>(".ms-light");
-        const slot = section.querySelector<HTMLElement>(".ms-horse-slot");
         if (!stage || !scene || pages.length === 0) return;
 
         // Flat painting to dimensional scene: the background recedes, the foreground comes forward, the middle drifts,
@@ -129,43 +86,20 @@ export function MarwariStory() {
               pages.forEach((el, i) => el.setAttribute("data-active", i === idx ? "true" : "false"));
             }
             if (rule) rule.style.transform = `scaleX(${p})`;
-            if (chapter.horse) applyHorse(drive, chapter.horse, p);
-          },
-          onToggle: (self) => {
-            if (self.isActive && slot) {
-              state.slot = slot;
-              state.horse?.moveTo(slot);
-            }
           },
         });
       });
     }, root);
-
-    const lazy = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          loadHorse();
-          lazy.disconnect();
-        }
-      },
-      { rootMargin: "120% 0px" },
-    );
-    const cavalry = root.querySelector('[data-chapter="cavalry"]');
-    if (cavalry) lazy.observe(cavalry);
 
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener("load", refresh);
     void document.fonts?.ready.then(refresh);
 
     return () => {
-      state.cancelled = true;
-      lazy.disconnect();
       window.removeEventListener("load", refresh);
-      state.horse?.dispose();
-      state.horse = null;
       ctx.revert();
     };
-  }, [reduced, drive]);
+  }, [reduced]);
 
   const motion = reduced ? "reduced" : "full";
 
@@ -195,7 +129,6 @@ function ChapterView({ chapter, index, reduced }: { chapter: StoryChapter; index
               style={{ width: art.mid.width, bottom: art.mid.bottom }}
             />
           )}
-          {chapter.horse && <div className="ms-horse-slot" />}
           {art.fg && (
             <img
               className="ms-layer ms-fg"
