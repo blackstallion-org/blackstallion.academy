@@ -362,3 +362,36 @@
 .ms-story[data-motion="reduced"] .ms-frame {
   display: none;
 }
+
+/* The legacy scroll: a plain section after the pinned chapters. Its ground is the scroll's own flat blue, so the painting
+   sits on one continuous blue with no seam. A short fade at the top carries the chapters' indigo into that blue. */
+.ms-legacy {
+  --ms-legacy-blue: #1b3957;
+  position: relative;
+  background: var(--ms-legacy-blue);
+  padding: clamp(56px, 9vw, 120px) 16px clamp(72px, 10vw, 140px);
+}
+
+.ms-legacy::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, var(--ms-indigo-deep), rgba(27, 57, 87, 0));
+  pointer-events: none;
+}
+
+.ms-legacy__figure {
+  position: relative;
+  margin: 0 auto;
+  max-width: 724px;
+}
+
+.ms-legacy__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 30px 80px rgba(5, 10, 25, 0.45);
+}

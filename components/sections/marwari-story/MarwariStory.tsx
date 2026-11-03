@@ -11,6 +11,7 @@ import { useReducedMotion } from "@/lib/motion/reduced";
 import { asset } from "@/lib/content/asset";
 import { CHAPTERS, PAGE_TOTAL, firstPageNumber, type StoryChapter } from "./story-data";
 import { DriftCanvas } from "./DriftCanvas";
+import { LegacyScroll } from "./LegacyScroll";
 import "./story.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -109,6 +110,7 @@ export function MarwariStory() {
       {CHAPTERS.map((chapter, index) => (
         <ChapterView key={chapter.id} chapter={chapter} index={index} reduced={reduced} />
       ))}
+      <LegacyScroll />
     </div>
   );
 }
