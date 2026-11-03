@@ -9,12 +9,9 @@ export const asciiChild = {
 };
 
 export const cadetOpening = {
-  label: "The lane opens",
-  title: "Earn the lane.",
-  hint: "Scroll",
-  inscription: "The lane",
-  voice: "opens in front of you.",
-  body: "Every cadet's progression ends in the same place: a lane, a lance and a wooden peg. It starts with the first lesson, and the hours are written in the passport as they are earned.",
+  label: "Our doctrine",
+  inscription: "We do not teach children to ride.",
+  voice: "We forge them to lead.",
 };
 
 export const morningCurtain = {
