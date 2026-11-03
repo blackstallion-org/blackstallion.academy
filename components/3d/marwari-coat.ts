@@ -165,6 +165,9 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
           float band = smoothstep(0.09, 0.13, vRest.y) * (1.0 - smoothstep(0.27, 0.33, vRest.y));
           normal = normalize(mix(normal, nonPerturbedNormal, clamp(0.35 + 0.6 * band, 0.0, 0.9))); // the baked normal map is blotchy at body scale: take a third of it out
           normal = normalize(mix(normal, nonPerturbedNormal, earK)); // thin cartilage: no scan crinkles
+          // the face: the scan's two halves meet along a diagonal crease that the baked normal map carries down the blaze's edge as a dark line; the face keeps only the fur micro-grain below
+          float headK = smoothstep(1.62, 1.70, vRest.y) * smoothstep(0.90, 1.00, vRest.z);
+          normal = normalize(mix(normal, nonPerturbedNormal, 0.85 * headK));
           // hair-scale fibres running along the coat; fades out once a pixel is wider than a fibre (about 1.6 mm across)
           float pix = length(dFdx(vRest)) + length(dFdy(vRest));
           float fade = 1.0 - smoothstep(0.0007, 0.0018, pix);
