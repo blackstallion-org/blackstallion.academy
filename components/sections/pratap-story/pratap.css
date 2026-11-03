@@ -1,0 +1,341 @@
+/* The Maharana Pratap and Chetak story. Every selector is prefixed ps- so nothing leaks into the site.
+   Motion is transform and opacity only. The fixed nav is 80px on desktop and 64px on a phone: nothing sits under it. */
+
+.ps-story {
+  --ps-nav: 80px;
+  --ps-indigo: #1b2150;
+  --ps-deep: #0e1232;
+  --ps-ivory: #f3ede2;
+  --ps-ivory-soft: rgba(243, 237, 226, 0.88);
+  --ps-gold: #f4cf7e;
+  --ps-gold-line: rgba(227, 184, 96, 0.7);
+  --ps-gold-faint: rgba(227, 184, 96, 0.3);
+  position: relative;
+  isolation: isolate;
+  background: var(--ps-deep);
+  color: var(--ps-ivory);
+  overflow-x: clip;
+}
+
+@media (max-width: 639px) {
+  .ps-story {
+    --ps-nav: 64px;
+  }
+}
+
+/* The pinned stage: one viewport tall, with the painted sky behind every scene. */
+.ps-stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ps-indigo);
+}
+
+.ps-sky,
+.ps-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ps-bg {
+  opacity: 0;
+}
+
+/* Each painted layer is placed by its custom properties. Depth sets the z-order: far layers sit behind. */
+.ps-layer {
+  position: absolute;
+  left: var(--dx, auto);
+  right: var(--dr, auto);
+  bottom: var(--db, 0);
+  width: var(--dw, 40%);
+  height: auto;
+  max-width: none;
+  z-index: var(--z, 1);
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 639px) {
+  .ps-layer {
+    left: var(--mx, var(--dx, auto));
+    right: var(--mr, var(--dr, auto));
+    bottom: var(--mb, var(--db, 0));
+    width: var(--mw, var(--dw, 40%));
+  }
+}
+
+/* Scenes after the first start hidden, so the first paint shows only the opening scene. */
+.ps-stage .ps-layer[data-scene]:not([data-scene="0"]) {
+  opacity: 0;
+}
+
+.ps-drift-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.ps-drift-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* The gold frame of the miniature: a rule and a fainter rule inside it. */
+.ps-frame {
+  position: absolute;
+  inset: 12px;
+  z-index: 5;
+  border: 1px solid var(--ps-gold-line);
+  pointer-events: none;
+}
+
+.ps-frame::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--ps-gold-faint);
+}
+
+/* The copy: one page per scene, shown by data-active. Scenes alternate the side the copy sits on. */
+.ps-page {
+  position: absolute;
+  z-index: 6;
+  top: calc(var(--ps-nav) + 4vh);
+  width: min(30rem, 40vw);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.8s;
+  text-shadow: 0 1px 18px rgba(8, 6, 20, 0.6);
+}
+
+.ps-page::before {
+  content: "";
+  position: absolute;
+  inset: -56px -80px -48px -56px;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(12, 14, 38, 0.7), rgba(12, 14, 38, 0));
+}
+
+.ps-page[data-pos="top-left"] {
+  left: clamp(24px, 6vw, 104px);
+}
+
+.ps-page[data-pos="top-right"] {
+  right: clamp(24px, 6vw, 104px);
+  text-align: right;
+}
+
+.ps-page[data-active="true"] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s;
+}
+
+.ps-label {
+  margin: 0 0 1rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--ps-gold);
+}
+
+.ps-page__count {
+  margin: 0 0 0.8rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--ps-gold);
+  opacity: 0.85;
+}
+
+.ps-page__title {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ps-ivory);
+  text-wrap: balance;
+}
+
+.ps-page__body {
+  margin: 0;
+  max-width: 30rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.15vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--ps-ivory-soft);
+  text-wrap: pretty;
+}
+
+.ps-page[data-pos="top-right"] .ps-page__body {
+  margin-left: auto;
+}
+
+.ps-page__note {
+  margin: 1rem 0 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  color: var(--ps-gold);
+  opacity: 0.9;
+}
+
+/* The scene progress rule: scaled by the scroll, so it runs back as well as forward. */
+.ps-rule-track {
+  position: absolute;
+  left: clamp(24px, 6vw, 104px);
+  bottom: 28px;
+  z-index: 6;
+  width: min(14rem, 40vw);
+  height: 1px;
+  overflow: hidden;
+  background: var(--ps-gold-faint);
+}
+
+.ps-rule {
+  display: block;
+  height: 100%;
+  background: var(--ps-gold);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+/* A phone: the copy takes the foot of the frame, the painted figures stand above it. */
+@media (max-width: 639px) {
+  .ps-page {
+    top: auto;
+    bottom: 92px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+  }
+
+  .ps-page[data-pos="top-right"] {
+    text-align: left;
+  }
+
+  .ps-page[data-pos="top-right"] .ps-page__body {
+    margin-left: 0;
+  }
+
+  .ps-page::before {
+    inset: -112px -20px -28px -20px;
+    background: linear-gradient(
+      to top,
+      rgba(12, 14, 38, 0.92) 0%,
+      rgba(12, 14, 38, 0.82) 55%,
+      rgba(12, 14, 38, 0) 100%
+    );
+  }
+
+  .ps-page__title {
+    font-size: clamp(1.8rem, 8.5vw, 2.4rem);
+  }
+
+  .ps-page__body {
+    font-size: 0.96rem;
+    line-height: 1.5;
+  }
+
+  .ps-rule-track {
+    left: 20px;
+    bottom: auto;
+    top: calc(var(--ps-nav) + 12px);
+  }
+
+  .ps-frame {
+    inset: 8px;
+  }
+}
+
+/* Reduced motion: nothing is pinned and nothing moves. Each scene is a still painting with its copy under it. */
+.ps-still-list {
+  position: relative;
+}
+
+.ps-still {
+  position: relative;
+  padding: calc(var(--ps-nav) + 40px) clamp(24px, 6vw, 104px) 72px;
+  border-top: 1px solid var(--ps-gold-faint);
+}
+
+.ps-still:first-child {
+  border-top: 0;
+}
+
+.ps-still__art {
+  position: relative;
+  height: 64vh;
+  min-height: 360px;
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  background: var(--ps-indigo);
+}
+
+.ps-still .ps-bg {
+  opacity: 1;
+}
+
+.ps-still .ps-layer {
+  opacity: var(--op, 1);
+}
+
+.ps-still .ps-page {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: auto;
+  max-width: 36rem;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: none;
+  text-align: left;
+}
+
+.ps-still .ps-page[data-pos] {
+  left: auto;
+  right: auto;
+}
+
+.ps-still .ps-page::before {
+  display: none;
+}
+
+.ps-still .ps-page__body {
+  margin-left: 0;
+}
+
+@media (max-width: 639px) {
+  .ps-still__art {
+    height: 58vh;
+  }
+}

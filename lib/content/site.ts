@@ -41,7 +41,8 @@ export const reels: Reel[] = [
   { n: 14, href: "/command", act: "ledger", title: "The Command", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
   { n: 15, href: "/journal", act: "ledger", title: "The Chronicle", inscription: "Stories", voice: "from the stable.", blurb: "Legends, science and the circuit.", image: "journalReins" },
   { n: 16, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
-  { n: 17, href: "/story/marwari", act: "ledger", title: "The Cavalry Story", inscription: "Eighteen pages,", voice: "one miniature.", blurb: "The Marwari cavalry, told as a scroll over a Rajasthani painting.", image: "duneSilhouette" },
+  { n: 17, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Nine scenes: the Aravalli hills, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
+  { n: 18, href: "/story/marwari", act: "ledger", title: "The Cavalry Story", inscription: "Eighteen pages,", voice: "one miniature.", blurb: "The Marwari cavalry, told as a scroll over a Rajasthani painting.", image: "duneSilhouette" },
 ];
 
 export const TOTAL_REELS = reels.length;
