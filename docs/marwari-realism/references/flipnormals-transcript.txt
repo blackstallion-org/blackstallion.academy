@@ -1,0 +1,894 @@
+0:00
+foreign Morton from flip normals here and in
+0:06
+today's video we're gonna go through the workflow for creating this character start to finish we're going to go
+0:13
+through all the various steps using uh blender C brush and substance painter
+0:18
+and how you can go from sculpting the character texture painting him and going into blender for the final render
+0:26
+now before we get into the actual practical video we highly recommend you check out our latest masterclass called
+0:33
+realistic character portrait masterclass where we do go through in real time how to create this character start to finish
+0:39
+the master class is over 21 hours long and really shows you everything from the
+0:45
+first brush stroke to creating all the textures in Painter with the pole gym blender to the final lighting and
+0:52
+rendering in blender with some post work in Photoshop so if you are interested in that I highly recommend you check out
+0:58
+that masterclass so starting off the workflow part of this video the first step when I create
+1:04
+any character is that I start off in either blender or Maya or any other software I'm using and I'm starting off
+1:12
+with something very simple like this at least when I'm sculpting something from scratch something more creative and as
+1:18
+you can see this is just a box with some extrusions and just like even topology like this and the reason for this is to
+1:24
+start now we have established the position of the character in terms of where he is in Space the scale and also
+1:30
+the orientation so if we were to go into the front view now you know that he is indeed facing the front which is really
+1:36
+important this is a step that's easy to miss because you just want to get into the sculpting but now suddenly the scale
+1:41
+and orientation is all off this is something that you see often if you for example start with a sphere in zbrush
+1:48
+sculpting wise then you're going to have to adjust this later on so doing this just saves you some time so jumping into
+1:54
+zbrush we've now turned our little sphere into a pretty rough scope this is
+1:59
+really like first step of the sculpting and whenever I'm sculpting I'm focusing
+2:04
+on two parts of the character the first one is the anatomy you have to make sure
+2:09
+the anatomy is at least in a decent stage before we proceed you know it doesn't have to be perfect not every
+2:15
+single bone and muscle has to be in it but it will have to feel like it's a credible sculpt like it actually belongs
+2:22
+in this world and that's what we're focusing on now we are of course thinking about the overall characteristics of the character as well
+2:28
+in terms of his General proportions and and all that and we are also using you
+2:34
+know in the full master class we're using image planes and I'm very much lining things up to image planes at this
+2:40
+point but still mostly focusing on the overall anatomy and then we are moving
+2:45
+on to the design phase now once Anatomy is working then you have to really make
+2:51
+sure that the design is on point I find it helpful to separate it into the the two faces into anatomy and design
+2:57
+because it means that it's easier to troubleshoot what's going on if something isn't working your
+3:02
+sculpt you can now go in and think about the different different stages Anatomy okay cool are the bones in the right
+3:07
+spot if yes are the muscles in the right spot if yes are is the fat and the muscles and are those in the right spot
+3:13
+and you can just troubleshoot those and if all of those are in a fairly decent stage then you can go in and you can
+3:19
+focus on the the sign where which means that are the shapes nice and clean it's
+3:26
+a surface solid it's the silhouette appealing are you deliberate about the shapes being straight to Curves all
+3:33
+these kind of things are really useful when it comes to that and that's what we're focusing on at this stage really
+3:38
+just making sure the design is working you see the difference between these two this feels more like you're just a dude uh where you know it's still some design
+3:45
+but here it feels more like the final character we're then moving on to just refining the design as well where we are
+3:52
+getting in more of his personality getting his thin lips getting more in or getting in the eyes and getting in like
+3:58
+a lot of the indication of the mid frequency and also we're getting in the horns as well it's really important when
+4:05
+you're designing anything that you get to a I would say like 30 40 mark pretty
+4:10
+early on where you you get all elements in there you don't want the head to be
+4:16
+perfect all the pores all the mid frequency while you're missing important details like like the horns or you know
+4:23
+if you had a body you would need to get everything in there like the ears as well a big mistake is to forget these
+4:28
+kind of things and the reason is you can't you really can't evaluate the design until you have everything there I
+4:34
+think it's important to note as well that the very first stage the sort of rough blocking Anatomy stage is where a
+4:42
+lot of the character you know what going what's going forward is going to come from that's where we sort of figure out
+4:47
+the proportions and and where everything should go all the refinement stages you
+4:53
+know visually they start to it starts to look like less and less happens because so much of is inferred from the very
+5:00
+very first stage show it's important to take your time um at that very first first stage it's
+5:05
+really interesting without actually because the difference between this stage and this stage there might be like two to three hours of sculpting but
+5:13
+you can't see it that much obviously the character looks better but Theodore are just diminishing returns along along the
+5:20
+way yeah and especially some of the later stages as well right where maybe you'll spend five hours doing just a lot
+5:27
+of wrinkles and pores and you know if you zoom out a little bit you might not even be able to tell exactly what
+5:33
+happened but it really just completes the character yeah you can feel them
+5:38
+what's important at this stage as well is you know now we're going through all the various stages this at this stage
+5:44
+the character design is resolved it's not a done character role but in terms of design everything is where it's
+5:50
+supposed to be you know the ears are shaped in a proper way the horns are where it's supposed to be the silhouette is not going to change at this point and
+5:56
+this is really important because after this stage we are starting our retopology and whenever you do read
+6:02
+topology you do not want to decide anything read apology is purely a technical stage where you are just
+6:08
+basically re-meshing whatever is here so then it's more animation friendly you really should not decide anything so at
+6:16
+this stage I'm very careful about the mesh being in a good spot like you can see here the the
+6:21
+um ears are not just like potato ears like you know they're they're probably going into it it's very easy to go in
+6:28
+and just making sure that this here is just it's just like one shape like this but that's going to really cause issues
+6:35
+because once you get into the subsurface part and and the lighting is shading all
+6:40
+that this is going to not respond as it should meaning already at this stage
+6:45
+we've kind of started taking shading into account how you model becomes very
+6:51
+important later on when it comes to shading so before we topologize the
+6:56
+model just needs to be in a good spot though that said it shouldn't be in a final spot like you shouldn't have all
+7:01
+the pores and wrinkles and everything because we are going to reproject this onto the read apologize version and some
+7:08
+areas are going to mess up so just be aware of that it's mostly going to be the bigger shapes that really you know
+7:17
+especially from this distance create variation in the surface
+7:22
+something like pores is like that's micro detail right it helps bring the realism into the character but it
+7:29
+doesn't actually really deform the surface to the same extent that wrinkles do so once we have our sculpt to the
+7:36
+level where all the shapes are in there we're gonna start to re-topologize our character this is done entirely without
+7:42
+any any add-ons or anything like that though I do recommend add-ons like retopa flow just just anything that
+7:49
+speeds up with apology one of the issues with blender as you can see like it becomes a bit hard to see what's on the back and there isn't really a good way
+7:56
+of doing that without add-ons but honestly for re-topoliating a head vanilla blender is perfectly fine that's
+8:01
+also what we're doing in the master class we're not using any add-ons for this whatsoever My Philosophy when it
+8:06
+comes to Red apologizing is work from General to specific this is the same thing as when it comes to sculpting as
+8:13
+well this I think this is really important because it's really easy to just go into like the eye and just
+8:18
+finish up the eye and finish up the nose and finish up the mouth and then you then you try to connect things up here you can see that we already thinking
+8:24
+about how things connect up like here you can see this connects here and this connects here and you can connect these
+8:29
+kind of things up and it's not that hard to to do that it just means that it's if you have good
+8:35
+Loops in the right spots connecting things up is honestly quite simple and this is how we get started we start
+8:42
+basically this with like a single polygon and we can just extrude this around across the surface and using
+8:49
+shrink wrap and mirroring as well so you can really just see the whole character at the same time though shrink wrap is
+8:54
+enabled or the mirrors is disabled in the edit mode so you you won't get confused by that so this is a fantastic
+9:02
+way of working you just block it out one area at a time and then you can start to
+9:07
+connect it up you're really going to be doing yourself a favor by keeping it simple for as long as
+9:14
+possible well not as long as possible but until you've mapped out the entire face it goes for anything really if it's
+9:20
+a full character or body or face if you start out super complicated uh solving
+9:27
+the puzzle that is red topology because it is a puzzle is so much harder especially later down the line when you
+9:35
+try to get everything to to fit together nicely you know resolution comes from subdivision you can always subdivide
+9:41
+your mesh once you have the general Loops in there you can see just here how quick it is to
+9:46
+actually block things out once you have a good foundation for it and then we are continuing our re-topology journey where
+9:52
+we are just adding more Loops we're continuing kind of what I just did now where we're just bridging things together and just trying to get coverage
+10:00
+over the whole thing this is really important right it but it is like like more saying it is a puzzle which means
+10:06
+that you can see for instance up here we we definitely have n Go to this point we can't have n-gons at the end and this is
+10:11
+not due to some kind of like philosophical reason it's just that c brush flatter Rejects and guns is going to convert into triangles but what you
+10:17
+can see is like it means that we we know how to solve this area but we don't we don't necessarily know how to solve the
+10:23
+back of this so in that case we just kind of making his main guns here and the cool thing is once you have one end
+10:29
+gone it becomes easier tooth or once you have two angles it becomes easy to connect them up
+10:34
+so this is the stage uh well this is the root apology at this stage and then we are going in and just finalizing it
+10:40
+there's nothing magical happening between these steps we're just going through and just adding more resolution
+10:45
+to it making sure everything is nice and even obviously fixing n-gons which are up here as well and also in this case
+10:53
+it's kind of a cool pattern you can see this that if you want to um if you want to simplify something you can very
+10:59
+easily do that by instead of all these going all the way down they're just going down here going like so and then
+11:05
+this is the pattern you're seeing and you're seeing this over and over and over again this is a really effective
+11:10
+pattern for reducing the the polygon so we are just going over and just doing all of the
+11:18
+areas we have a whole chapter dedicated in the monster class to the ears as well because my God ears are some tricky
+11:25
+little guys to get right it's just this is a hard area to do just due to how thin everything is and how small
+11:31
+everything is and you can see something you often have to do with the ears is you'll have to terminate loops maybe
+11:37
+inside the ear canal or behind the ear just to make sure that the resolution
+11:43
+actually matches up with the rest of the head because we don't usually have that much resolution for the head the back or
+11:50
+the inside ears this is what I refer to where polygons go to die because you're really not going to see any of this in
+11:56
+in the final one and it's really not going to do a whole lot so yeah I use this you can even see a triangle here as
+12:02
+well where actually a full triangle so we're just trying to avoid areas like
+12:08
+this like areas like this they should be really nice and clean and areas like this they they can use you can use NOS
+12:15
+to jump through here so yeah this is uh these are the horns done as well this is done just with a um a simple cylinder
+12:21
+and just shrink wrap to this as well and then we are jumping back into cbrush
+12:26
+again and this is where we now have a model which has all the nice topology
+12:32
+and it's just a properly done model and then we have the old model as well and what you can see here is our projected
+12:39
+this guy onto this guy so they look the same but under the hood they're not they look almost the same there's a little
+12:44
+bit of changes here and there but in general it's pretty much the same while we were sculpting as well we did a Sierra meshing pass on the model this
+12:52
+just means we have Auto topology over the whole thing now this looks cool but it's not functional topology in terms of
+12:58
+the information you can see here around the mouth as well it doesn't really it doesn't really wrap around it the eyes
+13:03
+are really problematic and this is where read topology is a fantastic tool because now we can go into the read
+13:08
+apologize version go all over the bottom and now you can see how much nicer this actually looks so this is where my
+13:14
+little tips as well hit Ctrl W just to create a whole polar group this is where you can see that this just wraps around the whole thing and by reprojecting it
+13:22
+you can now really just get the best of both worlds you get the shape from the old one get all the nice little details
+13:28
+all the mid frequency but with the topology of the new one a little tip as well this is something that they introduced fairly recently in Sea Rush
+13:35
+this is called history projection so if you go under subtools and then you go to Project there's a little guy here called
+13:42
+history project and in in in short the way it works you just go up into the old one you control click on the timeline up
+13:49
+here weird zebra ux I know and then you have history project and now you can just do that and this just projects from
+13:54
+the exact same point here onto this one and this I find this this projection type to be better than the traditional
+14:00
+projection type just a little tip for you there what you also notice is that the UVS aren't done
+14:06
+at this stage so we did our rig topology then we reprojected it and the use are not done uh we're doing that after
+14:13
+reproduction you know you don't have to but I prefer to do it afterwards because now it means that the UVS are going to
+14:19
+match perfectly with the actual mesh whenever you reproject something you
+14:25
+might have some stretching of polygons and some re-sculpting of certain areas and by doing the use afterwards you
+14:32
+ensure that if there is stretching in those areas you're not going to get UV stretching this will just um the model
+14:38
+will just be the same as the UVs and with that said we're going to jump
+14:44
+into blender and we'll show you the overall UVS so here are the final UVS we
+14:49
+have in blender the method for this is very simple honestly the the UV tools
+14:55
+and blender are pretty lacking in my opinion and the way I'm using the blender for UV says I'm selecting seams
+15:01
+using just you know Sim selection like selecting an edge here and then just selecting a selecting a seam like this
+15:08
+Mark seam I have some quick favorites and then I'm just exporting this as an object into C brush then we're using UV
+15:15
+master in C brush even Master is fantastic because it gives you really nice and symmetrical UVS but also it
+15:20
+just unfolds in a beautiful way you might have to go a bit back and forth though between the two software just to
+15:26
+really figure out the exact same placement and the advantage of this is you can really see we get nice and clean
+15:32
+UVS this way I really did I really do wish that the UVS in blender were were better the
+15:39
+usuals were better uh the unfolding is just unfortunately lacking but with the trusted UV master and cbrush we we can
+15:46
+really get nice and clean UVs in blender nevertheless and what you can see here as well is we're using udems so
+15:52
+we have four udems in total and this just means that each one of these udems is one texture map if you if you want to
+16:00
+have more resolution on your model you really or in textures you really have to split the model out into items like this
+16:06
+because otherwise you're gonna have to just make this whole thing like 16k or 32k and just keep oppressing that and
+16:12
+that's just not viable so just blocking it out like this where this is one texture map this is one texture map this
+16:19
+is just a great way of working both in terms of performance in in like painter and blender but also in terms like how
+16:26
+you can get final like nice final resolution I mean it's like just a few years ago the whole udem thing was it
+16:34
+was something pretty much I mean we used it on film a lot uh the tools weren't
+16:39
+really there for all software but nowadays everything is just updated and optimized for udem so really there's no
+16:46
+reason not to use it it makes your models and your texture is a lot easier to work with
+16:51
+and then once our UVS are done we are importing these into zbrush again and now we are just putting on some
+16:57
+headphones and just sculpting this is where you just have to just refine the model you can see here how much nicer
+17:03
+the forehead is how much nicer the horns are and overall how much more refinement there is in certain areas like if you're
+17:09
+looking below the mouth as well this just takes time and this is just labor and this is where having spent proper
+17:15
+time on the concept sculpting earlier that's really going to pay off and also having done nice topologies New Years as
+17:21
+well is also really going to help us and then it's time for the final refinement of the model this is where
+17:28
+we're going in and just adding pores everywhere we're using the flip nose face kit for this where you have a lot
+17:35
+of really cool face Alphas there are two products as you have the the skin kit which is great for General Skin and then
+17:40
+we have the face kit for specific face textures like this so we're just going
+17:46
+in and just really just Plastering this all over place this is actually just 15 million pulleys what you're seeing on
+17:51
+screen now and it's quite detailed the full one is 64 million polygons though we're not going to show that due to
+17:57
+zebra's going a little bit crazy and with video recording at the same time so this just means that we can now get really in like really detailed in
+18:04
+seabrush when it comes to all the pores and the skin breakup and all that now a
+18:10
+quick discussion regarding should you do this in zbrush or in texturing like Mari or painter
+18:16
+it's it's really up to you pros and cons the advantage of doing this in seabrush is this very direct you can just plaster
+18:22
+this all over the model and you can you can interact with directly you can integrate nicely with the frequencies
+18:29
+already there and it would look really good at the end the disadvantage is obviously that you need a crap ton of
+18:34
+polygons performance goes crazy and you really can't add more resolution than this deck you can't go once one subdiv
+18:40
+higher than this because then you're at really like danger zone territory the advantage of doing this in painter is
+18:47
+that it's much more procedural you can change the model up and the the textures aren't really changing so you it's more
+18:54
+production friendly to do this in painter but here we just thought it was a cool idea to do this directly in zbrush because you really do control
+19:01
+everything yeah the C brush method is destructive but by no means any worse
+19:08
+where you can run into trouble though is if you already have an insanely high-res
+19:13
+model where it just isn't feasible to add more solution you're you're forced to to do it in in textures instead of
+19:21
+you know doing it directly on the model yeah if you were to go this close up on a model which you definitely have in
+19:27
+certain films this is just not viable because you have to split it up an infinite one times which just would be
+19:33
+impossible to do you can also do a bit of both as well you can do take it to this level and then you know if you want
+19:38
+even more frequency then you can do this with procedurals in something like painter or Mari and speaking of painter
+19:43
+we are now jumping into the texturing part this is where we are just
+19:49
+methodically building up the color map step by step I'm just going to stable
+19:54
+the symmetry line here or really symmetry in general and here you can just see how we're starting out in the
+20:00
+whole course and my workflow in general I prefer to hand paint as much as possible you can of course project things on top as well but by hand
+20:06
+painting you control it fully you can of course do a mix as well or maybe you start off hand painting and then you do
+20:12
+you do a projections on top but in this case it's fully hand painted and really how it works is it's quite simple we
+20:19
+have a base color or just a base filler and in this one it just has has a color
+20:24
+like here and it's only only has the color slot as well the only color Channel and you can change this up as much as you want to this is a real
+20:30
+advantage of this so This method is very non-destructive and then we're making a layer called red it's called red because
+20:36
+it has red color in it and this is where we're just straight up just painting in the the details here so
+20:44
+it was going to look like this if we look at the actual mask and in the master it's just a simple paint layer as
+20:50
+well so very nice and simple we're just using some of the the brushes are ships with painter
+20:55
+like some of the Dust brushes and dirt brushes and um there was one called dots erased as well which is fantastic are
+21:02
+really use this for this and this is great just for for getting some quick color variation and some quick breakup
+21:08
+in certain areas and this is everything you're seeing now is just one layer so you can get a lot of variation in using
+21:14
+Justice and then we're going to keep working on our color map and if we just expand our layer palette here you can
+21:21
+see that we have a lot more layers and let's just go through some of this so we we have a the same layers before just a
+21:27
+bit more refined and then we're just going to be adding a few more colors to this this is where I prefer to add a bit
+21:33
+more yellow or not just a bit more actually adding yellow adding a bit of blue to it you can see the variation here I know one called redder it's
+21:40
+called redder because it's well same just a bit more saturated as before this allows me to just really just get in
+21:45
+here and break up the skin and get some more of like slightly rosy cheeks and a bit more red around his ears as well so
+21:51
+this one becomes very important and then we're just going in and playing a bit of a value use as well really just going in
+21:57
+and like like almost adding fake ambient occlusion you want to be careful with that you don't want to be careful with ambient evolution in general and
+22:03
+curvature maps and all that and reason is because it's not it's not really necessarily there in like in the
+22:10
+character I mean inclusion isn't the real thing it's just stuff that's closer together gets darker and that's not necessarily something we want in our
+22:16
+character so up until this point we we've hand painted everything and honestly this just takes a few hours this is not just
+22:23
+like a quick process you just bash out some stuff you have to be methodical about this but often this point is all
+22:28
+hand painted and now we're going to introduce procedurals and procedurals are insanely powerful they allow you to
+22:34
+get a lot of variation really quickly but like with sculpting you need a proper Foundation beforehand a
+22:40
+foundation when it comes to color variation value variation and just understanding what certain areas should
+22:47
+look like I'm just adding some more procedurals on top of this as well and then finally
+22:52
+we're adding introducing our displacement map the advantage of that is that we get a lot more details into
+22:59
+our color map now I I just refer to it as color map this is just an old NPC habit I have but you can call this base
+23:06
+color or Albedo whatever you want to the point is this is just a map that contains only the color it does not
+23:11
+contain lighting or Shadow whatsoever and that is a bit of a problem because what we've done now is we've introduced
+23:16
+now this is you know just 1K it's 4K in the final one but we've introduced a lot of of little pores and it looks like
+23:24
+dirt in the model which you don't want we want a lot of this to come from the Shader itself so we have to balance all
+23:31
+this out but even so it's still a good idea to introduce this into it because it you are allowing the the textures to
+23:39
+get a lot more variation like this and here is our final painter scene with all
+23:45
+the maps done now you can see that everything is a lot more balanced and also we have two additional Maps we have
+23:51
+scattering and we have the roughness map so just let's just have a look at the base color first so everything is more balanced you can still see traces of the
+23:58
+displacement map you know you can see they'll see a little bit of this and we can also see a bit more color variation
+24:03
+and everything is just more refined and this just takes time what we've also done in the meantime is we've introduced
+24:10
+some pimples in C brush as well at this point everything goes a little bit off
+24:15
+the rails where you're not just painting a texture map and this goes into the Shader and your your your sculpt and
+24:24
+texture Maps there are two different entities now you'll sculpt a little bit more and then you'll introduce this back
+24:29
+in so actually these pimples here they were sculpted in seabrush and then I
+24:35
+painted a quick mask in the sea brush and I brought this mask into into
+24:41
+painter so these will be in the exact same spot and you can see how much more variation you get just from this if you
+24:46
+just were to disable this and then enable this again all right so now the the pimples are off and you can just see
+24:51
+the how how much cleaner everything looks and the moment we enable this again then how much more variation there
+24:57
+is a little tip as well is you generally have to be more extreme with your
+25:03
+or your column app in terms of contrast and details and everything because the moment you put this into into paint to
+25:09
+blender or Arnold wherever you're rendering then everything becomes more washed out and this is because you have a specularity on top you have soft
+25:16
+lighting you have shadows it's just hard to see what's going on really and also the uh the subsurface is going to soften
+25:23
+off certain things so this is really the the final texture map for the color so let's have a look
+25:28
+at the additional Maps as well which is roughness and what a roughness map looks like it might be very different from
+25:35
+what you assume a roughness map look map it looks like and the reason for this is that we've spent a lot of time sculpting
+25:41
+up our character and you don't want to do your roughness map until this is in a proper good spot
+25:48
+until you have all the pores and everything because the the roughness or the smooth value of a certain area is so
+25:55
+dependent on the actual the actual model so in this case you can see that the
+26:00
+nasolabial fold is stupidly smooth it's always it's really really really uh
+26:05
+smooth in terms of the roughness but that's fine it's because we've got feedback from the render at this point
+26:11
+you know do go a bit a little bit back and forth and we just saw that you can barely see any any shininess on these
+26:17
+areas and then you just have to crank it down that's because there's a lot of there's a lot of breakup in this area
+26:23
+when it comes to the sculpt so this is made in a very simple way like the whole roughness map is made in a very simple
+26:29
+way we adjust that quite a lot in the master class actually and this is where we just have Smart masks where we're
+26:36
+just starting off before we do anything in terms of texture we're just starting off with smart masks just so we can very
+26:42
+quickly just create these areas so we know we're going to use over and over again so we can use this for General
+26:48
+color grading or for roughness Maps or scattering maps and such so it just means we can very
+26:54
+quickly just go in and create a map or a an area in the reference map just by
+27:01
+using a filler and just dragging in a smart mask so it's really important that you preview your your roughness map in
+27:09
+the viewport like this but also in the render you truly don't know what your reference map looks like or what it
+27:15
+should be like until you see this in a final render and Ira does not count you need an actual render where you have all
+27:22
+your displacement and all your bumps combined unless of course you set up Ira to work properly but in this case we we
+27:28
+are we haven't set up a proper displacement but bump map in painter then we have the scattering map as well
+27:33
+and let me just get to that the scattering map is is using the exact same method as a
+27:39
+reference we actually just straight up just duplicated the uh the roughness group and just rebalanced it so where
+27:46
+you can see like certain areas we just entered up a scattering channel here and we can just move this kind of stuff up
+27:51
+and down if we just let this run for a little bit so I can just see that we can just change the amount real quick and My
+27:57
+Philosophy when I'm doing this is skin is going to absorb quite a lot of of light and bony errors are going to
+28:05
+absorb less light and also of course you just have to art correct this based on the feedback from the render so it's
+28:11
+really important to have some kind of map like this but just don't go too crazy with it you can see how simple
+28:16
+this is the same thing with the roughness as well like how simple this actually is you can see a little bit of
+28:22
+the um of the displacement app has been introduced as well just to make it pop just a little bit and then once all the
+28:28
+maps are done we're going to be exporting these out from painter and we're going to bring them back into blender now it is just important to
+28:35
+address the fact that in in this video we're showing this is more so linear process but this truly is not linear
+28:41
+when you're working you have to bring rough like pretty pretty simple color
+28:46
+maps and roughness maps and such into blender just to test them out because you don't know what something looks like until you see it in the shot if you're
+28:53
+just working in a painter like this and you're just reviewing the color map and the reference map you're working in the
+29:00
+blind at least somehow blind so you need to export this into blender so once we
+29:06
+have all our Maps made in painter or Mari wherever you create them it's now
+29:12
+time to bring this into a proper render engine and in this case we're using Cycles you can use any other engine I my
+29:19
+personal is actually my personal favorite is actually Arnold I really like working with Arnold but Cycles is also fantastic and what we're doing is
+29:27
+we're just using a principled bsdf for the skin shading and we are using a few
+29:32
+different settings here I'm just going to cover real quick how this is working we have the the base color this is the
+29:39
+color map from from painter that you can see here just one udem you obviously have the
+29:45
+additional units over here and this is just what it looks like the final export map and this goes into the subsurface color
+29:52
+this is important and you have to enable subsurface to one this is the way this works is that if um subsurfaces set to
+30:00
+50 then it's going to be blending between the the base color and subsurface but we just want a hundred
+30:06
+percent surface to control this which means we don't have to worry about like if you've been working with old skin
+30:11
+shaders like epidermal maps subdermal maps and all that we just straight up plug the color into the subsurface color
+30:18
+enable subsurface one and now this is where it gets interesting because if you want to have the color here be like nice
+30:25
+and orangey and red this is actually controlled using subsurface radius if we just disable this you can see that by
+30:32
+default is going to be set to just some like not even arbitrary numbers but from our point of view this doesn't actually
+30:38
+make sense like one zero two zero one this is not artistic in any sense so we don't actually know what we're doing if
+30:44
+we just if we just work with those numbers so instead what I'm using I'm using our mixed node and and I'm just
+30:50
+plugging this into the subsurface radius and this is what it's going to look like if this is set up this way but if we
+30:57
+were to change the color now to something like let's just do a bright cyan or something like that now you're
+31:04
+going to see that this actually looks nice inside which means the subsurface of radius is really what's controlling
+31:11
+the um the level of scattering so if we were to take this lower like remove all
+31:17
+saturation and just set this all the way down to zero now there's not going to be any scattering at all so now you can see
+31:22
+no scattering whatsoever it's really fast to render because scattering takes up a lot of time it also introduces a
+31:28
+little noise into your character and we set this guy all the way to one you can see a lot of scattering but this isn't
+31:34
+just a an Axis or a value between bright and dark it's a value or it's a it's
+31:40
+something where you can introduce color as well so now for instance first you want to change you want to change this to the overall value you want
+31:49
+and this is the amount of subsurface you want in your character but then you will introduce color as well and this of
+31:55
+course depends on what kind of character you do but in general I find that some somewhere between like red and orange is
+32:00
+really nice and now you can see boom we have nice subsurface in the ears and overall he's
+32:08
+just gonna feel like a nice organic character personally for me the subsurface radius has always been a
+32:14
+mystery this takes that away completely you know now you just focus on
+32:20
+a few values or just the value and then add whatever subsurface color you want and you're kind of done he has a skin
+32:27
+shedding used to be incredibly complicated but once I understood how to make it simple like this we can really
+32:32
+make the whole skin look good just with a few simple notes as well a little tip as well if you hit Ctrl shift and click
+32:40
+you can now see maybe you have to go to the look to viewport you can now see the
+32:45
+texture map on top of your of your render which is super useful because now
+32:50
+you can just see exactly what's going on you can see the exact color like this this is especially helpful if you know
+32:57
+you're working with any kind of collidator any kind of color data and you have a a node afterwards for example
+33:05
+the map range you know you can preview the map range and then you can directly see what your changes the changes in
+33:12
+value is what they really do to to your Maps yeah for me the control shift click is
+33:17
+an absolute essential way of working and once you're done with it you just preview the material output or just the
+33:22
+material and then you can see it here as well something also briefly I have to talk about is color space and Luts we're
+33:28
+not going to go in depth in this at all but by default in blender you're going to be having a um a lot called or view
+33:35
+transform here called filmic and filmic is great in a sense that it's really good at Distributing your values nicely
+33:42
+so if you have some areas that are really hot it's going to just like taper those off and your value is going to be
+33:48
+nice and balanced the problem is that I find filmic being way too extreme it it
+33:53
+really does too much damage to your work and the colors are real just disappearing so instead of that we are
+34:00
+using a view transform called agx which is fantastic this just balances out the
+34:06
+render really really nicely so if we just go between like a view transport agx to Native this is this is what it
+34:13
+looks like before and this just looks unbalanced and the highlights are too hot and the darks are
+34:19
+too dark and we go into Ajax everything just balances really really nicely so
+34:24
+this is what we're using in this um in this whole course and you can find a link where you can download agx in the
+34:32
+video description as well or you can just straight up Google agx and it's going to be a link to the author's GitHub and then you can just install
+34:38
+that really really useful these two things working with like plugging the
+34:44
+bass color into the subsurface and using a color for the radius along with agx this is like as close as you can get to
+34:50
+like a one weird trick for skin shading because skin shading is tricky and getting nicely balanced renders is
+34:56
+really really hard so these two little things they're gonna really make your art look so much nicer and then we are
+35:04
+updating our texture Maps between these various videos uh changing the lighting just a little bit and we're also adding
+35:10
+eyes to the character this is really important I find making eyes to be an insanely time consuming and complicated
+35:16
+part of character of the character process so instead we are we made a product called the flip normals ikit
+35:22
+which means you can just drag and drop your eyes straight into the character and it's going to work in around like 30 seconds it is literally just import get
+35:29
+the ice in here and then just place them where they're supposed to be so that's where that's what we're using for
+35:34
+uh for this course and it just makes it so much easier we're also using the new hair tools
+35:40
+found in blender 3.3 along with some geometry notes as well just to do the overall groom for the character it's
+35:46
+really important to add hair to the character people tend to miss this out and you're just missing a whole
+35:51
+dimension of the character so we have a little bit of hair in his ears we have the eyebrows and we have a
+35:57
+little bit of nose here as well very subtle but these kind of little things that do matter of course at this point we don't have a purple material for the
+36:05
+um for the uh the hair and in general we're at a stage now where I find this
+36:10
+stuff gets uglier like we have a pretty nice render before like in the last scene we looked at and now I find it
+36:16
+actually look looking a bit worse but this is where you just have to balance the lights you just have to post your character a little bit and just update
+36:23
+the general areas which makes him look a little bit dirty at this point I think it's always like the closer you get to
+36:29
+or you try to get to realism the harder it actually gets you know if you just stop at the clay sculpting phase you
+36:37
+just have a gray Shader on there most decent sculpt will look fantastic from
+36:43
+that point on but then you start with the shaders and everything and then you basically have to do all of the look Dev
+36:48
+and everything to make sure that your amazing sculpt will also look great with
+36:53
+of textures and shading and everything else yeah if I'm found to be a really important point because when you're just
+36:58
+having dealing with a scope then you're not really in The Uncanny Valley people just looking to be like yeah that's some pretty cool scopes but if you're what
+37:05
+this point you're dealing with a man he looks creepy the eyes are in a weird position and and his the hair is weird
+37:12
+and everything but so it's you'd really just have to spend a lot of time going away from that
+37:18
+so here's a little tip as well actually using the the eye kit you can just um select the controller then hit double
+37:23
+double tap the r key and now you can just really easily just like um rotate it around like so so this is what we're
+37:29
+doing in actually the next chapter and then we are in our final renders and you can see how much more refined everything
+37:34
+looks at this point you know we spent more time on the textures there is actually about 40 minutes of sculpting
+37:40
+on the forehead between these chapters you can also see that we got in and we added some little veins here as well and
+37:47
+we just go ahead and refined the whole thing we tried to make the lighting a bit more appealing as well trying to get
+37:53
+a little bit of room lighting here tiny bit of depth of field as well I'm not even sure if you can see this due to compression but overall this it just
+38:00
+looks much more refined at this point if we really are at the stage
+38:05
+where everything has been going off the rails for a while where you're not just improving the sculpt and then the
+38:11
+textures and then your render and your lighting render you you just do a little bit of work on the lips and then you
+38:17
+work a little bit on the sculpt getting in the veins and then you work a little bit in horns and everything just gradually becomes better there isn't one
+38:24
+stage where it just looks better between the last chapter and this one there's quite a lot of hours to be honest just
+38:30
+in refining the tiny little things but do some specific things though like just
+38:35
+look just what we briefly did just a second ago was just like going in and just rotating the ice a little bit that
+38:40
+kind of stuff matters a whole lot just really trying to make him feel in a specific way so it's like his face is
+38:47
+facing one way and then his eyes are facing another way it's like the cheapest and quickest trick in the book
+38:53
+but it works quite well I'm just finding a nice camera angle as well it takes a long time to find a
+38:59
+simple setup in this case we really just have two lights we have two lights then we have an hdri as well like it's really
+39:06
+really simple just two area lights and a fairly generic looking hdri just from
+39:12
+like I think I can't remember the new side is called but it used to be hdri Haven I think it's called polyhaven actually where you can just find tons of
+39:19
+free hdris and um then you just render this out like just real quick on render settings
+39:25
+and such like here I just made the resolution High the specific setting of
+39:31
+this it's that important I just made it 3000 by 2400 and in terms of samples as
+39:36
+well I just set this to two and a half thousand I find that whenever I'm doing characters like this it doesn't matter
+39:42
+like you shouldn't spend too much time just balancing it perfectly if you're doing animation that's a different thing
+39:47
+but for a still render like this just set them so that you're not gonna get any noise go for a walk make dinner do something
+39:54
+else otherwise you're gonna be spending more time optimizing the render than you are actually going to be spending on
+40:00
+rendering the character this whole thing I think took around half an hour to render or something like that you know
+40:06
+this is using GPU rendering so it's quite fast but if you were to spend like two hours trying to optimize to render
+40:12
+then you could have just set this to 200 000 and not have any noise something that I would encourage people to play
+40:18
+around with as well even for final vendors uh it's the denoiser I use denoising for pretty much all of
+40:26
+my renders now even with animation and honestly for the last
+40:32
+for the best last many releases I haven't really been able to tell that I'm using a denoiser so definitely give
+40:39
+that a go yeah the dinoser is fantastic when it comes to uh to just reducing the
+40:44
+random time you can have a much lower sampleness and you can render out though just a little note on the denoiser we
+40:50
+actually aren't using dinosa for this course and the reasons just because there's so many there's so many textures so many tiny little things in the
+40:57
+texture so I just want to make sure that's that's properly done but uh you
+41:02
+know in general add a denoiser and just find a find a nice balance between the
+41:07
+samples that's going to work really well and then once we've rendered out the whole thing you can see here that it is
+41:12
+it's really a nice clean render it's a little bit of noise down here but that just looks like almost like film grain
+41:18
+so we have this whole render and this is brought into Photoshop just straight up as a PNG like don't tell my rendering
+41:24
+friends that and the guys who work in comp they're gonna throw pens at me or something but for this General workflow
+41:31
+this works really well like this is more Oracle almost got digital painting or Flora photographic workflow you just
+41:36
+bring stuff into into Photoshop and you just abuse the render yeah you just
+41:41
+throw all sorts of crap at it we're not working like a perfect 16-bit half float exr workflow but the advantage of this
+41:49
+workflow is that you can really go in and paint highly specific things so this workflow works really well so
+41:55
+we're just adding a background and make sure this background is not black it looks kind of black but it's not the
+42:01
+reason for that is that very few things are truly black and it looks weird if
+42:07
+things are truly black so we're just going in and just adding a bit of tiny bit of value to this and then just
+42:12
+adding a tiny bit of like a little little uh grade in the back like this is like the simplest thing the world just
+42:19
+looks like this it's just like a painted soft thing just to have a little bit more of a focus there blending it in a
+42:24
+little bit and then we have two general tasks we're doing the first one is a global color correction and this is
+42:31
+where we're just going in and just changing overall how it looks so we're just going in with some brightness contrast every single render you've ever
+42:38
+done from any software will need some brightness contrast it probably needs to get a little bit brighter and the problem is a little bit more contrast
+42:44
+you can just see it's it's subtle but it just just makes it pop but just a little bit and then we have this isn't kind of
+42:51
+a little weird little trick but use a black and white layer and set it to soft lighter overlay and change the opacity
+42:58
+down this is just going to make it a bit more high contrast and a bit more saturated then we have a Vibrance very
+43:03
+subtle color lookup this is pretty cool this is where we can use an overall like 3D lot just to get like go through here
+43:10
+and we'll just change the look you can very very quickly change the look for this if
+43:15
+you're on PC you can just go through and just go through the arrow keys here on Mac you have to click them which is annoying but a PC you can just go
+43:21
+through it like so so just see if I can do all this there you go cool and then we can just go
+43:27
+through and just add a few more colored lookups this is great for experimenting and just going out of your comfort zone
+43:33
+so we're just going through a lot of these and just layering them up and you can see how different the final thing looks here well the overall Global color
+43:40
+correction looks and it's almost like if you're looking back at this one you're like huh that's what a little used to look like and then I do local color
+43:47
+correction as well this is where we're going in and just adding some local values in certain areas like we're going
+43:52
+in and just brightening up the eyes going in and just darkening up certain areas like I want to I won't have more
+43:58
+focus in this area and that really just helps me to bring certain things down like this in these
+44:05
+areas here way too hot so we just bring them down and then just tiny bit of color this hand painted color making his
+44:11
+cheeks a little bit redder then we're using like a fake ambient inclusion pass I'm just painting in Black in certain
+44:17
+areas and then just putting the soft light and just getting in here just add a bit more contrast and then a tiny bit
+44:23
+of brightness contrast this is kind of texture painting we should have kind of done this in texture painting you see
+44:28
+the horns are just getting a bit a bit brighter and tip which looks quite nice and you can of course you in post but
+44:34
+obviously try to do as much as this in texture as you can but you know once everything is done the render is
+44:41
+properly done you're not going to go in and go into painter export that blender re-render this you know just do it in
+44:47
+post then just a tiny bit of sharpness basically I'm just merging everything together and using doing a high pass on
+44:54
+it and then just setting this overlay I'm not even sure if you can see any
+44:59
+difference here and then we have the final thing where we're just doing a little bit of a chromatic abrasion on
+45:05
+top of the whole thing and a little bit of noise a little film Grain on it and then we're just going over and just
+45:11
+balancing this a little bit just pushing it to be come a little bit brighter
+45:17
+and that's it for uh for this this is a nice like what 45 15 minute video on
+45:25
+doing this which does take this this unedited took around like doing the whole thing in the course took around 24
+45:31
+hours so this does take quite a lot of time to do as yeah I hope you enjoyed um this video
+45:38
+I hope this was really helpful for you and you can really see how the steps are interconnected we would love to see your
+45:44
+tips as well in the comments and if you are interested in learning how to make this guy from scratch like no time
+45:49
+lapses no no cuts no anything just nicely nice work properly paced then I
+45:55
+highly recommend our new masterclass where you learn this called realistic character portrait masterclass where we
+46:01
+go through all this in 21 hours of of real-time proper videos

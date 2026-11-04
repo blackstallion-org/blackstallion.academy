@@ -59,6 +59,15 @@
       pointer-events: none;
       will-change: opacity, transform;
     }
+    /* Scale the registered photograph and SVG together so the anatomy stays aligned. */
+    #anatomy-stage > .anatomy-layer {
+      transform: scale(1.2);
+      transform-origin: 50% 50%;
+    }
+    /* Reserve the space needed by the longest evidence panel at the current width. */
+    .bsah-evidence-slot { display: grid; min-width: 0; }
+    .bsah-evidence-slot > * { grid-area: 1 / 1; align-self: start; min-width: 0; }
+    .bsah-evidence-measure { visibility: hidden; pointer-events: none; }
     .nav-tab-btn {
       position: relative;
       transition: background-color 0.25s ease, color 0.25s ease;
@@ -213,25 +222,25 @@
     .bsah-header > div:last-child > div:first-child > div { width: 110px; height: 2px; background: #D5CBB8; position: relative; }
     #btn-open-inspector, #btn-overview-matrix { width: 36px; height: 36px; border-radius: 9999px; border: 1px solid #C9BEA9; background: transparent; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 3.5px; cursor: pointer; }
     #btn-open-inspector span { display: block; width: 14px; height: 1.3px; background: #3B291D; }
-    h1 { font-family: 'Noto Serif Display', Georgia, serif; font-size: 62px; line-height: 0.92; letter-spacing: -0.02em; color: #4A3525; margin: 2px 0 0 0; font-weight: 600; }
-    h2#right-part-headline { font-family: 'Noto Serif Display', Georgia, serif; font-size: 38px; line-height: 1.05; letter-spacing: -0.01em; color: #2F2016; margin: 6px 0; font-weight: 500; }
+    h1 { font-family: 'Noto Serif Display', Georgia, serif; font-size: clamp(40px, 3.8vw, 55px); line-height: 0.98; letter-spacing: -0.02em; color: #4A3525; margin: 2px 0 0 0; font-weight: 600; }
+    h2:is(#right-part-headline, [data-measure-id="right-part-headline"]) { font-family: 'Noto Serif Display', Georgia, serif; font-size: clamp(27px, 2.3vw, 34px); line-height: 1.12; letter-spacing: -0.01em; color: #2F2016; margin: 6px 0; font-weight: 500; }
     p { margin: 0; }
-    .bsah-col-left > div:first-child > p { font-family: 'Noto Serif Display', Georgia, serif; font-style: italic; font-size: 27px; color: #4B3829; margin-bottom: 2px; }
+    .bsah-col-left > div:first-child > p { font-family: 'Noto Serif Display', Georgia, serif; font-style: italic; font-size: clamp(21px, 1.8vw, 25px); color: #4B3829; margin-bottom: 2px; }
     .nav-tab-btn > div { display: flex; align-items: baseline; gap: 18px; }
     .nav-tab-btn > div > span:first-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; letter-spacing: 0.14em; color: #7D6C5B; }
-    .nav-tab-btn > div > span:last-child { font-family: 'Noto Serif Display', Georgia, serif; font-size: 26px; color: #3B291D; }
+    .nav-tab-btn > div > span:last-child { font-family: 'Noto Serif Display', Georgia, serif; font-size: 23px; color: #3B291D; }
     .nav-tab-btn > svg { width: 36px; height: 36px; color: #5C4938; flex-shrink: 0; }
     .bsah-col-left > div:last-child { align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid rgba(213, 203, 184, 0.8); }
     .bsah-col-left > div:last-child > div { display: flex; align-items: center; gap: 12px; }
     .bsah-col-left > div:last-child img { width: 42px; height: 42px; border-radius: 9999px; object-fit: cover; border: 1px solid #C5B9A5; }
-    #evidence-text-container { display: flex; flex-direction: column; gap: 7px; }
-    #evidence-text-container > div:first-child { display: flex; align-items: center; gap: 12px; font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #6E5D4E; }
-    #right-part-description { font-size: 13.8px; line-height: 1.62; color: #544335; }
-    #evidence-text-container > div:last-child { border-top: 1px solid #D5CBB8; padding-top: 9px; display: flex; flex-direction: column; gap: 7px; }
-    #evidence-text-container > div:last-child > div:first-child { display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #4A3525; }
-    #evidence-status-badge { background: #E0D7C6; padding: 2px 7px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9.5px; }
-    #right-part-evidence { font-size: 12.5px; line-height: 1.56; color: #5C4B3B; }
-    #right-part-caution { font-size: 10.5px; line-height: 1.35; color: #6E4E2E; background: #E3DAC8; padding: 4px 8px; border-left: 2px solid #A56938; }
+    :is(#evidence-text-container, [data-evidence-measure]) { display: flex; flex-direction: column; gap: 7px; }
+    :is(#evidence-text-container, [data-evidence-measure]) > div:first-child { display: flex; align-items: center; gap: 12px; font-size: 11.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #6E5D4E; }
+    :is(#right-part-description, [data-measure-id="right-part-description"]) { font-size: 13.8px; line-height: 1.62; color: #544335; }
+    :is(#evidence-text-container, [data-evidence-measure]) > div:last-child { border-top: 1px solid #D5CBB8; padding-top: 9px; display: flex; flex-direction: column; gap: 7px; }
+    :is(#evidence-text-container, [data-evidence-measure]) > div:last-child > div:first-child { display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #4A3525; }
+    :is(#evidence-status-badge, [data-measure-id="evidence-status-badge"]) { background: #E0D7C6; padding: 2px 7px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9.5px; }
+    :is(#right-part-evidence, [data-measure-id="right-part-evidence"]) { font-size: 12.5px; line-height: 1.56; color: #5C4B3B; }
+    :is(#right-part-caution, [data-measure-id="right-part-caution"]) { font-size: 10.5px; line-height: 1.35; color: #6E4E2E; background: #E3DAC8; padding: 4px 8px; border-left: 2px solid #A56938; }
     .thumb-btn { border: 1px solid #C9BEA9; opacity: 0.6; transition: all 0.2s; }
     .thumb-btn[aria-pressed="true"] { border: 2px solid #4A3525; opacity: 1; }
     .bsah-col-right > div:last-child > div:last-child { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
@@ -262,6 +271,15 @@
         border-right: 1px solid #D5CBB8;
         min-width: 135px;
       }
+    }
+
+    @media (max-width: 639px) {
+      .bsah-tablist { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; }
+      .bsah-tablist > .nav-tab-btn { width: auto; min-width: 0; padding: 0.85rem 0.35rem; justify-content: center; }
+      .nav-tab-btn > div { gap: 0.25rem; flex-wrap: wrap; justify-content: center; }
+      .nav-tab-btn > div > span:first-child { font-size: 9px; }
+      .nav-tab-btn > div > span:last-child { font-size: 16px; }
+      .nav-tab-btn > svg { display: none; }
     }
 
     /* Custom subtle scrollbar for mobile selector */
@@ -630,6 +648,7 @@
 
       <!-- 3. RIGHT COLUMN: Selected Anatomical Title, Description, Supported Evidence & Thumbnails -->
       <div id="panel-evidence" role="tabpanel" aria-labelledby="tab-brain" class="bsah-col-right lg:col-span-3 order-3 flex flex-col justify-between h-full space-y-6">
+        <div class="bsah-evidence-slot">
         <div id="evidence-text-container" class="space-y-4">
           <!-- Category Index & Label -->
           <div class="flex items-center gap-3 text-[12px] tracking-[0.2em] uppercase text-[#6E5D4E]">
@@ -679,6 +698,8 @@
             </div>
           </div>
         </div>
+
+        </div><!-- Fixed-height evidence slot -->
 
         <!-- Bottom-Right 4-Thumbnail Anatomical Strip & Prev/Next Controls -->
         <div class="pt-3 border-t border-[#D5CBB8]/60 lg:border-t-0">
@@ -954,6 +975,58 @@
       const thumbProgressBar = document.getElementById('thumb-progress-bar');
       const coordStatus = document.getElementById('active-coordinate-status');
 
+      // Size the panel from every option, including the longer clinical note. The
+      // invisible copies share the same grid cell and respond to font and width changes.
+      const evidenceSlot = evidenceContainer.parentElement;
+      ORDER.forEach((id) => {
+        const item = DATA[id];
+        const measure = evidenceContainer.cloneNode(true);
+        measure.classList.add('bsah-evidence-measure');
+        measure.setAttribute('aria-hidden', 'true');
+        measure.setAttribute('inert', '');
+        measure.querySelector('#right-part-number').textContent = item.number;
+        measure.querySelector('#right-part-label').textContent = item.upperLabel;
+        measure.querySelector('#right-part-headline').innerHTML = item.headline;
+        measure.querySelector('#right-part-description').textContent = item.description;
+        measure.querySelector('#right-part-evidence').textContent = item.evidenceSummary;
+        measure.querySelector('#evidence-status-badge').textContent = item.statusBadge;
+        const caution = measure.querySelector('#right-part-caution');
+        caution.textContent = item.cautionNote;
+        caution.classList.toggle('hidden', !item.cautionNote);
+        measure.setAttribute('data-evidence-measure', '');
+        measure.querySelectorAll('[id]').forEach((element) => element.setAttribute('data-measure-id', element.id));
+        measure.removeAttribute('id');
+        measure.querySelectorAll('[id]').forEach((element) => element.removeAttribute('id'));
+        evidenceSlot.appendChild(measure);
+      });
+
+      // Keep each line of the evidence layout in place, not just the outer frame.
+      // Hidden copies provide natural heights at the current width and font size.
+      const liveEvidenceParts = [
+        [rightHeadline, 'right-part-headline', false],
+        [rightDescription, 'right-part-description', false],
+        [statusBadge.parentElement, 'evidence-status-badge', true],
+        [rightEvidence, 'right-part-evidence', false],
+        [rightCaution, 'right-part-caution', false]
+      ];
+      function sizeEvidenceRows() {
+        const measures = evidenceSlot.querySelectorAll('[data-evidence-measure]');
+        liveEvidenceParts.forEach(([live, id, useParent]) => {
+          let tallest = 0;
+          measures.forEach((measure) => {
+            const element = measure.querySelector('[data-measure-id="' + id + '"]');
+            const target = useParent ? element.parentElement : element;
+            tallest = Math.max(tallest, target.getBoundingClientRect().height);
+          });
+          live.style.minHeight = Math.ceil(tallest) + 'px';
+        });
+      }
+      rightCaution.classList.remove('hidden');
+      rightCaution.style.visibility = 'hidden';
+      sizeEvidenceRows();
+      document.fonts.ready.then(sizeEvidenceRows);
+      window.addEventListener('resize', sizeEvidenceRows);
+
       function updateCalloutStyles(activeId) {
         ORDER.forEach((id) => {
           const isSelected = compositeMode || id === activeId;
@@ -1110,19 +1183,7 @@
                 { attr: { r: 20 } },
                 { attr: { r: 110 }, duration: 0.65, ease: 'power2.out' }
               );
-              // One restrained scale pulse, then return to rest
-              gsap.fromTo(
-                layerGroup,
-                { scale: 1, transformOrigin: '736px 576px' },
-                {
-                  scale: 1.032,
-                  duration: 0.26,
-                  yoyo: true,
-                  repeat: 1,
-                  delay: 0.18,
-                  ease: 'power2.out'
-                }
-              );
+
             }
           }
         });
@@ -1167,12 +1228,9 @@
           rightEvidence.textContent = item.evidenceSummary;
           statusBadge.textContent = item.statusBadge;
 
-          if (item.cautionNote) {
-            rightCaution.textContent = item.cautionNote;
-            rightCaution.classList.remove('hidden');
-          } else {
-            rightCaution.classList.add('hidden');
-          }
+          rightCaution.textContent = item.cautionNote;
+          rightCaution.style.visibility = item.cautionNote ? 'visible' : 'hidden';
+          rightCaution.setAttribute('aria-hidden', item.cautionNote ? 'false' : 'true');
 
           // Update modal content simultaneously
           document.getElementById('modal-evidence-tag').textContent =
@@ -1185,27 +1243,8 @@
           document.getElementById('modal-evidence-link').setAttribute('href', item.url);
         };
 
-        if (forceReducedMotion) {
-          applyContent();
-          return;
-        }
-
-        gsap.killTweensOf(evidenceContainer);
-        gsap.to(evidenceContainer, {
-          opacity: 0,
-          y: 5,
-          duration: 0.14,
-          ease: 'power2.out',
-          onComplete: () => {
-            applyContent();
-            gsap.to(evidenceContainer, {
-              opacity: 1,
-              y: 0,
-              duration: 0.26,
-              ease: 'power2.out'
-            });
-          }
-        });
+        // Switch content in place: no vertical tween or delayed layout changes.
+        applyContent();
       }
 
       function selectAnatomyPart(nextId, focusTab = false) {
@@ -1219,7 +1258,7 @@
           const isMatch = btn.getAttribute('data-part') === nextId;
           btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
           btn.setAttribute('aria-pressed', isMatch ? 'true' : 'false');
-          if (isMatch && focusTab) btn.focus();
+          if (isMatch && focusTab) btn.focus({ preventScroll: true });
         });
 
         // 2. Update Bottom-Right Thumbnails & Progress Bar

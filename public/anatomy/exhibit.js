@@ -672,7 +672,34 @@ function updateRider(dt) {
     bone.quaternion.copy(rider.rest[i]).premultiply(qWork);
     qParent.copy(qTarget);
   });
+  riderLife(dt);
   rider.root.updateMatrixWorld(true);
+}
+
+/* The cadet is never a statue (5 Nov 2026): he breathes (about fourteen breaths a minute), settles a little in the saddle and looks
+   about, in small turns layered over the seat-driven pose. Each turn is in the bone's own frame (the rider's bones rest with identity
+   rotations: x pitches forward, y turns, z leans). Nothing moves with reduced motion. */
+const life = { t: 0, e: new THREE.Euler(), q: new THREE.Quaternion() };
+function riderLife(dt) {
+  if (state.reducedMotion) return;
+  life.t += dt;
+  const t = life.t;
+  const wave = (k, a, b, c) => (Math.sin(t * a + k) + 0.6 * Math.sin(t * b + 1.7 + k) + 0.35 * Math.sin(t * c + 4.1 + k)) / 1.95;
+  const breath = Math.sin((t * 2 * Math.PI) / 4.2);
+  const calm = state.isPlaying ? 0.5 : 1; // while the horse moves, the cadet looks ahead more
+  const look = wave(0, 0.43, 0.71, 0.19) * 0.16 * calm; // about 9 degrees either way
+  const nod = wave(11, 0.37, 0.59, 0.23) * 0.05 * calm;
+  const tilt = wave(5, 0.29, 0.53, 0.17) * 0.03 * calm;
+  const sway = Math.sin(t * 0.86 + 1.1) * 0.009;
+  const turn = Math.sin(t * 0.69) * 0.007;
+  const add = (name, x, y, z) => {
+    const bone = rider.bones[name];
+    if (bone) bone.quaternion.multiply(life.q.setFromEuler(life.e.set(x, y, z)));
+  };
+  add("R_Spine", -0.004 * breath, turn, sway);
+  add("R_Chest", -0.009 * breath, turn * 0.6, sway * 0.5);
+  add("R_Neck", 0.007 * breath + nod * 0.4, look * 0.4, -sway * 0.6);
+  add("R_Head", nod * 0.6, look * 0.6, tilt);
 }
 
 function worldPoint(name, out) {

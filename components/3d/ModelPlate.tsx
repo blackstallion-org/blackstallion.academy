@@ -16,8 +16,8 @@ export type ModelPlateProps = {
   label: string;
   /** What fills the frame until the model is on screen, and when it cannot be drawn (no WebGL, a failed download, reduced data). */
   fallback: ReactNode;
-  /** "turn" revolves slowly all the way round (statues, tack); "sway" swings a few degrees either side (a flat piece such as a medal). */
-  mode?: "turn" | "sway";
+  /** "turn" revolves slowly all the way round (statues, tack); "sway" swings a few degrees either side (a flat piece such as a medal); "still" holds the model facing as set by yaw, with no motion and no dragging. */
+  mode?: "turn" | "sway" | "still";
   /** A held turn of the model, in degrees about the vertical axis, for pieces that should face a particular way at rest. */
   yaw?: number;
   /** How far a swaying piece turns either side, in radians (default 0.5). A piece with a cut face on one side swings less. */

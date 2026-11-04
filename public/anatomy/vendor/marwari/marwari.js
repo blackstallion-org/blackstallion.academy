@@ -4,8 +4,9 @@
  * Shared by the hero stage and the anatomy viewer: loading, the coat material, named clips,
  * time-of-day light, gaze and the anatomy highlight. Model space is glTF: +Y up, the horse faces +Z, metres.
  *
- * Clips (all loop in place): Idle_Breathing, Head_Turn, Ear_Rotate, Blink, Weight_Shift, Walk, Trot, Tail_Sway.
- * Each clip only animates the bones it needs, so several can play at once (breathing + tail + ears + blink).
+ * Clips (all loop in place): Idle_Breathing, Head_Turn, Blink, Weight_Shift, Walk, Trot, Tail_Sway (Ear_Rotate, Alert and
+ * Attention_Response keep their names but no longer carry ear tracks: ear-motion.ts moves the ears).
+ * Each clip only animates the bones it needs, so several can play at once (breathing + tail + blink).
  *
  * The shader work lives next to this file: `marwari-coat.ts` (coat grade, region roughness, anatomy glow),
  * `contact.ts` (hoof contact shadows, the hero's ground), `studio.ts` (the studio reflections).
@@ -13,6 +14,7 @@
 import * as THREE from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { attachEarMotion, EarMotion, stripEarTracks } from "./ear-motion.js";
 import { HoofContacts } from "./contact.js";
 import { installCoat } from "./marwari-coat.js";
 import { installEye, reseatEyes } from "./marwari-eye.js";
@@ -87,7 +89,16 @@ function prepare(gltf) {
     skinned.material = material;
     base.dispose();
     const highlight = installCoat(skinned, material, muzzleTip(skinned.geometry), eyes);
-    return { root, mesh: skinned, bones, clips: new Map(gltf.animations.map((c) => [c.name, c])), material, highlight, contacts: new HoofContacts(bones), hair };
+    // The baked clips turn both ears together; the ears are driven by EarMotion instead (independent, never a loop).
+    stripEarTracks(gltf.animations);
+    const ears = new EarMotion(bones);
+    attachEarMotion(root, ears);
+    if ("production" !== "production" && typeof window !== "undefined") {
+        const w = window;
+        w.__marwariEars = ears;
+        (w.__marwariEarsAll ??= []).push(ears);
+    }
+    return { root, mesh: skinned, bones, clips: new Map(gltf.animations.map((c) => [c.name, c])), material, highlight, contacts: new HoofContacts(bones), hair, ears };
 }
 /** Bind-pose position of the muzzle: the most forward vertex of the body mesh. */
 function muzzleTip(geo) {

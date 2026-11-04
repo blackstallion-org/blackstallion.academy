@@ -8,7 +8,7 @@ import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment
 
 type Props = {
   src: string;
-  mode: "turn" | "sway";
+  mode: "turn" | "sway" | "still";
   yaw: number;
   swing: number;
   fill: number;
@@ -54,8 +54,8 @@ function Piece({ src, mode, yaw, swing, fill, reduced, onReady }: Omit<Props, "a
     const center = box.getCenter(new THREE.Vector3());
     clone.position.sub(center);
     // A turning piece sweeps a circle; a swaying one is seen up to half a radian off front, and perspective enlarges its near edge.
-    const around = mode === "turn" ? Math.hypot(size.x, size.z) : size.x * 1.12 + size.z * 0.7;
-    return { object: clone, width: Math.max(around, 0.001), height: Math.max(size.y * (mode === "turn" ? 1 : 1.1), 0.001) };
+    const around = mode === "turn" ? Math.hypot(size.x, size.z) : mode === "still" ? size.x : size.x * 1.12 + size.z * 0.7;
+    return { object: clone, width: Math.max(around, 0.001), height: Math.max(size.y * (mode === "sway" ? 1.1 : 1), 0.001) };
   }, [scene, mode]);
   const scale = fill * Math.min(viewport.width / width, viewport.height / height);
 
@@ -66,6 +66,7 @@ function Piece({ src, mode, yaw, swing, fill, reduced, onReady }: Omit<Props, "a
 
   // Drag to turn: a mouse only. Touch is left to the page, which scrolls.
   useEffect(() => {
+    if (mode === "still") return;
     let down = false;
     let lastX = 0;
     const onDown = (e: PointerEvent) => {
@@ -96,7 +97,7 @@ function Piece({ src, mode, yaw, swing, fill, reduced, onReady }: Omit<Props, "a
       dom.removeEventListener("pointerup", onUp);
       dom.removeEventListener("pointercancel", onUp);
     };
-  }, [dom, invalidate]);
+  }, [dom, invalidate, mode]);
 
   useFrame((state) => {
     const group = spin.current;
@@ -108,7 +109,7 @@ function Piece({ src, mode, yaw, swing, fill, reduced, onReady }: Omit<Props, "a
       if (reduced) invalidate();
     }
     const t = reduced ? 0 : state.clock.elapsedTime;
-    const base = mode === "turn" ? t * 0.32 : Math.sin(t * 0.55) * swing;
+    const base = mode === "turn" ? t * 0.32 : mode === "sway" ? Math.sin(t * 0.55) * swing : 0;
     group.rotation.y = THREE.MathUtils.degToRad(yaw) + base + dragged.current;
   });
 

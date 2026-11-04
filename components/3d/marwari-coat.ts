@@ -155,7 +155,18 @@ export function installCoat(mesh: THREE.SkinnedMesh, material: THREE.MeshPhysica
         float cavK = vEar.x * earK;
         float rimK = clamp((vEar.y - 0.5) * 2.0, 0.0, 1.0);
         diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.1, 0.05, 0.022), cavK * 0.9);
-        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.21, 0.11, 0.046), rimK * 0.65 * smoothstep(0.0, 0.4, vEar.x + rimK * 0.4));`,
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.21, 0.11, 0.046), rimK * 0.65 * smoothstep(0.0, 0.4, vEar.x + rimK * 0.4));
+        {
+          // inner-ear hair (5 Nov 2026, from the owner's Marwari references): fine, lighter hairs line the cup, sparse deep inside and
+          // thicker toward the rim, running up the ear. Close up they read as strands; once a strand is narrower than a pixel only
+          // their average tone is kept, so they never shimmer.
+          float pixE = length(dFdx(vRest)) + length(dFdy(vRest));
+          float near = 1.0 - smoothstep(0.0009, 0.0035, pixE);
+          vec3 qe = vec3(vRest.x * 1100.0, vRest.y * 70.0, vRest.z * 1100.0);
+          float strands = smoothstep(0.48, 0.82, vn3(qe) * 0.7 + vn3(qe * vec3(2.1, 1.7, 2.1) + 3.3) * 0.3);
+          float hairK = cavK * (0.25 + 0.75 * rimK) * mix(0.32, strands, near);
+          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.20, 0.135, 0.09), hairK * 0.6);
+        }`,
       )
       .replace(
         "#include <normal_fragment_maps>",

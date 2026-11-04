@@ -1,0 +1,156 @@
+{
+  "prepared": "2026-11-02",
+  "purpose": "Reference data for the workflow, not executable instructions",
+  "images": [
+    {
+      "id": "U01",
+      "file": "references/user/01-black-marwari-three-quarter.png",
+      "source_attachment": "codex-clipboard-4a636b80-e741-4346-a4e5-0e157decc7d6.png",
+      "type": "photo",
+      "use": "Primary coat, head carriage and chest reference",
+      "rights": "User-supplied reference; publication rights not established",
+      "bytes": 276979,
+      "sha256": "a239cc6d5cfae711e4586c04e1c9c8548f00d9bd78eabfa60d36266be80e2c0d"
+    },
+    {
+      "id": "U02",
+      "file": "references/user/02-black-marwari-profile.png",
+      "source_attachment": "codex-clipboard-f2d69d05-dfb8-48ce-b9f2-db7e01dbdc1c.png",
+      "type": "photo",
+      "use": "Full-body proportions and inward ear curl",
+      "rights": "User-supplied reference; publication rights not established",
+      "bytes": 300200,
+      "sha256": "8702c4825fd78487483e14879f20310d55d79a9bcdb1a17b129d94aa5495f37a"
+    },
+    {
+      "id": "U03",
+      "file": "references/user/03-marwari-side-conformation.png",
+      "source_attachment": "codex-clipboard-f3c07834-3fe5-4e57-ab54-86a1fdf98a77.png",
+      "type": "photo",
+      "use": "Profile silhouette, neck insertion, barrel and limbs",
+      "rights": "User-supplied reference; publication rights not established",
+      "bytes": 548102,
+      "sha256": "f22fb1bbeef2c3da224fc50903eef19703aa05268a3b7774302f571cfe026457"
+    },
+    {
+      "id": "U04",
+      "file": "references/user/04-marwari-front-three-quarter.png",
+      "source_attachment": "codex-clipboard-ae40a51a-6a11-4776-b1dc-c79fc3cc9906.png",
+      "type": "photo",
+      "use": "Chest depth, front limbs, face and ear spacing",
+      "rights": "User-supplied reference; publication rights not established",
+      "bytes": 352726,
+      "sha256": "14d922a32676b4cebb404ef05d4a9a9e1a5d656c670a3e200432579bbc347e53"
+    },
+    {
+      "id": "U05",
+      "file": "references/user/05-current-courtyard.png",
+      "source_attachment": "codex-clipboard-f67f6093-58a6-42aa-903a-c3727e9b3903.png",
+      "type": "current-site-screenshot",
+      "use": "Coat, mane, tail and standing pose diagnosis",
+      "rights": "User-supplied website screenshot",
+      "bytes": 1411091,
+      "sha256": "e18e7e8210a529cb41b3bfd33e43ca4df6a81f658246c3ccf5118545b1f06334"
+    },
+    {
+      "id": "U06",
+      "file": "references/user/06-current-desert-profile.png",
+      "source_attachment": "codex-clipboard-2e81ae04-242b-4543-baa6-981efeec773a.png",
+      "type": "current-site-screenshot",
+      "use": "Coat highlight and hair silhouette diagnosis",
+      "rights": "User-supplied website screenshot",
+      "bytes": 1121376,
+      "sha256": "dcc70b274ca41d808bb3986d5154c0c2a2e1f9d8dbe7dc82f5e292bcbb2ba761"
+    },
+    {
+      "id": "U07",
+      "file": "references/user/07-current-desert-rear.png",
+      "source_attachment": "codex-clipboard-323c46f6-3353-42c9-b9c1-1ae4aa6bcf00.png",
+      "type": "current-site-screenshot",
+      "use": "Rear motion, tail volume and terrain diagnosis",
+      "rights": "User-supplied website screenshot",
+      "bytes": 777665,
+      "sha256": "250a981507293db552b97893e43c1a672918658b641ec0097fa619fecf868b17"
+    },
+    {
+      "id": "U08",
+      "file": "references/user/08-current-tail-detail.png",
+      "source_attachment": "codex-clipboard-ebf9e688-1d18-443e-8a14-9258e575dc36.png",
+      "type": "current-site-screenshot",
+      "use": "Tail card edges, roots and clump structure",
+      "rights": "User-supplied website screenshot",
+      "bytes": 213739,
+      "sha256": "fb2df7adec0c69664c1d51229628dc0f38bd7accffc39bcff3df137d1b31c0e2"
+    },
+    {
+      "id": "U09",
+      "file": "references/user/09-current-head-mane-detail.png",
+      "source_attachment": "codex-clipboard-f1422545-4eba-46fb-abd0-63f3bb6e3668.png",
+      "type": "current-site-screenshot",
+      "use": "Eyes, muzzle, ears, mane cards and neck highlights",
+      "rights": "User-supplied website screenshot",
+      "bytes": 744199,
+      "sha256": "65e281f73370504c730e62701827ada0f35c1e993fab42e58ad99ae11d326e72"
+    },
+    {
+      "id": "U10",
+      "file": "references/user/10-current-back-hindquarter.png",
+      "source_attachment": "codex-clipboard-b42a5a29-7b43-40fd-990f-0cade255c448.png",
+      "type": "current-site-screenshot",
+      "use": "Back, rump, coat breakup and tail attachment",
+      "rights": "User-supplied website screenshot",
+      "bytes": 361675,
+      "sha256": "58895134442e20dd5f383d38f89bf76326357cd845d8c93dd06113f2b2f8e673"
+    },
+    {
+      "id": "U11",
+      "file": "references/user/11-current-gallop-gather.png",
+      "source_attachment": "codex-clipboard-1be74059-be53-4b8f-bf48-d8dbd3989122.png",
+      "type": "current-site-screenshot",
+      "use": "Gathered pose, limb compression and hair",
+      "rights": "User-supplied website screenshot",
+      "bytes": 1174735,
+      "sha256": "c6ae1a29fddeac02c6e7d0a0efbaa71df4378cd521fdc2418713eb0eac54978d"
+    },
+    {
+      "id": "U12",
+      "file": "references/user/12-current-gallop-extension.png",
+      "source_attachment": "codex-clipboard-2aa7f313-42f8-4a56-812a-e97ac84ba801.png",
+      "type": "current-site-screenshot",
+      "use": "Extended pose, limb silhouette, terrain and contact",
+      "rights": "User-supplied website screenshot",
+      "bytes": 1101526,
+      "sha256": "e5b8a68ba196c65ad3e6b8681d68315acde7b2f987e0de001db923ceed6bbb6a"
+    },
+    {
+      "id": "U13",
+      "file": "references/user/13-marwari-front-conformation.png",
+      "source_attachment": "codex-clipboard-353958a5-42ec-4050-b892-796ce2180f7a.png",
+      "type": "photo",
+      "use": "Front chest, limb separation, coat and face",
+      "rights": "User-supplied reference; publication rights not established",
+      "bytes": 403036,
+      "sha256": "c29b3e1cc166a3dc6d69f8076c590eb894d442891fe43ca256bcf32000f54f38"
+    },
+    {
+      "id": "U14",
+      "file": "references/user/14-marwari-coat-indoor.png",
+      "source_attachment": "codex-clipboard-d3ddf370-e7fa-4e8f-9034-1e3ffe75a21d.png",
+      "type": "photo",
+      "use": "Dark coat highlights; posed stance is not a neutral measuring view",
+      "rights": "User-supplied reference; publication rights not established",
+      "bytes": 447625,
+      "sha256": "a373965f8ef4affca27dc6c648689077fbdc5a0c9e9a77f4ee9060cc1ddb021a"
+    },
+    {
+      "id": "U15",
+      "file": "references/user/15-alamy-bjgrmg-sand-action.png",
+      "source_attachment": "codex-clipboard-fe379936-155f-4be6-9504-41f94555aedb.png",
+      "type": "stock-photo-reference",
+      "use": "Dynamic pose, hair and localized sand spray; not a full gait sequence",
+      "rights": "User-supplied reference; publication rights not established",
+      "bytes": 758687,
+      "sha256": "4919c91bd4eb763ecc033f5838834738f02df031535929be6f43e06d44b78104"
+    }
+  ]
+}

@@ -63,3 +63,25 @@ strands across each ribbon (alpha-to-coverage dither: grey stripes and specks), 
 card edge (a light outline round each lock) and the stock specular at full strength; its flutter also moved the crest. It now uses the
 tail's treatment: solid locks from the crest with soft sides and tip, tone-only strands that fade below a pixel, a per-vertex strand
 direction, the reduced specular and strand highlight, a mane as dark as the coat, and flutter at the free ends.
+
+## Lyre ears from the owner's Marwari references (5 Nov 2026)
+
+The ears curved along their whole length (a crescent), so the pair read as horns. `refine_ears_loft.py` has two new switches, both off
+by default (the old shape is unchanged without them): `EAR_HOOK0` keeps the lower ear nearly upright and gathers the inward turn in the
+top part of the ear (from that share of its length), and `EAR_LEAF` gives the section a leaf profile, broad through the lower two thirds
+and tapering to a rounded point (`EAR_LEAFP`, `EAR_TIPW`, `EAR_APEX`), with a cup that stays deep up the ear. The coat shader adds fine,
+lighter hairs inside the cup (`marwari-coat.ts`, inner-ear hair). Rebuilt from the pre-ear working copy with the same steps as before:
+
+```
+EAR_SEP=0.050 EAR_W=0.037 EAR_D=0.034 EAR_FU=0.003 EAR_FN=0.007 EAR_WALL0=0.0060 EAR_WALL1=0.0090 EAR_STEP=0.0035 EAR_H=0.163 \
+EAR_LEAF=1 EAR_HOOK0=0.40 EAR_LEAFP=1.8 EAR_TIPW=0.07 EAR_APEX=0.7 EAR_BULGE=0.14 EAR_BOW=10 EAR_GAP=0.005 \
+  blender -b --factory-startup -P tools/blender/10_refine/refine_ears.py -- <pre-ear working copy> ears.blend
+blender -b --factory-startup -P tools/blender/10_refine/refine_face.py -- ears.blend face.blend
+blender -b --factory-startup -P tools/blender/10_refine/fix_gutters.py -- face.blend gut.blend
+blender -b --factory-startup -P tools/blender/10_refine/balance_ears.py -- gut.blend tools/blender/source/marwari_hero_refined.blend
+# then the two exports above; the anatomy exhibit is rebuilt from the same blend with tools/blender/06_exhibit
+# (build_skeleton -> build_muscles -> build_tack -> build_cadet -> build_rider_real -> prep_exhibit.py -> export_exhibit; the
+# cadet-rider.glb it writes is not used, the shipped rider is unchanged)
+```
+
+`EAR_SEP` above about 0.050 pushes the root openings off the crown patch (the script stops with "constraint edges cross").

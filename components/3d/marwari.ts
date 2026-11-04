@@ -16,7 +16,7 @@ import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { attachEarMotion, EarMotion, stripEarTracks } from "./ear-motion";
 import { HoofContacts } from "./contact";
 import { installCoat, type Highlight } from "./marwari-coat";
-import { installEye, reseatEyes, type EyeCentres } from "./marwari-eye";
+import { eyeCentres, installEye, reseatEyes, type EyeCentres } from "./marwari-eye";
 import { installHair, type Hair } from "./marwari-hair";
 
 export { ANATOMY_MODEL, HERO_MODEL } from "./marwari-paths";
@@ -71,6 +71,7 @@ function prepare(gltf: GLTF): Marwari {
   let hair: Hair = { wind: { value: new THREE.Vector3() }, sheen: { value: 0 }, flow: { value: 0 } };
   let eyes: EyeCentres = { L: new THREE.Vector3(0.1, 1.89, 1.17), R: new THREE.Vector3(-0.1, 1.9, 1.16) };
   const bones: Record<string, THREE.Bone> = {};
+  let eyeMesh: THREE.SkinnedMesh | null = null;
   root.traverse((o) => {
     const sm = o as THREE.SkinnedMesh;
     if (sm.isSkinnedMesh) {
@@ -88,16 +89,22 @@ function prepare(gltf: GLTF): Marwari {
         eye.clearcoat = 1;
         eye.clearcoatRoughness = 0.03;
         eye.name = m.name;
-        eyes = reseatEyes(sm); // the domes sit off the painted sockets in the exported model
-        installEye(eye, eyes);
         sm.material = eye;
         m.dispose();
+        eyeMesh = sm; // rebuilt against the coat once the traverse has found it (below)
       }
     }
     if ((o as THREE.Bone).isBone) bones[o.name] = o as THREE.Bone;
   });
   if (!mesh) throw new Error("Marwari: no coat mesh");
   const skinned = mesh as THREE.SkinnedMesh;
+  if (eyeMesh) {
+    // the exported beads are small, round and off their sockets: rebuild each eye against the face (see marwari-eye.ts)
+    const eyeSm = eyeMesh as THREE.SkinnedMesh;
+    const layout = reseatEyes(eyeSm, skinned);
+    installEye(eyeSm.material as THREE.MeshPhysicalMaterial, layout);
+    eyes = eyeCentres(layout);
+  }
   // Kala coat: a fine short coat over black skin, a satin sheen rather than plastic (no metal, baked AO in the R channel).
   // The coat is a physical material so it can carry a soft, dark sheen at grazing angles (the "bloom" of a short coat).
   const base = skinned.material as THREE.MeshStandardMaterial;

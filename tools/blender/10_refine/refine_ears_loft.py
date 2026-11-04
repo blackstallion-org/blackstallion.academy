@@ -7,9 +7,16 @@ BLEND_H = 0.25
 CUP_A, CUP_B = 0.10, 0.50
 rng = random.Random(11)
 E_UP = Vector((0, 0, 1)); E_FW = Vector((0, -1, 0))
+HOOK0 = E('EAR_HOOK0', 0.0)       # >0: where (share of the length) the inward hook starts
 
-def fw_of(t):  return (0.07 + 0.93 * max(0.0, 1 - t ** 2.0) ** 0.85) * (1 + E('EAR_BULGE', 0.07) * math.sin(math.pi * min(1.0, t / 0.6)))
-def fd_of(t):  return 0.26 + 0.74 * max(0.0, 1 - t ** 1.4) ** 0.55
+TIPW = E('EAR_TIPW', 0.07)          # the section's width at the tip, as a share of the root's (the leaf ear keeps a rounder tip)
+LEAF = E('EAR_LEAF', 0.0) > 0.5     # 5 Nov 2026: a Marwari ear is a long leaf, broad through its lower two thirds, tapering only near the tip
+def fw_of(t):
+    if LEAF: return (TIPW + (1 - TIPW) * max(0.0, 1 - t ** E('EAR_LEAFP', 2.8)) ** 0.9) * (1 + E('EAR_BULGE', 0.10) * math.sin(math.pi * min(1.0, t / 0.7)))
+    return (0.07 + 0.93 * max(0.0, 1 - t ** 2.0) ** 0.85) * (1 + E('EAR_BULGE', 0.07) * math.sin(math.pi * min(1.0, t / 0.6)))
+def fd_of(t):
+    if LEAF: return 0.30 + 0.70 * max(0.0, 1 - t ** 2.2) ** 0.6     # the cup stays deep up the ear and shallows only at the tip
+    return 0.26 + 0.74 * max(0.0, 1 - t ** 1.4) ** 0.55
 WALL0, WALL1, LIPK = E('EAR_WALL0', 0.0042), E('EAR_WALL1', 0.0080), E('EAR_LIP', 0.50)
 def wall_of(t): return WALL0 + WALL1 * (1 - ss(0.0, 0.65, t))
 def cupf(t):   return ss(CUP_A, CUP_B, t) * (1 - 0.4 * ss(0.8, 1.0, t))
@@ -20,7 +27,11 @@ def spine_for(S, base, arc, A_in, a_out, b_fw, a_out_len=0.60):
     c = base.copy()
     for k in range(NS + 1):
         t = k / NS
-        al = -a_out * max(0.0, 1 - t / a_out_len) ** 2 + A_in * t ** 2.1
+        if HOOK0 > 0:
+            # the lower ear stands nearly upright (a small outward lean that fades), and the inward turn gathers in the top third: a hook, not a crescent
+            al = -a_out * max(0.0, 1 - t) ** 1.6 + A_in * ss(HOOK0, 1.0, t) ** 1.25
+        else:
+            al = -a_out * max(0.0, 1 - t / a_out_len) ** 2 + A_in * t ** 2.1
         be = b_fw * t ** 1.5
         d = (E_UP + e_in * math.tan(al) + E_FW * math.tan(be)).normalized()
         T.append(d)
@@ -124,7 +135,7 @@ def build_side(side, X_tip, jitter):
             row.append(c + off + Tk * (H2[m] * (1 - ss(0.0, BLEND_H, tau))))
         pos.append(row)
     c1, T1, n1, u1 = sample(1.0)
-    apex = c1 + T1 * 0.85 * (W0 * fw_of(1.0) + D0 * fd_of(1.0)) - n1 * (0.52 * D0 * fd_of(1.0))     # the point sits over the section's own centre, not over its open edges
+    apex = c1 + T1 * E('EAR_APEX', 0.85) * (W0 * fw_of(1.0) + D0 * fd_of(1.0)) - n1 * (0.52 * D0 * fd_of(1.0))     # the point sits over the section's own centre, not over its open edges
     return dict(S=S, N=N, N2=N2, K=K, double=double, th2=th2, th_even=th_even, src2=src2, taus=taus, pos=pos, apex=apex, P=P, arc=arc, A=A, sample=sample)
 
 def tip_gap(Ls, Rs):

@@ -33,7 +33,7 @@ fs.writeFileSync(path.join(out, "three/VERSION"), `three ${version} (MIT), copie
 // motion (vanilla UMD build) drives the control deck
 fs.copyFileSync(path.join(root, "node_modules/motion/dist/motion.js"), path.join(out, "motion.js"));
 
-const helpers = ["marwari", "marwari-coat", "marwari-eye", "marwari-hair", "contact"];
+const helpers = ["marwari", "marwari-coat", "marwari-eye", "marwari-hair", "contact", "ear-motion"];
 fs.mkdirSync(path.join(out, "marwari"), { recursive: true });
 for (const name of helpers) {
   const source = fs.readFileSync(path.join(root, "components/3d", `${name}.ts`), "utf8");
@@ -44,7 +44,9 @@ for (const name of helpers) {
   js = js
     .replace(/export \{[^}]*\} from "\.\/marwari-paths";?\n?/g, "")
     .replace(/from "(\.\/[a-z-]+)"/g, 'from "$1.js"')
-    .replace(/from "three\/examples\/jsm\/([^"]+)"/g, 'from "three/examples/jsm/$1"');
+    .replace(/from "three\/examples\/jsm\/([^"]+)"/g, 'from "three/examples/jsm/$1"')
+    // the exhibit is a static page with no bundler: development-only checks are compiled out
+    .replace(/process\.env\.NODE_ENV/g, '"production"');
   fs.writeFileSync(path.join(out, "marwari", `${name}.js`), `// Generated from components/3d/${name}.ts by scripts/build-anatomy-vendor.mjs. Do not edit.\n${js}`);
 }
 console.log(`three ${version}: ${copies.length} files, ${helpers.length} Marwari helpers -> ${path.relative(root, out)}`);

@@ -13,7 +13,16 @@
  *    groomed coat gets long soft highlights across the muscle) and for a hair-scale bump made of fibres that run along it. The bump
  *    fades out when a pixel covers more than a fibre, so it costs nothing at hero distances and cannot shimmer.
  *  - Region roughness: oiled hooves, a matte muzzle, wet lid margins, a little hair-scale roughness variation up close.
+ *  - Markings and warmth (3 Nov 2026, the three-view refinement, tools/blender/10_refine): the refined colour map paints a blaze into
+ *    a pale pink muzzle, four white stockings and horn hooves (luminance far above any coat texel) and a warm brown over the barrel,
+ *    flank and lower neck (more red than the baked map has anywhere). Painted marks skip the black-coat grade and keep the light's
+ *    colour; the brown keeps most of its value and chroma. Off the ears, which reuse body texels. Older maps never reach either
+ *    threshold, so they render exactly as before.
  *  - Anatomy highlight: up to four world-space spheres that glow (the plate's hotspots).
+ *  - The ears (3 Nov 2026): the model's second UV set (`EarMask`, from tools/blender/09_ear_crescent) says where the ear is (v > 0),
+ *    how deep the cup is (u) and where the rim hairs grow (v toward 1). Inside the cup the coat keeps a dark warm brown (short inner
+ *    hair is never the body's blue-black) with ambient occlusion, the rim hairs catch a little warm back light at grazing angles, and
+ *    the scan's baked normal map is dropped on the ear (it would crinkle thin cartilage).
  */
 import * as THREE from "three";
 /** Studio grade of the coat colour map: a third of the baked saturation is left, the original level. */
@@ -63,6 +72,16 @@ function hairFlow(mesh) {
 }
 export function installCoat(mesh, material, muzzle, eyes) {
     mesh.geometry.setAttribute("aFlow", new THREE.BufferAttribute(hairFlow(mesh), 3));
+    // EarMask arrives as TEXCOORD_1 (uv1), with v flipped by the glTF exporter (v' = 1 - v); a model without it (an older export) has no ear mask
+    const count = mesh.geometry.attributes.position.count;
+    const mask = new Float32Array(count * 2);
+    const uv1 = mesh.geometry.getAttribute("uv1");
+    if (uv1)
+        for (let i = 0; i < count; i++) {
+            mask[i * 2] = uv1.getX(i);
+            mask[i * 2 + 1] = 1 - uv1.getY(i);
+        }
+    mesh.geometry.setAttribute("aEar", new THREE.BufferAttribute(mask, 2));
     material.anisotropy = 0.38; // switches the anisotropic BRDF on; its frame is replaced by the hair direction in the shader below
     const spheres = { value: [0, 1, 2, 3].map(() => new THREE.Vector4(0, 0, 0, 0)) };
     const strength = { value: 0 };
@@ -88,13 +107,13 @@ export function installCoat(mesh, material, muzzle, eyes) {
         shader.uniforms.uEye = { value: [eyes.L, eyes.R] };
         shader.uniforms.uMicro = micro;
         shader.vertexShader = shader.vertexShader
-            .replace("#include <common>", "#include <common>\nvarying vec3 vHiW; varying vec3 vRest; varying vec3 vFlowR; varying vec3 vNR; varying vec3 vFlow; attribute vec3 aFlow;")
+            .replace("#include <common>", "#include <common>\nvarying vec3 vHiW; varying vec3 vRest; varying vec3 vFlowR; varying vec3 vNR; varying vec3 vFlow; attribute vec3 aFlow; attribute vec2 aEar; varying vec2 vEar;")
             .replace("#include <skinnormal_vertex>", "#include <skinnormal_vertex>\nvFlow = normalize(mat3(modelViewMatrix) * (skinMatrix * vec4(aFlow, 0.0)).xyz);")
-            .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position; vFlowR = aFlow; vNR = normal;")
+            .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position; vFlowR = aFlow; vNR = normal; vEar = aEar;")
             .replace("#include <project_vertex>", "#include <project_vertex>\nvHiW = (modelMatrix * vec4(transformed, 1.0)).xyz;");
         shader.fragmentShader = shader.fragmentShader
             .replace("#include <common>", `#include <common>
-        varying vec3 vHiW; varying vec3 vRest; varying vec3 vFlowR; varying vec3 vNR; varying vec3 vFlow; uniform vec4 uHi[4]; uniform float uHiK; uniform vec3 uHiCol; uniform vec3 uMuzzle; uniform vec3 uEye[2]; uniform vec2 uCoat; uniform vec4 uBlack; uniform float uMicro;
+        varying vec3 vHiW; varying vec3 vRest; varying vec3 vFlowR; varying vec3 vNR; varying vec3 vFlow; varying vec2 vEar; uniform vec4 uHi[4]; uniform float uHiK; uniform vec3 uHiCol; uniform vec3 uMuzzle; uniform vec3 uEye[2]; uniform vec2 uCoat; uniform vec4 uBlack; uniform float uMicro;
         float h3(vec3 p) { p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
         float vn3(vec3 x) {
           vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);
@@ -102,19 +121,49 @@ export function installCoat(mesh, material, muzzle, eyes) {
                      mix(mix(h3(i + vec3(0, 0, 1)), h3(i + vec3(1, 0, 1)), f.x), mix(h3(i + vec3(0, 1, 1)), h3(i + vec3(1, 1, 1)), f.x), f.y), f.z);
         }`)
             .replace("#include <color_fragment>", `#include <color_fragment>
+        // The refined map (Nov 2026) paints a blaze, four stockings and a pink muzzle far brighter than any coat texel, and warm brown
+        // over the barrel, flank and lower neck with more red in it than the baked map has anywhere. Neither is graded like the coat.
+        float markK = 0.0, warmK = 0.0;
         {
           float l = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-          // a Kala coat has no markings: the sculpt's faint socks and blaze are pulled down with a soft knee (linear 0.022 .. 0.034)
+          float onEar = smoothstep(0.0, 0.5, vEar.y); // the ears reuse body texels: never markings or warmth there
+          markK = smoothstep(0.1, 0.3, l) * (1.0 - onEar);
+          warmK = smoothstep(0.45, 1.1, (diffuseColor.r - diffuseColor.b) / max(diffuseColor.g, 1e-4)) * (1.0 - markK) * (1.0 - onEar);
+          vec3 painted = diffuseColor.rgb;
+          // the coat itself stays near-black: the scan's faint old socks and blaze are pulled down with a soft knee (linear 0.022 .. 0.034)
           float cap = l > 0.022 ? 0.022 + 0.012 * (1.0 - exp(-(l - 0.022) / 0.012)) : l;
           cap = mix(0.0125, cap, 0.55); // the baked colour map is cloudy: keep a little of it, the rest is the hair
+          cap = mix(cap, l, 0.8 * warmK); // the warm brown keeps most of its own value
           diffuseColor.rgb *= cap / max(l, 1e-5);
-          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(cap), uCoat.x) * uCoat.y * uBlack.yzw;
+          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(cap), uCoat.x * (1.0 - 0.8 * warmK)) * uCoat.y * mix(uBlack.yzw, vec3(1.0), warmK);
+          diffuseColor.rgb = mix(diffuseColor.rgb, painted, markK);
+        }
+        // the ear: v > 0 on it, u the cup depth, v toward 1 along the rim hairs (see the header)
+        float earK = smoothstep(0.0, 0.5, vEar.y);
+        float cavK = vEar.x * earK;
+        float rimK = clamp((vEar.y - 0.5) * 2.0, 0.0, 1.0);
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.1, 0.05, 0.022), cavK * 0.9);
+        diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.21, 0.11, 0.046), rimK * 0.65 * smoothstep(0.0, 0.4, vEar.x + rimK * 0.4));
+        {
+          // inner-ear hair (5 Nov 2026, from the owner's Marwari references): fine, lighter hairs line the cup, sparse deep inside and
+          // thicker toward the rim, running up the ear. Close up they read as strands; once a strand is narrower than a pixel only
+          // their average tone is kept, so they never shimmer.
+          float pixE = length(dFdx(vRest)) + length(dFdy(vRest));
+          float near = 1.0 - smoothstep(0.0009, 0.0035, pixE);
+          vec3 qe = vec3(vRest.x * 1100.0, vRest.y * 70.0, vRest.z * 1100.0);
+          float strands = smoothstep(0.48, 0.82, vn3(qe) * 0.7 + vn3(qe * vec3(2.1, 1.7, 2.1) + 3.3) * 0.3);
+          float hairK = cavK * (0.25 + 0.75 * rimK) * mix(0.32, strands, near);
+          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.20, 0.135, 0.09), hairK * 0.6);
         }`)
             .replace("#include <normal_fragment_maps>", `#include <normal_fragment_maps>
         {
           // the sculpt's sock edges are baked into the normal map as zig-zag creases at the pasterns: calm them there
           float band = smoothstep(0.09, 0.13, vRest.y) * (1.0 - smoothstep(0.27, 0.33, vRest.y));
           normal = normalize(mix(normal, nonPerturbedNormal, clamp(0.35 + 0.6 * band, 0.0, 0.9))); // the baked normal map is blotchy at body scale: take a third of it out
+          normal = normalize(mix(normal, nonPerturbedNormal, earK)); // thin cartilage: no scan crinkles
+          // the face: the scan's two halves meet along a diagonal crease that the baked normal map carries down the blaze's edge as a dark line; the face keeps only the fur micro-grain below
+          float headK = smoothstep(1.62, 1.70, vRest.y) * smoothstep(0.90, 1.00, vRest.z);
+          normal = normalize(mix(normal, nonPerturbedNormal, 0.85 * headK));
           // hair-scale fibres running along the coat; fades out once a pixel is wider than a fibre (about 1.6 mm across)
           float pix = length(dFdx(vRest)) + length(dFdy(vRest));
           float fade = 1.0 - smoothstep(0.0007, 0.0018, pix);
@@ -150,6 +199,7 @@ export function installCoat(mesh, material, muzzle, eyes) {
           roughnessFactor *= 1.0 + (vn3(vRest * 70.0) - 0.5) * 0.3 * fade;
           roughnessFactor = mix(roughnessFactor, 0.4, hoofM);
           roughnessFactor = mix(roughnessFactor, 0.78, muzM);
+          roughnessFactor = mix(roughnessFactor, 0.72, earK * 0.7 + cavK * 0.2);
           // the wet margin of the lids: a thin glossy ring round each eye (opening about 6 x 3.6 cm, seen from the side)
           vec3 e = vRest - (vRest.x > 0.0 ? uEye[0] : uEye[1]);
           float dd = length(vec2(e.z / 0.032, e.y / 0.02));
@@ -161,11 +211,21 @@ export function installCoat(mesh, material, muzzle, eyes) {
         for (int i = 0; i < 4; i++) {
           if (uHi[i].w > 0.0) hi = max(hi, 1.0 - smoothstep(uHi[i].w * 0.35, uHi[i].w, distance(vHiW, uHi[i].xyz)));
         }
-        totalEmissiveRadiance += uHiCol * hi * uHiK * 0.32;`)
+        totalEmissiveRadiance += uHiCol * hi * uHiK * 0.32;
+        {
+          // the rim hairs of the ear catch a little warm back light at grazing angles (no more than a sheen)
+          float ndv = clamp(dot(normal, normalize(vViewPosition)), 0.0, 1.0);
+          totalEmissiveRadiance += vec3(0.34, 0.17, 0.06) * rimK * pow(1.0 - ndv, 2.4) * 0.1 * (0.4 + 0.6 * vEar.x);
+        }`)
+            .replace("#include <aomap_fragment>", `#include <aomap_fragment>
+        reflectedLight.indirectDiffuse *= 1.0 - 0.55 * cavK;
+        reflectedLight.indirectSpecular *= (1.0 - 0.8 * cavK) * (1.0 - 0.4 * earK);   // short ear hair is matte: take the glassy reflection down
+        reflectedLight.directSpecular *= 1.0 - 0.45 * earK;
+        reflectedLight.directDiffuse *= 1.0 - 0.25 * cavK * cavK;`)
             .replace("vec3 totalDiffuse = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;", `vec3 totalDiffuse = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
-        { float dl = dot(totalDiffuse, vec3(0.2126, 0.7152, 0.0722)); totalDiffuse = mix(vec3(dl) * uBlack.yzw, totalDiffuse, uBlack.x); }`);
+        { float dl = dot(totalDiffuse, vec3(0.2126, 0.7152, 0.0722)); totalDiffuse = mix(vec3(dl) * uBlack.yzw, totalDiffuse, max(max(uBlack.x, cavK * 0.85 + rimK * 0.5), max(markK, 0.5 * warmK))); }`);
     };
-    material.customProgramCacheKey = () => "marwari-coat-v8";
+    material.customProgramCacheKey = () => "marwari-coat-v10";
     return {
         set(list) {
             spheres.value.forEach((v, i) => {
