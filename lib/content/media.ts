@@ -144,9 +144,9 @@ export const media = {
   journalLane: m("journal-jodhpur-lane.png", "hf_20261101_232216_b78890b3-8d46-4228-a23d-3e042bcd331d.png", "A young woman breeder leads a bay Marwari colt down a blue lane in Jodhpur, an old tonga cart against the wall", "30% 50%"),
   journalDance: m("journal-wedding-dance.png", "hf_20261101_232214_6e22c914-48e7-4a8c-b0c2-8e46afc6696f.png", "The raised, belled foreleg of a decorated black Marwari dancing in a night wedding procession", "35% 50%"),
   equipmentSaddling: m("equipment-saddling.png", "hf_20261101_232214_1c313537-bf11-4730-bdb3-3a46877d8622.png", "A groom settles a leather saddle on a calm bay Marwari mare at dawn while a young cadet holds the bridle", "60% 40%"),
-  fleetWorldCavalry: m("fleet-world-cavalry.png", "hf_20261101_232402_fb07d9d2-f9e2-4be1-a17c-5364834820b3.png", "A distant column of historical Marwar cavalry rides beneath a sandstone hill fort in the Thar at sunset", "50% 60%"),
-  fleetWorldVillage: m("fleet-world-village.png", "hf_20261101_232402_7510b335-ac32-4f86-8306-94b29b305798.png", "A Marwar village morning: thatched mud houses, women carrying water pots, a camel cart and goats under a khejri tree", "50% 60%"),
-  fleetWorldField: m("fleet-world-field.png", "hf_20261101_232403_fa8912b7-9ce4-4f30-a7dd-dce9f48fbb3a.png", "Grooms feed Marwari horses at hay racks under neem trees beside a tent-pegging lane and a striped shamiana", "50% 60%"),
+  fleetWorldCavalry: m("fleet-world-cavalry-manuscript.png", null, "A painted Marwar miniature: a column of cavalry with red pennants rides below a sandstone hill fort at sunset", "50% 70%"),
+  fleetWorldVillage: m("fleet-world-village-manuscript.png", null, "A painted Marwar miniature: a village lane with thatched mud houses, a stepwell, a camel cart and an elder on his charpai", "50% 70%"),
+  fleetWorldField: m("fleet-world-field-manuscript-v2.png", null, "A painted miniature in an ornate border: hay racks under neem trees, a striped shamiana and a tent-pegging lane", "50% 70%"),
 } satisfies Record<string, Media>;
 
 export type MediaKey = keyof typeof media;

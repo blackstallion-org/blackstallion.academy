@@ -13,7 +13,7 @@ export const MEDIA_BASE: string = parseMediaBase(process.env.NEXT_PUBLIC_MEDIA_B
 export const MEDIA_REMOTE: boolean = MEDIA_BASE !== "";
 
 /**
- * Wrap every site path to a still, model, video or audio file: asset("/models/horse-hand-draco.glb").
+ * Wrap every site path to a still, model, video or audio file: asset("/models/touch-black-horse.glb").
  * Paths outside those folders and absolute URLs pass through unchanged. Remote media is cross-origin: code that reads
  * pixels back or uploads a texture to WebGL must set crossOrigin = "anonymous" (the bucket answers with CORS headers).
  */
