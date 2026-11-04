@@ -205,7 +205,7 @@ export function WillemExpandingHero({
     <section
       id={id}
       ref={containerRef}
-      className="willem-header tone-dark relative min-h-[100svh] w-full overflow-hidden bg-[#0e0d0c] text-white"
+      className="willem-header tone-photo relative min-h-[100svh] w-full overflow-hidden bg-[#0e0d0c] text-white"
     >
       {/* Central Split Letter Aperture Loader */}
       <div className="willem-loader pointer-events-none">

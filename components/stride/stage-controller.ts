@@ -355,6 +355,12 @@ export class StageController {
     rig.applyAppearance({ coat: a.coat, skeleton: store.skeleton, rider: a.rider, tack: true });
     if (a.coat !== wantCoat || a.rider !== wantRider) busy = true;
 
+    // the cadet breathes and looks about whenever he is shown (not with reduced motion), so the stage keeps drawing while he is
+    if (a.rider > 0.01 && !reduced) {
+      rig.live(dt, 1, clock.playing);
+      busy = true;
+    }
+
     // camera: a preset or hotspot chosen by hand ends any drag; otherwise a drag orbits the preset
     if (store.camera !== this.seenCamera || store.hotspot !== this.seenHotspot) {
       this.dragGoal = null;

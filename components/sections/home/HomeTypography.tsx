@@ -7,8 +7,6 @@ import { SplitText } from "gsap/SplitText";
 import { EditorialHeadline, EditorialScrollSync } from "@/components/motion/EditorialMotion";
 import { LanceRule } from "@/components/film/Marks";
 import { BreathCue } from "@/components/film/BreathCue";
-import { FilmNoise } from "@/components/motion/fx/FilmNoise";
-import { EmberTrail } from "@/components/motion/fx/EmberTrail";
 import { acts, type Act } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import styles from "./HomeTypography.module.css";
@@ -73,17 +71,11 @@ export function HomeHeadline(props: ComponentProps<typeof EditorialHeadline>) {
   const manifesto = props.id?.startsWith("doctrine-");
   const technique = ["ledger-h", "matrix-h", "crisis-h", "chronicle-h"].includes(props.id || "") || manifesto ? "words" : "lines";
   return <EditorialHeadline {...props} technique={technique}
-    inscriptionClassName={props.id === "doors-h" ? "text-white" : props.inscriptionClassName}
-    voiceClassName={props.id === "doors-h" ? "text-white" : props.voiceClassName}
     className={`${styles.heading} ${manifesto ? styles.manifesto : ""} ${props.id === "doctrine-answer" ? styles.answer : ""} ${props.className || ""}`} />;
 }
 
 export function HomeAct({ act, line }: { act: Act; line: string }) {
   return <section aria-label={`${acts[act].name}: ${line}`} className={`tone-dark surface-leather gutter ${styles.act}`}>
-    {/* Act breaks read as projected film: grain, a few specks, the odd scratch. */}
-    <FilmNoise opacity={0.14} dust={0.25} scratches={0.35} flicker={0.2} blendMode="soft-light" />
-    {/* Signature: an ember trail follows the mouse across the dark act card (mouse only, decorative). */}
-    <EmberTrail />
     {act === "ledger" && <BreathCue />}
     <LanceRule label={`Act ${acts[act].numeral} · ${acts[act].name}`} />
     <div data-home-drift><h2 data-home-phrase className={styles.actTitle}>{line}</h2></div>

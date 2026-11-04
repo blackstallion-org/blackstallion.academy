@@ -43,11 +43,12 @@ export function LedgerAscent() {
 
       <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]">
         <Image
-          src={asset("/images/ledger-ranks-arena.webp")}
-          alt="An academy instructor in olive uniform walks the arena while cadets in red and green polo shirts stand behind him"
+          src={asset("/media/legend-ears-2026-11.webp")}
+          alt="A black Marwari stallion with lyre-curved ears, lit gold by the evening sun over the Thar"
           fill
           sizes="100vw"
-          className="object-cover object-center"
+          className="object-cover"
+          style={{ objectPosition: "60% 38%" }}
         />
       </div>
 

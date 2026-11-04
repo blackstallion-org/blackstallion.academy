@@ -17,8 +17,8 @@ interface StatueModelProps {
   statueX: number;
 }
 
-function StatueModel({ statueX }: StatueModelProps) {
-  const { scene } = useGLTF(STATUE_MODEL_URL, "/draco/");
+function StatueModel({ statueX, modelUrl }: StatueModelProps & { modelUrl: string }) {
+  const { scene } = useGLTF(modelUrl, "/draco/");
 
   const processedScene = useMemo(() => {
     // Clone to ensure clean instance
@@ -273,7 +273,7 @@ function CameraController({ scrollProgressRef, statueX, isMobile }: CameraContro
       // 02 · The Steed (Horse's head, eye & lyre ears)
       new THREE.Vector3(sX * 0.6 + 1.2, 2.4 + yOff, 1.8 * zMult),
       // 03 · The Rider (the cadet's face, posture & reins; raised for the cadet-and-Marwari bronze, 2 Nov 2026)
-      new THREE.Vector3(sX * 0.6 - 0.6, 2.05 + yOff, 1.6 * zMult),
+      new THREE.Vector3(sX * 0.6 - 0.6, 1.8 + yOff, 1.6 * zMult),
       // 04 · Craft & Stone (Musculature, flanks & chiseled stone)
       new THREE.Vector3(sX * 0.6 + 1.6, 0.8 + yOff, 2.0 * zMult),
       // 05 · Archive (Wide complete monument & plinth base)
@@ -287,7 +287,7 @@ function CameraController({ scrollProgressRef, statueX, isMobile }: CameraContro
       // 02 · The Steed (Horse head & expression)
       new THREE.Vector3(sX + 0.15, 2.3, 0.35),
       // 03 · The Rider (face, hands & reins)
-      new THREE.Vector3(sX, 1.95, 0.2),
+      new THREE.Vector3(sX, 1.7, 0.2),
       // 04 · Craft & Stone (Lower torso / musculature)
       new THREE.Vector3(sX, 0.6, 0),
       // 05 · Archive (Complete statue visual center)
@@ -382,12 +382,14 @@ interface StatueCanvasProps {
   scrollProgressRef: React.MutableRefObject<number>;
   statueX: number;
   isMobile: boolean;
+  modelUrl?: string;
 }
 
 export function StatueCanvas({
   scrollProgressRef,
   statueX,
   isMobile,
+  modelUrl = STATUE_MODEL_URL,
 }: StatueCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
@@ -444,7 +446,7 @@ export function StatueCanvas({
       />
 
       {/* The Statue Model */}
-      <StatueModel statueX={statueX} />
+      <StatueModel statueX={statueX} modelUrl={modelUrl} />
 
       <DemandDriver scrollProgressRef={scrollProgressRef} />
 

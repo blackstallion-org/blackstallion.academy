@@ -37,7 +37,7 @@ export const story = {
 };
 
 export const instrument = {
-  inscription: "Five hundred kilograms",
+  inscription: "Several hundred kilograms",
   voice: "that read you first.",
   body: "Every part of the Marwari teaches the rider something. Choose a point on the plate.",
   points: ["ears", "neck", "saddle", "flank", "hoof"],

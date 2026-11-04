@@ -28,7 +28,7 @@ const catalogue: [string, string][] = [
 export function AnatomyTitle() {
   return (
     <section aria-labelledby="anatomy-h" className="editorial-scene">
-      <div className="tone-dark relative min-h-[90svh] overflow-hidden bg-night [--anatomy-focus:62%_50%] lg:[--anatomy-focus:50%_50%]">
+      <div className="tone-photo relative min-h-[90svh] overflow-hidden bg-night [--anatomy-focus:62%_50%] lg:[--anatomy-focus:50%_50%]">
         <EditorialImage depth={false}><FilmImage name="anatomyProfile" priority sizes="100vw" position="var(--anatomy-focus)" grade="none" /></EditorialImage>
         <div className="gutter relative z-10 flex min-h-[90svh] flex-col justify-end pb-12 pt-28">
           <Headline id="anatomy-h" as="h1" size="1" technique="lines" className="max-w-[12ch]" inscription="The" voice="instrument." />
@@ -36,7 +36,7 @@ export function AnatomyTitle() {
       </div>
       <div className="tone-light editorial-details gutter">
         <ReelMark n={2} act="legend" />
-        <ScrollRevealText className="t-story text-bone">Five hundred kilograms of muscle and nerve that notices your breathing before you do.</ScrollRevealText>
+        <ScrollRevealText className="t-story text-bone">Several hundred kilograms of muscle and nerve that notices your breathing before you do.</ScrollRevealText>
         <dl className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-5">
           {catalogue.map(([k, v]) => <div key={k} className="border-t border-line py-4">
             <dt className="label text-dust">{k}</dt>
@@ -49,7 +49,7 @@ export function AnatomyTitle() {
   );
 }
 
-/** §2 · S25 scale balance: 10 g against 500 kg. Signature: the beam levels as you scroll. */
+/** §2 · S25 scale balance: a light rein against a heavy horse (no figures: 4 Nov 2026 audit). Signature: the beam levels as you scroll. */
 export function ScaleBalance() {
   const reduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -64,13 +64,13 @@ export function ScaleBalance() {
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center">
         <div>
           <p className="label text-brass">The reins</p>
-          <Headline id="grams-h" className="mt-4" inscription="Ten grams" voice="against half a tonne." />
+          <Headline id="grams-h" className="mt-4" inscription="A light touch" voice="against a heavy horse." />
           <ScrollRevealText className="t-story mt-6 max-w-lg text-sand">
-            The lightest touch on the rein can turn a 500 kg stallion. Pull hard and the horse braces against you. Children learn fast that force fails and clarity works.
+            The lightest touch on the rein can steer a stallion of several hundred kilograms. Pull hard and the horse braces against you. Children learn fast that force fails and clarity works.
           </ScrollRevealText>
         </div>
         <div ref={ref} className="relative mx-auto aspect-[5/3] w-full max-w-xl">
-          <svg viewBox="0 0 500 300" className="h-full w-full" role="img" aria-label="A balance: ten grams on one side levels five hundred kilograms on the other">
+          <svg viewBox="0 0 500 300" className="h-full w-full" role="img" aria-label="A balance: a light touch on the rein on one side, a heavy horse on the other">
             <path d="M250 70 L250 270 M200 270 L300 270" stroke="var(--color-brass)" strokeWidth="2" />
             <path d="M236 70 L250 52 L264 70 Z" fill="var(--color-gold)" />
             <motion.g style={{ rotate: reduced ? 0 : smooth, originX: "250px", originY: "70px" }}>
@@ -80,7 +80,7 @@ export function ScaleBalance() {
               <line x1="40" y1="70" x2="40" y2="150" stroke="var(--color-brass)" strokeWidth="1" />
               <path d="M0 150 Q40 175 80 150 Z" fill="none" stroke="var(--color-brass)" strokeWidth="1.5" />
               <text x="40" y="140" textAnchor="middle" className="font-mono" fontSize="16" fill="var(--color-gold)">
-                10 g
+                LIGHT
               </text>
               <text x="40" y="196" textAnchor="middle" className="label" fontSize="10" fill="var(--color-sand)" letterSpacing="2">
                 REIN
@@ -90,7 +90,7 @@ export function ScaleBalance() {
               <line x1="460" y1="70" x2="460" y2="150" stroke="var(--color-brass)" strokeWidth="1" />
               <path d="M420 150 Q460 175 500 150 Z" fill="none" stroke="var(--color-brass)" strokeWidth="1.5" />
               <text x="460" y="140" textAnchor="middle" className="font-mono" fontSize="16" fill="var(--color-bone)">
-                500 kg
+                HEAVY
               </text>
               <text x="460" y="196" textAnchor="middle" className="label" fontSize="10" fill="var(--color-sand)" letterSpacing="2">
                 STALLION

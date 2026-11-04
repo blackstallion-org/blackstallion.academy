@@ -10,7 +10,8 @@ import { SCENES, SCENE_TOTAL, SKY, type LayerSpec, type StoryScene } from "./sto
 import "./pratap.css";
 
 const pad = (n: number) => String(n).padStart(2, "0");
-const P = "/images/story/pratap/";
+const STORY = "pratap";
+const P = asset(`/images/story/${STORY}/`);
 
 /**
  * The world that never changes. One blue sky sits behind everything; over it the clouds, two ridges, the ground and

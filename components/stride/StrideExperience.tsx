@@ -43,7 +43,7 @@ export function StrideExperience({ embedded = false }: { /** True inside another
   const controller = useRef<StageController | null>(null);
   const toolsRef = useRef<HTMLDivElement>(null);
 
-  const pinned = !reduced;
+  const pinned = !reduced && !embedded;
   const dockInStage = pinned && wide;
   const toolsOnStage = dockInStage && roomy; // a column of controls down the left edge of the stage, where the horse is not
   // the stage is a different element in the pinned and stacked layouts, so the observers are keyed on the layout
@@ -261,10 +261,20 @@ export function StrideExperience({ embedded = false }: { /** True inside another
       <div className="relative" data-stride-layout={pinned ? (wide ? "pinned-wide" : "pinned-narrow") : "stacked"}>
         {pinned && stage}
         <div className={cn("relative z-10", pinned && "lg:-mt-[100svh] lg:pointer-events-none")}>
-          <Opening ref={openingRef} pinned={pinned} embedded={embedded} />
-          {[0, 1, 2].map((i) => (
-            <Chapter key={i} ref={(el) => void (chapterEls.current[i] = el)} index={i} pinned={pinned} />
-          ))}
+          {embedded ? (
+            <header id="stride-model" className="gutter scroll-mt-20 bg-night pb-8 pt-24 md:pt-28">
+              <p className="label text-brass">The science of the stride</p>
+              <h2 className="t-voice mt-4 text-[clamp(2.2rem,5vw,4.5rem)] leading-tight text-bone">One stride, in motion.</h2>
+              <p className="mt-4 max-w-2xl text-sand">Explore how the horse moves and how the rider follows, with a movement graph drawn from the animation.</p>
+            </header>
+          ) : (
+            <>
+              <Opening ref={openingRef} pinned={pinned} />
+              {[0, 1, 2].map((i) => (
+                <Chapter key={i} ref={(el) => void (chapterEls.current[i] = el)} index={i} pinned={pinned} />
+              ))}
+            </>
+          )}
           <section ref={labRef} id="laboratory" aria-labelledby="lab-h" className={cn("relative", pinned && wide && "lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(27rem,36rem)]")}>
             {pinned && wide && <div aria-hidden />}
             <div className={cn("bg-night", pinned && wide ? "pointer-events-auto border-l border-line" : "")}>
@@ -277,7 +287,7 @@ export function StrideExperience({ embedded = false }: { /** True inside another
           </section>
         </div>
       </div>
-      <Notes />
+      {!embedded && <Notes />}
     </>
   );
 }

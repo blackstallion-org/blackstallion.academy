@@ -5,15 +5,15 @@ import { asset } from "@/lib/content/asset";
 
 const firstRide = [
   {
-    image: asset("/media/legend-today.webp"),
-    alt: "A young cadet touching the curled ear of a Marwari stallion at dawn",
+    image: asset("/images/academy-uniforms/training-red.webp"),
+    alt: "A red-uniformed cadet learning rein handling beside a Marwari with an instructor",
     title: "First, meet the horse.",
     copy: "Before the saddle, there is a conversation. Learn to notice, approach and listen.",
     position: "49% 50%",
   },
   {
-    image: asset("/media/curr-groundcare.webp"),
-    alt: "A cadet picking a horse's hoof in a sunlit stable",
+    image: asset("/images/academy-uniforms/stable-care.webp"),
+    alt: "Cadets in forest green training polos grooming a Marwari",
     title: "Build trust on the ground.",
     copy: "A calm beginning makes room for confidence to follow.",
     position: "50% 45%",
@@ -26,8 +26,8 @@ const firstRide = [
     position: "50% 50%",
   },
   {
-    image: asset("/images/science-rider-posture.webp"),
-    alt: "A rider sitting on a horse in profile",
+    image: asset("/images/academy-uniforms/mounted-practice.webp"),
+    alt: "Helmeted cadets riding at a walk in red and green training uniforms",
     title: "Then, find your seat.",
     copy: "Start with balance, attention and a pace you can understand.",
     position: "54% 50%",
@@ -132,12 +132,12 @@ export function MarwariPortrait() {
       </div>
       <div className="relative aspect-[4/5] w-full sm:aspect-[4/3]">
         <Image
-          src={asset("/images/editorial/marwari-study.webp")}
-          alt="A bay Marwari stallion with inward-curving ears and a white blaze, against a warm studio backdrop"
+          src={asset("/images/academy-uniforms/stallion-reference.webp")}
+          alt="A black Marwari stallion in a sandstone stable, lit by warm golden light"
           fill
           sizes="100vw"
           className="object-cover"
-          style={{ objectPosition: "50% 0%" }}
+          style={{ objectPosition: "78% 40%" }}
         />
       </div>
       <div className="gutter py-8 md:py-10">

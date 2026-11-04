@@ -116,7 +116,7 @@ export function StallionHero() {
   if (!enabled) return null;
 
   const frame = (
-    <div className="tone-dark relative h-[100svh] min-h-[36rem] overflow-hidden bg-night pt-24 md:pt-28">
+    <div className="tone-photo relative h-[100svh] min-h-[36rem] overflow-hidden bg-night pt-24 md:pt-28">
       <div className="gutter pointer-events-none relative z-10 flex flex-wrap items-baseline justify-between gap-4">
         {chapter === 0 ? (
           <>

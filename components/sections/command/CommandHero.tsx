@@ -1,36 +1,39 @@
 import { Headline } from "@/components/film/Headline";
-import { Spotlight } from "@/components/ui/spotlight";
-import { CowboyGuide } from "./CowboyGuide";
+import { CursorScrubVideo } from "./CursorScrubVideo";
 
 /**
- * Title scene · The Command. The academy's guide, a horseman in a wide-brim hat (CowboyGuide), tips his hat under the raking
- * light: one heading, one line, nothing over the figure. He replaced the Spline robot on 2 Nov 2026 (R21); the same guide waits
- * beside the desk below and follows the questions there.
+ * Title scene · The Command. The academy's guide is a cowboy and his horse (the owner's own clip, 3 Nov 2026), and the film is
+ * the whole scene: its warm backdrop fills the section edge to edge, with no dark frame around it, and their heads turn to follow
+ * the cursor across the section (CursorScrubVideo; touch: horizontal drag). Light scope on purpose, so the type is ink on the
+ * film's own cream. Desktop: the whole film sits under the fixed bar, anchored to the bottom and shifted right, its left edge dissolving into the
+ * cream that carries the words. Phones: the words first, then the film at its own 16:9.
  */
 export function CommandHero() {
   return (
     <section
       aria-labelledby="command-title"
       data-parallax-skip
-      className="tone-dark relative overflow-hidden bg-night pt-[clamp(5.5rem,9vh,7.5rem)]"
+      className="relative overflow-hidden bg-[#e8c1a5] pt-[clamp(5.5rem,9vh,7.5rem)]"
+      style={{ touchAction: "pan-y" }}
     >
-      <Spotlight className="-top-40 left-0 md:-top-20 md:left-60" fill="var(--color-bone)" />
-      <div className="gutter relative grid min-h-[calc(100svh-clamp(5.5rem,9vh,7.5rem))] items-center gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-        <div className="relative z-10 max-w-xl pt-6 lg:pt-0">
+      <div className="gutter relative z-10 flex flex-col justify-center pb-4 pt-6 lg:min-h-[calc(100svh-clamp(5.5rem,9vh,7.5rem))] lg:pb-0 lg:pt-0">
+        <div className="max-w-xl lg:max-w-[min(34rem,38vw)]">
           <p className="label text-brass">Reel 14 · Act III</p>
           <Headline id="command-title" as="h1" animate="mount" className="mt-5" inscription="The Command." voice="Questions, answered." />
-          <p className="t-story mt-6 max-w-md text-sand">
+          <p className="t-story mt-6 max-w-md text-sand lg:max-w-[22rem]">
             Fees, safety, curriculum and campus partnerships, answered from what the academy has published.
           </p>
           <a href="#desk" className="label mt-10 inline-flex items-center gap-3 border-b border-line pb-2 text-bone transition-colors hover:border-gold hover:text-gold">
             Ask a question <span aria-hidden>↓</span>
           </a>
         </div>
+      </div>
 
-        {/* The guide, full length, greeting; the section clips nothing of him. */}
-        <div className="relative mx-auto h-[clamp(360px,58svh,780px)] w-full max-w-[34rem] lg:h-[min(84svh,840px)]">
-          <CowboyGuide state="greeting" priority sizes="(min-width: 1024px) 34rem, 80vw" className="absolute inset-x-0 bottom-0 mx-auto h-full w-auto" />
-        </div>
+      {/* The film, whole and uncropped, starting below the fixed bar (the bar never sits over the guide's head). Phones: under the
+          words at its 16:9. Desktop: the full picture fitted to the space under the bar, anchored to the bottom and shifted right;
+          its left edge fades into the same cream that carries the words. */}
+      <div className="relative mt-4 aspect-video w-full lg:absolute lg:bottom-0 lg:left-[14%] lg:right-[-2%] lg:top-[clamp(5.5rem,9vh,7.5rem)] lg:mt-0 lg:aspect-auto [mask-image:linear-gradient(to_bottom,transparent,#000_24%)] lg:[mask-image:linear-gradient(to_right,transparent,#000_16%)]">
+        <CursorScrubVideo className="absolute inset-0" fit="contain" objectPosition="72% 100%" />
       </div>
     </section>
   );

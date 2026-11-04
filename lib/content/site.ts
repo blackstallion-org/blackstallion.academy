@@ -26,7 +26,7 @@ export type Reel = {
 
 export const reels: Reel[] = [
   { n: 1, href: "/legend", act: "legend", title: "The Marwari", inscription: "The land", voice: "of death.", blurb: "Eight hundred years of the horse that would not leave the field.", image: "duneSilhouette" },
-  { n: 2, href: "/anatomy", act: "legend", title: "The Instrument", inscription: "The", voice: "instrument.", blurb: "Five hundred kilograms that read you first.", image: "anatomyProfile" },
+  { n: 2, href: "/anatomy", act: "legend", title: "The Instrument", inscription: "The", voice: "instrument.", blurb: "Several hundred kilograms that read you first.", image: "anatomyProfile" },
   { n: 3, href: "/statue", act: "legend", title: "The 3D Monument", inscription: "Cast in bronze.", voice: "Built to endure.", blurb: "Six chapters around the academy's bronze of a cadet and a Marwari.", image: "curriculumHeroStatue" },
   { n: 4, href: "/science", act: "citadel", title: "The Matrix", inscription: "What the saddle", voice: "does to a child.", blurb: "Four systems, one twenty-minute session.", image: "scienceRider" },
   { n: 5, href: "/why", act: "citadel", title: "Crisis & Cure", inscription: "Digital fragility", voice: "is a choice.", blurb: "Character is forged in the arena.", image: "whyCure" },

@@ -74,7 +74,7 @@ export function AdminShell({ name, current, inside = false, children }: { name: 
   }, [drawer]);
 
   return (
-    <div ref={scopeRef} data-admin-shell className={cn("console flex min-h-[100svh] transition-colors duration-300", dark && "tone-dark")}>
+    <div ref={scopeRef} data-admin-shell className={cn("console flex min-h-[100svh] transition-colors duration-300", dark && "tone-photo")}>
       {/* The sidebar (Mosaic): a white, full-height column with rounded right corners; it collapses to icons on a desktop. */}
       <aside aria-label="Staff console" className="hidden shrink-0 transition-[width] duration-200 lg:block" style={{ width: collapsed ? "5rem" : "16rem" }}>
         <div className={cn("sticky top-0 flex h-[100svh] flex-col overflow-hidden rounded-r-2xl bg-ember shadow-[var(--plate-shadow)]", dark && "border-r border-line")}>
@@ -140,7 +140,7 @@ export function AdminShell({ name, current, inside = false, children }: { name: 
               role="dialog"
               aria-modal="true"
               aria-label="Console menu"
-              className={cn("console absolute inset-y-0 left-0 flex w-[min(20rem,88vw)] flex-col overflow-y-auto rounded-r-2xl bg-ember shadow-xl", dark && "tone-dark")}
+              className={cn("console absolute inset-y-0 left-0 flex w-[min(20rem,88vw)] flex-col overflow-y-auto rounded-r-2xl bg-ember shadow-xl", dark && "tone-photo")}
               initial={reduced ? false : { x: "-100%" }}
               animate={{ x: 0 }}
               exit={reduced ? { opacity: 0 } : { x: "-100%" }}

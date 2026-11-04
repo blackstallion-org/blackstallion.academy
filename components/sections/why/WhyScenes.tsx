@@ -22,7 +22,7 @@ export function WhyTitle() {
 
   return (
     <section aria-labelledby="why-h" className="editorial-scene">
-<div className="tone-dark editorial-visual tone-dark relative min-h-[100svh] overflow-hidden bg-black text-bone">
+<div className="tone-photo editorial-visual relative min-h-[100svh] overflow-hidden bg-black text-bone">
       {/* Background plate (2 Nov 2026, R26): a boy walking out of the dark toward a stable door and a waiting Marwari. It replaced
           the stock "portal" film, which had no horse in it. A slow push-in stands in for the film's motion (still under reduced motion). */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
@@ -120,7 +120,7 @@ export function Glass() {
             <ScrollRevealText className="t-story mt-6 max-w-lg text-sand">{why.glass.body}</ScrollRevealText>
           </Reveal>
         </div>
-        <div className="tone-dark relative mx-auto h-[560px] w-[280px] rounded-[44px] border border-frost/30 bg-charcoal p-3 shadow-[0_40px_100px_-20px_rgb(73_49_38/0.55)]">
+        <div className="tone-photo relative mx-auto h-[560px] w-[280px] rounded-[44px] border border-frost/30 bg-charcoal p-3 shadow-[0_40px_100px_-20px_rgb(73_49_38/0.55)]">
           <div className="relative h-full w-full overflow-hidden rounded-[34px] bg-gradient-to-b from-umber to-night">
             <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
             <p className="font-mono absolute left-0 right-0 top-12 text-center text-4xl font-light text-frost/80">03:12</p>
@@ -184,36 +184,23 @@ export function Monolith({ lines, coda, label }: { lines: string[]; coda?: strin
   const { scrollYProgress } = useScroll({ target: textRef, offset: ["start 0.92", "end 1"] });
   const words = lines.join(" ¶ ").split(" ");
 
+  // 4 Nov 2026 (owner): the text is set to the height of the photograph beside it (two equal columns, the picture
+  // stretches to the text), instead of a poster-size paragraph that ran past the frame. Captions and the second plate are gone.
   return (
-    <section
-      aria-label={label ?? "The sanctuary of unpowered truth"}
-      className="gutter relative py-[clamp(6rem,16vh,14rem)] overflow-hidden"
-    >
-      {/* Section Header */}
-      <div className="flex flex-col gap-2">
-        <Label className="text-gold">
-          {label ?? "The sanctuary of unpowered truth"}
-        </Label>
-        <p className="font-mono text-xs uppercase tracking-[0.24em] text-sand">
-          The Human &amp; Horse Bond · Sacred Trust
-        </p>
-      </div>
-
-      {/* Main Showcase Layout */}
-      <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
-        {/* Left Column: Scroll-illuminated Monolith text + Wide pasture plate */}
-        <div>
-          <p ref={textRef} className="t-voice text-display-2 leading-[1.08] text-bone">
+    <section aria-label={label ?? "The sanctuary of unpowered truth"} className="gutter relative py-[clamp(5rem,12vh,9rem)]">
+      <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-16">
+        <div className="flex flex-col justify-center">
+          <Label>{label ?? "The sanctuary of unpowered truth"}</Label>
+          <p ref={textRef} className="t-voice mt-8 text-[clamp(1.6rem,2.6vw,2.6rem)] leading-[1.18] text-bone">
             {words.map((w, k) =>
               w === "¶" ? (
-                <span key={k} className="block h-8" />
+                <span key={k} className="block h-5" />
               ) : (
                 <Word
                   key={k}
                   progress={scrollYProgress}
                   reduced={reduced}
-                  // Words light in sequence over the first 80% of the travel, each fading over a short window, so the
-                  // last word is complete at 90% and the whole text holds at full ink for the last tenth.
+                  // Words light in sequence over the first 80% of the travel, so the whole text holds at full ink for the last tenth.
                   range={[(k / words.length) * 0.8, ((k + 1) / words.length) * 0.8 + 0.1]}
                 >
                   {w}
@@ -221,65 +208,10 @@ export function Monolith({ lines, coda, label }: { lines: string[]; coda?: strin
               ),
             )}
           </p>
-
-          {coda && (
-            <p className="t-story mt-10 text-xl italic text-gold font-normal">
-              {coda}
-            </p>
-          )}
-
-          {/* Wide Landscape Plate: Kneeling in pasture */}
-          <div className="mt-14 overflow-hidden border border-brass/25 bg-night shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
-            <div className="relative aspect-[16/10] overflow-hidden">
-              <FilmImage
-                name="bondField"
-                grade="none"
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="opacity-100 transition-transform duration-700 hover:scale-[1.02]"
-              />
-            </div>
-            <div className="border-t border-brass/20 bg-night/95 p-5 flex items-baseline justify-between gap-4">
-              <div>
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-gold">
-                  02 · Field Communion
-                </span>
-                <p className="t-voice mt-1 text-lg text-bone">
-                  Kneeling eye-to-eye in open pasture
-                </p>
-              </div>
-              <span className="font-mono text-xs text-dust">
-                Untethered
-              </span>
-            </div>
-          </div>
+          {coda && <p className="t-story mt-8 text-lg italic text-gold">{coda}</p>}
         </div>
-
-        {/* Right Column: Vertical Intimate Portrait */}
-        <div className="flex flex-col gap-4">
-          <div className="relative overflow-hidden border border-brass/30 bg-night shadow-[0_24px_60px_rgba(0,0,0,0.7)] group">
-            <div className="relative aspect-[2/3] overflow-hidden">
-              <FilmImage
-                name="currGroundcare"
-                grade="none"
-                priority
-                position="50% 40%"
-                sizes="(min-width: 1024px) 40vw, 100vw"
-                className="opacity-100 transition-transform duration-700 group-hover:scale-[1.03]"
-              />
-            </div>
-            <div className="border-t border-brass/25 bg-night/95 p-6">
-              <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-gold">
-                01 · The Unbroken Covenant
-              </span>
-              <p className="t-voice mt-1.5 text-xl text-bone">
-                Reverence, surrender and mutual truth
-              </p>
-              <p className="t-story mt-2 text-sm text-sand/80 leading-relaxed">
-                A 500-kilogram partner that answers only the reality of how you feel. The cadet masters themselves to earn the stallion&apos;s peace.
-              </p>
-            </div>
-          </div>
+        <div className="relative aspect-[4/5] overflow-hidden lg:aspect-auto lg:min-h-[30rem]">
+          <FilmImage name="currGroundcare" grade="none" position="50% 40%" sizes="(min-width: 1024px) 46vw, 100vw" />
         </div>
       </div>
     </section>

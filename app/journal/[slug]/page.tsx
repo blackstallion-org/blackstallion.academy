@@ -33,7 +33,7 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
 
   return (
     <article>
-      <header className="editorial-scene"><div className="tone-dark editorial-visual relative min-h-[88svh] overflow-hidden">
+      <header className="editorial-scene"><div className="tone-photo editorial-visual relative min-h-[88svh] overflow-hidden">
         <FilmImage name={post.cover} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
@@ -90,7 +90,7 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
         </div>
       </div>
 
-      <Link href={`/journal/${next.slug}`} className="tone-dark group relative block h-[60svh] overflow-hidden border-t border-line bg-night">
+      <Link href={`/journal/${next.slug}`} className="tone-photo group relative block h-[60svh] overflow-hidden border-t border-line bg-night">
         <FilmImage name={next.cover} />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-night/40 to-transparent" />
         <div className="gutter relative flex h-full flex-col justify-end pb-12">

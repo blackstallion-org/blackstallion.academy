@@ -3,9 +3,9 @@ import { CinematicStatueScroll } from "@/components/sections/statue/CinematicSta
 
 export const metadata: Metadata = {
   alternates: { canonical: "/statue" },
-  title: "The Cadet and the Marwari · The 3D Equestrian Monument",
+  title: "Rossbändiger · The 3D Equestrian Monument",
   description:
-    "A six-chapter 3D journey around the academy's bronze of a cadet and a Marwari: Origin, The Steed, The Rider, Craft & Stone, Archive, and a full orbit.",
+    "A six-chapter cinematic 3D journey through the Rossbändiger equestrian statue: Origin, The Steed, The Rider, Craft & Stone, Archive, and the 360° Sovereign Orbit.",
 };
 
 export default function StatuePage() {

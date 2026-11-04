@@ -1,4 +1,6 @@
 import { UniformCollection } from "@/components/sections/cadets/UniformCollection";
+import { UniformGallery } from "@/components/sections/cadets/UniformGallery";
+import { UniformViewer } from "@/components/sections/cadets/UniformViewer";
 import type { Metadata } from "next";
 import { EndCard } from "@/components/film/EndCard";
 import { CadetsTitle, CadetDrillShowcase, CreedCard, DayClock, MilestoneReels, PassportObject, Spotlights, UniformSpec } from "@/components/sections/cadets/CadetScenes";
@@ -20,6 +22,8 @@ export default function CadetsPage() {
       <PassportObject />
       <UniformSpec />
       <UniformCollection />
+      <UniformGallery />
+      <UniformViewer />
       <Spotlights />
       <DayClock />
       <CreedCard />

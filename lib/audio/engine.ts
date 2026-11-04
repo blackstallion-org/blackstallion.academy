@@ -145,7 +145,12 @@ export function effectPlaying(): boolean {
 }
 
 /** Returns whether playback was attempted; blocked/missing media stays silent. */
+/** Off when the sound menu is on "Open-range music" (the track alone, no horse sounds). */
+let effectsAllowed = true;
+export function setEffectsAllowed(on: boolean): void { effectsAllowed = on; if (!on) stopEffects(); }
+
 export function playEffect(name: SoundEffect, volume = LEVELS[name], minGapMs = 0): boolean {
+  if (!effectsAllowed) return false;
   if (!soundEnabled() || !unlocked || document.hidden) return false;
   // Let a deliberately unmuted film own the sound stage.
   if (filmPlaying()) return false;

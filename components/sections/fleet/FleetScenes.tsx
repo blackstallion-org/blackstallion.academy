@@ -6,7 +6,7 @@ import { AnimatePresence, motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
-import { Label, ReelMark, StatusDot } from "@/components/film/Marks";
+import { Label, StatusDot } from "@/components/film/Marks";
 import { careLog, coatRegistry, feeds, fleet, FLEET_TOTAL, statusLabel, type Stallion } from "@/lib/content/fleet";
 import { hubs } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
@@ -23,11 +23,10 @@ const hubName = (slug: string) => hubs.find((h) => h.slug === slug)?.short ?? sl
 export function FleetTitle() {
   return (
     // no sitewide parallax here: the plate must stay still under the horse's hooves
-    <section aria-labelledby="fleet-h" data-parallax-skip className="tone-dark relative overflow-hidden bg-night">
+    <section aria-labelledby="fleet-h" data-parallax-skip className="tone-photo relative overflow-hidden bg-night">
       <FleetWorlds>
-        <ReelMark n={7} act="citadel" />
-        <Headline id="fleet-h" as="h1" size="2" animate="mount" className="mt-5 [text-shadow:0_2px_18px_rgba(0,0,0,0.6)]" inscription="Twenty-one stallions." voice="Every one has a name." />
-        <p className="t-story mt-4 max-w-[36ch] text-sand [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]">Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.</p>
+        <Headline id="fleet-h" as="h1" size="2" animate="mount" className="[text-shadow:0_2px_18px_rgba(0,0,0,0.6)]" inscription="Twenty-one stallions." voice="Every one has a name." />
+        <p className="t-story mt-4 max-w-[36ch] text-sand [text-shadow:0_1px_10px_rgba(0,0,0,0.7)]">Indigenous Marwari and Kathiawari horses, vet-checked daily and watched over around the clock.</p>
       </FleetWorlds>
     </section>
   );
@@ -330,11 +329,11 @@ export function CareLog() {
 }
 
 
-/** §2b · S42 the official colour registry. Six studbook coats as inked swatch plates. */
+/** §2b · S42 traditional Marwar coat names, six inked swatch plates. */
 export function CoatRegistry() {
   return (
     <section aria-labelledby="coats-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
-      <Label>Official Marwari studbook</Label>
+      <Label>Traditional colour names</Label>
       <Headline id="coats-h" className="mt-4" inscription="The colour" voice="registry." />
       <ul className="mt-14 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
         {coatRegistry.map((c) => (
@@ -357,7 +356,7 @@ export function CoatRegistry() {
           </li>
         ))}
       </ul>
-      <p className="t-ui mt-6 text-xs text-dust">Registry names as used in Marwar; shades indicative.</p>
+      <p className="t-ui mt-6 text-xs text-dust">Traditional names as used in Marwar; shades indicative. White horses cannot be registered as Marwari.</p>
     </section>
   );
 }

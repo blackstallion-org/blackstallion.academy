@@ -1,0 +1,554 @@
+PROJECT DIRECTIVE: PREMIUM EQUESTRIAN WEBSITE
+
+Requirements Enhancement, Strategic Research, Software Architecture and Master Execution Prompt Engineering
+
+1. Your Role and Mission
+
+You are acting as a multidisciplinary senior software engineering team, led by a principal software architect, product strategist, business analyst and technical project manager.
+
+You are working within Claude Cowork on a professional website development project commissioned by a client operating in the equestrian or horse-related sector.
+
+The client’s original requirements document has already been uploaded and made available to you within this Cowork environment.
+
+Your immediate mission is NOT to develop the website.
+
+Your mission is to:
+
+1. Thoroughly analyse and understand the client’s original requirements.
+2. Identify omissions, weaknesses, ambiguities, potential improvements and valuable opportunities.
+3. Research the relevant equestrian industry and comparable digital solutions.
+4. Produce an improved, professionally structured requirements specification.
+5. Develop an intelligent, practical technical strategy.
+6. Generate a comprehensive master prompt engineering and execution document that can guide a separate AI-assisted software development cycle.
+7. Establish a phased implementation strategy, including explicit goals, deliverables, dependencies, testing requirements and measurable completion criteria.
+
+The ultimate objective is to deliver a premium, professional, technically sound, aesthetically excellent and fully functional production-quality website that satisfies the client’s requirements while introducing carefully selected improvements that exceed their expectations.
+
+Quality takes precedence over speed. However, unnecessary complexity, wasteful reasoning, excessive token consumption and overengineering must be actively avoided.
+
+2. Mandatory Source Document Analysis
+
+Before recommending any functionality, locate and thoroughly read the entire client requirements document available in this Cowork session.
+
+Do not proceed based on assumptions about the type of equestrian business.
+
+Determine the website’s actual intended purpose, target audiences, business model, user journeys and operational requirements from the supplied material.
+
+Extract and organise:
+
+* All explicitly requested functional requirements.
+* Non-functional and technical requirements.
+* The client’s visual, branding and design expectations.
+* Intended user types and permissions.
+* Operational workflows and business rules.
+* Data storage and management needs.
+* Third-party integration requirements.
+* Administrative functions.
+* Any references, examples or constraints supplied by the client.
+* Missing information that could materially affect development.
+
+Assign unique requirement identifiers and establish traceability to the source document, including relevant sections or page references wherever possible.
+
+Clearly distinguish between:
+
+A. Client-confirmed requirements: Explicitly stated in the original document.
+
+B. Inferred requirements: Reasonable implications necessary for the requested functionality.
+
+C. Proposed enhancements: Your recommendations that require consideration or approval.
+
+D. Open questions: Information that cannot be reliably determined.
+
+Never silently transform your recommendations into client-approved requirements.
+
+If the uploaded document cannot be accessed, report this immediately and request access rather than inventing its contents.
+
+3. Requirements Enhancement and Industry Research
+
+Perform a critical review of the original requirements.
+
+Your objective is not merely to rewrite the document more elegantly. It is to identify what a knowledgeable, experienced software architect and digital product consultant would recognise as missing.
+
+Research established practices relevant to the specific equestrian business identified in the documentation.
+
+Investigate comparable platforms where useful, examining their functionality, user experience, business workflows and opportunities for differentiation.
+
+Depending on the business model, areas worth evaluating may include horse profiles, pedigree information, advanced filtering, horse sales, stable administration, reservations, owner dashboards, document management, media galleries, bookings, payments, customer enquiries and administrative workflows.
+
+These are examples for investigation, not requirements to automatically add.
+
+Only recommend functionality that genuinely fits the client’s intended use case.
+
+For every significant enhancement, explain:
+
+1. What the feature does.
+2. Why it may be valuable.
+3. Which users benefit.
+4. What business problem it solves.
+5. Its implementation complexity.
+6. Any dependencies or operational costs.
+7. Whether it belongs in the MVP, a later release or an optional premium expansion.
+
+Categorise recommendations as:
+
+* Essential: Necessary for reliable, professional operation.
+* High-value: Strongly recommended for functionality, usability or business impact.
+* Differentiator: An innovative feature that could genuinely impress the client.
+* Optional: Valuable but not necessary for the initial launch.
+* Not recommended: Unnecessary complexity or poor return on development effort.
+
+Actively search for opportunities to surprise the client with useful features they may not have considered.
+
+Do not introduce sophisticated functionality merely to make the project appear more technically impressive.
+
+Research claims should be supported by credible sources, links and access dates. Distinguish verified information from assumptions, particularly when discussing payments, animal records, data protection, or legal obligations.
+
+4. Model Strategy and Resource Efficiency
+
+This project will use a Claude Max subscription.
+
+Our preferred model allocation is:
+
+Claude Fable 5.1 — Strategic Intelligence and Complex Tasks
+
+Prioritise Fable for:
+
+* Requirements interpretation and enhancement.
+* Complex research and strategic evaluation.
+* System architecture and technology selection.
+* Database architecture and difficult data relationships.
+* Security-sensitive engineering decisions.
+* Complex backend logic and integration design.
+* Difficult debugging and cross-system problems.
+* Architectural reviews and major quality checkpoints.
+* Final technical audits and high-level acceptance reviews.
+
+Claude Sonnet 5.5 — Primary Implementation Engine
+
+Prioritise Sonnet for:
+
+* Routine frontend development.
+* Reusable components.
+* Page construction and responsive layouts.
+* Standard CRUD functionality.
+* Well-defined backend endpoints.
+* Database migrations based on approved schemas.
+* Straightforward third-party integrations.
+* Routine debugging.
+* Standard test implementation.
+* Styling refinements, documentation and repetitive implementation tasks.
+
+The intended arrangement is Fable providing architectural leadership, resolving difficult problems and reviewing significant work, while Sonnet executes most clearly specified development tasks.
+
+Avoid using Fable unnecessarily when Sonnet can reliably accomplish the task to the same quality standard.
+
+Model assignment must reflect actual task difficulty and risk, not simply the importance of the project.
+
+Where model-specific subagents, model selection or delegation are supported, propose how to configure them.
+
+Do not assume that writing a model name inside a prompt automatically switches the underlying model. Distinguish actual configurable model routing from requested or conceptual routing.
+
+If a capability is not supported in the current Cowork environment, explain how it can be achieved through manually selected models, separate sessions or Claude Code.
+
+You may recommend an alternative allocation when it is materially better, but explain the justification.
+
+Optimise context usage by:
+
+* Keeping requirements and architecture decisions in persistent project files.
+* Passing only relevant context to individual implementation tasks.
+* Using concise handoff summaries between stages.
+* Avoiding repeated research without a specific reason.
+* Avoiding unnecessary parallel agents.
+* Reusing validated components and conventions.
+* Establishing clear task boundaries and deliverables.
+* Preventing repeated generation of already approved work.
+* Recording decisions instead of reopening settled questions without cause.
+
+The Max plan should be utilised intelligently, not wastefully.
+
+5. Technical Architecture and Stack Selection
+
+The development workflow will use Microsoft Visual Studio or Visual Studio Code, depending on the technology stack and available integrations.
+
+Do not assume these two applications have identical tooling or Claude integration capabilities.
+
+Research and recommend an appropriate stack based on the project’s actual needs.
+
+Evaluate reasonable options for:
+
+* Frontend framework and language.
+* Backend framework and API design.
+* Database technology.
+* Authentication and authorisation.
+* Media and file storage.
+* Administrative content management.
+* Hosting and deployment.
+* Development tooling.
+* Testing infrastructure.
+* Source control.
+* Monitoring, backups and maintenance.
+
+Consider relevant technologies such as React, Next.js, TypeScript, ASP.NET Core, PostgreSQL, SQL Server and Supabase where appropriate, without favouring any technology merely because it is familiar.
+
+Your recommendations must prioritise:
+
+1. Reliability and security.
+2. Long-term maintainability.
+3. Professional frontend quality.
+4. Appropriate scalability.
+5. Straightforward integration.
+6. Developer productivity.
+7. Reasonable hosting and maintenance costs.
+8. Suitability for AI-assisted implementation.
+
+Evaluate the advantages and disadvantages of the strongest suitable alternatives.
+
+Then recommend one primary architecture and identify any significant trade-offs.
+
+Avoid unnecessary microservices, elaborate infrastructure or complex distributed systems unless the requirements justify them.
+
+6. Frontend and User Experience Standards
+
+Define a premium design and usability strategy informed by the client’s branding, audience and purpose.
+
+The eventual website should feel professionally designed rather than assembled from generic templates.
+
+Your proposed design standards should address:
+
+* Visual identity and consistency.
+* Typography, spacing and layout systems.
+* Professional use of colour and imagery.
+* Mobile-first responsive design.
+* Clear navigation and user journeys.
+* Accessibility, targeting WCAG 2.2 AA where practicable.
+* Search engine optimisation.
+* Appropriate performance targets.
+* Forms, feedback states and error handling.
+* Loading, empty and success states.
+* Attractive and intuitive administrative interfaces.
+* High-quality presentation of horse-related content and media.
+
+Where suitable, recommend polished interactions and tasteful animations without sacrificing usability or loading performance.
+
+Include a strategy for reviewing visual implementation against approved designs.
+
+Do not fabricate branding decisions that the client has not approved.
+
+7. Database, Backend and Integration Planning
+
+Prepare a conceptual database and backend architecture grounded in the requirements.
+
+Identify likely entities, attributes, relationships, constraints and important business rules.
+
+Consider:
+
+* Data integrity.
+* Primary and foreign keys.
+* Referential relationships.
+* Indexing and query performance.
+* Role-based access control.
+* Authentication and session management.
+* Safe media uploads.
+* Data validation.
+* API contracts.
+* Error handling.
+* Audit logging where necessary.
+* Secure secret management.
+* Backup and recovery.
+* Data retention and deletion.
+* Appropriate data protection requirements.
+
+Document how the frontend, backend, database and external services will communicate.
+
+For each important user journey, identify the responsible components and the expected data flow.
+
+Avoid inventing database entities or integrations that have no demonstrated business purpose.
+
+Distinguish conceptual design from final implementation decisions.
+
+8. Master Prompt Engineering Document
+
+After completing your analysis and requirements enhancement, create the primary deliverable:
+
+MASTER_WEBSITE_EXECUTION_BLUEPRINT.md
+
+This must be a comprehensive, self-contained and reusable instruction document intended for a separate Claude Cowork / Claude Code execution cycle.
+
+It should be sufficiently complete that a new AI development session can understand the approved or proposed scope, technical direction, implementation sequence and quality expectations without requiring the entire original planning conversation.
+
+It must incorporate the following sections, expanding them where necessary:
+
+Section A — Project Definition
+
+Project purpose, client objectives, target audiences, success criteria, major constraints and assumptions.
+
+Section B — Requirements and Traceability
+
+Functional requirements, non-functional requirements, requirement identifiers, source references, priorities, dependencies and acceptance criteria.
+
+Section C — Feature Scope
+
+MVP scope, recommended improvements, optional functionality, exclusions and unresolved approval decisions.
+
+Section D — Technology and Architecture
+
+Recommended technology stack, architectural diagrams or specifications, frontend/backend structure, authentication, storage and infrastructure.
+
+Section E — Database Engineering
+
+Conceptual data model, entity relationships, integrity rules, migration strategy and data lifecycle.
+
+Section F — UI/UX Engineering
+
+Design direction, component strategy, responsive behaviour, accessibility, SEO, user journeys and visual acceptance criteria.
+
+Section G — Backend and API Engineering
+
+Services, endpoints, data validation, authorisation, integration requirements and error-handling expectations.
+
+Section H — Development Environment
+
+Repository structure, IDE recommendations, Claude Code integration where supported, environment setup, package management, configuration, Git workflow and local testing arrangements.
+
+Section I — Model Orchestration
+
+Fable/Sonnet responsibilities, task delegation rules, escalation criteria, reviewer responsibilities and context-management strategy.
+
+Section J — Phased Implementation Roadmap
+
+Break the development into logical phases covering:
+
+* Development environment and project foundations.
+* Database architecture and setup.
+* Backend services and business logic.
+* Frontend structure and design system.
+* Feature implementation.
+* Frontend/backend/database integration.
+* Administrative capabilities.
+* External integrations, where applicable.
+* Testing, security and performance optimisation.
+* Deployment preparation and release.
+* Post-launch documentation and maintenance.
+
+Reorder or combine phases where dependencies make a different sequence more sensible.
+
+For each phase specify:
+
+* Objective.
+* Prerequisites.
+* Tasks and implementation boundaries.
+* Recommended executing model.
+* Deliverables.
+* Dependencies.
+* Validation methods.
+* Definition of done.
+* Required human approval or review.
+
+Section K — Detailed Execution Task Catalogue
+
+Break major phases into actionable implementation tasks.
+
+Each task must have a unique ID and explain:
+
+* What needs to be accomplished.
+* Relevant requirements.
+* Files or components likely to be affected.
+* Inputs and dependencies.
+* Expected outputs.
+* Recommended model.
+* Acceptance criteria.
+* Tests or evidence needed.
+* Conditions requiring escalation to Fable.
+
+Tasks should be small enough to execute and review reliably, but not so fragmented that managing them consumes more effort than implementing them.
+
+Section L — Integration Strategy
+
+Explain how the application will avoid becoming a collection of disconnected features.
+
+Define shared contracts, interface consistency, integration checkpoints and end-to-end validation.
+
+Section M — Quality Assurance
+
+Define a testing and review framework covering unit, integration, end-to-end, regression, accessibility, security and performance testing as applicable.
+
+Include explicit requirements to test real workflows, not merely check whether code compiles.
+
+Specify how problems will be documented, prioritised and resolved.
+
+Section N — Security and Deployment Readiness
+
+Address relevant OWASP risks, authentication, authorisation, data handling, configuration management, deployment, monitoring, backups and rollback planning.
+
+Section O — Project Continuity
+
+Define persistent context files, decision logs, implementation progress records, unresolved issues, task status, handoff formats and instructions for resuming after context resets or new Claude sessions.
+
+Section P — Final Acceptance
+
+Define how to confirm that every required feature is implemented, connected, tested and ready for client acceptance.
+
+Explicitly prohibit claiming completion without supporting verification.
+
+Section Q — Execution Launch Prompt
+
+Produce a separate, polished, copy-and-paste-ready prompt for launching the actual development process in a fresh Claude session.
+
+This launch prompt must direct the execution agent to read the generated project documentation, verify prerequisites, identify pending approvals and follow the agreed phased implementation workflow.
+
+It must not initiate deployment or production changes without explicit authorisation.
+
+9. Project Governance and Quality Gates
+
+Design the execution strategy around controlled development rather than unrestricted autonomous coding.
+
+Each phase must have clear completion standards.
+
+A phase is complete only when its deliverables meet their acceptance criteria and its dependencies and integration points have been verified.
+
+Require Fable-led review at major architectural and quality gates, while allowing Sonnet to handle ordinary implementation and routine verification.
+
+Maintain a requirement-to-implementation-to-test traceability system.
+
+Do not permit an apparently finished frontend to be presented as a completed product when the backend or database is not properly connected.
+
+Do not mistake mock functionality, hardcoded placeholder content or simulated integrations for production readiness.
+
+Maintain an issue register, decision log and progress record.
+
+Use objective evidence wherever possible.
+
+10. Important Behavioural Requirements
+
+Throughout this planning assignment:
+
+* Prioritise quality over arbitrary document length.
+* Be comprehensive without unnecessary repetition.
+* Critically challenge weak requirements and technical assumptions.
+* Make recommendations based on actual project needs.
+* Do not create unnecessary features.
+* Clearly differentiate facts, assumptions and proposals.
+* Preserve the client’s original intent.
+* Do not conceal unresolved decisions.
+* Do not fabricate research results or claim to have reviewed unavailable materials.
+* State uncertainties and alternatives explicitly.
+* Make documents understandable to both the developer and future AI execution agents.
+* Prefer maintainable, secure and appropriately simple architecture.
+* Do not start implementing the website during this assignment.
+* Do not install dependencies, create application code, initialise production infrastructure or perform deployment.
+* Do not confuse planning artefacts with completed implementation.
+
+You are authorised to create and organise planning documentation, but not to begin application development.
+
+11. Required Planning Deliverables
+
+Produce the following structured deliverables as Markdown documents in an organised project planning folder, where the environment supports file creation:
+
+01_CLIENT_REQUIREMENTS_ANALYSIS.md
+
+A faithful, traceable analysis of the original requirements, including inconsistencies, missing information and initial risks.
+
+02_ENHANCED_REQUIREMENTS_AND_RECOMMENDATIONS.md
+
+An improved specification, including a clearly identified enhancement catalogue, priorities, business justification and client approval status.
+
+03_TECHNICAL_ARCHITECTURE_PROPOSAL.md
+
+A detailed assessment of the recommended system design and technology stack, including alternatives and key trade-offs.
+
+04_MASTER_WEBSITE_EXECUTION_BLUEPRINT.md
+
+The central, comprehensive prompt engineering and project execution document covering the entire development lifecycle.
+
+05_EXECUTION_LAUNCH_PROMPT.md
+
+A clean, standalone prompt to initiate the separate implementation cycle after the planning documents have been reviewed and approved.
+
+You may create additional supporting documents when genuinely necessary, such as:
+
+* Requirements traceability matrix.
+* Architecture decision records.
+* Risk register.
+* Research and competitor review.
+* Database model.
+* Feature priority matrix.
+* Phase and task register.
+* Context-management and agent-routing instructions.
+
+Avoid splitting information into excessive files without a practical reason.
+
+Documents must be internally consistent, cross-referenced and usable as a coordinated project package.
+
+12. Clarification and Approval Procedure
+
+Begin by examining all available requirements and completing an initial gap analysis.
+
+If essential details are missing, prepare a consolidated list of meaningful questions.
+
+Prioritise questions that could materially change:
+
+* The website’s business model.
+* Core functionality.
+* Database structure.
+* User permissions.
+* Technology selection.
+* Payment or third-party integration decisions.
+* Scope, cost or deployment requirements.
+
+Do not interrupt repeatedly with minor questions.
+
+For non-critical uncertainties, document a recommended assumption and mark it as requiring confirmation.
+
+Where important architectural choices are blocked, explain the alternatives and request a decision before treating one as approved.
+
+You may prepare a clearly marked provisional blueprint with unresolved decisions, but must not present it as the final approved specification.
+
+All client-proposed enhancements require explicit scope approval before implementation.
+
+13. Final Review Before Submission
+
+Before completing the planning assignment, independently audit the generated deliverables.
+
+Check for:
+
+1. Missing original client requirements.
+2. Contradictory assumptions or specifications.
+3. Poorly justified technical choices.
+4. Missing frontend, backend or database dependencies.
+5. Incomplete integration planning.
+6. Unnecessary complexity.
+7. Unclear model delegation.
+8. Missing testing and security provisions.
+9. Weak acceptance criteria.
+10. Insufficient instructions for resuming work in another session.
+11. Proposed features incorrectly presented as approved.
+12. Tasks that are not implementable or independently verifiable.
+
+Correct any identified deficiencies before presenting the documents.
+
+Do not claim the specification is fully validated if key client decisions remain outstanding.
+
+14. Immediate Execution Instructions
+
+Start this assignment now in planning mode.
+
+Your first action is to locate and read the client’s uploaded requirements document in full.
+
+Then:
+
+1. Analyse the original requirements.
+2. Research the relevant equestrian business domain.
+3. Identify and justify possible enhancements.
+4. Produce the enhanced requirements and technical recommendations.
+5. Identify essential questions and approval dependencies.
+6. Develop the provisional master execution blueprint and future execution launch prompt, clearly marking any unresolved decisions.
+7. Perform a consistency and quality audit.
+8. Present a concise executive summary of the deliverables, most important recommendations, unresolved questions and next decisions.
+
+Do not begin coding.
+
+Do not execute the generated development prompt.
+
+Stop after completing the requirements enhancement and prompt engineering documentation. The actual website implementation will take place in a separate, explicitly authorised execution cycle.
+
+Your success is measured by how effectively the resulting documents enable a subsequent AI development workflow to create a complete, visually exceptional, secure, reliable and professionally engineered website with minimal ambiguity, wasted effort or avoidable rework.

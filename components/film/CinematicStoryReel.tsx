@@ -340,7 +340,7 @@ export function CinematicStoryReel({
       data-parallax-skip
       id={sectionId}
       aria-label={sectionLabel}
-      className={`tone-dark relative w-full bg-black overflow-hidden select-none isolate text-white ${className}`}
+      className={`tone-photo relative w-full overflow-hidden select-none isolate text-white ${className}`}
     >
       {/* Viewport Container */}
       <div
@@ -350,7 +350,7 @@ export function CinematicStoryReel({
         className={`relative w-full ${heightClass} overflow-hidden bg-black`}
       >
         {/* Top Minimal Editorial Bar */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-4 bg-charcoal px-6 py-5 sm:px-10">
+        <div className="tone-dark pointer-events-none absolute inset-x-0 top-0 z-20 flex items-center justify-between gap-4 border-b border-line bg-night px-6 py-5 sm:px-10">
           <div className="flex items-center gap-3">
             <Label className="tracking-[0.28em] text-[0.68rem] text-gold/90">{sectionLabel}</Label>
             {sectionSubLabel && (
@@ -367,7 +367,7 @@ export function CinematicStoryReel({
             <div className="pointer-events-auto">
               <Link
                 href={exploreHref}
-                className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-4 py-1.5 font-mono text-[0.7rem] uppercase tracking-widest text-sand/80 backdrop-blur-md transition-all hover:border-gold hover:text-gold"
+                className="group inline-flex items-center gap-2 rounded-full border border-line px-4 py-1.5 font-mono text-[0.7rem] uppercase tracking-widest text-sand-md transition-all hover:border-gold hover:text-gold"
               >
                 <span>{exploreLabel}</span>
                 <Arrow className="transition-transform group-hover:translate-x-1" />
@@ -476,14 +476,6 @@ export function CinematicStoryReel({
           </div>
         </div>
 
-        {/* Bottom-Left Context Indicator */}
-        {/* Hidden below 640 px, where it ran into the slide counter (the arrows and swipe still work). */}
-        <div className="pointer-events-none absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-20 hidden items-center gap-3 sm:flex">
-          <span className="h-1.5 w-1.5 rounded-full bg-gold/80 animate-pulse" />
-          <span className="font-mono text-[0.62rem] sm:text-[0.68rem] tracking-[0.22em] uppercase text-sand/60">
-            Swipe or use arrows to cycle
-          </span>
-        </div>
       </div>
       <div className="tone-light editorial-reel-notes gutter">
         {slides.map((slide, index) => (

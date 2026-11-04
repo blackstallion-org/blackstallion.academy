@@ -7,7 +7,6 @@ import { ArrowDown, ArrowUp, Check, Download, Plus, RotateCw, SlidersHorizontal,
 import { usePref } from "@/components/sections/admin/use-pref";
 import { aggregate, gateLabel, RANGES, statusName, type Aggregates, type OverviewSnapshot, type RangeDays } from "@/lib/admin/overview";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
-import { useReducedMotion } from "@/lib/motion/reduced";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import styles from "./LiveDashboard.module.css";
@@ -49,7 +48,8 @@ function exportCsv(agg: Aggregates, snapshot: OverviewSnapshot) {
  * switching the range is instant.
  */
 export function LiveDashboard({ initial, refresh, intervalMs = REFRESH_MS }: { initial: OverviewSnapshot; refresh: () => Promise<OverviewSnapshot>; intervalMs?: number }) {
-  const reduced = useReducedMotion();
+  // The console opens finished: figures, charts and cards are simply there, with no count-up, draw-in, fade or stagger on arrival.
+  const reduced = true;
   const { snapshot, state, lastOkAt, fresh, sinceOpen, refreshNow } = useLiveOverview(initial, refresh, intervalMs);
   const [rangeSaved, setRange] = usePref("bsah-admin-range", "30");
   const [layoutSaved, setLayoutSaved] = usePref("bsah-admin-widgets", "");

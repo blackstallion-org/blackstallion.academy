@@ -15,7 +15,7 @@ import { ease } from "@/lib/motion/tokens";
 export function SafetyTitle() {
   return (
     <section aria-labelledby="safety-h" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
+<div className="tone-photo editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
       <FilmImage name="safetyKit" priority scale={1} className="top-16 md:top-20" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 

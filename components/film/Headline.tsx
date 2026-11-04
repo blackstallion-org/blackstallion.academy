@@ -87,7 +87,7 @@ export function Headline({
           </span>
           {" "}
           <span className="block overflow-hidden pb-[0.12em]">
-            <span className={cn("headline-rise t-voice block", voiceColors[voiceColor], voiceClassName)} style={rise(1)}>
+            <span className={cn("headline-rise t-voice headline-voice block", voiceColors[voiceColor], voiceClassName)} style={rise(1)}>
               {voice}
             </span>
           </span>
@@ -112,7 +112,7 @@ export function Headline({
         <span className="block overflow-hidden pb-[0.12em]">
           <motion.span
             variants={animate === "none" ? undefined : line(1)}
-            className={cn("t-voice block", voiceColors[voiceColor], voiceClassName)}
+            className={cn("t-voice headline-voice block", voiceColors[voiceColor], voiceClassName)}
           >
             {voice}
           </motion.span>

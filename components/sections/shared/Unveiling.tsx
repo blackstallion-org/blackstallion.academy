@@ -51,7 +51,7 @@ const beatOf = (p: number) => (p < 0.235 ? 0 : p < 0.69 ? 1 : 2);
  */
 export function Unveiling({ scene, className }: { scene: UnveilingScene; className?: string }) {
   return (
-    <div data-parallax-skip className={cn("tone-dark relative bg-night", className)}>
+    <div data-parallax-skip className={cn("tone-photo relative bg-night", className)}>
       <PinnedScene
         id={scene.id}
         label={chrome.regionLabel}

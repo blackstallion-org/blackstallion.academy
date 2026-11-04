@@ -35,7 +35,7 @@ export default async function HubPage({ params }: PageProps<"/schools/[slug]">) 
   return (
     <>
       <section aria-labelledby="hub-h" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[88svh] overflow-hidden">
+<div className="tone-photo editorial-visual relative min-h-[88svh] overflow-hidden">
         <FilmImage name={hub.image} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">

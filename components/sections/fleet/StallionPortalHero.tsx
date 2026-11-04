@@ -438,7 +438,7 @@ export function StallionPortalHero() {
     <section
       ref={containerRef}
       aria-label="BSAH Sovereign Studbook Portal"
-      className="tone-dark stallion-portal-experience relative w-full h-[100svh] min-h-[640px] overflow-hidden bg-[#0F0E0D] text-white isolate select-none"
+      className="tone-photo stallion-portal-experience relative w-full h-[100svh] min-h-[640px] overflow-hidden bg-[#0F0E0D] text-white isolate select-none"
     >
       {/* Background stallion videos */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">

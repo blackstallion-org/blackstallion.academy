@@ -102,3 +102,16 @@
   .deskChoices { grid-template-columns: minmax(0, 1fr); }
   .fees > div { flex-wrap: wrap; }
 }
+
+/* Dark mode */
+:global(html[data-theme="dark"]) .terminal { background: rgb(31 27 23 / .96); border-color: rgb(201 166 107 / .22); color: #f0ebe4; box-shadow: none; }
+:global(html[data-theme="dark"]) .header { border-color: rgb(201 166 107 / .18); }
+:global(html[data-theme="dark"]) :is(.brandMark, .header > button, .welcome strong, .suggestionNumber, .avatar, .avatarMark, .speaker) { color: #c9a66b; }
+:global(html[data-theme="dark"]) :is(.header > div > span, .welcome > p, .more, .disclaimer, .composer) { color: #c2b7ab; }
+:global(html[data-theme="dark"]) .demo, :global(html[data-theme="dark"]) .avatar { background: #2a221c; color: #c2b7ab; }
+:global(html[data-theme="dark"]) .suggestions button { background: #2a221c; border-color: rgb(201 166 107 / .2); color: #f0ebe4; }
+:global(html[data-theme="dark"]) .bubble { background: #2a221c; border-color: rgb(201 166 107 / .16); }
+:global(html[data-theme="dark"]) .you .bubble { background: #332a22; }
+:global(html[data-theme="dark"]) .composer { border-color: rgb(201 166 107 / .3); background: rgb(0 0 0 / .2); }
+:global(html[data-theme="dark"]) .composer input { color: #f0ebe4; }
+:global(html[data-theme="dark"]) .composer > button, :global(html[data-theme="dark"]) .cursor { background: #c9a66b; color: #171412; }

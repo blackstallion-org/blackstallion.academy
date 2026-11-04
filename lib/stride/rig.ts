@@ -335,6 +335,11 @@ export class StrideRig {
   private appearance: Appearance = { coat: 1, skeleton: false, rider: 1, tack: true };
   private readonly boneMaterial = new THREE.MeshStandardMaterial({ color: BONE_COLOR, roughness: 0.6, metalness: 0, name: "StrideBone" });
   private disposed = false;
+  /** The phase the rig was last put at, and the cadet's own clock (see live()). */
+  private phaseNow = 0;
+  private lifeT = 0;
+  private readonly lifeE = new THREE.Euler();
+  private readonly lifeQ = new THREE.Quaternion();
 
   private readonly tmpA = new THREE.Vector3();
   private readonly tmpB = new THREE.Vector3();
@@ -599,9 +604,43 @@ export class StrideRig {
 
   /** Puts the whole rig at a stride phase (0..1). Everything is a function of the phase alone, so scrubbing and playing agree. */
   setPhase(phase: number) {
+    this.phaseNow = phase;
     this.poseHorse(phase);
     this.poseSaddle();
     this.poseRider(phase);
+    this.poseReins();
+  }
+
+  /**
+   * The cadet is never a statue (5 Nov 2026): he breathes (about fourteen breaths a minute), settles a little in the saddle and looks
+   * about, in small turns layered over the seat-driven pose of the current phase. Each turn is in the bone's own frame (the rider's
+   * bones rest with identity rotations: x pitches forward, y turns, z leans). For display only: setPhase, which the curves are
+   * sampled from, never includes it. With `amount` 0 (reduced motion) the pose is exactly what setPhase made.
+   */
+  live(dt: number, amount: number, moving: boolean) {
+    if (!this.followReady) return;
+    this.poseRider(this.phaseNow);
+    if (amount > 0) {
+      this.lifeT += dt;
+      const t = this.lifeT;
+      const wave = (k: number, a: number, b: number, c: number) => (Math.sin(t * a + k) + 0.6 * Math.sin(t * b + 1.7 + k) + 0.35 * Math.sin(t * c + 4.1 + k)) / 1.95;
+      const breath = Math.sin((t * 2 * Math.PI) / 4.2);
+      const calm = (moving ? 0.5 : 1) * amount; // while the horse walks, the cadet looks ahead more
+      const look = wave(0, 0.43, 0.71, 0.19) * 0.16 * calm; // about 9 degrees either way
+      const nod = wave(11, 0.37, 0.59, 0.23) * 0.05 * calm;
+      const tilt = wave(5, 0.29, 0.53, 0.17) * 0.03 * calm;
+      const sway = Math.sin(t * 0.86 + 1.1) * 0.009 * amount;
+      const turn = Math.sin(t * 0.69) * 0.007 * amount;
+      const add = (name: string, x: number, y: number, z: number) => {
+        const bone = this.riderBones[name];
+        if (bone) bone.quaternion.multiply(this.lifeQ.setFromEuler(this.lifeE.set(x, y, z)));
+      };
+      add("R_Spine", -0.004 * breath * amount, turn, sway);
+      add("R_Chest", -0.009 * breath * amount, turn * 0.6, sway * 0.5);
+      add("R_Neck", 0.007 * breath * amount + nod * 0.4, look * 0.4, -sway * 0.6);
+      add("R_Head", nod * 0.6, look * 0.6, tilt);
+      this.riderAttach.updateMatrixWorld(true);
+    }
     this.poseReins();
   }
 

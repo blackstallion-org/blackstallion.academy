@@ -23,7 +23,7 @@ export function ParentsTitle() {
   const railY = useTransform(scrollYProgress, r(0, 1), ["0%", "60%"]);
   return (
     <section ref={ref} aria-labelledby="parents-h" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
+<div className="tone-photo editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
       <FilmImage name="parentsRail" priority scale={1} className="top-16 md:top-20" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
       {/* The rail runs along the foot of the frame, under the copy, and drops away as you scroll. */}
@@ -129,7 +129,7 @@ function PhoneFrame({ active, all = false }: { active: number; all?: boolean }) 
         </ol>
       </div>
       {!all && (
-        <div className="tone-dark relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-line bg-charcoal p-3 shadow-[0_40px_100px_-20px_rgb(73_49_38/0.55)] md:block">
+        <div className="tone-photo relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-line bg-charcoal p-3 shadow-[0_40px_100px_-20px_rgb(73_49_38/0.55)] md:block">
           <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-night">
             <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
             <div className="t-ui absolute inset-x-0 top-12 z-10 flex items-center justify-between px-5 text-[0.65rem] text-dust">

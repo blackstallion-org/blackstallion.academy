@@ -51,7 +51,7 @@ export const systems = [
 ] as const;
 
 export const comparison = {
-  cols: ["20-min BSAH session", "40-min court sport"],
+  cols: ["A BSAH session", "A court-sport session"],
   rows: [
     { k: "Stress", a: "Calm is required for the horse to cooperate", b: "Adrenaline spikes; calm isn't required" },
     { k: "Posture", a: "Upright, stacked spine for the whole session", b: "Repeated forward hunching and twisting" },
@@ -84,7 +84,7 @@ export const why = {
     voice: "crisis to cure.",
     table: [
       { k: "Physical", a: "Tech-neck slouch", b: "Regal spinal posture" },
-      { k: "Focus", a: "Dopamine burnout", b: "Stoic composure" },
+      { k: "Focus", a: "Scattered attention", b: "Stoic composure" },
       { k: "Connection", a: "Screen isolation", b: "Equine bond" },
       { k: "Credentials", a: "A generic app log", b: "An EFI/STPCI-verified passport" },
     ],
@@ -122,7 +122,7 @@ export const crucible = {
     { name: "The crisis of agency", text: "Superficial virtual metrics replacing authentic self-worth, leaving a generation connected to screens, yet disconnected from physical command." },
   ],
   stallion:
-    "A 500 kg Marwari stallion cannot be controlled by a screen swipe, an algorithmic shortcut or an inflated ego. It demands calm authority, emotional regulation, spatial presence and decisive action in real time.",
+    "A Marwari stallion, several hundred kilograms of muscle, cannot be controlled by a screen swipe, an algorithmic shortcut or an inflated ego. It demands calm authority, emotional regulation, spatial presence and decisive action in real time.",
   closing: [
     "When a cadet masters a horse, they reclaim their focus and emotional poise.",
     "When a cadet reclaims their mind, they strengthen their family.",

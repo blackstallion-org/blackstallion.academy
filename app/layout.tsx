@@ -6,6 +6,7 @@ import "./editorial.css";
 import { Atmosphere } from "@/components/film/Atmosphere";
 import { Loader } from "@/components/motion/Loader";
 import { loaderBootScript } from "@/lib/opening/boot";
+import { themeBootScript } from "@/lib/theme/theme";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { SiteParallax } from "@/components/motion/SiteParallax";
@@ -43,6 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Decides before first paint whether the first-visit loader shows. */}
         <script dangerouslySetInnerHTML={{ __html: loaderBootScript }} />
+        {/* Applies the visitor's saved dark mode before first paint (lib/theme/theme.ts). */}
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body className="grain bg-night text-bone">
         <MotionProvider>

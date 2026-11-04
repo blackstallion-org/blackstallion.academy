@@ -45,3 +45,8 @@
 /* Keep the horse clear of the chapter titles (no text over the image). */
 @media (min-width: 768px) { .visual { inset: 6% 0 0 30%; } .fallback, .canvas { width: min(66vw, 1100px); } }
 @media(max-width:767px){.stage{padding-top:6rem}.visual{inset:16% -15% 28% -10%}.copy{padding-bottom:1rem}}
+
+/* Dark mode */
+:global(html[data-theme="dark"]) .section, :global(html[data-theme="dark"]) .stage { background: #171412; color: #f0ebe4; }
+:global(html[data-theme="dark"]) :is(.topline, .bottomline, .eyebrow, .number) { color: #c9a66b; }
+:global(html[data-theme="dark"]) .eyebrow { border-color: rgb(201 166 107 / .5); }

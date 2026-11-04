@@ -245,7 +245,7 @@ export function BronzeAndTime() {
       data-mode={mode}
       data-js={hydrated ? "true" : undefined}
       data-parallax-skip
-      className={cn("tone-dark", styles.track)}
+      className={cn("tone-photo", styles.track)}
     >
       <div ref={stageRef} className={styles.stage}>
         <canvas ref={canvasRef} className={styles.canvas} aria-hidden />

@@ -38,7 +38,7 @@ export const ocean = {
     {
       name: "The shipwreck",
       verdict: "Legend",
-      text: "Oral histories and early records — later referenced in the sixteenth-century imperial chronicle Ain-i-Akbari — suggest the breed's unique characteristics were influenced by Arabian bloodlines introduced to the west coast. An Arab merchant vessel, the accounts say, was wrecked off the coast of Kutch; seven high-quality horses survived, swam ashore, and were bred with indigenous Marwari and Kathiawari mares, introducing the spirited temperament and fine head shape that became hallmarks of the breed.",
+      text: "The sixteenth-century chronicle Ain-i-Akbari praises the horses of Kutch and repeats a tale of an Arab ship wrecked on that shore with seven fine Arab horses aboard. The tale belongs to Kutch and Gujarat, the home of the Kathiawari, and breed writers describe the Marwari as showing little Arab influence. We tell it as a legend, not as the Marwari's origin.",
     },
     {
       name: "The steppe",
@@ -47,8 +47,8 @@ export const ocean = {
     },
     {
       name: "The native",
-      verdict: "Most accepted",
-      text: "The most widely accepted view is that the Marwari is fundamentally an indigenous horse of India, shaped by natural selection in the harsh Thar Desert. Genetic and phenotypic studies describe it as a distinct population, though its precise ancestry is not settled. Its lyre-shaped ears, curving inward until the tips touch, are the breed's most recognisable trait. For over eight centuries this rugged native bloodline was carefully preserved by the Rathore horsemen of Marwar to produce a horse that is, at its heart, an unbreakable product of Indian soil.",
+      verdict: "A common view",
+      text: "A widely held view is that the Marwari is fundamentally an indigenous horse of India, shaped by natural selection in the harsh Thar Desert. Genetic and phenotypic studies describe it as a distinct population, though its precise ancestry is not settled. Its lyre-shaped ears, curving inward until the tips touch, are the breed's most recognisable trait. For over eight centuries this rugged native bloodline was carefully preserved by the Rathore horsemen of Marwar to produce a horse that is, at its heart, an unbreakable product of Indian soil.",
     },
   ],
 };
@@ -96,7 +96,7 @@ export const lore = {
       name: "Kala, the black horse",
       tag: "The omen vs. the vow",
       lore: "Bards and traveling traders historically viewed solid black horses (Kala) with superstition, associating dark coats with night, death and unpredictable temperaments.",
-      insight: "We reject superstition in favour of character. To us, the black coat represents the Vow of Absolute Loyalty: in cavalry history, a Marwari left the battlefield in three ways — in victory, in death, or carrying its wounded rider to safety. The black coat is a visual reminder of unwavering commitment when conditions are at their worst.",
+      insight: "We reject superstition in favour of character. To us, the black coat represents the Vow of Absolute Loyalty: in Marwar tradition, a Marwari leaves the battlefield in three ways — in victory, in death, or carrying its wounded rider to safety. The black coat is a visual reminder of unwavering commitment when conditions are at their worst.",
     },
     {
       name: "Hair whorls",
@@ -107,7 +107,7 @@ export const lore = {
     {
       name: "The Nukra lineage",
       tag: "Ceremonial durbars vs. institutional protocol",
-      lore: "Pure white and albino-patterned horses (Nukra) were reserved for royal durbars, high ceremonial processions and spiritual gatherings, revered as embodiments of light and prestige.",
+      lore: "Pure white horses (Nukra) were reserved for royal durbars, high ceremonial processions and spiritual gatherings, revered as embodiments of light and prestige.",
       insight: "In institutional horsemanship, coat colour is secondary to structural soundness and training. Nukra is not a separate breed, but the revered white-coat lineage of Marwar representing the excellence of ceremony and protocol. It teaches cadets high-presentation standards, meticulous grooming and ceremonial precision — skills that translate directly into professional executive presence.",
     },
     {

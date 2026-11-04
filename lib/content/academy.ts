@@ -41,11 +41,12 @@ export const creed = [
 
 /** BSAH cadet uniform specification (Master Refinement §7). */
 export const uniform = [
-  { item: "Bandhgala tunic", spec: "High-collared, tailor-fitted midnight-black or dark navy wool blend, secured with burnished antique-copper buttons embossed with the BSAH horse crest." },
-  { item: "Breeches", spec: "Crisp ivory or cream high-stretch performance breeches, a sharp visual contrast under the tunic." },
-  { item: "Footwear", spec: "Tall dark leather riding boots, or structured leather gaiters over paddock boots for younger squires." },
-  { item: "Headwear", spec: "Matte-black velvet-finish safety helmet with a subtle metallic copper trim along the front rim." },
-  { item: "Insignia & accents", spec: "Right lapel: metal rank bar (Squire, Rider, Knight, Lancer). Left sleeve: embroidered BSAH institutional patch. Formal parades: brass-tipped sash or leather cross-belt." },
+  { item: "Bandhgala tunic", spec: "Tailor-fitted midnight navy wool, with a gold embroidered standing collar, fine gold piping and burnished brass buttons." },
+  { item: "Breeches", spec: "Cream riding breeches with a dark side stripe for ceremonial dress; white performance breeches for training." },
+  { item: "Footwear & gloves", spec: "Tall polished black leather riding boots, with white gloves for ceremonial dress." },
+  { item: "Training polo", spec: "Red or forest green, with black collars and cuffs edged in gold, a gold chest crest and sleeve chevrons." },
+  { item: "Headwear", spec: "A properly fitted riding helmet with a fastened chinstrap for every mounted session." },
+  { item: "Insignia & accents", spec: "Gold embroidered chest crest and sleeve chevrons, with a braided shoulder cord on the ceremonial tunic. Black belt with a brass buckle for training." },
 ];
 
 export const reels: { title: string; who: string; image: MediaKey }[] = [
@@ -135,7 +136,7 @@ export const letter = {
   note: "Draft for the Chairman's approval",
   body: [
     "We did not set out to build a riding school. We set out to answer a question every parent asks quietly: how do I raise a child who stands tall when no one is watching?",
-    "Our answer is five hundred kilograms of honesty. A Marwari stallion cannot be flattered, bribed or rushed. It asks a child to be calm, clear and brave, and it asks every single day.",
+    "Our answer is several hundred kilograms of honesty. A Marwari stallion cannot be flattered, bribed or rushed. It asks a child to be calm, clear and brave, and it asks every single day.",
     "We bring that horse, and the men who served in India's cavalry, inside the school gate, and we write down every hour so the progress is never a promise. That is the mandate.",
   ],
   sign: "Saef Ullah Khan",

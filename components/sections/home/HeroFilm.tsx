@@ -14,6 +14,8 @@ export function HeroFilm() {
   const progressRef = useRef<HTMLSpanElement>(null);
   const bufferedRef = useRef<HTMLSpanElement>(null);
   const userPaused = useRef(false);
+  const scrubbing = useRef(false);
+  const seekRef = useRef<HTMLDivElement>(null);
   const inView = useRef(true);
   const failed = useRef(false);
   const [state, setState] = useState<Playback>("loading");
@@ -79,6 +81,7 @@ export function HeroFilm() {
     const video = videoRef.current;
     if (!video || !Number.isFinite(video.duration) || video.duration <= 0) return;
     if (progressRef.current) progressRef.current.style.transform = `scaleX(${video.currentTime / video.duration})`;
+    seekRef.current?.setAttribute("aria-valuenow", String(Math.round(100 * video.currentTime / video.duration)));
     if (bufferedRef.current && video.buffered.length) bufferedRef.current.style.transform = `scaleX(${video.buffered.end(video.buffered.length - 1) / video.duration})`;
   };
   const togglePlay = () => {
@@ -99,6 +102,19 @@ export function HeroFilm() {
     else target.scrollIntoView({ behavior: "instant" });
     target.focus({ preventScroll: true });
   };
+  const seekFromPointer = (clientX: number, el: HTMLElement) => {
+    const video = videoRef.current;
+    if (!video || !Number.isFinite(video.duration) || video.duration <= 0) return;
+    const rect = el.getBoundingClientRect();
+    video.currentTime = Math.min(1, Math.max(0, (clientX - rect.left) / Math.max(1, rect.width))) * video.duration;
+    updateProgress();
+  };
+  const seekBy = (seconds: number) => {
+    const video = videoRef.current;
+    if (!video || !Number.isFinite(video.duration)) return;
+    video.currentTime = Math.min(video.duration, Math.max(0, video.currentTime + seconds));
+    updateProgress();
+  };
   const playing = state === "playing";
 
   // The film is a scope picture (about 2.5:1) delivered inside 16:9 files with black bars baked in (the picture is 71 % of the frame's
@@ -106,8 +122,10 @@ export function HeroFilm() {
   // far as it can without cutting a word: the frame is made 1.28 screens wide (the picture then shows 78 % of itself, the title cards
   // whole) and the picture's soft top and bottom edges dissolve into the dark of the screen, where the baked bars are. On a phone the
   // same rule makes a band across the middle of the dark, under the dust.
+  // 4 Nov 2026 (owner): no empty bands. The section is cut to the picture itself (about 1.95:1 of the screen's width), so
+  // the film sits edge to edge between the doctrine and the stallion with no black or cream bars above or below it.
   const FRAME_ASPECT = "1606 / 900";
-  return <section id="top" aria-label="Opening Film" data-playback={state} className="tone-dark relative h-[100svh] min-h-[540px] w-full overflow-hidden bg-black">
+  return <section id="top" aria-label="Opening Film" data-playback={state} className="tone-photo relative aspect-[1.95/1] w-full overflow-hidden bg-night">
     {/* 31 Oct 2026 (owner's request): no picture behind the film. Around the frame the screen is plain black on phone and
         desktop, and the frame's edges are cut clean where the baked bars begin (they used to dissolve into a dust still). */}
     <div className="absolute left-1/2 top-1/2 w-[130vw] -translate-x-1/2 -translate-y-1/2 md:w-[128%]" style={{ aspectRatio: FRAME_ASPECT, maskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)" }}>
@@ -130,17 +148,40 @@ export function HeroFilm() {
     </div>
 
     {/* Controls sit on the foot of the screen (never in the top 80 px, which belongs to the nav). */}
-    <div data-sound="off" className="no-print gutter absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pb-5 pt-12 md:pb-7">
-      <button type="button" onClick={skip} className="label min-h-11 rounded-full border border-brass/50 bg-night/40 px-4 text-sand backdrop-blur-[2px] hover:text-gold">Skip intro</button>
+    <div data-sound="off" className="no-print gutter absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-center justify-end sm:justify-between gap-x-3 gap-y-2 pb-3 pt-6 md:pb-7 md:pt-12">
+      <button type="button" onClick={skip} className="label hidden min-h-11 rounded-full border border-brass/50 bg-night/40 px-4 text-sand backdrop-blur-[2px] hover:text-gold sm:inline-block">Skip intro</button>
       <p className="order-last w-full text-center text-xs text-sand sm:order-none sm:w-auto sm:flex-1" role="status" aria-live="polite">
         {state === "buffering" ? (longStall ? "Buffering film…" : null) : state === "failed" ? "The film is unavailable. Continue to explore the academy." : state === "blocked" ? "Press play to watch the opening film." : null}
       </p>
       <div className="flex items-center gap-2">
-        <button type="button" disabled={state === "failed"} onClick={() => { if (videoRef.current) videoRef.current.muted = !videoRef.current.muted; }} aria-pressed={!muted} aria-label={muted ? "Sound off. Unmute the film" : "Sound on. Mute the film"} className="label min-h-11 rounded-full border border-brass/50 bg-night/40 px-4 text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50">Sound {muted ? "off" : "on"}</button>
-        <button type="button" disabled={state === "failed"} onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"} className="grid h-11 w-11 place-items-center rounded-full border border-brass/50 bg-night/40 text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50"><span aria-hidden>{playing ? "Ⅱ" : "▶"}</span></button>
+        <button type="button" disabled={state === "failed"} onClick={() => seekBy(-10)} aria-label="Back 10 seconds" className="label hidden h-11 min-w-11 place-items-center sm:grid rounded-full border border-brass/50 bg-night/40 px-3 text-xs text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-40">-10s</button>
+        <button type="button" disabled={state === "failed"} onClick={() => seekBy(10)} aria-label="Forward 10 seconds" className="label hidden h-11 min-w-11 place-items-center sm:grid rounded-full border border-brass/50 bg-night/40 px-3 text-xs text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-40">+10s</button>
+        <button type="button" disabled={state === "failed"} onClick={() => { if (videoRef.current) videoRef.current.muted = !videoRef.current.muted; }} aria-pressed={!muted} aria-label={muted ? "Sound off. Unmute the film" : "Sound on. Mute the film"} className="label min-h-9 rounded-full border border-brass/50 bg-night/40 px-3 text-[0.6rem] text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50 sm:min-h-11 sm:px-4 sm:text-[inherit]">Sound {muted ? "off" : "on"}</button>
+        <button type="button" disabled={state === "failed"} onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"} className="grid h-9 w-9 place-items-center rounded-full border border-brass/50 bg-night/40 sm:h-11 sm:w-11 text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50"><span aria-hidden>{playing ? "Ⅱ" : "▶"}</span></button>
       </div>
     </div>
-    {/* Progress sits on the screen's bottom edge. */}
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-night/50" aria-hidden><span ref={bufferedRef} className="absolute inset-0 origin-left bg-brass/40" style={{ transform: "scaleX(0)" }} /><span ref={progressRef} className="absolute inset-0 origin-left bg-gold" style={{ transform: "scaleX(0)" }} /></div>
+    {/* Seek bar along the bottom edge: drag, click or touch anywhere on it to scrub, like a video player. Arrow keys step 5 s (Shift: 10 s). */}
+    <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek the opening film" aria-valuemin={0} aria-valuemax={100} aria-valuenow={0} data-seek
+      className="absolute inset-x-0 bottom-0 z-10 h-6 cursor-pointer touch-none select-none outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
+      onPointerDown={(event) => { if (state === "failed") return; event.currentTarget.setPointerCapture(event.pointerId); scrubbing.current = true; seekFromPointer(event.clientX, event.currentTarget); }}
+      onPointerMove={(event) => { if (scrubbing.current) seekFromPointer(event.clientX, event.currentTarget); }}
+      onPointerUp={() => { scrubbing.current = false; }}
+      onPointerCancel={() => { scrubbing.current = false; }}
+      onKeyDown={(event) => {
+        const step = event.shiftKey ? 10 : 5;
+        const video = videoRef.current;
+        if (!video) return;
+        if (event.key === "ArrowRight") seekBy(step);
+        else if (event.key === "ArrowLeft") seekBy(-step);
+        else if (event.key === "Home") video.currentTime = 0;
+        else if (event.key === "End") video.currentTime = video.duration || 0;
+        else return;
+        event.preventDefault();
+      }}>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-night/50" aria-hidden>
+        <span ref={bufferedRef} className="absolute inset-0 origin-left bg-brass/40" style={{ transform: "scaleX(0)" }} />
+        <span ref={progressRef} className="absolute inset-0 origin-left bg-gold" style={{ transform: "scaleX(0)" }} />
+      </div>
+    </div>
   </section>;
 }

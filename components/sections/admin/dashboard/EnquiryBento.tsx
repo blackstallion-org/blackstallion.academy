@@ -4,16 +4,16 @@ import { useMemo } from "react";
 import { AnalyticsBento } from "@/components/ui/analytics-bento";
 import { aggregate, gateLabel, RANGES, statusName, WEEKDAYS, type OverviewSnapshot } from "@/lib/admin/overview";
 
-/** A repeatable colour per form, from the Mosaic template's violet, sky, green, yellow and red scales, so a form keeps its colour between windows and reloads. */
+/** A repeatable colour per form, from the console palette (branding orange, greys, the red-to-sand gradient stops), so a form keeps its colour between windows and reloads. */
 const TILE = [
-  { color: "#8470ff", ink: "light" as const },
-  { color: "#67bfff", ink: "dark" as const },
-  { color: "#3ec972", ink: "dark" as const },
-  { color: "#f0bb33", ink: "dark" as const },
-  { color: "#ff5656", ink: "light" as const },
-  { color: "#4634b1", ink: "light" as const },
-  { color: "#3193da", ink: "light" as const },
-  { color: "#239f52", ink: "light" as const },
+  { color: "#E85002", ink: "light" as const },
+  { color: "#646464", ink: "light" as const },
+  { color: "#A7A7A7", ink: "dark" as const },
+  { color: "#333333", ink: "light" as const },
+  { color: "#F16001", ink: "light" as const },
+  { color: "#C10801", ink: "light" as const },
+  { color: "#D9C3AB", ink: "dark" as const },
+  { color: "#F9F9F9", ink: "dark" as const },
 ];
 
 /**
@@ -70,7 +70,7 @@ export function EnquiryBento({ snapshot, nowMs }: { snapshot: OverviewSnapshot; 
       <AnalyticsBento
         credit
         currency=""
-        colors={{ revenue: ["#8470ff", "#67bfff"], desktop: ["#8470ff", "#67bfff"], mobile: ["#f0bb33", "#ff5656"], radar: "#3ec972" }}
+        colors={{ revenue: ["#E85002", "#F16001"], desktop: ["#646464", "#A7A7A7"], mobile: ["#333333", "#646464"], radar: "#D9C3AB" }}
         revenue={{
           label: "Enquiries · 30 days",
           value: mid.total,

@@ -160,7 +160,30 @@
   background-color: var(--color-night);
 }
 
+/* 4 Nov 2026 (owner): no dark sections. `.tone-dark` keeps its name across the code but now resolves to the clean
+   light palette; text that sits on a photograph or a 3D stage uses `.tone-photo` instead. */
 .tone-dark {
+  --color-night: #f3ede2;
+  --color-umber: #e8dece;
+  --color-ember: #faf7f0;
+  --color-brass: #7b5636;
+  --color-copper: #78472f;
+  --color-line: rgb(120 71 47 / 0.24);
+  --color-gold: #78472f;
+  --color-bone: #30251e;
+  --color-sand: #4d3c30;
+  --color-dust: #6f5b4b;
+  --color-blood: #a8301c;
+  --color-frost: #4a6279;
+  --color-parchment: #fbf8f1;
+  --plate-shadow: 0 1px 0 rgb(255 255 255 / 0.55) inset, 0 22px 48px -32px rgb(73 49 38 / 0.45);
+  --doc-shadow: 0 1px 0 rgb(255 255 255 / 0.7) inset, 0 30px 70px -34px rgb(73 49 38 / 0.5);
+  color: var(--color-bone);
+  color-scheme: light;
+}
+
+.tone-photo {
+  /* 4 Nov 2026: the dark token set now applies only where text sits on a photograph or a dark 3D stage. */
   /* 31 Oct 2026 (owner's gallery correction): one warm black, warm ivory text, muted warm grey, restrained bronze labels. */
   --color-night: #171412;   /* warm black */
   --color-umber: #1f1b17;
@@ -238,7 +261,7 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
-  .tone-dark .t-inscribe {
+  .tone-photo .t-inscribe {
     font-weight: 350;
   }
 
@@ -310,11 +333,7 @@
 
   /* Reference 1: textured black packaging. A faint leather sheen for dark scenes. */
   .surface-leather {
-    background-color: var(--color-night);
-    background-image:
-      radial-gradient(120% 80% at 18% 0%, rgb(201 166 107 / 0.09), transparent 60%),
-      radial-gradient(90% 70% at 100% 100%, rgb(73 49 38 / 0.45), transparent 70%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='l'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.79 0 0 0 0 0.65 0 0 0 0 0.42 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23l)'/%3E%3C/svg%3E");
+    background-color: var(--color-umber);
   }
 
   /* Reference 2: catalogue paper. A soft parchment field for editorial bands. */
@@ -486,27 +505,11 @@
 }
 
 /* ------------------------------------------------------------------
-   The staff console (1 Nov 2026, owner's request): the colours and surfaces of the Mosaic dashboard template (Cruip), as role
-   tokens, so every console page follows without edits: a gray-100 page, white rounded cards with a hairline shadow, violet accents
-   and a gray-900 / gray-800 dark mode. It sits on the shell's own element, next to `.tone-dark` (the two-class rule wins).
+   The staff console (owner's request): the website's own colours. The console takes the role tokens from :root (ivory canvas,
+   ember cards, chestnut and antique-gold accents) in light, and from `.tone-dark` when its dark option is on. Only the category
+   colours used by the charts are mapped onto those tokens here, so nothing violet or grey is left from the earlier templates.
    ------------------------------------------------------------------ */
 .console {
-  --color-night: #f3f4f6;
-  --color-umber: #e9eaee;
-  --color-ember: #ffffff;
-  --color-parchment: #ffffff;
-  --color-brass: #6b7280;
-  --color-copper: #5d47de;
-  --color-line: #e5e7eb;
-  --color-gold: #755ff8;
-  --color-bone: #1f2937;
-  --color-sand: #4b5563;
-  --color-dust: #6b7280;
-  --color-blood: #e63939;
-  --color-frost: #3193da;
-  --delta-good: #15773a;
-  --delta-bad: #c52727;
-  /* The shadcn-style names are resolved once at :root, so they are restated here to follow this scope's tokens (the chart set reads them). */
   --color-background: var(--color-night);
   --color-foreground: var(--color-bone);
   --color-card: var(--color-ember);
@@ -517,35 +520,21 @@
   --color-muted-foreground: var(--color-dust);
   --color-border: var(--color-line);
   --color-ring: var(--color-gold);
+  --color-signal-violet: var(--color-gold);
+  --color-signal-emerald: var(--color-brass);
+  --color-signal-amber: var(--color-copper);
+  --color-signal-sky: var(--color-dust);
+  --color-signal-rose: var(--color-blood);
+  --delta-good: var(--color-brass);
+  --delta-bad: var(--color-blood);
   --font-mono: var(--font-sans);
   font-family: var(--font-sans);
-  --plate-shadow: 0 1px 1px 0 rgb(0 0 0 / 0.05), 0 1px 2px 0 rgb(0 0 0 / 0.02);
   background-color: var(--color-night);
   color: var(--color-bone);
-  color-scheme: light;
-}
-.console.tone-dark {
-  --color-night: #111827;
-  --color-umber: #1f2937;
-  --color-ember: #1f2937;
-  --color-parchment: #1f2937;
-  --color-brass: #9ca3af;
-  --color-copper: #9c8cff;
-  --color-line: rgb(55 65 81 / 0.6);
-  --color-gold: #9c8cff;
-  --color-bone: #f3f4f6;
-  --color-sand: #bfc4cd;
-  --color-dust: #9ca3af;
-  --color-blood: #ff7474;
-  --color-frost: #7bc8ff;
-  --delta-good: #4bd37d;
-  --delta-bad: #ff7474;
-  --plate-shadow: 0 1px 1px 0 rgb(0 0 0 / 0.05), 0 1px 2px 0 rgb(0 0 0 / 0.02);
-  color-scheme: dark;
 }
 .console .plate { background-color: var(--color-ember); border: 0; border-radius: 0.75rem; box-shadow: var(--plate-shadow); }
-.console.tone-dark .plate { border: 1px solid var(--color-line); }
-/* Mosaic's type: one clean sans, bold headings, tabular figures (the site's serif and mono stay on the public pages). */
+.console.tone-photo .plate { border: 1px solid var(--color-line); }
+
 .console .t-voice, .console .t-inscribe, .console .font-display {
   font-family: var(--font-sans);
   font-style: normal;
@@ -2287,3 +2276,51 @@ canvas { touch-action: pan-y; }
 .why-threshold { animation: why-threshold 26s ease-out both; transform-origin: 50% 55%; }
 @keyframes why-threshold { from { transform: scale(1.08); } to { transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .why-threshold { animation: none; } }
+
+/* 4 Nov 2026 (owner): the large second line of every two-voice headline starts with a capital letter. */
+.headline-voice::first-letter { text-transform: uppercase; }
+
+/* ------------------------------------------------------------------
+   Dark mode (4 Nov 2026, owner): a visitor choice from the nav button (components/site/ThemeToggle.tsx), stored in
+   localStorage and applied before first paint as html[data-theme="dark"]. Light stays the default. Every role token
+   swaps to the warm-black palette, including inside `.tone-dark` / `.tone-light` scopes and the home page's cream;
+   `.tone-photo` (text on photographs) already uses these values, so it is unchanged.
+   ------------------------------------------------------------------ */
+html[data-theme="dark"],
+html[data-theme="dark"] :is(.tone-dark, .tone-light, .home-page) {
+  --color-night: #171412;
+  --color-umber: #1f1b17;
+  --color-ember: #2a221c;
+  --color-brass: #a88566;
+  --color-copper: #b88a62;
+  --color-line: rgb(201 166 107 / 0.26);
+  --color-gold: #c9a66b;
+  --color-bone: #f0ebe4;
+  --color-sand: #c2b7ab;
+  --color-dust: #a8957f;
+  --color-blood: #dc6448;
+  --color-frost: #9fb3c8;
+  --color-parchment: #e9dcc0;
+  --color-ivory: #171412;
+  --shade-rgb: 23 21 19;
+  --plate-shadow: none;
+  --doc-shadow: 0 30px 80px rgb(0 0 0 / 0.55);
+  --crest-filter: none;
+  color-scheme: dark;
+}
+html[data-theme="dark"] { background-color: #171412; }
+html[data-theme="dark"] :is(.bg-parch, .bg-paper) { background-color: var(--color-umber); }
+html[data-theme="dark"] .bg-ivory { background-color: var(--color-night); }
+/* Documents (MOU, passport, certificates) stay paper in both themes. */
+html[data-theme="dark"] .parchment { --color-ink: #241a13; }
+/* Brief colour cross-fade when the visitor switches theme (not on first paint, not under reduced motion). */
+html.theme-switching, html.theme-switching * {
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.theme-switching, html.theme-switching * { transition: none !important; }
+}
+html[data-theme="dark"] :is(.bg-\[\#f3ede2\], .bg-\[\#f4eee3\]) { background-color: var(--color-night); }
+/* The footer film is ink drawn on paper (multiplied onto the cream); on the dark page it is inverted to light lines. */
+html[data-theme="dark"] .footer-meridian__video { filter: invert(1) hue-rotate(180deg); mix-blend-mode: screen; }
+html[data-theme="dark"] .footer-meridian { border-top-color: var(--color-line); }

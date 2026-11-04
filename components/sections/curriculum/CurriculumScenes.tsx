@@ -209,11 +209,11 @@ export function DisciplineActionGallery() {
     {
       id: "tentpeg",
       imageKey: "currTentpeg",
-      subtitle: "REEL 01 · 35 KM/H · CAVALRY LANCE",
+      subtitle: "REEL 01 · CAVALRY LANCE",
       titleLine1: "LOWERED",
       titleLine2: "LANCE",
       alt: "A lance tip piercing a wooden peg at full gallop in tent-pegging",
-      caption: "A 9-foot ash lance lowered at full 35 km/h gallop. Hand-eye calibration to lift a 6 cm target peg from the sand.",
+      caption: "A lance of up to nine feet, lowered at the gallop. Hand-eye calibration to lift a peg a few centimetres wide from the sand.",
       align: "left",
     },
     {

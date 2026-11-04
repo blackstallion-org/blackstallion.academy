@@ -186,11 +186,11 @@ export function TournamentActionGallery() {
     {
       id: "charge",
       imageKey: "bgCharge",
-      subtitle: "REEL 01 · 35 KM/H · TENT-PEGGING",
+      subtitle: "REEL 01 · TENT-PEGGING",
       titleLine1: "LANCES",
       titleLine2: "DOWN",
-      alt: "Cavalry line charge down the 100-metre course with lowered steel-point lances",
-      caption: "Thunder down the lane at 35 km/h. Hand-eye calibration to strike a 6 cm wooden peg.",
+      alt: "Cavalry line charge down the course with lowered steel-point lances",
+      caption: "Thunder down the lane at the gallop. Hand-eye calibration to strike a wooden peg a few centimetres wide.",
       align: "left",
     },
     {

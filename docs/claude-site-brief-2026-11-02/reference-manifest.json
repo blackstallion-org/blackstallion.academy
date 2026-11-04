@@ -1,0 +1,232 @@
+{
+  "images": [
+    {
+      "id": "R01",
+      "file": "references/01-horse-hand-bond.png",
+      "pages": "/curriculum, /contact",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-02a05a6a-242c-4f29-b7d9-a90bd80b99bf.png",
+      "sha256": "2b63a077fcdf98d3983f24c537387887ab4495cefa021acde9f5055ca69c9fc7"
+    },
+    {
+      "id": "R02",
+      "file": "references/02-navigation-brand.png",
+      "pages": "global, /curriculum",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-6949fed3-6402-4891-bec1-ecd8acd86a25.png",
+      "sha256": "3b65e52d5b566a7e648b73de3556c59656ec4922a9c0271aa8f24eedc313510b"
+    },
+    {
+      "id": "R03",
+      "file": "references/03-verify-statue-hero.png",
+      "pages": "/verify",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-e60e802c-e227-45c4-a225-38642ae3b579.png",
+      "sha256": "2eb8c8f9875da294d3d2a8d1287f3ad235caebb522d1379327da4bd7842a0d36"
+    },
+    {
+      "id": "R04",
+      "file": "references/04-legend-ear-photo.png",
+      "pages": "/legend",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-cd149e13-fab0-43fa-8316-93214976f027.png",
+      "sha256": "172871f078db29a0e6ab3975f9859509e285254e304c08e560b7d66dcd36d649"
+    },
+    {
+      "id": "R05",
+      "file": "references/05-sideways-text-animation.png",
+      "pages": "global, /legend",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-e2560a85-92be-4281-b1d6-ee9d71e3844c.png",
+      "sha256": "11393beba08fb02891f40e5c0af5796fa2d92492a783015060613bdd8e4eda75"
+    },
+    {
+      "id": "R06",
+      "file": "references/06-legend-final-horse-exhibit.png",
+      "pages": "/legend",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-24aa889f-abb9-4115-afc4-e8e8686deadd.png",
+      "sha256": "a4f80c9990dae511176e5b44a12405a5e432c0e863bcefbeee7b220bded4d16f"
+    },
+    {
+      "id": "R07",
+      "file": "references/07-footer-logos.png",
+      "pages": "global",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-2cfd635d-7559-47d1-8c98-606d4cc88a84.png",
+      "sha256": "287db35ac28c27a154f4698249f6532cc25aa3af64d36d4d132d6693451ed619"
+    },
+    {
+      "id": "R08",
+      "file": "references/08-home-bronze-horse-model.png",
+      "pages": "/",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-ae7c811d-4d4b-4c79-8ff2-63dcb05c5129.png",
+      "sha256": "3350ead7501733f3d486423a26520f0fcb28f75ab16cff4436288363aee51196"
+    },
+    {
+      "id": "R09",
+      "file": "references/09-house-colour-palette.png",
+      "pages": "/",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-627ff450-fefd-46fe-b7ac-b12e080b68b9.png",
+      "sha256": "b2a02a0c97d517adb04fc67fbf9d569916314866e2ef9563982307206e9425c5"
+    },
+    {
+      "id": "R10",
+      "file": "references/10-home-circuit-standings.png",
+      "pages": "/",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-7a1e41f9-ea3b-412c-941f-b3572530ed05.png",
+      "sha256": "6a3219885de35ca9e2663393f5e3b2efc455bbfa703c11fbd0eae64b2127bcce"
+    },
+    {
+      "id": "R11",
+      "file": "references/11-science-horse-rider-anatomy.png",
+      "pages": "/science",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-921f0818-da11-4577-bf9a-eb7bc73de496.png",
+      "sha256": "9b2498118338bdc092a346ea73f27d91397e7dbc5762df982ae70f0aee35a90c"
+    },
+    {
+      "id": "R12",
+      "file": "references/12-ear-video-reference.png",
+      "pages": "/legend",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-9b9522f9-684b-40eb-8d20-b483e7021a54.png",
+      "sha256": "27446f7fb75dcb73978d23c27d5efeafd4da3a7c0deba390f52cf0e7169cc607"
+    },
+    {
+      "id": "R13",
+      "file": "references/13-arena-open-headline.jpg",
+      "pages": "/contact",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-a549dac3-aad1-4204-a528-b4c1c4a142fb.jpg",
+      "sha256": "2fa1112e509649c180ef453f2aaf7af5c8c761dc0fb8d707eb61b143b1bfa099"
+    },
+    {
+      "id": "R14",
+      "file": "references/14-revival-timeline.jpg",
+      "pages": "/legend",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-7fe65131-d0b2-47d9-9b3a-14b5cc35c915.jpg",
+      "sha256": "93bb8cb4ce50e43e44a3909c215c30b2999cc6038d1cd1b20d995289115e6d1e"
+    },
+    {
+      "id": "R15",
+      "file": "references/15-science-panel-controls.png",
+      "pages": "/science",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-4f381128-2a8b-49e0-924d-41137bdb1e3f.png",
+      "sha256": "d46cee8aaba5ad3b04ab36f4641052ce50da6ef5e769f16026abf727ab079279"
+    },
+    {
+      "id": "R16",
+      "file": "references/16-science-stride-rider.png",
+      "pages": "/science",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-1b1899cf-7b20-48f3-a24b-a23a25f0e3a3.png",
+      "sha256": "3b7e8af64fd9cb092cc719292d7e3de081eb680736235a201267c84569ae36d6"
+    },
+    {
+      "id": "R17",
+      "file": "references/17-tournament-trophy-image.jpg",
+      "pages": "/tournaments",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-7d507346-dfb8-4cdd-8134-56b8aed2ff05.jpg",
+      "sha256": "5ef8fa1b1064c126873ba1ef68b0993cc7e0a60c71f4da3b62961bda45e1b66a"
+    },
+    {
+      "id": "R18",
+      "file": "references/18-mounted-archery-caption.jpg",
+      "pages": "/curriculum",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-d29138a2-2b82-44b6-bfc6-4b4e5e927a44.jpg",
+      "sha256": "079b75b157ebff484c9da94d03e6fc0ca8451d35cf1cb87e61ced33a68351ecb"
+    },
+    {
+      "id": "R19",
+      "file": "references/19-schools-location-disclaimer.png",
+      "pages": "/schools",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-ca391271-6c15-41d0-af3e-c510f9bb1f6a.png",
+      "sha256": "d5c0f7583e729ca58bc97de28705dbc4a3a0e0f449e982af521e889ab5a5b8f9"
+    },
+    {
+      "id": "R20",
+      "file": "references/20-statue-human-horse-detail.png",
+      "pages": "/statue",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-7b9ce75a-7940-4e35-8bd0-9b2717a8beee.png",
+      "sha256": "051ea755fc59fc09098af2dc6296b6af89340b156c4a48e1b593ca1400f7deb4"
+    },
+    {
+      "id": "R21",
+      "file": "references/21-command-robot.png",
+      "pages": "/command",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-130c4d20-2c57-4e81-9dd0-7ba7f9ff812a.png",
+      "sha256": "3ef97fa370efc290897982d90765326a6abf375083747d984034244b6e395e81"
+    },
+    {
+      "id": "R22",
+      "file": "references/22-cowboy-character-reference.jpg",
+      "pages": "/command",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-5b21ac66-85a2-4aff-96fa-0d1ced0f9283.jpg",
+      "sha256": "d6f6fd7c52df688af7deb5a2ff76b8ba96b7efe068f80303f5a79fe780563b77"
+    },
+    {
+      "id": "R23",
+      "file": "references/23-verified-stamp-section.png",
+      "pages": "/verify",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-d50048d7-9ad4-4dd8-bca1-975bd06e350b.png",
+      "sha256": "8430fa361957b1f7c979d25f538bd12ebaa285a3f1d8cd2d9620d4b81544a004"
+    },
+    {
+      "id": "R24",
+      "file": "references/24-equipment-four-cards.png",
+      "pages": "/equipment",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-4ecaadf4-7529-4456-9125-7af3388c4907.png",
+      "sha256": "0c99a44f0f30948e2315fcffb84d489d02eac8bb2cece8aaad6caf4e050013ce"
+    },
+    {
+      "id": "R25",
+      "file": "references/25-cadets-field-studies-heading.png",
+      "pages": "/cadets",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-b26feb14-35f5-4bc5-9d6b-b4f14bb21a0d.png",
+      "sha256": "fff47af2d8b65a81228840535fa9473fd8890b2291f3402bd2ba22cb5dd69170"
+    },
+    {
+      "id": "R26",
+      "file": "references/26-crisis-cure-portal.png",
+      "pages": "/",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-4392a5ac-f207-4a4d-b72b-f76bfb6dd1ad.png",
+      "sha256": "b67f502040e8ca88f31468b6cb95512c1165e2ebc5e177294bd3bf502c4bf7c2"
+    },
+    {
+      "id": "R27",
+      "file": "references/27-schools-training-photos.png",
+      "pages": "/schools",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-ba775b76-89bf-4ecb-9fac-e0af62cd8521.png",
+      "sha256": "ed17b2de260112fd4bd1b6691f9b18617757a7e506b90cea263cc007b54ce0f4"
+    },
+    {
+      "id": "R28",
+      "file": "references/28-invitation-box-layout.png",
+      "pages": "/schools",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-d2272c88-09af-44f3-8529-e0137b4f2267.png",
+      "sha256": "60bf196a6c0a21956375f5d0e90aea05abce0eb4c0296b7e3482998e789a971e"
+    },
+    {
+      "id": "R29",
+      "file": "references/29-minimal-invitation-reference.jpg",
+      "pages": "/schools",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-44e9d1c5-0bf1-4e67-9f02-f7ad2789be80.jpg",
+      "sha256": "54b74c736e9ef9053bc988df86fe3b0377ac13c733c8e32b2e307fe730505893"
+    },
+    {
+      "id": "R30",
+      "file": "references/30-journal-ear-image-reuse.png",
+      "pages": "/journal",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-58fb8e16-f6ff-43ec-b57c-e0c52c809495.png",
+      "sha256": "7c726460f2dc5d7582a5bfdccb85c157f3703c2be7ffbfa14a1220eb9cb71899"
+    },
+    {
+      "id": "R31",
+      "file": "references/31-running-horse-image-flicker.png",
+      "pages": "/contact, global",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-db27f6c8-a7f6-4900-97dc-427c61723fdf.png",
+      "sha256": "edf972df36b5db001aacce82557e4565bde5ff82bc48406108ca075a89ff3b26"
+    },
+    {
+      "id": "R32",
+      "file": "references/32-fleet-glass-horse.png",
+      "pages": "/fleet",
+      "source": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-clipboard-c00d8fcd-e89b-4560-8ed4-326cfd2525ed.png",
+      "sha256": "808f1e4a9802fc48808e9c509e559290888b8ae16e6173a839db941623b4f2d4"
+    }
+  ],
+  "attached_directive": "references/attached-project-directive.txt",
+  "prior_horse_reference_package": "../marwari-realism/",
+  "rtfd_source": "/Users/stingraj/Library/Group Containers/group.com.apple.coreservices.useractivityd/shared-pasteboard/items/15B763B8-FC44-4B42-82E4-FBDEC0952252/75d3a02af725a9ddf8cf140fabb38979055f3ba1.rtfd",
+  "rtfd_available": false
+}

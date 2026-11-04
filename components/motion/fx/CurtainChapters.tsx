@@ -170,14 +170,14 @@ export function CurtainChapters({ id, label, chapters, timeNote }: CurtainChapte
     <div>
       <h2 className="sr-only">{label}</h2>
       {chapters.map((c, i) => (
-        <div key={c.title} className="tone-dark relative h-[80svh] min-h-[480px] overflow-hidden bg-night">
+        <div key={c.title} className="tone-photo relative h-[80svh] min-h-[480px] overflow-hidden bg-night">
           <Frame c={c} i={i} total={chapters.length} timeNote={timeNote} />
         </div>
       ))}
     </div>
   );
   return (
-    <PinnedScene id={id} label={label} length={chapters.length + 0.5} className="tone-dark bg-night" reducedFallback={reducedFallback}>
+    <PinnedScene id={id} label={label} length={chapters.length + 0.5} className="tone-photo bg-night" reducedFallback={reducedFallback}>
       {(progress) => (
         <>
           <div className="sr-only">

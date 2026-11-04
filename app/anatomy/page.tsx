@@ -1,14 +1,14 @@
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import { EditorialScrollSync } from "@/components/motion/EditorialMotion";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { EndCard } from "@/components/film/EndCard";
 import { EditorialHeadline as Headline } from "@/components/motion/EditorialMotion";
 import { Label } from "@/components/film/Marks";
 import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
 import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anatomy/AnatomyScenes";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
-import { MatrixPlate } from "@/components/sections/anatomy/DualBody";
+import { DualBody, MatrixPlate } from "@/components/sections/anatomy/DualBody";
+import { StrideExperience } from "@/components/stride/StrideExperience";
 import { breedStandard } from "@/lib/content/anatomy";
 
 export const metadata: Metadata = {
@@ -33,16 +33,9 @@ export default function AnatomyPage() {
         <SpecimenPlate mode="full" className="mt-12" />
       </section>
 
-      {/* §1b · the rider and the horse together are studied once, on /science (R15, 2 Nov 2026: the same full scene was repeated here) */}
-      <section aria-label="Rider and horse together" className="gutter relative pb-12">
-        <Link href="/science" className="group flex flex-wrap items-baseline justify-between gap-4 border-y border-line py-8 hover:border-gold">
-          <span>
-            <span className="label text-brass">One conversation, two bodies</span>
-            <span className="t-voice mt-2 block text-2xl text-bone md:text-3xl">See the rider and the horse move together.</span>
-          </span>
-          <span className="label text-gold transition-transform group-hover:translate-x-1">Open /science →</span>
-        </Link>
-      </section>
+      {/* Explore the horse and rider together, followed by their movement through a stride. */}
+      <DualBody />
+      <StrideExperience embedded />
 
       {/* §1c · the brain, spine, muscle and heart plate (the supplied 2D animation, back on this page) */}
       <MatrixPlate />

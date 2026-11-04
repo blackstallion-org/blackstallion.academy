@@ -24,3 +24,6 @@
 @media (prefers-reduced-motion: reduce) {
   .section { min-height: 60svh; }
 }
+
+/* Dark mode */
+:global(html[data-theme="dark"]) .light { background: #1f1b17; color: #f0ebe4; }

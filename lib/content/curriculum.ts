@@ -56,7 +56,7 @@ export const pillars: Pillar[] = [
   },
   {
     n: 2, name: "Mounting & initial handling", skill: "Patience, focus", trait: "Self-control, persistence",
-    sub: "Cultivating emotional calm and steady presence during initial engagement with a 500 kg partner.",
+    sub: "Cultivating emotional calm and steady presence during initial engagement with a horse of several hundred kilograms.",
   },
   {
     n: 3, name: "Learning commands & cues", skill: "Communication, clarity", trait: "Empathy, emotional awareness",
@@ -88,7 +88,7 @@ export const pillars: Pillar[] = [
   },
   {
     n: 10, name: "Skill-at-arms & tent pegging runs", skill: "High-speed spatial convergence, absolute kinetic focus", trait: "Precision under velocity, target execution", discipline: true,
-    sub: "Striking a four-inch peg at full gallop permits zero internal chatter: distraction is eliminated to achieve absolute target convergence.",
+    sub: "Striking a peg a few centimetres wide at full gallop permits zero internal chatter: distraction is eliminated to achieve absolute target convergence.",
   },
   {
     n: 11, name: "Mounted archery & bow release", skill: "Dual-task coordination, breath-hold stillness", trait: "Poise under dynamic motion, split-second timing", discipline: true,

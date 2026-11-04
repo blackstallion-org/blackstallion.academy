@@ -7,3 +7,7 @@
 .headline { max-width: min(100%, var(--chapter-measure, 18ch)); font: 400 clamp(3rem, 6vw, 7rem)/var(--chapter-leading, 1.08) var(--chapter-font, var(--font-display)); letter-spacing: var(--chapter-tracking, -.025em); perspective: 800px; font-synthesis: none; padding-block: .15em; overflow-wrap: anywhere; }
 .char { display: inline-block; backface-visibility: hidden; }
 @media (max-width: 600px) { .section { min-height: 60svh; } .headline { font-size: clamp(2.4rem, 10vw, 4rem); } }
+
+/* Dark mode */
+:global(html[data-theme="dark"]) .light { background: #1f1b17; color: #f0ebe4; }
+:global(html[data-theme="dark"]) .light .label { color: #c9a66b; }

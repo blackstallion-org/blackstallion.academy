@@ -12,7 +12,7 @@ export type SplitVariation = "words" | "lines";
 type Props = { id: string; label: string; text: string; tone?: "light" | "dark"; defaultMode?: SplitVariation; typeface?: EditorialTypeface };
 
 /** An unhurried, calm editorial reveal. Complete lines and words only. */
-export function ReplayHeadline({ id, label, text, tone = "light", defaultMode = "lines", typeface = "elegant" }: Props) {
+export function ReplayHeadline({ id, label, text, defaultMode = "lines", typeface = "elegant" }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
@@ -56,7 +56,7 @@ export function ReplayHeadline({ id, label, text, tone = "light", defaultMode = 
     return () => { disposed = true; media.revert(); };
   }, [id, text, defaultMode, typeface]);
   return <section id={id} ref={sectionRef} data-parallax-skip
-    data-typeface={typeface} className={`${styles.section} ${tone === "dark" ? styles.dark : styles.light} ${editorialFontVariables} ${typeStyles[typeface]}`} aria-labelledby={`${id}-heading`}>
+    data-typeface={typeface} className={`${styles.section} ${styles.light /* 4 Nov 2026 (owner): no dark sections; `tone` is kept for the API but always renders light. */} ${editorialFontVariables} ${typeStyles[typeface]}`} aria-labelledby={`${id}-heading`}>
     <p className={styles.label}>{label}</p>
     <h2 id={`${id}-heading`} ref={headingRef} className={styles.headline}>{text}</h2>
   </section>;

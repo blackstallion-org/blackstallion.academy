@@ -11,7 +11,7 @@ const EQUIPMENT_SLIDES: CrispSlide[] = [
     image: asset("/images/equipment/traditional-saddle.webp"),
     badge: "CANVAS & HIDE",
     spec: "Studded cantle · fur-lined seat · brass hardware",
-    detail: "Handcrafted Marwari cavalry saddle engineered with high cantle support for lance momentum and extended desert patrol.",
+    detail: "Cavalry-style saddle with a raised cantle for rider support on long patrols and mounted drills.",
   },
   {
     id: "english-stirrup",
@@ -33,12 +33,12 @@ const EQUIPMENT_SLIDES: CrispSlide[] = [
   },
   {
     id: "horseshoe-farrier",
-    title: "Hand-Forged Horseshoe",
+    title: "Forged Horseshoe",
     category: "Farrier & Ironwork",
     image: asset("/images/equipment/horseshoe-farrier.webp"),
     badge: "HOT-FITTED",
-    spec: "Drop-forged steel · hot-fitted · balanced desert angle",
-    detail: "Custom farrier fitting balancing the 50-degree desert hoof angle, protecting sensitive soles across limestone and arena gravel.",
+    spec: "Forged steel · hot-fitted · balanced to the hoof",
+    detail: "Farrier fitting that keeps each hoof balanced and its angle in line with the horse's own conformation, protecting the sole on hard ground and arena gravel.",
   },
   {
     id: "sovereign-charger",

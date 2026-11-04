@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { FilmImage } from "@/components/film/FilmImage";
 import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label } from "@/components/film/Marks";
 import { CountUp } from "@/components/motion/CountUp";
@@ -35,7 +34,7 @@ export function HomeVerifier() {
           </ScrollRevealText>
         </div>
         <div className="lg:col-span-6">
-          <div className="rounded-xl border border-line/60 bg-black/35 p-6 backdrop-blur-md sm:p-8">
+          <div className="border border-line bg-ember p-6 sm:p-8">
             <p className="label mb-4 text-gold">Passport registry</p>
             <Verifier />
             <div className="mt-6">
@@ -85,11 +84,7 @@ export function HomeStandings() {
 
   return (
     <section aria-labelledby="circuit-h" className="relative py-[clamp(6rem,14vh,12rem)]">
-      <div className="relative h-40 overflow-hidden md:h-56">
-        <FilmImage name="bgCharge" position="50% 55%" />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night via-transparent to-night" />
-      </div>
-      <div className="gutter -mt-10 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+      <div className="gutter grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
         <div className="relative">
           <Label reel={13}>The Circuit</Label>
           <Headline id="circuit-h" className="mt-4" inscription={circuit.inscription} voice={circuit.voice} />
@@ -169,7 +164,7 @@ export function HomeShield() {
             <Cta href="/equipment">See the full kit</Cta>
           </div>
         </div>
-        <div ref={stageRef} className="tone-dark relative aspect-[5/4] overflow-hidden border border-line/40 bg-night">
+        <div ref={stageRef} className="tone-photo relative aspect-[5/4] overflow-hidden border border-line/40 bg-night">
           {stageNear ? <RidingGearStage active={stageOnScreen} /> : null}
           <p className="label pointer-events-none absolute left-5 top-5 text-brass">3D specimen · riding kit</p>
           <p className="label pointer-events-none absolute right-5 top-5 text-dust">Drag to rotate</p>

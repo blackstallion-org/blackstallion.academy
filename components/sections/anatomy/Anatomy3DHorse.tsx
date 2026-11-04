@@ -44,14 +44,10 @@ const REGIONS: Record<string, { spheres: (b: Bones) => { center: THREE.Vector3; 
   saddle: { spheres: (b) => [{ center: b("Spine_Thoracic").add(new THREE.Vector3(0, 0.17, 0)), radius: 0.36 }], view: [1, 0.65, 0.25], distance: 2.6 },
   flank: { spheres: (b) => [{ center: b("Ribcage").add(new THREE.Vector3(0.25, -0.14, -0.25)), radius: 0.32 }], view: [1, 0.1, -0.1], distance: 2.6 },
   reins: {
-    spheres: (b) => [
-      { center: b("Muzzle"), radius: 0.15 },
-      { center: b("Neck_1").add(new THREE.Vector3(0, 0.22, 0)), radius: 0.2 },
-    ],
+    spheres: (b) => [{ center: b("Neck_1").add(new THREE.Vector3(0, 0.22, 0)), radius: 0.2 }],
     view: [1, 0.3, 0.9],
     distance: 2.5,
   },
-  mouth: { spheres: (b) => [{ center: b("Muzzle"), radius: 0.15 }], view: [0.8, 0.2, 1], distance: 1.4 },
   hoof: {
     // the fetlock sits at the head of the pastern bone, the hoof at the coronet below it
     spheres: (b) => ["F_L", "F_R", "B_L", "B_R"].map((n) => ({ center: b(`Pastern_${n}`).lerp(b(`Hoof_${n}`), 0.5), radius: 0.19 })),
@@ -180,9 +176,9 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
     const loadTimeout = window.setTimeout(fail, 20_000);
 
     const scene = new THREE.Scene();
-    const tokens = getComputedStyle(container);
-    const night = new THREE.Color(tokens.getPropertyValue("--color-night").trim() || "#171513");
-    const warm = new THREE.Color(tokens.getPropertyValue("--color-brass").trim() || "#B88A62");
+    // The studio is the dark room the stallion was lit in (warm black and bronze), fixed here: the page's light tokens no longer reach it.
+    const night = new THREE.Color("#171412");
+    const warm = new THREE.Color("#9a7859");
     const backdrop = createBackdrop(night, warm);
     scene.background = backdrop;
     const width = container.clientWidth || 800;
@@ -352,7 +348,8 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
         const s = region.spheres[0];
         tmp.copy(p.id === "hoof" ? region.spheres[0].center : region.spheres.length > 1 && p.id === "ears" ? region.focus : s.center);
         tmp.project(camera);
-        const onScreen = tmp.z < 1 && Math.abs(tmp.x) < 1.05 && Math.abs(tmp.y) < 1.05;
+        const onScreen = tmp.z < 1 && Math.abs(tmp.x) < 0.9 && Math.abs(tmp.y) < 0.85 &&
+          (activeRef.current === "overview" || activeRef.current === p.id);
         el.style.transform = `translate(${((tmp.x + 1) / 2) * rect.w}px, ${((1 - tmp.y) / 2) * rect.h}px)`;
         el.style.visibility = onScreen ? "visible" : "hidden";
       }
@@ -383,7 +380,13 @@ export function Anatomy3DHorse({ activeId, focusKey, points, onSelectHotspot, de
       const region = regionFocus(activeRef.current);
       if (region) {
         targetLook.copy(region.focus);
-        targetPos.copy(region.focus).addScaledVector(region.view, region.distance);
+        // Keep the close-up legible on narrow plates and beside the detail panel.
+        const slot = detailRef.current;
+        const panelFraction = slot?.offsetParent && slot.offsetWidth < container!.clientWidth * 0.8
+          ? slot.offsetWidth / container!.clientWidth : 0;
+        const clearAspect = camera.aspect * (1 - panelFraction);
+        const framingScale = Math.max(1, 1.15 / Math.max(clearAspect, 0.45));
+        targetPos.copy(region.focus).addScaledVector(region.view, region.distance * framingScale);
         marwari?.highlight.set(region.spheres);
       } else {
         targetLook.copy(OVERVIEW.focus);

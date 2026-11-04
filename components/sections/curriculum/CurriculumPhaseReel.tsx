@@ -4,7 +4,7 @@ export function CurriculumPhaseReel() {
   return (
     <section
       aria-label="The Eye of the Sovereign · Four Phases of the Saddle"
-      className="relative w-full overflow-hidden bg-[#0A0908] tone-dark border-y border-line/30"
+      className="relative w-full overflow-hidden bg-[#0A0908] tone-photo border-y border-line/30"
     >
       <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full min-h-[480px] lg:min-h-[640px] overflow-hidden">
         <FilmImage name="eye" priority sizes="100vw" grade="none" />

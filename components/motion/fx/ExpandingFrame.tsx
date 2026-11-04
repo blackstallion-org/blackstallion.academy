@@ -117,7 +117,7 @@ export function ExpandingFrame({
 
   if (reduced) {
     return (
-      <section aria-label={label} className={cn("tone-dark relative bg-night", className)}>
+      <section aria-label={label} className={cn("tone-photo relative bg-night", className)}>
         <div className="relative min-h-[100svh] overflow-hidden">
           <FilmImage name={image} grade="deep" sizes="100vw" />
           <div aria-hidden className="shade-b absolute inset-0" />
@@ -130,7 +130,7 @@ export function ExpandingFrame({
   }
 
   return (
-    <section ref={trackRef} aria-label={label} className={cn("tone-dark relative bg-night", className)} style={{ height: `${(1 + scrollDistance + holdDistance) * 100}svh` }}>
+    <section ref={trackRef} aria-label={label} className={cn("tone-photo relative bg-night", className)} style={{ height: `${(1 + scrollDistance + holdDistance) * 100}svh` }}>
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <div
           ref={frameRef}

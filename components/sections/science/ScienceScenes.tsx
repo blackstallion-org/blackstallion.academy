@@ -18,7 +18,7 @@ export function ScienceTitle() {
   const t = (d: number) => ({ duration: 1.6, ease: ease.citadel, delay: d });
   return (
     <section aria-labelledby="science-h" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
+<div className="tone-photo editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
       {/* The photograph starts below the fixed nav (h-16 / md:h-20) so the bar never covers the rider; the overlay below is registered to the same box. */}
       <motion.div className="absolute inset-x-0 bottom-0 top-16 md:top-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 2.2, delay: 1.2 }}>
         <FilmImage name="scienceRider" priority grade="deep" scale={1} />

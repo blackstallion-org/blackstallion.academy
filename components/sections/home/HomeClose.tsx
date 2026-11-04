@@ -9,7 +9,7 @@ import { Arrow, Cta, Label } from "@/components/film/Marks";
 import { CommandTeaser } from "@/components/sections/command/CommandExperience";
 import { chronicle, finale } from "@/lib/content/home";
 import { posts } from "@/lib/content/journal";
-import { corridors, entity } from "@/lib/content/site";
+import { entity } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { BrassBorder } from "@/components/motion/fx/BrassBorder";
@@ -80,7 +80,7 @@ export function HomeChronicle() {
 /** §15 Finale · S15 The Arena is Open · Stealth Bomber & Snow Gallop Finale */
 export function Finale() {
   return (
-    <section aria-label="The arena is open" className="relative tone-dark surface-leather min-h-[100svh] overflow-hidden bg-night">
+    <section aria-label="The arena is open" className="relative tone-photo surface-leather min-h-[100svh] overflow-hidden bg-night">
       <FinaleFrame />
     </section>
   );
@@ -126,20 +126,6 @@ function FinaleFrame({ inline = false }: { inline?: boolean }) {
             ),
           )}
         </div>
-
-        {/* Email Corridors - Clean Compact Micro Pills */}
-        <ul className="mt-5 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-          {corridors.map((c) => (
-            <li key={c.id}>
-              <a
-                href={`mailto:${c.email}`}
-                className="inline-block border border-line bg-night/80 px-3 py-1 font-mono text-[0.66rem] tracking-wider text-sand transition-colors hover:border-gold hover:text-gold"
-              >
-                {c.email}
-              </a>
-            </li>
-          ))}
-        </ul>
 
         {/* Motto & Reel One Link */}
         <p className="mt-5 font-serif italic text-xs sm:text-sm text-sand/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)]">

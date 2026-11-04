@@ -16,8 +16,9 @@ export function EndCard({ current, image }: { current: number; image?: MediaKey 
   const imageKey = image || next.image;
   const progress = (current / TOTAL_REELS) * 100;
 
+  // 4 Nov 2026 (owner): the end card at the foot of every page keeps the dark layout.
   return (
-    <section aria-label="Next reel" className="tone-dark relative bg-night">
+    <section aria-label="Next reel" className="tone-photo relative bg-night">
       <Link
         href={next.href}
         className="group relative block focus-visible:outline-offset-[-8px]"
@@ -30,7 +31,7 @@ export function EndCard({ current, image }: { current: number; image?: MediaKey 
         <div className="gutter relative flex h-full flex-col justify-end pb-[10vh]">
           <p className="mt-5 text-display-1">
             <span className="t-inscribe block text-[0.5em] leading-tight">{next.inscription}</span>
-            <span className="t-voice block text-gold">{next.voice}</span>
+            <span className="t-voice headline-voice block text-gold">{next.voice}</span>
           </p>
         </div>
         </div>

@@ -28,7 +28,7 @@ export function SchoolsTitle() {
   const ref = useRef<HTMLElement>(null);
   return (
     <section ref={ref} aria-labelledby="schools-title" className="editorial-scene">
-      <div className="tone-dark relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-black isolate">
+      <div className="tone-photo relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-black isolate">
         <SatelliteZoneMap variant="hero" initialMode="india" className="absolute inset-0" />
       </div>
       <div className="tone-light editorial-details gutter">

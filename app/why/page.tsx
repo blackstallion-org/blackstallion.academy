@@ -10,7 +10,7 @@ import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 export const metadata: Metadata = {
   alternates: { canonical: "/why" },
   title: "Crisis & Cure",
-  description: "Screens fold a child's spine and scatter attention. A 500 kg partner asks for presence, poise and a quiet mind.",
+  description: "Screens fold a child's spine and scatter attention. A partner of several hundred kilograms asks for presence, poise and a quiet mind.",
 };
 
 export default function WhyPage() {

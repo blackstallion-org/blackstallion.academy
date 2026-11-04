@@ -41,7 +41,7 @@ function IrisFrame({ progress, open = false }: { progress?: MotionValue<number>;
   const textY = useTransform(p, r(0, 1), ["0%", "-10%"]);
 
   return (
-    <div className="tone-dark relative h-full w-full min-h-[100svh] bg-night overflow-hidden">
+    <div className="tone-photo relative h-full w-full min-h-[100svh] bg-night overflow-hidden">
       <div className="absolute inset-0">
         <EditorialImage><FilmImage name="duneSilhouette" priority scale={1} grade="none" /></EditorialImage>
       </div>
@@ -193,7 +193,7 @@ function EarsFrame({ progress }: { progress: MotionValue<number> }) {
   useMotionValueEvent(progress, "change", (v) => setBeat(Math.min(ears.beats.length - 1, Math.floor(v * ears.beats.length * 0.999))));
   return (
     <div className="relative grid h-full grid-rows-[minmax(0,1fr)_auto]">
-      <div className="tone-dark relative min-h-0 overflow-hidden">
+      <div className="tone-photo relative min-h-0 overflow-hidden">
         <FilmImage name="legendEars" scale={1} y="0%" position="50% 30%" bleed grade="none" />
         <div className="gutter absolute inset-x-0 bottom-8"><Headline size="1" inscription={ears.inscription} voice={ears.voice} /></div>
       </div>
@@ -215,7 +215,7 @@ function EarsFrame({ progress }: { progress: MotionValue<number> }) {
 function EarsStatic() {
   return (
     <div>
-      <div className="tone-dark relative h-[65svh] min-h-[360px] overflow-hidden">
+      <div className="tone-photo relative h-[65svh] min-h-[360px] overflow-hidden">
         <FilmImage name="legendEars" position="50% 30%" grade="none" />
         <div className="gutter absolute inset-x-0 bottom-8"><Headline size="1" inscription={ears.inscription} voice={ears.voice} /></div>
       </div>
@@ -230,7 +230,7 @@ function EarsStatic() {
 export function ThreeWords() {
   return (
     <section id="reasons" aria-label="Three reasons" className="editorial-scene">
-      <div className="tone-dark editorial-photo-title">
+      <div className="tone-photo editorial-photo-title">
         <FilmImage name="legendCavalry" grade="none" />
         <div className="gutter">
           <div className="flex flex-col gap-5 md:gap-8">
@@ -258,7 +258,7 @@ export function Descent() {
   const ref = useRef<HTMLElement>(null);
   return (
     <section id="fall" ref={ref} aria-labelledby="fall-h" className="editorial-scene">
-      <div className="tone-dark editorial-photo-title">
+      <div className="tone-photo editorial-photo-title">
       <div className="absolute inset-0">
         <EditorialImage><FilmImage name="legendFall" grade="none" className="opacity-100" /></EditorialImage>
         {/* The 1950s frame plays as worn archive film: grain, dust, hairs, scratches. */}
@@ -346,7 +346,7 @@ export function TharGallopReel() {
     return () => { cancel(); observer.disconnect(); };
   }, []);
   return (
-    <section aria-label="The Sovereign Gallop across the Thar" className="relative w-full overflow-hidden bg-[#0A0908] tone-dark border-y border-line/30">
+    <section aria-label="The Sovereign Gallop across the Thar" className="relative w-full overflow-hidden bg-[#0A0908] tone-photo border-y border-line/30">
       <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full min-h-[460px] lg:min-h-[620px] overflow-hidden">
         <video
           ref={videoRef}

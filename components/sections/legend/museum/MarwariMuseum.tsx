@@ -142,7 +142,7 @@ export function MarwariMuseum() {
 
   if (mode === "static") {
     return (
-      <section id="museum" className={`${styles.staticEntrance} tone-dark`} aria-labelledby="museum-static-h">
+      <section id="museum" className={`${styles.staticEntrance} tone-photo`} aria-labelledby="museum-static-h">
         <p className={styles.heroAttribution}>{GALLERY.attribution}</p>
         <h2 id="museum-static-h" className={styles.heroTitle}>
           {GALLERY.name}
@@ -164,7 +164,7 @@ export function MarwariMuseum() {
       id="museum"
       ref={trackRef}
       data-parallax-skip
-      className={`${styles.track} tone-dark`}
+      className={`${styles.track} tone-photo`}
       style={{ height: `${TIMELINE_LENGTH * SCROLL_VH_PER_UNIT}vh` }}
       aria-label="3D museum of the Marwari. Scroll to walk through the hall, or use the walkthrough navigation."
     >

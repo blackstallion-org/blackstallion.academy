@@ -22,7 +22,7 @@ export const hotspots: Hotspot[] = [
     short: "The lyre-shaped ears swivel independently toward sound and movement. A horse that is listening is a horse that is paying attention, and its ears show it first.", trains: "Composure & Active Environmental Reading",
     layers: {
       equine: "Lyre-shaped ears turn through 180° and track sound independently.",
-      rider: "Your breathing and tension are audible to the horse; they force the cadet into total physical stillness and emotional composure.",
+      rider: "Your breathing and tension are felt by the horse; they force the cadet into total physical stillness and emotional composure.",
       builds: "Emotional self-governance",
       legend: "Riders trusted the ears to point toward danger in the dark.",
     },
@@ -59,12 +59,12 @@ export const hotspots: Hotspot[] = [
   },
   {
     id: "reins", name: "Reins", title: "Ten Grams", x: 74, y: 30, metric: "LIGHT-CONTACT INTERFACE",
-    short: "The lightest steady contact is the whole conversation with half a tonne of horse. Shouting does nothing.", trains: "Precise communication",
+    short: "The lightest steady contact is the whole conversation with a horse of several hundred kilograms. Shouting does nothing.", trains: "Precise communication",
     layers: {
       equine: "A mouth that answers very light, steady contact.",
       rider: "Hands, seat and legs must agree; both sides of the body coordinate.",
       builds: "Clear, calm communication",
-      legend: "Ten grams turn half a tonne.",
+      legend: "A light hand turns a horse of several hundred kilograms.",
     },
   },
   {
@@ -140,7 +140,7 @@ export const instrumentNodes: InstrumentNode[] = [
   },
   {
     id: "flank", name: "Flank", title: "Legs that Steer",
-    anatomy: "The barrel behind the ribs, where the rider's lower leg rests. The skin and muscle here answer the lightest leg pressure.",
+    anatomy: "The side of the barrel just behind the girth, where the rider's lower leg rests, and the flank behind it. The skin and muscle here answer light leg pressure.",
     teaches: "Steering with the legs needs strong, quiet inner thighs and a still pelvis. Squeezing harder only stiffens the horse, so the cadet learns precision in place of force.",
     benefit: "Precision without force, from the deep core and inner-thigh muscles working together.",
     legend: "Marwar horses are said to have been trained to answer thigh pressure, so the rider's hands stayed free for the lance.",
@@ -163,10 +163,10 @@ export const nodeLabels = {
 
 export const breedStandard = [
   { k: "Origin", v: "Marwar, Rajasthan, India" },
-  { k: "Height", v: "Stallions average about 150 cm (14.3 hands)" },
+  { k: "Height", v: "Stallions about 145–165 cm (roughly 14.1–16 hands); published averages vary" },
   { k: "Ears", v: "Medium, curving inward until the tips touch; turn through 180°" },
   { k: "Gait", v: "A natural ambling gait called the revaal" },
-  { k: "Colours", v: "All colours; bay most common, grey most prized" },
+  { k: "Colours", v: "Most colours except white (white horses cannot be registered); grey is the most prized" },
   { k: "Temperament", v: "Brave, loyal, alert" },
   { k: "Registry", v: "Marwari Horse Society; government-authorised registration since 2009" },
   { k: "Status", v: "Not at risk" },

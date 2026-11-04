@@ -338,7 +338,7 @@ export function IndiaSculpture({ className }: { className?: string }) {
         tabIndex={ready ? 0 : -1}
         onContextMenu={(e) => { if (ready) e.preventDefault(); }}
         style={{ backgroundColor: mapPalette.background }}
-        className="tone-dark absolute inset-0 isolate overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-gold"
+        className="tone-photo absolute inset-0 isolate overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-gold"
       >
         {/* the picture of the model: first paint, and all a device without WebGL sees. A plain picture element, so the browser
             fetches only the shape that fits (next/image cannot art-direct). */}

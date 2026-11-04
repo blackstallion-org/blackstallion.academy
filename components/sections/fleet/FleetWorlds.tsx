@@ -12,8 +12,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * R32 (2 Nov 2026): the /fleet opening. The academy's rigged Marwari (marwari-hero.glb, the horse of the home film, the bond and the
- * ear study) stands in front of one of three photographic worlds: cavalry under a hill fort, a Marwar village, the feeding rack beside
- * a tent-pegging lane. A button changes the plate (a cross-fade), the light on the horse (sun direction, colour, exposure, shadow) and
+ * ear study) stands in front of one of three illustrated manuscript worlds: a royal battlefield, a Marwar village, and equestrian grounds. A button changes the plate (a cross-fade), the light on the horse (sun direction, colour, exposure, shadow) and
  * the location sound together. This replaces the glass "cloak" exhibit.
  *
  * Sound: the world's ambience plays only while the scene is on screen, only once the visitor has turned sound on (the mixer creates
@@ -54,13 +53,7 @@ const mixLight = (a: Daylight, b: Daylight, t: number): Daylight => ({
 });
 const smooth = (x: number) => x * x * (3 - 2 * x);
 
-/** The reel's own sound choice: theme music (the default), the location's house sounds, or silence. Independent of the site's SOUND switch in the nav. */
 export type FleetSound = "theme" | "house" | "none";
-const FLEET_SOUNDS: { id: FleetSound; label: string }[] = [
-  { id: "theme", label: "Theme music" },
-  { id: "house", label: "House sounds" },
-  { id: "none", label: "No sound" },
-];
 
 /** Applies the reel's sound choice through the shared mixer. Browsers only start audio after a visitor gesture, so a scroll-in can be blocked. */
 function playFor(sound: FleetSound, world: FleetWorldId, gesture: boolean) {
@@ -80,7 +73,6 @@ function playFor(sound: FleetSound, world: FleetWorldId, gesture: boolean) {
 }
 
 export function FleetWorlds({ children }: { children?: ReactNode }) {
-  const [sound, setSound] = useState<FleetSound>("theme");
   const soundRef = useRef<FleetSound>("theme");
   const [world, setWorld] = useState<FleetWorldId>(fleetWorlds[0].id);
   const [status, setStatus] = useState<"loading" | "ready" | "failed">("loading");
@@ -286,12 +278,6 @@ export function FleetWorlds({ children }: { children?: ReactNode }) {
     if (onScreen.current && soundRef.current === "house") void setAmbience(id);
   };
 
-  const chooseSound = (s: FleetSound) => {
-    soundRef.current = s;
-    setSound(s);
-    if (onScreen.current) playFor(s, worldRef.current, true);
-  };
-
   const onKey = (e: KeyboardEvent<HTMLDivElement>) => {
     const i = fleetWorlds.findIndex((w) => w.id === world);
     const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
@@ -310,25 +296,24 @@ export function FleetWorlds({ children }: { children?: ReactNode }) {
       <div className="absolute inset-0">
         {fleetWorlds.map((w, i) => (
           <div key={w.id} aria-hidden={w.id !== world} className={cn("absolute inset-0 transition-opacity duration-[900ms] ease-out motion-reduce:transition-none", w.id === world ? "opacity-100" : "opacity-0")}>
-            <FilmImage name={w.image} priority={i === 0} grade="film" sizes="100vw" />
+            <FilmImage name={w.image} priority={i === 0} grade="none" sizes="100vw" />
           </div>
         ))}
       </div>
       {/* scrims that hold the copy: left on wide screens, top and bottom on phones */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(14_10_8/0.86)_0%,rgb(14_10_8/0.6)_26%,rgb(14_10_8/0)_44%,rgb(14_10_8/0)_58%,rgb(14_10_8/0.55)_70%,rgb(14_10_8/0.92)_100%)] sm:bg-[linear-gradient(90deg,rgb(14_10_8/0.8)_0%,rgb(14_10_8/0.5)_32%,rgb(14_10_8/0)_58%),linear-gradient(0deg,rgb(14_10_8/0.55)_0%,rgb(14_10_8/0)_30%)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(14_10_8/0.86)_0%,rgb(14_10_8/0.6)_26%,rgb(14_10_8/0)_44%,rgb(14_10_8/0)_58%,rgb(14_10_8/0.55)_70%,rgb(14_10_8/0.92)_100%)] sm:bg-[linear-gradient(90deg,rgb(14_10_8/0.62)_0%,rgb(14_10_8/0.32)_30%,rgb(14_10_8/0)_52%),linear-gradient(0deg,rgb(14_10_8/0.55)_0%,rgb(14_10_8/0)_30%)]" />
 
       {/* the horse */}
       <div ref={host} role="img" aria-label={`The academy's black Marwari stallion standing in the scene: ${active.title.replace(/\.$/, "")}`} className="pointer-events-none absolute inset-0" />
       {status === "failed" && (
-        <p className="label absolute right-6 top-24 text-sand" role="status">The horse needs WebGL; the photograph shows the place.</p>
+        <p className="label absolute right-6 top-24 text-sand" role="status">The horse needs WebGL; the illustration shows the place.</p>
       )}
 
       <div className="gutter relative z-10 flex min-h-[100svh] flex-col justify-between pb-10 pt-24 max-sm:min-h-[54rem] sm:pb-14 md:pt-32">
         <div className="max-w-[40rem]">{children}</div>
 
-        <div className="max-w-[34rem]">
-          <p id="fleet-worlds-label" className="label text-gold">Choose his world</p>
-          <div role="radiogroup" aria-labelledby="fleet-worlds-label" onKeyDown={onKey} className="mt-3 flex flex-wrap gap-2">
+        <div className="self-start">
+          <div role="radiogroup" aria-label="Scene" onKeyDown={onKey} className="flex flex-wrap gap-3">
             {fleetWorlds.map((w, i) => (
               <button
                 key={w.id}
@@ -339,28 +324,11 @@ export function FleetWorlds({ children }: { children?: ReactNode }) {
                 tabIndex={w.id === world ? 0 : -1}
                 onClick={() => choose(w.id)}
                 className={cn(
-                  "label min-h-11 border px-4 py-2.5 backdrop-blur-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
-                  w.id === world ? "border-gold bg-[rgb(14_10_8/0.55)] text-gold" : "border-line bg-[rgb(14_10_8/0.35)] text-sand hover:text-bone",
+                  "label min-h-11 border-2 px-6 py-2.5 shadow-[inset_0_0_0_3px_rgb(14_10_8/0.55),0_6px_18px_rgb(0_0_0/0.45)] backdrop-blur-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
+                  w.id === world ? "border-gold bg-[rgb(60_32_12/0.82)] text-gold" : "border-brass/60 bg-[rgb(14_10_8/0.62)] text-sand hover:border-gold hover:text-bone",
                 )}
               >
                 {w.label}
-              </button>
-            ))}
-          </div>
-          <div role="radiogroup" aria-label="Sound" className="mt-3 flex flex-wrap gap-2">
-            {FLEET_SOUNDS.map((o) => (
-              <button
-                key={o.id}
-                type="button"
-                role="radio"
-                aria-checked={sound === o.id}
-                onClick={() => chooseSound(o.id)}
-                className={cn(
-                  "label min-h-11 border px-4 py-2.5 backdrop-blur-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
-                  sound === o.id ? "border-gold bg-[rgb(14_10_8/0.55)] text-gold" : "border-line bg-[rgb(14_10_8/0.35)] text-sand hover:text-bone",
-                )}
-              >
-                {o.label}
               </button>
             ))}
           </div>

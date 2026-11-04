@@ -2,8 +2,8 @@ import type { MediaKey } from "./media";
 
 /**
  * The art of the peg: one run in four stages (Tournaments, S63 Peg run).
- * Figures are the ones already published on the course diagram: 100 m lane, ~35 km/h, peg ~6 cm, 9 ft lance.
- * All distances indicative. No timing claims (the prototype's "18 ms window" has no source).
+ * Checked 4 Nov 2026 against the ITPF Tent Pegging Rules (2019): lance 2.2 to 2.75 m (up to 9 ft), peg 30 cm long and 2.5 cm thick, 6 / 4 / 2.5 cm wide by stage,
+ * 80 m from start to finish line. No speed is quoted: the rules give a time allowed, not a speed. All distances indicative. No timing claims.
  */
 export type PegStage = { n: string; key: string; name: string; at: string; image: MediaKey; text: string; mark: number };
 
@@ -32,7 +32,7 @@ export const pegStages: PegStage[] = [
     name: "Lift",
     at: "The peg",
     image: "pegLift",
-    text: "At around 35 km/h the point meets a peg about 6 cm wide. The rider aims; the horse's speed does the lifting.",
+    text: "At the gallop the point meets a peg only a few centimetres wide. The rider aims; the horse's speed does the lifting.",
     mark: 0.88,
   },
   {
@@ -41,7 +41,7 @@ export const pegStages: PegStage[] = [
     name: "Carry",
     at: "Past the line",
     image: "pegCarry",
-    text: "Carry the peg on the lance past the line for full points. Drop it before the line and the score drops with it.",
+    text: "Carry the peg on the lance well past the peg for full points. Drop it early and the score drops with it.",
     mark: 0.97,
   },
 ];
@@ -50,8 +50,8 @@ export const pegIntro = {
   label: "The discipline",
   inscription: "The art of",
   voice: "the peg.",
-  body: "Tent pegging is an old cavalry skill. Riders galloped at an enemy camp and lifted its wooden tent pegs on the point of a lance, bringing the tents down on the sleepers. Today it is a sport of nerve and timing.",
-  note: "Lance 9 ft · peg about 6 cm · gallop about 35 km/h · 100 m lane. Distances indicative.",
+  body: "Tent pegging is an old cavalry skill. Tradition says cavalry riders galloped at an enemy camp and lifted its tent pegs on the point of a lance; reliable accounts of this are few. It is an old mounted skill of the Indian subcontinent and today a sport of nerve and timing.",
+  note: "Lance up to 9 ft · peg a few cm wide · about 80 m from start to finish line. Distances indicative.",
 };
 
 export const pegVirtues = ["Speed · Timing · Control · Precision", "Seat · Eye · Hand · Nerve"];

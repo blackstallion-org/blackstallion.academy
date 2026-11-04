@@ -66,13 +66,13 @@ export const fleet: Stallion[] = [
 
 export const FLEET_TOTAL = 21;
 
-/** Official Marwari studbook colour registry (Master Refinement §5). */
+/** Traditional Marwar colour names (Master Refinement §5). Not an official registry: white horses cannot be registered as Marwari (checked 4 Nov 2026, docs/audits/PRELAUNCH-FACT-CHECK.md). */
 export const coatRegistry = [
   { n: "01", name: "Bhanwar / Telia Kumat", coat: "Dark bay", hex: "#2a1d15", line: "Deep mahogany body, dark points. Grounded endurance." },
-  { n: "02", name: "Kala", coat: "Black", hex: "#0f0e0d", line: "Rare obsidian sheen, white blaze. The sovereign vow of loyalty." },
+  { n: "02", name: "Kala", coat: "Black", hex: "#0f0e0d", line: "Rare obsidian sheen. The sovereign vow of loyalty." },
   { n: "03", name: "Surang / Kumat", coat: "Chestnut & bay", hex: "#593822", line: "Rich copper-brown to the golden-red tones of a Thar sunset." },
   { n: "04", name: "Shwet / Kagra", coat: "Grey & dappled", hex: "#8c8882", line: "Silver and iron tones maturing into a silver-white coat." },
-  { n: "05", name: "Nukra", coat: "Pure white", hex: "#d9d5cd", line: "Pure ceremonial white. Formal protocol and precision." },
+  { n: "05", name: "Nukra", coat: "Pure white", hex: "#d9d5cd", line: "Pure white, kept in ceremony. White horses cannot be registered as Marwari." },
   { n: "06", name: "Ablak", coat: "Piebald / skewbald", hex: "dual", line: "Striking two-tone contrast patterns of individuality." },
 ];
 

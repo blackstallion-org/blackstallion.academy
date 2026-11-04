@@ -133,7 +133,12 @@ function ensureElement(): HTMLAudioElement | null {
 }
 
 /** Starts (or resumes) the music. Must run inside a user gesture. Resolves true when it is audibly playing. */
+/** Off when the sound menu is on "Horse sounds" (no music at all). */
+let musicAllowed = true;
+export function setMusicAllowed(on: boolean): void { musicAllowed = on; if (!on) stopMusic(); }
+
 export async function startMusic(): Promise<boolean> {
+  if (!musicAllowed) return false;
   wanted = true;
   const el = ensureElement();
   if (!el || !ctx) { setState("blocked"); return false; }

@@ -14,7 +14,7 @@ import { network } from "@/lib/content/schools";
 /** Title card · T16 gate. Signature: two gate halves part to reveal the page. */
 export function GateTitle() {
   return (
-    <section aria-labelledby="gate-h" className="tone-dark relative min-h-[92svh] overflow-hidden bg-night">
+    <section aria-labelledby="gate-h" className="tone-photo relative min-h-[92svh] overflow-hidden bg-night">
       <FilmImage name="contactGate" priority />
       <div aria-hidden className="absolute inset-0 shade-b" />
       {/* a low scrim so the title and line stay readable where the lit gap between the doors runs behind them on phones */}

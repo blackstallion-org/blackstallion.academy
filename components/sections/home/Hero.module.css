@@ -35,3 +35,12 @@
   .stats > div + div { border-left: 0; border-top: 1px solid #ac825e; }
 }
 
+
+/* Dark mode (html[data-theme="dark"], lib/theme/theme.ts). */
+:global(html[data-theme="dark"]) .hero { background: #171412; color: #f0ebe4; }
+:global(html[data-theme="dark"]) .emphasis, :global(html[data-theme="dark"]) .stats dd { color: #c9a66b; }
+:global(html[data-theme="dark"]) .actions .primary { background: #c9a66b; color: #171412; }
+:global(html[data-theme="dark"]) .actions .primary:hover { background: #dcbb83; }
+:global(html[data-theme="dark"]) .actions .secondary { border-color: rgb(201 166 107 / .5); color: #f0ebe4; }
+:global(html[data-theme="dark"]) .actions .secondary:hover { background: #2a221c; }
+:global(html[data-theme="dark"]) .stats, :global(html[data-theme="dark"]) .stats > div + div { border-color: rgb(201 166 107 / .35); }

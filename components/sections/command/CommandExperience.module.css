@@ -82,3 +82,14 @@
 .teaserBackground{position:relative;inset:auto;grid-column:1/-1;height:clamp(260px,40vw,520px);opacity:1;z-index:0}.teaser{padding-top:0;row-gap:3rem}.teaserIntro>p:not(.eyebrow){line-height:1.7}.teaserIntro>a{font-size:.8rem}.panelLabel{font-size:.7rem}.eyebrow{font-size:.7rem}
 
 .page .eyebrow{text-align:center;margin-bottom:1.5rem}.page .workspace{display:block;margin-top:0}.page .main{max-width:980px}
+
+/* Dark mode */
+:global(html[data-theme="dark"]) :is(.page, .teaser) { background: #171412; color: #f0ebe4; }
+:global(html[data-theme="dark"]) .rail { border-color: rgb(201 166 107 / .2); }
+:global(html[data-theme="dark"]) .rail > a[aria-current="page"], :global(html[data-theme="dark"]) .rail > a:hover, :global(html[data-theme="dark"]) .panelLabel > span { background: #2a221c; color: #f0ebe4; }
+:global(html[data-theme="dark"]) :is(.rail > a, .rail > p, .intro > p:last-child, .panelLabel, .sub, .prices dd, .note, .highlights span, .tiers) { color: #c2b7ab; }
+:global(html[data-theme="dark"]) :is(.eyebrow, .prices svg, .highlights svg) { color: #c9a66b; }
+:global(html[data-theme="dark"]) .dossierPanel { background: #1f1b17; border-color: rgb(201 166 107 / .2); box-shadow: none; }
+:global(html[data-theme="dark"]) .prices { border-color: rgb(201 166 107 / .2); }
+:global(html[data-theme="dark"]) .textLink { color: #e9dcc0; }
+:global(html[data-theme="dark"]) .teaserBackground { opacity: .18; }

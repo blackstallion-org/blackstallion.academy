@@ -30,7 +30,7 @@ export default async function TournamentPage({ params }: PageProps<"/tournaments
   return (
     <>
       <section aria-labelledby="t-h" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[88svh] overflow-hidden">
+<div className="tone-photo editorial-visual relative min-h-[88svh] overflow-hidden">
         <FilmImage name={t.image} priority />
         <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">

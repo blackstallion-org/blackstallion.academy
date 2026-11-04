@@ -130,7 +130,7 @@ export const posts: Post[] = [
     slug: "ten-grams-of-rein",
     title: ["Ten grams", "of rein."],
     category: "Academy",
-    dek: "What a child learns when shouting does nothing and the lightest touch turns half a tonne.",
+    dek: "What a child learns when shouting does nothing and the lightest touch turns a horse of several hundred kilograms.",
     minutes: 4,
     date: "2026-08-27",
     cover: "journalRein",
@@ -142,7 +142,7 @@ export const posts: Post[] = [
       { t: "quote", text: "You cannot shout a horse into trusting you." },
       { t: "h", text: "The lesson outside the arena" },
       { t: "p", text: "It is a skill that travels. Getting a response from someone by being calm and precise rather than loud works at home, in a classroom and on a team, and it is much easier to learn from a horse, which never pretends to be convinced." },
-      { t: "p", text: "That is why reins sit beside the ears and the saddle on our anatomy plate. Each part of the horse teaches something. The reins teach the oldest lesson of leadership: authority is quiet, and the lightest touch, given clearly, can move half a tonne." },
+      { t: "p", text: "That is why reins sit beside the ears and the saddle on our anatomy plate. Each part of the horse teaches something. The reins teach the oldest lesson of leadership: authority is quiet, and the lightest touch, given clearly, can move a horse of several hundred kilograms." },
     ],
   },
 ];

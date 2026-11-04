@@ -15,7 +15,7 @@ export function GalleryModel({ url, label }: { url: string; label: string }) {
   const capabilities = useCapabilities();
   const canDraw = capabilities?.webgl === true;
   return (
-    <div ref={frame} role="group" aria-label={`${label}. 3D model: drag to turn it.`} className="tone-dark relative aspect-[4/3] w-full overflow-hidden bg-night">
+    <div ref={frame} role="group" aria-label={`${label}. 3D model: drag to turn it.`} className="tone-photo relative aspect-[4/3] w-full overflow-hidden bg-night">
       {near && canDraw && <GalleryModelStage url={url} active={visible} />}
       <p className="label pointer-events-none absolute left-4 top-4 text-brass">3D model · drag to turn</p>
       {capabilities && !capabilities.webgl && (

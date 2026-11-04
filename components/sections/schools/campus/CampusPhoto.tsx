@@ -26,7 +26,7 @@ export function CampusPhoto({ tierId, className }: { tierId: TierId; className?:
         className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
         style={{ background: "linear-gradient(to top, color-mix(in srgb, var(--color-night) 70%, transparent), transparent)" }}
       />
-      <figcaption className="tone-dark absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-x-6 gap-y-1 px-4 pb-4 sm:px-6 sm:pb-5">
+      <figcaption className="tone-photo absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-x-6 gap-y-1 px-4 pb-4 sm:px-6 sm:pb-5">
         <span className="t-voice text-xl leading-tight text-bone sm:text-2xl">{PHOTO[tierId].line}</span>
         <span className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-sand">Illustration, placeholder art</span>
       </figcaption>

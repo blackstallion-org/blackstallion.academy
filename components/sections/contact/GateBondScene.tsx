@@ -1,25 +1,24 @@
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
-import { BondStage } from "@/components/3d/BondStage";
+import { ModelPlate } from "@/components/3d/ModelPlate";
+import { asset } from "@/lib/content/asset";
 
 /**
- * /contact, the last encounter (R01, 2 Nov 2026): the same canonical Marwari and cadet's hand as the /curriculum bond, on the dark
- * ground of the gate. Replaces the R3F scene built on the fused Tripo sculpt (horse-hand-draco.glb), whose grey head was cut at the
- * poll. The stage plays once when it is well in view (BondStage); the copy no longer claims a timed "resonance loop".
+ * /contact, the last encounter: the supplied black Marwari and a cadet's hand (touch-black-horse.glb, 4 Nov 2026) on the dark ground of the gate.
  */
 export function GateBondScene() {
   return (
     <section
       aria-labelledby="gate-bond-h"
       data-parallax-skip
-      className="tone-dark gate-bond-scene relative overflow-hidden border-t border-line/40 bg-[#0e0a08]"
+      className="tone-dark gate-bond-scene relative overflow-hidden border-t border-line/40 bg-night"
     >
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_80%_at_62%_50%,rgba(180,110,50,0.16),transparent_70%)]"
         aria-hidden
       />
       <div className="gutter relative grid min-h-[100svh] items-center gap-6 pb-16 pt-24 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10 lg:py-24">
-        <div className="order-2 max-w-[24rem] lg:order-1 lg:max-w-[32rem]">
+        <div className="relative z-10 order-2 max-w-[24rem] lg:order-1 lg:max-w-[32rem]">
           <Label>Final corridor · Gate 01</Label>
           <Headline
             id="gate-bond-h"
@@ -34,11 +33,13 @@ export function GateBondScene() {
             the last few centimetres.
           </p>
         </div>
-        <BondStage
-          theme="dark"
-          fade="both"
-          label="A black Marwari walks in from the left and a cadet's hand from the right; they pause, the horse lowers its head, and the hand meets its nose."
-          className="order-1 h-[54svh] min-h-[320px] lg:order-2 lg:h-[78svh]"
+        <ModelPlate
+          src={asset("/models/touch-black-horse.glb")}
+          label="A black Marwari stallion's head, in bronze-dark relief, with a cadet's open hand reaching toward its muzzle"
+          mode="still"
+          fill={1.15}
+          fallback={<div className="h-full w-full bg-night" />}
+          className="order-1 h-[54svh] min-h-[320px] lg:absolute lg:inset-y-0 lg:right-0 lg:z-0 lg:h-auto lg:w-[58%] [mask-image:linear-gradient(to_right,transparent_0,#000_14%)]"
         />
       </div>
     </section>

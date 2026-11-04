@@ -12,6 +12,7 @@
  * 4-8%. `from` is the side a layer enters from (-1 left, 1 right, 0 it fades in place), `fromY` the edge it also
  * enters from (-1 above, 1 below). `depth` 3 is a hero (moves most), 2 is scenery (moves less).
  */
+import { asset } from "@/lib/content/asset";
 
 export type Box = { x?: string; r?: string; b: string; w: string };
 
@@ -42,7 +43,8 @@ export type StoryScene = {
   layers: LayerSpec[];
 };
 
-const P = "/images/story/pratap/";
+const STORY = "pratap";
+const P = asset(`/images/story/${STORY}/`);
 
 /** The constant blue the whole story sits on. */
 export const SKY = `${P}band-sky.webp`;

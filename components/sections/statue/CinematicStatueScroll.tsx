@@ -61,7 +61,7 @@ const SECTIONS: ChapterData[] = [
     num: "02",
     title: "THE STEED",
     subtitle: "POWER. PRECISION. PRESENCE.",
-    body: "Five hundred kilograms of unyielding truth. Inward-curving lyre ears that catch every breath of the desert wind. An equine instrument that cannot be flattered.",
+    body: "Several hundred kilograms of unyielding truth. Inward-curving lyre ears that catch every breath of the desert wind. An equine instrument that cannot be flattered.",
     // Upper Right
     desktopPos: "lg:top-[20%] lg:right-[8%]",
     textAlign: "right",
@@ -108,7 +108,7 @@ const SECTIONS: ChapterData[] = [
   },
 ];
 
-export function CinematicStatueScroll({ editorial: requestedEditorial = false }: { editorial?: boolean }) {
+export function CinematicStatueScroll({ editorial: requestedEditorial = false, modelUrl }: { editorial?: boolean; modelUrl?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const hydrated = useSyncExternalStore(subscribeHydration, () => true, () => false);
@@ -462,6 +462,7 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false }:
             ) : (
               <MonumentBoundary onFailure={() => setFailed(true)}>
                 <StatueCanvas
+                  modelUrl={modelUrl}
                   scrollProgressRef={scrollProgressRef}
                   statueX={statueX}
                   isMobile={isMobile}
@@ -484,7 +485,7 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false }:
 
             <div className="flex items-center gap-3 sm:gap-4">
               <span className="hidden sm:inline-block font-mono text-[0.65rem] tracking-[0.3em] uppercase text-[#FAF7F0]/60">
-                The cadet and the Marwari · Bronze
+                The equestrian monument · Bronze
               </span>
               <span className="rounded-full border border-[#C5A059]/40 bg-black/60 px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#C5A059] backdrop-blur-md shadow-lg">
                 Chapter {SECTIONS[activeIdx].num} / 06
@@ -655,63 +656,6 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false }:
           )}
         </div>
       </div>
-
-      {/* ==============================================================
-          9. CITADEL ARCHIVE EXIT SECTION (Unpinned scroll reveal)
-          ============================================================== */}
-      <div className="tone-light editorial-reel-notes gutter">
-        {SECTIONS.map((sec) => (
-          <article key={sec.id}>
-            <h3>{sec.title}</h3>
-            <p>{sec.body}</p>
-          </article>
-        ))}
-      </div>
-
-      <section className="relative z-30 bg-[#070605] text-[#FAF7F0] border-t border-[#C5A059]/20 px-6 sm:px-12 md:px-20 py-24 sm:py-32">
-        <div className="mx-auto max-w-5xl">
-          <div className="flex flex-col items-center text-center">
-            <div className="inline-flex items-center gap-3">
-              <span className="h-px w-8 bg-[#C5A059]/60" />
-              <p className="font-mono text-xs uppercase tracking-[0.3em] text-[#C5A059]">
-                The Sovereign Citadel Archive
-              </p>
-              <span className="h-px w-8 bg-[#C5A059]/60" />
-            </div>
-
-            <h2 className="t-voice mt-6 text-3xl sm:text-5xl md:text-6xl font-light tracking-[0.05em] uppercase text-[#FAF7F0]">
-              Formed by Discipline. Built to Endure.
-            </h2>
-
-            <p className="t-story mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-[#FAF7F0]/80">
-              The bronze of a cadet and a Marwari stands at the centre of the Black Stallion Academy of Horsemanship.
-              Here, cadets master composure before courage, and humility before command.
-            </p>
-
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/fleet"
-                className="inline-flex items-center gap-2 rounded-full border border-[#C5A059] bg-[#C5A059] px-7 py-3 font-mono text-xs uppercase tracking-[0.25em] text-black font-semibold transition-all hover:bg-white hover:border-white"
-              >
-                <span>The Studbook Fleet</span>
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/curriculum"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/60 px-7 py-3 font-mono text-xs uppercase tracking-[0.25em] text-[#FAF7F0] backdrop-blur-md transition-all hover:border-[#C5A059] hover:text-[#C5A059]"
-              >
-                <span>Cadet Curriculum</span>
-              </Link>
-              <Link
-                href="/contact?gate=parents"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/60 px-7 py-3 font-mono text-xs uppercase tracking-[0.25em] text-[#FAF7F0] backdrop-blur-md transition-all hover:border-white/50 hover:text-white"
-              >
-                <span>Admissions Gate</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Hand visitor to Next Reel (04 · The Matrix) */}
       <EndCard current={3} />

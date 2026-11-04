@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { AnimatedMenuText } from "@/components/ui/animated-menu";
 import { acts, corridors, isConsolePath, navCta, primaryNav, reelFor, reels, TOTAL_REELS, type Act } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
@@ -33,8 +34,8 @@ function PublicNav() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
-  /* Over dark hero scenes (science, why, schools, cadets, statue, equipment, and the marble-to-living-horse openings of anatomy, curriculum and parents), the bar reads light-on-dark; everywhere else it is ivory and ink. */
-  const isDarkHero = ["/command", "/fleet", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment", "/anatomy", "/curriculum", "/parents"].includes(pathname);
+  /* Over dark hero scenes (fleet, science, why, schools, cadets, statue, lithos, equipment, and the marble-to-living-horse openings of anatomy, curriculum and parents; not /command, whose cream film keeps the bar ivory), the bar reads light-on-dark; everywhere else it is ivory and ink. */
+  const isDarkHero = ["/fleet", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment", "/anatomy", "/curriculum", "/parents"].includes(pathname);
   const overFilm = isDarkHero && !solid;
 
   useMotionValueEvent(scrollY, "change", (y) => {
@@ -95,6 +96,7 @@ function PublicNav() {
             >
               <UserRound size={18} strokeWidth={1.5} aria-hidden />
             </Link>
+            <ThemeToggle />
             <SoundToggle />
             <Link
               href={navCta.href}

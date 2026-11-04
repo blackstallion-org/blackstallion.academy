@@ -11,6 +11,7 @@ export function DualBody() {
   return (
     <AnatomyFrame
       src="/anatomy/dual-body.html"
+      id="horse-rider-study"
       label="One conversation. Two bodies."
       title="One conversation. Two bodies. Interactive Marwari horse and cadet rider anatomy"
       className="relative bg-umber pt-24 md:pt-28"
@@ -34,7 +35,7 @@ export function MatrixPlate() {
   );
 }
 
-function AnatomyFrame({ src, label, title, className }: { src: string; label: string; title: string; className: string }) {
+function AnatomyFrame({ src, id, label, title, className }: { src: string; id?: string; label: string; title: string; className: string }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const visible = useRef(false);
   const [height, setHeight] = useState(1000);
@@ -52,8 +53,15 @@ function AnatomyFrame({ src, label, title, className }: { src: string; label: st
       }
     };
     window.addEventListener("message", onMessage);
-    // Re-send the current visibility once the frame's script is listening.
-    el.addEventListener("load", post);
+    // The frame may finish loading before React attaches its message listener.
+    // Measure it once on attachment and on load so its initial height is never lost.
+    const syncFrame = () => {
+      const body = el.contentDocument?.body;
+      if (body) setHeight(Math.max(480, Math.min(4000, Math.ceil(body.getBoundingClientRect().height))));
+      post();
+    };
+    el.addEventListener("load", syncFrame);
+    if (el.contentDocument?.readyState === "complete") syncFrame();
     const observer = new IntersectionObserver(
       ([entry]) => {
         visible.current = entry.isIntersecting;
@@ -64,13 +72,13 @@ function AnatomyFrame({ src, label, title, className }: { src: string; label: st
     observer.observe(el);
     return () => {
       window.removeEventListener("message", onMessage);
-      el.removeEventListener("load", post);
+      el.removeEventListener("load", syncFrame);
       observer.disconnect();
     };
   }, []);
 
   return (
-    <section aria-label={label} data-parallax-skip className={className}>
+    <section id={id} aria-label={label} data-parallax-skip className={className}>
       <iframe
         ref={frame}
         src={src}

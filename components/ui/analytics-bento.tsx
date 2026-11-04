@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import { useReducedMotion } from "@/lib/motion/reduced";
 
 /* ------------------------------------------------------------------ */
 /*  Analytics Bento: four live cards (headline figure, two-sided wave, */
@@ -92,7 +91,7 @@ function smooth(P: [number, number][]) {
 function CountUp({ value, prefix = "", duration = 1100 }: { value: number; prefix?: string; duration?: number }) {
   const ref = React.useRef(null as HTMLSpanElement | null);
   const from = React.useRef(0);
-  const reduce = useReducedMotion();
+  const reduce = true; // opens finished: no count-up or draw-in on arrival
   React.useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -216,11 +215,10 @@ function Segmented({ items, value, onChange, label }: { items: string[]; value: 
 
 function RevenueChart({ series, caption, prefix, colors, mono, tip }: { series: Point[]; caption?: string; prefix: string; colors: [string, string]; mono: string; tip: TipRef }) {
   const [ref, { w: W, h: H }] = useSize();
-  const reduce = useReducedMotion();
-  const [drawn, setDrawn] = React.useState(false);
+  const reduce = true; // opens finished: no count-up or draw-in on arrival
+  const drawn = true;
   const [hover, setHover] = React.useState(null as number | null);
   const id = React.useId().replace(/:/g, "");
-  React.useEffect(() => { if (!W) return; const r = requestAnimationFrame(() => requestAnimationFrame(() => setDrawn(true))); return () => cancelAnimationFrame(r); }, [W]);
 
   const vals = series.map((s) => s.value);
   const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
@@ -295,7 +293,7 @@ function RevenueChart({ series, caption, prefix, colors, mono, tip }: { series: 
 
 function SessionsChart({ desktop, mobile, labels, colors, tip }: { desktop: number[][]; mobile: number[][]; labels: { desktop: string; mobile: string; current: string }; colors: { desktop: [string, string]; mobile: [string, string] }; tip: TipRef }) {
   const [ref, { w: W, h: H }] = useSize();
-  const reduce = useReducedMotion();
+  const reduce = true; // opens finished: no count-up or draw-in on arrival
   const id = React.useId().replace(/:/g, "");
   const paths = React.useRef([] as (SVGPathElement | null)[]);
   const [hover, setHover] = React.useState(null as number | null);
@@ -465,7 +463,7 @@ function Treemap({ data, period, mono, tip }: { data: AnalyticsBentoProps["categ
 
 function Radar({ values, axis, year, color, prefix, mono, tip }: { values: number[]; axis: string[]; year: string; color: string; prefix: string; mono: string; tip: TipRef }) {
   const [ref, { w }] = useSize();
-  const reduce = useReducedMotion();
+  const reduce = true; // opens finished: no count-up or draw-in on arrival
   const line = React.useRef(null as SVGPathElement | null);
   const cur = React.useRef(null as number[] | null);
   const [hover, setHover] = React.useState(null as number | null);
@@ -556,8 +554,7 @@ export function AnalyticsBento({
   const tip = React.useRef(null as TipApi | null) as TipRef;
   const [period, setPeriod] = React.useState(0);
   const [year, setYear] = React.useState(0);
-  const [shown, setShown] = React.useState(false);
-  React.useEffect(() => { const r = requestAnimationFrame(() => setShown(true)); return () => cancelAnimationFrame(r); }, []);
+  const shown = true; // opens finished: no fade in
 
   const c = {
     revenue: colors.revenue ?? (["#22D3EE", "#3BF08C"] as [string, string]),

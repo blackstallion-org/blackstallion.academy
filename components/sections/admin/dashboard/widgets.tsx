@@ -52,10 +52,6 @@ function DeltaPill({ delta, goodWhenUp = true }: { delta: Delta; goodWhenUp?: bo
   );
 }
 
-function StatusChip({ status }: { status: string }) {
-  return <span className={cn("inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold", status === "new" ? "bg-gold/15 text-gold" : "bg-line text-sand")}>{statusName(status)}</span>;
-}
-
 function Kpi({ value, reduced, label, foot, delta, spark, href }: { value: number | null; reduced: boolean; label: string; foot: ReactNode; delta?: Delta; spark?: readonly number[]; href: string }) {
   return (
     <div className="flex h-full flex-col">
@@ -299,52 +295,6 @@ export const WIDGETS: readonly WidgetDef[] = [
     ),
   },
   {
-    id: "latest",
-    icon: Inbox,
-    accent: "var(--color-signal-sky)",
-    title: "Latest enquiries",
-    tag: "Table",
-    blurb: "The eight newest enquiries, each linking to its page.",
-    size: "wide",
-    href: "/admin/enquiries",
-    render: (c) =>
-      c.snapshot.latest.length === 0 ? (
-        <p className="t-ui text-sm text-dust">{unavailable(c.snapshot, "latest") ? "The latest enquiries could not be loaded." : "No enquiries yet."}</p>
-      ) : (
-        <ul className="divide-y divide-line">
-          {c.snapshot.latest.map((l, i) => (
-            <motion.li
-              key={l.id}
-              initial={c.reduced ? false : { opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: c.reduced ? 0 : 0.5, delay: c.reduced ? 0 : 0.04 * i, ease: ease.citadel }}
-              className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 py-3 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto_auto]"
-            >
-              <Link href={l.id.startsWith("sample-") ? "#" : `/admin/leads/${l.id}`} className="t-ui min-w-0 truncate text-sm text-bone underline decoration-line underline-offset-4 hover:text-gold hover:decoration-gold">
-                {l.name}
-              </Link>
-              <span className="t-ui order-3 col-span-2 truncate text-xs text-dust sm:order-none sm:col-span-1 sm:text-sm sm:text-sand">{gateLabel(l.gate)}</span>
-              <StatusChip status={l.status} />
-              <time dateTime={l.at} className="hidden w-24 text-right font-mono text-[0.68rem] text-dust sm:block">
-                {relativeTime(l.at, c.now)}
-              </time>
-            </motion.li>
-          ))}
-        </ul>
-      ),
-    preview: (
-      <svg viewBox="0 0 120 60" className={sketch} aria-hidden>
-        {[10, 24, 38].map((y) => (
-          <g key={y}>
-            <rect x="8" y={y} width="44" height="5" fill="currentColor" opacity="0.7" />
-            <rect x="60" y={y} width="22" height="5" fill="currentColor" opacity="0.35" />
-            <rect x="90" y={y - 1} width="22" height="7" fill="none" stroke="currentColor" strokeWidth="1.4" />
-          </g>
-        ))}
-      </svg>
-    ),
-  },
-  {
     id: "handled",
     icon: CircleGauge,
     accent: "var(--color-signal-emerald)",
@@ -450,5 +400,5 @@ const STATUS_TONE: Record<string, string> = {
   rejected: "var(--color-signal-rose)",
 };
 
-export const DEFAULT_LAYOUT: readonly string[] = ["kpi-enquiries", "kpi-new", "kpi-accounts", "kpi-mou", "trend", "activity", "forms", "pipeline", "latest", "handled", "weekday", "sources", "hubs"];
+export const DEFAULT_LAYOUT: readonly string[] = ["kpi-enquiries", "kpi-new", "kpi-accounts", "kpi-mou", "trend", "activity", "forms", "pipeline", "handled", "weekday", "sources", "hubs"];
 export const widgetById = (id: string) => WIDGETS.find((w) => w.id === id);

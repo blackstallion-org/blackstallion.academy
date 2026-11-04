@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import Link from "next/link";
@@ -18,6 +20,7 @@ import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { QrSeal } from "@/components/brand/QrSeal";
 import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
+import { asset } from "@/lib/content/asset";
 /** Title card: the Hall of Valour opens on the cadet still (Higgsfield placeholder art), the headline beside it. */
 export function CadetsTitle() {
   return (
@@ -28,9 +31,8 @@ export function CadetsTitle() {
           <Headline id="cadets-h" as="h1" size="poster" animate="mount" className="mt-6" inscription="The hall" voice="of valour." />
           <p className="t-story mt-6 max-w-lg text-sand">Cadets earn their place: hour by hour, rank by rank, sealed in brass.</p>
         </div>
-        <motion.div className="relative h-[70svh] lg:h-[86svh]" initial={{ clipPath: "inset(100% 0 0 0)" }} animate={{ clipPath: "inset(0% 0 0 0)" }} transition={{ duration: 1.6, ease: ease.citadel, delay: 0.3 }}>
-          <FilmImage name="cadetZayd" priority sizes="(min-width: 1024px) 45vw, 100vw" />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent" />
+        <motion.div className="relative -mx-[max(16px,4vw)] h-[70svh] lg:mx-0 lg:-mr-[max(16px,4vw)] lg:h-[86svh]" initial={{ clipPath: "inset(100% 0 0 0)" }} animate={{ clipPath: "inset(0% 0 0 0)" }} transition={{ duration: 1.6, ease: ease.citadel, delay: 0.3 }}>
+          <Image src={asset("/images/academy-uniforms/ceremonial-reference.webp")} alt="A cadet in navy and gold ceremonial dress standing beside a black Marwari" fill preload sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover object-top" />
           <p className="label absolute right-3 top-6 text-sand [writing-mode:vertical-rl]">Sample cadet · AI placeholder</p>
         </motion.div>
       </div>
@@ -300,13 +302,13 @@ export function UniformSpec() {
     <section aria-labelledby="uniform-h" className="relative bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
         <div className="relative aspect-[3/4] w-full max-w-md overflow-hidden lg:order-2">
-          <FilmImage name="cadetZayd" sizes="(min-width: 1024px) 40vw, 90vw" grade="deep" />
+          <Image src={asset("/images/academy-uniforms/ceremonial-reference.webp")} alt="Cadet wearing the academy’s navy bandhgala with gold embroidery, cream breeches, white gloves and black riding boots beside a Marwari" fill sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover object-top" />
           <div aria-hidden className="absolute inset-0 shade-b" />
           <p className="font-mono absolute bottom-4 left-5 text-[0.6rem] tracking-[0.14em] text-dust">BSAH CADET UNIFORM · SPEC 2026</p>
         </div>
         <div className="lg:order-1">
           <Label>The uniform</Label>
-          <Headline id="uniform-h" className="mt-4" inscription="Midnight wool," voice="copper and brass." />
+          <Headline id="uniform-h" className="mt-4" inscription="Midnight wool," voice="gold and brass." />
           <dl className="mt-10 border-t border-line">
             {uniform.map((u, i) => (
               <div key={u.item} className="grid gap-1 border-b border-line py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">

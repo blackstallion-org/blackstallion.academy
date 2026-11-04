@@ -189,7 +189,7 @@ export function CompareSlider({ left, right, leftLabel, rightLabel, leftAlt, rig
       role="group"
       aria-label={`${leftLabel} and ${rightLabel}, drag to compare`}
       ref={ref}
-      className={cn("tone-dark relative cursor-ew-resize touch-pan-y select-none overflow-hidden [&_img]:pointer-events-none", className)}
+      className={cn("tone-photo relative cursor-ew-resize touch-pan-y select-none overflow-hidden [&_img]:pointer-events-none", className)}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={end}

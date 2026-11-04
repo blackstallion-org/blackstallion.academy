@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 /**
  * §3 · S63 Peg run (replaces the static S59 course diagram; the diagram survives as the lane strip).
  * One run in four stages. Signature moment: each stage dissolves into the next through drifting noise
- * (MorphGallery) while the rider mark travels down the 100 m lane. Play runs the four stages once.
+ * (MorphGallery) while the rider mark travels down the lane. Play runs the four stages once.
  * Coda: the four virtues drift past, quickening with the scroll (VelocityMarquee).
  */
 const STEP_MS = 2600;
@@ -77,7 +77,7 @@ export function PegRun() {
           <figcaption className="sr-only" aria-live={playing ? "polite" : "off"}>
             Stage {stage.n}, {stage.name}: {stage.text}
           </figcaption>
-          {/* the lane: 100 m, rider mark travels with the stage */}
+          {/* the lane (indicative), rider mark travels with the stage */}
           <div aria-hidden className="relative mt-6 h-12">
             <div className="absolute inset-x-0 top-4 h-px bg-line" />
             {Array.from({ length: 11 }, (_, i) => (
