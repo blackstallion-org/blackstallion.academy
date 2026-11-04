@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { AUTH_COOKIE_OPTIONS } from "@/lib/supabase/rest";
 
 /**
  * Account proxy: refreshes the Supabase session cookie and sends signed-out visitors to the login page.
@@ -22,6 +23,7 @@ export async function proxy(request: NextRequest) {
   }
 
   const supabase = createServerClient(url, key, {
+    cookieOptions: AUTH_COOKIE_OPTIONS,
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll: (list) => {

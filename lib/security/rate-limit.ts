@@ -32,8 +32,16 @@ const processSalt = randomBytes(32).toString("hex");
 const memory = new Map<string, { windowStart: number; hits: number }>();
 const MAX_BUCKETS = 10_000;
 
+/**
+ * Every server instance must hash a visitor to the same bucket, or the shared database limit is split per instance. Without
+ * RATE_LIMIT_SALT or TRUSTEE_SESSION_SECRET, derive a stable salt from the server-only Supabase secret before falling back to a
+ * per-process one (security audit F-11, 4 Nov 2026).
+ */
 function salt() {
-  return process.env.RATE_LIMIT_SALT || process.env.TRUSTEE_SESSION_SECRET || processSalt;
+  if (process.env.RATE_LIMIT_SALT) return process.env.RATE_LIMIT_SALT;
+  if (process.env.TRUSTEE_SESSION_SECRET) return process.env.TRUSTEE_SESSION_SECRET;
+  const secret = process.env.SUPABASE_SECRET_KEY;
+  return secret ? createHash("sha256").update(`bsah-rate-limit:${secret}`).digest("hex") : processSalt;
 }
 
 /** Opaque bucket id: "<kind>:<40 hex>". */

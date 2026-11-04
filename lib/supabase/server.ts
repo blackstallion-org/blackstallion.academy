@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { supabaseConfig } from "@/lib/supabase/rest";
+import { AUTH_COOKIE_OPTIONS, supabaseConfig } from "@/lib/supabase/rest";
 
 /**
  * Supabase client bound to the visitor's auth cookies (server components, server actions, route handlers).
@@ -12,6 +12,7 @@ export async function createSupabaseServerClient() {
   if (!config) return null;
   const store = await cookies();
   return createServerClient(config.url, config.publishable, {
+    cookieOptions: AUTH_COOKIE_OPTIONS,
     cookies: {
       getAll: () => store.getAll(),
       setAll: (list) => {

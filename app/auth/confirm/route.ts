@@ -1,15 +1,17 @@
 import { type NextRequest, NextResponse } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
+import { safeNext } from "@/lib/registration/model";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 /**
  * Landing point for Supabase e-mail links (password recovery, invites). Accepts either a PKCE `code` or a
  * `token_hash` + `type`, establishes the session in cookies, then continues to a RELATIVE path only (no open redirect).
+ * `safeNext` also refuses backslashes: "/\\evil.com" passed the earlier "starts with / but not //" test and URL parsing
+ * turns it into https://evil.com (security audit F-06, 4 Nov 2026).
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const nextParam = searchParams.get("next") ?? "/admin";
-  const next = nextParam.startsWith("/") && !nextParam.startsWith("//") ? nextParam : "/admin";
+  const next = safeNext(searchParams.get("next"), "/admin");
   const supabase = await createSupabaseServerClient();
   if (!supabase) return NextResponse.redirect(new URL("/admin/login?e=unconfigured", request.url));
 

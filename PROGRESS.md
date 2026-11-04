@@ -772,3 +772,9 @@ enrolment into the operations cadet with a passport QR. New role ADMISSIONS; min
 (the sign-in looked for the website-only `member_accounts` table); it now goes to `/sovereign` or the page it came from.
 Docs: `docs/REGISTRATION_{AUDIT,ARCHITECTURE,SETUP,SECURITY,TEST_RESULTS}.md`. Not applied to the live database (no access from this
 workspace); no live payment, e-mail or signed-in run was possible.
+
+## Session 4 Nov 2026 · Production security audit (fixes committed, not deployed; NO-GO)
+- Reports: `docs/security/01-architecture-audit.md`, `docs/security/SECURITY-AUDIT.md`. Live checks were read-only (anonymous REST/Storage with the public key; production headers); the connected Supabase account cannot reach the BSAH project, so live RLS and Auth settings were not inspected from the inside.
+- **Fixed in code (not deployed):** F-06 open redirect after an e-mail link (`/auth/confirm` now uses `safeNext`); F-07 Supabase session cookies HttpOnly, SameSite=Lax, Secure in production (`AUTH_COOKIE_OPTIONS` in `proxy.ts` and `lib/supabase/server.ts`); F-11 a stable rate-limit salt when no salt variable is set. Tests: `tests/security-audit-fixes.test.mjs` (3/3).
+- **Still open, confirmed live:** anonymous visitors can read horse microchip ids / CCTV link columns and hub revenue shares (S3/S4); the prepared migration 001200 needs owner approval and database access. S5, S7, S8, S9 (key rotation) unverified.
+- Checks: typecheck pass, eslint on touched files clean, `npm run build` pass, no secrets in source, git history or client bundles, `npm audit` 0 production advisories; `npm test` 271/279 and e2e smoke 16/19, every failure in media and home-page tests from other uncommitted work.

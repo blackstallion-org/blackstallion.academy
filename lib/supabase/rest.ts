@@ -14,6 +14,14 @@ export function supabaseConfig(): SupabaseKeys | null {
   return { url: url.replace(/\/+$/, ""), publishable, secret: process.env.SUPABASE_SECRET_KEY || undefined };
 }
 
+/**
+ * Options for the Supabase session cookies (security audit F-07, 4 Nov 2026). The library default is readable by page
+ * scripts and has no Secure flag. This site has no browser Supabase client (sessions are read only on the server: the proxy,
+ * server components and actions), so the cookies are HttpOnly; Secure outside development; SameSite=Lax so e-mail links
+ * still arrive signed in. The library keeps its own lifetime.
+ */
+export const AUTH_COOKIE_OPTIONS = { path: "/", sameSite: "lax", httpOnly: true, secure: process.env.NODE_ENV === "production" } as const;
+
 export function restHeaders(apiKey: string, userJwt?: string): Record<string, string> {
   const headers: Record<string, string> = { "content-type": "application/json", apikey: apiKey };
   if (userJwt) headers.authorization = `Bearer ${userJwt}`;
