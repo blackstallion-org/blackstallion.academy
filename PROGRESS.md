@@ -760,3 +760,15 @@ New `components/3d/ModelPlate.tsx` (+ `ModelPlateCanvas.tsx`): a frame that load
 
 ## Session 4 Nov 2026 · `/statue` golden halo (uncommitted)
 - **Chapter 01 · Origin halo:** `CinematicStatueScroll` + `StatueEditorial.module.css`. The museum spotlight and core light behind the 3D canvas are replaced by one CSS-only eclipse ring (conic ramp cut to a hairline by a mask, brightest at the upper right, a soft bloom and an inner glow, copper-gold #B88A50), about 72 % of the viewport height (`min(72vh, 94vw)`), centred on the horse's head and the rider. It sits in the z-0 layer under the canvas (z-10), so it can never cover the model; the vignette keeps the outer edge near black. A 7 s opacity breath; no animation under reduced motion. No change to the monument, camera, chapter text or scroll. Checked at 1440 and 390 px; lint and typecheck on the file.
+
+## 4 Nov 2026: registration and admissions system
+
+Four kinds of application (cadet enrolment by a guardian, school, staff, partner) on the live operations schema, with a tracked
+status, documents in a private bucket, guardian consent, admissions review, enrolment-fee checkout (Razorpay, verified webhook) and
+enrolment into the operations cadet with a passport QR. New role ADMISSIONS; minors never get a login. Migration
+`supabase/live/migrations/20261104001400_registration_admissions.sql` (+ rollback, + replica tests: 337/337). Routes `/register`,
+`/login`, `/enroll`, `/enroll/status`, `/schools/apply`, `/careers/apply`, `/partners/apply`, `/sovereign`, `/admin/admissions`,
+`/admin/applications`, `/admin/cadets`, `/admin/schools`. Also fixed: on the live project every non-staff sign-in was signed out again
+(the sign-in looked for the website-only `member_accounts` table); it now goes to `/sovereign` or the page it came from.
+Docs: `docs/REGISTRATION_{AUDIT,ARCHITECTURE,SETUP,SECURITY,TEST_RESULTS}.md`. Not applied to the live database (no access from this
+workspace); no live payment, e-mail or signed-in run was possible.
