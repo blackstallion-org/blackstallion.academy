@@ -27,8 +27,6 @@
 .home [data-home-detail] { text-wrap: pretty; }
 .home [data-home-story] :global(.slide-title) { font-size: clamp(2.6rem, 6.5vw, 6.8rem); font-family: var(--font-newsreader), Georgia, serif; letter-spacing: -0.025em; text-transform: none; }
 .home [data-home-story] :global(.slide-subtitle) { letter-spacing: 0.16em; }
-.home :global(#doctrine) { padding-block: clamp(4.5rem, 10vw, 10rem); }
-.home :global(#doctrine) > div { row-gap: 3rem; }
 .home :global(#doors-h) { max-inline-size: 12ch; }
 .home :global(#chronicle-h) { max-inline-size: 14ch; }
 @media (min-width: 1024px) {

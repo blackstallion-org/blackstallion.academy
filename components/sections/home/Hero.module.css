@@ -1,0 +1,37 @@
+.hero {
+  background: #fae7cc;
+  color: #291c12;
+  padding: 7rem 1.5rem 1.25rem;
+  min-height: 100svh;
+}
+.content { max-width: 1250px; margin: 0 auto; text-align: center; }
+.crest { width: min(100%, 340px); height: auto; margin: 0 auto 1rem; }
+.statement { font-family: var(--font-display); font-size: clamp(1.9rem, 3.25vw, 3rem); font-weight: 400; line-height: 1.08; letter-spacing: -0.025em; text-wrap: balance; }
+.statement > span { display: block; }
+.word { display: inline-block; opacity: 0; transform: translateY(0.45em); filter: blur(6px); animation: wordIn 1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; }
+@keyframes wordIn { to { opacity: 1; transform: none; filter: none; } }
+@media (prefers-reduced-motion: reduce) { .word { opacity: 1; transform: none; filter: none; animation: none; } }
+.emphasis { color: #824722; font-style: italic; }
+.intro { max-width: 88ch; margin: 1rem auto 0; font-family: var(--font-display); font-size: clamp(1rem, 1.35vw, 1.2rem); line-height: 1.45; text-wrap: pretty; }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+.actions a { min-height: 48px; justify-content: center; border-radius: 3px; }
+.actions .primary { background: #824722; color: #fff5e5; }
+.actions .primary:hover { background: #633319; }
+.actions .secondary { border-color: #a5714d; color: #291c12; }
+.actions .secondary:hover { background: #f1d7b4; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 3rem; border-top: 1px solid #ac825e; text-align: left; }
+.stats > div { display: flex; flex-direction: column-reverse; justify-content: end; gap: .65rem; padding: 1.25rem 2rem; }
+.stats > div + div { border-left: 1px solid #ac825e; }
+.stats dt { font-family: var(--font-sans); font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; line-height: 1.6; }
+.stats dd { font-family: var(--font-display); font-size: clamp(2.1rem, 3.3vw, 3rem); font-style: italic; line-height: 1; color: #824722; }
+@media (min-width: 768px) { .hero { padding-top: 7rem; } .crest { width: min(40vw, 510px); } }
+@media (max-width: 639px) {
+  .hero { padding-top: 6rem; }
+  .intro { max-width: 36ch; }
+  .actions { gap: .75rem; }
+  .actions a { width: 100%; max-width: 340px; }
+  .stats { margin-top: 2rem; grid-template-columns: 1fr; }
+  .stats > div { padding: 1rem 0; gap: .5rem; }
+  .stats > div + div { border-left: 0; border-top: 1px solid #ac825e; }
+}
+
