@@ -33,5 +33,4 @@
 
 ## Not claimed
 
-No production readiness is claimed for this system: it has not run against the live database (the migration is not applied there),
-no real payment, e-mail or upload has gone through it, and the authenticated pages were not exercised with a signed-in account.
+No production readiness is claimed for this system: the migration is live (4 Nov 2026) and anonymous access was checked there, but no real payment, e-mail or upload has gone through it, and the authenticated pages were not exercised with a signed-in account.

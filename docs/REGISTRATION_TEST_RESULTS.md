@@ -30,9 +30,25 @@ everything it added, keeps enrolled cadets.
 - Signed-out visits to `/enroll`, `/sovereign`, `/careers/apply` redirect to sign-in with `?next=` set; `/login?next=/enroll` keeps it;
   `/admin/applications` redirects to sign-in.
 
+## Live project (tgwadczrfbljnepoaqtb), 4 Nov 2026
+
+Applied through the Management API in one transaction, after checking that the prerequisites existed (website layer, F2 sign-up
+trigger, `consume_rate_limit`, operations columns) and recording the definitions it replaces (`handle_new_user`, `users_role_check`).
+
+- All 8 new tables have RLS on, with policies. The Foundation programme exists with a fee of 0. The private bucket `application-documents`
+  has a 10 MB limit and owner-only storage policies. The role check includes ADMISSIONS. The new columns are on `payment_records` and
+  `consent_records`. Only `service_role` (and `postgres`) can execute `ingest_payment_event`. User roles are unchanged.
+- The Security Advisor shows no errors. The only new warnings are the five `application_*` functions being callable by signed-in
+  users, which is intended: each checks the caller. Every other warning was there before.
+- Anonymous visitors using the publishable key can read active programmes and nothing else:
+  - reads of applications, children, documents, enrolments, payment events and the notification log are refused (42501);
+  - inserting an application and changing a fee are refused;
+  - the RPCs `ingest_payment_event` and `application_review` are refused;
+  - an upload to the bucket is refused by RLS, and a bucket listing returns nothing.
+
 ## Not tested (say so plainly)
 
-- Anything against the live database: the migration is not applied there (no access from this workspace).
+- Signed-in flows against the live database (no test account was used); the database checks above are anonymous only.
 - The signed-in pages (enrolment form, status, dashboard, console review) with a real account; real uploads to Storage.
 - A real Razorpay order, checkout or webhook (no keys); a real e-mail (Resend domain not verified).
 - Screen-reader pass; Safari and Firefox; real devices.

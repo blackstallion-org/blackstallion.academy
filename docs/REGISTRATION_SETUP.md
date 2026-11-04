@@ -1,6 +1,7 @@
 # Registration and admissions: setup (owner steps)
 
-Everything below needs an account or a decision that only the owner has. Nothing here has been done on the live project yet.
+Everything below needs an account or a decision that only the owner has. **Step 1 was done on 4 Nov 2026** (applied and checked
+from this workspace, see `docs/REGISTRATION_TEST_RESULTS.md`); steps 2 to 6 are still open.
 
 ## 1. Apply the database migration (live project `tgwadczrfbljnepoaqtb`)
 
