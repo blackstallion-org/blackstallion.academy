@@ -44,6 +44,17 @@ $PS -v ON_ERROR_STOP=1 -c "delete from public.media_assets where bucket = 'bsah-
 echo "apply rollback of the media library (twice)"
 run "$LIVE/rollback/20261029001300_bsah_media_library_rollback.sql"; run "$LIVE/rollback/20261029001300_bsah_media_library_rollback.sql"
 tst "$HERE/61_bsah_media_library_rollback_tests.sql"
+echo "apply 20261104001400_registration_admissions.sql (twice)"
+run "$LIVE/migrations/20261104001400_registration_admissions.sql"; run "$LIVE/migrations/20261104001400_registration_admissions.sql"
+tst "$HERE/70_registration_tests.sql"
+echo "the registration rollback must refuse while ADMISSIONS accounts exist"
+if $PS -v ON_ERROR_STOP=1 -f "$LIVE/rollback/20261104001400_registration_admissions_rollback.sql" >/dev/null 2>&1; then echo "FAIL  registration rollback ran while ADMISSIONS accounts existed" | tee -a "$D/out.txt"; else echo "PASS  registration rollback refuses while ADMISSIONS accounts exist" | tee -a "$D/out.txt"; fi
+$PS -v ON_ERROR_STOP=1 -c "update public.users set role = 'PARENT' where role = 'ADMISSIONS'" -c "delete from storage.objects where bucket_id = 'application-documents'"
+echo "apply rollback of the registration layer (twice)"
+run "$LIVE/rollback/20261104001400_registration_admissions_rollback.sql"; run "$LIVE/rollback/20261104001400_registration_admissions_rollback.sql"
+tst "$HERE/71_registration_rollback_tests.sql"
+# remove the registration fixtures so the older layer-rollback checks see the data they expect
+$PS -v ON_ERROR_STOP=1 -c "delete from public.payment_records where parent_id::text like '00000000-0000-0000-0000-0000000000c%'" -c "delete from auth.users where id::text like '00000000-0000-0000-0000-0000000000c%'"
 echo "apply rollback of the website layer"
 run "$LIVE/rollback/20261023001000_website_layer_rollback.sql"
 tst "$HERE/30_rollback_tests.sql"
