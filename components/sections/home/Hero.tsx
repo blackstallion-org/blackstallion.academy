@@ -3,6 +3,8 @@
 
 import { Fragment } from "react";
 import Image from "next/image";
+import { ModelPlate } from "@/components/3d/ModelPlate";
+import { asset } from "@/lib/content/asset";
 import { HeroFilm } from "./HeroFilm";
 import { StallionHero } from "./StallionHero";
 import { Cta } from "@/components/film/Marks";
@@ -31,14 +33,24 @@ function HeroContentSection() {
   return (
     <section id="doctrine" tabIndex={-1} aria-label="Who we are" className={styles.hero}>
       <div className={styles.content}>
-        <Image
-          src="/brand/bsah-logo.webp"
-          alt="The Black Stallion Academy of Horsemanship crest"
-          width={900}
-          height={900}
-          preload
-          sizes="(min-width: 768px) 510px, 340px"
+        {/* The supplied emblem in bronze relief (4 Nov 2026), swaying slowly; the flat crest is what shows until it is drawn, and without WebGL. */}
+        <ModelPlate
+          src={asset("/models/bsah-emblem.glb")}
+          label="The Black Stallion Academy of Horsemanship emblem: a horse's head in a shield between two pennants, in bronze relief"
+          mode="sway"
+          fill={1.04}
           className={styles.crest}
+          fallback={
+            <Image
+              src="/brand/bsah-logo.webp"
+              alt=""
+              width={900}
+              height={900}
+              preload
+              sizes="(min-width: 768px) 510px, 340px"
+              className="h-full w-full object-contain"
+            />
+          }
         />
         <h1 className={styles.statement}>
           {hero.statement.map((sentence, index) => {
