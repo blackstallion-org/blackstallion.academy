@@ -4,7 +4,8 @@ import type { MediaKey } from "@/lib/content/media";
  * The full-screen scroll curtain (components/motion/fx/CurtainChapters.tsx, first used on /parents) on the home page and the seven
  * reels: four photographs that draw up over one another as the page scrolls, one curtain per page. Every image is an existing
  * media key (AI placeholders until the shoot) and every line describes what the picture shows or what the page already says;
- * no figures, no health claims (Blueprint Part 9). `time` is the small mono kicker on each frame.
+ * no figures, no health claims (Blueprint Part 9). The home curtain uses the four stills no other page uses (28 Oct 2026, owner's request:
+ * no /legend photographs on the home page); two of them are atmospheric dust frames until the shoot supplies more. `time` is the small mono kicker on each frame.
  */
 export type CurtainChapter = { image: MediaKey; time: string; title: string; line: string };
 export type CurtainSet = { label: string; chapters: CurtainChapter[] };
@@ -13,10 +14,10 @@ export const curtains = {
   home: {
     label: "The academy in four frames",
     chapters: [
-      { image: "legendCavalry", time: "I", title: "Eight centuries of horsemen.", line: "The Marwari carried Rajput cavalry through the Thar. The lyre-shaped ears are its mark." },
-      { image: "legendRevival", time: "II", title: "A breed brought back.", line: "From village carts in the 1950s to herds galloping across Rajasthan at golden hour." },
-      { image: "currFormation", time: "III", title: "Taught in line, at dusk.", line: "Cadets learn to ride together: straight lines, quiet hands, one instructor's voice." },
-      { image: "legendToday", time: "IV", title: "Handed to your child.", line: "A cadet touches the curled ear at dawn, and the first lesson begins." },
+      { image: "heroDust", time: "I", title: "Out of the dust.", line: "A Marwari stallion breaks out of a cloud of desert dust: the breed the academy is built around." },
+      { image: "riderLance", time: "II", title: "A lance at dusk.", line: "A young rider lowers a tent-pegging lance at the gallop: the skill the curriculum builds toward." },
+      { image: "dustWall", time: "III", title: "Where the dust lifts.", line: "When a session ends, the track dust rises off the sand and the next cadets ride in." },
+      { image: "dustPlume", time: "IV", title: "Then it settles.", line: "A last plume of dust thins out. The lineage is handed on, one cadet at a time." },
     ],
   },
   legend: {

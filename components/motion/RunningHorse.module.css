@@ -1,0 +1,17 @@
+/* The supplied running-rider animation, placed as it is. Its white ground is multiplied into the page's ivory so it has no box. */
+.horse {
+  display: block;
+  width: clamp(150px, 26vw, 300px);
+  height: auto;
+  aspect-ratio: 500 / 333;
+  mix-blend-mode: multiply;
+  user-select: none;
+}
+
+/* The opening: the camera goes into the horse (its chest, behind the rider) and the picture dissolves into the website behind it. */
+.horse[data-zooming] {
+  transform-origin: 55% 50%;
+  animation: into 1.3s cubic-bezier(0.55, 0, 0.9, 0.5) forwards;
+  will-change: transform;
+}
+@keyframes into { from { transform: scale(1); } to { transform: scale(22); } }

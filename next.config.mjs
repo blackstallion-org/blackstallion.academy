@@ -22,7 +22,7 @@ const MODEL_VERSION = (() => {
   if (isDev) return "";
   try {
     const hash = createHash("sha1");
-    for (const f of ["marwari-hero.glb", "marwari-hero-mobile.glb", "marwari-anatomy.glb"]) hash.update(readFileSync(new URL(`./public/models/${f}`, import.meta.url)));
+    for (const f of ["marwari-hero.glb", "marwari-hero-mobile.glb", "marwari-anatomy.glb", "riding-gear-high.glb", "riding-gear-low.glb"]) hash.update(readFileSync(new URL(`./public/models/${f}`, import.meta.url)));
     return hash.digest("hex").slice(0, 10);
   } catch {
     return "";
@@ -35,16 +35,19 @@ const MEDIA_BASE = parseMediaBase(process.env.NEXT_PUBLIC_MEDIA_BASE_URL);
 const MEDIA_BASE_URL = MEDIA_BASE ? new URL(MEDIA_BASE) : null;
 // Higgsfield CDN media, plus the project's Supabase Storage for images uploaded through the staff console (and the media bucket).
 const MEDIA = [...new Set(["https://d8j0ntlcm91z4.cloudfront.net", "https://d2ol7oe51mr4n9.cloudfront.net", "https://images.higgs.ai", SUPABASE_ORIGIN, MEDIA_BASE_URL?.origin].filter(Boolean))];
+// Spline hosts the 3D scene on /science (components/ui/splite.tsx): the scene file and its textures come from prod/assets,
+// and the runtime fetches two WebAssembly files of its own. unpkg is narrowed to Spline's own packages by path.
+const SPLINE = ["https://prod.spline.design", "https://assets.spline.design", "https://cdn.spline.design", "https://unpkg.com/@splinetool/"];
 const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
-  `img-src 'self' data: blob: ${MEDIA.join(" ")}`,
+  `img-src 'self' data: blob: ${MEDIA.join(" ")} ${SPLINE.join(" ")}`,
   `media-src 'self' blob: ${MEDIA.join(" ")}`,
-  `connect-src 'self' blob: data: ${MEDIA.join(" ")} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self' blob: data: ${MEDIA.join(" ")} ${SPLINE.join(" ")} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
-  "frame-src https://challenges.cloudflare.com",
+  "frame-src 'self' https://challenges.cloudflare.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -98,6 +101,14 @@ const nextConfig = {
         has: [{ type: "query", key: "v", value: MODEL_VERSION }],
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       }] : []),
+      // The "One conversation. Two bodies." exhibit page is framed by this origin only (the site-wide rule forbids framing).
+      {
+        source: "/anatomy/dual-body.html",
+        headers: [
+          { key: "Content-Security-Policy", value: csp.replace("frame-ancestors 'none'", "frame-ancestors 'self'") },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        ],
+      },
     ];
   },
   async redirects() {

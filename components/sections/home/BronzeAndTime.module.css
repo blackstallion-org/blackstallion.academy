@@ -1,0 +1,367 @@
+/*
+ * Bronze and Time. A tall track with one sticky, full-height stage; the scroll position inside the track drives the scene.
+ * Geometry is the reference page's (a 25vw column grid, five vertical rules, a stories-style progress bar), moved into the
+ * stage and cleared of the site's fixed navigation (--nav). Colours are the site's role tokens; the stage itself is the
+ * scene's own black (the WebGL background), so the section's edges and the canvas never show a seam.
+ */
+.track {
+  --scene-black: #000;
+  --nav: 4rem;
+  --col: calc(25vw - 60px);
+  position: relative;
+  height: 520vh;
+  background: var(--scene-black);
+  color: var(--color-bone);
+}
+@media (min-width: 768px) {
+  .track { --nav: 5rem; }
+}
+@media (max-width: 767px) {
+  .track { height: 440vh; --col: calc(100vw - 48px); }
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 34rem;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--scene-black);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* the page scrolls past the stage: a vertical swipe on a phone must still scroll it */
+  touch-action: pan-y;
+  outline: none;
+}
+
+.poster { display: none; }
+
+/* ---------------------------------------------------------------- grid: one rule under the nav, five vertical rules, drifting dots */
+.gridH {
+  position: absolute;
+  z-index: 5;
+  top: var(--nav);
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-bone) 12%, transparent);
+  pointer-events: none;
+}
+.grid {
+  position: absolute;
+  z-index: 5;
+  inset: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.line {
+  position: relative;
+  width: 1px;
+  height: 100%;
+  background: color-mix(in srgb, var(--color-bone) 12%, transparent);
+}
+.line:nth-child(3) {
+  margin-top: var(--nav);
+  height: calc(100% - var(--nav));
+}
+.dot {
+  position: absolute;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-bone) 35%, transparent);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--color-bone) 15%, transparent);
+  transform: translate(-50%, -50%);
+}
+.dashes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translate(-50%, -50%);
+}
+.dash {
+  width: 2px;
+  height: 40px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--color-bone) 15%, transparent);
+}
+.fill {
+  width: 100%;
+  height: 0;
+  border-radius: 2px;
+  background: var(--color-bone);
+}
+@media (max-width: 767px) {
+  .grid { inset: 0 16px; }
+  .line:nth-child(2),
+  .line:nth-child(4) { display: none; }
+  .dash { height: 28px; }
+}
+
+/* ---------------------------------------------------------------- chapter index (the reference page's header links) */
+.index {
+  position: absolute;
+  z-index: 20;
+  top: calc(var(--nav) + 0.9rem);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transform: translateX(-50%);
+}
+.index button {
+  padding: 0.5rem 0.25rem;
+  background: none;
+  border: 0;
+  color: var(--color-sand);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-shadow: 0 0 0.8rem rgb(0 0 0 / 0.85), 0 0 0.2rem rgb(0 0 0 / 0.7);
+  transition: color 0.3s;
+}
+.index button:hover,
+.index button[aria-current="true"] { color: var(--color-bone); }
+.index button[aria-current="true"] { box-shadow: 0 1px 0 var(--color-gold); }
+.index button:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 4px; }
+.index i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-bone) 20%, transparent);
+}
+@media (max-width: 767px) {
+  .index { display: none; }
+}
+
+/* ---------------------------------------------------------------- slides */
+.slide {
+  position: absolute;
+  z-index: 10;
+  bottom: 12%;
+  pointer-events: none;
+}
+.slide.active { pointer-events: auto; }
+
+.s1 { left: 0; width: 100%; }
+.s1 .title { margin-left: 60px; }
+.s1 .row { position: relative; display: flex; width: 100%; }
+.s1 .col1 { margin-left: 60px; width: var(--col); max-width: var(--col); }
+.s1 .col2 { position: absolute; left: calc(25vw + 40px); width: var(--col); max-width: var(--col); }
+
+.s2 { left: 0; width: 100%; }
+.s2 .title { margin-left: calc(25vw + 40px); }
+.s2 .body { margin-left: calc(25vw + 40px); width: var(--col); max-width: var(--col); }
+
+.s3 { left: calc(50vw + 20px); width: var(--col); max-width: var(--col); }
+.s3 .title { white-space: nowrap; }
+
+.s4 { left: calc(25% + 40px); }
+.s4 .title { white-space: nowrap; }
+.s4 .body, .s4 .links { max-width: 28rem; }
+
+.title {
+  margin: 0 0 20px;
+  color: var(--color-bone);
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, min(8.06vw, 14.5vh), 7.25rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  /* the metal can pass behind a title: a wide soft shade keeps both lines readable without a card */
+  text-shadow: 0 0 2.5rem rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.35);
+}
+.voice { color: var(--color-gold); font-style: italic; }
+
+.body {
+  margin: 0;
+  color: var(--color-sand);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  text-shadow: 0 0 1.1rem rgb(0 0 0 / 0.9), 0 0 0.25rem rgb(0 0 0 / 0.8), 0 1px 1px rgb(0 0 0 / 0.6);
+}
+
+.links { display: flex; flex-wrap: wrap; gap: 0.75rem 1.75rem; margin-top: 1.5rem; }
+.links a {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
+  padding-bottom: 0.25rem;
+  color: var(--color-gold);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: color 0.3s, border-color 0.3s;
+}
+.links a:hover { border-color: var(--color-bone); color: var(--color-bone); }
+.links a:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 4px; }
+
+/* the editorial still beside chapter two: it wipes open from the top while it zooms out */
+.image {
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--nav) + 1.25rem);
+  left: 60px;
+  width: var(--col);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+.image > * { transform: scale(1.15); transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.image.active { opacity: 1; clip-path: inset(0 0 0 0); }
+.image.active > * { transform: scale(1); }
+
+.note {
+  position: absolute;
+  z-index: 6;
+  top: calc(var(--nav) + 1rem);
+  right: 60px;
+  margin: 0;
+  max-width: 14rem;
+  color: var(--color-sand);
+  text-shadow: 0 0 0.8rem rgb(0 0 0 / 0.85), 0 0 0.2rem rgb(0 0 0 / 0.7);
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-align: right;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* the lift-and-unblur of every letter, and the rise of the paragraphs, only once the script is running (so no-JS shows the words) */
+.word { display: inline-block; white-space: nowrap; }
+.char { display: inline-block; }
+.track[data-js="true"][data-mode="pinned"] .char {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(50px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transition-delay: var(--d, 0s);
+}
+.track[data-js="true"][data-mode="pinned"] .active .char { opacity: 1; filter: blur(0); transform: translateY(0); }
+.track[data-js="true"][data-mode="pinned"] .reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  transition-delay: 0.4s;
+}
+.track[data-js="true"][data-mode="pinned"] .active .reveal { opacity: 1; transform: translateY(0); }
+
+/* ---------------------------------------------------------------- the pointer: a double ring over the stage (fine pointers only) */
+.cursorIn,
+.cursorOut {
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.cursorIn { width: 6px; height: 6px; margin: -3px 0 0 -3px; border: 2px solid var(--color-bone); }
+.cursorOut {
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 1.5px solid color-mix(in srgb, var(--color-bone) 70%, transparent);
+  transition: opacity 0.3s, width 0.3s, height 0.3s, margin 0.3s;
+}
+.cursorOn { cursor: none; }
+.cursorOn * { cursor: none !important; }
+.cursorOn .cursorIn,
+.cursorOn .cursorOut { opacity: 1; }
+.cursorOn[data-over="link"] .cursorOut { width: 56px; height: 56px; margin: -28px 0 0 -28px; }
+.cursorOff .cursorIn,
+.cursorOff .cursorOut { opacity: 0; }
+
+/* ---------------------------------------------------------------- phones and tablets: one column, text under the horse */
+@media (max-width: 1023px) {
+  .slide { right: 24px; left: 24px; width: auto; max-width: none; bottom: 7%; }
+  .s1 .title, .s2 .title { margin-left: 0; }
+  .s1 .row { flex-direction: column; gap: 0.9rem; }
+  .s1 .col1, .s1 .col2 { position: static; width: auto; max-width: 34rem; margin-left: 0; }
+  .s2 .body { width: auto; max-width: 34rem; margin-left: 0; }
+  .s3 .title, .s4 .title { white-space: normal; }
+  .s4 .body, .s4 .links { max-width: none; }
+  .title { font-size: clamp(2.4rem, min(13vw, 9vh), 4.25rem); margin-bottom: 0.9rem; }
+  .body { font-size: 0.875rem; line-height: 1.55; }
+  .image { right: 24px; left: auto; width: min(40vw, 12rem); top: calc(var(--nav) + 0.9rem); }
+  .note { top: auto; right: 24px; left: 24px; bottom: 0.7rem; max-width: none; text-align: left; font-size: 0.5625rem; }
+}
+
+/* ---------------------------------------------------------------- no motion, or no WebGL: the same four chapters as a still page */
+.track[data-mode="static"] { height: auto; }
+.track[data-mode="static"] .stage { position: relative; height: auto; min-height: 0; padding: clamp(6rem, 14vh, 9rem) clamp(1.5rem, 6vw, 4rem) 4rem; }
+.track[data-mode="static"] .canvas,
+.track[data-mode="static"] .gridH,
+.track[data-mode="static"] .grid,
+.track[data-mode="static"] .index,
+.track[data-mode="static"] .cursorIn,
+.track[data-mode="static"] .cursorOut { display: none; }
+.track[data-mode="static"] .poster {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto 4rem;
+  aspect-ratio: 16 / 9;
+  max-height: 60vh;
+  overflow: hidden;
+}
+.track[data-mode="static"] .slide,
+.track[data-mode="static"] .s1,
+.track[data-mode="static"] .s2,
+.track[data-mode="static"] .s3,
+.track[data-mode="static"] .s4 {
+  position: relative;
+  inset: auto;
+  width: auto;
+  max-width: 40rem;
+  margin: 0 auto 4.5rem;
+  pointer-events: auto;
+}
+.track[data-mode="static"] .s1 .title,
+.track[data-mode="static"] .s2 .title { margin-left: 0; }
+.track[data-mode="static"] .s1 .row { flex-direction: column; gap: 1rem; }
+.track[data-mode="static"] .s1 .col1,
+.track[data-mode="static"] .s1 .col2,
+.track[data-mode="static"] .s2 .body { position: static; width: auto; max-width: none; margin-left: 0; }
+.track[data-mode="static"] .s3 .title,
+.track[data-mode="static"] .s4 .title { white-space: normal; }
+.track[data-mode="static"] .title { font-size: clamp(2.6rem, 7vw, 4.75rem); }
+.track[data-mode="static"] .image {
+  position: relative;
+  inset: auto;
+  width: min(100%, 22rem);
+  margin: 0 auto 2.5rem;
+  opacity: 1;
+  clip-path: none;
+  transition: none;
+}
+.track[data-mode="static"] .image > * { transform: none; transition: none; }
+.track[data-mode="static"] .note { position: static; max-width: 40rem; margin: 0 auto; text-align: left; }

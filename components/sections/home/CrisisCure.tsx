@@ -2,8 +2,7 @@
 
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
-import { useEffect, useRef, useState } from "react";
-import { playEffect } from "@/lib/audio/engine";
+import { useState } from "react";
 import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label } from "@/components/film/Marks";
 import { CompareSlider } from "@/components/sections/shared/CompareSlider";
@@ -17,12 +16,7 @@ import { cn } from "@/lib/utils";
 export function CrisisCure() {
   const [pct, setPct] = useState(50);
   const cured = pct < 50;
-  // Low-frequency breath cue as the divider crosses into the cure (only if sound is on; throttled; silent if the file is missing).
-  const moved = useRef(false);
-  useEffect(() => {
-    if (!moved.current) return;
-    if (cured) playEffect("breath", 0.35, 6000);
-  }, [cured]);
+  // The slider owns its own breath and haptics (lib/audio/breath.ts, lib/sensory.ts), gated by the Sound toggle.
 
   return (
     <section aria-labelledby="crisis-h" className="relative py-[clamp(6rem,14vh,12rem)]">
@@ -40,10 +34,7 @@ export function CrisisCure() {
           right="whyCure"
           leftLabel="The crisis"
           rightLabel="The cure"
-          onChange={(v) => {
-            moved.current = true;
-            setPct(v);
-          }}
+          onChange={setPct}
           className="aspect-[4/5] w-full sm:aspect-[16/9]"
         />
         <p className="label mt-3 text-dust">Drag to compare · arrow keys work too</p>

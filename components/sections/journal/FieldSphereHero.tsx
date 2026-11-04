@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
 import { useReducedMotion } from "@/lib/motion/reduced";
-import { CrestMark } from "@/components/brand/CrestMark";
 import { asset } from "@/lib/content/asset";
 
 /* ================= Field Shots Data ================= */
@@ -686,86 +685,34 @@ export function FieldSphereHero() {
         </div>
       </div>
 
-      {/* Top Header Chrome */}
-      <header className="fsh-chrome top-16 md:top-20 left-0 right-0 flex flex-wrap items-center justify-between gap-3 px-[clamp(16px,2.8vw,36px)] pt-[clamp(16px,2.6vh,32px)] pointer-events-auto">
-        <div className="flex items-center gap-3">
-          <CrestMark size="sm" className="h-9 w-9 text-gold" />
-          <div className="flex flex-col">
-            <span className="font-mono text-[0.68rem] tracking-[0.2em] uppercase text-gold font-bold">
-              BSAH Field Archive
-            </span>
-            <span className="font-mono text-[0.62rem] tracking-[0.14em] uppercase text-sand/70">
-              Reel 15 · Visual Chronicle
-            </span>
-          </div>
+      {/* Chrome, set as film credits (30 Oct 2026): text links with a hairline, no pills, no avatar box. Below the nav's 80px. */}
+      <header className="fsh-chrome top-16 md:top-20 left-0 right-0 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 px-[clamp(16px,2.8vw,36px)] pt-[clamp(20px,3vh,36px)] pointer-events-auto">
+        <div>
+          <p className="label text-gold">The field archive</p>
+          <p className="t-voice mt-1 text-lg text-sand">Twenty-one plates, taken as found.</p>
         </div>
 
-        <nav className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={replayIntro}
-            className="rounded-full border border-gold/40 bg-black/50 backdrop-blur-md px-3.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-wider text-sand hover:text-gold transition-colors"
-          >
-            Replay opening film ⟲
+        <nav aria-label="Archive view" className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <button type="button" onClick={() => setIsGridView((prev) => !prev)} aria-pressed={isGridView} className="label border-b border-line pb-1 text-bone transition-colors hover:border-gold hover:text-gold">
+            {isGridView ? "Sphere view" : "Grid view"}
           </button>
-          <button
-            type="button"
-            onClick={() => setIsGridView((prev) => !prev)}
-            className="rounded-full border border-gold/40 bg-black/50 backdrop-blur-md px-3.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-wider text-sand hover:text-gold transition-colors"
-          >
-            {isGridView ? "Sphere View" : "Grid View"}
+          <button type="button" onClick={replayIntro} className="label border-b border-line pb-1 text-sand transition-colors hover:border-gold hover:text-gold">
+            Replay the film
           </button>
-          <a
-            href="#articles"
-            className="rounded-full border border-gold/40 bg-black/50 backdrop-blur-md px-3.5 py-1.5 font-mono text-[0.68rem] uppercase tracking-wider text-sand hover:text-gold transition-colors hidden sm:inline-block"
-          >
-            Dispatches ↓
+          <a href="#articles" className="label hidden border-b border-line pb-1 text-sand transition-colors hover:border-gold hover:text-gold sm:inline-block">
+            The stories
           </a>
         </nav>
       </header>
 
-      {/* Bio Widget (Bottom Left) */}
-      <div className="fsh-chrome fsh-hide-in-grid left-[clamp(16px,2.8vw,36px)] bottom-[clamp(16px,2.6vh,32px)] max-w-[min(320px,46vw)] hidden sm:block pointer-events-auto">
-        <div className="flex items-center gap-3 mb-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={`${CDN}${SHOTS[20].id}_min.webp`}
-            alt="Field Notes Curator"
-            className="w-11 h-11 rounded object-cover border border-gold/30"
-          />
-          <div>
-            <b className="font-display text-base font-normal text-white">The Field Archive</b>
-            <p className="font-mono text-[0.6rem] text-gold uppercase tracking-widest m-0">21 Plates · 2026</p>
-          </div>
-        </div>
-        <p className="font-sans text-[0.74rem] leading-relaxed text-sand/80 m-0">
-          Field photography is less about capturing frames and more about learning when not to move. Every frame in this
-          archive was captured in natural conditions without intervention.
-        </p>
-      </div>
-
-      {/* Colophon (Bottom Right) */}
-      <div className="fsh-chrome fsh-hide-in-grid right-[clamp(16px,2.8vw,36px)] bottom-[clamp(16px,2.6vh,32px)] font-mono text-[0.68rem] tracking-widest uppercase text-sand/60 hidden md:block">
-        Field Notes 2026 · Reel 15
-      </div>
-
-      {/* Grid Mode Toggle Button */}
-      <button
-        type="button"
-        onClick={() => setIsGridView((prev) => !prev)}
-        className="fsh-gridbtn"
-        aria-label="Toggle grid photography view"
-      >
-        <b />
-        <b />
-        <b />
-        <b />
-      </button>
+      <p className="fsh-chrome fsh-hide-in-grid label right-[clamp(16px,2.8vw,36px)] bottom-[clamp(16px,2.6vh,32px)] hidden text-dust md:block">
+        Reel 15 · The Chronicle
+      </p>
 
       {/* Drag Cue */}
       <div className="fsh-cue" aria-hidden="true">
         <s />
-        Drag to rotate sphere
+        Drag to turn the archive
       </div>
 
       {/* FLIP Lightbox Modal */}
@@ -818,7 +765,7 @@ export function FieldSphereHero() {
           <button
             type="button"
             onClick={revealSphere}
-            className="absolute right-4 bottom-4 z-10 rounded-full border border-gold/40 bg-black/60 px-4 py-2 font-mono text-[0.68rem] uppercase tracking-widest text-sand transition-colors hover:border-gold hover:text-gold sm:right-6 sm:bottom-6"
+            className="label absolute right-4 bottom-4 z-10 border-b border-line pb-1 text-sand transition-colors hover:border-gold hover:text-gold sm:right-6 sm:bottom-6"
           >
             {reduced ? "Enter archive" : "Skip film"}
           </button>

@@ -1,8 +1,4 @@
-"use client";
-
-import React from "react";
-
-const FILM_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260922_195107_ed3f055a-3a13-4a71-b743-e10310454246.mp4";
+import { FilmImage } from "@/components/film/FilmImage";
 
 export function CurriculumPhaseReel() {
   return (
@@ -11,15 +7,7 @@ export function CurriculumPhaseReel() {
       className="relative w-full overflow-hidden bg-[#0A0908] tone-dark border-y border-line/30"
     >
       <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full min-h-[480px] lg:min-h-[640px] overflow-hidden">
-        <video
-          src={FILM_URL}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="h-full w-full object-cover"
-        />
+        <FilmImage name="eye" priority sizes="100vw" grade="none" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-night/35 to-transparent pointer-events-none" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-night/40 via-transparent to-transparent pointer-events-none" />
 

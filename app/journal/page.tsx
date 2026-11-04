@@ -6,9 +6,8 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Arrow, ReelMark } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { FieldSphereHero } from "@/components/sections/journal/FieldSphereHero";
-import { ViscousLiquidCanvas } from "@/components/sections/shared/ViscousLiquidCanvas";
+import { StallionPortrait } from "@/components/sections/journal/StallionPortrait";
 import { posts } from "@/lib/content/journal";
-import { asset } from "@/lib/content/asset";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/journal" },
@@ -56,16 +55,7 @@ export default function JournalPage() {
         </Link>
       </section>
 
-      {/* Interactive Viscous Liquid Simulation Canvas */}
-      <ViscousLiquidCanvas
-        id="journal-viscous-liquid"
-        label="REEL 14B · INTERACTIVE ARENA LIQUID DYNAMICS"
-        title="The Viscous Fluid Sovereign"
-        subtitle="Hover and sweep across the canvas to interact with Navier-Stokes fluid tension, chromatic dispersion, and viscous return mechanics."
-        imageUrl={asset("/images/black-marwari-stallion.webp")}
-        fullScreen={true}
-        tone="dark"
-      />
+      <StallionPortrait />
 
       {/* Editorial list: alternating image side, no cards */}
       <section aria-label="All stories" className="gutter mt-24 pb-[clamp(6rem,14vh,12rem)]">

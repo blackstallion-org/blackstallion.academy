@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
 import { Monogram } from "@/components/brand/Monogram";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
-import { Arrow, Label } from "@/components/film/Marks";
+import { Arrow, Label, ReelMark } from "@/components/film/Marks";
 import { PinnedScene } from "@/components/film/PinnedScene";
 import { r } from "@/components/film/range";
 import { Reveal } from "@/components/film/Reveal";
@@ -17,118 +17,23 @@ import { creed, day, passport, reels, spotlights, uniform } from "@/lib/content/
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { QrSeal } from "@/components/brand/QrSeal";
-import { ViscousLiquidCanvas, type ViscousSlide } from "@/components/sections/shared/ViscousLiquidCanvas";
-import { asset } from "@/lib/content/asset";
-/** Title card · Editorial hero with DESERT AURA in transparent liquid font and 1.9s decelerating pop animation */
+import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
+/** Title card: the Hall of Valour opens on the cadet still (Higgsfield placeholder art), the headline beside it. */
 export function CadetsTitle() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Scroll animations: fade out UI chrome
-  const uiOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
-
-  const scrollToSpotlights = () => {
-    document.getElementById("spot-h")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <section
-      ref={sectionRef}
-      aria-labelledby="cadets-h"
-      className="tone-dark relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-black select-none isolate flex flex-col justify-between items-center"
-    >
-      {/* Background Seamless Looping Video (Ambient desert with glowing circular portal) */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        poster={asset("/video/cadets-desert-poster.jpg")}
-        aria-label="Ambient desert scene with glowing circular portal"
-        className="absolute inset-0 h-full w-full object-cover object-center z-10 brightness-[0.95] contrast-[1.05]"
-      >
-        <source src={asset("/video/cadets-desert-loop.mp4")} type="video/mp4" />
-        <source
-          src={asset("/video/Firefly Create a --3-second seamless cinematic loop-- using the provided desert image. The horse slo.mp4")}
-          type="video/mp4"
-        />
-      </video>
-
-      {/* Subtle atmospheric radial vignette */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-15 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.35)_75%,rgba(0,0,0,0.75)_100%)]"
-      />
-
-      {/* Top Header & Navigation Chrome (clears SiteNav) */}
-      <div className="relative z-25 w-full flex flex-col items-center pt-20 sm:pt-24 md:pt-26 px-6 sm:px-12 md:px-16">
-        <h1 id="cadets-h" className="sr-only">
-          The Hall of Valour · Desert Cadet Horsemanship
-        </h1>
-        <motion.div
-          style={{ opacity: uiOpacity }}
-          className="w-full flex flex-wrap items-center justify-between gap-x-6 gap-y-2 pointer-events-auto"
-        >
-          <button
-            type="button"
-            onClick={scrollToSpotlights}
-            className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#d8cfc4]/70 hover:text-white transition-colors cursor-pointer"
-          >
-            Meet the cadets
-          </button>
-          <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.28em] text-[#d8cfc4]/70">
-            Reel 08 · The Hall of Valour
-          </span>
-          <Link
-            href="/contact"
-            className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#d8cfc4]/70 hover:text-white transition-colors cursor-pointer"
-          >
-            Enrol / Contact
-          </Link>
+    <section aria-labelledby="cadets-h" className="tone-dark relative min-h-[100svh] overflow-hidden bg-night pt-24">
+      <div className="gutter grid min-h-[calc(100svh-6rem)] gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-end">
+        <div className="pb-[8vh]">
+          <ReelMark n={7} act="citadel" />
+          <Headline id="cadets-h" as="h1" size="poster" animate="mount" className="mt-6" inscription="The hall" voice="of valour." />
+          <p className="t-story mt-6 max-w-lg text-sand">Cadets earn their place: hour by hour, rank by rank, sealed in brass.</p>
+        </div>
+        <motion.div className="relative h-[70svh] lg:h-[86svh]" initial={{ clipPath: "inset(100% 0 0 0)" }} animate={{ clipPath: "inset(0% 0 0 0)" }} transition={{ duration: 1.6, ease: ease.citadel, delay: 0.3 }}>
+          <FilmImage name="cadetZayd" priority sizes="(min-width: 1024px) 45vw, 100vw" />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-transparent" />
+          <p className="label absolute right-3 top-6 text-sand [writing-mode:vertical-rl]">Sample cadet · AI placeholder</p>
         </motion.div>
       </div>
-
-      {/* Bottom Metadata Chrome & Capsule Pill Buttons */}
-      <motion.div
-        style={{ opacity: uiOpacity }}
-        className="absolute bottom-6 sm:bottom-10 inset-x-0 px-6 sm:px-12 md:px-16 flex flex-col sm:flex-row items-center justify-between gap-4 z-30 pointer-events-auto"
-      >
-        <div className="flex items-center gap-3">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-black/70 text-[10px] font-mono text-white/80 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-            N
-          </div>
-          <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.22em] text-[#d8cfc4]/60">
-            © 2026 BLACK STALLION · CADET VALOUR
-          </span>
-        </div>
-
-        <div className="flex items-center gap-2.5">
-          <button
-            type="button"
-            onClick={scrollToSpotlights}
-            className="rounded-full border border-white/20 bg-black/40 px-4 sm:px-5 py-1.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#EDE8E1]/85 backdrop-blur-md transition-all hover:border-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            Cadet spotlights
-          </button>
-          <Link
-            href="/verify"
-            className="rounded-full border border-white/20 bg-black/40 px-4 sm:px-5 py-1.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.25em] text-[#EDE8E1]/85 backdrop-blur-md transition-all hover:border-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            Verify a passport
-          </Link>
-        </div>
-
-        <span className="text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.22em] text-[#d8cfc4]/60">
-          Hour by hour, rank by rank
-        </span>
-      </motion.div>
     </section>
   );
 }
@@ -162,60 +67,46 @@ export function Spotlights() {
   );
 }
 
-/** §1b · Fullscreen Navier-Stokes Fluid Cadet Action Gallery */
+/** §1b · Cadet stills replace the fluid effect so the action stays legible. */
 export function CadetDrillShowcase() {
-  const cadetSlides: ViscousSlide[] = [
+  const cadetImages: StaticImageReelItem[] = [
     {
       image: "cadetZayd",
-      badge: "01 · TENT-PEGGING",
-      tag: "Tent-Pegging",
       title: "Cadet Alpha (Zayd)",
-      subtitle: "Target interception at full gallop with lowered lance. First rider in Zone 01 to record clean pegs across six consecutive passes.",
-      caption: "BSAH Sovereign Cadet Record · Zone 01A Hub",
-      ctaText: "Explore Curriculum",
-      ctaHref: "/curriculum",
+      copy: "Target interception at full gallop with a lowered lance.",
+      cta: "Explore curriculum",
+      href: "/curriculum",
     },
     {
       image: "cadetAnanya",
-      badge: "02 · MOUNTED ARCHERY",
-      tag: "Mounted Archery",
       title: "Cadet Bravo (Ananya)",
-      subtitle: "Recurve release at the sitting canter. National Junior STPCI qualifier with 88 points on the Hungarian target run.",
-      caption: "BSAH Sovereign Cadet Record · Zone 01B Hub",
-      ctaText: "Tournament Records",
-      ctaHref: "/tournaments",
+      copy: "Recurve release at the sitting canter, in a still that makes the form visible.",
+      cta: "Tournament records",
+      href: "/tournaments",
     },
     {
       image: "cadetRohan",
-      badge: "03 · ARENA STRIDE",
-      tag: "Arena Stride",
       title: "Cadet Echo (Rohan)",
-      subtitle: "First unassisted canter without stirrups. Biomechanically tracked posture with 92% vertical spine alignment.",
-      caption: "BSAH Sovereign Cadet Record · Zone 01A Hub",
-      ctaText: "Science of the Seat",
-      ctaHref: "/science",
+      copy: "A first unassisted canter: balance, pace and attention held in one frame.",
+      cta: "Science of the seat",
+      href: "/science",
     },
     {
       image: "currBatch",
-      badge: "04 · SQUADRON DRILLS",
-      tag: "Line Maneuver",
       title: "The Sovereign Cohort",
-      subtitle: "Synchronized cavalry line maneuvers at dusk. Cadets learn troop cohesion, distance control, and absolute quiet in the saddle.",
-      caption: "BSAH Field Academy · Collective Formations",
-      ctaText: "Cadet Admissions",
-      ctaHref: "/parents",
+      copy: "Synchronized line work for distance control and quiet communication.",
+      cta: "Cadet admissions",
+      href: "/parents",
     },
   ];
 
   return (
-    <ViscousLiquidCanvas
+    <StaticImageReel
       id="cadet-gallery"
       label="REEL 07 · CADET FIELD REELS"
-      title="Cadet Alpha (Zayd)"
-      subtitle="Target interception at full gallop with lowered lance."
-      fullScreen={true}
-      slides={cadetSlides}
-      showTabs={true}
+      title="Field studies."
+      intro="The details stay crisp when the photographs remain still."
+      items={cadetImages}
     />
   );
 }

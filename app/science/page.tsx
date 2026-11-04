@@ -3,8 +3,10 @@ import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { ComparisonLedger, PulseLine, ScienceTitle } from "@/components/sections/science/ScienceScenes";
-import { Matrix } from "@/components/sections/home/Matrix";
+import { ComparisonLedger, ScienceTitle } from "@/components/sections/science/ScienceScenes";
+import { RobotScene } from "@/components/sections/science/RobotScene";
+import { DualBody } from "@/components/sections/anatomy/DualBody";
+import { StrideExperience } from "@/components/stride/StrideExperience";
 import { claims, comparison, statusColor } from "@/lib/content/science";
 import { cn } from "@/lib/utils";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
@@ -18,10 +20,14 @@ export const metadata: Metadata = {
 export default function SciencePage() {
   return (
     <>
+      <RobotScene />
       <ScienceTitle />
-      <Matrix />
-      <PulseLine />
+      {/* The two studies that used to be flat 2D plates (the brain, spine, muscle and heart panel, and the "hundred steps" photograph)
+          are the 3D versions now: the rider and the horse with their systems, then the stride laboratory. */}
+      <DualBody />
+      <StrideExperience embedded />
       <PageCurtain page="science" />
+
       <ComparisonLedger cols={comparison.cols} rows={comparison.rows} note={comparison.note} />
 
       {/* §4 · S30 footnote ledger */}

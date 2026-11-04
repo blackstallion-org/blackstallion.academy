@@ -18,7 +18,7 @@ const BREED_ITEMS: LoopingItem[] = [
     title: "Kathiawari Charger",
     subtitle: "The revaal pace gait · Lightning tent-pegging precision",
     badge: "CAVALRY LINE",
-    detail: "Compact, intensely nimble charger from the Kathiawar peninsula. Famous for the rapid lateral pace (revaal) that maintains absolute saddle stability at 45 km/h.",
+    detail: "Compact, intensely nimble charger from the Kathiawar peninsula. Famous for the revaal, a smooth natural pace that is easy on the rider.",
     meta: "GAIT: LATERAL REVAAL",
   },
   {
@@ -37,7 +37,7 @@ const BREED_ITEMS: LoopingItem[] = [
     subtitle: "High-heat desert endurance · Deep thoracic stamina",
     badge: "DESERT PROVEN",
     detail: "Forged in the extreme climate of the lower Indus basin. Exceptional lung volume and dense cannon bones that resist fatigue over endless sand terrain.",
-    meta: "ENDURANCE: 60+ KM/DAY",
+    meta: "ENDURANCE: BUILT FOR DISTANCE",
   },
 ];
 

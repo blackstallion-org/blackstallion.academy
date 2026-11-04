@@ -4,7 +4,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSyn
 import os from "node:os";
 import path from "node:path";
 import { BUCKET, KNOWN_ABSENT, buildManifest, manifestPath } from "../scripts/media-manifest.mjs";
-import { CONTENT_TYPES, classifyMedia, globToRegExp, shippedTwin, SITE_ONLY } from "../scripts/lib/media-refs.mjs";
+import { CONTENT_TYPES, classifyMedia, globToRegExp, localOnly, shippedTwin, SITE_ONLY } from "../scripts/lib/media-refs.mjs";
 import { KEY_RULE, encodePath, loadManifest } from "../scripts/upload-media.mjs";
 import { MEDIA_PREFIXES, assetUrl } from "../lib/content/media-base.mjs";
 import { loadTs, root } from "./helpers/load-ts.mjs";
@@ -78,6 +78,7 @@ test("every file the code names is listed or knowingly absent, and nothing it na
   const regexes = [...patterns.keys()].map(globToRegExp);
   for (const f of unserved) {
     if (SITE_ONLY.has(f.web)) continue;
+    if (localOnly(f.web)) continue; // a git-ignored scratch video (public/media/hero-loop.mp4 on the owner's Mac): never shipped, never listed
     const master = shippedTwin(f.web) !== f.web && listed.has(shippedTwin(f.web).slice(1));
     if (master) continue; // a git-ignored PNG/JPEG master: the site ships and requests its WebP twin
     assert.ok(!exact.has(f.web), `${f.web} is named by the code but not listed`);
@@ -100,10 +101,11 @@ test("classification: named files are listed; unused files, git-ignored masters 
       'export const d = asset("/media/x.png");',
       'export const e = asset("/images/missing.webp");',
       'export const f = asset("/video/alias.mp4");',
+      'export const g = asset("/media/scratch.mp4");',
     ].join("\n"));
     write("lib/content/media.ts", 'const m = (file) => ({ file: `/media/${file}` });\nexport const k = m("hero.png");\n');
     for (const rel of ["images/named.webp", "images/unused.webp", "images/series/one-thumb.webp", "images/series/one-full.webp", "models/data.json",
-      "media/hero.webp", "media/hero.png", "media/x.webp", "media/x.png", "media/notes.md", "brand/crest.webp"]) write(`public/${rel}`);
+      "media/hero.webp", "media/hero.png", "media/x.webp", "media/x.png", "media/notes.md", "media/scratch.mp4", "brand/crest.webp"]) write(`public/${rel}`);
     write("public/video/long name.mp4", "video bytes");
     symlinkSync("long name.mp4", path.join(dir, "public", "video", "alias.mp4"));
 
@@ -113,12 +115,14 @@ test("classification: named files are listed; unused files, git-ignored masters 
     ]);
     assert.equal(result.served.find((f) => f.web === "/video/alias.mp4").bytes, "video bytes".length, "a link is listed with its target's size");
     assert.deepEqual(result.unserved.map((f) => f.web), [
-      "/images/series/one-full.webp", "/images/unused.webp", "/media/hero.png", "/media/notes.md", "/media/x.png", "/media/x.webp",
+      "/images/series/one-full.webp", "/images/unused.webp", "/media/hero.png", "/media/notes.md", "/media/scratch.mp4", "/media/x.png", "/media/x.webp",
       "/models/data.json", "/video/long name.mp4",
     ]);
     assert.deepEqual(result.absent, ["/images/missing.webp"]);
     assert.deepEqual(result.namedButNotUploadable, ["/models/data.json"]);
     assert.ok(!result.served.some((f) => f.web.startsWith("/brand/")), "only the five media folders are scanned");
+    assert.ok(!result.served.some((f) => f.web === "/media/scratch.mp4"), "a git-ignored scratch video named by the code is still not listed, so the list is the same with or without it");
+    assert.ok(localOnly("/media/hero-loop.mp4") && !localOnly("/video/hero-main-desktop.mp4") && !localOnly("/media/sub/x.mp4") && !localOnly("/media/hero.webp"), "only a video straight inside /media is scratch");
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

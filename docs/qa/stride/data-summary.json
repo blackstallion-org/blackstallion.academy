@@ -1,0 +1,156 @@
+{
+ "strideSeconds": 1.2,
+ "seatCyclesPerMinute": 100,
+ "seatLagMs": 46.2,
+ "seatGain": 0.996,
+ "channels": {
+  "vertical": {
+   "unit": "mm",
+   "horseP2P": 3.02,
+   "riderP2P": 2.96,
+   "perStride": 2
+  },
+  "lateral": {
+   "unit": "mm",
+   "horseP2P": 14.01,
+   "riderP2P": 15.76,
+   "perStride": 1
+  },
+  "foreaft": {
+   "unit": "mm",
+   "horseP2P": 8.86,
+   "riderP2P": 12.57,
+   "perStride": 2
+  },
+  "pitch": {
+   "unit": "°",
+   "horseP2P": 2.37,
+   "riderP2P": 2.31,
+   "perStride": 2
+  },
+  "roll": {
+   "unit": "°",
+   "horseP2P": 1.65,
+   "riderP2P": 1.63,
+   "perStride": 1
+  }
+ },
+ "footfalls": {
+  "HL": {
+   "touchdown": 0,
+   "liftoff": 0.546,
+   "duty": 0.546,
+   "plantedToeHeightMm": 16.1
+  },
+  "FL": {
+   "touchdown": 0.25,
+   "liftoff": 0.833,
+   "duty": 0.583,
+   "plantedToeHeightMm": 21
+  },
+  "HR": {
+   "touchdown": 0.5,
+   "liftoff": 0.075,
+   "duty": 0.575,
+   "plantedToeHeightMm": 27.2
+  },
+  "FR": {
+   "touchdown": 0.75,
+   "liftoff": 0.333,
+   "duty": 0.583,
+   "plantedToeHeightMm": 22.8
+  }
+ },
+ "touchdownOrder": [
+  "HL",
+  "FL",
+  "HR",
+  "FR"
+ ],
+ "touchdownGaps": [
+  0.25,
+  0.25,
+  0.25,
+  0.25
+ ],
+ "minSupport": 2,
+ "maxSupport": 3,
+ "feet": {
+  "HL": {
+   "driftCm": 0.17,
+   "plantedSpeedCmS_authoredTempo": 3,
+   "toeAboveSoleMm": [
+    -4,
+    0
+   ]
+  },
+  "FL": {
+   "driftCm": 0.09,
+   "plantedSpeedCmS_authoredTempo": 4,
+   "toeAboveSoleMm": [
+    2,
+    5
+   ]
+  },
+  "HR": {
+   "driftCm": 0.01,
+   "plantedSpeedCmS_authoredTempo": 0,
+   "toeAboveSoleMm": [
+    8,
+    8
+   ]
+  },
+  "FR": {
+   "driftCm": 0.12,
+   "plantedSpeedCmS_authoredTempo": 4,
+   "toeAboveSoleMm": [
+    4,
+    7
+   ]
+  }
+ },
+ "feetAuthored": {
+  "HL": {
+   "driftCm": 6.7,
+   "plantedSpeedCmS_authoredTempo": 29
+  },
+  "FL": {
+   "driftCm": 9.06,
+   "plantedSpeedCmS_authoredTempo": 187
+  },
+  "HR": {
+   "driftCm": 3.67,
+   "plantedSpeedCmS_authoredTempo": 162
+  },
+  "FR": {
+   "driftCm": 7.95,
+   "plantedSpeedCmS_authoredTempo": 196
+  }
+ },
+ "joints": {
+  "elbow": [
+   101.7,
+   136.8
+  ],
+  "carpus": [
+   106.6,
+   179.7
+  ],
+  "fetlockF": [
+   123,
+   176.5
+  ],
+  "stifle": [
+   106.4,
+   140.2
+  ],
+  "hock": [
+   94.8,
+   153.9
+  ],
+  "fetlockH": [
+   144.1,
+   179.5
+  ]
+ }
+}

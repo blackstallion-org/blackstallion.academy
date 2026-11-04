@@ -18,6 +18,7 @@ the live schema), `supabase/live/migrations/`, the replica test suite `supabase/
 | Website layer (intake, audit, documents, media, verification, buckets) | website | `supabase/live/migrations/20261023001000_website_layer.sql` | LIVE (applied 23 Oct, owner-approved) |
 | Security fixes for the operations schema (F1, F2) | shared | `supabase/live/migrations/20261023001100_security_fixes.sql` | LIVE (applied 23 Oct, owner-approved) |
 | Anonymous privacy hardening | shared | `supabase/live/migrations/20261023001200_anon_privacy_hardening.sql` | **PREPARED, not applied** (needs approval) |
+| Media library (bucket `bsah-media`: staff policies, `media_assets.bucket` and `kind`) | website | `supabase/live/migrations/20261029001300_bsah_media_library.sql` | **PREPARED, not applied** (needs approval; see [`MEDIA_LIBRARY.md`](MEDIA_LIBRARY.md)) |
 
 ## 2. Operations schema (pre-existing)
 

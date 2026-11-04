@@ -72,7 +72,7 @@ export const media = {
   anatomyProfile: m("anatomy-profile.png", "hf_20261009_134210_77871ace-c329-40a8-947a-e2738b908277.png", "A dark bay Marwari stallion in full side profile on black, outlined in gold light", "50% 50%"),
   scienceRider: m("science-rider.png", "hf_20261009_134843_2997d278-9f94-43e0-854d-6c3eb7a2a9dc.png", "A young rider at sitting trot with an upright, stacked spine"),
   whyCrisis: m("why-crisis.png", "hf_20261009_134843_16f45299-ccbc-40e7-96ca-4e98043950f5.png", "A boy hunched over a glowing phone in a dark room"),
-  whyCure: m("why-cure.png", "hf_20261009_134844_7b2cb2d5-6500-480c-adde-9f8228400906.png", "A boy in cadet uniform sitting tall on a Marwari at golden hour"),
+  whyCure: m("why-cure.png", "hf_20261009_134844_7b2cb2d5-6500-480c-adde-9f8228400906.png", "A boy in cadet uniform sitting tall on a Marwari at golden hour", "32% 50%"),
   currLedger: m("curr-ledger.png", "hf_20261009_134844_7b97867f-70f4-4951-ab67-431ea34426e0.png", "An open leather ledger with brass seals and a dip pen"),
   currGroundcare: m("curr-groundcare.png", "hf_20261009_135529_e66154c5-95fe-4ef1-a9a1-3151e8922bfb.png", "A cadet picking a horse's hoof in a sunlit stable"),
   currFormation: m("curr-formation.png", "hf_20261009_135529_792c3856-967f-476f-9088-628cdedcb613.png", "Cadets riding in line formation across an arena at dusk"),
@@ -119,18 +119,18 @@ export const media = {
     alt: "Classical marble and bronze equestrian sculpture of a warrior riding a rearing stallion against deep black",
     focus: "50% 35%",
   },
-  bondIntimacy: {
-    file: "/images/bond-intimacy-vertical.webp",
-    remote: "/images/bond-intimacy-vertical.webp",
-    alt: "Intimate portrait of human and white horse leaning together in mutual trust and quiet reverence",
-    focus: "50% 30%",
-  },
-  bondField: {
-    file: "/images/bond-field-horizontal.webp",
-    remote: "/images/bond-field-horizontal.webp",
-    alt: "A rider kneeling eye-to-eye with an untethered stallion in an open pasture",
-    focus: "50% 50%",
-  },
+  /* The black-and-white kneeling photograph was replaced (28 Oct 2026, owner's request) by a Higgsfield still in colour. */
+  bondField: m("bond-field-cadet.png", "hf_20261028_165202_785301b3-d007-481f-b45e-41a31582485c.png", "A young cadet and a bay Marwari stallion stand forehead to forehead in an open pasture", "50% 50%"),
+
+  /* ---------------------------------------------------- 28 Oct 2026 (Higgsfield cinematic_studio_2_5, 2K, PHOTO style) */
+  covenantStillness: m("covenant-stillness.png", "hf_20261028_165311_3eef4701-086f-447f-90dc-2018d1049416.png", "A young cadet holds an open palm toward a black Marwari stallion's muzzle at dawn, the horse's breath misting between them", "52% 50%"),
+  covenantTouch: m("covenant-touch.png", "hf_20261028_165411_9837d093-a560-4da8-a991-06b702a718b8.png", "A cadet's hand rests on a bay Marwari stallion's muzzle, the sleeve of a black riding jacket and a brass button at the wrist", "58% 45%"),
+  covenantProfile: m("covenant-profile.png", "hf_20261028_165202_b503b969-ec7b-4546-8554-4c9909647898.png", "A young cadet in a velvet riding helmet rests his face against a black stallion's muzzle, eyes closed", "45% 50%"),
+  covenantEye: m("covenant-eye.png", "hf_20261028_165311_6e109eee-9e49-4762-a1d4-8ee31ce8c952.png", "Close on a black Marwari stallion's eye and the curved tips of its ears, lit gold from behind, dust in the air", "62% 45%"),
+  hubStandard: m("hub-standard.png", "hf_20261028_165411_55984b98-0b32-41f7-80e5-d540f29580d7.png", "A compact school riding hub at dusk: four timber stables, a fenced sand arena and brass lanterns, the school building behind", "50% 50%"),
+  hubRoyal: m("hub-royal.png", "hf_20261028_165411_bea08e4f-3833-4673-b3a2-a16739c2b55e.png", "Horses look out from carved sandstone arches around a sand courtyard on a Rajasthan estate", "62% 50%"),
+  nightField: m("night-field.png", "hf_20261030_161740_399cc8d2-f3ce-492d-9d13-42f540684205.png", "A black Marwari stallion in a dark field at night, rim-lit gold along the mane by a glow on the horizon", "70% 45%"),
+  hubSignature: m("hub-signature.png", "hf_20261028_165203_8c685475-6c10-4e1e-8d1f-d4a7752ab2f6.png", "Riders working in a large covered timber-roofed arena on a school campus", "50% 60%"),
 } satisfies Record<string, Media>;
 
 export type MediaKey = keyof typeof media;
@@ -151,6 +151,14 @@ export const shippedFile = (file: string) => file.replace(/^(\/media\/[^/]+)\.(p
  * With NEXT_PUBLIC_MEDIA_BASE_URL set, site paths come from the media bucket (lib/content/asset.ts). That bucket mirrors
  * the shipped WebP copies, never the PNG masters, so the masters are used only when the media stays on this site.
  */
+/**
+ * The AVIF copy of a shipped still (scripts/make-still-avif.mjs): the same pixels at about a third of the bytes. Only for
+ * stills this site serves as /media/<name>.webp. A remote URL, the provider's resizer, the PNG masters (NEXT_PUBLIC_LOCAL_MEDIA)
+ * and the media bucket (it mirrors the manifest, which lists no twins) get null and keep their own file.
+ */
+export const avifTwin = (src: string): string | null =>
+  !LOCAL_MEDIA && !MEDIA_REMOTE && /^\/media\/[^/?#]+\.webp$/.test(src) ? src.replace(/\.webp$/, ".avif") : null;
+
 export function mediaSrc(key: MediaKey): string | null {
   const item: Media = media[key];
   if (!item) return null;

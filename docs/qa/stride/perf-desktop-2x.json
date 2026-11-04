@@ -1,0 +1,67 @@
+{
+ "viewport": "1440x900 @2x",
+ "gl": {
+  "webgl2": true,
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)"
+ },
+ "readyMsFromNavigation": 1127,
+ "transfer": [
+  {
+   "name": "models/anatomy-exhibit.glb",
+   "kB": 1353,
+   "ms": 80
+  },
+  {
+   "name": "models/cadet-rider.glb",
+   "kB": 43,
+   "ms": 7
+  },
+  {
+   "name": "draco/draco_wasm_wrapper.js",
+   "kB": 12,
+   "ms": 4
+  },
+  {
+   "name": "draco/draco_decoder.wasm",
+   "kB": 62,
+   "ms": 16
+  },
+  {
+   "name": "draco/draco_wasm_wrapper.js",
+   "kB": 0,
+   "ms": 7
+  },
+  {
+   "name": "draco/draco_decoder.wasm",
+   "kB": 0,
+   "ms": 8
+  }
+ ],
+ "dataBuildMs": 0.6,
+ "playing": {
+  "seconds": 6,
+  "frames": 360,
+  "cpuMsPerFrame": 1.4,
+  "worstCpuMs": 3.1,
+  "frameMsMedian": 16.7,
+  "frameMsP95": 17.7,
+  "frameMsMax": 24.2
+ },
+ "benchmark": {
+  "ms": 9.41,
+  "calls": 49,
+  "triangles": 89198,
+  "geometries": 46,
+  "textures": 10,
+  "programs": 9
+ },
+ "framesRenderedWhilePaused1_5s": 0,
+ "framesRenderedWhileOffScreen1_5s": 0,
+ "heapMB": 37,
+ "glInfo": {
+  "geometries": 44,
+  "textures": 10,
+  "programs": 7
+ },
+ "dprNow": 2
+}

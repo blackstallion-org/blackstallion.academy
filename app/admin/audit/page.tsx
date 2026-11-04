@@ -5,7 +5,7 @@ import { AUDIT_ACTIONS, AUDIT_ENTITIES } from "@/lib/admin/constants";
 import { applyAuditFilters, hasFilters, isPastLastPage, listHref, pageWindow, parseAuditFilters, totalPages, type AuditFilters } from "@/lib/admin/filters";
 import { auditActionLabel, auditDetails, auditEntityHref, formatDateTimeIST, staffLabel } from "@/lib/admin/present";
 import { logAdminError, staffNames } from "@/lib/admin/server";
-import { AdminNav } from "../AdminNav";
+import { AdminShell } from "../AdminShell";
 import { DateFilter, EmptyState, FilterForm, FilterNotes, LoadError, PageHeading, Pagination, PastLastPage, ResultCount, SelectFilter, TableRegion, td, th } from "../ui";
 
 type AuditRow = { id: number; actor_user_id: string | null; action: string; entity_type: string; entity_id: string | null; metadata: unknown; created_at: string };
@@ -35,8 +35,7 @@ export default async function AuditPage({ searchParams }: PageProps<"/admin/audi
   const href = (p: number) => listHref("/admin/audit", criteria, p);
 
   return (
-    <div>
-      <AdminNav name={profile.display_name} current="audit" />
+    <AdminShell name={profile.display_name} current="audit">
       <PageHeading title="Audit log">
         Append-only record of enquiries received and of changes to enquiries, documents and website images, newest first. It records who
         changed which columns, never the values. Times are India Standard Time.
@@ -93,7 +92,7 @@ export default async function AuditPage({ searchParams }: PageProps<"/admin/audi
           <Pagination page={page} pages={totalPages(total)} hrefFor={href} />
         </>
       )}
-    </div>
+    </AdminShell>
   );
 }
 

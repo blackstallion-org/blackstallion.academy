@@ -84,10 +84,19 @@ export function SiteParallax() {
           if (plainHeading) timeline.fromTo(plainHeading,
             { y: desktop ? 14 : 7 }, { y: desktop ? -14 : -7, duration: 1 }, 0);
         });
+        // A section streamed in later may still be waiting to hydrate; inline styles written into it before React has
+        // claimed it cause a hydration mismatch. Wait until React owns the section (its fiber key is present).
+        const timers: number[] = [];
+        const hydrated = (el: Element) => Object.keys(el).some((key) => key.startsWith("__reactFiber"));
+        const whenHydrated = (section: HTMLElement, tries = 0) => {
+          if (disposed) return;
+          if (hydrated(section) || tries > 50) setup(section);
+          else timers.push(window.setTimeout(() => whenHydrated(section, tries + 1), 120));
+        };
         const cancels = Array.from(main.querySelectorAll<HTMLElement>("section"))
           .filter((section) => !(section.closest("[data-parallax-skip]") || section.matches("[data-parallax-skip]")))
-          .map((section) => whenNearViewport(section, () => setup(section)));
-        return () => { cancels.forEach((cancel) => cancel()); context.revert(); };
+          .map((section) => whenNearViewport(section, () => whenHydrated(section)));
+        return () => { cancels.forEach((cancel) => cancel()); timers.forEach((t) => window.clearTimeout(t)); context.revert(); };
       });
       void document.fonts.ready.then(() => { if (!disposed) ScrollTrigger.refresh(); });
     };

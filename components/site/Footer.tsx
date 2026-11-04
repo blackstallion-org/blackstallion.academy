@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { CrestMark } from "@/components/brand/CrestMark";
-import { SealRing } from "@/components/motion/fx/SealRing";
+import Image from "next/image";
 import { corridors, entity, legalNav } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
+import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
 
 /** A 76 kB still that only matters once the footer is about to be seen (it sits ~23,000 px down the home page). */
 const FOOTER_POSTER = asset("/video/footer-ambient-poster.webp");
-
-const sealLegend = "THE BLACK STALLION ACADEMY · DOMINUS SUI · DOMINUS EQUI · ";
 
 const navLinks = [
   { href: "/legend", label: "The Legend" },
@@ -52,7 +50,7 @@ export function Footer() {
     const video = videoRef.current;
     if (!video) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || saveDataMode()) {
       video.removeAttribute("autoplay");
       video.pause();
       return;
@@ -104,11 +102,17 @@ export function Footer() {
 
       {/* Content block: brand emblem, wordmark, tagline, nav and legal copy */}
       <div className="footer-meridian__content">
-        <div className="footer-meridian__mark">
-          {/* The crest inside a slowly turning seal legend (decorative; the brand name follows as text). */}
-          <SealRing decorative text={sealLegend} size={132} fontSize={9.5} className="text-gold">
-            <span aria-hidden="true"><CrestMark size="sm" className="h-12 w-12 object-contain" /></span>
-          </SealRing>
+        {/* The two seals as supplied (backgrounds removed, nothing redrawn): the academy and its governing council. */}
+        <div className="footer-meridian__mark flex flex-wrap items-end justify-center gap-x-10 gap-y-6">
+          <figure className="flex flex-col items-center gap-3">
+            <Image src="/brand/bsah-seal.webp" alt="The Black Stallion Academy of Horsemanship crest" width={900} height={1096} className="h-28 w-auto sm:h-32" />
+            <figcaption className="label text-[0.62rem]">The academy</figcaption>
+          </figure>
+          <span aria-hidden="true" className="hidden h-24 w-px bg-current opacity-25 sm:block" />
+          <figure className="flex flex-col items-center gap-3">
+            <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-28 w-auto object-contain sm:h-32" />
+            <figcaption className="label text-[0.62rem]">The council</figcaption>
+          </figure>
         </div>
 
         <p className="footer-meridian__brand">
@@ -156,9 +160,6 @@ export function Footer() {
                 {l.label}
               </Link>
             ))}
-            <Link href="/about">About</Link>
-            <Link href="/lore">Lore of the Bards</Link>
-            <Link href="/privacy">Privacy Notice</Link>
           </div>
         </div>
       </div>

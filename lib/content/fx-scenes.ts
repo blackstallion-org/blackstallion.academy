@@ -8,13 +8,13 @@ export const asciiChild = {
   caption: "Moving the pointer sends ripples through the picture. Decorative.",
 };
 
-export const campusOpening = {
-  label: "An arena on your campus",
-  title: "Room to ride.",
+export const cadetOpening = {
+  label: "The lane opens",
+  title: "Earn the lane.",
   hint: "Scroll",
-  inscription: "The arena",
-  voice: "comes to the school.",
-  body: "Under the proposed model, BSAH funds, builds and runs the arena, the stables and the programme on your grounds. Students ride before school, after school and at weekends without leaving campus.",
+  inscription: "The lane",
+  voice: "opens in front of you.",
+  body: "Every cadet's progression ends in the same place: a lane, a lance and a wooden peg. It starts with the first lesson, and the hours are written in the passport as they are earned.",
 };
 
 export const morningCurtain = {

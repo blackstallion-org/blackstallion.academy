@@ -265,12 +265,12 @@ export function TorchHorseStage({ className = "" }: TorchHorseStageProps) {
       onPointerCancel={handlePointerUp}
       onPointerLeave={handlePointerUp}
       style={{ touchAction: "pan-y" }}
-      className={`relative w-full h-full bg-[#0a0908] cursor-grab active:cursor-grabbing select-none overflow-hidden ${className}`}
+      className={`relative w-full h-full bg-night cursor-grab active:cursor-grabbing select-none overflow-hidden ${className}`}
     >
       {/* Subtle Atmospheric Radial Warmth behind the statue */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(197,160,89,0.12)_0%,rgba(20,18,15,0.6)_60%,#0a0908_100%)]"
+        className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,color-mix(in_srgb,var(--color-gold)_12%,transparent)_0%,transparent_60%,var(--color-night)_100%)]"
       />
 
 
@@ -282,13 +282,11 @@ export function TorchHorseStage({ className = "" }: TorchHorseStageProps) {
         }`}
       />
 
-      {/* Interactive Inspection Badge (Positioned safely below SiteNav) */}
-      <div className="absolute right-6 md:right-10 top-24 sm:top-28 z-20 hidden md:flex items-center gap-2.5 pointer-events-none">
-        <span className="inline-block h-2 w-2 rounded-full bg-gold shadow-[0_0_12px_#c5a059] animate-pulse" />
-        <span className="font-mono text-[0.62rem] uppercase tracking-[0.22em] text-gold/90 bg-black/75 px-3.5 py-1.5 rounded-full border border-gold/30 backdrop-blur-md shadow-lg">
-          3D Equestrian Statue · Drag to Rotate 360°
-        </span>
-      </div>
+      {/* Drag hint, set as a credit line below the nav (30 Oct 2026: was a pulsing pill badge) */}
+      <p className="label pointer-events-none absolute right-6 top-28 z-20 hidden items-center gap-3 text-dust md:right-10 md:flex">
+        <span aria-hidden className="h-px w-10 bg-line" />
+        Drag to turn the statue
+      </p>
     </div>
   );
 }

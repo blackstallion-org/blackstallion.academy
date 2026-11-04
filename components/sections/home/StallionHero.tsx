@@ -178,9 +178,9 @@ export function StallionHero() {
     </div>
   );
 
-  if (!filmOn) return <section aria-label="The Marwari stallion">{frame}</section>;
+  if (!filmOn) return <section id="stallion" tabIndex={-1} aria-label="The Marwari stallion">{frame}</section>;
   return (
-    <section ref={wrapRef} aria-label="The Marwari stallion" className="relative h-[560svh] md:h-[640svh]">
+    <section id="stallion" tabIndex={-1} ref={wrapRef} aria-label="The Marwari stallion" className="relative h-[560svh] md:h-[640svh] outline-none">
       <div className="sticky top-0">{frame}</div>
     </section>
   );

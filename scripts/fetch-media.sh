@@ -72,11 +72,23 @@ get day-tack.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32P
 get day-walk.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203351_4fc9f9c0-0a42-440b-aa8b-4af5cc6777cc.png"
 get day-brief.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203029_e66b7be6-0324-4bc9-b409-5bc170280fea.png"
 get day-groom.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203028_bea6d903-f6d7-45e0-82fd-b9a0ca3cf91a.png"
+# Session 28 Oct 2026 (the Covenant close shots on /fleet, the colour field still on /why, the three campus hubs on /schools).
+get covenant-stillness.png   "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261028_165311_3eef4701-086f-447f-90dc-2018d1049416.png"
+get covenant-eye.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261028_165311_6e109eee-9e49-4762-a1d4-8ee31ce8c952.png"
+get covenant-touch.png       "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261028_165411_9837d093-a560-4da8-a991-06b702a718b8.png"
+get covenant-profile.png     "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261028_165202_b503b969-ec7b-4546-8554-4c9909647898.png"
+# the generated frame of covenant-profile has black bars down both sides (columns 0-88 and 2663-2751 of 2752): crop them
+python3 -c "from PIL import Image;i=Image.open('covenant-profile.png').convert('RGB')
+(i.width==2752) and i.crop((92,0,2659,i.height)).save('covenant-profile.png')"
+get bond-field-cadet.png     "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261028_165202_785301b3-d007-481f-b45e-41a31582485c.png"
+get hub-standard.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261028_165411_55984b98-0b32-41f7-80e5-d540f29580d7.png"
+get hub-signature.png        "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261028_165203_8c685475-6c10-4e1e-8d1f-d4a7752ab2f6.png"
+get hub-royal.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261028_165411_bea08e4f-3833-4673-b3a2-a16739c2b55e.png"
 get hero-loop.mp4             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002919_571f23fa-14a9-4d0b-bbe3-19f4311054d8.mp4"
 echo "Done: $(ls -1 | grep -c -E '\.(png|mp4)$') files. Restart npm run dev if it is running."
 
 # WebP copies for deployment (PNG masters stay git-ignored). Needs cwebp (brew install webp) or Python Pillow.
-for f in peg-approach peg-align peg-lift peg-carry day-tack day-walk day-brief day-groom; do
+for f in peg-approach peg-align peg-lift peg-carry day-tack day-walk day-brief day-groom covenant-stillness covenant-eye covenant-touch covenant-profile bond-field-cadet hub-standard hub-signature hub-royal; do
   [ -s "$f.png" ] || continue; [ -s "$f.webp" ] && continue
   if command -v cwebp >/dev/null; then cwebp -quiet -q 82 -resize 2048 0 "$f.png" -o "$f.webp";
   else python3 -c "from PIL import Image;import sys;i=Image.open(sys.argv[1]).convert('RGB');i.thumbnail((2048,2048));i.save(sys.argv[2],'WEBP',quality=82)" "$f.png" "$f.webp"; fi

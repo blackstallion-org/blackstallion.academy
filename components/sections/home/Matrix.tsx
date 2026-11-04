@@ -1152,7 +1152,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
         </span>
       </footer>
 
-      <div className="gutter pb-10"><SomaticMap /></div>
+      <SomaticMap />
 
       {/* MODAL 1: EVIDENCE CITATION */}
       {showEvidenceModal && (

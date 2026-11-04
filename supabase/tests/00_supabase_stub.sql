@@ -4,7 +4,8 @@ create role authenticated nologin;
 create role service_role nologin bypassrls;
 create schema auth;
 create schema extensions;
-create table auth.users (id uuid primary key default gen_random_uuid(), email text);
+create table auth.users (id uuid primary key default gen_random_uuid(), email text,
+  raw_user_meta_data jsonb not null default '{}'::jsonb, email_confirmed_at timestamptz);
 create function auth.uid() returns uuid language sql stable as $$
   select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
 grant usage on schema auth, extensions to anon, authenticated;

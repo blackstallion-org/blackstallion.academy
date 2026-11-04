@@ -72,6 +72,31 @@
 
   --ease-citadel: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-film: cubic-bezier(0.7, 0, 0.2, 1);
+
+  /* Console surface names used by the staff dashboard's chart components (components/ui/analytics-bento.tsx).
+     They are aliases of the role tokens above, so they follow `.tone-dark` like everything else. */
+  --color-background: var(--color-night);
+  --color-foreground: var(--color-bone);
+  --color-card: var(--color-ember);
+  --color-card-foreground: var(--color-bone);
+  --color-popover: var(--color-ember);
+  --color-popover-foreground: var(--color-bone);
+  --color-muted: var(--color-umber);
+  --color-muted-foreground: var(--color-dust);
+  --color-border: var(--color-line);
+  --color-ring: var(--color-gold);
+
+  /* The raking light that sweeps in behind a dark 3D stage (components/ui/spotlight.tsx). */
+  --animate-spotlight: spotlight 2s var(--ease-citadel) 0.75s 1 forwards;
+  @keyframes spotlight {
+    from { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+    to   { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+  }
+}
+
+/* Reduced motion: the light is simply there, it does not sweep. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spotlight { animation: none; opacity: 1; transform: translate(-50%, -40%) scale(1); }
 }
 
 @theme inline {
@@ -465,8 +490,6 @@
 .footer-meridian {
   position: relative;
   width: 100%;
-  height: 100vh;
-  height: 100svh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -475,17 +498,21 @@
   border-top: 1px solid var(--color-sandline, #d4c3ad);
 }
 
+/*
+ * The footer film is a full 16:9 frame: a stagecoach crosses a stone viaduct from the left edge to the right. It is shown
+ * whole, edge to edge, and never cropped. The top ~38% of the frame is blank paper, so the footer text sits over that
+ * (the negative margin is 30% of the frame height; percentages resolve against the width, and 56.25% of the width is the
+ * frame height). The coach, the dust and the viaduct all stay clear of the text.
+ */
 .footer-meridian__video {
   order: 2;
-  flex: 1 1 0;
-  min-height: 0;
+  flex: none;
   display: block;
   width: 100%;
   height: auto;
-  margin-top: -12vh;
-  margin-top: -12svh;
-  object-fit: cover;
-  object-position: 50% 35%;
+  aspect-ratio: 16 / 9;
+  margin-top: -16.9%;
+  object-fit: contain;
   mix-blend-mode: multiply;
   position: relative;
   z-index: 0;
@@ -681,11 +708,6 @@
 
 /* ===== Responsive: tablet ===== */
 @media (max-width: 900px) {
-  .footer-meridian {
-    height: auto;
-    min-height: 100svh;
-  }
-
   .footer-meridian__nav ul {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1108,51 +1130,6 @@
   pointer-events: none;
 }
 
-/* Grid button */
-.fsh-gridbtn {
-  position: absolute;
-  left: var(--fsh-pad);
-  bottom: calc(var(--fsh-pad) + 4px);
-  z-index: 35;
-  width: 44px;
-  height: 44px;
-  padding: 8px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 4px;
-  background: rgba(15, 14, 13, 0.6);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 8px;
-  backdrop-filter: blur(8px);
-  cursor: pointer;
-  transition: border-color 0.3s ease, background 0.3s ease;
-}
-
-.fsh-gridbtn:hover {
-  border-color: #d4af37;
-  background: rgba(212, 175, 55, 0.15);
-}
-
-.fsh-gridbtn b {
-  background: #c9a66b;
-  border-radius: 1px;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.fsh-gridbtn:hover b {
-  background: #faf7f0;
-  transform: scale(0.9);
-}
-
-.fsh-root.gridview .fsh-gridbtn b:first-child {
-  transform: translate(2px, 2px);
-}
-
-.fsh-root.gridview .fsh-gridbtn b:last-child {
-  transform: translate(-2px, -2px);
-}
-
 /* Cue */
 .fsh-cue {
   position: absolute;
@@ -1163,11 +1140,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.24em;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: rgba(250, 247, 240, 0.5);
+  color: var(--color-dust);
   white-space: nowrap;
   pointer-events: none;
 }
@@ -1176,7 +1154,7 @@
   display: block;
   width: 42px;
   height: 1px;
-  background: rgba(212, 175, 55, 0.35);
+  background: var(--color-line);
   overflow: hidden;
   position: relative;
 }
@@ -1434,19 +1412,6 @@
 /* Audit: preserve native vertical gestures in every canvas. */
 canvas { touch-action: pan-y; }
 .council-card img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: top center; border-radius: 4px; }
-.trojan-stage { height: 300px; display: grid; place-items: center; perspective: 900px; touch-action: pan-y; cursor: grab; overflow: hidden; }
-.trojan-box { width: 220px; height: 160px; position: relative; transform-style: preserve-3d; }
-.trojan-face { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px solid #a57849; color: #d8b77b; background: linear-gradient(135deg, #29231e, #141312 60%, #27201b); backface-visibility: hidden; }
-.trojan-front, .trojan-back { width: 220px; height: 160px; }
-.trojan-front { transform: translateZ(55px); }
-.trojan-back { transform: rotateY(180deg) translateZ(55px); }
-.trojan-left, .trojan-right { width: 110px; height: 160px; left: 55px; }
-.trojan-left { transform: rotateY(-90deg) translateZ(110px); }
-.trojan-right { transform: rotateY(90deg) translateZ(110px); }
-.trojan-top, .trojan-bottom { width: 220px; height: 110px; top: 25px; }
-.trojan-top { transform: rotateX(90deg) translateZ(80px); }
-.trojan-bottom { transform: rotateX(-90deg) translateZ(80px); }
-.trojan-seal { border: 1px solid #c9a66b; border-radius: 50%; padding: 16px 10px; font-family: serif; letter-spacing: 2px; }
 @media (prefers-reduced-motion: reduce) { .somatic-pulse { display: none; } }
 
 /* ==================================================================
@@ -2225,3 +2190,7 @@ canvas { touch-action: pan-y; }
 @media (prefers-reduced-motion: reduce) {
   .headline-rise { animation: none; }
 }
+
+/* Citadel: the editorial column is solid page colour and the 3D stage sits beside it, unwashed (24 Oct 2026). */
+#citadel-hero .citadel-scene-rail{background:#30271f;box-shadow:none}
+@media(max-width:1023px){#citadel-hero{height:auto;max-height:none;min-height:0}}

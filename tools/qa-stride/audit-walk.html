@@ -1,0 +1,245 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>walk audit</title>
+<script type="importmap">{"imports":{"three":"/anatomy/vendor/three/build/three.module.js","three/examples/jsm/":"/anatomy/vendor/three/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from "three";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { loadMarwari } from "/anatomy/vendor/marwari/marwari.js";
+
+window.__audit = async function (opts = {}) {
+  const out = {};
+  const load = loadMarwari("/models/anatomy-exhibit.glb");
+  const h = await load.promise;
+  load.dispose();
+  out.clips = [...h.clips.values()].map((c) => ({ name: c.name, duration: +c.duration.toFixed(4), tracks: c.tracks.length }));
+  const walk = h.clips.get("Walk");
+  const times = new Set();
+  walk.tracks.forEach((t) => t.times.forEach((x) => times.add(+x.toFixed(5))));
+  out.walk = {
+    duration: walk.duration,
+    keyTimes: [...times].sort((a, b) => a - b),
+    tracks: walk.tracks.length,
+    trackNames: walk.tracks.map((t) => t.name).slice(0, 400),
+  };
+  out.bones = Object.keys(h.bones);
+  // anchors
+  h.root.updateMatrixWorld(true);
+  const anchors = [];
+  h.root.traverse((o) => {
+    if (o.userData && o.userData.layer === "anchor") {
+      const p = o.getWorldPosition(new THREE.Vector3());
+      anchors.push({ name: o.name, bone: o.userData.bone, p: [p.x, p.y, p.z].map((v) => +v.toFixed(4)) });
+    }
+  });
+  out.anchors = anchors;
+  // node list (non-bone, names only)
+  const nodes = [];
+  h.root.traverse((o) => { if (!o.isBone) nodes.push(`${o.type}:${o.name}`); });
+  out.nodes = nodes.slice(0, 400);
+
+  // rider
+  const draco = new DRACOLoader(); draco.setDecoderPath("/draco/");
+  const gl = new GLTFLoader(); gl.setDRACOLoader(draco);
+  const rg = await gl.loadAsync("/models/cadet-rider.glb");
+  const rbones = {}; const ranchors = [];
+  rg.scene.updateMatrixWorld(true);
+  rg.scene.traverse((o) => {
+    if (o.isBone) rbones[o.name] = o.getWorldPosition(new THREE.Vector3()).toArray().map((v) => +v.toFixed(4));
+    if (o.userData && o.userData.layer === "anchor") ranchors.push({ name: o.name, bone: o.userData.bone, p: o.getWorldPosition(new THREE.Vector3()).toArray().map((v) => +v.toFixed(4)) });
+  });
+  out.rider = { bones: rbones, anchors: ranchors, clips: rg.animations.map((c) => c.name) };
+
+  // sampling
+  const mixer = new THREE.AnimationMixer(h.root);
+  const act = mixer.clipAction(walk); act.play(); act.paused = true;
+  const N = opts.N || 960;
+  const HB = { FL: "Hoof_F_L", FR: "Hoof_F_R", HL: "Hoof_B_L", HR: "Hoof_B_R" };
+  const toe = { FL: [], FR: [], HL: [], HR: [] };
+  const own = new THREE.Vector3();
+  const sample = (phase) => {
+    act.time = phase * walk.duration;
+    mixer.update(0);
+    h.root.updateMatrixWorld(true);
+    h.mesh.skeleton.update();
+  };
+  for (let i = 0; i < N; i++) {
+    sample(i / N);
+    for (const l of Object.keys(HB)) {
+      toe[l].push(new THREE.Vector3(0, 0.14, 0).applyMatrix4(h.bones[HB[l]].matrixWorld).toArray());
+    }
+  }
+  out.toeSample = { N };
+  const T = walk.duration;
+  const dt = T / N;
+  // contact analysis
+  const analyse = (thr) => {
+    const res = {};
+    for (const l of Object.keys(toe)) {
+      const y = toe[l].map((p) => p[1]);
+      const inC = y.map((v) => v < thr);
+      // find touchdown/liftoff (cyclic)
+      let td = -1, lo = -1;
+      for (let i = 0; i < N; i++) {
+        const a = inC[(i + N - 1) % N], b = inC[i];
+        if (!a && b) td = i;
+        if (a && !b) lo = i;
+      }
+      const count = inC.filter(Boolean).length;
+      res[l] = { touchdown: td / N, liftoff: lo / N, duty: count / N, minToeY: Math.min(...y), maxToeY: Math.max(...y) };
+    }
+    return res;
+  };
+  out.contact04 = analyse(0.04);
+  out.contact03 = analyse(0.03);
+  out.contact025 = analyse(0.025);
+  // best-fit ground speed: mean toe-z velocity during stance
+  const speedFit = {};
+  const slip = {};
+  const strideLen = 1.152; // from marwari-gaits.json (authored)
+  const vJson = strideLen / T;
+  for (const l of Object.keys(toe)) {
+    const thr = 0.03;
+    let sum = 0, n = 0;
+    const vz = [], vx = [], inC = [];
+    for (let i = 0; i < N; i++) {
+      const a = toe[l][(i + N - 1) % N], b = toe[l][(i + 1) % N];
+      vz.push((b[2] - a[2]) / (2 * dt));
+      vx.push((b[0] - a[0]) / (2 * dt));
+      inC.push(toe[l][i][1] < thr);
+    }
+    for (let i = 0; i < N; i++) if (inC[i]) { sum += vz[i]; n++; }
+    speedFit[l] = -sum / n;
+    // slip with the JSON ground speed
+    let s2 = 0, smax = 0, m = 0;
+    for (let i = 0; i < N; i++) if (inC[i]) { const sl = Math.hypot(vz[i] + vJson, vx[i]); s2 += sl * sl; smax = Math.max(smax, sl); m++; }
+    // drift within stance (ground frame z): track from touchdown
+    let start = inC.findIndex((v, i) => v && !inC[(i + N - 1) % N]);
+    let maxDrift = 0, maxDriftX = 0;
+    let drift = 0, driftX = 0, minD = 0, maxD = 0;
+    for (let k = 0; k < N; k++) {
+      const i = (start + k) % N;
+      if (!inC[i]) break;
+      drift += (vz[i] + vJson) * dt;
+      driftX += vx[i] * dt;
+      minD = Math.min(minD, drift); maxD = Math.max(maxD, drift);
+      maxDriftX = Math.max(maxDriftX, Math.abs(driftX));
+    }
+    slip[l] = { rms: Math.sqrt(s2 / m), max: smax, driftRangeZ: maxD - minD, driftEndZ: drift, maxDriftX, stanceMs: m * dt * 1000 };
+  }
+  out.speedFit = speedFit; out.vJson = vJson; out.slip = slip;
+  // toe path ranges
+  out.toeRangeZ = Object.fromEntries(Object.keys(toe).map((l) => [l, [Math.min(...toe[l].map((p) => p[2])), Math.max(...toe[l].map((p) => p[2]))].map((v) => +v.toFixed(3))]));
+  out.toeSwingPeakY = Object.fromEntries(Object.keys(toe).map((l) => [l, +Math.max(...toe[l].map((p) => p[1])).toFixed(3)]));
+
+  // seat frame
+  const seatNames = ["Seat_F", "Seat_B", "Seat_L", "Seat_R"];
+  const restPts = seatNames.map((n) => anchors.find((a) => a.name === n)?.p);
+  out.seatRest = restPts;
+  sample(0); // note: bind pose not restored; find vertex indices using the *rest* anchors vs. bind positions requires bind pose
+  // reset to bind pose: stop action
+  act.stop(); mixer.update(0); h.root.updateMatrixWorld(true); h.mesh.skeleton.pose(); h.mesh.skeleton.update();
+  const pos = h.mesh.geometry.attributes.position;
+  const idx = restPts.map((t) => {
+    let best = 0, d2 = Infinity;
+    for (let i = 0; i < pos.count; i++) {
+      const dx = pos.getX(i) - t[0], dy = pos.getY(i) - t[1], dz = pos.getZ(i) - t[2];
+      const d = dx * dx + dy * dy + dz * dz; if (d < d2) { d2 = d; best = i; }
+    }
+    return { best, dist: Math.sqrt(d2) };
+  });
+  out.seatVerts = idx;
+  const pts = idx.map(() => new THREE.Vector3());
+  const frame = () => {
+    idx.forEach((v, k) => h.mesh.getVertexPosition(v.best, pts[k]));
+    const [f, b, l, r] = pts;
+    const fwd = new THREE.Vector3().subVectors(f, b).normalize();
+    const left = new THREE.Vector3().subVectors(l, r); left.addScaledVector(fwd, -left.dot(fwd)).normalize();
+    const up = new THREE.Vector3().crossVectors(fwd, left).normalize();
+    const origin = new THREE.Vector3().add(f).add(b).add(l).add(r).multiplyScalar(0.25);
+    const m = new THREE.Matrix4().makeBasis(left, up, fwd).setPosition(origin);
+    return m;
+  };
+  const restM = frame();
+  const restInv = restM.clone().invert();
+  act.play(); act.paused = true;
+  const ch = { y: [], x: [], z: [], pitch: [], yaw: [], roll: [] };
+  const qq = new THREE.Quaternion(), pp = new THREE.Vector3(), ss = new THREE.Vector3();
+  const restQ = new THREE.Quaternion(); restM.decompose(pp, restQ, ss);
+  const restP = pp.clone();
+  for (let i = 0; i < N; i++) {
+    sample(i / N);
+    const m = frame();
+    const P = new THREE.Vector3(), Q = new THREE.Quaternion();
+    m.decompose(P, Q, ss);
+    ch.x.push(P.x - restP.x); ch.y.push(P.y - restP.y); ch.z.push(P.z - restP.z);
+    const dq = Q.clone().multiply(restQ.clone().invert());
+    // rotation vector
+    const ang = 2 * Math.acos(Math.min(1, Math.abs(dq.w)));
+    const sgn = dq.w < 0 ? -1 : 1;
+    const s = Math.sqrt(1 - Math.min(1, dq.w * dq.w));
+    const ax = s < 1e-9 ? [0, 0, 0] : [dq.x / s * sgn, dq.y / s * sgn, dq.z / s * sgn];
+    ch.pitch.push(ax[0] * ang * 180 / Math.PI); ch.yaw.push(ax[1] * ang * 180 / Math.PI); ch.roll.push(ax[2] * ang * 180 / Math.PI);
+  }
+  const stats = {};
+  const dft = (arr) => {
+    const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+    const amps = [];
+    for (let k = 1; k <= 8; k++) {
+      let re = 0, im = 0;
+      for (let i = 0; i < arr.length; i++) { const a = 2 * Math.PI * k * i / arr.length; re += (arr[i] - mean) * Math.cos(a); im += (arr[i] - mean) * Math.sin(a); }
+      amps.push(+(2 * Math.hypot(re, im) / arr.length).toFixed(5));
+    }
+    return { mean, amps };
+  };
+  for (const k of Object.keys(ch)) {
+    const a = ch[k];
+    const d = dft(a);
+    const scale = ["x", "y", "z"].includes(k) ? 1000 : 1;
+    stats[k] = { unit: scale === 1000 ? "mm" : "deg", p2p: +((Math.max(...a) - Math.min(...a)) * scale).toFixed(3), meanRel: +(d.mean * scale).toFixed(3), harmonics: d.amps.map((v) => +(v * scale).toFixed(3)) };
+  }
+  out.seat = stats;
+  out.seatSeries = Object.fromEntries(Object.keys(ch).map((k) => [k, ch[k].filter((_, i) => i % 20 === 0).map((v) => +v.toFixed(5))]));
+  // joint angles, left fore/hind
+  const joint = (a, b, c) => {
+    const pa = h.bones[a].getWorldPosition(new THREE.Vector3()), pb = h.bones[b].getWorldPosition(new THREE.Vector3()), pc = h.bones[c].getWorldPosition(new THREE.Vector3());
+    const u = pa.sub(pb).normalize(), v = pc.sub(pb).normalize();
+    return Math.acos(Math.max(-1, Math.min(1, u.dot(v)))) * 180 / Math.PI;
+  };
+  const J = { elbow: ["Humerus_L", "Forearm_L", "Cannon_F_L"], carpus: ["Forearm_L", "Cannon_F_L", "Pastern_F_L"], fetlockF: ["Cannon_F_L", "Pastern_F_L", "Hoof_F_L"], stifle: ["Femur_L", "Gaskin_L", "Cannon_B_L"], hock: ["Gaskin_L", "Cannon_B_L", "Pastern_B_L"], fetlockH: ["Cannon_B_L", "Pastern_B_L", "Hoof_B_L"] };
+  const jr = {};
+  const have = Object.values(J).every((arr) => arr.every((n) => h.bones[n]));
+  out.jointBonesPresent = have;
+  if (have) {
+    for (const k of Object.keys(J)) jr[k] = [];
+    for (let i = 0; i < 96; i++) { sample(i / 96); for (const k of Object.keys(J)) jr[k].push(+joint(...J[k]).toFixed(1)); }
+    out.joints = Object.fromEntries(Object.keys(jr).map((k) => [k, { min: Math.min(...jr[k]), max: Math.max(...jr[k]) }]));
+  }
+  // skeleton hierarchy (first levels)
+  const tree = [];
+  const walkTree = (o, d) => { if (o.isBone) tree.push("  ".repeat(d) + o.name); o.children.forEach((c) => walkTree(c, o.isBone ? d + 1 : d)); };
+  walkTree(h.root, 0);
+  out.tree = tree.slice(0, 120);
+
+  // raw series for offline analysis
+  {
+    const M = 240;
+    const raw = { toe: { FL: [], FR: [], HL: [], HR: [] }, pts: { withers: [], loin: [], croup: [], poll: [], seat: [] }, body: [] };
+    const ptOf = (name) => { const a = anchors.find((q) => q.name === name); const bone = h.bones[a.bone]; return { bone, local: bone.worldToLocal(new THREE.Vector3(...a.p)) }; };
+    act.stop(); mixer.update(0); h.root.updateMatrixWorld(true); h.mesh.skeleton.pose(); h.mesh.skeleton.update();
+    const P = { withers: ptOf("Anchor_Withers"), loin: ptOf("Anchor_Loin"), croup: ptOf("Anchor_Croup"), poll: ptOf("Anchor_Poll") };
+    act.play(); act.paused = true;
+    for (let i = 0; i < M; i++) {
+      sample(i / M);
+      for (const l of Object.keys(HB)) raw.toe[l].push(new THREE.Vector3(0, 0.14, 0).applyMatrix4(h.bones[HB[l]].matrixWorld).toArray().map((v) => +v.toFixed(5)));
+      for (const k of Object.keys(P)) raw.pts[k].push(P[k].bone.localToWorld(P[k].local.clone()).toArray().map((v) => +v.toFixed(5)));
+      raw.body.push(h.bones.Body.position.toArray().map((v) => +v.toFixed(5)));
+      const f = frame(); raw.pts.seat.push(new THREE.Vector3().setFromMatrixPosition(f).toArray().map((v) => +v.toFixed(5)));
+    }
+    out.raw = raw;
+  }
+  return out;
+};
+window.__ready = true;
+</script></body></html>

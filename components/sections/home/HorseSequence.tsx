@@ -55,7 +55,9 @@ export function HorseSequence() {
         image.decoding = "async";
         image.onload = () => {
           frames[index] = image;
-          if (index === 0) draw(0);
+          lastDrawn = -1;
+          const rect = section.getBoundingClientRect();
+          draw(Math.round(Math.max(0, Math.min(1, -rect.top / Math.max(1, section.offsetHeight - window.innerHeight))) * (FRAME_COUNT - 1)));
         };
         image.src = frameUrl(index);
       }
@@ -79,10 +81,11 @@ export function HorseSequence() {
           defaults: { ease: "none" },
         });
         timeline
-          .to(panels[0], { autoAlpha: 0, y: -24, duration: 0.14 }, 0.24)
-          .fromTo(panels[1], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.16 }, 0.31)
-          .to(panels[1], { autoAlpha: 0, y: -24, duration: 0.14 }, 0.56)
-          .fromTo(panels[2], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.16 }, 0.63);
+          // Each chapter has fully left before the next arrives, so two titles never overlap.
+          .to(panels[0], { autoAlpha: 0, y: -24, duration: 0.08 }, 0.24)
+          .fromTo(panels[1], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.1 }, 0.33)
+          .to(panels[1], { autoAlpha: 0, y: -24, duration: 0.08 }, 0.56)
+          .fromTo(panels[2], { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.1 }, 0.65);
         const sync = () => {
           frameRequest = 0;
           const rect = section.getBoundingClientRect();

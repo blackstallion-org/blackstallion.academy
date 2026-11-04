@@ -21,22 +21,25 @@ async function client() {
 
 const credentials = z.object({ email: z.string().trim().email().max(160), password: z.string().min(8).max(200) });
 
-/** Staff sign-in. Generic errors only (no hint whether the e-mail exists). Non-staff accounts are signed out again. */
+/**
+ * Sign-in for staff and for members (student, parent, teacher, school). Generic errors only (no hint whether the e-mail
+ * exists). Staff go to the console, members to their account; a sign-in that is neither is signed out again.
+ */
 export async function signIn(_prev: FormState, data: FormData): Promise<FormState> {
   const { ip } = await client();
   if (!(await consumeRateLimit("login", ip)).allowed) return { error: "Too many attempts. Please wait fifteen minutes." };
   const parsed = credentials.safeParse({ email: data.get("email"), password: data.get("password") });
-  if (!parsed.success) return { error: "Enter your staff e-mail and password." };
+  if (!parsed.success) return { error: "Enter your e-mail and password." };
   const supabase = await createSupabaseServerClient();
   if (!supabase) return { error: "Sign-in is not configured yet." };
   const { data: auth, error } = await supabase.auth.signInWithPassword(parsed.data);
-  if (error || !auth.user) return { error: "Those details did not match a staff account." };
+  if (error || !auth.user) return { error: "Those details did not match an account." };
   const profile = await fetchStaffProfile(supabase as unknown as Parameters<typeof fetchStaffProfile>[0], auth.user.id);
-  if (!isStaffRole(profile?.role)) {
-    await supabase.auth.signOut();
-    return { error: "This account does not have staff access." };
-  }
-  redirect("/admin");
+  if (isStaffRole(profile?.role)) redirect("/admin");
+  const member = await supabase.from("member_accounts").select("profile_id").eq("profile_id", auth.user.id).maybeSingle();
+  if (member.data) redirect("/account");
+  await supabase.auth.signOut();
+  return { error: "This account is not set up yet. Create an account from this page, or contact the academy." };
 }
 
 export async function signOut() {
@@ -55,7 +58,7 @@ export async function requestPasswordReset(_prev: FormState, data: FormData): Pr
   if (!supabase) return { error: "Password reset is not configured yet." };
   const origin = process.env.NEXT_PUBLIC_SITE_URL || (host ? `${proto}://${host}` : "");
   await supabase.auth.resetPasswordForEmail(email.data, { redirectTo: `${origin}/auth/confirm?next=/admin/reset` });
-  return { notice: "If that address belongs to a staff account, a reset link is on its way. It expires in one hour." };
+  return { notice: "If that address belongs to an account, a reset link is on its way. It expires in one hour." };
 }
 
 const strongPassword = z.string().min(12, "Use at least 12 characters.").max(200).refine((p) => /[a-zA-Z]/.test(p) && /\d/.test(p), "Use letters and at least one number.");
@@ -70,7 +73,7 @@ export async function updatePassword(_prev: FormState, data: FormData): Promise<
   if (pw.data !== data.get("confirm")) return { error: "The two passwords do not match." };
   const { error } = await supabase.auth.updateUser({ password: pw.data });
   if (error) return { error: "The password could not be changed. Request a new link and try again." };
-  redirect("/admin");
+  redirect("/account"); // staff without a member profile are passed on to the console from there
 }
 
 const NOT_UPDATED = "Nothing was saved: this enquiry was not found, or your account can no longer change it.";

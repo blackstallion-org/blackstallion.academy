@@ -202,13 +202,16 @@ export function BigSlider() {
 
 /** §3 · S32 The Sanctuary of Unpowered Truth · The Human & Horse Bond */
 export function Monolith({ lines, coda, label }: { lines: string[]; coda?: string; label?: string }) {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.35"] });
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const reduced = useReducedMotion();
+  // The words light up as the paragraph itself crosses the screen. (The section is far taller than the text, because
+  // of the plates below it, so tracking the section left the last lines grey while they were being read.) Every word
+  // is fully dark by the time the whole paragraph fits on screen (its foot reaching the bottom edge), and stays dark.
+  const { scrollYProgress } = useScroll({ target: textRef, offset: ["start 0.92", "end 1"] });
   const words = lines.join(" ¶ ").split(" ");
 
   return (
     <section
-      ref={ref}
       aria-label={label ?? "The sanctuary of unpowered truth"}
       className="gutter relative py-[clamp(6rem,16vh,14rem)] overflow-hidden"
     >
@@ -226,12 +229,19 @@ export function Monolith({ lines, coda, label }: { lines: string[]; coda?: strin
       <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
         {/* Left Column: Scroll-illuminated Monolith text + Wide pasture plate */}
         <div>
-          <p className="t-voice text-display-2 leading-[1.08] text-bone">
+          <p ref={textRef} className="t-voice text-display-2 leading-[1.08] text-bone">
             {words.map((w, k) =>
               w === "¶" ? (
                 <span key={k} className="block h-8" />
               ) : (
-                <Word key={k} progress={scrollYProgress} range={[k / words.length, (k + 1) / words.length]}>
+                <Word
+                  key={k}
+                  progress={scrollYProgress}
+                  reduced={reduced}
+                  // Words light in sequence over the first 80% of the travel, each fading over a short window, so the
+                  // last word is complete at 90% and the whole text holds at full ink for the last tenth.
+                  range={[(k / words.length) * 0.8, ((k + 1) / words.length) * 0.8 + 0.1]}
+                >
                   {w}
                 </Word>
               ),
@@ -239,7 +249,7 @@ export function Monolith({ lines, coda, label }: { lines: string[]; coda?: strin
           </p>
 
           {coda && (
-            <p className="t-story mt-10 text-xl italic text-gold font-normal [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">
+            <p className="t-story mt-10 text-xl italic text-gold font-normal">
               {coda}
             </p>
           )}
@@ -276,10 +286,10 @@ export function Monolith({ lines, coda, label }: { lines: string[]; coda?: strin
           <div className="relative overflow-hidden border border-brass/30 bg-night shadow-[0_24px_60px_rgba(0,0,0,0.7)] group">
             <div className="relative aspect-[2/3] overflow-hidden">
               <FilmImage
-                name="bondIntimacy"
+                name="currGroundcare"
                 grade="none"
                 priority
-                position="50% 30%"
+                position="50% 40%"
                 sizes="(min-width: 1024px) 40vw, 100vw"
                 className="opacity-100 transition-transform duration-700 group-hover:scale-[1.03]"
               />
@@ -302,10 +312,10 @@ export function Monolith({ lines, coda, label }: { lines: string[]; coda?: strin
   );
 }
 
-function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, r(...range), [0.65, 1]);
+function Word({ children, progress, range, reduced }: { children: string; progress: MotionValue<number>; range: [number, number]; reduced: boolean }) {
+  const opacity = useTransform(progress, r(...range), [0.4, 1]);
   return (
-    <motion.span className="mr-[0.25em] inline-block text-bone" style={{ opacity }}>
+    <motion.span className="mr-[0.25em] inline-block text-bone" style={{ opacity: reduced ? 1 : opacity }}>
       {children}
     </motion.span>
   );

@@ -10,7 +10,7 @@ import {
   attributionFields, auditActionLabel, auditDetails, formatDateTimeIST, mailHref, organisationOf, payloadFields, qrCode, staffLabel, statusLabel, telHref,
 } from "@/lib/admin/present";
 import { logAdminError, signDocumentPaths, staffNames } from "@/lib/admin/server";
-import { AdminNav } from "../../AdminNav";
+import { AdminShell } from "../../AdminShell";
 import { AssignToMeForm, LeadStatusForm } from "../../forms";
 import { Fields, LoadError, QrBadge, Tag, type FieldItem } from "../../ui";
 
@@ -35,11 +35,10 @@ const EVENT_LIMIT = 100;
 
 function Frame({ name, children }: { name: string; children: ReactNode }) {
   return (
-    <div>
-      <AdminNav name={name} current="leads" inside />
-      <Link href="/admin" className="label mt-8 inline-block py-2 text-sand hover:text-gold">← All enquiries</Link>
+    <AdminShell name={name} current="leads" inside>
+      <Link href="/admin/enquiries" className="label mt-8 inline-block py-2 text-sand hover:text-gold">← All enquiries</Link>
       {children}
-    </div>
+    </AdminShell>
   );
 }
 

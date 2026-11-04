@@ -3,9 +3,9 @@
 # → layer tests → security fixes (applied twice) → fix tests → anon hardening evidence → anon hardening (applied twice)
 # → hardening tests → hardening rollback (twice) → rollback tests → hardening re-applied → layer rollback → rollback
 # tests → hardening-after-layer-rollback tests. Throwaway Postgres only; never touches a real database.
-# usage: supabase/live/tests/run.sh   (run as a non-root user; needs postgres 16 binaries)
+# usage: supabase/live/tests/run.sh   (run as a non-root user; needs postgres 16 binaries, or set PG_BIN)
 set -euo pipefail
-HERE="$(cd "$(dirname "$0")" && pwd)"; LIVE="$(cd "$HERE/.." && pwd)"; BIN=/usr/lib/postgresql/16/bin
+HERE="$(cd "$(dirname "$0")" && pwd)"; LIVE="$(cd "$HERE/.." && pwd)"; BIN="${PG_BIN:-/usr/lib/postgresql/16/bin}"  # PG_BIN overrides it (e.g. /opt/homebrew/opt/postgresql@18/bin on a Mac)
 D="$(mktemp -d)"; trap '"$BIN/pg_ctl" -D "$D/data" -m immediate stop >/dev/null 2>&1 || true; rm -rf "$D"' EXIT
 "$BIN/initdb" -D "$D/data" -U postgres --auth=trust >/dev/null
 "$BIN/pg_ctl" -D "$D/data" -o "-p 54330 -k $D -c listen_addresses=''" -l "$D/log" -w start >/dev/null
@@ -35,9 +35,20 @@ run "$LIVE/rollback/20261023001200_anon_privacy_hardening_rollback.sql"; run "$L
 tst "$HERE/41_anon_hardening_rollback_tests.sql"
 echo "re-apply 20261023001200_anon_privacy_hardening.sql"
 run "$LIVE/migrations/20261023001200_anon_privacy_hardening.sql"
+echo "apply 20261029001300_bsah_media_library.sql (twice)"
+run "$LIVE/migrations/20261029001300_bsah_media_library.sql"; run "$LIVE/migrations/20261029001300_bsah_media_library.sql"
+tst "$HERE/60_bsah_media_library_tests.sql"
+echo "the media library rollback must refuse while library rows exist"
+if $PS -v ON_ERROR_STOP=1 -f "$LIVE/rollback/20261029001300_bsah_media_library_rollback.sql" >/dev/null 2>&1; then echo "FAIL  media library rollback ran while library rows existed" | tee -a "$D/out.txt"; else echo "PASS  media library rollback refuses while library rows exist" | tee -a "$D/out.txt"; fi
+$PS -v ON_ERROR_STOP=1 -c "delete from public.media_assets where bucket = 'bsah-media'"
+echo "apply rollback of the media library (twice)"
+run "$LIVE/rollback/20261029001300_bsah_media_library_rollback.sql"; run "$LIVE/rollback/20261029001300_bsah_media_library_rollback.sql"
+tst "$HERE/61_bsah_media_library_rollback_tests.sql"
 echo "apply rollback of the website layer"
 run "$LIVE/rollback/20261023001000_website_layer_rollback.sql"
 tst "$HERE/30_rollback_tests.sql"
 tst "$HERE/50_anon_hardening_after_layer_rollback_tests.sql"
+echo "the media library rollback is harmless after the layer rollback (no media_assets left)"
+run "$LIVE/rollback/20261029001300_bsah_media_library_rollback.sql"
 P=$(grep -c '^PASS' "$D/out.txt" || true); F=$(grep -c '^FAIL' "$D/out.txt" || true)
 echo "---- $P passed, $F failed"; [ "$F" = 0 ]

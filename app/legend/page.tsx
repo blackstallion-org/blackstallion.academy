@@ -12,6 +12,8 @@ import { Ascent, ChapterHead, ChapterRail, Descent, EarsZoom, LegendTitle, Route
 import { MarwariInterlude } from "@/components/sections/editorial/ReferencePanels";
 import { HorizontalChapter } from "@/components/motion/HorizontalChapter";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
+import { LastExhibit } from "@/components/sections/legend/LastExhibit";
+import { MarwariMuseum } from "@/components/sections/legend/museum/MarwariMuseum";
 import { bred, honour, honourClose, lore, ocean, revival, today } from "@/lib/content/legend";
 import { cn } from "@/lib/utils";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
@@ -26,10 +28,17 @@ export default function LegendPage() {
   return (
     <>
       <EditorialScrollSync />
+
+      {/* 0 · The museum opens the page: a scroll-driven 3D hall of six plates behind double doors (Arvista engine). */}
+      <MarwariMuseum />
+
+      {/* The museum's "Begin the story" and "Skip the walk" land here. */}
+      <span id="legend-story" aria-hidden className="block" />
       <LegendTitle />
       <MarwariInterlude />
       <ChapterRail />
       <TharGallopReel />
+      <PageCurtain page="legend" />
 
       {/* I · One bloodline — overview + miniature plate + three theories of origin */}
       <section id="ocean" aria-labelledby="ocean-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
@@ -38,7 +47,6 @@ export default function LegendPage() {
           <div>
             <ChapterHead id="ocean" />
             <Headline id="ocean-h" technique="words" className="mt-4 max-w-[16ch]" inscription={ocean.inscription} voice={ocean.voice} />
-      <PageCurtain page="legend" />
             <p className="t-story mt-4 italic text-bone">{ocean.sub}</p>
             <Reveal>
               <p className="t-story mt-8 max-w-2xl text-sand first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:[font-family:var(--font-kalnia)] first-letter:font-semibold first-letter:text-[4.2em] first-letter:leading-[0.8] first-letter:text-gold">
@@ -205,6 +213,9 @@ export default function LegendPage() {
           <p className="t-ui mt-10 max-w-2xl text-xs leading-relaxed text-dust">{today.sources}</p>
         </div>
       </section>
+
+      {/* XI · The last exhibit */}
+      <LastExhibit />
 
       <ReplayHeadline typeface="elegant" id="legend-replay" label="The story continues" text="The story stays with the horse." tone="dark" defaultMode="words" />
       <EndCard current={1} />

@@ -1,10 +1,12 @@
 "use client";
 
+import { asset } from "@/lib/content/asset";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import Link from "next/link";
 import { motion, useInView } from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Cta, Label, ReelMark } from "@/components/film/Marks";
@@ -14,17 +16,23 @@ import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { BlueprintPlan } from "./BlueprintPlan";
 import { r3 } from "@/lib/round";
-import { ViscousLiquidCanvas, type ViscousSlide } from "@/components/sections/shared/ViscousLiquidCanvas";
-import { India3DMap } from "./India3DMap";
-import { Hyderabad3DMap } from "./Hyderabad3DMap";
+import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
+import { ScenePoster } from "./ScenePoster";
+import { IndiaSculpture } from "./india-map/IndiaSculpture";
+import { mapCopy } from "@/lib/content/india-map";
+import { useNearViewport } from "@/lib/motion/use-near-viewport";
 
-/** Title card · T11 Pan-India Sovereign Hub Network 3D India Map Hero */
+// The Hyderabad diorama loads in a chunk of its own, three screens ahead of its section, and shows a still of its opening view until
+// the live scene has drawn. (The India model on the first screen loads its three.js code the same way, from inside its own component.)
+const Hyderabad3DMap = dynamic(() => import("./Hyderabad3DMap").then((m) => m.Hyderabad3DMap), { ssr: false });
+
+/** Title card · T11 Pan-India Sovereign Hub Network: the lit relief model of India (components/sections/schools/india-map) is the first screen. */
 export function SchoolsTitle() {
   const ref = useRef<HTMLElement>(null);
   return (
     <section ref={ref} aria-labelledby="schools-title" className="editorial-scene">
       <div className="tone-dark relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-black isolate">
-        <India3DMap className="absolute inset-0 h-full w-full z-10" />
+        <IndiaSculpture />
       </div>
       <div className="tone-light editorial-details gutter">
         <ReelMark n={11} act="ledger" />
@@ -33,9 +41,10 @@ export function SchoolsTitle() {
         <div className="flex flex-wrap items-center gap-4">
           <Cta href="/schools/mou" variant="solid">Request a draft MOU</Cta>
           <Cta href="#simulator">Run the numbers</Cta>
-          <a href="#network" className="label inline-flex items-center gap-2 text-gold"><span>28 Hubs Mapped</span><Arrow /></a>
+          <a href="#network" className="label inline-flex items-center gap-2 text-gold"><span>{network.length} circuits mapped</span><Arrow /></a>
         </div>
-        <p className="label text-brass">Orbital telemetry · Pan-India sovereign network · 6 sovereign circuits · 3D relief</p>
+        <p className="label text-brass">Pan-India sovereign network · {network.length} target circuits · lit 3D relief</p>
+        <p className="t-ui max-w-3xl text-xs leading-relaxed text-dust">{mapCopy.sources}</p>
       </div>
     </section>
   );
@@ -200,60 +209,48 @@ export function ConfiguratorAndSimulator() {
   );
 }
 
-/** §3b · Fullscreen Navier-Stokes Fluid School Arena Architectural Showcase */
+/** §3b · Six existing Higgsfield architectural studies, kept static and fully framed. */
 export function SchoolArenaShowcase() {
-  const arenaSlides: ViscousSlide[] = [
+  const arenaImages: StaticImageReelItem[] = [
     {
       image: "schoolAerial",
-      badge: "01 · CAMPUS PLAN",
-      tag: "Master Plan",
       title: "Campus Master Plan",
-      subtitle: "Turnkey 3-acre layout financed, built, and operated at zero capital expenditure.",
-      caption: "Turnkey 1.5–3.0 Acre Arena & Pavilion",
-      ctaText: "Campus Specifications",
-      ctaHref: "/schools/mou",
+      copy: "Turnkey 1.5–3.0 acre layout, funded, built and operated by BSAH.",
+      cta: "Campus specifications",
+      href: "/schools/mou",
     },
     {
       image: "schoolArenaNight",
-      badge: "02 · REGULATION ARENA",
-      tag: "Silica Arena",
       title: "Regulation Silica Arena",
-      subtitle: "Laser-graded geotextile sand engineered for evening floodlit sessions.",
-      caption: "60m × 20m Standard Dressage Ring",
-      ctaText: "Arena Specifications",
-      ctaHref: "/schools/access",
+      copy: "Laser-graded geotextile sand for calm, floodlit evening sessions.",
+      cta: "Arena specifications",
+      href: "/schools/access",
     },
     {
       image: "tournCrowd",
-      badge: "03 · CIRCUIT HOST",
-      tag: "National Hub",
       title: "National Circuit Hub",
-      subtitle: "Official host venue for regional equestrian championships.",
-      caption: "Spectator Railings & Scoring Pavilion",
-      ctaText: "Circuit Calendar",
-      ctaHref: "/tournaments",
+      copy: "A competition-ready arena with spectator railings and a scoring pavilion.",
+      cta: "Circuit calendar",
+      href: "/tournaments",
     },
     {
       image: "bgStable",
-      badge: "04 · EQUINE QUARTERS",
-      tag: "Biometric Stalls",
       title: "Biometric Equine Stalls",
-      subtitle: "Handcrafted timber stabling with automated watering and 24/7 care.",
-      caption: "Stabling for 16 Marwari Stallions",
-      ctaText: "Studbook Registry",
-      ctaHref: "/fleet",
+      copy: "Timber stabling, automated watering and round-the-clock care for the horses.",
+      cta: "Studbook registry",
+      href: "/fleet",
     },
+    { image: "bgPavilion", title: "Arrival pavilion", copy: "A clear threshold from campus life to the riding ground." },
+    { image: "currFormation", title: "Training ground", copy: "A considered arena where each group has room to learn." },
   ];
 
   return (
-    <ViscousLiquidCanvas
+    <StaticImageReel
       id="arena-showcase"
       label="REEL 09 · CAMPUS ARCHITECTURAL REEL"
-      title="Campus Master Plan"
-      subtitle="Turnkey 3-acre layout financed, built, and operated at zero capital expenditure."
-      fullScreen={true}
-      slides={arenaSlides}
-      showTabs={true}
+      title="Campus, in six views."
+      intro="Six existing Higgsfield studies, shown as undistorted stills with their captions kept clear of the image."
+      items={arenaImages}
     />
   );
 }
@@ -262,6 +259,13 @@ export function SchoolArenaShowcase() {
 export function HubMap() {
   const [activeHubId, setActiveHubId] = useState<"01A" | "01B" | "01C">("01A");
   const [hover, setHover] = useState<string | null>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const diorama = useNearViewport(frameRef);
+  const dioramaSoon = useNearViewport(frameRef, "300% 0px");
+  const [dioramaReady, setDioramaReady] = useState(false);
+  useEffect(() => {
+    if (dioramaSoon) void import("./Hyderabad3DMap").catch(() => {});
+  }, [dioramaSoon]);
 
   const slugToIdMap: Record<string, "01A" | "01B" | "01C"> = {
     "zone-01a-financial-district": "01A",
@@ -284,12 +288,16 @@ export function HubMap() {
     <section id="hubs" aria-labelledby="hubs-h" className="relative scroll-mt-20 py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)] lg:items-center">
         {/* 3D Hyderabad Architectural Diorama Map Viewport */}
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line/60 shadow-xl min-h-[500px] lg:min-h-[620px]">
-          <Hyderabad3DMap
-            activeHubId={activeHubId}
-            onSelectHub={handleSelectFrom3D}
-            className="w-full h-full"
-          />
+        <div ref={frameRef} className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line/60 shadow-xl min-h-[500px] lg:min-h-[620px]">
+          <ScenePoster src={asset("/images/schools/hyderabad-diorama-poster.webp")} ready={dioramaReady} sizes="(min-width: 1024px) 60vw, 100vw" />
+          {diorama && (
+            <Hyderabad3DMap
+              activeHubId={activeHubId}
+              onSelectHub={handleSelectFrom3D}
+              className="w-full h-full"
+              onReady={() => setDioramaReady(true)}
+            />
+          )}
         </div>
 
         {/* Right Editorial Hub List & Navigation */}

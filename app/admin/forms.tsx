@@ -18,7 +18,7 @@ export function SignInForm() {
   const [state, action, pending] = useActionState<FormState, FormData>(signIn, null);
   return (
     <form action={action} className="flex max-w-sm flex-col gap-5" aria-busy={pending}>
-      <label className="flex flex-col gap-1"><span className="label text-dust">Staff e-mail</span><input className={field} name="email" type="email" autoComplete="username" required /></label>
+      <label className="flex flex-col gap-1"><span className="label text-dust">E-mail</span><input className={field} name="email" type="email" autoComplete="username" required /></label>
       <label className="flex flex-col gap-1"><span className="label text-dust">Password</span><input className={field} name="password" type="password" autoComplete="current-password" required minLength={8} /></label>
       <Message state={state} />
       <button disabled={pending} className="label bg-gold px-6 py-4 text-night hover:bg-bone disabled:opacity-60">{pending ? "Signing in…" : "Sign in"}</button>
@@ -30,7 +30,7 @@ export function ResetRequestForm() {
   const [state, action, pending] = useActionState<FormState, FormData>(requestPasswordReset, null);
   return (
     <form action={action} className="flex max-w-sm flex-col gap-5" aria-busy={pending}>
-      <label className="flex flex-col gap-1"><span className="label text-dust">Staff e-mail</span><input className={field} name="email" type="email" autoComplete="username" required /></label>
+      <label className="flex flex-col gap-1"><span className="label text-dust">E-mail</span><input className={field} name="email" type="email" autoComplete="username" required /></label>
       <Message state={state} />
       <button disabled={pending} className="label border border-line px-6 py-4 text-bone hover:border-gold hover:text-gold disabled:opacity-60">{pending ? "Sending…" : "Send reset link"}</button>
     </form>

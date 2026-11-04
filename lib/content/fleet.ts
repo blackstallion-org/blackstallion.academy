@@ -94,3 +94,15 @@ export const careLog = [
   { time: "18:30", item: "Cool-down", detail: "Walk out, rugs on", result: "Done" },
   { time: "21:00", item: "Night feed", detail: "On camera", result: "Live" },
 ];
+
+/** The eight foundation bloodlines, as a plain index on /fleet (it replaced the bento studbook, 30 Oct 2026). Names and coats only. */
+export const bloodlines = [
+  { name: "Chetak IX", breed: "Purebred Marwari", coat: "Dark bay, blaze", trait: "The calm sovereign" },
+  { name: "Veer", breed: "Kathiawari cavalry line", coat: "Chestnut gold", trait: "The lancer" },
+  { name: "Kesar", breed: "Marwari ablak", coat: "Skewbald", trait: "The mounted archer" },
+  { name: "Arbudh", breed: "Marwari endurance line", coat: "Light bay, four socks", trait: "The desert pillar" },
+  { name: "Zilzal", breed: "Purebred Marwari", coat: "Black", trait: "The stoic leader" },
+  { name: "Tofan", breed: "Purebred Marwari", coat: "Dappled grey", trait: "The tempest" },
+  { name: "Bahadur", breed: "Purebred Marwari", coat: "Mahogany bay", trait: "The ridge sentinel" },
+  { name: "Kala Bhairav", breed: "Purebred Marwari", coat: "Midnight black", trait: "The sovereign knight" },
+] as const;

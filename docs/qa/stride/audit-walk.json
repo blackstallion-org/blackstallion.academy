@@ -1,0 +1,897 @@
+{
+ "clips": [
+  {
+   "name": "Alert",
+   "duration": 4,
+   "tracks": 9
+  },
+  {
+   "name": "Attention_Response",
+   "duration": 3,
+   "tracks": 7
+  },
+  {
+   "name": "Blink",
+   "duration": 0.5,
+   "tracks": 2
+  },
+  {
+   "name": "Canter_L",
+   "duration": 0.6,
+   "tracks": 34
+  },
+  {
+   "name": "Canter_R",
+   "duration": 0.6,
+   "tracks": 34
+  },
+  {
+   "name": "Ear_Rotate",
+   "duration": 4,
+   "tracks": 2
+  },
+  {
+   "name": "Gallop_L",
+   "duration": 0.42,
+   "tracks": 34
+  },
+  {
+   "name": "Gallop_R",
+   "duration": 0.42,
+   "tracks": 34
+  },
+  {
+   "name": "Head_Turn",
+   "duration": 8,
+   "tracks": 3
+  },
+  {
+   "name": "Idle_Breathing",
+   "duration": 4,
+   "tracks": 4
+  },
+  {
+   "name": "Mane_Sway",
+   "duration": 4,
+   "tracks": 4
+  },
+  {
+   "name": "Sprint_L",
+   "duration": 0.383,
+   "tracks": 34
+  },
+  {
+   "name": "Sprint_R",
+   "duration": 0.383,
+   "tracks": 34
+  },
+  {
+   "name": "Stop",
+   "duration": 1.8,
+   "tracks": 30
+  },
+  {
+   "name": "Tail_Sway",
+   "duration": 3,
+   "tracks": 4
+  },
+  {
+   "name": "Trot",
+   "duration": 0.75,
+   "tracks": 34
+  },
+  {
+   "name": "Walk",
+   "duration": 0.8,
+   "tracks": 34
+  },
+  {
+   "name": "Weight_Shift",
+   "duration": 6,
+   "tracks": 13
+  }
+ ],
+ "walk": {
+  "duration": 0.800000011920929,
+  "keyTimes": [
+   0,
+   0.03333,
+   0.06667,
+   0.1,
+   0.13333,
+   0.16667,
+   0.2,
+   0.23333,
+   0.26667,
+   0.3,
+   0.33333,
+   0.36667,
+   0.4,
+   0.43333,
+   0.46667,
+   0.5,
+   0.53333,
+   0.56667,
+   0.6,
+   0.63333,
+   0.66667,
+   0.7,
+   0.73333,
+   0.76667,
+   0.8
+  ],
+  "tracks": 34,
+  "trackNames": [
+   "Body.quaternion",
+   "Body.position",
+   "Pelvis.quaternion",
+   "Spine_Lumbar.quaternion",
+   "Neck_1.quaternion",
+   "Neck_2.quaternion",
+   "Neck_3.quaternion",
+   "Head.quaternion",
+   "Tail_1.quaternion",
+   "Tail_2.quaternion",
+   "Tail_3.quaternion",
+   "Tail_4.quaternion",
+   "Femur_L.quaternion",
+   "Gaskin_L.quaternion",
+   "Cannon_B_L.quaternion",
+   "Pastern_B_L.quaternion",
+   "Hoof_B_L.quaternion",
+   "Scapula_L.quaternion",
+   "Humerus_L.quaternion",
+   "Forearm_L.quaternion",
+   "Cannon_F_L.quaternion",
+   "Pastern_F_L.quaternion",
+   "Hoof_F_L.quaternion",
+   "Femur_R.quaternion",
+   "Gaskin_R.quaternion",
+   "Cannon_B_R.quaternion",
+   "Pastern_B_R.quaternion",
+   "Hoof_B_R.quaternion",
+   "Scapula_R.quaternion",
+   "Humerus_R.quaternion",
+   "Forearm_R.quaternion",
+   "Cannon_F_R.quaternion",
+   "Pastern_F_R.quaternion",
+   "Hoof_F_R.quaternion"
+  ]
+ },
+ "bones": [
+  "Root",
+  "Body",
+  "Pelvis",
+  "Femur_L",
+  "Gaskin_L",
+  "Cannon_B_L",
+  "Pastern_B_L",
+  "Hoof_B_L",
+  "Femur_R",
+  "Gaskin_R",
+  "Cannon_B_R",
+  "Pastern_B_R",
+  "Hoof_B_R",
+  "Tail_1",
+  "Tail_2",
+  "Tail_3",
+  "Tail_4",
+  "Spine_Lumbar",
+  "Spine_Thoracic",
+  "Neck_1",
+  "Neck_2",
+  "Mane_3",
+  "Mane_4",
+  "Neck_3",
+  "Head",
+  "Ear_L",
+  "Ear_Tip_L",
+  "Ear_R",
+  "Ear_Tip_R",
+  "Eye_L",
+  "Eye_R",
+  "Mane_1",
+  "Mane_2",
+  "Ribcage",
+  "Scapula_L",
+  "Humerus_L",
+  "Forearm_L",
+  "Cannon_F_L",
+  "Pastern_F_L",
+  "Hoof_F_L",
+  "Scapula_R",
+  "Humerus_R",
+  "Forearm_R",
+  "Cannon_F_R",
+  "Pastern_F_R",
+  "Hoof_F_R"
+ ],
+ "anchors": [
+  {
+   "name": "Anchor_Bit_L",
+   "bone": "Head",
+   "p": [
+    0.074,
+    1.57,
+    1.268
+   ]
+  },
+  {
+   "name": "Anchor_Bit_R",
+   "bone": "Head",
+   "p": [
+    -0.074,
+    1.57,
+    1.268
+   ]
+  },
+  {
+   "name": "Anchor_Croup",
+   "bone": "Pelvis",
+   "p": [
+    0,
+    1.4832,
+    -0.38
+   ]
+  },
+  {
+   "name": "Anchor_Loin",
+   "bone": "Spine_Lumbar",
+   "p": [
+    0,
+    1.4917,
+    -0.2
+   ]
+  },
+  {
+   "name": "Anchor_Poll",
+   "bone": "Head",
+   "p": [
+    0,
+    2,
+    1.06
+   ]
+  },
+  {
+   "name": "Anchor_ReinMid_L",
+   "bone": "Neck_2",
+   "p": [
+    0.15,
+    1.66,
+    0.78
+   ]
+  },
+  {
+   "name": "Anchor_ReinMid_R",
+   "bone": "Neck_2",
+   "p": [
+    -0.15,
+    1.66,
+    0.78
+   ]
+  },
+  {
+   "name": "Anchor_Withers",
+   "bone": "Spine_Thoracic",
+   "p": [
+    0,
+    1.5059,
+    0.33
+   ]
+  },
+  {
+   "name": "Seat_B",
+   "bone": "Spine_Thoracic",
+   "p": [
+    0,
+    1.5084,
+    -0.18
+   ]
+  },
+  {
+   "name": "Seat_F",
+   "bone": "Spine_Thoracic",
+   "p": [
+    0,
+    1.4663,
+    0.22
+   ]
+  },
+  {
+   "name": "Seat_L",
+   "bone": "Spine_Thoracic",
+   "p": [
+    0.13,
+    1.4236,
+    0.02
+   ]
+  },
+  {
+   "name": "Seat_R",
+   "bone": "Spine_Thoracic",
+   "p": [
+    -0.13,
+    1.4238,
+    0.02
+   ]
+  },
+  {
+   "name": "SpineLine_0",
+   "bone": "Head",
+   "p": [
+    0,
+    1.99,
+    1.06
+   ]
+  },
+  {
+   "name": "SpineLine_1",
+   "bone": "Neck_3",
+   "p": [
+    0,
+    1.89,
+    0.99
+   ]
+  },
+  {
+   "name": "SpineLine_2",
+   "bone": "Neck_2",
+   "p": [
+    0,
+    1.72,
+    0.8
+   ]
+  },
+  {
+   "name": "SpineLine_3",
+   "bone": "Neck_1",
+   "p": [
+    0,
+    1.52,
+    0.62
+   ]
+  },
+  {
+   "name": "SpineLine_4",
+   "bone": "Spine_Thoracic",
+   "p": [
+    0,
+    1.41,
+    0.4
+   ]
+  },
+  {
+   "name": "SpineLine_5",
+   "bone": "Spine_Lumbar",
+   "p": [
+    0,
+    1.34,
+    0.02
+   ]
+  },
+  {
+   "name": "SpineLine_6",
+   "bone": "Pelvis",
+   "p": [
+    0,
+    1.37,
+    -0.3
+   ]
+  },
+  {
+   "name": "SpineLine_7",
+   "bone": "Tail_1",
+   "p": [
+    0,
+    1.4,
+    -0.58
+   ]
+  }
+ ],
+ "nodes": [],
+ "rider": {
+  "bones": {
+   "R_Pelvis": [
+    0,
+    1.5724,
+    0.02
+   ],
+   "R_Spine": [
+    0,
+    1.7224,
+    0.02
+   ],
+   "R_Chest": [
+    0,
+    1.9024,
+    0.02
+   ],
+   "R_Neck": [
+    0,
+    2.0624,
+    0.02
+   ],
+   "R_Head": [
+    0,
+    2.1624,
+    0.02
+   ]
+  },
+  "anchors": [
+   {
+    "name": "RAnchor_Core",
+    "bone": "R_Chest",
+    "p": [
+     0,
+     1.9024,
+     0.032
+    ]
+   },
+   {
+    "name": "RAnchor_Ear",
+    "bone": "R_Head",
+    "p": [
+     0.083,
+     2.2474,
+     0.032
+    ]
+   },
+   {
+    "name": "RAnchor_Elbow",
+    "bone": "R_Chest",
+    "p": [
+     0.205,
+     1.7474,
+     0.08
+    ]
+   },
+   {
+    "name": "RAnchor_Elbow_R",
+    "bone": "R_Chest",
+    "p": [
+     -0.205,
+     1.7474,
+     0.08
+    ]
+   },
+   {
+    "name": "RAnchor_Hand_L",
+    "bone": "R_Chest",
+    "p": [
+     0.096,
+     1.6974,
+     0.365
+    ]
+   },
+   {
+    "name": "RAnchor_Hand_R",
+    "bone": "R_Chest",
+    "p": [
+     -0.096,
+     1.6974,
+     0.365
+    ]
+   },
+   {
+    "name": "RAnchor_Heel",
+    "bone": "R_Pelvis",
+    "p": [
+     0.312,
+     1.0174,
+     0.005
+    ]
+   },
+   {
+    "name": "RAnchor_Hip",
+    "bone": "R_Pelvis",
+    "p": [
+     0.155,
+     1.5744,
+     0.02
+    ]
+   },
+   {
+    "name": "RAnchor_Lumbar",
+    "bone": "R_Spine",
+    "p": [
+     0,
+     1.7024,
+     0.02
+    ]
+   },
+   {
+    "name": "RAnchor_Neck",
+    "bone": "R_Neck",
+    "p": [
+     0,
+     2.1024,
+     0.032
+    ]
+   },
+   {
+    "name": "RAnchor_Shoulder",
+    "bone": "R_Chest",
+    "p": [
+     0.2,
+     2.0024,
+     0.025
+    ]
+   },
+   {
+    "name": "RAnchor_Top",
+    "bone": "R_Head",
+    "p": [
+     0,
+     2.3674,
+     0.032
+    ]
+   }
+  ],
+  "clips": []
+ },
+ "toeSample": {
+  "N": 960
+ },
+ "contact04": {
+  "FL": {
+   "touchdown": 0.25104166666666666,
+   "liftoff": 0.88125,
+   "duty": 0.6302083333333334,
+   "minToeY": -0.011767919101660224,
+   "maxToeY": 0.08777240449690787
+  },
+  "FR": {
+   "touchdown": 0.7666666666666667,
+   "liftoff": 0.38645833333333335,
+   "duty": 0.6197916666666666,
+   "minToeY": -0.01536801778475537,
+   "maxToeY": 0.0851437542183108
+  },
+  "HL": {
+   "touchdown": 0.921875,
+   "liftoff": 0.60625,
+   "duty": 0.684375,
+   "minToeY": -0.010808345634180733,
+   "maxToeY": 0.11048226108670611
+  },
+  "HR": {
+   "touchdown": 0.46770833333333334,
+   "liftoff": 0.11666666666666667,
+   "duty": 0.6489583333333333,
+   "minToeY": -0.018412554576538384,
+   "maxToeY": 0.10953354782666563
+  }
+ },
+ "contact03": {
+  "FL": {
+   "touchdown": 0.284375,
+   "liftoff": 0.8697916666666666,
+   "duty": 0.5854166666666667,
+   "minToeY": -0.011767919101660224,
+   "maxToeY": 0.08777240449690787
+  },
+  "FR": {
+   "touchdown": 0.8125,
+   "liftoff": 0.3729166666666667,
+   "duty": 0.5604166666666667,
+   "minToeY": -0.01536801778475537,
+   "maxToeY": 0.0851437542183108
+  },
+  "HL": {
+   "touchdown": 0.934375,
+   "liftoff": 0.5947916666666667,
+   "duty": 0.6604166666666667,
+   "minToeY": -0.010808345634180733,
+   "maxToeY": 0.11048226108670611
+  },
+  "HR": {
+   "touchdown": 0.490625,
+   "liftoff": 0.10520833333333333,
+   "duty": 0.6145833333333334,
+   "minToeY": -0.018412554576538384,
+   "maxToeY": 0.10953354782666563
+  }
+ },
+ "contact025": {
+  "FL": {
+   "touchdown": 0.31875,
+   "liftoff": 0.8645833333333334,
+   "duty": 0.5458333333333333,
+   "minToeY": -0.011767919101660224,
+   "maxToeY": 0.08777240449690787
+  },
+  "FR": {
+   "touchdown": 0.890625,
+   "liftoff": 0.36770833333333336,
+   "duty": 0.47708333333333336,
+   "minToeY": -0.01536801778475537,
+   "maxToeY": 0.0851437542183108
+  },
+  "HL": {
+   "touchdown": 0.946875,
+   "liftoff": 0.5885416666666666,
+   "duty": 0.6416666666666667,
+   "minToeY": -0.010808345634180733,
+   "maxToeY": 0.11048226108670611
+  },
+  "HR": {
+   "touchdown": 0.9708333333333333,
+   "liftoff": 0.09895833333333333,
+   "duty": 0.128125,
+   "minToeY": -0.018412554576538384,
+   "maxToeY": 0.10953354782666563
+  }
+ },
+ "speedFit": {
+  "FL": 1.4982658935870876,
+  "FR": 1.514298468379554,
+  "HL": 1.2345780889173172,
+  "HR": 1.434229905530783
+ },
+ "vJson": 1.439999978542328,
+ "slip": {
+  "FL": {
+   "rms": 0.6701320828357721,
+   "max": 2.0143963128140685,
+   "driftRangeZ": 0.08258491778730272,
+   "driftEndZ": -0.027287870619249525,
+   "maxDriftX": 0.09278197086579422,
+   "stanceMs": 468.33334031204384
+  },
+  "FR": {
+   "rms": 0.7028754839135015,
+   "max": 2.1210842681545037,
+   "driftRangeZ": 0.08714778494889022,
+   "driftEndZ": -0.03331049010672007,
+   "maxDriftX": 0.07283629957304916,
+   "stanceMs": 448.3333400140206
+  },
+  "HL": {
+   "rms": 0.6593562431156463,
+   "max": 2.2626437705873212,
+   "driftRangeZ": 0.10853123330245823,
+   "driftEndZ": 0.10853123330245823,
+   "maxDriftX": 0.06933931108211687,
+   "stanceMs": 528.3333412061136
+  },
+  "HR": {
+   "rms": 0.6364898169816889,
+   "max": 2.269654830950526,
+   "driftRangeZ": 0.06395619881341051,
+   "driftEndZ": 0.002836952606283715,
+   "maxDriftX": 0.04203722638461334,
+   "stanceMs": 491.66667399307096
+  }
+ },
+ "toeRangeZ": {
+  "FL": [
+   0.356,
+   1.116
+  ],
+  "FR": [
+   0.36,
+   1.128
+  ],
+  "HL": [
+   -0.427,
+   0.246
+  ],
+  "HR": [
+   -0.421,
+   0.313
+  ]
+ },
+ "toeSwingPeakY": {
+  "FL": 0.088,
+  "FR": 0.085,
+  "HL": 0.11,
+  "HR": 0.11
+ },
+ "seatRest": [
+  [
+   0,
+   1.4663,
+   0.22
+  ],
+  [
+   0,
+   1.5084,
+   -0.18
+  ],
+  [
+   0.13,
+   1.4236,
+   0.02
+  ],
+  [
+   -0.13,
+   1.4238,
+   0.02
+  ]
+ ],
+ "seatVerts": [
+  {
+   "best": 27357,
+   "dist": 0.001309639563676542
+  },
+  {
+   "best": 28616,
+   "dist": 0.004996332517029626
+  },
+  {
+   "best": 27221,
+   "dist": 0.0018872200682186321
+  },
+  {
+   "best": 27521,
+   "dist": 0.0034254061941844357
+  }
+ ],
+ "seat": {
+  "y": {
+   "unit": "mm",
+   "p2p": 3.023,
+   "meanRel": 0.72,
+   "harmonics": [
+    0.71,
+    0.9,
+    0.11,
+    0.06,
+    0.01,
+    0.03,
+    0.01,
+    0.01
+   ]
+  },
+  "x": {
+   "unit": "mm",
+   "p2p": 14.008,
+   "meanRel": -0.01,
+   "harmonics": [
+    7.02,
+    0.01,
+    0.03,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "z": {
+   "unit": "mm",
+   "p2p": 8.863,
+   "meanRel": 0.354,
+   "harmonics": [
+    0.33,
+    4.15,
+    0.04,
+    0.26,
+    0,
+    0.15,
+    0.01,
+    0
+   ]
+  },
+  "pitch": {
+   "unit": "deg",
+   "p2p": 2.366,
+   "meanRel": -0.289,
+   "harmonics": [
+    0.216,
+    1.014,
+    0.032,
+    0.075,
+    0.003,
+    0.016,
+    0.002,
+    0.002
+   ]
+  },
+  "yaw": {
+   "unit": "deg",
+   "p2p": 0.169,
+   "meanRel": 0.02,
+   "harmonics": [
+    0.073,
+    0.015,
+    0.025,
+    0.003,
+    0.002,
+    0,
+    0.001,
+    0
+   ]
+  },
+  "roll": {
+   "unit": "deg",
+   "p2p": 1.653,
+   "meanRel": -0.117,
+   "harmonics": [
+    0.747,
+    0.111,
+    0.132,
+    0.016,
+    0.013,
+    0.003,
+    0.012,
+    0.001
+   ]
+  }
+ },
+ "jointBonesPresent": true,
+ "joints": {
+  "elbow": {
+   "min": 103.9,
+   "max": 138.6
+  },
+  "carpus": {
+   "min": 106.7,
+   "max": 177.5
+  },
+  "fetlockF": {
+   "min": 124.8,
+   "max": 174.1
+  },
+  "stifle": {
+   "min": 96.8,
+   "max": 135.5
+  },
+  "hock": {
+   "min": 100.2,
+   "max": 172.6
+  },
+  "fetlockH": {
+   "min": 161,
+   "max": 178.6
+  }
+ },
+ "tree": [
+  "Root",
+  "  Body",
+  "    Pelvis",
+  "      Femur_L",
+  "        Gaskin_L",
+  "          Cannon_B_L",
+  "            Pastern_B_L",
+  "              Hoof_B_L",
+  "      Femur_R",
+  "        Gaskin_R",
+  "          Cannon_B_R",
+  "            Pastern_B_R",
+  "              Hoof_B_R",
+  "      Tail_1",
+  "        Tail_2",
+  "          Tail_3",
+  "            Tail_4",
+  "    Spine_Lumbar",
+  "      Spine_Thoracic",
+  "        Neck_1",
+  "          Neck_2",
+  "            Mane_3",
+  "            Mane_4",
+  "            Neck_3",
+  "              Head",
+  "                Ear_L",
+  "                  Ear_Tip_L",
+  "                Ear_R",
+  "                  Ear_Tip_R",
+  "                Eye_L",
+  "                Eye_R",
+  "              Mane_1",
+  "              Mane_2",
+  "        Ribcage",
+  "        Scapula_L",
+  "          Humerus_L",
+  "            Forearm_L",
+  "              Cannon_F_L",
+  "                Pastern_F_L",
+  "                  Hoof_F_L",
+  "        Scapula_R",
+  "          Humerus_R",
+  "            Forearm_R",
+  "              Cannon_F_R",
+  "                Pastern_F_R",
+  "                  Hoof_F_R"
+ ]
+}

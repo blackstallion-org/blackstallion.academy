@@ -2,8 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Admin-only proxy: refreshes the Supabase session cookie and sends signed-out visitors to the login page.
- * It runs only on /admin routes; public pages never require a login. Authorisation (staff role) is still checked on
+ * Account proxy: refreshes the Supabase session cookie and sends signed-out visitors to the login page.
+ * It runs only on /admin and /account (members) routes; public pages never require a login. Authorisation (staff role) is still checked on
  * the server for every admin page and action; a missing redirect here can never expose data.
  */
 const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/reset"];
@@ -40,4 +40,4 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 
-export const config = { matcher: ["/admin", "/admin/:path*"] };
+export const config = { matcher: ["/admin", "/admin/:path*", "/account", "/account/:path*"] };

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { ReelMark } from "@/components/film/Marks";
@@ -95,7 +95,7 @@ const gates: { id: GateId; title: string; header: string; sub: string; line: str
   },
 ];
 
-/** §1 · S60 three gates. Signature: choosing an arch lights it and opens its form beneath. */
+/** §1 · S60 three corridors: a restrained editorial selector (top rules, short copy, address); the chosen corridor's form opens beneath. */
 export function Gates() {
   const [gate, setGate] = useState<GateId>("parents");
 
@@ -109,6 +109,7 @@ export function Gates() {
   }, []);
 
   const g = gates.find((x) => x.id === gate)!;
+  const radios = useRef<(HTMLButtonElement | null)[]>([]);
 
   const choose = (next: GateId) => {
     setGate(next);
@@ -121,35 +122,60 @@ export function Gates() {
     }
   };
 
+  const onKey = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const last = gates.length - 1;
+    const next =
+      event.key === "ArrowRight" || event.key === "ArrowDown" ? (index === last ? 0 : index + 1)
+      : event.key === "ArrowLeft" || event.key === "ArrowUp" ? (index === 0 ? last : index - 1)
+      : -1;
+    if (next < 0) return;
+    event.preventDefault();
+    choose(gates[next].id);
+    radios.current[next]?.focus();
+  };
+
   return (
-    <section aria-labelledby="gates-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+    <section aria-labelledby="gates-h" data-parallax-skip className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <h2 id="gates-h" className="sr-only">
         Choose a corridor
       </h2>
-      <div className="grid gap-4 md:grid-cols-3" role="radiogroup" aria-label="Corridor">
-        {gates.map((x, i) => (
-          <button
-            key={x.id}
-            type="button"
-            role="radio"
-            aria-checked={gate === x.id}
-            onClick={() => choose(x.id)}
-            className={cn(
-              "group relative flex min-h-[16rem] flex-col justify-end overflow-hidden rounded-t-[999px] border p-6 pt-24 text-left transition-colors duration-500 md:min-h-[22rem]",
-              gate === x.id ? "border-gold bg-gradient-to-b from-ember/40 to-ember/90" : "border-line hover:border-line/60",
-            )}
-          >
-            <span className="font-mono absolute left-1/2 top-10 -translate-x-1/2 text-xs text-dust">0{i + 1}</span>
-            <span className={cn("t-voice text-3xl transition-colors", gate === x.id ? "text-gold" : "text-bone")}>{x.title}</span>
-            <span className="mt-3 text-sand">{x.line}</span>
-            <span className="t-ui mt-4 text-xs text-dust">{x.email}</span>
-          </button>
-        ))}
+      <p className="label text-brass">Choose a corridor</p>
+      <div className="mt-6 grid gap-x-10 md:grid-cols-3" role="radiogroup" aria-label="Enquiry corridor">
+        {gates.map((x, i) => {
+          const active = gate === x.id;
+          return (
+            <button
+              key={x.id}
+              ref={(el) => {
+                radios.current[i] = el;
+              }}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              tabIndex={active ? 0 : -1}
+              onClick={() => choose(x.id)}
+              onKeyDown={(event) => onKey(event, i)}
+              className={cn(
+                "group relative flex flex-col border-t py-7 text-left transition-colors duration-300 md:py-9",
+                active ? "border-t-2 border-gold" : "border-line hover:border-brass",
+              )}
+            >
+              <span className={cn("t-voice text-[clamp(1.6rem,2.4vw,2.2rem)] leading-tight transition-colors", active ? "text-gold" : "text-bone group-hover:text-gold")}>
+                {x.title}
+              </span>
+              <span className="t-ui mt-3 text-sm text-sand">{x.sub}</span>
+              <span className="font-mono mt-5 text-xs text-dust [overflow-wrap:anywhere]">{x.email}</span>
+              <span aria-hidden className={cn("label mt-5 text-[0.65rem] transition-opacity", active ? "text-brass opacity-100" : "opacity-0")}>
+                Selected · form below
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]">
         <div>
-          <p className="label text-brass">Gate 0{gates.findIndex((x) => x.id === gate) + 1}</p>
+          <p className="label text-brass">Your corridor</p>
           <h3 className="t-voice mt-2 text-display-3 text-bone">
             {g.header} <span className="text-dust">|</span> <span className="text-gold">{g.sub}</span>
           </h3>
@@ -166,7 +192,7 @@ export function Gates() {
           )}
           <p className="t-ui mt-4 text-sm text-dust">
             Or write to{" "}
-            <a href={`mailto:${g.email}`} className="text-gold hover:text-bone">
+            <a href={`mailto:${g.email}`} className="text-gold [overflow-wrap:anywhere] hover:text-bone">
               {g.email}
             </a>
           </p>
