@@ -43,3 +43,23 @@ old tail; the hero poster (`marwari-hero-poster.webp`) is a still of the old coa
 the static gallop pose (in the site the tail flow lifts it back with speed); the ears keep the strong Marwari curl; the tail is still
 cards, not strands: at very large close-ups lock edges read as straight blades with pointed tips, and a strand-level hair system
 (or more, narrower cards) would be the next step.
+
+## Balanced ears and a mane that hangs from the crest (4 Nov 2026)
+
+The scanned crown leans: above the brow the skull's midline drifts about 2 cm to the horse's right, and `refine_ears.py` places the
+pair about that crown line, so the ears sat off the blaze and the right one came out 1.7 cm lower (closer to its eye) than the left.
+`balance_ears.py` runs on the finished working copy and corrects that with one smooth field above the eyes: the crown, both ears and
+the forelock slide back onto the face's midline (1.7 cm at the poll, nothing below z = 1.94 or behind the poll), each ear is levelled
+by half the height difference (fading out round its root, so the skull stays welded), and the Ear / Ear_Tip bones move with them.
+Measured after: bones at x = +/-0.048 about the midline at one height, tips meeting over the blaze at one height. The eyes, the face,
+the neck, the body and the tail do not move.
+
+```
+blender -b --factory-startup -P tools/blender/10_refine/balance_ears.py -- tools/blender/source/marwari_hero_refined.blend tools/blender/source/marwari_hero_refined.blend
+```
+
+Runtime (`marwari-hair.ts` v12): the mane read its uv the old way round (transparent at the crest, whole at the ends), cut sixteen
+strands across each ribbon (alpha-to-coverage dither: grey stripes and specks), took a screen-space strand direction that jumped at every
+card edge (a light outline round each lock) and the stock specular at full strength; its flutter also moved the crest. It now uses the
+tail's treatment: solid locks from the crest with soft sides and tip, tone-only strands that fade below a pixel, a per-vertex strand
+direction, the reduced specular and strand highlight, a mane as dark as the coat, and flutter at the free ends.

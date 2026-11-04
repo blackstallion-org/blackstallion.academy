@@ -262,7 +262,7 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
           float fl = sin(ph + position.y * 2.5) * 0.65 + sin(ph * 2.3 + position.z * 3.1) * 0.35;
           float tipK0 = 1.0 - rootK;
           float isTail0 = position.y < 1.55 ? 1.0 : 0.0;
-          transformed += uHairWind * fl * mix(rootK * rootK, tipK0 * tipK0, isTail0); // the tail flutters at its free end (uv.y runs 0 root .. 1 tip)
+          transformed += uHairWind * fl * tipK0 * tipK0; // mane and tail flutter at their free ends (uv.y runs 0 root .. 1 tip; the mane used to flutter at the crest)
           // flow: lag and lift (the spring in installHair), a fan across the ribbons so the sheet becomes a bundle, a wave root to tip
           float tipK = 1.0 - rootK;
           float isTail = position.y < 1.55 ? 1.0 : 0.0;
@@ -289,8 +289,9 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
           vec3 pt = (-q0 * s1.x + q1 * s0.x) / (abs(det) < 1e-12 ? 1e-12 : det);
           return normalize(-pt);
         }
-        // The tail takes its strand direction per vertex (smooth); the mane keeps the screen-space estimate it always had.
-        vec3 hairTangent() { return normalize(mix(hairTangentScreen(), normalize(vHairT), step(0.5, vTail))); }`,
+        // Mane and tail take their strand direction per vertex (smooth). The screen-space estimate the mane used to take jumped at every card
+        // edge and lit each lock with a light outline (4 Nov 2026).
+        vec3 hairTangent() { return normalize(vHairT); }`,
       )
       .replace(
         "#include <alphatest_fragment>",
@@ -299,13 +300,17 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
           float tip = 1.0 - vHairUv.y;
           float edge = min(lu, 1.0 - lu);
           float isT = step(0.5, vTail);
-          // MANE (as before): sixteen strands across a ribbon, each with its own length
-          float sIdM = floor(lu * 16.0 + vSeed * 7.0);
-          float slM = 0.72 + 0.28 * hh(sIdM + vSeed * 31.0);
-          float lenM = 1.0 - smoothstep(slM - 0.12, slM, tip);
-          float wispM = smoothstep(0.0, 0.17 + 0.1 * vSeed, edge + (hv(vec2(sIdM, tip * 7.0)) - 0.5) * 0.14);
-          float toneM = 0.5 + 0.6 * hh(sIdM * 1.7 + vSeed * 13.0);
-          float aM = mix(diffuseColor.a, 1.0, 0.18) * lenM * wispM;
+          // MANE (4 Nov 2026): solid locks, like the tail. It used to cut sixteen strands across each ribbon, each with its own length and
+          // tone, read with uv.y the old way round: the strands were transparent at the crest and whole at their ends, so the mane hung off
+          // the neck, and strands narrower than a pixel went to alpha-to-coverage dither (grey stripes and specks). Now coverage is whole from
+          // the crest, ends in a soft edge at the lock's sides and at its tip (each lock its own length), and the strands only change tone.
+          float alongM = vHairUv.y;                                  // 0 at the crest, 1 at the tip
+          float wobM = (hv(vec2(alongM * 5.0 + vSeed * 23.0, vSeed * 37.0)) - 0.5) * 0.08;
+          float lenEndM = 0.88 + 0.12 * hh(vSeed * 47.0 + 5.0);
+          float aM = smoothstep(0.03, 0.2, edge + wobM) * (1.0 - smoothstep(lenEndM - 0.07, lenEndM, alongM));
+          float swM = lu * 18.0 + (hv(vec2(alongM * 2.0 + vSeed * 11.0, vSeed * 5.0)) - 0.5) * 1.6;
+          float strandM = (hh(floor(swM) + vSeed * 61.0) - 0.5) * (1.0 - smoothstep(0.1, 0.24, fwidth(swM)));
+          float toneM = (0.5 + 0.14 * hh(vSeed * 89.0 + 7.0)) * (1.0 + strandM * 0.22);   // as dark as the coat: a lighter mane showed every card
           // TAIL: a solid lock. Coverage is whole across the card and ends in a soft one-pixel edge at its sides (which wander a little
           // along the length, so no lock has a ruled edge) and at its tip; the card's own geometry narrows to a point, so the tip needs
           // no strand pattern. The fine strands below change tone and highlight only, never coverage, and fade out when they are smaller
@@ -323,7 +328,7 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
           float against = vBundle.y;                                  // 1 against the buttocks
           float bundleK = mix(0.62, 1.06, smoothstep(0.05, 0.95, outer)) * mix(1.0, 0.8, smoothstep(0.55, 0.95, against));
           float dockShade = mix(0.38, 1.0, smoothstep(0.0, 0.26, along));  // the dock is in the shade of the croup
-          vec3 tailCol = vec3(0.0135, 0.0092, 0.0068) * (1.0 + strandK * 0.6) * lockTone * bundleK * dockShade;
+          vec3 tailCol = vec3(0.0135, 0.0092, 0.0068) * (1.0 + strandK * 0.15) * lockTone * bundleK * dockShade;   // strand tone quietened: locks read as solid, not speckled
           diffuseColor.rgb = mix(diffuseColor.rgb * toneM, tailCol, isT);
         }
         #include <alphatest_fragment>`,
@@ -337,7 +342,7 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
           float lu2 = fract(vHairUv.x * 8.0);
           vec3 side = normalize(cross(normal, hairTangent()));
           float sw2 = lu2 * 22.0 + (hv(vec2(vHairUv.y * 2.0 + vSeed * 9.0, vSeed * 3.0)) - 0.5) * 1.6;
-          float rip = (hh(floor(sw2) + vSeed * 57.0) - 0.5) * (1.0 - smoothstep(0.1, 0.24, fwidth(sw2))) * step(0.5, vTail);
+          float rip = 0.0;   // the tail used to take a per-strand normal jitter here; at mid distance it read as stipple, so it is off
           normal = normalize(normal + side * ((lu2 - 0.5) * 1.3 + rip * 0.9));
         }`,
       )
@@ -346,8 +351,8 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
         `#include <lights_fragment_end>
         // the tail sits darker against a pale sky: the stock GGX lobes (a bright grey wash on every card, bent normals and all) are cut to a
         // fraction and the highlight comes from the strand term below, which is narrow across the strand and long along it
-        reflectedLight.indirectSpecular *= mix(1.0, 0.3, step(0.5, vTail));
-        reflectedLight.directSpecular *= mix(1.0, 0.16, step(0.5, vTail));
+        reflectedLight.indirectSpecular *= 0.3;   // the mane too (4 Nov 2026): its full grey wash made the locks read as planks
+        reflectedLight.directSpecular *= 0.16;
         #if NUM_DIR_LIGHTS > 0
         {
           vec3 T = hairTangent();
@@ -358,7 +363,7 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
             float s = sqrt(max(0.0, 1.0 - th * th));
             float lit = clamp(dot(normal, L) * 0.5 + 0.5, 0.0, 1.0);
             float spec = pow(s, 28.0) * 0.55 + pow(s, 7.0) * 0.45;
-            float isTl = step(0.5, vTail);
+            float isTl = 1.0;   // mane and tail share the strand highlight (the mane used to take the stock lobe at full strength)
             float sw3 = fract(vHairUv.x * 8.0) * 22.0 + (hv(vec2(vHairUv.y * 2.0 + vSeed * 9.0, vSeed * 3.0)) - 0.5) * 1.6;
             float strandHi = 1.0 + (hh(floor(sw3) + vSeed * 57.0) - 0.5) * 1.6 * (1.0 - smoothstep(0.1, 0.24, fwidth(sw3))) * isTl;
             // the sheen of a bundle is not one grey sheet: it comes and goes from clump to clump and along the length, in long soft bands
@@ -369,6 +374,6 @@ export function installHair(mesh: THREE.SkinnedMesh, material: THREE.MeshStandar
         #endif`,
       );
   };
-  material.customProgramCacheKey = () => "marwari-hair-v10";
+  material.customProgramCacheKey = () => "marwari-hair-v12";
   return { wind, sheen, flow };
 }
