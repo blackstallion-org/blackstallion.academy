@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { resendConfirmation, sendPhoneCode, signInWithGoogle, verifyPhoneCode, type AuthFormState } from "@/app/auth/actions";
 import { LEAD_STATUSES } from "@/lib/admin/constants";
 import { statusLabel } from "@/lib/admin/present";
 import { assignLeadToMe, requestPasswordReset, setLeadStatus, signIn, updatePassword, uploadMedia, type FormState } from "./actions";
@@ -16,13 +17,74 @@ function Message({ state }: { state: FormState }) {
 
 export function SignInForm({ next }: { next?: string }) {
   const [state, action, pending] = useActionState<FormState, FormData>(signIn, null);
+  const [resent, resend, resending] = useActionState<AuthFormState, FormData>(resendConfirmation, null);
   return (
     <form action={action} className="flex max-w-sm flex-col gap-5" aria-busy={pending}>
       {next && <input type="hidden" name="next" value={next} />}
       <label className="flex flex-col gap-1"><span className="label text-dust">E-mail</span><input className={field} name="email" type="email" autoComplete="username" required /></label>
       <label className="flex flex-col gap-1"><span className="label text-dust">Password</span><input className={field} name="password" type="password" autoComplete="current-password" required minLength={8} /></label>
       <Message state={state} />
+      {state?.unconfirmed && (
+        <>
+          <button formAction={resend} formNoValidate disabled={resending} className="label self-start border-b border-line pb-1 text-gold hover:border-gold hover:text-bone disabled:opacity-60">{resending ? "Sending…" : "Send the confirmation e-mail again"}</button>
+          <Message state={resent} />
+        </>
+      )}
       <button disabled={pending} className="label bg-gold px-6 py-4 text-night hover:bg-bone disabled:opacity-60">{pending ? "Signing in…" : "Sign in"}</button>
+    </form>
+  );
+}
+
+const GOOGLE_G = "M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81z";
+
+/** One button for signing in and signing up: the first Google sign-in creates the account. A plain form, so it works without JavaScript. */
+export function GoogleButton({ next, label = "Continue with Google" }: { next?: string; label?: string }) {
+  return (
+    <form action={signInWithGoogle} className="w-full max-w-sm">
+      {next && <input type="hidden" name="next" value={next} />}
+      <button className="label flex w-full items-center justify-center gap-3 border border-line px-6 py-4 text-bone hover:border-gold hover:text-gold">
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-current"><path d={GOOGLE_G} /></svg>
+        {label}
+      </button>
+    </form>
+  );
+}
+
+/** Text-message sign-in in two steps: the mobile number, then the 6-digit code. The first successful code creates the account. */
+export function PhoneSignIn({ next }: { next?: string }) {
+  const [sent, send, sending] = useActionState<AuthFormState, FormData>(sendPhoneCode, null);
+  const [checked, verify, verifying] = useActionState<AuthFormState, FormData>(verifyPhoneCode, null);
+  const [dismissed, setDismissed] = useState<AuthFormState>(null);
+  const onCode = sent?.step === "code" && sent !== dismissed;
+  if (!onCode) {
+    return (
+      <form action={send} className="flex max-w-sm flex-col gap-5" aria-busy={sending}>
+        <label className="flex flex-col gap-1">
+          <span className="label text-dust">Mobile number</span>
+          <input className={field} name="phone" type="tel" inputMode="tel" autoComplete="tel" required maxLength={24} placeholder="98765 43210" aria-describedby="phone-hint" />
+          <span id="phone-hint" className="t-ui text-xs text-dust">We text you a 6-digit code. Numbers outside India start with + and the country code.</span>
+        </label>
+        <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden"><label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
+        <Message state={sent} />
+        <button disabled={sending} className="label bg-gold px-6 py-4 text-night hover:bg-bone disabled:opacity-60">{sending ? "Sending…" : "Send the code"}</button>
+      </form>
+    );
+  }
+  const phone = checked?.phone ?? sent.phone ?? "";
+  return (
+    <form action={verify} className="flex max-w-sm flex-col gap-5" aria-busy={verifying}>
+      {next && <input type="hidden" name="next" value={next} />}
+      <input type="hidden" name="phone" value={phone} />
+      <label className="flex flex-col gap-1">
+        <span className="label text-dust">6-digit code</span>
+        <input className={`${field} font-mono tracking-[0.4em]`} name="token" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9 ]{6,7}" maxLength={7} required autoFocus />
+      </label>
+      <Message state={checked ?? sent} />
+      <button disabled={verifying} className="label bg-gold px-6 py-4 text-night hover:bg-bone disabled:opacity-60">{verifying ? "Checking…" : "Sign in"}</button>
+      <div className="flex flex-wrap gap-x-6 gap-y-2">
+        <button formAction={send} formNoValidate disabled={sending} className="label border-b border-line pb-1 text-gold hover:border-gold hover:text-bone disabled:opacity-60">{sending ? "Sending…" : "Send a new code"}</button>
+        <button type="button" onClick={() => setDismissed(sent)} className="label border-b border-line pb-1 text-sand hover:border-gold hover:text-bone">Use a different number</button>
+      </div>
     </form>
   );
 }

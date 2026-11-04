@@ -102,7 +102,7 @@ test("createAccount: a good form signs up with the kind in the metadata and noth
   assert.equal(password, FIELDS.password);
   assert.deepEqual(Object.keys(options.data).sort(), ["city", "details", "full_name", "member_kind", "organisation", "phone"]);
   assert.equal(options.data.member_kind, "student");
-  assert.match(options.emailRedirectTo, /\/auth\/confirm\?next=\/account$/);
+  assert.match(options.emailRedirectTo, /\/auth\/confirm\?via=signup$/);
   assert.equal(JSON.stringify(calls[0]).includes("executive_admin"), false);
 });
 

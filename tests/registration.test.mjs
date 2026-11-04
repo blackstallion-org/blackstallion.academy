@@ -173,7 +173,8 @@ test("routes: the registration pages exist, are private where they should be, an
     "app/admin/admissions/page.tsx", "app/admin/cadets/page.tsx", "app/admin/schools/page.tsx"]) read(f);
   const proxy = read("proxy.ts");
   for (const p of ["/enroll", "/schools/apply", "/careers/apply", "/partners/apply", "/sovereign"]) assert.ok(proxy.includes(`"${p}"`), `${p} is behind the session proxy`);
-  assert.match(read("app/admin/actions.ts"), /safeNext\(next, "\/sovereign"\)/);
+  assert.match(read("lib/auth/destination.ts"), /safeNext\(next, "\/sovereign"\)/);
+  assert.match(read("app/admin/actions.ts"), /destinationAfterSignIn\(supabase, auth\.user\.id, data\.get\("next"\)\)/);
   for (const f of ["app/admin/applications/page.tsx", "app/admin/applications/[id]/page.tsx", "app/admin/admissions/page.tsx", "app/admin/cadets/page.tsx", "app/admin/schools/page.tsx", "app/admin/applications/actions.ts"]) {
     assert.match(read(f), /requireAdmissions\(\)/, `${f} checks the reviewer role`);
   }

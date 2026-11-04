@@ -15,10 +15,15 @@ import { restHeaders } from "@/lib/supabase/rest";
  * raw address is never stored and a visitor cannot target someone else's bucket.
  */
 
-export type RateKind = "lead" | "trustee" | "verify" | "login" | "document" | "signup" | "application";
+// Kinds are letters only (the database limiter accepts `^[a-z]{2,16}:` buckets).
+export type RateKind = "lead" | "trustee" | "verify" | "login" | "document" | "signup" | "application" | "smssend" | "smsphone" | "smscheck";
 export type RateRule = { limit: number; windowSeconds: number };
 
 export const RATE_RULES: Record<RateKind, RateRule> = {
+  /** Phone sign-in: texts cost money and can be abused to message strangers, so a visitor, and a number, get few. */
+  smssend: { limit: 5, windowSeconds: 900 },
+  smsphone: { limit: 3, windowSeconds: 900 },
+  smscheck: { limit: 10, windowSeconds: 900 },
   lead: { limit: 5, windowSeconds: 600 },
   trustee: { limit: 8, windowSeconds: 900 },
   verify: { limit: 30, windowSeconds: 600 },

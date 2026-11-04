@@ -7,14 +7,14 @@ import { z } from "zod";
 import { LEAD_STATUSES } from "@/lib/admin/constants";
 import { uuidSchema } from "@/lib/admin/filters";
 import { logAdminError } from "@/lib/admin/server";
-import { fetchStaffProfile, isStaffRole, requireStaff } from "@/lib/auth/admin";
+import { requireStaff } from "@/lib/auth/admin";
+import { destinationAfterSignIn } from "@/lib/auth/destination";
+import { classifyAuthError } from "@/lib/auth/errors";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { objectPath, validateUpload } from "@/lib/storage/validate";
-import { safeNext } from "@/lib/registration/model";
-import { isAdmissionsRole } from "@/lib/registration/server";
 
-export type FormState = { error?: string; notice?: string } | null;
+export type FormState = { error?: string; notice?: string; unconfirmed?: boolean } | null;
 
 async function client() {
   const h = await headers();
@@ -35,16 +35,11 @@ export async function signIn(_prev: FormState, data: FormData): Promise<FormStat
   const supabase = await createSupabaseServerClient();
   if (!supabase) return { error: "Sign-in is not configured yet." };
   const { data: auth, error } = await supabase.auth.signInWithPassword(parsed.data);
+  // Only reached with the right password, so naming the unconfirmed address reveals nothing to a stranger.
+  if (error && classifyAuthError(error) === "unconfirmed") return { error: "Please confirm your e-mail address first: open the link we sent you, then sign in.", unconfirmed: true };
   if (error || !auth.user) return { error: "Those details did not match an account." };
-  const profile = await fetchStaffProfile(supabase as unknown as Parameters<typeof fetchStaffProfile>[0], auth.user.id);
-  if (isStaffRole(profile?.role)) redirect("/admin");
-  if (isAdmissionsRole(profile?.role)) redirect("/admin/applications");
-  const next = data.get("next");
-  const member = await supabase.from("member_accounts").select("profile_id").eq("profile_id", auth.user.id).maybeSingle();
-  if (member.data) redirect(safeNext(next, "/account"));
-  // The live project has no member_accounts table: every account there has an operations row (public.users), which the
-  // registration routes and the parent dashboard use. Before 4 Nov 2026 such a sign-in was signed out again here.
-  if (profile) redirect(safeNext(next, "/sovereign"));
+  const destination = await destinationAfterSignIn(supabase, auth.user.id, data.get("next"));
+  if (destination) redirect(destination);
   await supabase.auth.signOut();
   return { error: "This account is not set up yet. Create an account from this page, or contact the academy." };
 }

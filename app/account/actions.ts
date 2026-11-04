@@ -41,7 +41,7 @@ export async function createAccount(_prev: AccountFormState, data: FormData): Pr
     email: value.email,
     password: value.password,
     options: {
-      emailRedirectTo: `${origin}/auth/confirm?next=/account`,
+      emailRedirectTo: `${origin}/auth/confirm?via=signup`,
       data: { member_kind: value.kind, full_name: value.full_name, phone: value.phone, organisation: value.organisation, city: value.city, details: value.details },
     },
   });
