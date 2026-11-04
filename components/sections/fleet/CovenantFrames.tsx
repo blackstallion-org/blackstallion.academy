@@ -1,6 +1,8 @@
 "use client";
 
-import { motion, useTransform, type MotionValue } from "motion/react";
+import { useState } from "react";
+import { motion, useMotionValueEvent, useTransform, type MotionValue } from "motion/react";
+import { ModelPlate } from "@/components/3d/ModelPlate";
 import { FilmImage } from "@/components/film/FilmImage";
 import { PinnedScene } from "@/components/film/PinnedScene";
 import { r } from "@/components/film/range";
@@ -21,7 +23,7 @@ const VIGNETTE = "radial-gradient(ellipse at 50% 42%, transparent 48%, color-mix
  */
 export function CovenantFrames() {
   return (
-    <div data-parallax-skip className="tone-dark relative bg-night">
+    <div data-parallax-skip className="tone-photo relative bg-night">
       <PinnedScene
         id="covenant"
         label={covenant.region}
@@ -66,6 +68,26 @@ function Shot({ frame, i, progress }: { frame: CovenantFrame; i: number; progres
   const scale = useTransform(progress, span, [1.04, 1.15]);
   const x = useTransform(progress, span, ["0%", `${frame.drift.x}%`]);
   const y = useTransform(progress, span, ["0%", `${frame.drift.y}%`]);
+  // A frame with a supplied 3D model draws it only while the frame is on screen (the still is its fallback).
+  const [seen, setSeen] = useState(i === 0);
+  useMotionValueEvent(opacity, "change", (v) => setSeen(v > 0.02));
+  if (frame.model) {
+    return (
+      <motion.div style={{ opacity, scale, x, y }} className="absolute inset-0">
+        <ModelPlate
+          src={frame.model.src}
+          label={frame.model.label}
+          mode="sway"
+          yaw={frame.model.yaw}
+          swing={frame.model.swing}
+          fill={0.74}
+          paused={!seen}
+          className="absolute inset-0"
+          fallback={<FilmImage name={frame.image} grade="none" sizes="100vw" />}
+        />
+      </motion.div>
+    );
+  }
   return <FilmImage name={frame.image} grade="none" sizes="100vw" opacity={opacity} scale={scale} x={x} y={y} bleed />;
 }
 
@@ -99,7 +121,7 @@ function Tick({ i, progress }: { i: number; progress: MotionValue<number> }) {
 
 function Stacked() {
   return (
-    <div className="tone-dark bg-night">
+    <div className="tone-photo bg-night">
       {FRAMES.map((f) => (
         <figure key={f.image} className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[16/9]">
           <FilmImage name={f.image} grade="none" sizes="100vw" />

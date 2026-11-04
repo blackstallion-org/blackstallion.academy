@@ -134,7 +134,7 @@ export function TorchHorseStage({ className = "" }: TorchHorseStageProps) {
     const draco = new DRACOLoader();
     draco.setDecoderPath("/draco/");
     loader.setDRACOLoader(draco);
-    const modelUrl = asset("/models/statue-cadet-marwari.glb");
+    const modelUrl = asset("/models/cadet-and-marwari.glb");
 
     loader.load(
       modelUrl,

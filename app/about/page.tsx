@@ -5,6 +5,8 @@ import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { Monogram } from "@/components/brand/Monogram";
+import { ModelPlate } from "@/components/3d/ModelPlate";
+import { asset } from "@/lib/content/asset";
 import { Monolith } from "@/components/sections/why/WhyScenes";
 import { MandateKineticStage } from "@/components/sections/about/MandateKineticStage";
 import { house, letter, truths } from "@/lib/content/academy";
@@ -21,7 +23,15 @@ export default function AboutPage() {
     <>
       {/* T17 · Monogram drawn in brass */}
       <section aria-labelledby="about-h" className="gutter relative flex min-h-[100svh] flex-col items-center justify-center pt-24 text-center">
-        <Monogram className="h-28 w-28 text-brass md:h-36 md:w-36" />
+        {/* The supplied horse-head emblem in relief (4 Nov 2026) where the brass monogram stood; the monogram is its fallback. */}
+        <ModelPlate
+          src={asset("/models/bsah-emblem.glb")}
+          label="The Black Stallion emblem: a horse's head in a shield between two pennants, in bronze relief"
+          mode="sway"
+          fill={0.95}
+          className="h-56 w-56 md:h-72 md:w-72"
+          fallback={<Monogram className="mx-auto h-28 w-28 text-brass md:h-36 md:w-36" />}
+        />
         <p className="label mt-10 text-brass">Credits · Behind the camera</p>
         <Headline id="about-h" as="h1" size="1" animate="mount" delay={0.8} className="mx-auto mt-4" inscription="Dominus Sui," voice="dominus equi." />
         <ScrollRevealText className="t-story mt-6 text-sand">{entity.mottoEn}.</ScrollRevealText>
@@ -29,6 +39,15 @@ export default function AboutPage() {
 
       {/* §1 · S61 letter */}
       <section aria-labelledby="letter-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
+        {/* The supplied sealed envelope (4 Nov 2026), the letter's cover; its wax seal carries the emblem. */}
+        <ModelPlate
+          src={asset("/models/sealed-envelope.glb")}
+          label="A burgundy envelope sealed with a gold wax seal bearing the Black Stallion emblem"
+          mode="sway"
+          fill={0.9}
+          className="mx-auto mb-10 h-52 w-72 md:h-64 md:w-96"
+          fallback={<div className="h-full w-full" aria-hidden />}
+        />
         <Reveal className="parchment mx-auto max-w-3xl px-8 py-12 md:px-16 md:py-16">
           <p className="label text-[#6b5130]">{letter.note}</p>
           <h2 id="letter-h" className="t-inscribe mt-3 text-2xl text-ink md:text-3xl">

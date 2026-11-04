@@ -6,10 +6,9 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, ContactShadows } from "@react-three/drei";
 import { asset } from "@/lib/content/asset";
 
-// R20 (2 Nov 2026): the cadet-and-Marwari bronze rebuilt from a new studio reference (Hunyuan3D v3, 320 k triangles): a calm face,
-// five-fingered hands, flat reins from bit to hand and the breed's lyre ears; replaces horse-statue-monument.glb, whose face, hands
-// and reins were distorted at close range. Provenance: tools/blender/07_statue/README.md.
-export const STATUE_MODEL_URL = asset("/models/statue-cadet-marwari.glb");
+// The supplied cadet-and-Marwari bronze on its plinth (4 Nov 2026, tools/blender/11_supplied): the default for /lithos and /statue. It replaced
+// statue-cadet-marwari.glb (R20, 2 Nov 2026, tools/blender/07_statue), which is untouched; pointing this back at it restores that bronze.
+export const STATUE_MODEL_URL = asset("/models/cadet-statue.glb");
 
 // Preload the model asset
 useGLTF.preload(STATUE_MODEL_URL, "/draco/");

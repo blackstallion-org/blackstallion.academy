@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { ModelPlate } from "@/components/3d/ModelPlate";
+import { asset } from "@/lib/content/asset";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import Link from "next/link";
@@ -19,7 +21,7 @@ import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicS
 export function CircuitTitle() {
   return (
     <section aria-labelledby="circuit-title" className="editorial-scene">
-<div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
+<div className="tone-photo editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
       <motion.div className="absolute inset-x-0 bottom-0 top-16 md:top-20" initial={{ x: "4%" }} animate={{ x: "0%" }} transition={{ duration: 2.4, ease: ease.citadel }}>
         <FilmImage name="bgCharge" priority bleed />
       </motion.div>
@@ -49,7 +51,15 @@ export function CircuitTitle() {
     <ScrollRevealText className="t-story mt-6 text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText>
   </div>
   <figure className="flex shrink-0 items-center gap-5">
-    <Image src="/brand/stpci-medal.webp" alt="School Tent Pegging Council of India seal" width={720} height={745} className="h-16 w-auto object-contain md:h-20" />
+    {/* The supplied bronze medal (4 Nov 2026), swaying slowly; the flat picture of the seal stays under it as the fallback. */}
+    <ModelPlate
+      src={asset("/models/stpci-medal.glb")}
+      label="The School Tent Pegging Council of India's bronze medal, turning slowly"
+      mode="sway"
+      fill={0.96}
+      className="h-32 w-32 shrink-0 md:h-40 md:w-40"
+      fallback={<Image src="/brand/stpci-medal.webp" alt="" width={720} height={745} className="h-full w-full object-contain" />}
+    />
     <figcaption className="label max-w-[12rem] leading-relaxed text-dust">Sanctioned by the School Tent Pegging Council of India</figcaption>
   </figure>
 </div>
