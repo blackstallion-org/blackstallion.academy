@@ -2,7 +2,7 @@
  * E-mail templates in the BSAH palette (ivory, leather, chestnut), table-free and inline-styled for mail clients.
  * All user input is HTML-escaped. Notifications go to the academy; receipts to the enquirer (when enabled).
  */
-const esc = (v: unknown) =>
+export const esc = (v: unknown) =>
   String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
 const GATE_TITLES: Record<string, string> = {
@@ -23,7 +23,7 @@ const LABELS: Record<string, string> = {
   child: "Child", class: "Class", batch: "Batch",
 };
 
-function shell(title: string, inner: string) {
+export function shell(title: string, inner: string) {
   return `<!doctype html><html><body style="margin:0;background:#F3EDE2;padding:24px;font-family:Georgia,'Times New Roman',serif;color:#30251E">
 <div style="max-width:560px;margin:0 auto;background:#FBF8F1;border:1px solid #E8DECE;padding:32px">
 <p style="margin:0 0 4px;font:600 11px Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#7B5636">The Black Stallion Academy</p>

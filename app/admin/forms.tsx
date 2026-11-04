@@ -14,10 +14,11 @@ function Message({ state }: { state: FormState }) {
   return null;
 }
 
-export function SignInForm() {
+export function SignInForm({ next }: { next?: string }) {
   const [state, action, pending] = useActionState<FormState, FormData>(signIn, null);
   return (
     <form action={action} className="flex max-w-sm flex-col gap-5" aria-busy={pending}>
+      {next && <input type="hidden" name="next" value={next} />}
       <label className="flex flex-col gap-1"><span className="label text-dust">E-mail</span><input className={field} name="email" type="email" autoComplete="username" required /></label>
       <label className="flex flex-col gap-1"><span className="label text-dust">Password</span><input className={field} name="password" type="password" autoComplete="current-password" required minLength={8} /></label>
       <Message state={state} />

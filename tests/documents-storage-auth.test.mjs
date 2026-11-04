@@ -149,7 +149,10 @@ test("proxy: signed-out visitors are sent to login; login stays reachable and is
   process.env.SUPABASE_URL = "http://127.0.0.1:9";
   process.env.SUPABASE_PUBLISHABLE_KEY = "sb_publishable_test";
   const { proxy, config } = await loadTs("proxy.ts");
-  assert.deepEqual(config.matcher, ["/admin", "/admin/:path*", "/account", "/account/:path*"]);
+  assert.deepEqual(config.matcher, ["/admin", "/admin/:path*", "/account", "/account/:path*", "/enroll", "/enroll/:path*", "/schools/apply", "/careers/apply", "/partners/apply", "/sovereign", "/sovereign/:path*"]);
+  const toEnrol = await proxy(new NextRequest("https://example.test/enroll/status"));
+  assert.equal(toEnrol.status, 307, "a signed-out visitor cannot open an application");
+  assert.equal(new URL(toEnrol.headers.get("location")).searchParams.get("next"), "/enroll/status", "and comes back to it after signing in");
   const toAdmin = await proxy(new NextRequest("https://example.test/admin/documents"));
   assert.equal(toAdmin.status, 307);
   assert.equal(new URL(toAdmin.headers.get("location")).pathname, "/admin/login");

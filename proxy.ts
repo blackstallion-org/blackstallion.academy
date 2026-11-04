@@ -3,7 +3,8 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /**
  * Account proxy: refreshes the Supabase session cookie and sends signed-out visitors to the login page.
- * It runs only on /admin and /account (members) routes; public pages never require a login. Authorisation (staff role) is still checked on
+ * It runs only on /admin, /account and the registration routes (/enroll, the three application forms, /sovereign); public pages
+ * never require a login. Signed-out visitors to a registration route come back to it after signing in (?next=). Authorisation (staff role) is still checked on
  * the server for every admin page and action; a missing redirect here can never expose data.
  */
 const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/reset"];
@@ -35,9 +36,13 @@ export async function proxy(request: NextRequest) {
   const { data } = await supabase.auth.getUser();
   if (!data.user && !isPublic) {
     const login = new URL("/admin/login", request.url);
+    const path = request.nextUrl.pathname;
+    if (!path.startsWith("/admin") && !path.startsWith("/account")) login.searchParams.set("next", path);
     return NextResponse.redirect(login);
   }
   return response;
 }
 
-export const config = { matcher: ["/admin", "/admin/:path*", "/account", "/account/:path*"] };
+export const config = {
+  matcher: ["/admin", "/admin/:path*", "/account", "/account/:path*", "/enroll", "/enroll/:path*", "/schools/apply", "/careers/apply", "/partners/apply", "/sovereign", "/sovereign/:path*"],
+};

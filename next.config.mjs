@@ -42,15 +42,16 @@ const SPLINE = ["https://prod.spline.design", "https://assets.spline.design", "h
 const MAPTILER = "https://api.maptiler.com";
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://challenges.cloudflare.com${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://challenges.cloudflare.com https://checkout.razorpay.com${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   `img-src 'self' data: blob: ${MEDIA.join(" ")} ${SPLINE.join(" ")} ${MAPTILER}`,
   // `data:` because the robot's face on /command is a video texture that Spline inlines in the scene file (its dotted eyes); media cannot run code.
   `media-src 'self' blob: data: ${MEDIA.join(" ")}`,
-  `connect-src 'self' blob: data: ${MEDIA.join(" ")} ${SPLINE.join(" ")} ${MAPTILER} https://challenges.cloudflare.com${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self' blob: data: ${MEDIA.join(" ")} ${SPLINE.join(" ")} ${MAPTILER} https://challenges.cloudflare.com https://api.razorpay.com https://lumberjack.razorpay.com${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
-  "frame-src 'self' https://challenges.cloudflare.com",
+  // Razorpay Checkout (the enrolment fee) loads its script from checkout.razorpay.com and opens its own frame.
+  "frame-src 'self' https://challenges.cloudflare.com https://api.razorpay.com https://checkout.razorpay.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

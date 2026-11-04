@@ -506,9 +506,11 @@ test("every /admin page except sign-in and reset calls requireStaff() before que
   assert.ok(guarded.length >= 7, `found ${guarded.length} pages`);
   for (const file of guarded) {
     const source = await readFile(file, "utf8");
-    const check = source.indexOf("await requireStaff()");
+    // The admissions pages (4 Nov 2026) admit ADMISSIONS as well as SUPER_ADMIN, so they use requireAdmissions() instead.
+    const staff = source.indexOf("await requireStaff()");
+    const check = staff > -1 ? staff : source.indexOf("await requireAdmissions()");
     const query = source.indexOf(".from(");
-    assert.ok(check > -1, `${path.relative(root, file)} calls requireStaff()`);
+    assert.ok(check > -1, `${path.relative(root, file)} calls requireStaff() or requireAdmissions()`);
     assert.ok(query === -1 || check < query, `${path.relative(root, file)} checks staff before its first query`);
   }
 });

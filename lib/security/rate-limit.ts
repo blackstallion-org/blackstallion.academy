@@ -15,7 +15,7 @@ import { restHeaders } from "@/lib/supabase/rest";
  * raw address is never stored and a visitor cannot target someone else's bucket.
  */
 
-export type RateKind = "lead" | "trustee" | "verify" | "login" | "document" | "signup";
+export type RateKind = "lead" | "trustee" | "verify" | "login" | "document" | "signup" | "application";
 export type RateRule = { limit: number; windowSeconds: number };
 
 export const RATE_RULES: Record<RateKind, RateRule> = {
@@ -25,6 +25,7 @@ export const RATE_RULES: Record<RateKind, RateRule> = {
   login: { limit: 8, windowSeconds: 900 },
   document: { limit: 12, windowSeconds: 600 },
   signup: { limit: 5, windowSeconds: 3600 },
+  application: { limit: 40, windowSeconds: 600 },
 };
 
 const processSalt = randomBytes(32).toString("hex");

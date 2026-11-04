@@ -24,7 +24,7 @@ const stills: Record<MemberKind, MediaKey> = {
 
 export const metadata: Metadata = { title: "Join or sign in", alternates: { canonical: null } };
 
-type Search = { e?: string; mode?: string; kind?: string };
+type Search = { e?: string; mode?: string; kind?: string; next?: string };
 
 /**
  * One page, two doors (the pattern of a members' club: "Not a member? Join now" beside "Already a member? Sign in").
@@ -48,7 +48,7 @@ async function Reason({ searchParams }: { searchParams: Promise<Search> }) {
 }
 
 async function Doors({ searchParams }: { searchParams: Promise<Search> }) {
-  const { mode, kind } = await searchParams;
+  const { mode, kind, next } = await searchParams;
   const create = mode === "create";
   const initial = MEMBER_KINDS.find((k) => k === kind) ?? "student";
   const tab = (active: boolean) =>
@@ -99,7 +99,7 @@ async function Doors({ searchParams }: { searchParams: Promise<Search> }) {
         <section aria-labelledby="signin-title" className={`${create ? "hidden lg:block" : ""} lg:sticky lg:top-8 lg:self-start`}>
           <h2 id="signin-title" className="t-inscribe text-center text-[clamp(1.1rem,2vw,1.5rem)] uppercase tracking-[0.2em] text-bone">Already a member? Sign in</h2>
           <p className="t-ui mx-auto mt-4 max-w-sm text-center text-sm text-sand">Students, parents, teachers, schools and academy staff sign in here.</p>
-          <div className="mx-auto mt-10 w-full max-w-sm"><SignInForm /></div>
+          <div className="mx-auto mt-10 w-full max-w-sm"><SignInForm next={next} /></div>
           <p className="mt-8 text-center"><Link href="/admin/reset" className="label inline-block border-b border-line pb-1 text-gold hover:border-gold hover:text-bone">Forgot your password?</Link></p>
         </section>
       </div>

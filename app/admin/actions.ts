@@ -11,6 +11,8 @@ import { fetchStaffProfile, isStaffRole, requireStaff } from "@/lib/auth/admin";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { objectPath, validateUpload } from "@/lib/storage/validate";
+import { safeNext } from "@/lib/registration/model";
+import { isAdmissionsRole } from "@/lib/registration/server";
 
 export type FormState = { error?: string; notice?: string } | null;
 
@@ -36,8 +38,13 @@ export async function signIn(_prev: FormState, data: FormData): Promise<FormStat
   if (error || !auth.user) return { error: "Those details did not match an account." };
   const profile = await fetchStaffProfile(supabase as unknown as Parameters<typeof fetchStaffProfile>[0], auth.user.id);
   if (isStaffRole(profile?.role)) redirect("/admin");
+  if (isAdmissionsRole(profile?.role)) redirect("/admin/applications");
+  const next = data.get("next");
   const member = await supabase.from("member_accounts").select("profile_id").eq("profile_id", auth.user.id).maybeSingle();
-  if (member.data) redirect("/account");
+  if (member.data) redirect(safeNext(next, "/account"));
+  // The live project has no member_accounts table: every account there has an operations row (public.users), which the
+  // registration routes and the parent dashboard use. Before 4 Nov 2026 such a sign-in was signed out again here.
+  if (profile) redirect(safeNext(next, "/sovereign"));
   await supabase.auth.signOut();
   return { error: "This account is not set up yet. Create an account from this page, or contact the academy." };
 }
