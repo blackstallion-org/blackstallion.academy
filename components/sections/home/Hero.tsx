@@ -2,11 +2,11 @@
 
 
 import { Fragment } from "react";
-import Image from "next/image";
 import { HeroFilm } from "./HeroFilm";
 import { StallionHero } from "./StallionHero";
 import { Cta } from "@/components/film/Marks";
 import { hero } from "@/lib/content/home";
+import { LOGO } from "@/lib/content/site";
 import styles from "./Hero.module.css";
 
 /**
@@ -31,13 +31,14 @@ function HeroContentSection() {
   return (
     <section id="doctrine" tabIndex={-1} aria-label="Who we are" className={styles.hero}>
       <div className={styles.content}>
-        <Image
-          src="/brand/bsah-logo.webp"
+        {/* A plain picture: next/image refuses the ?v= cache key on a local file. The logo is the BSAH crest (4 Nov 2026 update). */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- see the note above */}
+        <img
+          src={LOGO.lg}
           alt="The Black Stallion Academy of Horsemanship crest"
           width={900}
           height={900}
-          preload
-          sizes="(min-width: 768px) 510px, 340px"
+          fetchPriority="high"
           className={styles.crest}
         />
         <h1 className={styles.statement}>

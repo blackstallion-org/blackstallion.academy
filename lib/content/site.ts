@@ -103,4 +103,4 @@ export const isConsolePath = (pathname: string) => pathname.startsWith("/admin")
 export const hidesFooter = (pathname: string) => isConsolePath(pathname) || pathname === "/account" || pathname.startsWith("/account/");
 
 /** The crest files. `?v=` is bumped whenever the artwork changes: `/brand/*` is cached by browsers for a day, so a new file at the old address would not show. */
-export const LOGO = { sm: "/brand/bsah-logo-sm.webp?v=3", lg: "/brand/bsah-logo.webp?v=3" } as const;
+export const LOGO = { sm: "/brand/bsah-logo-sm.webp?v=4", lg: "/brand/bsah-logo.webp?v=4" } as const;
