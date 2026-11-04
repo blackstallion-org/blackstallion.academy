@@ -61,3 +61,42 @@ test("F-11: without RATE_LIMIT_SALT every instance still hashes a visitor to the
     for (const [k, v] of Object.entries(keep)) if (v === undefined) delete process.env[k]; else process.env[k] = v;
   }
 });
+
+test("S16: the second factor is enforced only when STAFF_MFA_REQUIRED=1, and then needs AAL2", async () => {
+  const { needsSecondFactor } = await loadTs("lib/auth/mfa.ts");
+  const client = (level, error = null) => {
+    const calls = { n: 0 };
+    return { calls, auth: { mfa: { getAuthenticatorAssuranceLevel: async () => { calls.n++; return { data: level ? { currentLevel: level } : null, error }; } } } };
+  };
+  const before = process.env.STAFF_MFA_REQUIRED;
+  try {
+    delete process.env.STAFF_MFA_REQUIRED;
+    const off = client("aal1");
+    assert.equal(await needsSecondFactor(off), false, "off by default: nobody is locked out");
+    assert.equal(off.calls.n, 0, "off means no extra Auth call either");
+    process.env.STAFF_MFA_REQUIRED = "1";
+    assert.equal(await needsSecondFactor(client("aal1")), true, "a password-only session is not enough");
+    assert.equal(await needsSecondFactor(client("aal2")), false);
+    assert.equal(await needsSecondFactor(client(null, { status: 500 })), true, "an unreadable level counts as not yet");
+    process.env.STAFF_MFA_REQUIRED = "true";
+    assert.equal(await needsSecondFactor(client("aal1")), false, "only the exact value 1 switches it on");
+  } finally {
+    if (before === undefined) delete process.env.STAFF_MFA_REQUIRED; else process.env.STAFF_MFA_REQUIRED = before;
+  }
+});
+
+test("S16: both privileged gates check the second factor after the role, and /admin/mfa cannot loop", () => {
+  const staff = read("lib/auth/admin.ts");
+  assert.match(staff, /if \(!profile \|\| !isStaffRole\(profile\.role\)\) redirect\("\/admin\/login\?e=forbidden"\);\n\s+if \(await needsSecondFactor\(supabase\)\) redirect\("\/admin\/mfa"\);/);
+  const admissions = read("lib/registration/server.ts");
+  assert.match(admissions, /if \(!isAdmissionsRole\(account\.role\)\) redirect\("\/admin\/login\?e=forbidden"\);\n\s+if \(await needsSecondFactor\(supabase\)\) redirect\("\/admin\/mfa"\);/);
+  // the enrolment page and its actions use the session check WITHOUT the second factor (requireStaff there would loop)
+  for (const file of ["app/admin/mfa/page.tsx", "app/admin/mfa/actions.ts"]) {
+    const src = read(file);
+    assert.match(src, /requirePrivilegedSession\(\)/, file);
+    assert.doesNotMatch(src, /requireStaff\(|requireAdmissions\(/, file);
+  }
+  assert.match(read("lib/auth/mfa-session.ts"), /isStaffRole\(role\) && !isAdmissionsRole\(role\)\) redirect\("\/admin\/login\?e=forbidden"\)/);
+  assert.match(read("proxy.ts"), /"\/admin\/:path\*"/, "signed-out visitors to /admin/mfa are redirected by the proxy too");
+  assert.match(read("app/admin/mfa/actions.ts"), /consumeRateLimit\("login", ip\)/, "codes are rate limited like passwords");
+});

@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { needsSecondFactor } from "@/lib/auth/mfa";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 /** Roles that review applications (public.users.role on the live project). */
@@ -41,6 +42,7 @@ export async function requireAdmissions() {
   if (!supabase) redirect("/admin/login?e=unconfigured");
   if (!account) redirect("/admin/login");
   if (!isAdmissionsRole(account.role)) redirect("/admin/login?e=forbidden");
+  if (await needsSecondFactor(supabase)) redirect("/admin/mfa"); // STAFF_MFA_REQUIRED=1 (lib/auth/mfa.ts)
   return { supabase, account, profile: { display_name: account.full_name, role: account.role } };
 }
 

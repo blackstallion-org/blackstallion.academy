@@ -508,7 +508,10 @@ test("every /admin page except sign-in and reset calls requireStaff() before que
     const source = await readFile(file, "utf8");
     // The admissions pages (4 Nov 2026) admit ADMISSIONS as well as SUPER_ADMIN, so they use requireAdmissions() instead.
     const staff = source.indexOf("await requireStaff()");
-    const check = staff > -1 ? staff : source.indexOf("await requireAdmissions()");
+    // /admin/mfa (security audit S16) is where the second factor is added and passed, so it checks the staff or admissions
+    // role WITHOUT the second-factor step (requireStaff() there would redirect to itself). Only that page may do so.
+    const privileged = /[/\\]mfa[/\\]page\.tsx$/.test(file) ? source.indexOf("await requirePrivilegedSession()") : -1;
+    const check = staff > -1 ? staff : privileged > -1 ? privileged : source.indexOf("await requireAdmissions()");
     const query = source.indexOf(".from(");
     assert.ok(check > -1, `${path.relative(root, file)} calls requireStaff() or requireAdmissions()`);
     assert.ok(query === -1 || check < query, `${path.relative(root, file)} checks staff before its first query`);

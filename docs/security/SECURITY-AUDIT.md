@@ -96,3 +96,36 @@ working tree. Production still serves the 24 Oct commit.
 5. Commit F-06/F-07/F-11, push the branch, deploy a Vercel preview, smoke-test it, then ask for production approval.
 6. Before launch: Turnstile keys (S11), staff TOTP (S16), backups (S13), `NEXT_PUBLIC_SITE_URL` and the Auth allow-list (F-12),
    branch protection and SHA-pinned actions (F-14).
+
+## 6. Launch preparation (4 Nov 2026, second pass)
+
+**Approvals.** The owner approved applying 001200 (A) and 001600 (B) to the live project. Not applied yet: this session still
+has no access to `tgwadczrfbljnepoaqtb` (the connected Supabase account lists two unrelated projects; the CLI has no login).
+
+**Prepared and tested, waiting for access**
+
+| Item | What | Evidence |
+| --- | --- | --- |
+| S3, S4, S5, S6 | `supabase/live/migrations/20261023001200_anon_privacy_hardening.sql` + rollback; read-only pre-flight in `supabase/live/HARDENING_NOTES.md` §4 | live columns match its snapshot exactly (anonymous probe); website reads `school_hubs` only signed in, safe columns; replica 382 / 382 |
+| F-10 | `supabase/live/migrations/20261104001600_application_documents_storage_status.sql` + rollback; tests 76, 77 | replica: uploads only into an own draft / info_required application; files behind a submitted application can no longer be deleted; reads unchanged; rollback restores the 001400 policies |
+
+**Fixed in code since §1 (not deployed)**
+
+| Item | Change |
+| --- | --- |
+| F-14 | `.github/workflows/ci.yml`: every action pinned to the commit its `v4` tag points to today (checkout v4.4.0, setup-node v4.4.0, upload-artifact v4.6.2); no behaviour change |
+| S16 | Authenticator-app second factor for staff and admissions: `lib/auth/mfa.ts`, `lib/auth/mfa-session.ts`, `/admin/mfa` (enrol with a QR code, then a code per session), hooks in `requireStaff()` and `requireAdmissions()`. **Off until `STAFF_MFA_REQUIRED=1`**, so nobody is locked out; codes are rate limited like passwords |
+
+**Re-verified**: no secret-shaped strings in the 30 scripts the live production site serves; tests `tests/security-audit-fixes.test.mjs` 5 / 5,
+`tests/admin-console.test.mjs` 30 / 30 (one explicit exception added for `/admin/mfa`), `npm test` 296 / 304 (the 8 failures are the
+media-manifest tests of other sessions' uncommitted work), typecheck clean, production build passes.
+
+**S7 in detail (replica, live policies).** After 001200 a signed-in account (any self-registered parent) still reads, through
+`public_read_horses`, `public_read_hubs`, `public_read_achievements` and `read_session_skills` (all `using (true)` or `is_active`):
+every horse's CCTV link and microchip id, every hub's revenue share and contact e-mail, every child's achievements and session
+skills. Closing it changes what the operations apps' instructors, grooms and parents can read, so it needs those apps' contract:
+**owner decision**, then a migration in the same pattern (column grants for `authenticated`, ownership policies for achievements).
+
+**Other sessions' work, observed only.** The phone-code and Google sign-in being added in this tree keep `safeNext` and rate-limit
+code requests per connection and per number. Before switching phone sign-in on: Turnstile on the code request and the SMS
+provider's country allow-list (SMS-cost abuse).

@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { needsSecondFactor } from "@/lib/auth/mfa";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 /**
@@ -37,6 +38,7 @@ export async function fetchStaffProfile(supabase: RowQuery, userId: string): Pro
 /**
  * Resolve the signed-in staff member, or redirect. `getUser()` re-validates the session with Supabase Auth on every
  * call (a forged or expired cookie fails). The role comes from the database under RLS, never from the client.
+ * With STAFF_MFA_REQUIRED=1 a session that has not passed an authenticator code goes to /admin/mfa (lib/auth/mfa.ts).
  */
 export async function requireStaff() {
   const supabase = await createSupabaseServerClient();
@@ -45,5 +47,6 @@ export async function requireStaff() {
   if (!auth.user) redirect("/admin/login");
   const profile = await fetchStaffProfile(supabase as unknown as RowQuery, auth.user.id);
   if (!profile || !isStaffRole(profile.role)) redirect("/admin/login?e=forbidden");
+  if (await needsSecondFactor(supabase)) redirect("/admin/mfa");
   return { supabase, user: auth.user, profile };
 }
