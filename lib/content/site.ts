@@ -41,8 +41,7 @@ export const reels: Reel[] = [
   { n: 14, href: "/command", act: "ledger", title: "The Command", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
   { n: 15, href: "/journal", act: "ledger", title: "The Chronicle", inscription: "Stories", voice: "from the stable.", blurb: "Legends, science and the circuit.", image: "journalReins" },
   { n: 16, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
-  { n: 17, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Nine scenes: the Aravalli hills, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
-  { n: 18, href: "/story/marwari", act: "ledger", title: "The Cavalry Story", inscription: "Eighteen pages,", voice: "one miniature.", blurb: "The Marwari cavalry, told as a scroll over a Rajasthani painting.", image: "duneSilhouette" },
+  { n: 17, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
 ];
 
 export const TOTAL_REELS = reels.length;
@@ -104,4 +103,4 @@ export const isConsolePath = (pathname: string) => pathname.startsWith("/admin")
 export const hidesFooter = (pathname: string) => isConsolePath(pathname) || pathname === "/account" || pathname.startsWith("/account/");
 
 /** The crest files. `?v=` is bumped whenever the artwork changes: `/brand/*` is cached by browsers for a day, so a new file at the old address would not show. */
-export const LOGO = { sm: "/brand/bsah-logo-sm.webp?v=2", lg: "/brand/bsah-logo.webp?v=2" } as const;
+export const LOGO = { sm: "/brand/bsah-logo-sm.webp?v=3", lg: "/brand/bsah-logo.webp?v=3" } as const;
