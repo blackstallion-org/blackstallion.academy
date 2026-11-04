@@ -7,20 +7,19 @@ import { Label, ReelMark } from "@/components/film/Marks";
 import { SealStamp } from "@/components/motion/SealStamp";
 import { TextAnimate } from "@/components/motion/TextAnimate";
 
-import { TorchHorseStage } from "./TorchHorseStage";
+import { FilmImage } from "@/components/film/FilmImage";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "motion/react";
 import { AcademyStamp } from "@/components/brand/AcademyStamp";
 
-/** Title card · T12 seal with 3D Classical Equestrian Statue. */
+/** Title card · T12 seal. Signature: a brass seal stamps down over the title. */
 export function VerifyTitle() {
   return (
     <section aria-labelledby="verify-title" className="editorial-scene">
-      <div className="tone-dark editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
-        {/* Interactive 3D Equestrian Statue Stage */}
-        <div className="absolute inset-0 z-0">
-          <TorchHorseStage />
-        </div>
+      <div className="tone-photo editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
+        {/* The title card's own picture again (4 Nov 2026): the leather passport and brass seal, in place of the turning statue. */}
+        <FilmImage name="bgPassport" priority grade="deep" />
+        <div aria-hidden className="absolute inset-0 shade-b" />
 
         {/* Bottom gradient to ground the title copy */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-48 bg-gradient-to-t from-night via-night/60 to-transparent" />
