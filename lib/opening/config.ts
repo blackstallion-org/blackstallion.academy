@@ -14,3 +14,17 @@ export const LOADER_HORSE: LoaderHorse = process.env.NEXT_PUBLIC_LOADER_HORSE ==
 
 /** The running rider shown by the loader (R31, 2 Nov 2026): the supplied gallop silhouettes, one fixed Marwari-coat fill, transparent. */
 export const LOADER_IMAGE = "/opening/loader-marwari.webp";
+
+/**
+ * The paintings that play inside the horse's silhouette, in story order (origins, royal breeding, Rajput cavalry...), one per
+ * LOADER_STORY_STEP seconds, looping. Small WebPs (about 720 px wide); add more here and the sequence lengthens by itself.
+ */
+export const LOADER_STORY = [
+  "/opening/story-origins.webp",
+  "/opening/story-breeding.webp",
+  "/opening/story-cavalry.webp",
+  "/opening/story-battle.webp",
+  "/opening/story-heritage.webp",
+  "/opening/story-academy.webp",
+];
+export const LOADER_STORY_STEP = 0.3;

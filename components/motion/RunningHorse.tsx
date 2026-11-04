@@ -1,22 +1,60 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./RunningHorse.module.css";
-import { LOADER_IMAGE } from "@/lib/opening/config";
+import { LOADER_IMAGE, LOADER_STORY, LOADER_STORY_STEP } from "@/lib/opening/config";
 
 /**
- * The loader's horse. Since 2 Nov 2026 (R31) the supplied GIF's gallop silhouettes are kept but every frame is filled with the same
- * piece of site imagery (a black Marwari's coat, from the legend ear still), with a transparent ground: the old fill was cut-up
- * third-party packaging that changed on every frame. Built by docs/claude-site-brief-2026-11-02/IMPLEMENTATION_LOG.md (R31). Same two props as the pixel horse it replaces, so Loader.tsx
- * treats them alike: `settling` (the page is ready) and `onSettled` (call me when the horse is done). `zooming` is the opening on the
- * first visit to the home page: the camera goes into the horse (it keeps galloping) and the overlay dissolves into the website.
+ * The loader's horse. The supplied gallop silhouette (an animated WebP with a transparent ground) is now the horse's MASK, not its
+ * picture: the same gallop plays unchanged, and inside it a short story of Marwari miniature paintings changes every 0.3 s
+ * (lib/opening/config.ts, LOADER_STORY). It is all CSS (opacity and transform only), so the sequence never re-renders React,
+ * and it loops without a seam: the first painting is the permanent base, the others fade in over it, and a top copy of the first
+ * fades in last so the restart is invisible. Reduced motion shows the first painting still. Same props as before: `settling` (the
+ * page is ready) and `onSettled`; `zooming` is the opening on the first visit to the home page.
  */
+const FADE = 0.12; // seconds of each crossfade inside the 0.3 s step
+
+function storyCss(count: number) {
+  const cycle = count * LOADER_STORY_STEP;
+  const pct = (seconds: number) => +((seconds / cycle) * 100).toFixed(3);
+  let css = "";
+  for (let i = 1; i < count; i++) {
+    css += `@keyframes bsahStory${i}{0%,${pct(i * LOADER_STORY_STEP)}%{opacity:0}${pct(i * LOADER_STORY_STEP + FADE)}%,100%{opacity:1}}`;
+  }
+  css += `@keyframes bsahStoryClose{0%,${pct(cycle - FADE)}%{opacity:0}100%{opacity:1}}`;
+  return css;
+}
+
 export function RunningHorse({ settling, zooming = false, onSettled }: { settling: boolean; zooming?: boolean; onSettled: () => void }) {
+  const [ready, setReady] = useState(false);
   useEffect(() => {
     if (!settling) return;
     const timer = setTimeout(onSettled, 200);
     return () => clearTimeout(timer);
   }, [settling, onSettled]);
-  // eslint-disable-next-line @next/next/no-img-element -- an animated WebP, which next/image would flatten
-  return <img className={styles.horse} src={LOADER_IMAGE} alt="" width={500} height={333} draggable={false} data-zooming={zooming || undefined} />;
+  // Show the horse only once its silhouette has arrived: a mask that has not loaded would otherwise show bare rectangles.
+  useEffect(() => {
+    const probe = new Image();
+    probe.onload = probe.onerror = () => setReady(true);
+    probe.src = LOADER_IMAGE;
+    return () => { probe.onload = probe.onerror = null; };
+  }, []);
+
+  const count = LOADER_STORY.length;
+  const cycle = count * LOADER_STORY_STEP;
+  const mask = `url(${LOADER_IMAGE})`;
+  const layer = (src: string, key: string, i: number, animation?: string) => (
+    // eslint-disable-next-line @next/next/no-img-element -- painted stills inside a CSS mask; next/image's wrapper adds nothing here
+    <img key={key} className={styles.layer} src={src} alt="" draggable={false} decoding="async" fetchPriority={i === 0 ? "high" : "low"}
+      style={{ ["--dir" as string]: i % 2 ? -1 : 1, animation }} />
+  );
+  return (
+    <div className={styles.horse} data-zooming={zooming || undefined} data-ready={ready || undefined} style={{ WebkitMaskImage: mask, maskImage: mask }}>
+      <style>{storyCss(count)}</style>
+      <div className={styles.stack} style={{ animationDuration: `${cycle}s` }}>
+        {LOADER_STORY.map((src, i) => layer(src, src, i, i === 0 ? undefined : `bsahStory${i} ${cycle}s linear infinite`))}
+        {count > 1 && layer(LOADER_STORY[0], "close", 0, `bsahStoryClose ${cycle}s linear infinite`)}
+      </div>
+    </div>
+  );
 }

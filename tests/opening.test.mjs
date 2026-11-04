@@ -88,7 +88,9 @@ test("the supplied animation is kept untouched as the source of the loader; the 
     assert.ok(!existsSync(path.join(root, gone)), `${gone} was deleted`);
   }
   // 2 Nov 2026 (R31): the loader shows a derivative of it (same silhouettes, one fixed site-image fill, transparent WebP).
-  assert.match(read("components/motion/RunningHorse.tsx"), /src=\{LOADER_IMAGE\}/);
+  // 4 Nov 2026: the silhouette is now the horse's mask, and a sequence of painted stills changes inside it.
+  assert.match(read("components/motion/RunningHorse.tsx"), /maskImage: mask/);
+  assert.match(read("components/motion/RunningHorse.tsx"), /url\(\$\{LOADER_IMAGE\}\)/);
   assert.equal(readFileSync(path.join(root, "public/opening/loader-marwari.webp")).subarray(8, 12).toString("ascii"), "WEBP");
 });
 
