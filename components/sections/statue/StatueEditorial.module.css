@@ -32,45 +32,53 @@
   pointer-events: auto;
 }
 
-/* Subtle museum spotlight pulsing keyframe */
-@keyframes museumSpotlightGlow {
-  0%, 100% {
-    opacity: 0.88;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.04);
-  }
-}
-
-.museumSpotlight {
+/*
+ * Golden halo behind the monument (Chapter 01 composition): one large soft eclipse ring, warm copper-gold (#B88A50),
+ * brightest along the upper-right edge, a diffused glow inside, nearly black outside. Pure CSS, behind the canvas (z-index 0
+ * layer; the canvas is z-index 10), so it can never cover the model. Diameter is about 72 % of the viewport height.
+ */
+.halo {
+  --halo: 184 138 80;
   position: absolute;
-  left: 50%;
-  top: 48%;
+  left: 48%;
+  top: 60%;
+  width: min(72vh, 94vw);
+  height: min(72vh, 94vw);
   transform: translate(-50%, -50%);
-  width: min(88vw, 860px);
-  height: min(88vw, 860px);
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(212, 175, 105, 0.16) 0%, rgba(197, 160, 89, 0.07) 38%, rgba(184, 142, 74, 0.015) 68%, transparent 75%);
-  filter: blur(48px);
   pointer-events: none;
   z-index: 2;
-  animation: museumSpotlightGlow 14s ease-in-out infinite;
+  animation: haloBreath 7s ease-in-out infinite;
 }
 
-.museumCoreLight {
+@keyframes haloBreath {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.haloGlow {
   position: absolute;
-  left: 50%;
-  top: 46%;
-  transform: translate(-50%, -50%);
-  width: min(60vw, 480px);
-  height: min(60vw, 480px);
+  inset: -22%;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(245, 235, 215, 0.11) 0%, rgba(212, 175, 105, 0.04) 45%, transparent 70%);
-  filter: blur(28px);
-  pointer-events: none;
-  z-index: 3;
+  background: radial-gradient(circle at 56% 60%, rgb(var(--halo) / 0.3) 0%, rgb(var(--halo) / 0.17) 26%, rgb(var(--halo) / 0.07) 46%, rgb(var(--halo) / 0.02) 60%, transparent 70%);
+}
+
+/* the ring: a conic ramp (bright at about 40 degrees, a faint return on the lower left) cut to a hairline by a mask */
+.haloRing,
+.haloBloom {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgb(var(--halo) / 0.5) 0deg, rgb(var(--halo) / 0.95) 40deg, rgb(var(--halo) / 0.4) 105deg, rgb(var(--halo) / 0.06) 180deg, rgb(var(--halo) / 0.2) 235deg, rgb(var(--halo) / 0.14) 290deg, rgb(var(--halo) / 0.5) 360deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px), #000 calc(100% - 0.5px), transparent 100%);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px), #000 calc(100% - 0.5px), transparent 100%);
+}
+
+.haloBloom {
+  inset: -2%;
+  opacity: 0.55;
+  filter: blur(14px);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 26px), #000 calc(100% - 8px), transparent 100%);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 26px), #000 calc(100% - 8px), transparent 100%);
 }
 
 .museumVignette {
@@ -90,7 +98,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .museumSpotlight {
+  .halo {
     animation: none !important;
   }
   .root *, .root *::before, .root *::after {

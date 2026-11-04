@@ -434,17 +434,18 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false }:
       >
         <div ref={viewportRef} className={styles.viewport}>
           {/* ==============================================================
-              2. CINEMATIC CIRCULAR MUSEUM SPOTLIGHT (CSS Background Lighting)
+              2. CINEMATIC GOLDEN HALO (CSS Background Lighting)
               ============================================================== */}
           <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             {/* Dark Charcoal Base Atmosphere */}
             <div className="absolute inset-0 bg-[#0B0A09]" />
 
-            {/* Large Diffused Ivory-Gold Museum Spotlight */}
-            <div className={styles.museumSpotlight} />
-
-            {/* Warm Core Light Feathering */}
-            <div className={styles.museumCoreLight} />
+            {/* Cinematic golden halo: a soft eclipse ring behind the monument, brightest on the upper right (CSS only, behind the canvas) */}
+            <div className={styles.halo}>
+              <div className={styles.haloGlow} />
+              <div className={styles.haloBloom} />
+              <div className={styles.haloRing} />
+            </div>
 
             {/* Perimeter Vignette for Contrast & Focus */}
             <div className={styles.museumVignette} />
