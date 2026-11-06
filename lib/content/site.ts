@@ -42,9 +42,18 @@ export const reels: Reel[] = [
   { n: 15, href: "/journal", act: "ledger", title: "The Chronicle", inscription: "Stories", voice: "from the stable.", blurb: "Legends, science and the circuit.", image: "journalReins" },
   { n: 16, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
   { n: 17, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
+  { n: 18, href: "/worlds", act: "legend", title: "Four Worlds", inscription: "One horse.", voice: "Four worlds.", blurb: "A scroll-controlled film: the valley, the anatomy, the cavalry country and the future, with one black Marwari.", image: "duneSilhouette" },
 ];
 
 export const TOTAL_REELS = reels.length;
+
+/**
+ * Working pages that sit in the menu beside the reels without being part of the film: they have no reel mark and no end card,
+ * and do not change the reel count (so the "REEL n / 17" marks and the hand-off from reel to reel stay as they were).
+ */
+export const tools = [
+  { n: 19, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
+] as const;
 
 export function reelFor(pathname: string): Reel | undefined {
   if (pathname === "/lithos") return reels.find((r) => r.href === "/statue");
@@ -63,6 +72,7 @@ export function reelByHref(href: string): Reel {
 
 export const primaryNav = [
   { label: "Legend", href: "/legend" },
+  { label: "Worlds", href: "/worlds" },
   { label: "Curriculum", href: "/curriculum" },
   { label: "Parents", href: "/parents" },
   { label: "Schools", href: "/schools" },
@@ -94,6 +104,7 @@ export const legalNav = [
   { label: "Journal", href: "/journal" },
   { label: "The Command", href: "/command" },
   { label: "Privacy", href: "/privacy" },
+  { label: "Film credits", href: "/worlds/credits" },
 ];
 
 /** Application screens (the staff console, its sign-in, and the dev preview of its overview): no public nav or footer. */

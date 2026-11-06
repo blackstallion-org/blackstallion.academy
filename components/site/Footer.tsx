@@ -17,6 +17,7 @@ const navLinks = [
   { href: "/legend", label: "The Legend" },
   { href: "/anatomy", label: "The Instrument" },
   { href: "/statue", label: "3D Monument" },
+  { href: "/motion-lab", label: "Motion Lab" },
   { href: "/science", label: "Science & Matrix" },
   { href: "/why", label: "Crucible & Cure" },
   { href: "/curriculum", label: "Curriculum" },

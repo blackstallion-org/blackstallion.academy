@@ -1,31 +1,31 @@
-# The home page opening and the running-horse loader (30 Oct 2026)
+# The first-visit opening and the running-horse loader (updated 7 Nov 2026)
 
-One supplied file, **placed as it is**: the 15-frame running-rider GIF, `public/opening/loader.gif`. (Earlier versions rebuilt the supplied pictures
-into cut-outs and a traced silhouette, then used two ink-horse frames as a separate opening film. The owner did not want that; all of it was deleted.)
+**Sequence:** running-horse loader (when a load needs one) → the Four Worlds intro film (first visit only) → a slow fade into the home hero → normal smooth
+scrolling. On later visits and reloads the homepage opens directly.
 
 | Piece | What the visitor sees | Where |
 | --- | --- | --- |
-| **Loader** | On a first load, a reload, or a click to another section: the running rider on the page's ivory while it loads, then a short fade. | `components/motion/Loader.tsx`, `RunningHorse.tsx`, `public/opening/loader.gif` |
-| **Opening** | The first visit of a session, home page only: the same running rider, and then, instead of the fade, the camera **zooms into the horse** (1.3 s) and the website opens out of it. | the "zooming" phase of the same loader; `RunningHorse.module.css` (`into`), `Loader.module.css` (`opens`) |
+| **Loader** | On a first load in a session, or a click to another section: the running rider on the page's ivory while it loads, then a short fade. **No zoom** (the old horse-zoom opening was removed 7 Nov 2026). | `components/motion/Loader.tsx`, `RunningHorse.tsx`, `public/opening/loader.gif` |
+| **Intro film** | A visitor's first visit to `/`: the Four Worlds film plays by itself (no scrolling needed). At its end the page appears beneath it and the film fades over 2.8 s into the home hero. | `components/worlds/WorldsIntro.tsx`, `FourWorlds.tsx`, `lib/opening/intro-boot.ts` |
 
-The opening is not a separate overlay: it is the loader's last step on the first visit to `/`. Reloads and page changes never zoom.
+## Remembering that it was seen
 
-## See it, switch it off, undo it
+- Completion is stored in **localStorage** (`bsah-intro-seen`) when the film ends or is skipped, by `markIntroSeen()` (falls back to sessionStorage if localStorage
+  is blocked). Reloads, new tabs and later visits skip the intro and open the homepage directly. Closing the tab halfway through plays it again next time.
+- The loader keeps its own per-session flag (`bsah-loaded`), so a new browser session shows the running horse (no film) before the homepage.
+- **See the intro again:** `/?intro` (clears the flag). Never plays with reduced motion, data saver, a very slow connection, `?nointro` or `?noload`.
+- **Replay page:** `/worlds` plays the same film as a page; when it ends the homepage rises from black.
 
-- **See it again** in the same visit: `/?opening`. Never shown with reduced motion (no loader at all) or `?noload`.
-- **Switch off without touching code** (set the variable, redeploy): `NEXT_PUBLIC_OPENING=off` (the first visit ends in the plain fade, no zoom);
-  `NEXT_PUBLIC_LOADER_HORSE=pixel` (the earlier pixel horse in the loader).
-- **Undo in code**: `git revert` the commit that introduced the zoom (the one after `0ea1efc`).
+## The fade into the hero
+
+The boot script hides the page under the film only while `<html data-bsah-intro="1">`. When the film ends, `WorldsIntro` sets the marker to `"reveal"`:
+the page becomes visible beneath the film, the hero film is told to start (`bsah:loader-gone`), and the film's stage fades from opaque to clear
+(`.root` opacity transition, 2.8 s). The marker is removed and scrolling returns (`done`) after 3 s. No cut to black, no zoom, no layout jump.
+
+## Switches
+
+- `NEXT_PUBLIC_LOADER_HORSE=pixel` (redeploy): the earlier pixel horse in the loader. (`NEXT_PUBLIC_OPENING` and `?opening` no longer exist.)
 - **Swap the picture**: replace `public/opening/loader.gif` (keep the name; it is shown at 500 x 333 proportions).
-
-## How it works
-
-- The head script (`lib/opening/boot.ts`) decides before first paint whether the loader shows (not when seen this session, reduced motion or `?noload`;
-  `?opening` forgets the session) and requests the GIF at once.
-- The GIF is multiplied into the page's ivory (`mix-blend-mode: multiply`), so its white ground has no box.
-- At the end of the first load on `/`, the loader goes to a "zooming" phase: the GIF scales from 1 to 22 (origin at the horse's chest, behind the rider,
-  ease-in) while the ivory overlay holds for 30 % of the 1.3 s and then dissolves, so the page appears inside the silhouette. After 1.35 s the overlay is removed.
-- The hero film is held while the loader is on screen and starts playing (from its title card) when the loader sends `bsah:loader-gone`. The 3.5 s / 4.5 s / 6 s deadlines of the loader still stop it whatever happens.
 
 ## Where the picture came from (please confirm the rights)
 
@@ -34,5 +34,5 @@ the owner asked. No licence note exists in the repository. Confirm the academy h
 
 ## Not verified
 
-Real phone or GPU speed; Safari and Firefox; windows other than 1440 x 900 and 390 x 844. In the software-rendered test browser the zoom is
-slow to render, so it was checked by scrubbing the two CSS animations to fixed times rather than by watching it play.
+Real phone or GPU speed; Safari and Firefox; windows other than 1440 x 900 and 390 x 844. The film's total length was seen on a software-rendered
+Chromium (about 1 minute), not on a device.

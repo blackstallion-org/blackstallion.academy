@@ -58,7 +58,8 @@ const check = async (name, fn) => { try { const d = await fn(); record(name, tru
 const browser = await chromium.launch();
 const newPage = async (viewport = { width: 1440, height: 900 }, reducedMotion = "no-preference") => {
   const context = await browser.newContext({ viewport, reducedMotion });
-  await context.addInitScript(() => { try { sessionStorage.setItem("bsah-loaded", "1"); } catch {} });
+  // The home page is tested as a returning visitor: neither the loader nor the first-visit intro film (tests/intro.test.mjs) covers it.
+  await context.addInitScript(() => { try { sessionStorage.setItem("bsah-loaded", "1"); } catch {} try { localStorage.setItem("bsah-intro-seen", "1"); } catch {} });
   // External media/fonts are not needed for these checks and may be unreachable from CI; fail them fast.
   await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (route) => route.abort());
   const page = await context.newPage();
@@ -201,12 +202,17 @@ try {
   // ---- homepage film: it fills the first screen (HeroFilm.tsx). The frame is 1.28 screens wide (1.3 on a phone), centred, in the film's
   // own 1606:900 shape, so the title cards run across it whole; its soft top and bottom (a mask) dissolve the baked-in bars into the
   // dark; on a phone dust fills the dark around the band; the controls sit on the foot of the screen, nothing in the top 80 px.
-  await check("hero film: fills the first screen, centred frame in the film's shape, controls on the foot of the screen at 360/390/430/1440", async () => {
+  await check("hero film: a band after the doctrine screen, centred frame in the film's shape, controls on its foot at 360/390/430/1440", async () => {
     const out = [];
     for (const [w, h] of [[360, 740], [390, 844], [430, 932], [1440, 900]]) {
       const { page, context } = await newPage({ width: w, height: h });
       await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
       await page.waitForTimeout(800);
+      // Owner's order (2 Nov 2026): the "who we are" doctrine screen comes first and the film band follows it. Bring the band to the top, then measure.
+      const order = await page.evaluate(() => ({ doctrine: document.querySelector("section#doctrine").getBoundingClientRect().top + scrollY, film: document.querySelector("section#top").getBoundingClientRect().top + scrollY }));
+      assert.ok(order.doctrine < order.film, `${w}: the doctrine screen comes before the film band`);
+      await page.evaluate(() => { const s = document.querySelector("section#top"); window.scrollTo(0, s.getBoundingClientRect().top + scrollY); });
+      await page.waitForTimeout(1500);
       const m = await page.evaluate(() => {
         const rect = (el) => { const r = el.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, w: r.width, h: r.height }; };
         const section = document.querySelector("section#top");
@@ -218,13 +224,13 @@ try {
           section: rect(section),
           frame: rect(frame),
           controls: rect(section.querySelector("[data-sound]")),
-          interactiveTops: [...section.querySelectorAll("button, a")].map((el) => el.getBoundingClientRect().top),
           dustDisplay: getComputedStyle(dust).display,
           dust: rect(dust),
           mask: style.maskImage !== "none" || style.webkitMaskImage !== "none",
         };
       });
-      assert.ok(Math.abs(m.section.top) <= 1 && Math.abs(m.section.h - Math.max(h, 540)) <= 2, `${w}: the film section fills the first screen (${Math.round(m.section.h)}px of ${h})`);
+      // the band shows the middle of the frame (its soft top and bottom are cropped): about 0.7 of the frame's height, at the top of the screen
+      assert.ok(Math.abs(m.section.top) <= 2 && m.section.h >= 0.6 * m.frame.h && m.section.h <= 0.85 * m.frame.h, `${w}: the film band is the middle of the frame (${Math.round(m.section.h)}px of a ${Math.round(m.frame.h)}px frame)`);
       const wanted = w < 768 ? 1.3 * m.vw : 1.28 * m.section.w;
       assert.ok(Math.abs(m.frame.w - wanted) <= 2, `${w}: frame is 1.28 screens wide (1.3 on a phone): ${Math.round(m.frame.w)} not ${Math.round(wanted)}`);
       assert.ok(Math.abs(m.frame.h - (m.frame.w * 900) / 1606) <= 2, `${w}: frame ratio ${Math.round(m.frame.w)}x${Math.round(m.frame.h)}`);
@@ -232,9 +238,7 @@ try {
       assert.ok(Math.abs((m.frame.top + m.frame.bottom) / 2 - (m.section.top + m.section.bottom) / 2) <= 1, `${w}: frame centred down the screen`);
       assert.ok(m.mask, `${w}: the frame's soft top and bottom (mask) are in place`);
       assert.ok(Math.abs(m.controls.bottom - m.section.bottom) <= 1 && m.controls.top > m.section.top + m.section.h / 2, `${w}: controls on the foot of the screen`);
-      assert.ok(m.interactiveTops.length > 0 && m.interactiveTops.every((top) => top >= 80), `${w}: nothing to press in the top 80 px (${m.interactiveTops.map(Math.round).join(", ")})`);
-      if (w < 768) assert.ok(m.dustDisplay !== "none" && Math.abs(m.dust.w - m.vw) <= 1 && Math.abs(m.dust.h - m.section.h) <= 1, `${w}: dust fills the dark around the band on a phone`);
-      else assert.equal(m.dustDisplay, "none", `${w}: no dust layer on a wide screen`);
+      assert.ok(m.dustDisplay !== "none" && Math.abs(m.dust.w - m.frame.w) <= 2 && Math.abs(m.dust.h - m.frame.h) <= 2, `${w}: the dust layer matches the frame`);
       out.push(`${w}:${Math.round(m.frame.h)}px`);
       await context.close();
     }
@@ -244,14 +248,15 @@ try {
   await check("doctrine: one statement in the editorial serif, two non-overlapping sentences", async () => {
     const { page, context } = await newPage({ width: 390, height: 844 });
     await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
-    await page.locator("h1.doctrine-statement").scrollIntoViewIfNeeded();
+    await page.locator("section#doctrine h1").scrollIntoViewIfNeeded();
     await page.waitForTimeout(1800);
     const r = await page.evaluate(() => {
-      const h1 = document.querySelector("h1.doctrine-statement");
-      const lines = [...h1.querySelectorAll(":scope > span > span")].map((n) => n.getBoundingClientRect());
-      return { text: h1.textContent.replace(/\s+/g, " ").trim(), family: getComputedStyle(h1).fontFamily, a: lines[0], b: lines[1], overflow: document.documentElement.scrollWidth - innerWidth };
+      const h1 = document.querySelector("section#doctrine h1");
+      const lines = [...h1.children].map((n) => n.getBoundingClientRect()); // the two sentences
+      return { text: h1.textContent.replace(/\s+/g, ""), family: getComputedStyle(h1).fontFamily, count: lines.length, a: lines[0], b: lines[1], overflow: document.documentElement.scrollWidth - innerWidth };
     });
-    assert.equal(r.text, "We do not teach children to ride. We forge them to lead.");
+    assert.equal(r.count, 2, "two sentences");
+    assert.equal(r.text, "Wedonotteachchildrentoride.Weforgethemtolead.");
     assert.match(r.family, /serifDisplay|Serif_Display|serif_display|Noto/i);
     assert.ok(r.b.top >= r.a.bottom - 2, "sentences do not collide");
     assert.ok(r.overflow <= 1);
@@ -274,13 +279,10 @@ try {
     await context.close();
   });
 
-  await check("moodboard: house palette section with five stills and five swatches", async () => {
+  await check("moodboard: the public palette section was replaced on 2 Nov 2026 and is no longer on the home page", async () => {
     const { page, context } = await newPage();
     await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
-    const section = page.locator("section[aria-labelledby='atelier-h']");
-    await section.scrollIntoViewIfNeeded();
-    assert.equal(await section.locator("figure .relative.w-full").count(), 5);
-    assert.equal(await section.getByRole("list", { name: "House colours" }).locator("li").count(), 5);
+    assert.equal(await page.locator("section[aria-labelledby='atelier-h']").count(), 0);
     await context.close();
   });
 

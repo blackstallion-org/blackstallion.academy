@@ -22,6 +22,10 @@ export const MUSIC = {
 
 /** Linear bus ceilings. Music sits well under speech level; effects keep their own per-cue caps in engine.ts. */
 const MUSIC_LEVEL = 0.32;
+/** A page may lend the music bus its own short, looping track (the Four Worlds film): it plays instead of the open-range recording and a little fuller. */
+const TRACK_LEVEL = 0.5;
+let currentSrc: string = MUSIC.src;
+let musicLevel = MUSIC_LEVEL;
 const AMBIENCE_LEVEL = 0.55;
 const FADE_TC = 0.45;
 const POSITION_KEY = "bsah-music-position";
@@ -86,9 +90,31 @@ export function effectsBus(): { context: AudioContext; node: GainNode } | null {
 }
 
 function musicTarget(): number {
-  let level = MUSIC_LEVEL;
-  ducks.forEach((d) => { level = Math.min(level, MUSIC_LEVEL * d); });
+  let level = musicLevel;
+  ducks.forEach((d) => { level = Math.min(level, musicLevel * d); });
   return level;
+}
+
+/**
+ * Swap the music bus to another track (or back to the open-range recording with null). Playing music carries on with the new
+ * track; silent music simply loads it when it starts. The open-range playhead is only saved while its own track is loaded.
+ */
+export function setMusicSource(src: string | null): void {
+  const next = src ?? MUSIC.src;
+  if (next === currentSrc) return;
+  currentSrc = next;
+  musicLevel = src ? TRACK_LEVEL : MUSIC_LEVEL;
+  const el = music;
+  if (!el) return;
+  const resume = musicState === "playing";
+  el.pause();
+  el.src = next;
+  el.loop = true;
+  el.load();
+  applyMusicLevel();
+  if (resume) {
+    el.play().then(() => { setState("playing"); applyMusicLevel(1.2); }).catch(() => setState("blocked"));
+  }
 }
 function applyMusicLevel(tc = FADE_TC) {
   if (!ctx || !bus.music) return;
@@ -112,17 +138,17 @@ function ensureElement(): HTMLAudioElement | null {
   const el = new Audio();
   const cors = mediaCrossOrigin(MUSIC.src);
   if (cors) el.crossOrigin = cors;
-  el.src = MUSIC.src;
+  el.src = currentSrc;
   el.loop = true;
-  el.preload = "metadata"; // an hour-long file: stream it, do not prefetch it
+  el.preload = currentSrc === MUSIC.src ? "metadata" : "auto"; // the hour-long recording streams in ranges; a short film track is fetched whole
   el.setAttribute("aria-hidden", "true");
   try {
     const saved = Number(window.sessionStorage.getItem(POSITION_KEY));
-    if (Number.isFinite(saved) && saved > 0) el.addEventListener("loadedmetadata", () => { try { el.currentTime = saved % (el.duration || saved + 1); } catch { /* not seekable yet */ } }, { once: true });
+    if (currentSrc === MUSIC.src && Number.isFinite(saved) && saved > 0) el.addEventListener("loadedmetadata", () => { try { el.currentTime = saved % (el.duration || saved + 1); } catch { /* not seekable yet */ } }, { once: true });
   } catch { /* storage blocked */ }
   el.addEventListener("timeupdate", () => {
     const now = Date.now();
-    if (now - lastSave > 2000) { lastSave = now; try { window.sessionStorage.setItem(POSITION_KEY, String(el.currentTime)); } catch { /* optional */ } }
+    if (currentSrc === MUSIC.src && now - lastSave > 2000) { lastSave = now; try { window.sessionStorage.setItem(POSITION_KEY, String(el.currentTime)); } catch { /* optional */ } }
   });
   el.addEventListener("pause", () => { if (musicState === "playing" && wanted && !document.hidden) setState("waiting"); });
   try { ctx.createMediaElementSource(el).connect(bus.music); } catch { return null; }

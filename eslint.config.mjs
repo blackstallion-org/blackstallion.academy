@@ -16,6 +16,8 @@ const eslintConfig = defineConfig([
     "bsah-platform/**",
     "scripts/**",
     "scratch/**", // Local capture experiments are not application source.
+    "public/motion-lab/wasm/**", // Third-party LiteRT runtime copied from node_modules by scripts/motion-lab-assets.mjs (git-ignored).
+    "test-media/**", // Validation footage and scripts, not application source (git-ignored).
     "_to_delete/**", // Retired files and transfer bundles waiting for the owner to delete them (gitignored).
     "output/**", // Generated verification artifacts and browser traces.
     "public/draco/**", // Third-party generated decoder, distributed unchanged.

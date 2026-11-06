@@ -11,7 +11,7 @@ import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { AnimatedMenuText } from "@/components/ui/animated-menu";
-import { acts, corridors, isConsolePath, navCta, primaryNav, reelFor, reels, TOTAL_REELS, type Act } from "@/lib/content/site";
+import { acts, corridors, isConsolePath, navCta, primaryNav, reelFor, reels, TOTAL_REELS, tools, type Act } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
@@ -74,8 +74,8 @@ function PublicNav() {
             )}
           </div>
 
-          <nav aria-label="Primary" className="hidden xl:block">
-            <ul className="flex items-center gap-6 whitespace-nowrap 2xl:gap-8">
+          <nav aria-label="Primary" className="hidden min-[1440px]:block">
+            <ul className="flex items-center gap-3.5 whitespace-nowrap 2xl:gap-8">
               {primaryNav.map((item) => {
                 const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
                 return (
@@ -220,6 +220,15 @@ function Menu({ onClose }: { onClose: () => void }) {
                   </li>
                 );
               })}
+              {tools.filter((t) => t.act === act).map((t) => (
+                <li key={t.href}>
+                  <ReelLink href={t.href} onClose={onClose} active={pathname === t.href} n={t.n} title={t.title}>
+                    <span className="hidden rounded-full border border-gold/50 bg-gold/15 px-2.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-widest text-gold transition-colors group-hover:bg-gold group-hover:text-night xl:inline-block">
+                      {t.badge}
+                    </span>
+                  </ReelLink>
+                </li>
+              ))}
             </ul>
           </motion.div>
         ))}

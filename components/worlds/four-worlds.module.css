@@ -1,0 +1,93 @@
+/* /worlds: the Four Worlds film in a Swiss grid. One sans, flush left, a very large numeral, a hairline, one short line per world.
+   Colours are role tokens (the section is .tone-photo: warm black, ivory ink, antique gold). */
+
+.placeholder { height: 100svh; background: var(--color-night); }
+
+/* the intro: a fixed full-screen stage over the page; it fades away at the end to reveal the page beneath it */
+.root { position: fixed; inset: 0; z-index: 200; background: #000; visibility: visible; contain: layout paint; transition: opacity 2.8s cubic-bezier(0.4, 0, 0.2, 1); }
+.root[data-reveal] { opacity: 0; pointer-events: none; }
+.canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.overlay {
+  --gutter: clamp(1rem, 4vw, 4rem);
+  position: absolute; inset: 0; pointer-events: none; color: var(--color-bone); font-family: var(--font-sans);
+}
+.overlay button { pointer-events: auto; }
+
+/* the letterbox: two black bars, each half the frame tall, scaled toward their own edge (see core/letterbox.ts) */
+.bar { position: absolute; left: 0; right: 0; height: 50%; background: #000; will-change: transform; }
+.barTop { top: 0; transform-origin: top; }
+.barBottom { bottom: 0; transform-origin: bottom; }
+
+/* the controls: Skip (left) and Sound (right), in the lower bar, quiet; they leave with the ending */
+.controls { position: absolute; left: var(--gutter); right: var(--gutter); bottom: max(0.25rem, env(safe-area-inset-bottom)); z-index: 3; display: flex; justify-content: space-between; align-items: center; transition: opacity 1.2s ease; }
+.overlay[data-ending] .controls { opacity: 0; pointer-events: none; }
+.ctrl {
+  display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; padding: 0; background: none; border: 0; cursor: pointer;
+  color: var(--color-bone); font: inherit; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; text-align: left; opacity: 0.8; transition: opacity 0.3s;
+}
+.ctrl:hover, .ctrl[aria-pressed="true"] { opacity: 1; }
+.ctrl { text-shadow: 0 0 12px rgb(0 0 0 / 0.6); }
+.ctrlState { font-family: var(--font-mono); color: var(--color-gold); }
+.ctrl:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; opacity: 1; }
+.music { display: inline-flex; align-items: flex-end; gap: 2px; height: 0.8rem; opacity: 0.55; transition: opacity 0.8s ease; }
+.music[data-on] { opacity: 1; }
+.music i { display: block; width: 2px; background: var(--color-gold); height: 25%; transition: height 0.6s ease; }
+.music[data-on] i { animation: eq 0.9s ease-in-out infinite; }
+.music i:nth-child(2) { animation-delay: 0.18s; }
+.music i:nth-child(3) { animation-delay: 0.36s; }
+.music i:nth-child(4) { animation-delay: 0.09s; }
+@keyframes eq { 0%, 100% { height: 30%; } 50% { height: 100%; } }
+@media (prefers-reduced-motion: reduce) { .music i { animation: none !important; height: 70%; } }
+
+
+/* type shared with the static version (reduced motion, no WebGL 2, or an engine error): a big numeral, a hairline, the world, one line */
+.numeral { font-size: clamp(5rem, 2.5rem + 11vw, 12.5rem); font-weight: 200; line-height: 0.74; letter-spacing: -0.06em; font-variant-numeric: tabular-nums; margin-left: -0.04em; }
+.cardText { padding-bottom: 0.2rem; }
+.cardText::before { content: ""; display: block; width: 100%; height: 1px; margin-bottom: 0.9rem; background: var(--color-bone); opacity: 0.55; }
+.title { font-size: clamp(1.15rem, 1rem + 0.7vw, 1.6rem); font-weight: 600; letter-spacing: -0.012em; line-height: 1.1; }
+.line { margin-top: 0.5rem; max-width: 22rem; font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1.05rem); line-height: 1.4; font-weight: 400; opacity: 0.9; }
+.note { margin-top: 0.6rem; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.04em; opacity: 0.62; }
+.finalHead { font-size: clamp(2.4rem, 1.2rem + 5.4vw, 6.25rem); font-weight: 600; letter-spacing: -0.045em; line-height: 0.92; text-wrap: balance; }
+.finalSub { margin-top: 1.1rem; max-width: 28rem; font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.2rem); line-height: 1.4; opacity: 0.9; }
+.ctas { margin-top: 1.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 2rem; }
+.primary, .secondary { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 48px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.primary { padding: 0 1.4rem; background: var(--color-bone); color: var(--color-night); font-weight: 600; }
+.primary:hover { background: var(--color-gold); }
+.secondary { color: var(--color-bone); border-bottom: 1px solid currentColor; }
+.secondary:hover { color: var(--color-gold); }
+.primary:focus-visible, .secondary:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+@media (max-width: 520px) { .numeral { font-size: 4.5rem; } }
+
+
+/* static version: reduced motion, no WebGL 2, or an engine error (same type, on stills) */
+.fallback { --gutter: clamp(1rem, 4vw, 4rem); background: var(--color-night); color: var(--color-bone); font-family: var(--font-sans); padding-top: clamp(5.5rem, 9vh, 7.5rem); }
+.fallbackNote { padding: 0 var(--gutter) 1.5rem; color: var(--color-sand); font-size: 0.8rem; }
+.still { position: relative; min-height: 92svh; display: flex; align-items: flex-end; overflow: hidden; }
+.stillImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.stillShade { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(var(--shade-rgb) / 0) 40%, rgb(var(--shade-rgb) / 0.6) 100%); }
+.stillText { position: relative; width: 100%; padding: 0 var(--gutter) clamp(3rem, 10vh, 6rem); display: grid; grid-template-columns: auto minmax(0, 24rem); justify-content: start; column-gap: clamp(1rem, 3vw, 3rem); align-items: end; text-shadow: 0 1px 16px rgb(0 0 0 / 0.5); }
+@media (max-width: 520px) { .stillText { grid-template-columns: 1fr; row-gap: 0.9rem; } }
+.fallbackFinal { padding: clamp(4rem, 12vh, 8rem) var(--gutter); }
+
+/* the story: one large headline, one sentence. Each word rises out of a mask; the sentence follows, softly. */
+.shade { position: absolute; inset: auto 0 0 0; height: 70%; opacity: 0; transition: opacity 1.6s ease; background: linear-gradient(0deg, rgb(0 0 0 / 0.62) 0%, rgb(0 0 0 / 0.3) 45%, rgb(0 0 0 / 0) 100%); }
+.shade[data-on] { opacity: 1; }
+.story { position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(max(5.5svh, 3rem) + 2.4rem); max-width: 70rem; visibility: hidden; transition: visibility 0s 1.2s; text-shadow: 0 2px 40px rgb(0 0 0 / 0.55); }
+.story[data-on] { visibility: visible; transition-delay: 0s; }
+.headline { word-spacing: 0.1em; font-size: clamp(3rem, 1rem + 7.4vw, 8.5rem); font-weight: 700; letter-spacing: -0.05em; line-height: 0.9; text-wrap: balance; color: var(--color-bone); }
+.mask { display: inline-block; overflow: hidden; padding: 0.06em 0 0.12em; margin: -0.06em 0 -0.12em; vertical-align: top; }
+.word { display: inline-block; transform: translateY(112%); opacity: 0; filter: blur(10px); transition: transform 1.1s cubic-bezier(0.55, 0, 0.9, 0.4), opacity 0.9s ease, filter 0.9s ease; }
+.story[data-on] .word { transform: none; opacity: 1; filter: none; transition: transform 1.7s cubic-bezier(0.16, 0.8, 0.12, 1) calc(var(--i) * 0.14s + 0.15s), opacity 1.3s ease calc(var(--i) * 0.14s + 0.15s), filter 1.4s ease calc(var(--i) * 0.14s + 0.15s); }
+.sentence { margin-top: clamp(0.9rem, 2vh, 1.6rem); max-width: 30rem; font-size: clamp(1rem, 0.9rem + 0.45vw, 1.35rem); line-height: 1.4; letter-spacing: 0.005em; color: var(--color-bone); opacity: 0; transform: translateY(12px); filter: blur(6px); transition: opacity 0.9s ease, transform 0.9s ease, filter 0.9s ease; }
+.story[data-on] .sentence { opacity: 0.92; transform: none; filter: none; transition: opacity 1.8s ease 1.1s, transform 1.8s cubic-bezier(0.16, 0.8, 0.12, 1) 1.1s, filter 1.6s ease 1.1s; }
+
+/* loading: one hairline, centred in the lower bar */
+.loadline { position: absolute; left: 50%; bottom: clamp(1.2rem, 3svh, 2rem); width: 8rem; height: 1px; margin-left: -4rem; background: color-mix(in srgb, var(--color-bone) 24%, transparent); overflow: hidden; z-index: 3; }
+.loadline > span { display: block; height: 100%; background: var(--color-gold); transform-origin: left; transition: transform 0.4s; }
+
+/* skip: the picture goes quickly to black before the page is revealed */
+.veil { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity 0.9s ease; z-index: 4; }
+.veil[data-on] { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .word, .sentence { transition-duration: 0.01s !important; transition-delay: 0s !important; } }
+.musicHint { margin-left: 0.6rem; align-self: center; font: 400 0.62rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-bone); opacity: 0.75; white-space: nowrap; }

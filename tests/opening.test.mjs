@@ -1,7 +1,7 @@
-// The home page opening (the running-rider animation, then a zoom into the horse and the website opens) and the loader that shows
-// the same animation on reloads and page changes.
+// The running-rider loader (first load, reloads and page changes). The horse-zoom opening that used to follow it was removed on
+// 7 Nov 2026: the first-visit opening is the intro film (tests/intro.test.mjs).
 // The head script that decides what a first visit shows is run for real against a stand-in browser; the picture is checked for
-// being the supplied file, untouched; the component rules (when the zoom happens, the switches) are checked in the source.
+// being the supplied file, untouched; the component rules (no zoom, the switch) are checked in the source.
 // Does NOT prove how it looks or runs on a device: that is checked in a browser (see PROGRESS.md). Run with `npm test`.
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -14,7 +14,7 @@ const { buildLoaderBootScript, LOADER_SESSION_KEY } = await loadTs("lib/opening/
 const read = (rel) => readFileSync(path.join(root, rel), "utf8");
 
 /** Runs the head script in a stand-in browser and reports what it did. */
-function visit({ search = "", seen = false, reduced = false, horse = "silhouette", opening = true } = {}) {
+function visit({ search = "", seen = false, reduced = false, horse = "silhouette" } = {}) {
   const dataset = {};
   const links = [];
   const store = new Map(seen ? [[LOADER_SESSION_KEY, "1"]] : []);
@@ -24,7 +24,7 @@ function visit({ search = "", seen = false, reduced = false, horse = "silhouette
     matchMedia: () => ({ matches: reduced }),
     location: { search },
   };
-  vm.runInNewContext(buildLoaderBootScript({ sessionKey: LOADER_SESSION_KEY, horse, opening }), sandbox);
+  vm.runInNewContext(buildLoaderBootScript({ sessionKey: LOADER_SESSION_KEY, horse }), sandbox);
   return { dataset, links, store };
 }
 
@@ -44,39 +44,31 @@ test("a visit later in the same session, reduced motion, and ?noload show neithe
   }
 });
 
-test("?opening forgets the session and plays it all again, but never against reduced motion or ?noload", () => {
-  assert.equal(visit({ seen: true, search: "?opening" }).dataset.bsahLoaded, undefined);
-  assert.equal(visit({ seen: true, search: "?a=1&opening" }).dataset.bsahLoaded, undefined);
-  assert.equal(visit({ seen: true, search: "?opening=1" }).dataset.bsahLoaded, undefined);
-  assert.equal(visit({ seen: true, search: "?openings" }).dataset.bsahLoaded, "1", "only the exact word");
-  assert.equal(visit({ seen: true, search: "?utm_term=opening-hours" }).dataset.bsahLoaded, "1");
-  assert.equal(visit({ seen: true, reduced: true, search: "?opening" }).dataset.bsahLoaded, "1", "reduced motion always wins");
-  assert.equal(visit({ seen: true, search: "?opening&noload" }).dataset.bsahLoaded, "1", "?noload always wins");
+test("?opening no longer does anything: the zoom opening is gone", () => {
+  assert.equal(visit({ seen: true, search: "?opening" }).dataset.bsahLoaded, "1");
 });
 
-test("the switches: ?opening does nothing when the opening is off; the earlier pixel horse when asked for", () => {
-  assert.equal(visit({ opening: false, seen: true, search: "?opening" }).dataset.bsahLoaded, "1");
-  assert.deepEqual(visit({ opening: false }).links.map((l) => l.href), ["/opening/loader-marwari.webp"]);
+test("the switch: the earlier pixel horse when asked for", () => {
+  assert.deepEqual(visit().links.map((l) => l.href), ["/opening/loader-marwari.webp"]);
   const pixel = visit({ horse: "pixel" });
   assert.deepEqual(pixel.links[0], { href: "/animations/pixel-horse.js", as: "script", rel: "preload" });
   assert.ok(!pixel.links.some((l) => l.href.includes("loader-marwari")));
 });
 
-test("both switches read their environment variables, and default to on", async () => {
-  const saved = { o: process.env.NEXT_PUBLIC_OPENING, h: process.env.NEXT_PUBLIC_LOADER_HORSE };
+test("the loader-horse switch reads its environment variable, and defaults to the running rider", async () => {
+  const saved = process.env.NEXT_PUBLIC_LOADER_HORSE;
   try {
-    delete process.env.NEXT_PUBLIC_OPENING; delete process.env.NEXT_PUBLIC_LOADER_HORSE;
+    delete process.env.NEXT_PUBLIC_LOADER_HORSE;
     let c = await loadTs("lib/opening/config.ts");
-    assert.deepEqual([c.OPENING_ENABLED, c.LOADER_HORSE], [true, "silhouette"]);
-    process.env.NEXT_PUBLIC_OPENING = "off"; process.env.NEXT_PUBLIC_LOADER_HORSE = "pixel";
+    assert.equal(c.LOADER_HORSE, "silhouette");
+    assert.equal(c.OPENING_ENABLED, undefined, "the zoom switch is gone");
+    process.env.NEXT_PUBLIC_LOADER_HORSE = "pixel";
     c = await loadTs("lib/opening/config.ts");
-    assert.deepEqual([c.OPENING_ENABLED, c.LOADER_HORSE], [false, "pixel"]);
-    process.env.NEXT_PUBLIC_OPENING = "on"; process.env.NEXT_PUBLIC_LOADER_HORSE = "anything else";
+    assert.equal(c.LOADER_HORSE, "pixel");
+    process.env.NEXT_PUBLIC_LOADER_HORSE = "anything else";
     c = await loadTs("lib/opening/config.ts");
-    assert.deepEqual([c.OPENING_ENABLED, c.LOADER_HORSE], [true, "silhouette"], "only the exact words switch them");
-  } finally {
-    for (const [k, v] of [["NEXT_PUBLIC_OPENING", saved.o], ["NEXT_PUBLIC_LOADER_HORSE", saved.h]]) { if (v === undefined) delete process.env[k]; else process.env[k] = v; }
-  }
+    assert.equal(c.LOADER_HORSE, "silhouette", "only the exact word switches it");
+  } finally { if (saved === undefined) delete process.env.NEXT_PUBLIC_LOADER_HORSE; else process.env.NEXT_PUBLIC_LOADER_HORSE = saved; }
 });
 
 // ------------------------------------------------------------------ the picture
@@ -96,30 +88,21 @@ test("the supplied animation is kept untouched as the source of the loader; the 
 
 // ------------------------------------------------------------------ the component rules
 
-test("the zoom happens only as the last step of the first load on the home page; page changes and reloads keep the plain fade", () => {
+test("the loader has no zoom step: it settles, fades and goes, on the first load and on page changes alike", () => {
   const loader = read("components/motion/Loader.tsx");
-  assert.match(loader, /opening\.current = OPENING_ENABLED && location\.pathname === "\/"/, "home page, and only when switched on");
-  assert.match(loader, /opening\.current && current\.id === 0 \? "zooming" : "fading"/, "only the first load (id 0), never a page change");
-  assert.match(loader, /load\.phase !== "zooming"/);
-  assert.match(loader, /setTimeout\(\(\) => setLoad\(\(current\) => \(\{ \.\.\.current, phase: "gone" \}\)\), 1350\)/, "gone just after the 1.3 s zoom");
+  assert.doesNotMatch(loader, /zoom/i);
+  assert.doesNotMatch(loader, /OPENING_ENABLED/);
+  assert.match(loader, /phase: "fading" \} : current/, "settled goes straight to the fade");
   assert.match(loader, /setTimeout\(settle, 3500\)/, "the 3.5 s deadline still ends the loader whatever happens");
   assert.match(loader, /LOADER_HORSE === "pixel"/);
-  assert.match(loader, /OPENING_ENABLED/);
-  assert.doesNotMatch(loader, /opening-ready|opening-done/, "no waiting between two overlays any more: it is one loader");
+  assert.doesNotMatch(loader, /opening-ready|opening-done/, "no waiting between two overlays: it is one loader");
+  for (const rel of ["components/motion/RunningHorse.module.css", "components/motion/Loader.module.css", "components/motion/RunningHorse.tsx"]) {
+    assert.doesNotMatch(read(rel), /data-zooming|zooming|@keyframes into|@keyframes opens|scale\(22\)/, `${rel} has no zoom`);
+  }
+  assert.match(read("components/motion/Loader.module.css"), /z-index: 100/);
 });
 
-test("the zoom: the horse grows into the screen while the ivory dissolves into the page", () => {
-  const horse = read("components/motion/RunningHorse.module.css");
-  assert.match(horse, /\.horse\[data-zooming\][\s\S]*animation: into 1\.3s/);
-  assert.match(horse, /@keyframes into \{ from \{ transform: scale\(1\); \} to \{ transform: scale\(22\); \} \}/);
-  const loader = read("components/motion/Loader.module.css");
-  assert.match(loader, /\[data-loading-phase="zooming"\] \{ animation: opens 1\.3s/);
-  assert.match(loader, /@keyframes opens \{ 0%, 30% \{ opacity: 1; \} 100% \{ opacity: 0; \} \}/);
-  assert.match(loader, /z-index: 100/);
-  assert.match(read("components/motion/RunningHorse.tsx"), /data-zooming=\{zooming \|\| undefined\}/);
-});
-
-test("reduced motion shows no loader at all, so never the zoom", () => {
+test("reduced motion shows no loader at all, and so no loader before the intro", () => {
   assert.match(read("lib/opening/boot.ts"), /prefers-reduced-motion: reduce/);
   assert.equal(visit({ reduced: true }).dataset.bsahLoaded, "1");
 });
