@@ -9,9 +9,13 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node scripts/test-trustee-security.mjs && node --test \"tests/*.test.mjs\"",
-    "test:e2e": "node scripts/e2e-smoke.mjs"
+    "test:e2e": "node scripts/e2e-smoke.mjs",
+    "motion-lab:assets": "node scripts/motion-lab-assets.mjs",
+    "predev": "node scripts/motion-lab-assets.mjs",
+    "prebuild": "node scripts/motion-lab-assets.mjs"
   },
   "dependencies": {
+    "@litertjs/core": "^2.6.0",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.1",
     "@splinetool/react-spline": "^4.1.0",
