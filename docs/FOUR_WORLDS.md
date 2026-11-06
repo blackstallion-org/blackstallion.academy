@@ -1,6 +1,6 @@
 # Four Worlds (`/worlds`)
 
-One horse, four worlds, one continuous camera. A separate route (not linked from the navigation yet), built as an isolated
+One horse, four worlds, one continuous camera. A separate route (in the Reels menu as reel 18 "Four Worlds" and in the top bar as "Worlds"), built as an isolated
 module: nothing outside `components/worlds/`, `app/worlds/`, `lib/content/worlds.ts`, `public/worlds/` and
 `tools/blender/12_worlds/` + `tools/qa-worlds/` was changed, so authentication, enrolment, payments, admin and the other pages
 are untouched.
@@ -10,8 +10,9 @@ are untouched.
 | Part | File | Job |
 | --- | --- | --- |
 | Page | `app/worlds/page.tsx` | server page: the film, then the credits line (CC BY 4.0 planet textures) |
-| Mount | `components/worlds/FourWorlds.tsx` | capability check (WebGL 2, reduced motion), sticky stage in a 1600svh section (1200svh on phones), GSAP ScrollTrigger synced to Lenis, gentle snap to story beats |
-| Overlay | `components/worlds/WorldsOverlay.tsx` | chapter cards (bottom left, clear of the nav), chapter rail (real buttons), loading line, final call to action |
+| Mount | `components/worlds/FourWorlds.tsx` | capability check (WebGL 2, reduced motion), sticky stage in a 1300svh section (1000svh on phones), GSAP ScrollTrigger synced to Lenis (no snapping: the camera path holds on each beat itself), the page's smooth scroll follows the wheel more closely while the film is open, light-mode switch |
+| Overlay | `components/worlds/WorldsOverlay.tsx` | Swiss-grid type: a large numeral, a hairline, the world and one short line (bottom left, clear of the nav), a bottom bar with the progress hairline, the four worlds (real buttons), the Smooth and Sound switches, loading line, final call to action. Never re-renders with the scroll: the page pushes progress in through `update()` |
+| Sound | `components/worlds/WorldsSound.tsx` | the film's sound switch = the site's sound state in "music" mode; `setMusicSource` (lib/audio/mixer.ts) lends the music bus the film's own track (`public/audio/music/four-worlds.mp3`, 149 s, 2.4 MB, loops) and puts the open-range recording back on leaving |
 | Fallback | `components/worlds/WorldsFallback.tsx` | reduced motion, no WebGL 2, or an engine error: four stills rendered from the real scenes + the same copy |
 | Engine | `core/engine.ts` | renderer, the camera, world loading (current + neighbours, chunk per world), disposal of worlds two steps away, horse hand-over, critically damped follow of the scroll target, QA hooks (`window.__worlds` in development or with `?debug`) |
 | Timeline | `core/timeline.ts` | the master timeline: spans per world, overlapping boundaries with a transition mode, holds, chapter ranges. Everything is a pure function of progress, so scrolling back plays the film backwards |
@@ -52,3 +53,11 @@ Beyond ≈ 3.3 / 1.5 MB. Only the current world and its neighbours are loaded at
   haze, crude in close-up); the Beyond city is a small terrace skyline; Life cells are shader spheres, not sculpted.
 - No glowing memory panels and no giant historical face in Legacy, by design (no specific person or event is depicted).
 - Safari and real phones not tested; the low tier was checked at 390 px in Chromium only.
+
+## Smoothness and compatibility (6 Nov 2026)
+
+- Auto quality: high / medium / low tiers, plus a resolution scale (0.7 to 1) the frame governor spends before it gives up a tier; a device far over budget drops a tier at once. Multisampling follows the tier (4 / 2 / none). The governor only measures while the film moves; at rest the ambient life runs at 30 fps.
+- Light mode ("Smooth" in the bottom bar, remembered in localStorage, or `?tier=low`): the lowest tier, locked, for devices that struggle.
+- Textures are uploaded to the GPU one per frame when a world loads (`initTexture`) and shaders compile with `compileAsync`, so entering a world does not stall.
+- One animation-frame chain only: a resize inside a frame (tier or scale change) used to start a second chain and halve the frame rate.
+- The first frame's poster (`public/worlds/posters/origins.webp`) shows under the canvas until the engine's own frame is up. A sanitize pass before the bloom stops one non-finite pixel from blackening the frame on Apple GPUs.

@@ -28,6 +28,14 @@ export const WORLD_COPY: Record<"origins" | "life" | "legacy" | "beyond", WorldC
   },
 };
 
+/** What the film shows on screen: one short line per world (the full copy above is for the static version). */
+export const WORLD_SWISS: Record<"origins" | "life" | "legacy" | "beyond", { line: string; note?: string }> = {
+  origins: { line: "One horse, small against the world." },
+  life: { line: "Muscle, bone, breath.", note: "Illustration, not a measurement." },
+  legacy: { line: "Bred in Marwar for the cavalry." },
+  beyond: { line: "The same horse, a new century." },
+};
+
 /** Required by the CC BY 4.0 licence of the planet textures; the CC0 sources are credited as a courtesy. */
 export const WORLDS_CREDITS =
   "Four Worlds is rendered live in your browser. Planet and moon textures: Solar System Scope (solarsystemscope.com), CC BY 4.0, based on NASA imagery. Skies, ground textures and a boulder scan: Poly Haven and ambientCG (CC0). Terrain, academy, fort, riders, orbital platform and stars: built for BSAH in Blender. Horse and anatomy: the academy's own Marwari model.";
@@ -35,6 +43,7 @@ export const WORLDS_CREDITS =
 export const WORLDS_FINAL = {
   inscription: "One horse. Four worlds.",
   voice: "an 800-year lineage, handed to your child.",
+  sub: "An 800-year lineage, handed to your child.",
   primary: { label: "Enrol a cadet", href: "/enroll" },
   secondary: { label: "Visit the academy", href: "/contact" },
 };

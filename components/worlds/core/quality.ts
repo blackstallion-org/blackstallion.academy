@@ -26,43 +26,70 @@ export const TIERS: Record<TierName, QualitySettings> = {
   low: { tier: "low", dpr: 1, shadows: false, shadowSize: 512, bloom: false, density: 0.32, textures: "lo", dualRender: false },
 };
 const ORDER: TierName[] = ["low", "medium", "high"];
+const MIN_SCALE = 0.7;
 
 export class FrameGovernor {
   private samples: number[] = [];
   private goodFor = 0;
   private lastChange = 0;
-  /** frames to ignore at the start and after a change: shader compiles and first uploads are not the device's real speed */
-  private warm = 150;
+  private startedAt = -1;
+  /** true while the visitor has chosen the light mode: the governor leaves the tier alone */
+  locked = false;
   fps = 60;
-  constructor(public tier: TierName, private onChange: (t: TierName) => void, private budgetMs = 1000 / 45) {}
+  /** resolution multiplier (MIN_SCALE..1): a slow device loses pixels (soft edges, same scene) before it loses a whole tier */
+  scale = 1;
+  constructor(public tier: TierName, private onChange: (t: TierName) => void, private budgetMs = 1000 / 45, private onScale: (s: number) => void = () => {}) {}
+
+  /** Set the tier from outside (the light mode) without waiting for measurements. */
+  force(t: TierName) {
+    this.tier = t;
+    this.scale = 1;
+    this.samples.length = 0;
+    this.goodFor = 0;
+  }
 
   /** Feed one frame's duration (ms) and the current time (s). */
   tick(ms: number, now: number) {
+    if (this.locked) return;
     if (ms > 250) return; // a tab switch, not a slow frame
-    if (this.warm > 0) { this.warm--; return; }
+    if (this.startedAt < 0) this.startedAt = now;
+    if (now - this.startedAt < 1.5) return; // shader compiles and first uploads in the first second and a half are not the device's real speed
     this.samples.push(ms);
     if (this.samples.length > 60) this.samples.shift();
-    if (this.samples.length < 30) return;
+    if (this.samples.length < 20) return;
     const sorted = [...this.samples].sort((a, b) => a - b);
     const median = sorted[sorted.length >> 1];
     this.fps = 1000 / median;
-    if (now - this.lastChange < 2) return;
+    if (now - this.lastChange < 1.2) return;
     const i = ORDER.indexOf(this.tier);
-    if (median > this.budgetMs * 1.12 && i > 0) {
-      this.set(ORDER[i - 1], now);
+    if (median > this.budgetMs * 1.12) {
+      // far over budget (under about 28 fps): losing pixels will not be enough, drop a whole tier at once
+      if (median > this.budgetMs * 1.55 && i > 0) this.set(ORDER[i - 1], now);
+      else if (this.scale > MIN_SCALE + 0.01) this.setScale(Math.max(MIN_SCALE, this.scale - 0.15), now);
+      else if (i > 0) this.set(ORDER[i - 1], now);
     } else if (median < this.budgetMs * 0.6) {
       this.goodFor += ms / 1000;
-      if (this.goodFor > 6 && i < ORDER.length - 1) this.set(ORDER[i + 1], now);
+      if (this.goodFor > 6) {
+        if (this.scale < 1) this.setScale(Math.min(1, this.scale + 0.15), now);
+        else if (i < ORDER.length - 1) this.set(ORDER[i + 1], now);
+      }
     } else {
       this.goodFor = 0;
     }
   }
-  private set(t: TierName, now: number) {
-    this.tier = t;
+  private setScale(s: number, now: number) {
+    this.scale = s;
     this.lastChange = now;
     this.goodFor = 0;
     this.samples.length = 0;
-    this.warm = 45;
+    this.onScale(s);
+  }
+  private set(t: TierName, now: number) {
+    this.tier = t;
+    this.scale = 0.85; // a new tier starts a little under full resolution; it climbs back if there is room
+    this.lastChange = now;
+    this.goodFor = 0;
+    this.samples.length = 0;
     this.onChange(t);
   }
 }

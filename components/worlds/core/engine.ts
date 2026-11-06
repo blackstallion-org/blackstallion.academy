@@ -18,6 +18,34 @@ const FACTORIES: Record<WorldId, () => Promise<() => World>> = {
 
 type Slot = { world: World; ready: boolean; loading: Promise<void> };
 
+/** Resolves on the next animation frame (or after 60 ms in a hidden tab, where frames do not run). */
+const nextFrame = () => new Promise<void>((resolve) => {
+  let done = false;
+  const go = () => { if (!done) { done = true; resolve(); } };
+  requestAnimationFrame(go);
+  setTimeout(go, 60);
+});
+
+/** Every plain texture a scene draws with (material maps and shader uniforms, background, environment); render targets and video are skipped. */
+function collectTextures(scene: THREE.Scene): THREE.Texture[] {
+  const seen = new Set<THREE.Texture>();
+  const add = (v: unknown) => {
+    const t = v as THREE.Texture | undefined;
+    if (t && t.isTexture && !(t as { isRenderTargetTexture?: boolean }).isRenderTargetTexture && !(t as { isVideoTexture?: boolean }).isVideoTexture) seen.add(t);
+  };
+  add(scene.background);
+  add(scene.environment);
+  scene.traverse((o) => {
+    const m = (o as THREE.Mesh).material as THREE.Material | THREE.Material[] | undefined;
+    for (const mat of Array.isArray(m) ? m : m ? [m] : []) {
+      for (const v of Object.values(mat)) add(v);
+      const u = (mat as THREE.ShaderMaterial).uniforms;
+      if (u) for (const k of Object.keys(u)) add(u[k]?.value);
+    }
+  });
+  return [...seen];
+}
+
 export type EngineStatus = { phase: "loading" | "ready" | "failed"; progress: number; world: WorldId; tier: TierName; fps: number; error?: string };
 
 /**
@@ -69,7 +97,8 @@ export class WorldsEngine {
     this.renderer.shadowMap.enabled = this.quality.shadows;
     this.post = new PostChain(this.renderer);
     this.post.bloomEnabled = this.quality.bloom;
-    this.governor = new FrameGovernor(opts.tier, (t) => this.setTier(t));
+    this.governor = new FrameGovernor(opts.tier, (t) => this.setTier(t), 1000 / 45, () => this.resize(this.width, this.height));
+    this.post.setSamples(opts.tier);
     this.status.tier = opts.tier;
   }
 
@@ -117,6 +146,12 @@ export class WorldsEngine {
           } catch {
             this.renderer.compile(slot.world.scene, this.camA);
           }
+          // upload the world's textures now, one per frame, so the first frame inside it does not stall on a dozen large uploads
+          for (const t of collectTextures(slot.world.scene)) {
+            if (this.disposed) break;
+            try { this.renderer.initTexture(t); } catch { /* uploaded on first use instead */ }
+            await nextFrame();
+          }
           slot.ready = true;
         })
         .catch((e) => {
@@ -144,8 +179,22 @@ export class WorldsEngine {
 
   setProgress(p: number) {
     this.target = Math.min(1, Math.max(0, p));
+    this.lastInput = performance.now();
     this.wake();
   }
+
+  /** Light mode (the visitor's choice): the lowest tier, locked, for devices that struggle. Off returns to the device's own start. */
+  private lite = false;
+  setLite(on: boolean) {
+    if (on === this.lite) return;
+    this.lite = on;
+    this.governor.locked = on;
+    const t = on ? "low" : this.opts.tier;
+    this.governor.force(t);
+    this.setTier(t);
+  }
+  /** time of the last scroll input (ms): the film renders every frame while it moves, and at 30 fps when it rests */
+  private lastInput = 0;
 
   /** Jump without easing (keyboard chapter jumps under reduced motion, tests). */
   jump(p: number) {
@@ -162,7 +211,7 @@ export class WorldsEngine {
   resize(w: number, h: number) {
     this.width = Math.max(1, w);
     this.height = Math.max(1, h);
-    const dpr = Math.min(window.devicePixelRatio || 1, this.quality.dpr);
+    const dpr = Math.min(window.devicePixelRatio || 1, this.quality.dpr) * this.governor.scale;
     this.renderer.setPixelRatio(dpr);
     this.renderer.setSize(this.width, this.height, false);
     this.post.setSize(this.width, this.height, dpr);
@@ -171,16 +220,19 @@ export class WorldsEngine {
 
   private setTier(t: TierName) {
     this.quality = { ...TIERS[t] };
-    this.ctx.quality = this.quality;
+    if (this.ctx) this.ctx.quality = this.quality;
     this.renderer.shadowMap.enabled = this.quality.shadows;
     this.post.bloomEnabled = this.quality.bloom;
+    this.post.setSamples(t);
     for (const s of this.slots.values()) if (s.ready) s.world.setQuality?.(this.quality);
     this.resize(this.width, this.height);
     this.emit({ tier: t });
   }
 
+  /** true while loop() runs: a resize or a tier change inside a frame calls wake(), which must not start a second animation-frame chain */
+  private looping = false;
   private wake() {
-    if (!this.raf && !this.disposed && this.status.phase === "ready") {
+    if (!this.raf && !this.looping && !this.disposed && this.status.phase === "ready") {
       this.last = performance.now();
       this.raf = requestAnimationFrame((n) => this.loop(n));
     }
@@ -189,17 +241,27 @@ export class WorldsEngine {
   private loop = (now: number) => {
     this.raf = 0;
     if (this.disposed) return;
-    const dt = Math.min(0.05, Math.max(0.001, (now - this.last) / 1000));
-    this.last = now;
-    if (this.visible) {
-      const t0 = performance.now();
-      this.renderer.info.reset();
-      this.frame(dt, this.frozen ? 0 : (now - this.t0) / 1000);
-      this.cpuMs = performance.now() - t0;
-      this.governor.tick(dt * 1000, now / 1000);
-      if (Math.random() < 0.02) this.emit({ fps: Math.round(this.governor.fps) });
+    this.looping = true;
+    if (!this.visible) {
+      this.last = now;
+    } else {
+      // while the film moves every frame is drawn (and measured); at rest the ambient life (breath, grass, dust) runs at 30 fps,
+      // which halves the heat and battery cost of a page that is only being looked at
+      const moving = Math.abs(this.target - this.progress) > 2e-4 || Math.abs(this.vel) > 2e-3 || performance.now() - this.lastInput < 600;
+      if (moving || now - this.last >= 28) {
+        const dt = Math.min(0.05, Math.max(0.001, (now - this.last) / 1000));
+        this.last = now;
+        const t0 = performance.now();
+        this.renderer.info.reset();
+        this.frame(dt, this.frozen ? 0 : (now - this.t0) / 1000);
+        this.cpuMs = performance.now() - t0;
+        if (moving) this.governor.tick(dt * 1000, now / 1000);
+        // the page does not need the frame rate; development tools do
+        if (process.env.NODE_ENV !== "production" && Math.random() < 0.02) this.emit({ fps: Math.round(this.governor.fps) });
+      }
     }
     this.raf = requestAnimationFrame(this.loop);
+    this.looping = false;
   };
 
   private frame(dt: number, time: number) {

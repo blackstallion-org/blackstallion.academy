@@ -5,10 +5,9 @@ import { useLenis } from "lenis/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useCapabilities } from "@/lib/3d/use-capabilities";
-import { snapProgress } from "./core/timeline";
 import type { EngineStatus, WorldsEngine } from "./core/engine";
 import { WorldsFallback } from "./WorldsFallback";
-import { WorldsOverlay } from "./WorldsOverlay";
+import { WorldsOverlay, type OverlayHandle } from "./WorldsOverlay";
 import styles from "./four-worlds.module.css";
 
 /**
@@ -32,13 +31,28 @@ export function FourWorlds() {
   return <WorldsStage mobile={caps.quality === "low"} />;
 }
 
+/** Sets the smooth scroll's follow rate and wheel travel; returns the function that puts the previous values back. */
+function tuneScroll(options: { lerp?: number; wheelMultiplier?: number }, lerp: number, wheelMultiplier: number): () => void {
+  const prev = { lerp: options.lerp, wheelMultiplier: options.wheelMultiplier };
+  options.lerp = lerp;
+  options.wheelMultiplier = wheelMultiplier;
+  return () => { options.lerp = prev.lerp; options.wheelMultiplier = prev.wheelMultiplier; };
+}
+
 function WorldsStage({ mobile }: { mobile: boolean }) {
   const section = useRef<HTMLElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<WorldsEngine | null>(null);
+  const overlay = useRef<OverlayHandle>(null);
   const [status, setStatus] = useState<EngineStatus | null>(null);
-  const [progress, setProgress] = useState(0);
   const [failed, setFailed] = useState(false);
+  // light mode: the lowest tier, locked. A choice the visitor makes (and the page remembers) for a device that struggles.
+  // (this component only renders in the browser, after the capability check, so reading storage here cannot mismatch the server)
+  const [lite, setLite] = useState(() => {
+    try { return new URLSearchParams(window.location.search).get("tier") === "low" || window.localStorage.getItem("bsah-worlds-lite") === "1"; } catch { return false; }
+  });
+  useEffect(() => { engineRef.current?.setLite(lite); }, [lite, status?.phase]);
+  const toggleLite = () => setLite((v) => { try { window.localStorage.setItem("bsah-worlds-lite", v ? "0" : "1"); } catch { /* optional */ } return !v; });
   const lenis = useLenis();
 
   // the engine: created once, disposed on unmount
@@ -79,7 +93,8 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
     };
   }, [mobile]);
 
-  // scroll -> progress (scrubbed, reversible), with a gentle snap onto the story beats
+  // scroll -> progress (scrubbed, reversible). No snapping: the camera path holds on each story beat by itself, and a snap fights the
+  // smooth scroll on a slower machine. The overlay is updated directly, so a scroll tick never re-renders React.
   useEffect(() => {
     const el = section.current;
     if (!el) return;
@@ -91,16 +106,23 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
       end: "bottom bottom",
       onUpdate: (self) => {
         engineRef.current?.setProgress(self.progress);
-        setProgress(self.progress);
+        overlay.current?.update(self.progress);
       },
-      snap: { snapTo: (v: number) => snapProgress(v), duration: { min: 0.5, max: 1.4 }, delay: 0.25, ease: "power2.inOut", inertia: false },
     });
+    overlay.current?.update(st.progress);
     const params = new URLSearchParams(window.location.search);
     const p0 = Number(params.get("p"));
     if (Number.isFinite(p0) && p0 > 0) {
       requestAnimationFrame(() => window.scrollTo({ top: st.start + (st.end - st.start) * p0, behavior: "instant" as ScrollBehavior }));
     }
     return () => { unsub?.(); st.kill(); };
+  }, [lenis]);
+
+  // The site's smooth scroll is tuned for reading pages (a long glide). For the film it follows the wheel more closely and travels
+  // a little further per notch, which also feels lighter on a machine that is busy drawing; the page's own settings come back on leaving.
+  useEffect(() => {
+    if (!lenis) return;
+    return tuneScroll(lenis.options, 0.12, 1.2);
   }, [lenis]);
 
   const goTo = (p: number) => {
@@ -120,7 +142,7 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
         {/* the first frame of the film, a still rendered from the real scene, stands in until the engine has drawn its own */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/worlds/posters/origins.webp" alt="" aria-hidden fetchPriority="high" decoding="async" className={`${styles.poster} ${status?.phase === "ready" ? styles.posterGone : ""}`} />
-        <WorldsOverlay progress={progress} status={status} onJump={goTo} />
+        <WorldsOverlay ref={overlay} status={status} onJump={goTo} lite={lite} onLite={toggleLite} />
       </div>
     </section>
   );

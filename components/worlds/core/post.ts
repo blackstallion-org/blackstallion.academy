@@ -166,6 +166,16 @@ export class PostChain {
     this.gradePass.uniforms.uAspect.value = w / Math.max(1, h);
   }
 
+  /** Multisampling by tier: 4 / 2 / none. A render target must be disposed to change its sample count. */
+  setSamples(tier: "high" | "medium" | "low") {
+    const s = tier === "high" ? 4 : tier === "medium" ? 2 : 0;
+    for (const rt of [this.composer.renderTarget1, this.composer.renderTarget2]) {
+      if (rt.samples !== s) { rt.samples = s; rt.dispose(); }
+    }
+    const b = Math.min(s, 2);
+    if (this.rtB.samples !== b) { this.rtB.samples = b; this.rtB.dispose(); }
+  }
+
   set bloomEnabled(v: boolean) {
     this.bloom.enabled = v;
     this.sanitize.enabled = v; // without bloom nothing spreads a bad pixel; the grade shader guards the rest

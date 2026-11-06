@@ -42,3 +42,7 @@ Retired on 2 Nov 2026 and no longer requested by the site: `chariot.mp3`, `herd.
 | `village-herders.mp3` | "Goat Herders whistling, dogs barking", Anzbot, https://freesound.org/people/Anzbot/sounds/562181/ | CC0 1.0 |
 | `field-bed.mp3` | "Horse outside eating breathing stomping quiet", TRP, https://freesound.org/people/TRP/sounds/574094/ (5–60 s) | CC0 1.0 |
 | `field-crowd.mp3` | "072510_distant_cheer.wav", moxobna, https://freesound.org/people/moxobna/sounds/102108/ | CC0 1.0 |
+
+## Four Worlds soundtrack (6 Nov 2026)
+
+`music/four-worlds.mp3` is the track the owner supplied for the `/worlds` film (original file name `1793984615100_copy_3AAA2FC6-A982-417A-8272-F4FDEE8A00D4.mp3`, 149 s, 226 kbps). Re-encoded for the web: loudness normalised to -18 LUFS, short fade at both ends, 128 kbps, 2.4 MB. It plays on the music bus in place of the open-range recording while `/worlds` is open (`setMusicSource` in `lib/audio/mixer.ts`). The origin and licence of the recording have not been independently verified: the owner should confirm the right to publish it.

@@ -74,8 +74,8 @@ function PublicNav() {
             )}
           </div>
 
-          <nav aria-label="Primary" className="hidden xl:block">
-            <ul className="flex items-center gap-6 whitespace-nowrap 2xl:gap-8">
+          <nav aria-label="Primary" className="hidden min-[1440px]:block">
+            <ul className="flex items-center gap-3.5 whitespace-nowrap 2xl:gap-8">
               {primaryNav.map((item) => {
                 const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
                 return (
