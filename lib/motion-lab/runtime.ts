@@ -137,6 +137,7 @@ export class MotionEstimator {
       boxes = d.boxes;
       detMs = performance.now() - d0;
       this.tracker.associate(d.boxes, d.hists, t);
+      this.tracker.dedupe();
     }
     this.frame++;
     const live = this.tracker.live().sort((a, b) => boxArea(b.box) - boxArea(a.box));
@@ -178,16 +179,18 @@ export class MotionEstimator {
     return { t, animals, boxes, detected: animals.length > 0, detMs, poseMs: poseTotal, totalMs, skippedPose: skipped };
   }
 
-  /** Development and benchmarking only: the detector's boxes at a lower threshold, with the runner-up class, and the time it took. */
-  async probeDetect(src: Source, w: number, h: number, conf = 0.05): Promise<{ boxes: Box[]; ms: number }> {
+  /** Development and benchmarking only: the detector's boxes at a lower threshold (with runner-up class and colour histogram) and the time taken. */
+  async probeDetect(src: Source, w: number, h: number, conf = 0.05): Promise<{ boxes: Box[]; hists: Hist[]; ms: number }> {
     const t0 = performance.now();
     const { scale, w: lw, h: lh } = letterbox(w, h);
     const ctx = this.detCtx;
     ctx.fillStyle = "rgb(114,114,114)"; ctx.fillRect(0, 0, DET_SIZE, DET_SIZE);
     ctx.drawImage(src, 0, 0, w, h, 0, 0, lw, lh);
-    rgbaToYoloInput(ctx.getImageData(0, 0, DET_SIZE, DET_SIZE).data, this.detIn);
+    const rgba = ctx.getImageData(0, 0, DET_SIZE, DET_SIZE).data;
+    rgbaToYoloInput(rgba, this.detIn);
     const [raw] = await this.run(this.det, this.detIn, [1, DET_SIZE, DET_SIZE, 3]);
-    return { boxes: decodeAnimals(raw, scale, w, h, conf, 0.5, 12), ms: performance.now() - t0 };
+    const boxes = decodeAnimals(raw, scale, w, h, conf, 0.5, 12);
+    return { boxes, hists: boxes.map((b) => colourHistogram(rgba, DET_SIZE, DET_SIZE, b, scale)), ms: performance.now() - t0 };
   }
 
   /** Development and benchmarking only: the pose of one box, with its timing. */

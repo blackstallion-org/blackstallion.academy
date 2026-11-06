@@ -38,9 +38,10 @@ export type Track = {
 
 export type SpeciesCall = { key: SpeciesKey | null; cls: number | null; share: number; unsure: boolean };
 
-export type TrackerOptions = { minHits: number; maxLostMs: number; iouMin: number; speciesShare: number; speciesScore: number };
+export type TrackerOptions = { minHits: number; maxLostMs: number; iouMin: number; speciesShare: number; speciesScore: number; crowdSize: number; crowdShare: number; crowdScore: number };
 /** An animal is named only when its votes agree (speciesShare) AND the detector is confident about it (speciesScore): a weak box is "unsure". */
-export const DEFAULT_TRACKER: TrackerOptions = { minHits: 2, maxLostMs: 3000, iouMin: 0.2, speciesShare: 0.7, speciesScore: 0.4 };
+export const DEFAULT_TRACKER: TrackerOptions = { minHits: 3, maxLostMs: 6000, iouMin: 0.1, speciesShare: 0.7, speciesScore: 0.4, crowdSize: 4, crowdShare: 0.85, crowdScore: 0.55 };
+/** Four or more animals in view at once (a herd, a pack, overlapping animals) is where the detector confuses species most, so naming needs more agreement and a surer box. */
 
 const area = (b: Box) => Math.max(0, b.x2 - b.x1) * Math.max(0, b.y2 - b.y1);
 const centre = (b: Box) => ({ x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 });
@@ -93,7 +94,10 @@ export class AnimalTracker {
     if (best < 0 || total <= 0) return { key: null, cls: null, share: 0, unsure: true };
     const share = bw / total;
     const prof = speciesOfClass(best);
-    if (share < this.opt.speciesShare || t.score < this.opt.speciesScore || !prof) return { key: null, cls: best, share, unsure: true };
+    const crowd = this.tracks.reduce((n, o) => n + (o.confirmed && !o.lost ? 1 : 0), 0) >= this.opt.crowdSize;
+    const needShare = crowd ? Math.max(this.opt.speciesShare, this.opt.crowdShare) : this.opt.speciesShare;
+    const needScore = crowd ? Math.max(this.opt.speciesScore, this.opt.crowdScore) : this.opt.speciesScore;
+    if (share < needShare || t.score < needScore || !prof) return { key: null, cls: best, share, unsure: true };
     return { key: prof.key, cls: best, share, unsure: false };
   }
 
@@ -193,6 +197,26 @@ export class AnimalTracker {
   miss(t: Track, tMs: number) {
     t.missed++;
     if (tMs - t.lastSeenT > 400) t.lost = true;
+  }
+
+  /**
+   * Two live tracks that sit on the same animal (their boxes overlap almost completely) are one: the younger is dropped. Without this
+   * a second detector box on one animal starts a second ID that never goes away while the animal is in view.
+   */
+  dedupe(minIou = 0.6) {
+    const live = this.tracks.filter((t) => !t.lost).sort((a, b) => b.hits - a.hits);
+    const drop = new Set<number>();
+    for (let i = 0; i < live.length; i++) {
+      if (drop.has(live[i].id)) continue;
+      for (let j = i + 1; j < live.length; j++) {
+        if (drop.has(live[j].id)) continue;
+        if (iou(live[i].box, live[j].box) >= minIou) {
+          for (const [c, w] of live[j].votes) live[i].votes.set(c, (live[i].votes.get(c) ?? 0) + w * 0.5);
+          drop.add(live[j].id);
+        }
+      }
+    }
+    if (drop.size) this.tracks = this.tracks.filter((t) => !drop.has(t.id));
   }
 
   prune(tMs: number) {

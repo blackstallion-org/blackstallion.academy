@@ -148,6 +148,12 @@ export type ClassifyExtra = {
   species?: SpeciesKey; signal?: "along" | "lift"; foreshortened?: number;
   /** Real frame rate of the source samples. A leg rhythm at more than 45% of this cannot be told from its alias, so it is not named. */
   sampleHz?: number;
+  /**
+   * Slow-footage pass: slow-motion or time-lapse video stretches the stride to well under 0.5 per second, below the normal search band.
+   * A longer detrend and a lower band are used, the stride-rate ranges (which assume real time) are skipped, and a horse's canter and
+   * gallop are not told apart (they differ only by rate); the leg pattern itself does not depend on playback speed.
+   */
+  slow?: boolean;
 };
 
 /** Removes a centred moving average (NaNs ignored) so slow drift cannot masquerade as the lowest stride frequencies. */
@@ -183,10 +189,11 @@ export function classifyLimbs(limbs: LimbSignals, hz: number, extra: ClassifyExt
   if (Math.max(...amp) < standThreshold) {
     return { ...base, ...tag, gait: "standing", confidence: Math.min(1, 0.4 + extra.coverage * 0.5), strideHz: null, phases: null, note: "The legs are not moving relative to the body." };
   }
-  const clean = names.map((n) => detrend(limbs[n], hz));
-  const fMax = Math.min(F_MAX, extra.sampleHz ? 0.45 * extra.sampleHz : F_MAX);
+  const clean = names.map((n) => detrend(limbs[n], hz, extra.slow ? 3.5 : DETREND_S));
+  const fMin = extra.slow ? 0.2 : F_MIN;
+  const fMax = extra.slow ? 1.6 : Math.min(F_MAX, extra.sampleHz ? 0.45 * extra.sampleHz : F_MAX);
   // Dominant frequency: the peak of the summed, per-limb-normalised spectra.
-  const specs = clean.map((x) => { const f: number[] = [], p: number[] = []; for (let q = F_MIN; q <= fMax + 1e-9; q += F_STEP) { f.push(q); p.push(dftAt(x, hz, q).power); } return { f, p }; });
+  const specs = clean.map((x) => { const f: number[] = [], p: number[] = []; for (let q = fMin; q <= fMax + 1e-9; q += F_STEP) { f.push(q); p.push(dftAt(x, hz, q).power); } return { f, p }; });
   const nf = specs[0].f.length;
   if (nf < 8) return unclearOf(base, "slow-frames", "Too few frames a second to follow the legs.", null, null, tag);
   const sum = new Array<number>(nf).fill(0);
@@ -201,6 +208,8 @@ export function classifyLimbs(limbs: LimbSignals, hz: number, extra: ClassifyExt
   const peakiness = sum[pk] / Math.max(1e-9, sorted[Math.floor(nf / 2)]);
   let agree = 0;
   specs.forEach((s) => { let q = 0; for (let i = 1; i < s.p.length; i++) if (s.p[i] > s.p[q]) q = i; if (Math.abs(s.f[q] - f0) / f0 <= 0.15) agree++; });
+  const quality = { peakiness, agree, concentration };
+  tag.quality = quality;
   if (peakiness < 3 || agree < 3) return unclearOf(base, "no-rhythm", "The legs move, but the rhythm is not steady enough to name a gait.", f0, null, tag);
   if (extra.sampleHz && f0 > 0.45 * extra.sampleHz) return unclearOf(base, "slow-frames", `The leg rhythm (${f0.toFixed(1)} strides/s) is too fast for ${extra.sampleHz.toFixed(0)} frames a second.`, f0, null, tag);
   const ph = clean.map((x) => dftAt(x, hz, f0).phase);
@@ -220,10 +229,11 @@ export function classifyLimbs(limbs: LimbSignals, hz: number, extra: ClassifyExt
   else if (alternating && sp.key !== "horse") { gait = "moving"; note = "Left and right legs alternate (a walk or trot)."; }
   else if (alternating) return unclearOf(base, "pattern", "The legs alternate, but their timing fits neither a walk nor a trot clearly.", f0, phases, tag);
   else if (extra.windowS * f0 < 3) return unclearOf(base, "short", "Fewer than three strides were seen, too few to name the movement.", f0, phases, tag);
+  else if (sp.key === "horse" && extra.slow) { gait = "moving"; note = "Legs of a pair are not alternating (an asymmetric gait: canter or gallop), but slow-motion footage hides which."; }
   else if (sp.key === "horse") { gait = f0 < CANTER_GALLOP_HZ ? "canter" : "gallop"; note = `Legs of a pair are not alternating (asymmetric gait), with a stride frequency in the ${gait} range.`; }
   else { gait = "moving"; note = f0 >= sp.fastHz ? "Legs of a pair are not alternating and the stride rate is high (in the running range)." : "Legs of a pair are not alternating, at a moderate stride rate."; }
   // Sanity against textbook stride-frequency ranges (strides per second). Far outside the range the label is withdrawn, not guessed.
-  const range = sp.strideHz[gait];
+  const range = extra.slow ? undefined : sp.strideHz[gait];
   if (range && (f0 < range[0] * 0.85 || f0 > range[1] * 1.15)) {
     return unclearOf(base, "range", `The leg rhythm (${f0.toFixed(2)} strides/s) does not fit a ${gait} for this species; the view or the tracking is probably too poor to tell.`, f0, phases, tag);
   }
@@ -233,6 +243,7 @@ export function classifyLimbs(limbs: LimbSignals, hz: number, extra: ClassifyExt
     0.28 * (agree / 4) + 0.24 * Math.min(1, concentration * 2.2) + 0.18 * extra.coverage + 0.08 * Math.min(1, extra.visibleJoints / 13) + 0.12 * rangeOk + 0.10 * view));
   // Names this species is not cleared for fall back to "moving": the rhythm is real, the label is not claimed.
   if (gait !== "moving" && !allowed(gait)) { note = `${note} ${sp.label} gaits other than ${sp.gaits.filter((g) => g !== "standing").join(", ")} are not validated, so this is reported only as movement.`; gait = "moving"; confidence = Math.min(confidence, 0.9); }
+  if (extra.slow) note = `${note} Read from slow footage over a longer window: the stride rate is per second of video, not real time.`;
   return { ...base, ...tag, gait, confidence, strideHz: f0, phases, note };
 }
 
@@ -249,7 +260,7 @@ const quantile = (a: number[], q: number) => { const s = a.filter(Number.isFinit
  * Frames where the body is foreshortened are left out of "along" rather than dividing by a length near zero (the cause of the
  * earlier unstable readings on a horse circling a round pen).
  */
-export function estimateGait(samples: Sample[], endT: number, windowS = GAIT_WINDOW_S, species: SpeciesKey = "horse"): GaitEstimate {
+export function estimateWindow(samples: Sample[], endT: number, windowS: number, species: SpeciesKey, slow: boolean): GaitEstimate {
   const t0 = endT - windowS * 1000;
   const win = samples.filter((s) => s.t >= t0 && s.t <= endT && s.kp.length >= KP_COUNT * 3);
   const spanS = win.length ? (win[win.length - 1].t - win[0].t) / 1000 : 0;
@@ -296,7 +307,7 @@ export function estimateGait(samples: Sample[], endT: number, windowS = GAIT_WIN
   const tries: GaitEstimate[] = [];
   for (const [r, signal] of [[A, "along"], [V, "lift"]] as const) {
     if (r.coverage < 0.6) continue;
-    tries.push(classifyLimbs(r.limbs, RESAMPLE_HZ, { coverage: r.coverage, visibleJoints: meanVisible, windowS: spanS, species, signal, foreshortened, sampleHz }));
+    tries.push(classifyLimbs(r.limbs, RESAMPLE_HZ, { coverage: r.coverage, visibleJoints: meanVisible, windowS: spanS, species, signal, foreshortened, sampleHz, slow }));
   }
   if (!tries.length) {
     return short(foreshortened > 0.4 ? "The animal is seen end-on for much of this stretch, so the legs cannot be followed along its body." : "The legs were hidden or too uncertain for a stretch of this window.", foreshortened > 0.4 ? "foreshortened" : "hidden", meanVisible);
@@ -307,6 +318,21 @@ export function estimateGait(samples: Sample[], endT: number, windowS = GAIT_WIN
   // "Standing" from one reading is contradicted if the other reading sees strong rhythmic movement.
   if (best.gait === "standing" && tries.some((t) => t.gait !== "standing" && t.gait !== "unclear")) return tries.find((t) => t.gait !== "standing" && t.gait !== "unclear") as GaitEstimate;
   return best;
+}
+
+/** Window used by the slow-footage pass: long enough to hold three strides of a rhythm as slow as 0.4 per second. */
+export const SLOW_WINDOW_S = 8;
+
+/**
+ * Gait estimate for one animal. The normal four-second reading is tried first; only when it finds legs moving without a steady
+ * rhythm (or too few strides) is the slow-footage pass tried on the preceding eight seconds, because slow-motion video stretches
+ * the stride below the normal search band. A label from the slow pass says so in its note.
+ */
+export function estimateGait(samples: Sample[], endT: number, windowS = GAIT_WINDOW_S, species: SpeciesKey = "horse"): GaitEstimate {
+  const normal = estimateWindow(samples, endT, windowS, species, false);
+  if (normal.gait !== "unclear" || (normal.reason !== "no-rhythm" && normal.reason !== "short") || normal.windowS < MIN_WINDOW_S) return normal;
+  const slow = estimateWindow(samples, endT, SLOW_WINDOW_S, species, true);
+  return slow.gait !== "unclear" && slow.gait !== "standing" && slow.windowS >= 5 ? slow : normal;
 }
 
 // ------------------------------------------------------------------ summary

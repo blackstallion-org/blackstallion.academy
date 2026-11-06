@@ -49,6 +49,8 @@ export type GaitEstimate = {
   reason?: UnclearReason;
   /** Which signal carried the estimate: the paw's position along the body, or how high the paw is lifted. */
   signal?: "along" | "lift";
+  /** How clean the rhythm was: peak-to-median spectral ratio, limbs agreeing on the frequency (of 4), and peak sharpness. For diagnosis. */
+  quality?: { peakiness: number; agree: number; concentration: number };
   /** Share of the window's frames in which the animal was seen end-on (neck and tail nearly overlapping in the picture). */
   foreshortened?: number;
 };

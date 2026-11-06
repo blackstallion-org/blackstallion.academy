@@ -280,3 +280,27 @@ test("gait: slow drift and a body seen end-on do not produce a rhythm", () => {
   assert.equal(r.gait === "unclear" || r.gait === "standing", true);
   assert.notEqual(r.gait, "canter"); assert.notEqual(r.gait, "gallop");
 });
+
+test("tracker: two live tracks on the same animal become one; separate animals stay separate", () => {
+  const tr = new T.AnimalTracker();
+  const dog = SP.SPECIES.dog.cls;
+  for (let f = 0; f < 4; f++) tr.associate([det(100, 100, dog), det(400, 100, dog)], [colour(1), colour(9)], f * 100);
+  // A stray second box lands on the first animal and starts its own track.
+  tr.tracks.push({ ...tr.tracks[0], id: 99, hits: 1, box: { ...tr.tracks[0].box, x1: tr.tracks[0].box.x1 + 4, x2: tr.tracks[0].box.x2 + 4 }, votes: new Map() });
+  assert.equal(tr.tracks.length, 3);
+  tr.dedupe();
+  assert.equal(tr.tracks.length, 2);
+  assert.ok(!tr.tracks.some((t) => t.id === 99));
+});
+
+test("tracker: in a crowd of four or more a moderately sure species is not named; alone it is", () => {
+  const horse = SP.SPECIES.horse.cls;
+  const make = (n) => {
+    const tr = new T.AnimalTracker();
+    for (let f = 0; f < 6; f++) tr.associate(Array.from({ length: n }, (_, i) => det(100 + i * 300, 100, horse, 0.5)), Array.from({ length: n }, (_, i) => colour(i)), f * 100);
+    return tr;
+  };
+  const solo = make(1), crowd = make(5);
+  assert.equal(solo.species(solo.tracks[0]).key, "horse");
+  assert.equal(crowd.species(crowd.tracks[0]).key, null);
+});

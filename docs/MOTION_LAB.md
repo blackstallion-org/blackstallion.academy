@@ -82,10 +82,10 @@ these clips; labels were judged by checking stride rate against textbook ranges 
 | `horse_r3c_b` (ridden horse, 24 s, 720p) | 1 horse, 1 ID | skeleton 100% of frames; trot at 1.24 strides/s in 22 of 22 windows, diagonals in step |
 | `horse_r3c_a` (horse circling a round pen with a handler) | 1 horse, 1 ID; the handler is not labelled an animal | skeleton 100%; 11 of 17 windows named (trot, canter, walk, standing); the rest unclear because the horse faces the camera or turns |
 | `dog_walk_sf` (leashed dog, side view, 17 s) | 1 dog, 1 ID | skeleton 100%; "moving" at 1.3 to 1.8 strides/s in 12 of 15 windows |
-| `dog_greyhound_run` (running dog, vertical, panning camera) | 1 dog, 1 ID | skeleton in 93% of frames; **0 of 12 windows named**: the dog is small or head-on for most of the clip |
+| `dog_greyhound_run` (running dog, vertical, panning camera; the file is titled slow motion) | 1 dog, 1 ID | skeleton in 93% of frames; **0 of 12 windows named**. Cause found in the raw paw signals (see 4.6): the dog turns away (body length 450 px to 200 px) and the paw values drift slowly with no stride oscillation for any method to find |
 | `cat_sophy_ledge`, `cat_calico_kitten` (colour phone video) | 1 cat each (plus 2 short unsure tracks on the kitten clip) | named "Cat", skeleton in 74 to 79% of frames; "moving" in 2 of 5 and 5 of 13 windows |
 | `cat_stealth_1` (grayscale 352x288 lab footage) | none found | **fail**: best detector score 0.07, called a cow. 0% tracked |
-| `multi_wild_dogs` (about 12 African wild dogs from behind, 24 s) | 54 raw IDs, 8 reported | **fail** as a multi-animal test: several dogs named "horse" or "cow"; heavy ID fragmentation. See 4.4 |
+| `multi_wild_dogs` (about 12 African wild dogs from behind, 24 s) | after the second round: 36 raw IDs (was 54), 8 reported, none named | still a weak multi-animal test: all stay "species unsure" (no wrong names), IDs are fragmented. See 4.4 and 4.7 |
 | `hero-loop` (AI horse) | 1 horse | detected, 17 of 17 joints; the rearing horse gives "unclear" |
 
 ### 4.3 Camera, recording, reports
@@ -99,8 +99,9 @@ timeline with reasons, angles and proportions, three charts, annotated frames, s
 
 * Single-animal clips: one ID per animal in all six, no spurious second animal that lived 10 frames or more (the kitten clip's two
   extra tracks lived about 1.5 s and were never named).
-* Crowd: the wild-dog pack produced 54 raw IDs for roughly 12 animals (4 to 5 times too many) with the animals partly hidden behind
-  each other. IDs are not reliable in dense groups. Sessions report only the 8 longest-lived tracks and count the rest.
+* Crowd: the wild-dog pack produced 54 raw IDs for roughly 12 animals with the animals partly hidden behind each other. After the
+  second round (stricter confirmation, 6 s revival, duplicate-track merging) the same clip gives 36 raw IDs. That is better but still
+  about three times the animals; IDs are not reliable in dense groups. Sessions report only the 8 longest-lived tracks and count the rest.
 * Not measured: ID-switch rate against a labelled multi-animal ground truth. No such labelled clip was available.
 
 ### 4.5 Speed (Chromium on this Mac, 1 animal unless noted)
@@ -112,6 +113,36 @@ timeline with reasons, angles and proportions, three charts, annotated frames, s
 
 Pose is about 110 to 120 ms per animal on the CPU, so a frame with four animals takes about half a second: the estimator caps pose
 work at about 350 ms per frame and boxes the smaller animals that frame. Memory, GPU use and battery were not profiled.
+
+### 4.6 Second round: the greyhound
+
+The clip is titled "Slow motion of running greyhound", and slow motion stretches the stride below the normal search band (0.5 per
+second), where the 1.4 s detrend filter also removes it. A slow-footage pass was added (`estimateGait`: 8 s window, 0.2 to 1.6 per
+second, 3.5 s detrend, no real-time stride ranges, no canter/gallop split). It runs only when the normal pass finds legs moving without
+a steady rhythm, and says so in the note. On the leashed dog it recovered two more windows (13 s and 16 s) at the same stride rate as their
+neighbours. On the greyhound it still finds nothing, and the raw paw signals show why: during the run the dog turns away, the paw
+heights drift for over a second at a time, and there is no stride oscillation at 15 frames per second to find. This is a limit of the
+pose model on this clip, not of the thresholds, so the thresholds were not loosened to force a label.
+
+### 4.7 Second round: the pack
+
+The detector's raw output on the pack was recorded (355 frames, 1,770 boxes): "dog" 46 times, "horse" 1,063, "cow" 503, others 158.
+The animals are all dogs, so no tracker rule can name them correctly; the aim is to not name them wrongly. Changes, tested first
+offline on that recording (`probeDetect` plus a replay of the tracker) and then in the browser:
+
+| Change | Effect on the recorded pack |
+| --- | --- |
+| three detections to confirm a track, 6 s revival, looser overlap gate | 59 to 40 raw IDs |
+| merge two live tracks that sit on one animal | 40 to 39 |
+| crowd rule: with four or more animals in view, name a species only at vote share 0.85 and score 0.55 | wrongly named track-frames 555 to 25 |
+
+End to end in the browser (WebGPU): raw IDs 54 to 36, and 25 of 3,569 track-frames still carry a name ("horse"). The cost of the crowd rule
+is that a real horse inside a herd of four or more is also "unsure" unless the detector is very sure of it.
+
+### 4.8 CPU and WebGPU give different legs
+
+The same round-pen clip names 11 of 17 windows on the CPU and 7 of 17 on WebGPU (fp16 on the GPU shifts paw points slightly). Gait labels
+are therefore not identical across devices; treat a label as an estimate that can change with the accelerator.
 
 ## 5. What works, what is experimental, what fails
 
@@ -130,7 +161,7 @@ work at about 350 ms per frame and boxes the smaller animals that frame. Memory,
 
 **Fails or not supported**
 * Cats in grayscale or very low-resolution footage (not detected).
-* Crowds and overlapping animals: wrong species names (wild dogs named horse or cow) and fragmented IDs.
+* Crowds and overlapping animals: the detector names wild dogs horse or cow; the crowd rule now leaves them "species unsure" instead, and IDs are still fragmented (about three times too many).
 * Sheep, cow, zebra, bear, elephant, giraffe: found and named by the detector, boxed only, no skeleton or movement.
 * Animals seen head-on, small in the frame, or hidden by a rider, rail or other animal: skeleton degrades, gait is "unclear".
 * Any species the COCO detector does not know (named as the nearest class or missed).
@@ -145,5 +176,5 @@ Chromium on this Mac no longer decodes Ogg/Theora (`.ogv`); the page says so, an
 ## 7. Files
 
 `lib/motion-lab/{species,detect,tracker,runtime,analysis,export,draw,types}.ts`, `components/sections/motion-lab/{MotionLab,Panels}.tsx`,
-`app/motion-lab/page.tsx`, `tests/motion-lab.test.mjs` (26 tests: maths, decoding, tracker and gait rules; synthetic inputs check the
+`app/motion-lab/page.tsx`, `tests/motion-lab.test.mjs` (28 tests: maths, decoding, tracker and gait rules; synthetic inputs check the
 code and are not results), `scripts/motion-lab-assets.mjs`.
