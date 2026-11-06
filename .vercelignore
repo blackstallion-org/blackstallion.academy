@@ -1,5 +1,7 @@
 docs
-scripts
+# The folder stays out of deployments, except the one script the build itself runs (package.json "prebuild": it copies the LiteRT runtime and fetches the Motion Lab models).
+scripts/*
+!scripts/motion-lab-assets.mjs
 PROGRESS.md
 AGENTS.md
 CLAUDE.md
