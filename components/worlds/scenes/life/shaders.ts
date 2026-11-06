@@ -177,9 +177,9 @@ export function fiberMaterial(shared: Record<string, THREE.IUniform>, seed: numb
 }
 
 /* ------------------------------------------------------------------ the horse of light: x-ray shell, muscles, bones (skinned) */
-export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower: number; body: number; rim: number; strands?: number }) {
+export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower: number; body: number; rim: number; strands?: number; cut?: boolean }) {
   return new THREE.ShaderMaterial({
-    uniforms: { uColor: { value: new THREE.Color(color) }, uRim: { value: opts.rim }, uBody: { value: opts.body }, uPow: { value: opts.rimPower }, uLevel: { value: 1 }, uTime: { value: 0 }, uStrand: { value: opts.strands ?? 0 }, ...fogUniforms() },
+    uniforms: { uColor: { value: new THREE.Color(color) }, uRim: { value: opts.rim }, uBody: { value: opts.body }, uPow: { value: opts.rimPower }, uLevel: { value: 1 }, uTime: { value: 0 }, uStrand: { value: opts.strands ?? 0 }, uCut: { value: new THREE.Vector4(-1, -1, -1, -1) }, ...fogUniforms() },
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
@@ -187,7 +187,7 @@ export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower:
     vertexShader: /* glsl */ `
       #include <common>
       #include <skinning_pars_vertex>
-      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec3 vW; varying vec3 vL;
+      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec3 vW; varying vec3 vL; varying float vCut; uniform vec4 uCut;
       void main() {
         #include <beginnormal_vertex>
         #include <skinbase_vertex>
@@ -198,13 +198,18 @@ export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower:
         vN = normalize(mat3(modelMatrix) * objectNormal);
         vV = normalize(cameraPosition - wp.xyz);
         vW = wp.xyz; vL = position;
+        // weight on the bones listed in uCut (the exhibit's own tail, which is replaced by the strand tail)
+        vCut = 0.0;
+        #ifdef USE_SKINNING
+        for (int k = 0; k < 4; k++) { float id = skinIndex[k]; if (id == uCut.x || id == uCut.y || id == uCut.z || id == uCut.w) vCut += skinWeight[k]; }
+        #endif
         vec4 mv = viewMatrix * wp; vDist = -mv.z;
         gl_Position = projectionMatrix * mv;
       }`,
     fragmentShader: /* glsl */ `
       uniform vec3 uColor; uniform float uRim; uniform float uBody; uniform float uPow; uniform float uLevel; uniform float uTime; uniform float uStrand;
       uniform vec3 uFogColor; uniform float uFogDensity;
-      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec3 vW; varying vec3 vL;
+      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec3 vW; varying vec3 vL; varying float vCut;
       void main() {
         float ndv = abs(dot(normalize(vN), normalize(vV)));
         float rim = pow(1.0 - ndv, uPow);
@@ -218,6 +223,7 @@ export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower:
           float st = smoothstep(-0.1, 0.95, a * 0.6 + b * 0.5 + 0.15) * 1.6;
           col *= mix(1.0, st, uStrand);
         }
+        col *= 1.0 - smoothstep(0.15, 0.7, vCut);
         float fog = exp(-pow(uFogDensity * vDist, 1.6));
         gl_FragColor = vec4(col * fog, 1.0);
       }`,

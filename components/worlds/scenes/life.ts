@@ -6,6 +6,7 @@ import { vnoise } from "@/components/stallion-film/noise";
 import { disposeTree } from "../core/assets";
 import { CameraPath, key, type CameraKey } from "../core/camera";
 import { Motes, smoothstep, span } from "../core/kit";
+import { TailHair } from "./life/tail";
 import type { QualitySettings } from "../core/quality";
 import type { Grade, ShotPose, World, WorldContext } from "../core/types";
 import { cellMaterial, fiberMaterial, fogUniforms, sparkTexture, tissueMaterial, xrayMaterial } from "./life/shaders";
@@ -102,6 +103,9 @@ class LifeWorld implements World {
   private cellCount = 0;
   private motes: Motes[] = [];
   private trail: Motes | null = null;
+  private tail: TailHair | null = null;
+  private tailBone: THREE.Object3D | null = null;
+  private readonly tailAt = new THREE.Vector3();
   private sparks: THREE.Points | null = null;
   private fibers: THREE.Mesh[] = [];
   private q: QualitySettings | null = null;
@@ -211,6 +215,9 @@ class LifeWorld implements World {
     const model = cloneSkinned(gltf.scene);
     this.buildHorse(model);
     this.horse.add(model);
+    this.tail = new TailHair();
+    this.tailBone = model.getObjectByName("Tail_1") ?? null;
+    this.horse.add(this.tail.mesh);
     this.horse.position.copy(HORSE);
     this.horse.rotation.y = -Math.PI / 2;
     this.root.add(this.horse);
@@ -253,6 +260,11 @@ class LifeWorld implements World {
       const same = list.every((m) => m.skeleton.bones.length === first.skeleton.bones.length && m.bindMatrix.equals(first.bindMatrix));
       const mat = look[layer];
       this.layers[layer].push(mat);
+      // the strand tail replaces the exhibit's hair on the tail bones
+      if (layer === "hair") {
+        const ids = ["Tail_1", "Tail_2", "Tail_3", "Tail_4"].map((n) => first.skeleton.bones.findIndex((b) => b.name === n));
+        mat.uniforms.uCut.value.set(ids[0], ids[1], ids[2], ids[3]);
+      }
       if (list.length > 1 && same) {
         const geos = list.map((m) => {
           const g = new THREE.BufferGeometry();
@@ -300,6 +312,10 @@ class LifeWorld implements World {
     for (const m of this.motes) m.update(time);
     this.trail?.update(time);
     this.mixer?.update(dt);
+    if (this.tail && this.tailBone) {
+      this.tailBone.getWorldPosition(this.tailAt);
+      this.tail.mesh.position.copy(this.horse.worldToLocal(this.tailAt));
+    }
 
     // which anatomical layer carries the light (deterministic from p)
     const reveal = smoothstep(0.36, 0.46, p);
@@ -309,6 +325,7 @@ class LifeWorld implements World {
     const set = (k: keyof typeof this.layers, v: number) => this.layers[k].forEach((m) => { m.uniforms.uLevel.value = v; m.uniforms.uTime.value = time; m.uniforms.uFogDensity.value = this.shared.uFogDensity.value; });
     set("shell", shell);
     set("hair", shell * 0.8);
+    this.tail?.update(time, shell);
     set("muscle", reveal * (0.18 + 0.82 * muscle));
     set("tendon", reveal * (0.12 + 0.88 * Math.max(muscle, bone) * 0.8));
     set("bone", reveal * (0.12 + 0.88 * Math.min(1, bone)));
