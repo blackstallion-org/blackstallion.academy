@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { setEffectsAllowed, soundEnabled, subscribeSound } from "@/lib/audio/engine";
+import { setEffectsAllowed, setSound, soundEnabled, subscribeSound } from "@/lib/audio/engine";
 import { getMusicState, pauseAmbience, resumeAmbience, setMusicSource, startMusic, subscribeMusic, type MusicState } from "@/lib/audio/mixer";
 import { getSoundMode } from "@/lib/audio/mode";
 import { asset } from "@/lib/content/asset";
@@ -34,7 +34,17 @@ export function WorldsMusic() {
 
   useEffect(() => {
     setMusicSource(TRACK);
-    if (!on) return () => { sfx.stop(); setMusicSource(null); };
+    if (!on) {
+      // Sound is off (the visitor's earlier choice, or reduced motion): the first tap, key or click on the film turns it on. That is a real
+      // gesture, so the browser allows the audio, and nothing plays until it happens.
+      const wake = (event: Event) => {
+        if (event instanceof KeyboardEvent && (event.metaKey || event.ctrlKey)) return;
+        setSound(true);
+      };
+      const wakeEvents = ["pointerdown", "click", "keydown", "touchend"] as const;
+      wakeEvents.forEach((e) => window.addEventListener(e, wake, true));
+      return () => { wakeEvents.forEach((e) => window.removeEventListener(e, wake, true)); sfx.stop(); setMusicSource(null); };
+    }
     void startMusic();
     // browsers only start audio on a real activation: take the first click, key, tap or release and start the music then
     const events = ["pointerdown", "pointerup", "click", "keydown", "touchend"] as const;
@@ -48,11 +58,12 @@ export function WorldsMusic() {
   }, [on]);
 
   const playing = music === "playing";
-  if (!on) return null;
+  // Until the music is actually playing (sound off, or the browser waiting for a first tap) the film says how to get sound.
+  const needsTap = !on || !playing;
   return (
-    <span className={styles.music} role="img" aria-label={playing ? "Music playing" : "Music"} data-on={playing || undefined}>
+    <span className={styles.music} role="img" aria-label={playing ? "Music playing" : needsTap ? "Tap for sound" : "Music"} data-on={playing || undefined}>
       <i /><i /><i /><i />
-      {music === "blocked" && <b className={styles.musicHint}>Tap for sound</b>}
+      {needsTap && <b className={styles.musicHint}>Tap for sound</b>}
     </span>
   );
 }
