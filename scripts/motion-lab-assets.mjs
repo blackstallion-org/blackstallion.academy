@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const check = process.argv.includes("--check");
-const modelDir = path.join(root, "public/models/motion-lab");
+const modelDir = path.join(root, "public/motion-lab/models");
 const wasmDir = path.join(root, "public/motion-lab/wasm");
 
 /** Licences are recorded here because the files are not committed: see docs/MOTION_LAB.md section 2 before shipping. */

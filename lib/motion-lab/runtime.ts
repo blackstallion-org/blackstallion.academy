@@ -12,7 +12,7 @@ import type { Box, Pose, Sample } from "./types";
  * browser. The detector runs every few frames (every frame while nothing is tracked or an animal was just lost); in between, each
  * box follows its own pose.
  */
-export const MODEL_BASE = process.env.NEXT_PUBLIC_MOTION_MODEL_BASE || "/models/motion-lab";
+export const MODEL_BASE = process.env.NEXT_PUBLIC_MOTION_MODEL_BASE || "/motion-lab/models";
 export const WASM_BASE = process.env.NEXT_PUBLIC_MOTION_WASM_BASE || "/motion-lab/wasm/";
 export const DETECTOR_FILE = "yolox_nano.tflite";
 export const POSE_FILE = "rtm_animal_fp16.tflite";

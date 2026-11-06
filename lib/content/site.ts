@@ -52,7 +52,7 @@ export const TOTAL_REELS = reels.length;
  * and do not change the reel count (so the "REEL n / 17" marks and the hand-off from reel to reel stay as they were).
  */
 export const tools = [
-  { n: 18, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
+  { n: 19, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
 ] as const;
 
 export function reelFor(pathname: string): Reel | undefined {
