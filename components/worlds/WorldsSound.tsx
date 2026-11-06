@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { setSound, soundEnabled, subscribeSound } from "@/lib/audio/engine";
-import { getMusicState, setMusicSource, startMusic, subscribeMusic, type MusicState } from "@/lib/audio/mixer";
+import { setEffectsAllowed, soundEnabled, subscribeSound } from "@/lib/audio/engine";
+import { getMusicState, pauseAmbience, resumeAmbience, setMusicSource, startMusic, subscribeMusic, type MusicState } from "@/lib/audio/mixer";
+import { getSoundMode } from "@/lib/audio/mode";
 import { asset } from "@/lib/content/asset";
 import { sfx } from "./core/sfx";
 import styles from "./four-worlds.module.css";
@@ -14,11 +15,22 @@ const TRACK = asset("/audio/music/four-worlds.mp3");
  * The film's music. It starts by itself (when the site's sound is on); browsers only allow audio after a first click, key or touch,
  * so if it is held back the site's own gesture listener starts it on that first touch. There is no switch here, only a small
  * animation that moves while the music plays. Leaving the film puts the open-range recording back.
+ *
+ * While the film is up the site's horse sounds (the idle neighs and snorts, the greeting snort) and its location ambience are held
+ * back: the film has its own music and its own text sounds (core/sfx.ts). When the site's sound is off nothing is shown here (the
+ * switch is in the site's header; on /worlds the film page has its own).
  */
 export function WorldsMusic() {
   const music = useSyncExternalStore<MusicState>(subscribeMusic, getMusicState, () => "waiting");
   // The site's sound switch (header) is not on this page, so its state is read here: when it is off the film offers its own switch.
   const on = useSyncExternalStore(subscribeSound, soundEnabled, () => true);
+
+  // no horse sounds over the film: effects off, location ambience paused; both come back when the film leaves
+  useEffect(() => {
+    setEffectsAllowed(false);
+    pauseAmbience();
+    return () => { setEffectsAllowed(getSoundMode() !== "music"); resumeAmbience(); };
+  }, []);
 
   useEffect(() => {
     setMusicSource(TRACK);
@@ -36,13 +48,7 @@ export function WorldsMusic() {
   }, [on]);
 
   const playing = music === "playing";
-  if (!on) {
-    return (
-      <button type="button" className={styles.ctrl} onClick={() => setSound(true)} aria-label="Sound is off. Turn the film's music on.">
-        Sound off <span aria-hidden>·</span> turn on
-      </button>
-    );
-  }
+  if (!on) return null;
   return (
     <span className={styles.music} role="img" aria-label={playing ? "Music playing" : "Music"} data-on={playing || undefined}>
       <i /><i /><i /><i />

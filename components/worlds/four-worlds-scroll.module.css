@@ -1,0 +1,72 @@
+/* /worlds: the Four Worlds film in a Swiss grid. One sans, flush left, a very large numeral, a hairline, one short line per world.
+   Colours are role tokens (the section is .tone-photo: warm black, ivory ink, antique gold). */
+
+.placeholder { height: 100svh; background: var(--color-night); }
+
+/* the section's height is the length of the film: about 21 screens of scroll on desktop, 16 on phones (slowed 6 Nov 2026: the film moved too fast per scroll) */
+.film { position: relative; height: 2100svh; background: var(--color-night); }
+@media (max-width: 768px) { .film { height: 1600svh; } }
+
+.stage { position: sticky; top: 0; height: 100svh; width: 100%; overflow: hidden; contain: layout paint; }
+.canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* the first frame of the film (a still of the real scene) stands in until the engine's own frame is up, then fades */
+.poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; transition: opacity 0.8s ease; }
+.posterGone { opacity: 0; }
+
+.overlay {
+  --gutter: clamp(1rem, 4vw, 4rem);
+  position: absolute; inset: 0; pointer-events: none; color: var(--color-bone); font-family: var(--font-sans);
+}
+.overlay button { pointer-events: auto; }
+
+/* the letterbox: two black bars, each half the frame tall, scaled toward their own edge (see core/letterbox.ts) */
+.bar { position: absolute; left: 0; right: 0; height: 50%; background: #000; will-change: transform; }
+.barTop { top: 0; transform-origin: top; }
+.barBottom { bottom: 0; transform-origin: bottom; }
+
+/* the one control: the film's music, on and off, in the lower corner (over the bottom bar) */
+.music { position: absolute; right: var(--gutter); bottom: max(0.5rem, env(safe-area-inset-bottom)); z-index: 2; }
+.ctrl {
+  display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; padding: 0; background: none; border: 0; cursor: pointer;
+  color: var(--color-bone); font: inherit; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; text-align: left; opacity: 0.8; transition: opacity 0.3s;
+}
+.ctrl:hover, .ctrl[aria-pressed="true"] { opacity: 1; }
+.ctrlState { font-family: var(--font-mono); color: var(--color-gold); }
+.ctrl:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; opacity: 1; }
+.eq { display: none; align-items: flex-end; gap: 2px; height: 0.8rem; }
+.eq[data-on] { display: inline-flex; }
+.eq i { display: block; width: 2px; background: var(--color-gold); height: 40%; animation: eq 0.9s ease-in-out infinite; }
+.eq i:nth-child(2) { animation-delay: 0.18s; }
+.eq i:nth-child(3) { animation-delay: 0.36s; }
+@keyframes eq { 50% { height: 100%; } }
+@media (prefers-reduced-motion: reduce) { .eq i { animation: none; height: 70%; } }
+
+
+/* type shared with the static version (reduced motion, no WebGL 2, or an engine error): a big numeral, a hairline, the world, one line */
+.numeral { font-size: clamp(5rem, 2.5rem + 11vw, 12.5rem); font-weight: 200; line-height: 0.74; letter-spacing: -0.06em; font-variant-numeric: tabular-nums; margin-left: -0.04em; }
+.cardText { padding-bottom: 0.2rem; }
+.cardText::before { content: ""; display: block; width: 100%; height: 1px; margin-bottom: 0.9rem; background: var(--color-bone); opacity: 0.55; }
+.title { font-size: clamp(1.15rem, 1rem + 0.7vw, 1.6rem); font-weight: 600; letter-spacing: -0.012em; line-height: 1.1; }
+.line { margin-top: 0.5rem; max-width: 22rem; font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1.05rem); line-height: 1.4; font-weight: 400; opacity: 0.9; }
+.note { margin-top: 0.6rem; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.04em; opacity: 0.62; }
+.finalHead { font-size: clamp(2.4rem, 1.2rem + 5.4vw, 6.25rem); font-weight: 600; letter-spacing: -0.045em; line-height: 0.92; text-wrap: balance; }
+.finalSub { margin-top: 1.1rem; max-width: 28rem; font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.2rem); line-height: 1.4; opacity: 0.9; }
+.ctas { margin-top: 1.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 2rem; }
+.primary, .secondary { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 48px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.primary { padding: 0 1.4rem; background: var(--color-bone); color: var(--color-night); font-weight: 600; }
+.primary:hover { background: var(--color-gold); }
+.secondary { color: var(--color-bone); border-bottom: 1px solid currentColor; }
+.secondary:hover { color: var(--color-gold); }
+.primary:focus-visible, .secondary:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+@media (max-width: 520px) { .numeral { font-size: 4.5rem; } }
+
+
+/* static version: reduced motion, no WebGL 2, or an engine error (same type, on stills) */
+.fallback { --gutter: clamp(1rem, 4vw, 4rem); background: var(--color-night); color: var(--color-bone); font-family: var(--font-sans); padding-top: clamp(5.5rem, 9vh, 7.5rem); }
+.fallbackNote { padding: 0 var(--gutter) 1.5rem; color: var(--color-sand); font-size: 0.8rem; }
+.still { position: relative; min-height: 92svh; display: flex; align-items: flex-end; overflow: hidden; }
+.stillImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.stillShade { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(var(--shade-rgb) / 0) 40%, rgb(var(--shade-rgb) / 0.6) 100%); }
+.stillText { position: relative; width: 100%; padding: 0 var(--gutter) clamp(3rem, 10vh, 6rem); display: grid; grid-template-columns: auto minmax(0, 24rem); justify-content: start; column-gap: clamp(1rem, 3vw, 3rem); align-items: end; text-shadow: 0 1px 16px rgb(0 0 0 / 0.5); }
+@media (max-width: 520px) { .stillText { grid-template-columns: 1fr; row-gap: 0.9rem; } }
+.fallbackFinal { padding: clamp(4rem, 12vh, 8rem) var(--gutter); }
