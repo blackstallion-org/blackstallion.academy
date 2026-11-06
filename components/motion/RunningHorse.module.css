@@ -30,14 +30,6 @@
 }
 @keyframes drift { from { transform: translate3d(-2%, 0, 0); } to { transform: translate3d(2%, 0, 0); } }
 
-/* The opening: the camera goes into the horse (its chest, behind the rider) and the picture dissolves into the website behind it. */
-.horse[data-zooming] {
-  transform-origin: 55% 50%;
-  animation: into 1.3s cubic-bezier(0.55, 0, 0.9, 0.5) forwards;
-  will-change: transform;
-}
-@keyframes into { from { transform: scale(1); } to { transform: scale(22); } }
-
 /* Reduced motion: the first painting, still; the horse itself keeps its own gallop. */
 @media (prefers-reduced-motion: reduce) {
   .stack { animation: none !important; }

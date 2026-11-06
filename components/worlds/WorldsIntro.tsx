@@ -3,14 +3,15 @@
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { useLenis } from "lenis/react";
-import { INTRO_REVEAL_KEY } from "@/lib/opening/intro-boot";
+import { INTRO_REVEAL_KEY, markIntroSeen } from "@/lib/opening/intro-boot";
 
 const FourWorlds = dynamic(() => import("./FourWorlds").then((m) => m.FourWorlds), { ssr: false });
 
 /** the page tells the stores below when the intro marker on <html> changes */
 const EVENT = "bsah:intro-state";
 const subscribe = (cb: () => void) => { window.addEventListener(EVENT, cb); return () => window.removeEventListener(EVENT, cb); };
-const markerOn = () => document.documentElement.dataset.bsahIntro === "1";
+/** "1" while the film plays, "reveal" while it fades and the page shows beneath it; either way the film is on screen. */
+const markerOn = () => !!document.documentElement.dataset.bsahIntro;
 const revealPending = () => { try { return sessionStorage.getItem(INTRO_REVEAL_KEY) === "1"; } catch { return false; } };
 const never = () => false;
 const noSubscribe = () => () => {};
@@ -43,10 +44,19 @@ export function WorldsIntro() {
     return () => { window.removeEventListener("scroll", top); history.scrollRestoration = previous; main?.removeAttribute("inert"); lenis?.start(); };
   }, [playing, lenis]);
 
+  // the film has ended and starts to fade: the page beneath it is shown now, so the film dissolves into the home hero instead of into black
+  const reveal_ = useCallback(() => {
+    markIntroSeen();
+    document.documentElement.dataset.bsahIntro = "reveal";
+    window.scrollTo(0, 0);
+    // the hero film waits for this signal before it starts playing: it begins while the film is still fading
+    window.dispatchEvent(new Event("bsah:loader-gone"));
+  }, []);
+
   const done = useCallback(() => {
+    markIntroSeen();
     document.documentElement.removeAttribute("data-bsah-intro");
     window.dispatchEvent(new Event(EVENT));
-    // the hero film waits for this signal before it starts playing
     window.dispatchEvent(new Event("bsah:loader-gone"));
   }, []);
 
@@ -62,7 +72,7 @@ export function WorldsIntro() {
 
   return (
     <>
-      {playing && <FourWorlds mode="intro" onDone={done} />}
+      {playing && <FourWorlds mode="intro" onDone={done} onReveal={reveal_} />}
       {reveal && <div ref={cover} aria-hidden style={{ position: "fixed", inset: 0, zIndex: 200, background: "#000", pointerEvents: "none" }} />}
     </>
   );

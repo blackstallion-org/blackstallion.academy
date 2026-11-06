@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { INTRO_REVEAL_KEY, INTRO_SESSION_KEY } from "@/lib/opening/intro-boot";
+import { INTRO_REVEAL_KEY, markIntroSeen } from "@/lib/opening/intro-boot";
 import { FourWorlds } from "./FourWorlds";
 
 /**
@@ -12,7 +12,8 @@ import { FourWorlds } from "./FourWorlds";
 export function WorldsReplay() {
   const router = useRouter();
   const done = useCallback(() => {
-    try { sessionStorage.setItem(INTRO_SESSION_KEY, "1"); sessionStorage.setItem(INTRO_REVEAL_KEY, "1"); } catch {}
+    markIntroSeen();
+    try { sessionStorage.setItem(INTRO_REVEAL_KEY, "1"); } catch {}
     router.push("/");
   }, [router]);
   return <FourWorlds mode="page" onDone={done} />;

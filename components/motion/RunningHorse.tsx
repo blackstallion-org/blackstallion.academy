@@ -10,7 +10,7 @@ import { LOADER_IMAGE, LOADER_STORY, LOADER_STORY_STEP } from "@/lib/opening/con
  * (lib/opening/config.ts, LOADER_STORY). It is all CSS (opacity and transform only), so the sequence never re-renders React,
  * and it loops without a seam: the first painting is the permanent base, the others fade in over it, and a top copy of the first
  * fades in last so the restart is invisible. Reduced motion shows the first painting still. Same props as before: `settling` (the
- * page is ready) and `onSettled`; `zooming` is the opening on the first visit to the home page.
+ * page is ready) and `onSettled`; 
  */
 const FADE = 0.12; // seconds of each crossfade inside the 0.3 s step
 
@@ -25,7 +25,7 @@ function storyCss(count: number) {
   return css;
 }
 
-export function RunningHorse({ settling, zooming = false, onSettled }: { settling: boolean; zooming?: boolean; onSettled: () => void }) {
+export function RunningHorse({ settling, onSettled }: { settling: boolean; onSettled: () => void }) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
     if (!settling) return;
@@ -49,7 +49,7 @@ export function RunningHorse({ settling, zooming = false, onSettled }: { settlin
       style={{ ["--dir" as string]: i % 2 ? -1 : 1, animation }} />
   );
   return (
-    <div className={styles.horse} data-zooming={zooming || undefined} data-ready={ready || undefined} style={{ WebkitMaskImage: mask, maskImage: mask }}>
+    <div className={styles.horse} data-ready={ready || undefined} style={{ WebkitMaskImage: mask, maskImage: mask }}>
       <style>{storyCss(count)}</style>
       <div className={styles.stack} style={{ animationDuration: `${cycle}s` }}>
         {LOADER_STORY.map((src, i) => layer(src, src, i, i === 0 ? undefined : `bsahStory${i} ${cycle}s linear infinite`))}

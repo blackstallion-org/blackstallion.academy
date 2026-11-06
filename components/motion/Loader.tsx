@@ -5,7 +5,7 @@ import { PixelHorse } from "./PixelHorse";
 import { RunningHorse } from "./RunningHorse";
 import { usePathname } from "next/navigation";
 import { LOADER_SESSION_KEY } from "@/lib/opening/boot";
-import { LOADER_HORSE, OPENING_ENABLED } from "@/lib/opening/config";
+import { LOADER_HORSE } from "@/lib/opening/config";
 import styles from "./Loader.module.css";
 
 const SESSION_KEY = LOADER_SESSION_KEY;
@@ -13,26 +13,23 @@ const SESSION_KEY = LOADER_SESSION_KEY;
 /**
  * One controller for first hydration and internal route handoffs. Shows the running horse (the supplied GIF), or the earlier pixel
  * horse when NEXT_PUBLIC_LOADER_HORSE=pixel (lib/opening/config.ts). The script that decides, before first paint, whether the
- * loader (and the home page opening) shows is in lib/opening/boot.ts.
+ * loader shows is in lib/opening/boot.ts.
  */
 export function Loader() {
   const pathname = usePathname();
   const lastPath = useRef(pathname);
-  const [load, setLoad] = useState({ id: 0, phase: "running" as "running" | "settling" | "zooming" | "fading" | "gone" });
+  const [load, setLoad] = useState({ id: 0, phase: "running" as "running" | "settling" | "fading" | "gone" });
   const fallback = useRef<ReturnType<typeof setTimeout> | null>(null);
   const readyFrames = useRef<number[]>([]);
   const settle = () => setLoad((current) => current.phase === "running" ? { ...current, phase: "settling" } : current);
-  // The opening: on the first visit to the home page the loader does not simply fade; the horse zooms into itself and the website opens.
-  // Page changes and reloads keep the plain fade.
-  const opening = useRef(false);
-  const finishSettling = useCallback(() => setLoad((current) => current.phase === "settling" ? { ...current, phase: opening.current && current.id === 0 ? "zooming" : "fading" } : current), []);
+  // When the horse has settled, the loader simply fades. The first-visit opening is the intro film (components/worlds/WorldsIntro.tsx).
+  const finishSettling = useCallback(() => setLoad((current) => current.phase === "settling" ? { ...current, phase: "fading" } : current), []);
 
   useEffect(() => {
     if (document.documentElement.dataset.bsahLoaded) {
       const frame = requestAnimationFrame(() => setLoad((current) => ({ ...current, phase: "gone" })));
       return () => cancelAnimationFrame(frame);
     }
-    opening.current = OPENING_ENABLED && location.pathname === "/";
     try { sessionStorage.setItem(SESSION_KEY, "1"); } catch {}
     // Hydration + first DOM paint are essential; below-fold media stays lazy.
     const frames = readyFrames.current;
@@ -77,12 +74,6 @@ export function Loader() {
   }, [load.id, load.phase]);
 
   useEffect(() => {
-    if (load.phase !== "zooming") return;
-    const timer = setTimeout(() => setLoad((current) => ({ ...current, phase: "gone" })), 1350);
-    return () => clearTimeout(timer);
-  }, [load.phase]);
-
-  useEffect(() => {
     if (load.phase !== "fading") return;
     const timer = setTimeout(() => setLoad((current) => ({ ...current, phase: "gone" })), 260);
     return () => clearTimeout(timer);
@@ -95,6 +86,6 @@ export function Loader() {
   return <div key={load.id} className={`bsah-loader ${styles.overlay}`} data-loading-phase={load.phase} data-horse={LOADER_HORSE} aria-hidden>
     {LOADER_HORSE === "pixel"
       ? <PixelHorse settling={load.phase === "settling"} onSettled={finishSettling} />
-      : <RunningHorse settling={load.phase === "settling"} zooming={load.phase === "zooming"} onSettled={finishSettling} />}
+      : <RunningHorse settling={load.phase === "settling"} onSettled={finishSettling} />}
   </div>;
 }

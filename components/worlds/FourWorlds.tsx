@@ -16,7 +16,7 @@ import styles from "./four-worlds.module.css";
  * `mode="intro"`: laid over the homepage, which is revealed underneath when the stage fades.
  * `mode="page"` (/worlds): the same film as a page of its own; reduced motion or no WebGL shows the stills instead.
  */
-export function FourWorlds({ mode, onDone }: { mode: "intro" | "page"; onDone: () => void }) {
+export function FourWorlds({ mode, onDone, onReveal }: { mode: "intro" | "page"; onDone: () => void; onReveal?: () => void }) {
   const caps = useCapabilities();
   const [reduced, setReduced] = useState<boolean | null>(null);
   useEffect(() => {
@@ -31,13 +31,13 @@ export function FourWorlds({ mode, onDone }: { mode: "intro" | "page"; onDone: (
   useEffect(() => { if (mode === "intro" && unavailable) onDone(); }, [mode, unavailable, onDone]);
   if (!caps || reduced === null) return mode === "page" ? <div className={styles.placeholder} aria-hidden /> : null;
   if (unavailable) return mode === "page" ? <WorldsFallback reason={reduced ? "reduced" : "webgl"} /> : null;
-  return <WorldsStage mobile={caps.quality === "low"} mode={mode} onDone={onDone} />;
+  return <WorldsStage mobile={caps.quality === "low"} mode={mode} onDone={onDone} onReveal={onReveal} />;
 }
 
 /** The longest the visitor waits for the essential assets before the page is shown instead (seconds). */
 const LOAD_LIMIT = 25;
 
-function WorldsStage({ mobile, mode, onDone }: { mobile: boolean; mode: "intro" | "page"; onDone: () => void }) {
+function WorldsStage({ mobile, mode, onDone, onReveal }: { mobile: boolean; mode: "intro" | "page"; onDone: () => void; onReveal?: () => void }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<WorldsEngine | null>(null);
   const overlay = useRef<OverlayHandle>(null);
@@ -53,8 +53,9 @@ function WorldsStage({ mobile, mode, onDone }: { mobile: boolean; mode: "intro" 
     finished.current = true;
     engineRef.current?.stop();
     setReveal(true);
-    window.setTimeout(onDone, 2300);
-  }, [onDone]);
+    onReveal?.();
+    window.setTimeout(onDone, 3000);
+  }, [onDone, onReveal]);
   const skip = useCallback(() => {
     if (finished.current) return;
     setVeil(true);
