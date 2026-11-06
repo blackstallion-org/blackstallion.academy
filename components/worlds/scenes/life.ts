@@ -306,6 +306,12 @@ class LifeWorld implements World {
 
   update(p: number, dt: number, time: number, out: ShotPose) {
     this.path.at(p, out);
+    // the horse really travels (toward world -X, its heading) and the camera travels with it, so the floor and the cells
+    // slide past instead of the horse galloping on the spot
+    const run = 5 - 10 * smoothstep(0.25, 1, p);
+    this.horse.position.x = HORSE.x + run;
+    out.pos.x += run;
+    out.look.x += run;
     this.shared.uTime.value = time;
     // the murk thins as we leave the corridor so the clearing reads clearly
     this.shared.uFogDensity.value = THREE.MathUtils.lerp(0.02, 0.011, smoothstep(0.3, 0.45, p));

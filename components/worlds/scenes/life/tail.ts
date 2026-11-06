@@ -45,7 +45,7 @@ export class TailHair {
     geo.setIndex(new THREE.BufferAttribute(index, 1));
 
     this.material = new THREE.ShaderMaterial({
-      uniforms: { uTime: { value: 0 }, uLevel: { value: 1 }, uWidth: { value: 0.009 }, uBase: { value: new THREE.Color("#ffa73c") }, uTip: { value: new THREE.Color("#ffe9b8") } },
+      uniforms: { uTime: { value: 0 }, uLevel: { value: 1 }, uWidth: { value: 0.009 }, uBase: { value: new THREE.Color("#ff9a2a") }, uTip: { value: new THREE.Color("#ffd27a") } },
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
@@ -55,11 +55,11 @@ export class TailHair {
         uniform float uTime; uniform float uWidth;
         varying float vT; varying float vK;
         vec3 strand(float t, vec4 s) {
-          float L = 1.5 + 1.15 * s.x;
+          float L = 1.05 + 0.6 * s.x;
           float g = pow(t, 1.2);
-          float x = s.y * 1.5 * g + sin(uTime * 1.5 + t * 4.2 + s.w * 6.2831) * 0.27 * pow(t, 1.3);
-          float y = s.z * 0.05 * (1.0 - t) + s.z * 0.75 * g + L * (0.10 * t - 0.40 * t * t) + sin(uTime * 1.9 + t * 3.6 + s.w * 5.0) * 0.2 * pow(t, 1.3);
-          return vec3(x, y, -L * t);
+          float x = s.y * 0.7 * g + sin(uTime * 1.5 + t * 4.2 + s.w * 6.2831) * 0.14 * pow(t, 1.3);
+          float y = s.z * 0.05 * (1.0 - t) + s.z * 0.35 * g + L * (0.05 * t - 0.95 * t * t) + sin(uTime * 1.9 + t * 3.6 + s.w * 5.0) * 0.1 * pow(t, 1.3);
+          return vec3(x, y, -L * (0.85 * t - 0.25 * t * t));
         }
         void main() {
           vec3 p = strand(aT, aSeed);
@@ -78,7 +78,7 @@ export class TailHair {
         varying float vT; varying float vK;
         void main() {
           vec3 c = mix(uBase, uTip, smoothstep(0.05, 0.95, vT));
-          float a = (0.04 + 0.07 * vK) * (0.35 + 0.65 * smoothstep(0.0, 0.18, vT)) * (1.0 - 0.85 * smoothstep(0.7, 1.0, vT));
+          float a = (0.016 + 0.03 * vK) * (0.35 + 0.65 * smoothstep(0.0, 0.18, vT)) * (1.0 - 0.85 * smoothstep(0.7, 1.0, vT));
           gl_FragColor = vec4(c * a * uLevel, 1.0);
         }`,
     });
