@@ -3,9 +3,9 @@
 
 .placeholder { height: 100svh; background: var(--color-night); }
 
-/* the section's height is the length of the film: about 13 screens of scroll on desktop, 10 on phones */
-.film { position: relative; height: 1300svh; background: var(--color-night); }
-@media (max-width: 768px) { .film { height: 1000svh; } }
+/* the section's height is the length of the film: about 21 screens of scroll on desktop, 16 on phones (slowed 6 Nov 2026: the film moved too fast per scroll) */
+.film { position: relative; height: 2100svh; background: var(--color-night); }
+@media (max-width: 768px) { .film { height: 1600svh; } }
 
 .stage { position: sticky; top: 0; height: 100svh; width: 100%; overflow: hidden; contain: layout paint; }
 .canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
@@ -15,87 +15,51 @@
 
 .overlay {
   --gutter: clamp(1rem, 4vw, 4rem);
-  --bar: clamp(0.75rem, 2.5vh, 1.75rem);
   position: absolute; inset: 0; pointer-events: none; color: var(--color-bone); font-family: var(--font-sans);
 }
-.overlay a, .overlay button { pointer-events: auto; }
+.overlay button { pointer-events: auto; }
 
-/* a soft shade at the foot of the frame so the type reads over any world */
-.shade {
-  position: absolute; inset: auto 0 0 0; height: 62%; opacity: 0; transition: opacity 0.5s linear;
-  background: linear-gradient(0deg, rgb(var(--shade-rgb) / 0.68) 0%, rgb(var(--shade-rgb) / 0.38) 45%, rgb(var(--shade-rgb) / 0) 100%);
-}
-.shade[data-on] { opacity: 1; }
+/* the letterbox: two black bars, each half the frame tall, scaled toward their own edge (see core/letterbox.ts) */
+.bar { position: absolute; left: 0; right: 0; height: 50%; background: #000; will-change: transform; }
+.barTop { top: 0; transform-origin: top; }
+.barBottom { bottom: 0; transform-origin: bottom; }
 
-/* chapter: a big numeral, then a hairline, the world, one line (bottom left, clear of the fixed navigation) */
-.card {
-  position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(var(--bar) + 5.25rem);
-  display: grid; grid-template-columns: auto minmax(0, 24rem); justify-content: start; column-gap: clamp(1rem, 3vw, 3rem); align-items: end;
-  opacity: 0; visibility: hidden; transform: translateY(8px);
-  transition: opacity 0.45s ease, transform 0.6s ease, visibility 0s 0.45s;
-  text-shadow: 0 1px 16px rgb(0 0 0 / 0.5);
-}
-.card[data-on] { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
-.numeral { font-size: clamp(5rem, 2.5rem + 11vw, 12.5rem); font-weight: 200; line-height: 0.74; letter-spacing: -0.06em; font-variant-numeric: tabular-nums; margin-left: -0.04em; }
-.cardText { padding-bottom: 0.2rem; }
-.cardText::before { content: ""; display: block; width: 100%; height: 1px; margin-bottom: 0.9rem; background: var(--color-bone); opacity: 0.55; }
-.title { font-size: clamp(1.15rem, 1rem + 0.7vw, 1.6rem); font-weight: 600; letter-spacing: -0.012em; line-height: 1.1; }
-.line { margin-top: 0.5rem; max-width: 22rem; font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1.05rem); line-height: 1.4; font-weight: 400; opacity: 0.9; }
-.note { margin-top: 0.6rem; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.04em; opacity: 0.62; }
-@media (max-width: 520px) { .card { grid-template-columns: 1fr; row-gap: 0.9rem; } .numeral { font-size: 4.5rem; } }
-
-.hint { position: absolute; right: var(--gutter); bottom: calc(var(--bar) + 5.25rem); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.4s; }
-.hint[data-off] { opacity: 0; }
-
-/* loading: a label and a hairline, nothing more */
-.loading { position: absolute; left: var(--gutter); bottom: calc(var(--bar) + 5.25rem); display: grid; gap: 0.6rem; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.85; }
-.loadbar { display: block; width: 12rem; height: 1px; background: color-mix(in srgb, var(--color-bone) 28%, transparent); overflow: hidden; }
-.loadbar > span { display: block; height: 100%; background: var(--color-bone); transform-origin: left; transition: transform 0.3s; }
-
-/* bottom bar: the progress hairline, the four worlds, the switches */
-.bar { position: absolute; left: var(--gutter); right: var(--gutter); bottom: var(--bar); }
-.track { display: block; height: 1px; background: color-mix(in srgb, var(--color-bone) 28%, transparent); }
-.fill { display: block; height: 100%; background: var(--color-bone); transform-origin: left; transform: scaleX(0); will-change: transform; }
-.row { display: flex; align-items: stretch; justify-content: space-between; gap: 1rem; }
-.index { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); flex: 1; max-width: 44rem; }
-.indexItem, .ctrl {
+/* the one control: the film's music, on and off, in the lower corner (over the bottom bar) */
+.music { position: absolute; right: var(--gutter); bottom: max(0.5rem, env(safe-area-inset-bottom)); z-index: 2; }
+.ctrl {
   display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; padding: 0; background: none; border: 0; cursor: pointer;
-  color: var(--color-bone); font: inherit; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; text-align: left; transition: opacity 0.3s;
+  color: var(--color-bone); font: inherit; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; text-align: left; opacity: 0.8; transition: opacity 0.3s;
 }
-.indexItem { opacity: 0.5; }
-.indexItem[data-on], .indexItem:hover { opacity: 1; }
-.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-.indexName { display: none; }
-@media (min-width: 640px) { .indexName { display: inline; } }
-.controls { display: flex; align-items: stretch; gap: clamp(0.75rem, 2vw, 2rem); }
-.ctrl { opacity: 0.8; }
 .ctrl:hover, .ctrl[aria-pressed="true"] { opacity: 1; }
 .ctrlState { font-family: var(--font-mono); color: var(--color-gold); }
-.indexItem:focus-visible, .ctrl:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; opacity: 1; }
+.ctrl:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; opacity: 1; }
 .eq { display: none; align-items: flex-end; gap: 2px; height: 0.8rem; }
 .eq[data-on] { display: inline-flex; }
 .eq i { display: block; width: 2px; background: var(--color-gold); height: 40%; animation: eq 0.9s ease-in-out infinite; }
 .eq i:nth-child(2) { animation-delay: 0.18s; }
 .eq i:nth-child(3) { animation-delay: 0.36s; }
 @keyframes eq { 50% { height: 100%; } }
+@media (prefers-reduced-motion: reduce) { .eq i { animation: none; height: 70%; } }
 
-/* the end: one headline, one line, two ways in */
-.final {
-  position: absolute; left: var(--gutter); right: var(--gutter); bottom: calc(var(--bar) + 4.5rem); max-width: 52rem;
-  opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0s 0.5s; text-shadow: 0 1px 22px rgb(0 0 0 / 0.6);
-}
-.final[data-on] { opacity: 1; visibility: visible; transition-delay: 0s; }
+
+/* type shared with the static version (reduced motion, no WebGL 2, or an engine error): a big numeral, a hairline, the world, one line */
+.numeral { font-size: clamp(5rem, 2.5rem + 11vw, 12.5rem); font-weight: 200; line-height: 0.74; letter-spacing: -0.06em; font-variant-numeric: tabular-nums; margin-left: -0.04em; }
+.cardText { padding-bottom: 0.2rem; }
+.cardText::before { content: ""; display: block; width: 100%; height: 1px; margin-bottom: 0.9rem; background: var(--color-bone); opacity: 0.55; }
+.title { font-size: clamp(1.15rem, 1rem + 0.7vw, 1.6rem); font-weight: 600; letter-spacing: -0.012em; line-height: 1.1; }
+.line { margin-top: 0.5rem; max-width: 22rem; font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1.05rem); line-height: 1.4; font-weight: 400; opacity: 0.9; }
+.note { margin-top: 0.6rem; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.04em; opacity: 0.62; }
 .finalHead { font-size: clamp(2.4rem, 1.2rem + 5.4vw, 6.25rem); font-weight: 600; letter-spacing: -0.045em; line-height: 0.92; text-wrap: balance; }
 .finalSub { margin-top: 1.1rem; max-width: 28rem; font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.2rem); line-height: 1.4; opacity: 0.9; }
 .ctas { margin-top: 1.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 2rem; }
-.primary, .secondary {
-  display: inline-flex; align-items: center; gap: 0.6rem; min-height: 48px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.25s, color 0.25s, border-color 0.25s;
-}
-.primary { padding: 0 1.4rem; background: var(--color-bone); color: var(--color-night); font-weight: 600; text-shadow: none; }
+.primary, .secondary { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 48px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.25s, color 0.25s, border-color 0.25s; }
+.primary { padding: 0 1.4rem; background: var(--color-bone); color: var(--color-night); font-weight: 600; }
 .primary:hover { background: var(--color-gold); }
 .secondary { color: var(--color-bone); border-bottom: 1px solid currentColor; }
 .secondary:hover { color: var(--color-gold); }
 .primary:focus-visible, .secondary:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+@media (max-width: 520px) { .numeral { font-size: 4.5rem; } }
+
 
 /* static version: reduced motion, no WebGL 2, or an engine error (same type, on stills) */
 .fallback { --gutter: clamp(1rem, 4vw, 4rem); background: var(--color-night); color: var(--color-bone); font-family: var(--font-sans); padding-top: clamp(5.5rem, 9vh, 7.5rem); }

@@ -47,6 +47,10 @@ float skyFogAmount(vec3 cam, vec3 p) {
 }
 `;
 
+/** A material's own onBeforeCompile from before the first sky fog was applied: the loader caches GLB materials, so a world that is disposed
+ *  and loaded again applies its fog to the same material a second time; the patch must replace the old one, not stack on it. */
+const ORIGINAL = new WeakMap<THREE.Material, THREE.Material["onBeforeCompile"]>();
+
 export function createSkyFog(): SkyFog {
   const uniforms = {
     tSkyFog: { value: null as THREE.Texture | null },
@@ -58,7 +62,8 @@ export function createSkyFog(): SkyFog {
     uFogMax: { value: 0.985 },
   };
   const apply = (material: THREE.Material, key = "") => {
-    const prev = material.onBeforeCompile;
+    if (!ORIGINAL.has(material)) ORIGINAL.set(material, material.onBeforeCompile);
+    const prev = ORIGINAL.get(material);
     material.onBeforeCompile = (shader, renderer) => {
       prev?.call(material, shader, renderer);
       Object.assign(shader.uniforms, uniforms);

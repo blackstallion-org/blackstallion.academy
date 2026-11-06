@@ -334,7 +334,6 @@ class Origins implements World {
 
   setQuality(q: QualitySettings) {
     this.sun.setShadowSize(q.shadowSize, q.shadows);
-    this.grass.build(q.density);
   }
 
   dispose() {

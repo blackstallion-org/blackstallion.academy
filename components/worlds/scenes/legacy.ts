@@ -113,7 +113,7 @@ class LegacyWorld implements World {
     this.fog.apply(terrain.material as THREE.Material, "terrain");
     scene.add(terrain);
     this.heroPos.set(0, this.hf.height(0, 0), 0);
-    this.water = createWater(scene, { real: ctx.quality.tier === "high", size: 150, res: hi ? 1024 : 512, fog: this.fog, sky, y: this.heroPos.y + 0.035 });
+    this.water = createWater(scene, { real: true, size: 150, res: hi ? 1024 : 512, fog: this.fog, sky, y: this.heroPos.y + 0.035 });
     // the mirror only needs what stands above the water near the horse: the column and the scrub stay out of the reflection pass
     const mirror = this.water.mesh;
     const reflect = mirror.onBeforeRender;

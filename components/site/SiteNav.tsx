@@ -23,7 +23,9 @@ const pad = (n: number) => String(n).padStart(2, "0");
  */
 export function SiteNav() {
   // The staff console has its own header (app/admin/AdminShell.tsx); the film's bar and reels menu stay on the public site.
-  if (isConsolePath(usePathname())) return null;
+  // /worlds is a full-screen film with nothing over it but its own music button (the way out is under the film).
+  const pathname = usePathname();
+  if (isConsolePath(pathname) || pathname === "/worlds") return null;
   return <PublicNav />;
 }
 

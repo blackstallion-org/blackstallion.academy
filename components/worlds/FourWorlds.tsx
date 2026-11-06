@@ -46,13 +46,6 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
   const overlay = useRef<OverlayHandle>(null);
   const [status, setStatus] = useState<EngineStatus | null>(null);
   const [failed, setFailed] = useState(false);
-  // light mode: the lowest tier, locked. A choice the visitor makes (and the page remembers) for a device that struggles.
-  // (this component only renders in the browser, after the capability check, so reading storage here cannot mismatch the server)
-  const [lite, setLite] = useState(() => {
-    try { return new URLSearchParams(window.location.search).get("tier") === "low" || window.localStorage.getItem("bsah-worlds-lite") === "1"; } catch { return false; }
-  });
-  useEffect(() => { engineRef.current?.setLite(lite); }, [lite, status?.phase]);
-  const toggleLite = () => setLite((v) => { try { window.localStorage.setItem("bsah-worlds-lite", v ? "0" : "1"); } catch { /* optional */ } return !v; });
   const lenis = useLenis();
 
   // the engine: created once, disposed on unmount
@@ -70,6 +63,7 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
         const forced = params.get("tier");
         engine = new WorldsEngine(el, { mobile, tier: forced === "high" || forced === "medium" || forced === "low" ? forced : mobile ? "low" : "high" });
         engineRef.current = engine;
+        engine.onFrame = (p) => overlay.current?.update(p);
         engine.onStatus = (s) => {
           setStatus(s);
           if (s.phase === "failed") setFailed(true);
@@ -106,10 +100,8 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
       end: "bottom bottom",
       onUpdate: (self) => {
         engineRef.current?.setProgress(self.progress);
-        overlay.current?.update(self.progress);
       },
     });
-    overlay.current?.update(st.progress);
     const params = new URLSearchParams(window.location.search);
     const p0 = Number(params.get("p"));
     if (Number.isFinite(p0) && p0 > 0) {
@@ -122,17 +114,8 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
   // a little further per notch, which also feels lighter on a machine that is busy drawing; the page's own settings come back on leaving.
   useEffect(() => {
     if (!lenis) return;
-    return tuneScroll(lenis.options, 0.12, 1.2);
+    return tuneScroll(lenis.options, 0.06, 0.6);
   }, [lenis]);
-
-  const goTo = (p: number) => {
-    const el = section.current;
-    if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY;
-    const y = top + (el.offsetHeight - window.innerHeight) * p;
-    if (lenis) lenis.scrollTo(y, { duration: 2.4 });
-    else window.scrollTo({ top: y, behavior: "smooth" });
-  };
 
   if (failed) return <WorldsFallback reason="error" />;
   return (
@@ -142,7 +125,7 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
         {/* the first frame of the film, a still rendered from the real scene, stands in until the engine has drawn its own */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/worlds/posters/origins.webp" alt="" aria-hidden fetchPriority="high" decoding="async" className={`${styles.poster} ${status?.phase === "ready" ? styles.posterGone : ""}`} />
-        <WorldsOverlay ref={overlay} status={status} onJump={goTo} lite={lite} onLite={toggleLite} />
+        <WorldsOverlay ref={overlay} status={status} />
       </div>
     </section>
   );

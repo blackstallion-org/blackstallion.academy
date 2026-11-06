@@ -20,13 +20,19 @@ export type QualitySettings = {
   dualRender: boolean;
 };
 
+/**
+ * A tier never removes anything from the picture. Every tier draws the whole film: all vegetation, particles, bloom, shadows,
+ * both worlds mixed in a transition, water and floor reflections, the full geometry and the full textures. What a tier changes is
+ * only how finely the same image is sampled: the render resolution, the anti-aliasing and the size of the shadow map.
+ * (An earlier version cut density, bloom, shadows and reflections on slower machines; that was the wrong trade.)
+ */
 export const TIERS: Record<TierName, QualitySettings> = {
   high: { tier: "high", dpr: 1.5, shadows: true, shadowSize: 2048, bloom: true, density: 1, textures: "hi", dualRender: true },
-  medium: { tier: "medium", dpr: 1.15, shadows: true, shadowSize: 1024, bloom: true, density: 0.6, textures: "hi", dualRender: true },
-  low: { tier: "low", dpr: 1, shadows: false, shadowSize: 512, bloom: false, density: 0.32, textures: "lo", dualRender: false },
+  medium: { tier: "medium", dpr: 1.25, shadows: true, shadowSize: 1536, bloom: true, density: 1, textures: "hi", dualRender: true },
+  low: { tier: "low", dpr: 1, shadows: true, shadowSize: 1024, bloom: true, density: 1, textures: "hi", dualRender: true },
 };
 const ORDER: TierName[] = ["low", "medium", "high"];
-const MIN_SCALE = 0.7;
+const MIN_SCALE = 0.62;
 
 export class FrameGovernor {
   private samples: number[] = [];

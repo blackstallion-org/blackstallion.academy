@@ -53,7 +53,7 @@ const MIRROR_SHADER = {
       gl_FragColor = vec4(b * color * fade, 1.0);
     }`,
 };
-/** objects on this layer appear in the polished floor's reflection (high tier only) */
+/** objects on this layer appear in the polished floor's reflection (every tier) */
 const REFLECT_LAYER = 2;
 
 /**
@@ -282,7 +282,7 @@ export function createBeyond(): World {
       };
       // (the arcs, moons and galaxy are left out: they are rarely in the reflected view and would cost a second draw each)
       for (const o of [planet.group, rings.group]) o.traverse((x) => x.layers.enable(REFLECT_LAYER));
-      mirror.visible = q.tier === "high";
+      mirror.visible = true;
       scene.add(mirror);
 
       motes = new Motes({ count: Math.round(700 * q.density), box: [44, 16, 44], center: { x: HORSE.x, y: 5, z: HORSE.z }, size: 0.035, color: "#ffcf8a", drift: [0.05, 0.03, -0.02], swirl: 0.6, additive: true, opacity: 0.55, seed: 41 });
@@ -346,7 +346,7 @@ export function createBeyond(): World {
     setQuality(nq) {
       q = nq;
       sun?.setShadowSize(q.shadowSize, q.shadows);
-      if (mirror) mirror.visible = q.tier === "high";
+      if (mirror) mirror.visible = true;
     },
 
     dispose() {

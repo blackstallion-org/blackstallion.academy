@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { HERO_MODEL, HERO_MODEL_MOBILE } from "@/components/3d/marwari-paths";
+import { HERO_MODEL } from "@/components/3d/marwari-paths";
 import { AssetLoader } from "./assets";
 import { applyPose, makePose } from "./camera";
 import { HorseRig } from "./horse";
@@ -15,6 +15,11 @@ const FACTORIES: Record<WorldId, () => Promise<() => World>> = {
   legacy: () => import("../scenes/legacy").then((m) => m.createLegacy),
   beyond: () => import("../scenes/beyond").then((m) => m.createBeyond),
 };
+
+/** film progress per second at most (1 = the whole film); how hard the camera pulls toward the scroll position; how quickly its speed eases */
+const MAX_SPEED = 0.05;
+const FOLLOW = 3.2;
+const EASE = 4.5;
 
 type Slot = { world: World; ready: boolean; loading: Promise<void> };
 
@@ -81,6 +86,8 @@ export class WorldsEngine {
   private center = new THREE.Vector2(0.5, 0.5);
   private tmp = new THREE.Vector3();
   onStatus: ((s: EngineStatus) => void) | null = null;
+  /** called every frame with the camera's own (smoothed) progress, so the letterbox can move with the picture and not ahead of it */
+  onFrame: ((progress: number) => void) | null = null;
   status: EngineStatus = { phase: "loading", progress: 0, world: "origins", tier: "high", fps: 60 };
   /** QA: freeze ambient time so a capture is repeatable */
   frozen = false;
@@ -105,7 +112,7 @@ export class WorldsEngine {
   async start(initial = 0) {
     try {
       this.assets.onProgress = (f) => this.emit({ progress: f });
-      const horseReady = this.horse.load(this.opts.mobile || this.quality.textures === "lo" ? HERO_MODEL_MOBILE : HERO_MODEL, { coatMap: "/worlds/shared/coat-black.webp" });
+      const horseReady = this.horse.load(HERO_MODEL, { coatMap: "/worlds/shared/coat-black.webp" });
       this.ctx = { renderer: this.renderer, assets: this.assets, horse: this.horse, quality: this.quality, mobile: this.opts.mobile };
       this.target = this.progress = initial;
       const f = frameAt(initial);
@@ -247,7 +254,7 @@ export class WorldsEngine {
     } else {
       // while the film moves every frame is drawn (and measured); at rest the ambient life (breath, grass, dust) runs at 30 fps,
       // which halves the heat and battery cost of a page that is only being looked at
-      const moving = Math.abs(this.target - this.progress) > 2e-4 || Math.abs(this.vel) > 2e-3 || performance.now() - this.lastInput < 600;
+      const moving = Math.abs(this.target - this.progress) > 2e-4 || Math.abs(this.vel) > 3e-4 || performance.now() - this.lastInput < 600;
       if (moving || now - this.last >= 28) {
         const dt = Math.min(0.05, Math.max(0.001, (now - this.last) / 1000));
         this.last = now;
@@ -265,13 +272,14 @@ export class WorldsEngine {
   };
 
   private frame(dt: number, time: number) {
-    // critically damped follow toward the scroll target (stiffness ~ 1/0.35 s)
-    const k = 18;
-    const c = 2 * Math.sqrt(k);
-    const acc = k * (this.target - this.progress) - c * this.vel;
-    this.vel += acc * dt;
+    // A slow, deliberate glide toward the scroll position. The camera eases in and out (the speed itself is smoothed) and its speed
+    // is capped, so a flick of the wheel, a scrollbar drag or a jump to the end still travels through every scene at a pace the
+    // eye can follow: the whole film cannot be crossed in under about twenty seconds, and no sequence is skipped.
+    const want = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, (this.target - this.progress) * FOLLOW));
+    this.vel += (want - this.vel) * (1 - Math.exp(-dt * EASE));
     this.progress += this.vel * dt;
-    if (Math.abs(this.target - this.progress) < 1e-5 && Math.abs(this.vel) < 1e-5) { this.progress = this.target; this.vel = 0; }
+    if (Math.abs(this.target - this.progress) < 1e-5 && Math.abs(this.vel) < 2e-4) { this.progress = this.target; this.vel = 0; }
+    this.onFrame?.(this.progress);
     const f = frameAt(this.progress);
     const aspect = this.width / this.height;
     const slotA = this.slots.get(f.a.id);

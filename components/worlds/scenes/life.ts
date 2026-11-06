@@ -91,7 +91,7 @@ class LifeWorld implements World {
   readonly id = "life" as const;
   readonly usesHorse = false;
   readonly scene = new THREE.Scene();
-  readonly grade: Grade = { exposure: 0.9, bloom: [0.85, 0.6, 0.75], lift: "#fff0dc", gain: "#fff3df", saturation: 1.05, vignette: 0.55, grain: 0.035 };
+  readonly grade: Grade = { exposure: 0.9, bloom: [0.7, 0.55, 0.88], lift: "#fff0dc", gain: "#fff3df", saturation: 1.05, vignette: 0.55, grain: 0.035 };
   private shared: Record<string, THREE.IUniform> = { uTime: { value: 0 }, ...fogUniforms() };
   private path = buildPath();
   private root = new THREE.Group();
@@ -116,7 +116,7 @@ class LifeWorld implements World {
     const clearOfPath = (p: THREE.Vector3, r: number) => samples.every((c) => c.distanceTo(p) > r);
 
     // the floor of the inner world
-    const fg = new THREE.PlaneGeometry(520, 520, ctx.quality.tier === "low" ? 110 : 200, ctx.quality.tier === "low" ? 110 : 200).rotateX(-Math.PI / 2);
+    const fg = new THREE.PlaneGeometry(520, 520, 200, 200).rotateX(-Math.PI / 2);
     const fp = fg.attributes.position as THREE.BufferAttribute;
     for (let i = 0; i < fp.count; i++) fp.setY(i, floorHeight(fp.getX(i), fp.getZ(i) + 20));
     fg.translate(0, 0, 20);
@@ -124,7 +124,7 @@ class LifeWorld implements World {
     this.root.add(new THREE.Mesh(fg, tissueMaterial(this.shared, { displace: 0, freq: 0.05, vein: 0.3 })));
 
     // large organic structures: walls of the corridor and far forms in the murk
-    const blobGeo = new THREE.IcosahedronGeometry(1, ctx.quality.tier === "low" ? 4 : 5);
+    const blobGeo = new THREE.IcosahedronGeometry(1, 5);
     for (let i = 0; i < 16; i++) {
       const z = -80 + rnd() * 170;
       const side = rnd() < 0.5 ? -1 : 1;
@@ -140,7 +140,7 @@ class LifeWorld implements World {
     }
 
     // cells: instanced membranes with vesicles, along the corridor and around the clearing
-    const cellGeo = new THREE.IcosahedronGeometry(1, ctx.quality.tier === "low" ? 3 : 4);
+    const cellGeo = new THREE.IcosahedronGeometry(1, 4);
     const max = 110;
     const cells = new THREE.InstancedMesh(cellGeo, cellMaterial(this.shared), max);
     const attr = new Float32Array(max * 4);
@@ -243,7 +243,7 @@ class LifeWorld implements World {
     hide.forEach((o) => { o.visible = false; });
     const look = {
       shell: xrayMaterial("#ffb054", { rimPower: 2.6, body: 0.12, rim: 2.2 }),
-      hair: xrayMaterial("#ffc070", { rimPower: 1.4, body: 0.12, rim: 0.3 }),
+      hair: xrayMaterial("#ffd9a0", { rimPower: 1.6, body: 0.07, rim: 0.2 }),
       muscle: xrayMaterial("#ff5a24", { rimPower: 1.7, body: 0.55, rim: 1.3 }),
       tendon: xrayMaterial("#ffe3b0", { rimPower: 1.4, body: 0.7, rim: 1.0 }),
       bone: xrayMaterial("#fff0d2", { rimPower: 1.3, body: 0.95, rim: 1.1 }),
@@ -289,9 +289,7 @@ class LifeWorld implements World {
   exit() {}
 
   setQuality(q: QualitySettings) {
-    this.q = q;
-    if (this.cells) this.cells.count = Math.max(24, Math.round(this.cellCount * (0.45 + 0.55 * q.density)));
-    this.fibers.forEach((f, i) => { f.visible = i < Math.round(this.fibers.length * (0.4 + 0.6 * q.density)); });
+    this.q = q; // nothing is hidden at any tier: cells, fibres and trails always draw in full
   }
 
   update(p: number, dt: number, time: number, out: ShotPose) {
@@ -314,7 +312,7 @@ class LifeWorld implements World {
     set("muscle", reveal * (0.18 + 0.82 * muscle));
     set("tendon", reveal * (0.12 + 0.88 * Math.max(muscle, bone) * 0.8));
     set("bone", reveal * (0.12 + 0.88 * Math.min(1, bone)));
-    if (this.trail) this.trail.uniforms.uOpacity.value = 1.6 * reveal;
+    if (this.trail) this.trail.uniforms.uOpacity.value = 1.05 * reveal;
     // the light scatters into grains before the dust transition
     const scatter = span(p, 0.86, 1);
     this.motes[0].uniforms.uOpacity.value = 1.4 + 2.2 * scatter;

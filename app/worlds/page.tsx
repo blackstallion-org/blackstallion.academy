@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { FourWorlds } from "@/components/worlds/FourWorlds";
 import { WORLDS_CREDITS } from "@/lib/content/worlds";
 
@@ -14,7 +15,12 @@ export default function WorldsPage() {
     <>
       <FourWorlds />
       <section aria-label="Credits" className="tone-photo bg-night">
-        <p className="gutter py-10 text-xs leading-relaxed text-dust">{WORLDS_CREDITS}</p>
+        <div className="gutter py-10">
+          <Link href="/" className="mb-4 inline-flex min-h-11 items-center border-b border-current text-xs uppercase tracking-[0.12em] text-bone hover:text-gold">
+            Return to the academy
+          </Link>
+          <p className="text-xs leading-relaxed text-dust">{WORLDS_CREDITS}</p>
+        </div>
       </section>
     </>
   );

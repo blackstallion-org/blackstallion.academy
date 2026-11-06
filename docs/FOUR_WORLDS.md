@@ -10,8 +10,8 @@ are untouched.
 | Part | File | Job |
 | --- | --- | --- |
 | Page | `app/worlds/page.tsx` | server page: the film, then the credits line (CC BY 4.0 planet textures) |
-| Mount | `components/worlds/FourWorlds.tsx` | capability check (WebGL 2, reduced motion), sticky stage in a 1300svh section (1000svh on phones), GSAP ScrollTrigger synced to Lenis (no snapping: the camera path holds on each beat itself), the page's smooth scroll follows the wheel more closely while the film is open, light-mode switch |
-| Overlay | `components/worlds/WorldsOverlay.tsx` | Swiss-grid type: a large numeral, a hairline, the world and one short line (bottom left, clear of the nav), a bottom bar with the progress hairline, the four worlds (real buttons), the Smooth and Sound switches, loading line, final call to action. Never re-renders with the scroll: the page pushes progress in through `update()` |
+| Mount | `components/worlds/FourWorlds.tsx` | capability check (WebGL 2, reduced motion), sticky stage in a 2100svh section (1600svh on phones), GSAP ScrollTrigger synced to Lenis (no snapping), the page's smooth scroll slowed while the film is open (lerp 0.06, wheel x0.6) |
+| Overlay | `components/worlds/WorldsOverlay.tsx` | only two black letterbox bars (`core/letterbox.ts`: a pure function of the camera's own progress; they draw back slowly when the film starts, breathe in at each transition (eye, dust, clouds) and close over the last scene) and the music ON/OFF button. The four world names stay in the page as screen-reader-only text. No other text or controls; the site nav is hidden on `/worlds`, and "Return to the academy" sits in the credits strip under the film |
 | Sound | `components/worlds/WorldsSound.tsx` | the film's sound switch = the site's sound state in "music" mode; `setMusicSource` (lib/audio/mixer.ts) lends the music bus the film's own track (`public/audio/music/four-worlds.mp3`, 149 s, 2.4 MB, loops) and puts the open-range recording back on leaving |
 | Fallback | `components/worlds/WorldsFallback.tsx` | reduced motion, no WebGL 2, or an engine error: four stills rendered from the real scenes + the same copy |
 | Engine | `core/engine.ts` | renderer, the camera, world loading (current + neighbours, chunk per world), disposal of worlds two steps away, horse hand-over, critically damped follow of the scroll target, QA hooks (`window.__worlds` in development or with `?debug`) |
@@ -19,7 +19,7 @@ are untouched.
 | Camera | `core/camera.ts` | named checkpoints (`key`, `orbit`), centripetal Catmull-Rom through positions and look targets, holds, `fitFov` for narrow screens |
 | Horse | `core/horse.ts` | the one hero horse (`marwari-hero-refined.glb`, plain black coat map swapped in), ambient life on the clock, scroll-driven gait phase, gaze, bone positions |
 | Image | `core/post.ts` | half-float scene → bloom → grade + transition (iris, dust, cloud, cheap fade) → ACES + sRGB; NaN guard |
-| Quality | `core/quality.ts` | high / medium / low tiers and a frame governor (steps down on long frames, up after sustained headroom) |
+| Quality | `core/quality.ts` | high / medium / low tiers and a frame governor. A tier NEVER removes content: all tiers draw every object, particle, shadow, reflection, bloom and both worlds in a transition. A tier only changes render resolution (1.5 / 1.25 / 1 x device pixels, then a 0.62-1 scale), multisampling (4 / 2 / none) and shadow-map size |
 | Assets | `core/assets.ts` | Draco GLB, textures, HDR, cached by URL, progress |
 | Kit | `core/kit.ts` | `applySky` (equirect background + PMREM light), `Sun` (shadow follows the subject), `Motes` (GPU particles) |
 | Worlds | `scenes/origins.ts`, `life.ts`, `legacy.ts`, `beyond.ts` (+ folders) | each owns its scene, camera path and grade |
@@ -57,7 +57,13 @@ Beyond ≈ 3.3 / 1.5 MB. Only the current world and its neighbours are loaded at
 ## Smoothness and compatibility (6 Nov 2026)
 
 - Auto quality: high / medium / low tiers, plus a resolution scale (0.7 to 1) the frame governor spends before it gives up a tier; a device far over budget drops a tier at once. Multisampling follows the tier (4 / 2 / none). The governor only measures while the film moves; at rest the ambient life runs at 30 fps.
-- Light mode ("Smooth" in the bottom bar, remembered in localStorage, or `?tier=low`): the lowest tier, locked, for devices that struggle.
+- The "Smooth" switch was removed (7 Nov 2026); `?tier=low` still forces the lowest tier (same scene, fewer pixels).
 - Textures are uploaded to the GPU one per frame when a world loads (`initTexture`) and shaders compile with `compileAsync`, so entering a world does not stall.
 - One animation-frame chain only: a resize inside a frame (tier or scale change) used to start a second chain and halve the frame rate.
 - The first frame's poster (`public/worlds/posters/origins.webp`) shows under the canvas until the engine's own frame is up. A sanitize pass before the bloom stops one non-finite pixel from blackening the frame on Apple GPUs.
+
+## Restore and refine (7 Nov 2026)
+- Cause of the missing content: not Git (the scene files are unchanged since the first commit) but runtime quality gates. When the frame governor dropped the Mac from high, `core/quality.ts` cut plant and particle density, bloom, shadows, the second world in a transition, water and floor reflections, geometry detail and the full textures and horse model. Every gate is gone: tiers now only change resolution, multisampling and shadow-map size. At `?tier=low` the per-frame triangle counts equal `?tier=high` at every checked point.
+- Fixed a real bug found on the way: a world that was disposed and loaded again applied its sky fog to the cached fort materials a second time (`vSkyFogPos redefinition`), so the fort failed to compile after scrolling away and back. The patch now replaces instead of stacking (`scenes/legacy/skyfog.ts`).
+- Pacing: the camera glides toward the scroll position with eased speed and a cap of 0.05 of the film per second, so a flick, a drag or a jump crosses the film in about 20 s and no scene is skipped. The film is 2100svh (1600svh phones).
+- Life: hair layer and trail tamed and bloom lowered so the skeleton and muscles read instead of blowing out.
