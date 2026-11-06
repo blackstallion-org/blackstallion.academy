@@ -1,0 +1,83 @@
+/* /worlds: the Four Worlds film. Colours are role tokens (the section is .tone-photo: warm black, ivory ink, antique gold). */
+
+.placeholder { height: 100svh; background: var(--color-night); }
+
+/* the section's height is the length of the film: about 16 screens of scroll on desktop, 12 on phones */
+.film { position: relative; height: 1600svh; background: var(--color-night); }
+@media (max-width: 768px) { .film { height: 1200svh; } }
+
+.stage { position: sticky; top: 0; height: 100svh; width: 100%; overflow: hidden; }
+.canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.overlay { position: absolute; inset: 0; pointer-events: none; color: var(--color-bone); }
+.overlay a, .overlay button { pointer-events: auto; }
+
+/* a soft shade under the chapter card so it reads over any world (bright platforms, glowing floors) */
+.cardShade {
+  position: absolute; inset: 0; transition: opacity 0.4s linear;
+  background: radial-gradient(ellipse 70% 55% at 0% 100%, rgb(var(--shade-rgb) / 0.62) 0%, rgb(var(--shade-rgb) / 0.3) 45%, rgb(var(--shade-rgb) / 0) 75%);
+}
+@media (max-width: 768px) { .cardShade { background: linear-gradient(180deg, rgb(var(--shade-rgb) / 0) 35%, rgb(var(--shade-rgb) / 0.55) 75%, rgb(var(--shade-rgb) / 0.7) 100%); } }
+
+/* chapter card: bottom left, well clear of the fixed navigation (AGENTS.md: nothing in the top 80 px) */
+.card {
+  position: absolute; left: clamp(1rem, 4vw, 4rem); bottom: clamp(5.5rem, 12vh, 8rem);
+  max-width: min(34rem, calc(100vw - 2rem - 3.5rem)); transition: opacity 0.4s linear;
+  text-shadow: 0 1px 18px rgb(0 0 0 / 0.55);
+}
+.sub { margin-top: 0.45rem; color: var(--color-bone); opacity: 0.86; letter-spacing: 0.32em; }
+.rule { display: block; width: 2.5rem; height: 1px; margin: 1rem 0 1.25rem; background: var(--color-gold); }
+.headline { font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.6rem); line-height: 1.04; }
+.headline :global(.t-inscribe) { font-size: 0.56em; letter-spacing: 0.14em; margin-bottom: 0.25em; }
+.line { margin-top: 1rem; max-width: 30rem; font-size: clamp(1rem, 0.95rem + 0.25vw, 1.15rem); line-height: 1.5; color: var(--color-bone); opacity: 0.92; }
+.note { margin-top: 0.75rem; font-size: 0.78rem; line-height: 1.45; color: var(--color-sand); max-width: 26rem; }
+
+.hint { position: absolute; left: 50%; bottom: 2rem; transform: translateX(-50%); color: var(--color-bone); opacity: 0.8; animation: breathe 3.2s ease-in-out infinite; }
+@keyframes breathe { 50% { opacity: 0.35; } }
+
+/* chapter rail: right edge, vertically centred */
+.rail { position: absolute; right: clamp(0.5rem, 2vw, 2rem); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0.35rem; }
+.railItem {
+  display: flex; align-items: center; justify-content: flex-end; gap: 0.6rem; min-height: 44px; min-width: 44px; padding: 0 0.5rem;
+  color: var(--color-bone); opacity: 0.55; background: none; border: 0; cursor: pointer; transition: opacity 0.3s;
+}
+.railItem::after { content: ""; width: 1.4rem; height: 1px; background: currentColor; transition: width 0.4s, background 0.4s; }
+.railItem[data-on] { opacity: 1; color: var(--color-gold); }
+.railItem[data-on]::after { width: 2.6rem; }
+.railItem:hover { opacity: 1; }
+.railItem:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; opacity: 1; }
+.railItem :global(.label) { display: none; }
+@media (min-width: 900px) { .railItem :global(.label) { display: inline; } }
+.railItem :global(.font-mono) { font-size: 0.72rem; }
+
+/* loading line */
+.loading { position: absolute; left: 50%; bottom: 3rem; transform: translateX(-50%); display: grid; gap: 0.75rem; justify-items: center; }
+.loadbar { display: block; width: 12rem; height: 1px; background: var(--color-line); overflow: hidden; }
+.loadbar > span { display: block; height: 100%; background: var(--color-gold); transform-origin: left; transition: transform 0.3s; }
+
+/* final call to action, held by a soft shade at the foot of the frame */
+.finalShade { position: absolute; inset: auto 0 0 0; height: 55%; background: linear-gradient(180deg, rgb(var(--shade-rgb) / 0) 0%, rgb(var(--shade-rgb) / 0.55) 70%, rgb(var(--shade-rgb) / 0.75) 100%); transition: opacity 0.5s linear; }
+.final {
+  position: absolute; left: 50%; bottom: clamp(3rem, 10vh, 7rem); transform: translateX(-50%); width: min(44rem, calc(100vw - 2rem));
+  text-align: center; transition: opacity 0.5s linear; text-shadow: 0 1px 22px rgb(0 0 0 / 0.6);
+}
+.finalHeadline { font-size: clamp(2rem, 1.2rem + 3vw, 4.2rem); line-height: 1.04; }
+.finalHeadline :global(.t-inscribe) { font-size: 0.5em; letter-spacing: 0.16em; margin-bottom: 0.3em; }
+.ctas { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; justify-content: center; }
+.primary, .secondary {
+  display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.6rem; border: 1px solid var(--color-gold); transition: background 0.3s, color 0.3s;
+}
+.primary { background: var(--color-gold); color: var(--color-night); }
+.primary:hover { background: transparent; color: var(--color-gold); }
+.secondary { color: var(--color-bone); }
+.secondary:hover { color: var(--color-gold); }
+.primary:focus-visible, .secondary:focus-visible { outline: 2px solid var(--color-bone); outline-offset: 3px; }
+
+/* static version */
+.fallback { background: var(--color-night); color: var(--color-bone); padding-top: clamp(5.5rem, 9vh, 7.5rem); }
+.fallbackNote { padding: 0 clamp(1rem, 4vw, 4rem) 1.5rem; color: var(--color-sand); }
+.still { position: relative; min-height: 92svh; display: flex; align-items: flex-end; overflow: hidden; }
+.stillImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.stillShade { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(var(--shade-rgb) / 0) 40%, rgb(var(--shade-rgb) / 0.55) 100%); }
+.stillText { position: relative; padding: 0 clamp(1rem, 4vw, 4rem) clamp(3rem, 10vh, 6rem); max-width: 40rem; text-shadow: 0 1px 18px rgb(0 0 0 / 0.55); }
+.fallbackFinal { padding: clamp(5rem, 14vh, 9rem) 1rem; text-align: center; }

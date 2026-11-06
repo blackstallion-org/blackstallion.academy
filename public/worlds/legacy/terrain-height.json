@@ -1,0 +1,10 @@
+{
+ "x0": -2600.0,
+ "x1": 2600.0,
+ "z0": -2300.0,
+ "z1": 2900.0,
+ "n": 512,
+ "hoff": 20.0,
+ "hscale": 100.0,
+ "rows": "first PNG row is z0 (row index grows with z), column grows with x"
+}
