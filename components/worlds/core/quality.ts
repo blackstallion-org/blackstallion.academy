@@ -31,12 +31,15 @@ export class FrameGovernor {
   private samples: number[] = [];
   private goodFor = 0;
   private lastChange = 0;
+  /** frames to ignore at the start and after a change: shader compiles and first uploads are not the device's real speed */
+  private warm = 150;
   fps = 60;
   constructor(public tier: TierName, private onChange: (t: TierName) => void, private budgetMs = 1000 / 45) {}
 
   /** Feed one frame's duration (ms) and the current time (s). */
   tick(ms: number, now: number) {
     if (ms > 250) return; // a tab switch, not a slow frame
+    if (this.warm > 0) { this.warm--; return; }
     this.samples.push(ms);
     if (this.samples.length > 60) this.samples.shift();
     if (this.samples.length < 30) return;
@@ -59,6 +62,7 @@ export class FrameGovernor {
     this.lastChange = now;
     this.goodFor = 0;
     this.samples.length = 0;
+    this.warm = 45;
     this.onChange(t);
   }
 }

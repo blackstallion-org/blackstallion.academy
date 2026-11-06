@@ -117,6 +117,9 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
     <section ref={section} className={`${styles.film} tone-photo`} aria-label="Four Worlds: a scroll-controlled film">
       <div className={styles.stage}>
         <canvas ref={canvas} className={styles.canvas} aria-hidden />
+        {/* the first frame of the film, a still rendered from the real scene, stands in until the engine has drawn its own */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/worlds/posters/origins.webp" alt="" aria-hidden fetchPriority="high" decoding="async" className={`${styles.poster} ${status?.phase === "ready" ? styles.posterGone : ""}`} />
         <WorldsOverlay progress={progress} status={status} onJump={goTo} />
       </div>
     </section>

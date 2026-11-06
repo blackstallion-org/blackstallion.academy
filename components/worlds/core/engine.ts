@@ -76,12 +76,18 @@ export class WorldsEngine {
   async start(initial = 0) {
     try {
       this.assets.onProgress = (f) => this.emit({ progress: f });
-      await this.horse.load(this.opts.mobile || this.quality.textures === "lo" ? HERO_MODEL_MOBILE : HERO_MODEL, { coatMap: "/worlds/shared/coat-black.webp" });
+      const horseReady = this.horse.load(this.opts.mobile || this.quality.textures === "lo" ? HERO_MODEL_MOBILE : HERO_MODEL, { coatMap: "/worlds/shared/coat-black.webp" });
       this.ctx = { renderer: this.renderer, assets: this.assets, horse: this.horse, quality: this.quality, mobile: this.opts.mobile };
       this.target = this.progress = initial;
       const f = frameAt(initial);
-      await this.ensure(f.a.id);
-      if (f.b) await this.ensure(f.b.id);
+      if (f.a.id === "origins" && !f.b) {
+        // Origins only touches the horse when it is entered (after loading), so the horse and the world download together
+        await Promise.all([horseReady, this.ensure(f.a.id)]);
+      } else {
+        await horseReady;
+        await this.ensure(f.a.id);
+        if (f.b) await this.ensure(f.b.id);
+      }
       this.emit({ phase: "ready", progress: 1 });
       this.preloadAround(initial);
       this.loop(performance.now());
@@ -105,7 +111,12 @@ export class WorldsEngine {
           slot.world = make();
           await slot.world.load(this.ctx);
           // compile shaders now, not on the first visible frame
-          this.renderer.compile(slot.world.scene, this.camA);
+          try {
+            // compileAsync lets the GPU driver build shaders in parallel without freezing the page
+            await this.renderer.compileAsync(slot.world.scene, this.camA);
+          } catch {
+            this.renderer.compile(slot.world.scene, this.camA);
+          }
           slot.ready = true;
         })
         .catch((e) => {

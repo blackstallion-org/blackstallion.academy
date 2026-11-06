@@ -101,6 +101,24 @@ void main() {
   gl_FragColor = vec4(max(col, 0.0), 1.0);
 }`;
 
+/**
+ * Runs before the bloom. A single NaN or infinite pixel in the scene (a sun disc overflowing half float, a shader dividing by zero at
+ * a grazing angle) is spread over the whole frame by the bloom's blurs on some GPUs (Apple Metal in particular) and the picture
+ * goes black. The test reads the exponent bits, so it still works when the driver compiles with fast-math (where isnan() is
+ * folded away), and the values are capped well above anything the grade needs.
+ */
+const SANITIZE_FS = /* glsl */ `
+uniform sampler2D tDiffuse;
+varying vec2 vUv;
+float clean(float v) {
+  uint b = floatBitsToUint(v);
+  return (b & 0x7f800000u) == 0x7f800000u ? 0.0 : clamp(v, 0.0, 64.0);
+}
+void main() {
+  vec4 c = texture2D(tDiffuse, vUv);
+  gl_FragColor = vec4(clean(c.r), clean(c.g), clean(c.b), 1.0);
+}`;
+
 const VS = /* glsl */ `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
 
 const MODE: Record<TransitionMode | "none" | "fade", number> = { none: 0, iris: 1, dust: 2, cloud: 3, fade: 4 };
@@ -109,6 +127,7 @@ export class PostChain {
   readonly composer: EffectComposer;
   private render: RenderPass;
   private bloom: UnrealBloomPass;
+  private sanitize: ShaderPass;
   private gradePass: ShaderPass;
   private rtB: THREE.WebGLRenderTarget;
   private size = new THREE.Vector2();
@@ -129,7 +148,9 @@ export class PostChain {
       vertexShader: VS,
       fragmentShader: GRADE_FS,
     });
+    this.sanitize = new ShaderPass({ uniforms: { tDiffuse: { value: null } }, vertexShader: VS, fragmentShader: SANITIZE_FS });
     this.composer.addPass(this.render);
+    this.composer.addPass(this.sanitize);
     this.composer.addPass(this.bloom);
     this.composer.addPass(this.gradePass);
     this.composer.addPass(new OutputPass());
@@ -147,6 +168,7 @@ export class PostChain {
 
   set bloomEnabled(v: boolean) {
     this.bloom.enabled = v;
+    this.sanitize.enabled = v; // without bloom nothing spreads a bad pixel; the grade shader guards the rest
   }
 
   /**
@@ -204,6 +226,7 @@ export class PostChain {
   dispose() {
     this.rtB.dispose();
     this.bloom.dispose();
+    this.sanitize.dispose();
     this.composer.dispose();
   }
 }
