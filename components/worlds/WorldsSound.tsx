@@ -20,14 +20,24 @@ export function WorldsMusic() {
 
   useEffect(() => {
     setMusicSource(TRACK);
-    if (soundEnabled()) void startMusic();
-    return () => { sfx.stop(); setMusicSource(null); };
+    if (!soundEnabled()) return () => { sfx.stop(); setMusicSource(null); };
+    void startMusic();
+    // browsers only start audio on a real activation: take the first click, key, tap or release and start the music then
+    const events = ["pointerdown", "pointerup", "click", "keydown", "touchend"] as const;
+    const off = () => events.forEach((e) => window.removeEventListener(e, go, true));
+    function go(event: Event) {
+      if (event instanceof KeyboardEvent && (event.metaKey || event.ctrlKey)) return;
+      void startMusic().then((ok) => { if (ok) off(); });
+    }
+    events.forEach((e) => window.addEventListener(e, go, true));
+    return () => { off(); sfx.stop(); setMusicSource(null); };
   }, []);
 
   const playing = music === "playing";
   return (
     <span className={styles.music} role="img" aria-label={playing ? "Music playing" : "Music"} data-on={playing || undefined}>
       <i /><i /><i /><i />
+      {music === "blocked" && <b className={styles.musicHint}>Tap for sound</b>}
     </span>
   );
 }

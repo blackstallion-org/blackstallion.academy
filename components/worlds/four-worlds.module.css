@@ -90,3 +90,4 @@
 .veil { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; transition: opacity 0.9s ease; z-index: 4; }
 .veil[data-on] { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .word, .sentence { transition-duration: 0.01s !important; transition-delay: 0s !important; } }
+.musicHint { margin-left: 0.6rem; align-self: center; font: 400 0.62rem/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-bone); opacity: 0.75; white-space: nowrap; }
