@@ -177,9 +177,9 @@ export function fiberMaterial(shared: Record<string, THREE.IUniform>, seed: numb
 }
 
 /* ------------------------------------------------------------------ the horse of light: x-ray shell, muscles, bones (skinned) */
-export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower: number; body: number; rim: number }) {
+export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower: number; body: number; rim: number; strands?: number }) {
   return new THREE.ShaderMaterial({
-    uniforms: { uColor: { value: new THREE.Color(color) }, uRim: { value: opts.rim }, uBody: { value: opts.body }, uPow: { value: opts.rimPower }, uLevel: { value: 1 }, uTime: { value: 0 }, ...fogUniforms() },
+    uniforms: { uColor: { value: new THREE.Color(color) }, uRim: { value: opts.rim }, uBody: { value: opts.body }, uPow: { value: opts.rimPower }, uLevel: { value: 1 }, uTime: { value: 0 }, uStrand: { value: opts.strands ?? 0 }, ...fogUniforms() },
     transparent: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
@@ -187,7 +187,7 @@ export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower:
     vertexShader: /* glsl */ `
       #include <common>
       #include <skinning_pars_vertex>
-      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec3 vW;
+      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec3 vW; varying vec3 vL;
       void main() {
         #include <beginnormal_vertex>
         #include <skinbase_vertex>
@@ -197,20 +197,27 @@ export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower:
         vec4 wp = modelMatrix * vec4(transformed, 1.0);
         vN = normalize(mat3(modelMatrix) * objectNormal);
         vV = normalize(cameraPosition - wp.xyz);
-        vW = wp.xyz;
+        vW = wp.xyz; vL = position;
         vec4 mv = viewMatrix * wp; vDist = -mv.z;
         gl_Position = projectionMatrix * mv;
       }`,
     fragmentShader: /* glsl */ `
-      uniform vec3 uColor; uniform float uRim; uniform float uBody; uniform float uPow; uniform float uLevel; uniform float uTime;
+      uniform vec3 uColor; uniform float uRim; uniform float uBody; uniform float uPow; uniform float uLevel; uniform float uTime; uniform float uStrand;
       uniform vec3 uFogColor; uniform float uFogDensity;
-      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec3 vW;
+      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec3 vW; varying vec3 vL;
       void main() {
         float ndv = abs(dot(normalize(vN), normalize(vV)));
         float rim = pow(1.0 - ndv, uPow);
         // faint travelling bands: the light moving through the body
         float band = 0.85 + 0.15 * sin(vW.y * 9.0 - uTime * 2.0 + vW.x * 3.0);
         vec3 col = uColor * (uBody * ndv * 0.6 + uRim * rim) * band * uLevel;
+        // hair: split the glow into separate fine strands (dark gaps between them) so it reads as flowing hair, not one white mass
+        if (uStrand > 0.0) {
+          float a = sin(vL.x * 330.0 + sin(vL.y * 9.0 + vL.z * 6.0) * 2.4);
+          float b = sin(vL.z * 380.0 - sin(vL.y * 6.0) * 2.2 + 1.7);
+          float st = smoothstep(-0.1, 0.95, a * 0.6 + b * 0.5 + 0.15) * 1.6;
+          col *= mix(1.0, st, uStrand);
+        }
         float fog = exp(-pow(uFogDensity * vDist, 1.6));
         gl_FragColor = vec4(col * fog, 1.0);
       }`,

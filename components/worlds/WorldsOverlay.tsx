@@ -6,7 +6,8 @@ import { END_SECONDS, FILM_SECONDS, OPEN_SECONDS } from "./core/director";
 import { letterbox } from "./core/letterbox";
 import type { EngineStatus } from "./core/engine";
 import type { WorldId } from "./core/types";
-import { WorldsSoundButton } from "./WorldsSound";
+import { sfx } from "./core/sfx";
+import { WorldsMusic } from "./WorldsSound";
 import styles from "./four-worlds.module.css";
 
 export type OverlayHandle = { update: (progress: number, seconds: number) => void };
@@ -18,6 +19,8 @@ const STORY: { id: WorldId; from: number; to: number }[] = [
   { id: "legacy", from: 0.512, to: 0.702 },
   { id: "beyond", from: 0.758, to: 0.925 },
 ];
+/** progress where each world begins to open (its transition starts) */
+const WORLD_AT = [0, 0.235, 0.47, 0.715];
 const storyAt = (p: number) => STORY.findIndex((s) => p >= s.from && p <= s.to);
 
 const smooth = (x: number) => { const t = Math.min(1, Math.max(0, x)); return t * t * t * (t * (t * 6 - 15) + 10); };
@@ -33,7 +36,7 @@ export function WorldsOverlay({ ref, status, onSkip, veil }: { ref?: Ref<Overlay
   const root = useRef<HTMLDivElement>(null);
   const [story, setStory] = useState(-1);
   const [ending, setEnding] = useState(false);
-  const last = useRef({ story: -1, ending: false });
+  const last = useRef({ story: -1, ending: false, world: -1 });
 
   useImperativeHandle(ref, () => ({
     update(p: number, t: number) {
@@ -45,7 +48,14 @@ export function WorldsOverlay({ ref, status, onSkip, veil }: { ref?: Ref<Overlay
       if (top.current) top.current.style.transform = s;
       if (bottom.current) bottom.current.style.transform = s;
       const i = t > FILM_SECONDS - 3.5 ? -1 : storyAt(p);
-      if (i !== last.current.story) { last.current.story = i; setStory(i); }
+      if (i !== last.current.story) {
+        last.current.story = i;
+        setStory(i);
+        if (i >= 0) sfx.story(INTRO_COPY[STORY[i].id].headline.split(/\s+/).length);
+      }
+      // one opening cue per world, as its transition begins (the first as the bars open)
+      const w = p >= WORLD_AT[3] ? 3 : p >= WORLD_AT[2] ? 2 : p >= WORLD_AT[1] ? 1 : t > 0.5 ? 0 : -1;
+      if (w > last.current.world && t < FILM_SECONDS) { last.current.world = w; sfx.world(STORY[w].id); }
       const e = t > FILM_SECONDS - 1;
       if (e !== last.current.ending) { last.current.ending = e; setEnding(e); }
     },
@@ -79,8 +89,8 @@ export function WorldsOverlay({ ref, status, onSkip, veil }: { ref?: Ref<Overlay
       {loading && <span className={styles.loadline} role="status" aria-label="Loading the introduction"><span style={{ transform: `scaleX(${Math.max(0.04, status?.progress ?? 0)})` }} /></span>}
 
       <div className={styles.controls}>
-        <button type="button" className={styles.ctrl} onClick={onSkip} data-sound="off">Skip intro <span aria-hidden>→</span></button>
-        <WorldsSoundButton />
+        <button type="button" className={styles.ctrl} onClick={() => { sfx.stop(); onSkip(); }} data-sound="off">Skip intro <span aria-hidden>→</span></button>
+        <WorldsMusic />
       </div>
 
       <p className="sr-only" aria-live="polite">{story >= 0 ? `${INTRO_COPY[STORY[story].id].headline} ${INTRO_COPY[STORY[story].id].line}` : ""}</p>

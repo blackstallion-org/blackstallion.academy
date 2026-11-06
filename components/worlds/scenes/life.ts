@@ -243,7 +243,7 @@ class LifeWorld implements World {
     hide.forEach((o) => { o.visible = false; });
     const look = {
       shell: xrayMaterial("#ffb054", { rimPower: 2.6, body: 0.12, rim: 2.2 }),
-      hair: xrayMaterial("#ffd9a0", { rimPower: 1.6, body: 0.07, rim: 0.2 }),
+      hair: xrayMaterial("#ffc46e", { rimPower: 1.6, body: 0.1, rim: 0.36, strands: 1 }),
       muscle: xrayMaterial("#ff5a24", { rimPower: 1.7, body: 0.55, rim: 1.3 }),
       tendon: xrayMaterial("#ffe3b0", { rimPower: 1.4, body: 0.7, rim: 1.0 }),
       bone: xrayMaterial("#fff0d2", { rimPower: 1.3, body: 0.95, rim: 1.1 }),

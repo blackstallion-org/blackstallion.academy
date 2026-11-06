@@ -2,8 +2,8 @@ import { BOUNDARIES } from "./timeline";
 
 /**
  * The film's clock. The intro plays itself: film time (seconds) maps to progress (0..1) through the same timeline the scroll
- * version used, so every shot, hold and transition is still exactly where the camera path put it. The mapping is not linear: the
- * film lingers on each world's hero moment, takes its time through the three transitions, and eases in from black and out into the end.
+ * version used, so every shot, hold and transition is still exactly where the camera path put it. The mapping is close to linear (a steady
+ * camera speed): only a gentle lingering on each world's hero moment and the transitions, and a soft ease in from black and out into the end.
  */
 export const FILM_SECONDS = 76;
 /** after the last frame: the letterbox closes, the picture fades to black, then the homepage is revealed (seconds) */
@@ -16,10 +16,10 @@ const HOLD_AT = [0.155, 0.37, 0.64, 0.9];
 /** relative time spent per unit of progress: > 1 means the film slows there */
 function weight(p: number) {
   let w = 1;
-  for (const h of HOLD_AT) w += 1.1 * Math.exp(-(((p - h) / 0.035) ** 2));
-  for (const b of BOUNDARIES) w += 0.9 * Math.exp(-(((p - (b.start + b.end) / 2) / 0.02) ** 2));
-  w += 2.5 * Math.exp(-((p / 0.02) ** 2)); // ease in
-  w += 2.0 * Math.exp(-(((1 - p) / 0.025) ** 2)); // ease out
+  for (const h of HOLD_AT) w += 0.3 * Math.exp(-(((p - h) / 0.035) ** 2));
+  for (const b of BOUNDARIES) w += 0.22 * Math.exp(-(((p - (b.start + b.end) / 2) / 0.02) ** 2));
+  w += 1.3 * Math.exp(-((p / 0.03) ** 2)); // ease in
+  w += 1.1 * Math.exp(-(((1 - p) / 0.035) ** 2)); // ease out
   return w;
 }
 

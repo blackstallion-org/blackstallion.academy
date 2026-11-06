@@ -56,6 +56,8 @@ export class CameraPath {
   private look: THREE.CatmullRomCurve3;
   /** spline parameter (0..1) of each key: the curves are parametrised by key index, not by arc length */
   private u: number[];
+  /** the keys' times used for the move: nudged toward each segment's share of the path length, so the camera's speed stays steady */
+  private tm: number[];
   constructor(keys: CameraKey[]) {
     this.keys = [...keys].sort((a, b) => a.t - b.t);
     const v = (a: V3) => new THREE.Vector3(a[0], a[1], a[2]);
@@ -63,22 +65,45 @@ export class CameraPath {
     this.look = new THREE.CatmullRomCurve3(this.keys.map((k) => v(k.look)), false, "centripetal");
     const n = this.keys.length - 1;
     this.u = this.keys.map((_, i) => (n > 0 ? i / n : 0));
+    // path length of every segment (the position, plus half the look target's travel)
+    const cum = [0];
+    for (let i = 0; i < n; i++) {
+      let len = 0;
+      let a = this.pos.getPoint(this.u[i]);
+      let b = this.look.getPoint(this.u[i]);
+      for (let s = 1; s <= 12; s++) {
+        const u = this.u[i] + (this.u[i + 1] - this.u[i]) * (s / 12);
+        const a2 = this.pos.getPoint(u);
+        const b2 = this.look.getPoint(u);
+        len += a.distanceTo(a2) + 0.5 * b.distanceTo(b2);
+        a = a2;
+        b = b2;
+      }
+      cum.push(cum[i] + len);
+    }
+    const t0 = this.keys[0].t;
+    const span = (this.keys[n]?.t ?? t0) - t0;
+    this.tm = this.keys.map((k, i) => {
+      if (!(cum[n] > 0) || i === 0 || i === n) return k.t;
+      const even = t0 + span * (cum[i] / cum[n]);
+      return k.t + THREE.MathUtils.clamp((even - k.t) * 0.35, -0.04, 0.04);
+    });
   }
 
   /** Index of the segment containing p and the eased fraction through it. */
   private locate(p: number): { i: number; f: number } {
     const k = this.keys;
-    if (p <= k[0].t) return { i: 0, f: 0 };
-    if (p >= k[k.length - 1].t) return { i: Math.max(0, k.length - 2), f: 1 };
+    const tm = this.tm;
+    if (p <= tm[0]) return { i: 0, f: 0 };
+    if (p >= tm[k.length - 1]) return { i: Math.max(0, k.length - 2), f: 1 };
     let i = 0;
-    while (i < k.length - 2 && p > k[i + 1].t) i++;
+    while (i < k.length - 2 && p > tm[i + 1]) i++;
     const a = k[i];
-    const b = k[i + 1];
     // a hold keeps the camera on key a for the first `hold` share of the segment
-    const start = a.t + (b.t - a.t) * (a.hold ?? 0);
-    const raw = p <= start ? 0 : (p - start) / Math.max(1e-6, b.t - start);
-    // ease-in-out within each segment, but keep the velocity continuous through keys that sit mid-move: blend with linear
-    const f = 0.55 * smooth(raw) + 0.45 * raw;
+    const start = tm[i] + (tm[i + 1] - tm[i]) * (a.hold ?? 0);
+    const raw = p <= start ? 0 : (p - start) / Math.max(1e-6, tm[i + 1] - start);
+    // nearly linear, so the speed does not drop and pick up again at every checkpoint; a touch of ease keeps it from feeling mechanical
+    const f = 0.12 * smooth(raw) + 0.88 * raw;
     return { i, f };
   }
 
