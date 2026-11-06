@@ -1,6 +1,7 @@
 // Which files under public/ can the site request? Read from the real syntax tree of app/, components/ and lib/, so
 // comments and page text never count. Shared by scripts/media-manifest.mjs and tests/media-manifest.test.mjs.
-import { readdirSync, readFileSync, lstatSync, statSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { existsSync, readdirSync, readFileSync, lstatSync, statSync } from "node:fs";
 import path from "node:path";
 import ts from "typescript";
 import { MEDIA_PREFIXES } from "../../lib/content/media-base.mjs";
@@ -104,6 +105,16 @@ export const SITE_ONLY = new Set(["/models/marwari-gaits.json"]);
  */
 export const localOnly = (p) => /^\/media\/[^/]+\.mp4$/i.test(p);
 
+/** Web paths of the files git tracks under public/, or null when `root` is not a git checkout (or git is unavailable). */
+function trackedPublicFiles(root) {
+  if (!existsSync(path.join(root, ".git"))) return null;
+  try {
+    const out = execFileSync("git", ["-C", root, "ls-files", "-z", "public"], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+    const list = out.split("\0").filter(Boolean).map((f) => `/${f.replace(/^public\//, "")}`);
+    return list.length ? new Set(list) : null;
+  } catch { return null; }
+}
+
 /**
  * Splits the media folders into files the site can request (`served`) and the rest (`unserved`), and lists references
  * that match no file (`absent`). A file is served if the code names it or a template matches it, except the PNG/JPEG masters
@@ -112,6 +123,9 @@ export const localOnly = (p) => /^\/media\/[^/]+\.mp4$/i.test(p);
 export function classifyMedia(root) {
   const { exact, patterns } = collectMediaRefs(root);
   const files = listPublicMedia(root);
+  // In a git checkout only tracked files can be served: a git-ignored file (a scratch master, an old version) exists on one computer and
+  // not in CI, so counting it made the committed list differ from computer to computer. Without git (a test fixture) every file counts.
+  const tracked = trackedPublicFiles(root);
   const byPath = new Set(files.map((f) => f.web));
   const regexes = [...patterns.keys()].map((glob) => ({ glob, re: globToRegExp(glob) }));
   const served = [];
@@ -123,6 +137,7 @@ export function classifyMedia(root) {
     // requests the twin, so the list is the same on every computer whether or not the masters are present.
     const master = shippedTwin(file.web) !== file.web && byPath.has(shippedTwin(file.web));
     if (named && !master && !CONTENT_TYPES[file.ext] && !SITE_ONLY.has(file.web)) namedButNotUploadable.push(file.web);
+    if (tracked && !tracked.has(file.web)) continue; // git-ignored on this computer: not part of the site, so not listed, uploaded or compared
     (named && !master && !localOnly(file.web) && CONTENT_TYPES[file.ext] ? served : unserved).push(file);
   }
   const absent = [...exact.keys()].filter((p) => !byPath.has(p)).sort();
