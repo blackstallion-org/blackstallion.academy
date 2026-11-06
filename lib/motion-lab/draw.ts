@@ -49,6 +49,40 @@ export function drawPose(ctx: CanvasRenderingContext2D, kp: number[], box: [numb
   ctx.restore();
 }
 
+/** One animal to draw: its box and skeleton in video pixels, plus the text on its tag. */
+export type DrawAnimal = { id: number; label: string; kp: number[] | null; box: [number, number, number, number] | null; selected: boolean };
+
+/**
+ * Draws every tracked animal: a box with a tag ("Dog 2 · 91%"), and a skeleton where the species has been tested and enough points
+ * were seen. The selected animal is drawn solid, the others dashed and a little fainter. Each ID keeps its own box colour.
+ */
+export function drawAnimals(ctx: CanvasRenderingContext2D, animals: DrawAnimal[], vw: number, vh: number, pal: Palette, opts: { skeleton?: boolean; box?: boolean; dpr?: number } = {}) {
+  const dpr = opts.dpr ?? 1;
+  const cw = ctx.canvas.width, ch = ctx.canvas.height;
+  const { k, ox, oy } = containRect(vw, vh, cw, ch);
+  const px = (x: number) => ox + x * k, py = (y: number) => oy + y * k;
+  const tint = [pal.box, pal.fore, pal.hind, pal.head, pal.spine];
+  ctx.save();
+  ctx.font = `${11 * dpr}px ui-sans-serif, system-ui, sans-serif`; ctx.textBaseline = "middle";
+  for (const a of animals) {
+    const colour = tint[(a.id - 1 + tint.length * 4) % tint.length];
+    if (a.box && opts.box !== false) {
+      const [x1, y1, x2, y2] = a.box;
+      ctx.save();
+      ctx.strokeStyle = colour; ctx.globalAlpha = a.selected ? 0.95 : 0.6; ctx.lineWidth = (a.selected ? 2 : 1.5) * dpr; ctx.setLineDash(a.selected ? [] : [6 * dpr, 5 * dpr]);
+      ctx.strokeRect(px(x1), py(y1), (x2 - x1) * k, (y2 - y1) * k);
+      ctx.restore();
+      const text = a.label, pad = 5 * dpr, th = 16 * dpr;
+      const tw = ctx.measureText(text).width + 2 * pad;
+      const tx = Math.min(Math.max(0, px(x1)), Math.max(0, cw - tw)), ty = Math.max(0, py(y1) - th - 2 * dpr);
+      ctx.save(); ctx.globalAlpha = 0.86; ctx.fillStyle = "rgba(23,21,19,0.82)"; ctx.fillRect(tx, ty, tw, th); ctx.globalAlpha = 1; ctx.fillStyle = colour; ctx.fillRect(tx, ty, 3 * dpr, th);
+      ctx.fillStyle = "#faf7f0"; ctx.textAlign = "left"; ctx.fillText(text, tx + pad + 2 * dpr, ty + th / 2); ctx.restore();
+    }
+    if (a.kp && opts.skeleton !== false) { ctx.save(); ctx.globalAlpha = a.selected ? 1 : 0.75; drawPose(ctx, a.kp, null, vw, vh, pal, { skeleton: true, box: false, dpr }); ctx.restore(); }
+  }
+  ctx.restore();
+}
+
 export type Series = { id: string; label: string; color: string; dash?: boolean; pts: [number, number][] };
 
 /** Simple time-series chart on a canvas: x = seconds, y = value; gaps (NaN) break the line. Cursor draws a vertical marker. */

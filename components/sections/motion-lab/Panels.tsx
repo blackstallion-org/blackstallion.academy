@@ -29,7 +29,16 @@ export function Meter({ value, label }: { value: number; label: string }) {
   );
 }
 
-export function GaitCard({ est, live }: { est: GaitEstimate | null; live: boolean }) {
+export function GaitCard({ est, live, blocked }: { est: GaitEstimate | null; live: boolean; blocked?: string }) {
+  if (blocked) {
+    return (
+      <div className="plate flex flex-col gap-2 p-4">
+        <p className="label text-dust">Gait estimate{live ? "" : " at cursor"}</p>
+        <p className="t-voice text-[clamp(1.8rem,3vw,2.6rem)] leading-none text-dust">Not offered</p>
+        <p className="t-ui text-xs text-sand">{blocked}. Nothing is guessed for an animal the model has not been checked on.</p>
+      </div>
+    );
+  }
   const label = est ? GAIT_LABEL[est.gait] : "–";
   return (
     <div className="plate flex flex-col gap-2 p-4">
@@ -37,7 +46,7 @@ export function GaitCard({ est, live }: { est: GaitEstimate | null; live: boolea
       <p className="t-voice text-[clamp(1.8rem,3vw,2.6rem)] leading-none text-gold">{label}</p>
       <Meter value={est?.confidence ?? 0} label="Gait confidence" />
       <p className="t-ui text-xs text-dust">
-        {est ? `Confidence ${Math.round(est.confidence * 100)}%${est.strideHz ? ` · ${fmt(est.strideHz, 2)} strides/s (${fmt(est.strideHz * 60, 0)}/min)` : ""}` : "Needs about two seconds of the horse in view."}
+        {est ? `Confidence ${Math.round(est.confidence * 100)}%${est.strideHz ? ` · ${fmt(est.strideHz, 2)} strides/s (${fmt(est.strideHz * 60, 0)}/min)` : ""}` : "Needs about two seconds of the animal in view."}
       </p>
       {est && <p className="t-ui text-xs text-sand">{est.note}</p>}
       <p className="t-ui text-[0.7rem] text-dust">Experimental estimate, not a diagnosis.</p>
@@ -114,8 +123,10 @@ export function JointTable({ kp, angles }: { kp: number[] | null; angles: Partia
 
 export function SessionCard({ meta, active, onReplay, onCsv, onJson, onReport, onDelete, onCloud, cloudState, busy }: {
   meta: SessionMeta; active: boolean; busy: boolean; cloudState: "none" | "saved" | "saving" | "signin";
-  onReplay: () => void; onCsv: () => void; onJson: () => void; onReport: () => void; onDelete: () => void; onCloud: () => void;
+  onReplay: () => void; onCsv: () => void; onJson: () => void; onReport: (which: number | "summary") => void; onDelete: () => void; onCloud: () => void;
 }) {
+  const animals = meta.animals ?? [];
+  const many = animals.length > 1;
   const s = meta.summary;
   const btn = "label border-b border-line pb-0.5 text-sand transition-colors hover:border-gold hover:text-gold disabled:opacity-50";
   return (
@@ -128,15 +139,22 @@ export function SessionCard({ meta, active, onReplay, onCsv, onJson, onReport, o
         <div className="min-w-0">
           <p className="t-voice truncate text-lg text-bone">{meta.name}</p>
           <p className="t-ui text-xs text-dust">{new Date(meta.createdAt).toLocaleString("en-GB", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" })} · {meta.source === "camera" ? "camera" : "upload"}</p>
-          <p className="font-mono mt-1 break-words text-xs tabular-nums text-sand">{clock(s.durationMs)} · {s.frames} frames · {s.coveragePct.toFixed(0)}% tracked</p>
-          <p className="t-ui mt-1 text-xs text-sand">Mostly <span className="text-gold">{GAIT_LABEL[s.dominantGait].toLowerCase()}</span>{s.strideHzMedian ? `, ~${s.strideHzMedian.toFixed(2)} strides/s` : ""}</p>
+          <p className="font-mono mt-1 break-words text-xs tabular-nums text-sand">{clock(meta.animals && meta.frameCount ? Math.max(...animals.map((a) => a.lastMs), 0) : s.durationMs)} · {meta.frameCount ?? s.frames} frames · {s.coveragePct.toFixed(0)}% tracked</p>
+          {many
+            ? <p className="t-ui mt-1 text-xs text-sand">{animals.length} animals: {animals.map((a) => `${a.label.replace(" (species unsure)", "")} ${a.id}`).join(", ")}</p>
+            : <p className="t-ui mt-1 text-xs text-sand">{animals[0] && !animals[0].supported ? `${animals[0].label} detected only` : <>Mostly <span className="text-gold">{GAIT_LABEL[s.dominantGait].toLowerCase()}</span>{s.strideHzMedian ? `, ~${s.strideHzMedian.toFixed(2)} strides/s` : ""}</>}</p>}
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
         <button type="button" onClick={onReplay} disabled={busy} className={btn}>{active ? "Replaying" : "Replay"}</button>
         <button type="button" onClick={onCsv} className={btn}>CSV</button>
         <button type="button" onClick={onJson} className={btn}>JSON</button>
-        <button type="button" onClick={onReport} disabled={busy} className={btn}>PDF report</button>
+        {many ? (
+          <>
+            <button type="button" onClick={() => onReport("summary")} disabled={busy} className={btn}>Summary PDF</button>
+            {animals.map((a) => <button key={a.id} type="button" onClick={() => onReport(a.id)} disabled={busy} className={btn} aria-label={`PDF report for ${a.label} ${a.id}`}>{a.label.replace(" (species unsure)", "")} {a.id} PDF</button>)}
+          </>
+        ) : <button type="button" onClick={() => onReport(animals[0]?.id ?? 1)} disabled={busy} className={btn}>PDF report</button>}
         <button type="button" onClick={onCloud} disabled={busy || cloudState === "saving" || cloudState === "saved"} className={btn}>
           {cloudState === "saved" ? "Saved to account" : cloudState === "saving" ? "Saving…" : cloudState === "signin" ? "Sign in to save" : "Save to account"}
         </button>

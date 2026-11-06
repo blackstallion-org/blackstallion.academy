@@ -1,12 +1,16 @@
 import { boxFromPose, cropDrawArgs, cropFor, decodeSimcc, POSE_SIZE, rgbaToPoseInput } from "./pose";
-import { DET_SIZE, decodeHorses, iou, letterbox, rgbaToYoloInput } from "./detect";
+import { DET_SIZE, decodeAnimals, letterbox, rgbaToYoloInput } from "./detect";
 import { KP_COUNT, VISIBLE_SCORE } from "./skeleton";
+import { poseSupported, type SpeciesKey } from "./species";
+import { AnimalTracker, colourHistogram, type Hist, type Track } from "./tracker";
 import type { Box, Pose, Sample } from "./types";
 
 /**
- * In-browser inference with LiteRT.js (Google, Apache-2.0): YOLOX-Nano finds horses, RTMPose-m (AP-10K) reads 17 keypoints inside the
- * box. Both run on the visitor's device (WebAssembly/XNNPACK by default, WebGPU when asked for); no frame leaves the browser.
- * The detector runs every few frames and whenever the animal is lost; in between, the box follows the last pose.
+ * In-browser inference with LiteRT.js (Google, Apache-2.0): YOLOX-Nano finds animals (horses, dogs, cats and six other COCO species),
+ * a tracker gives each one a stable ID and a species, and RTMPose-m (AP-10K) reads 17 keypoints inside each box of a species that has
+ * been tested. Both models run on the visitor's device (WebAssembly/XNNPACK by default, WebGPU when asked for); no frame leaves the
+ * browser. The detector runs every few frames (every frame while nothing is tracked or an animal was just lost); in between, each
+ * box follows its own pose.
  */
 export const MODEL_BASE = process.env.NEXT_PUBLIC_MOTION_MODEL_BASE || "/models/motion-lab";
 export const WASM_BASE = process.env.NEXT_PUBLIC_MOTION_WASM_BASE || "/motion-lab/wasm/";
@@ -14,7 +18,9 @@ export const DETECTOR_FILE = "yolox_nano.tflite";
 export const POSE_FILE = "rtm_animal_fp16.tflite";
 
 export type Source = HTMLVideoElement | HTMLCanvasElement | ImageBitmap;
-export type FrameResult = { sample: Sample; pose: Pose | null; primary: Box | null; boxes: Box[]; detected: boolean };
+/** One tracked animal in one frame. `supported` says whether a skeleton is offered for its species; unsure or untested animals get a box only. */
+export type AnimalFrame = { id: number; species: SpeciesKey | null; share: number; unsure: boolean; supported: boolean; sample: Sample; pose: Pose | null; box: Box };
+export type FrameResult = { t: number; animals: AnimalFrame[]; boxes: Box[]; detected: boolean; detMs: number; poseMs: number; totalMs: number; skippedPose: number };
 export type EstimatorInfo = { runtime: string; accelerator: "wasm" | "webgpu"; detector: string; pose: string; loadMs: number };
 export type Status = { phase: "runtime" | "detector" | "pose" | "ready"; message: string };
 
@@ -34,10 +40,15 @@ export class MotionEstimator {
   private poseIn = new Float32Array(3 * POSE_SIZE * POSE_SIZE);
   private detCtx: CanvasRenderingContext2D;
   private poseCtx: CanvasRenderingContext2D;
-  private track: Box | null = null;
+  private tracker = new AnimalTracker();
   private frame = 0;
-  private lost = 0;
+  /** Detector runs every `detectEvery` frames when everything is steady (see `due`). */
   detectEvery = 5;
+  /** Most animals given a pose per frame; the largest ones win. Keeps a crowded frame from stalling a phone. */
+  maxPose = 4;
+  /** Milliseconds of pose work allowed per frame: the number of animals given a pose shrinks when the device is slow (the rest are boxed only that frame). */
+  budgetMs = 350;
+  private poseEma = 0;
 
   private constructor(private lit: LiteRtModule, private det: Model, private poseModel: Model, readonly info: EstimatorInfo) {
     const mk = (n: number) => {
@@ -56,7 +67,7 @@ export class MotionEstimator {
     const lit = await import("@litertjs/core");
     await lit.loadLiteRt(WASM_BASE);
     const options = { accelerator } as const;
-    onStatus?.({ phase: "detector", message: "Loading the horse detector (2 MB)" });
+    onStatus?.({ phase: "detector", message: "Loading the animal detector (2 MB)" });
     const det = await lit.loadAndCompile(`${MODEL_BASE}/${DETECTOR_FILE}`, options);
     onStatus?.({ phase: "pose", message: "Loading the pose model (27 MB)" });
     const pose = await lit.loadAndCompile(`${MODEL_BASE}/${POSE_FILE}`, options);
@@ -65,8 +76,8 @@ export class MotionEstimator {
     return new MotionEstimator(lit, det, pose, info);
   }
 
-  /** Forget the tracked animal (after a seek, a new video, or a pause). */
-  reset() { this.track = null; this.lost = 0; this.frame = 0; }
+  /** Forget every tracked animal (after a seek, a new video, or a pause). */
+  reset() { this.tracker.reset(); this.frame = 0; }
 
   private async run(model: Model, data: Float32Array, shape: number[]): Promise<Float32Array[]> {
     const input = new this.lit.Tensor(data, shape);
@@ -81,14 +92,16 @@ export class MotionEstimator {
     return read;
   }
 
-  private async detect(src: Source, w: number, h: number): Promise<Box[]> {
+  private async detect(src: Source, w: number, h: number): Promise<{ boxes: Box[]; hists: Hist[] }> {
     const { scale, w: lw, h: lh } = letterbox(w, h);
     const ctx = this.detCtx;
     ctx.fillStyle = "rgb(114,114,114)"; ctx.fillRect(0, 0, DET_SIZE, DET_SIZE);
     ctx.drawImage(src, 0, 0, w, h, 0, 0, lw, lh);
-    rgbaToYoloInput(ctx.getImageData(0, 0, DET_SIZE, DET_SIZE).data, this.detIn);
+    const rgba = ctx.getImageData(0, 0, DET_SIZE, DET_SIZE).data;
+    rgbaToYoloInput(rgba, this.detIn);
     const [raw] = await this.run(this.det, this.detIn, [1, DET_SIZE, DET_SIZE, 3]);
-    return decodeHorses(raw, scale, w, h);
+    const boxes = decodeAnimals(raw, scale, w, h);
+    return { boxes, hists: boxes.map((b) => colourHistogram(rgba, DET_SIZE, DET_SIZE, b, scale)) };
   }
 
   private async estimate(src: Source, w: number, h: number, box: Box): Promise<Pose> {
@@ -102,45 +115,91 @@ export class MotionEstimator {
     return decodeSimcc(sx, sy, crop);
   }
 
-  /** One frame: detect (when due), estimate the pose, and return the measurement. `t` is the session time in milliseconds. */
-  async process(src: Source, w: number, h: number, t: number): Promise<FrameResult> {
+  /** Is a detector run due this frame? Every frame while nothing is tracked or an animal was just lost, sooner when several are in view. */
+  private due(): boolean {
+    const live = this.tracker.live();
+    if (!live.length || live.some((t) => t.missed > 0)) return true;
+    const every = live.length > 1 ? Math.min(3, this.detectEvery) : this.detectEvery;
+    return this.frame % every === 0;
+  }
+
+  /**
+   * One frame: detect (when due), keep every animal's identity, give each tested species a pose, and return one measurement per
+   * animal. `t` is the session time in milliseconds. A frame with no animal returns no entries.
+   */
+  async processFrame(src: Source, w: number, h: number, t: number): Promise<FrameResult> {
     const t0 = performance.now();
     let boxes: Box[] = [];
     let detMs = 0;
-    let box = this.track;
-    const due = !this.track || this.frame % this.detectEvery === 0;
-    if (due) {
+    if (this.due()) {
       const d0 = performance.now();
-      boxes = await this.detect(src, w, h);
+      const d = await this.detect(src, w, h);
+      boxes = d.boxes;
       detMs = performance.now() - d0;
-      if (boxes.length) {
-        const pick = this.track
-          ? boxes.map((b) => ({ b, o: iou(b, this.track as Box) })).sort((p, q) => q.o - p.o)[0]
-          : null;
-        box = pick && pick.o > 0.25 ? pick.b : [...boxes].sort((p, q) => q.score * area(q) - p.score * area(p))[0];
-      } else if (this.lost >= 2) box = null;
+      this.tracker.associate(d.boxes, d.hists, t);
     }
     this.frame++;
-    let pose: Pose | null = null, poseMs = 0, det = 0;
-    if (box) {
-      const p0 = performance.now();
-      pose = await this.estimate(src, w, h, box);
-      poseMs = performance.now() - p0;
-      const next = boxFromPose(pose, VISIBLE_SCORE, w, h);
-      let visible = 0;
-      for (let k = 0; k < KP_COUNT; k++) if (pose.score[k] >= VISIBLE_SCORE) visible++;
-      if (next && visible >= 5) { this.track = { ...next, score: box.score }; this.lost = 0; det = box.score; }
-      else { this.track = null; this.lost++; pose = null; }
-    } else { this.track = null; this.lost++; }
-    const kp: number[] = [];
-    if (pose) for (let k = 0; k < KP_COUNT; k++) kp.push(round(pose.x[k]), round(pose.y[k]), Math.round(pose.score[k] * 1000) / 1000);
+    const live = this.tracker.live().sort((a, b) => boxArea(b.box) - boxArea(a.box));
+    const animals: AnimalFrame[] = [];
+    let poseTotal = 0, skipped = 0, posed = 0;
+    for (const tr of live) {
+      const sp = this.tracker.species(tr);
+      const supported = !sp.unsure && poseSupported(sp.key);
+      let pose: Pose | null = null, poseMs = 0;
+      let box: Box = this.tracker.predicted(tr, t);
+      const cap = Math.max(1, Math.min(this.maxPose, Math.floor(this.budgetMs / Math.max(30, this.poseEma || 100))));
+      if (supported && posed < cap) {
+        const p0 = performance.now();
+        const p = await this.estimate(src, w, h, tr.box);
+        poseMs = performance.now() - p0; poseTotal += poseMs; posed++;
+        this.poseEma = this.poseEma ? this.poseEma * 0.8 + poseMs * 0.2 : poseMs;
+        const next = boxFromPose(p, VISIBLE_SCORE, w, h);
+        let visible = 0;
+        for (let k = 0; k < KP_COUNT; k++) if (p.score[k] >= VISIBLE_SCORE) visible++;
+        if (next && visible >= 5) { pose = p; this.tracker.applyPose(tr, { ...next, score: tr.score }, t); box = tr.box; }
+        else this.tracker.miss(tr, t);
+      } else if (supported) {
+        skipped++;       // over the per-frame budget: the box coasts and no pose is invented for this animal this frame
+      } else {
+        // Untested or unsure species: the box follows the detector and its own motion only.
+        tr.box = box; tr.lastT = t;
+        if (!boxes.length && this.frame > 1 && t - tr.lastSeenT > 1500) this.tracker.miss(tr, t);
+      }
+      const kp: number[] = [];
+      if (pose) for (let k = 0; k < KP_COUNT; k++) kp.push(round(pose.x[k]), round(pose.y[k]), Math.round(pose.score[k] * 1000) / 1000);
+      animals.push({
+        id: tr.id, species: sp.key, share: sp.share, unsure: sp.unsure, supported, pose, box,
+        sample: { t, id: tr.id, sp: sp.key ?? "", det: tr.score, box: [round(box.x1), round(box.y1), round(box.x2), round(box.y2)], kp, detMs, poseMs, totalMs: 0 },
+      });
+    }
+    this.tracker.prune(t);
     const totalMs = performance.now() - t0;
-    const sample: Sample = { t, det, box: pose && box ? [round(box.x1), round(box.y1), round(box.x2), round(box.y2)] : null, kp, detMs, poseMs, totalMs };
-    return { sample, pose, primary: pose ? box : null, boxes, detected: !!pose };
+    for (const a of animals) a.sample.totalMs = totalMs;
+    return { t, animals, boxes, detected: animals.length > 0, detMs, poseMs: poseTotal, totalMs, skippedPose: skipped };
+  }
+
+  /** Development and benchmarking only: the detector's boxes at a lower threshold, with the runner-up class, and the time it took. */
+  async probeDetect(src: Source, w: number, h: number, conf = 0.05): Promise<{ boxes: Box[]; ms: number }> {
+    const t0 = performance.now();
+    const { scale, w: lw, h: lh } = letterbox(w, h);
+    const ctx = this.detCtx;
+    ctx.fillStyle = "rgb(114,114,114)"; ctx.fillRect(0, 0, DET_SIZE, DET_SIZE);
+    ctx.drawImage(src, 0, 0, w, h, 0, 0, lw, lh);
+    rgbaToYoloInput(ctx.getImageData(0, 0, DET_SIZE, DET_SIZE).data, this.detIn);
+    const [raw] = await this.run(this.det, this.detIn, [1, DET_SIZE, DET_SIZE, 3]);
+    return { boxes: decodeAnimals(raw, scale, w, h, conf, 0.5, 12), ms: performance.now() - t0 };
+  }
+
+  /** Development and benchmarking only: the pose of one box, with its timing. */
+  async probePose(src: Source, w: number, h: number, box: Box): Promise<{ pose: Pose; ms: number }> {
+    const t0 = performance.now();
+    const pose = await this.estimate(src, w, h, box);
+    return { pose, ms: performance.now() - t0 };
   }
 
   dispose() { try { this.det.delete(); this.poseModel.delete(); } catch { /* already released */ } }
 }
 
-const area = (b: Box) => (b.x2 - b.x1) * (b.y2 - b.y1);
+export type { Track };
+const boxArea = (b: Box) => (b.x2 - b.x1) * (b.y2 - b.y1);
 const round = (v: number) => Math.round(v * 10) / 10;

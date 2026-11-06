@@ -9,6 +9,8 @@ const S = await loadTs("lib/motion-lab/skeleton.ts");
 const D = await loadTs("lib/motion-lab/detect.ts");
 const P = await loadTs("lib/motion-lab/pose.ts");
 const A = await loadTs("lib/motion-lab/analysis.ts");
+const T = await loadTs("lib/motion-lab/tracker.ts");
+const SP = await loadTs("lib/motion-lab/species.ts");
 
 test("skeleton: 17 AP-10K keypoints, every edge joins two of them, angles use real keypoints", () => {
   assert.equal(S.KEYPOINTS.length, 17);
@@ -170,4 +172,111 @@ test("summary: counts frames, coverage and latency from the samples and lists th
   assert.equal(sum.dominantGait, "trot");
   assert.ok(Math.abs(sum.strideHzMedian - 1.5) < 0.1);
   assert.deepEqual(sum.angleRanges, {}, "the fixture has no elbows or knees, so no angle is invented");
+});
+
+
+// ---------------------------------------------------------------- multi-animal logic (synthetic boxes: these check the code, they are not results)
+const rawWith = (anchors) => {
+  const out = new Float32Array(D.DET_ANCHORS * D.DET_STRIDE);
+  for (const { i, cls, p, obj = 0.9, w = 10, h = 10 } of anchors) { const o = i * D.DET_STRIDE; out[o + 2] = Math.log(w); out[o + 3] = Math.log(h); out[o + 4] = obj; out[o + 5 + cls] = p; }
+  return out;
+};
+
+test("detector: every animal species is named by its own class; a person, or a person-like anchor, is never called an animal", () => {
+  const out = rawWith([{ i: 100, cls: SP.SPECIES.dog.cls, p: 0.8 }, { i: 1500, cls: SP.SPECIES.cat.cls, p: 0.7 }, { i: 2500, cls: 0, p: 0.95 }]);
+  out[100 * D.DET_STRIDE + 5 + SP.SPECIES.cat.cls] = 0.3;    // runner-up on the dog anchor
+  out[2500 * D.DET_STRIDE + 5 + SP.SPECIES.dog.cls] = 0.4;   // a person anchor that also smells a little of dog
+  const boxes = D.decodeAnimals(out, 1, 416, 416);
+  assert.deepEqual(boxes.map((b) => b.cls).sort(), [SP.SPECIES.cat.cls, SP.SPECIES.dog.cls].sort());
+  const dog = boxes.find((b) => b.cls === SP.SPECIES.dog.cls);
+  assert.equal(dog.alt.cls, SP.SPECIES.cat.cls);
+});
+
+test("detector: one patch of the frame gets one species (class-agnostic NMS), the more probable one", () => {
+  const out = rawWith([{ i: 100, cls: SP.SPECIES.dog.cls, p: 0.9 }, { i: 101, cls: SP.SPECIES.cat.cls, p: 0.6 }]);
+  const boxes = D.decodeAnimals(out, 1, 416, 416);
+  assert.equal(boxes.length, 1);
+  assert.equal(boxes[0].cls, SP.SPECIES.dog.cls);
+});
+
+const det = (x, y, cls, score = 0.8, extra = {}) => ({ x1: x, y1: y, x2: x + 100, y2: y + 60, score, cls, p: score, ...extra });
+const colour = (bin) => { const h = new Float32Array(T.HIST_BINS); h[bin] = 1; return h; };
+
+test("tracker: two animals that cross keep their own IDs when their coats differ", () => {
+  const tr = new T.AnimalTracker();
+  const sp = SP.SPECIES.dog.cls;
+  let a, b;
+  for (let f = 0; f < 6; f++) {
+    const t = f * 100;
+    // A moves right, B moves left; at f=3 they overlap almost completely.
+    const ax = 100 + f * 40, bx = 340 - f * 40;
+    const ids = tr.associate([det(ax, 100, sp), det(bx, 110, sp)], [colour(5), colour(40)], t);
+    if (f === 0) [a, b] = [ids[0].id, ids[1].id];
+    else { assert.equal(ids[0].id, a, `A at frame ${f}`); assert.equal(ids[1].id, b, `B at frame ${f}`); }
+  }
+});
+
+test("tracker: a single frame calling a dog a cat does not rename it, and a split vote is never named", () => {
+  const tr = new T.AnimalTracker();
+  const dog = SP.SPECIES.dog.cls, cat = SP.SPECIES.cat.cls;
+  let t0;
+  for (let f = 0; f < 8; f++) {
+    const cls = f === 4 ? cat : dog;
+    const [x] = tr.associate([det(100 + f * 5, 100, cls, 0.8)], [colour(3)], f * 100);
+    t0 = x;
+  }
+  assert.equal(tr.species(t0).key, "dog");
+  // A box the detector keeps splitting between horse and cow stays unnamed.
+  const tr2 = new T.AnimalTracker();
+  let u;
+  for (let f = 0; f < 8; f++) [u] = tr2.associate([det(100, 100, f % 2 ? SP.SPECIES.horse.cls : SP.SPECIES.cow.cls, 0.8)], [colour(3)], f * 100);
+  assert.equal(tr2.species(u).key, null);
+  assert.equal(tr2.species(u).unsure, true);
+});
+
+test("tracker: a weak detection (score under 0.4) is not named, however consistent", () => {
+  const tr = new T.AnimalTracker();
+  let u;
+  for (let f = 0; f < 8; f++) [u] = tr.associate([det(100, 100, SP.SPECIES.horse.cls, 0.3)], [colour(3)], f * 100);
+  assert.equal(tr.species(u).key, null);
+});
+
+test("tracker: a lost animal that returns nearby, same species and look, gets its old ID back; a different species does not", () => {
+  const tr = new T.AnimalTracker();
+  const dog = SP.SPECIES.dog.cls;
+  let id;
+  for (let f = 0; f < 4; f++) [{ id }] = tr.associate([det(100, 100, dog)], [colour(7)], f * 100);
+  const t = tr.tracks[0]; t.lost = true;                         // hidden behind a fence
+  const [back] = tr.associate([det(160, 100, dog)], [colour(7)], 1500);
+  assert.equal(back.id, id);
+  const tr2 = new T.AnimalTracker();
+  for (let f = 0; f < 4; f++) tr2.associate([det(100, 100, dog)], [colour(7)], f * 100);
+  tr2.tracks[0].lost = true;
+  const [other] = tr2.associate([det(160, 100, SP.SPECIES.cat.cls)], [colour(7)], 1500);
+  assert.notEqual(other.id, tr2.tracks[0].id);
+});
+
+test("species: only horse, dog and cat are offered a skeleton; the rest are detect-only", () => {
+  assert.deepEqual(SP.SPECIES_LIST.filter((s) => s.status === "tested").map((s) => s.key).sort(), ["cat", "dog", "horse"]);
+  assert.equal(SP.poseSupported("sheep"), false);
+  assert.equal(SP.poseSupported(null), false);
+});
+
+test("gait: dogs and cats are never given a named walk, trot or run; horses can be", () => {
+  // Diagonal legs in step, left/right half a cycle apart: a trot for a horse, only "moving" for a dog.
+  const hz = 30, n = 120, f = 1.5;
+  const sine = (ph) => Array.from({ length: n }, (_, i) => 0.3 * Math.sin(2 * Math.PI * (f * i / hz - ph)));
+  const limbs = { lf: sine(0), rf: sine(0.5), lh: sine(0.5), rh: sine(0) };
+  const extra = { coverage: 1, visibleJoints: 15, windowS: 4, sampleHz: 15 };
+  assert.equal(A.classifyLimbs(limbs, hz, { ...extra, species: "horse" }).gait, "trot");
+  assert.equal(A.classifyLimbs(limbs, hz, { ...extra, species: "dog" }).gait, "moving");
+  assert.equal(A.classifyLimbs(limbs, hz, { ...extra, species: "cat" }).gait, "moving");
+});
+
+test("gait: slow drift and a body seen end-on do not produce a rhythm", () => {
+  const hz = 30, n = 120;
+  const drift = Array.from({ length: n }, (_, i) => i / 20);       // a ramp: something large and slow
+  const r = A.classifyLimbs({ lf: drift, rf: drift, lh: drift, rh: drift }, hz, { coverage: 1, visibleJoints: 15, windowS: 4, sampleHz: 15 });
+  assert.equal(r.gait === "unclear" || r.gait === "standing", true);
+  assert.notEqual(r.gait, "canter"); assert.notEqual(r.gait, "gallop");
 });

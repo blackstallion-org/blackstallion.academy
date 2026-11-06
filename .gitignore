@@ -67,3 +67,6 @@ next-env.d.ts
 # motion lab: runtime and model files prepared by scripts/motion-lab-assets.mjs
 /public/motion-lab/
 /public/models/motion-lab/
+
+# Motion Lab validation footage (Wikimedia Commons, see test-media/SOURCES.md)
+/test-media/

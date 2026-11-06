@@ -1,3 +1,4 @@
+import { ANIMAL_CLASSES } from "./species";
 import type { Box } from "./types";
 
 /**
@@ -48,6 +49,44 @@ export function nms(boxes: Box[], iouThreshold: number, max: number): Box[] {
   }
   return kept;
 }
+
+/**
+ * Decodes the raw heads into boxes for every animal species the detector knows (see species.ts), in source-frame pixels.
+ * For each anchor the animal class with the highest probability names the species; the anchor is dropped when some NON-animal class
+ * (a person, a chair, a toy) is more probable than any animal class, so a person is never called a dog. One class-agnostic NMS
+ * then keeps a single box per animal: a cat and a dog cannot both claim the same patch of the frame. `alt` carries the runner-up
+ * animal class so callers can tell a confident "horse" from an uncertain one.
+ */
+export function decodeAnimals(out: ArrayLike<number>, scale: number, srcW: number, srcH: number, conf = 0.25, nmsIou = 0.5, max = 8): Box[] {
+  const found: Box[] = [];
+  const isAnimal = ANIMAL_SET;
+  for (let i = 0; i < DET_ANCHORS; i++) {
+    const o = i * DET_STRIDE;
+    const obj = out[o + 4];
+    if (obj < conf) continue;
+    let best = -1, bp = 0, second = -1, sp = 0, other = 0;
+    for (let c = 0; c < 80; c++) {
+      const p = out[o + 5 + c];
+      if (isAnimal[c]) {
+        if (p > bp) { second = best; sp = bp; best = c; bp = p; } else if (p > sp) { second = c; sp = p; }
+      } else if (p > other) other = p;
+    }
+    if (best < 0 || other > bp) continue;
+    const score = obj * bp;
+    if (score < conf) continue;
+    const s = GRID.st[i];
+    const cx = (out[o] + GRID.gx[i]) * s, cy = (out[o + 1] + GRID.gy[i]) * s;
+    const w = Math.exp(out[o + 2]) * s, h = Math.exp(out[o + 3]) * s;
+    found.push({
+      x1: Math.max(0, (cx - w / 2) / scale), y1: Math.max(0, (cy - h / 2) / scale),
+      x2: Math.min(srcW, (cx + w / 2) / scale), y2: Math.min(srcH, (cy + h / 2) / scale), score,
+      cls: best, p: bp, alt: second >= 0 && sp > 0.05 ? { cls: second, p: sp } : undefined,
+    });
+  }
+  return nms(found, nmsIou, max);
+}
+
+const ANIMAL_SET = (() => { const a = new Array<boolean>(80).fill(false); for (const c of ANIMAL_CLASSES) a[c] = true; return a; })();
 
 /**
  * Decodes the raw heads into horse boxes in source-frame pixels (`scale` is the letterbox scale used for the input).
