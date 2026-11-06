@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { soundEnabled, subscribeSound } from "@/lib/audio/engine";
-import { getMusicState, setMusicSource, subscribeMusic, type MusicState } from "@/lib/audio/mixer";
+import { setEffectsAllowed, soundEnabled, subscribeSound } from "@/lib/audio/engine";
+import { getMusicState, pauseAmbience, resumeAmbience, setMusicSource, subscribeMusic, type MusicState } from "@/lib/audio/mixer";
 import { applySoundMode, getSoundMode, subscribeSoundMode, type SoundMode } from "@/lib/audio/mode";
 import { asset } from "@/lib/content/asset";
 import styles from "./four-worlds-scroll.module.css";
@@ -22,7 +22,10 @@ export function WorldsScrollSoundButton() {
 
   useEffect(() => {
     setMusicSource(TRACK);
-    return () => setMusicSource(null);
+    // no horse sounds on this page (the idle neighs and snorts, the location ambience); the film has its music and its text sound
+    setEffectsAllowed(false);
+    pauseAmbience();
+    return () => { setMusicSource(null); setEffectsAllowed(getSoundMode() !== "music"); resumeAmbience(); };
   }, []);
 
   const wanted = on && (mode === "theme" || mode === "music");

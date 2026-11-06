@@ -1,10 +1,9 @@
 import { soundEnabled } from "@/lib/audio/engine";
 import { effectsBus } from "@/lib/audio/mixer";
-import type { WorldId } from "./types";
 
 /**
- * The film's own sound effects, synthesised (no files to load): a glitch/hover tick for each word of a headline and a softer one
- * for the sentence, and one opening cue per world. They go through the site's effects bus, so they follow the site's sound
+ * The film's own text sound, synthesised (no files to load): a glitch/hover tick for each word of a headline and a softer one
+ * for the sentence. (The per-world opening cues were removed 7 Nov 2026: only the text sound stays.) It goes through the site's effects bus, so they follow the site's sound
  * setting, and stay silent until the browser has allowed audio (the first click, key or touch).
  */
 type Rig = { c: AudioContext; out: GainNode };
@@ -93,61 +92,8 @@ function story(words: number) {
   hover(r, t + 1.25, 0.03, 2300);
 }
 
-const CUES: Record<WorldId, (r: Rig, t: number) => void> = {
-  // dawn: a low swell with air rising through it
-  origins(r, t) {
-    const a = env(r, t, 2.4, 2.2, 0.22);
-    tone(r, a.g, a.end, "sine", t, 46, 62);
-    const b = env(r, t + 0.3, 2.2, 2.4, 0.07);
-    tone(r, b.g, b.end, "triangle", t + 0.3, 98);
-    tone(r, b.g, b.end, "triangle", t + 0.3, 147);
-    const n = env(r, t, 2.6, 1.8, 0.05);
-    hiss(r, n.g, n.end, t, "bandpass", 220, 2400, 0.8);
-  },
-  // life: two heartbeats and a shimmer of light
-  life(r, t) {
-    for (const at of [0, 0.24, 1.05, 1.29]) {
-      const { g, end } = env(r, t + at, 0.012, 0.22, at % 1 < 0.1 ? 0.3 : 0.2);
-      tone(r, g, end, "sine", t + at, 72, 38);
-    }
-    [880, 1318.5, 1760, 2637].forEach((f, i) => {
-      const at = t + 0.5 + i * 0.16;
-      const { g, end } = env(r, at, 0.02, 1.9, 0.03);
-      tone(r, g, end, "sine", at, f);
-    });
-  },
-  // legacy: a deep stone boom, dust and a ring of metal
-  legacy(r, t) {
-    const a = env(r, t, 0.02, 1.7, 0.34);
-    tone(r, a.g, a.end, "sine", t, 64, 30);
-    const n = env(r, t, 0.01, 1.3, 0.14);
-    hiss(r, n.g, n.end, t, "lowpass", 900, 140, 0.6);
-    [1, 2.76, 5.4].forEach((m, i) => {
-      const { g, end } = env(r, t + 0.04, 0.01, 2.6 - i * 0.6, 0.03 / (i + 1));
-      tone(r, g, end, "sine", t + 0.04, 196 * m);
-    });
-  },
-  // beyond: stacked fifths opening upward, a rising sweep and a last spark
-  beyond(r, t) {
-    [220, 329.6, 440, 659.3].forEach((f, i) => {
-      const at = t + i * 0.18;
-      const { g, end } = env(r, at, 1.6, 2.4, 0.05 - i * 0.006);
-      tone(r, g, end, "sine", at, f);
-      tone(r, g, end, "sine", at, f * 1.004);
-    });
-    const n = env(r, t, 2, 1.4, 0.045);
-    hiss(r, n.g, n.end, t, "bandpass", 400, 5200, 1.2);
-    const s = env(r, t + 2.1, 0.01, 1.8, 0.035);
-    tone(r, s.g, s.end, "sine", t + 2.1, 2637);
-  },
-};
-
 export const sfx = {
   story,
-  world(id: WorldId) {
-    const r = rig();
-    if (r) CUES[id](r, r.c.currentTime + 0.05);
-  },
   /** fade everything that is sounding or scheduled (skip, leaving the page) */
   stop() {
     const r = rig();

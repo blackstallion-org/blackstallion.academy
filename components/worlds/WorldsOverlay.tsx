@@ -2,26 +2,14 @@
 
 import { Fragment, useImperativeHandle, useRef, useState, type CSSProperties, type Ref } from "react";
 import { INTRO_COPY } from "@/lib/content/worlds";
-import { END_SECONDS, FILM_SECONDS, OPEN_SECONDS } from "./core/director";
+import { END_SECONDS, FILM_SECONDS, OPEN_SECONDS, STORY, storyAt } from "./core/director";
 import { letterbox } from "./core/letterbox";
 import type { EngineStatus } from "./core/engine";
-import type { WorldId } from "./core/types";
 import { sfx } from "./core/sfx";
 import { WorldsMusic } from "./WorldsSound";
 import styles from "./four-worlds.module.css";
 
 export type OverlayHandle = { update: (progress: number, seconds: number) => void };
-
-/** Where in the film (progress) each world's headline and sentence are on screen. */
-const STORY: { id: WorldId; from: number; to: number }[] = [
-  { id: "origins", from: 0.014, to: 0.2 },
-  { id: "life", from: 0.278, to: 0.462 },
-  { id: "legacy", from: 0.512, to: 0.702 },
-  { id: "beyond", from: 0.758, to: 0.925 },
-];
-/** progress where each world begins to open (its transition starts) */
-const WORLD_AT = [0, 0.235, 0.47, 0.715];
-const storyAt = (p: number) => STORY.findIndex((s) => p >= s.from && p <= s.to);
 
 const smooth = (x: number) => { const t = Math.min(1, Math.max(0, x)); return t * t * t * (t * (t * 6 - 15) + 10); };
 
@@ -36,7 +24,7 @@ export function WorldsOverlay({ ref, status, onSkip, veil }: { ref?: Ref<Overlay
   const root = useRef<HTMLDivElement>(null);
   const [story, setStory] = useState(-1);
   const [ending, setEnding] = useState(false);
-  const last = useRef({ story: -1, ending: false, world: -1 });
+  const last = useRef({ story: -1, ending: false });
 
   useImperativeHandle(ref, () => ({
     update(p: number, t: number) {
@@ -53,9 +41,6 @@ export function WorldsOverlay({ ref, status, onSkip, veil }: { ref?: Ref<Overlay
         setStory(i);
         if (i >= 0) sfx.story(INTRO_COPY[STORY[i].id].headline.split(/\s+/).length);
       }
-      // one opening cue per world, as its transition begins (the first as the bars open)
-      const w = p >= WORLD_AT[3] ? 3 : p >= WORLD_AT[2] ? 2 : p >= WORLD_AT[1] ? 1 : t > 0.5 ? 0 : -1;
-      if (w > last.current.world && t < FILM_SECONDS) { last.current.world = w; sfx.world(STORY[w].id); }
       const e = t > FILM_SECONDS - 1;
       if (e !== last.current.ending) { last.current.ending = e; setEnding(e); }
     },

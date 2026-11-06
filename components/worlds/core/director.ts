@@ -13,6 +13,15 @@ export const OPEN_SECONDS = 5;
 
 const HOLD_AT = [0.155, 0.37, 0.64, 0.9];
 
+/** Where in the film (progress) each world's headline and sentence are on screen: the same on the intro and on the scroll page. */
+export const STORY: { id: "origins" | "life" | "legacy" | "beyond"; from: number; to: number }[] = [
+  { id: "origins", from: 0.014, to: 0.2 },
+  { id: "life", from: 0.278, to: 0.462 },
+  { id: "legacy", from: 0.512, to: 0.702 },
+  { id: "beyond", from: 0.758, to: 0.925 },
+];
+export const storyAt = (p: number) => STORY.findIndex((s) => p >= s.from && p <= s.to);
+
 /** relative time spent per unit of progress: > 1 means the film slows there */
 function weight(p: number) {
   let w = 1;

@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useImperativeHandle, useRef, type Ref } from "react";
-import { WORLD_SWISS } from "@/lib/content/worlds";
+import { Fragment, useEffect, useImperativeHandle, useRef, useState, type CSSProperties, type Ref } from "react";
+import { INTRO_COPY, WORLD_SWISS } from "@/lib/content/worlds";
+import { STORY, storyAt } from "./core/director";
+import { sfx } from "./core/sfx";
 import { CHAPTERS } from "./core/timeline";
 import { letterbox } from "./core/letterbox";
 import type { EngineStatus } from "./core/engine";
 import { WorldsScrollSoundButton } from "./WorldsScrollSound";
 import styles from "./four-worlds-scroll.module.css";
+import intro from "./four-worlds.module.css";
 
 export type ScrollOverlayHandle = { update: (progress: number) => void };
 
@@ -25,6 +28,8 @@ export function WorldsScrollOverlay({ ref, status }: { ref?: Ref<ScrollOverlayHa
   const progress = useRef(0);
   const opened = useRef(0);
   const portrait = useRef(false);
+  const [story, setStory] = useState(-1);
+  const lastStory = useRef(-1);
 
   const draw = () => {
     const h = letterbox(progress.current, opened.current, portrait.current);
@@ -38,6 +43,13 @@ export function WorldsScrollOverlay({ ref, status }: { ref?: Ref<ScrollOverlayHa
     update(p: number) {
       progress.current = p;
       draw();
+      // the same headline and sentence per world as the intro, placed by scroll position; each one speaks its text sound as it comes up
+      const i = storyAt(p);
+      if (i !== lastStory.current) {
+        lastStory.current = i;
+        setStory(i);
+        if (i >= 0) sfx.story(INTRO_COPY[STORY[i].id].headline.split(/\s+/).length);
+      }
     },
   }), []);
 
@@ -61,8 +73,29 @@ export function WorldsScrollOverlay({ ref, status }: { ref?: Ref<ScrollOverlayHa
     return () => cancelAnimationFrame(raf);
   }, [ready]);
 
+  useEffect(() => () => sfx.stop(), []);
+
   return (
     <div className={styles.overlay}>
+      <div className={intro.overlay} aria-hidden>
+        <div className={intro.shade} data-on={story >= 0 || undefined} />
+        {STORY.map((s, i) => {
+          const c = INTRO_COPY[s.id];
+          return (
+            <div key={s.id} className={intro.story} data-on={story === i || undefined}>
+              <h2 className={intro.headline}>
+                {c.headline.split(" ").map((w, k) => (
+                  <Fragment key={k}>
+                    <span className={intro.mask}><span className={intro.word} style={{ "--i": k } as CSSProperties}>{w}</span></span>{" "}
+                  </Fragment>
+                ))}
+              </h2>
+              <p className={intro.sentence}>{c.line}</p>
+            </div>
+          );
+        })}
+      </div>
+
       <div ref={top} className={`${styles.bar} ${styles.barTop}`} style={{ transform: "scaleY(1)" }} aria-hidden />
       <div ref={bottom} className={`${styles.bar} ${styles.barBottom}`} style={{ transform: "scaleY(1)" }} aria-hidden />
 
