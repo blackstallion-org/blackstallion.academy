@@ -36,6 +36,17 @@ export const WORLD_SWISS: Record<"origins" | "life" | "legacy" | "beyond", { lin
   beyond: { line: "The same horse, a new century." },
 };
 
+/**
+ * The intro film (components/worlds): one large headline and one short sentence per world. Plain statements about the horse, the
+ * breed and the academy's own model; World 02 says it is an illustration (its light is storytelling, not a measurement).
+ */
+export const INTRO_COPY: Record<"origins" | "life" | "legacy" | "beyond", { headline: string; line: string }> = {
+  origins: { headline: "One horse.", line: "A black Marwari on the hill above the academy." },
+  life: { headline: "Muscle, bone, breath.", line: "The horse within the horse, illustrated." },
+  legacy: { headline: "Bred in Marwar.", line: "Raised by the horsemen of Rajasthan to ride with the cavalry." },
+  beyond: { headline: "A new century.", line: "What the horse teaches does not change: balance, patience, trust." },
+};
+
 /** Required by the CC BY 4.0 licence of the planet textures; the CC0 sources are credited as a courtesy. */
 export const WORLDS_CREDITS =
   "Four Worlds is rendered live in your browser. Planet and moon textures: Solar System Scope (solarsystemscope.com), CC BY 4.0, based on NASA imagery. Skies, ground textures and a boulder scan: Poly Haven and ambientCG (CC0). Terrain, academy, fort, riders, orbital platform and stars: built for BSAH in Blender. Horse and anatomy: the academy's own Marwari model.";

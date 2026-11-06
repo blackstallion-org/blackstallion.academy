@@ -6,6 +6,7 @@ import "./editorial.css";
 import { Atmosphere } from "@/components/film/Atmosphere";
 import { Loader } from "@/components/motion/Loader";
 import { loaderBootScript } from "@/lib/opening/boot";
+import { introBootScript } from "@/lib/opening/intro-boot";
 import { themeBootScript } from "@/lib/theme/theme";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
@@ -13,6 +14,7 @@ import { SiteParallax } from "@/components/motion/SiteParallax";
 import { Footer } from "@/components/site/Footer";
 import { SiteNav } from "@/components/site/SiteNav";
 import { Soundscape } from "@/components/site/Soundscape";
+import { WorldsIntro } from "@/components/worlds/WorldsIntro";
 import { fontVariables } from "@/lib/fonts";
 import Script from "next/script";
 
@@ -42,6 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={fontVariables} suppressHydrationWarning>
       <head>
+        {/* Decides before first paint whether the intro film plays (first visit to the home page per session); it runs first and, when the film plays, marks the loader as seen. */}
+        <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
         {/* Decides before first paint whether the first-visit loader shows. */}
         <script dangerouslySetInnerHTML={{ __html: loaderBootScript }} />
         {/* Applies the visitor's saved dark mode before first paint (lib/theme/theme.ts). */}
@@ -57,6 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Skip to content
             </a>
             <Loader />
+            <WorldsIntro />
             <SiteNav />
             <Soundscape />
             <Atmosphere />

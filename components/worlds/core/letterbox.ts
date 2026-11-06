@@ -19,7 +19,11 @@ const smooth = (a: number, b: number, x: number) => {
   return t * t * t * (t * (t * 6 - 15) + 10);
 };
 
-export function letterbox(p: number, opened: number, portrait: boolean): number {
+/**
+ * `close` (0..1) closes the bars by hand (the autoplay's ending runs on its own clock); left out, they close with the last of the
+ * progress, as they do in the scroll version.
+ */
+export function letterbox(p: number, opened: number, portrait: boolean, close?: number): number {
   const rest = portrait ? REST_PORTRAIT : REST_LANDSCAPE;
   let h = rest;
   for (const b of BOUNDARIES) {
@@ -27,7 +31,7 @@ export function letterbox(p: number, opened: number, portrait: boolean): number 
     const x = smooth(b.start - lead, (b.start + b.end) / 2, p) * (1 - smooth((b.start + b.end) / 2, b.end + lead, p));
     h += BUMP * x;
   }
-  h += (0.5 - h) * smooth(CLOSE_FROM, CLOSE_TO, p);
+  h += (0.5 - h) * (close ?? smooth(CLOSE_FROM, CLOSE_TO, p));
   // the opening runs on the clock, not on the scroll: the first thing seen is the bars drawing back from black
   const o = smooth(0, 1, opened);
   return 0.5 + (h - 0.5) * o;

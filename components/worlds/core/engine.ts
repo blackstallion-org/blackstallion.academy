@@ -5,6 +5,7 @@ import { applyPose, makePose } from "./camera";
 import { HorseRig } from "./horse";
 import { PostChain } from "./post";
 import { FrameGovernor, TIERS, type QualitySettings, type TierName } from "./quality";
+import { END_SECONDS, FILM_SECONDS, progressAt } from "./director";
 import { frameAt, neighbours } from "./timeline";
 import type { ShotPose, World, WorldContext, WorldId } from "./types";
 
@@ -87,7 +88,47 @@ export class WorldsEngine {
   private tmp = new THREE.Vector3();
   onStatus: ((s: EngineStatus) => void) | null = null;
   /** called every frame with the camera's own (smoothed) progress, so the letterbox can move with the picture and not ahead of it */
-  onFrame: ((progress: number) => void) | null = null;
+  onFrame: ((progress: number, seconds: number) => void) | null = null;
+  /** autoplay: the film runs on its own clock (director.ts). `seconds` counts film time only while the next worlds are ready. */
+  private auto: { t: number; paused: boolean; done: boolean; onEnd: (() => void) | null } | null = null;
+  /** true while the film waits for a world that is still loading */
+  buffering = false;
+  /** Play the film by itself from the start. The clock only advances while everything the next few seconds need is loaded. */
+  play(onEnd?: () => void) {
+    this.auto = { t: 0, paused: false, done: false, onEnd: onEnd ?? null };
+    this.wake();
+  }
+  get isPlaying() { return !!this.auto; }
+  pause(on: boolean) {
+    if (this.auto) this.auto.paused = on;
+    if (!on) this.wake();
+  }
+  /** stop the film's own clock (a skip): the last frame stays up while the page fades it out */
+  stop() {
+    if (this.auto) { this.auto.paused = true; this.auto.done = true; }
+  }
+  private advance(dt: number) {
+    const a = this.auto;
+    if (!a || a.paused) return;
+    if (a.t < FILM_SECONDS) {
+      // everything the next five seconds of film show must be loaded, or the clock waits (and the picture keeps breathing)
+      const now = frameAt(progressAt(a.t));
+      const next = frameAt(progressAt(Math.min(FILM_SECONDS, a.t + 5)));
+      let ok = true;
+      for (const id of [now.a.id, now.b?.id, next.a.id, next.b?.id]) {
+        if (!id) continue;
+        if (!this.slots.get(id)?.ready) { ok = false; void this.ensure(id).catch(() => {}); }
+      }
+      this.buffering = !ok;
+      if (!ok) return;
+    }
+    a.t += dt;
+    const p = progressAt(a.t);
+    this.target = this.progress = p;
+    this.vel = 0;
+    this.lastInput = performance.now();
+    if (a.t >= FILM_SECONDS + END_SECONDS && !a.done) { a.done = true; a.paused = true; a.onEnd?.(); }
+  }
   status: EngineStatus = { phase: "loading", progress: 0, world: "origins", tier: "high", fps: 60 };
   /** QA: freeze ambient time so a capture is repeatable */
   frozen = false;
@@ -272,6 +313,7 @@ export class WorldsEngine {
   };
 
   private frame(dt: number, time: number) {
+    if (this.auto) this.advance(dt);
     // A slow, deliberate glide toward the scroll position. The camera eases in and out (the speed itself is smoothed) and its speed
     // is capped, so a flick of the wheel, a scrollbar drag or a jump to the end still travels through every scene at a pace the
     // eye can follow: the whole film cannot be crossed in under about twenty seconds, and no sequence is skipped.
@@ -279,7 +321,7 @@ export class WorldsEngine {
     this.vel += (want - this.vel) * (1 - Math.exp(-dt * EASE));
     this.progress += this.vel * dt;
     if (Math.abs(this.target - this.progress) < 1e-5 && Math.abs(this.vel) < 2e-4) { this.progress = this.target; this.vel = 0; }
-    this.onFrame?.(this.progress);
+    this.onFrame?.(this.progress, this.auto ? Math.min(this.auto.t, FILM_SECONDS + END_SECONDS) : 0);
     const f = frameAt(this.progress);
     const aspect = this.width / this.height;
     const slotA = this.slots.get(f.a.id);

@@ -104,6 +104,7 @@ export const legalNav = [
   { label: "Journal", href: "/journal" },
   { label: "The Command", href: "/command" },
   { label: "Privacy", href: "/privacy" },
+  { label: "Film credits", href: "/worlds/credits" },
 ];
 
 /** Application screens (the staff console, its sign-in, and the dev preview of its overview): no public nav or footer. */

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { WORLD_SWISS, WORLDS_FINAL } from "@/lib/content/worlds";
+import { WORLD_SWISS, WORLDS_CREDITS, WORLDS_FINAL } from "@/lib/content/worlds";
 import { CHAPTERS } from "./core/timeline";
 import styles from "./four-worlds.module.css";
 
@@ -48,6 +48,7 @@ export function WorldsFallback({ reason }: { reason: "reduced" | "webgl" | "erro
           <Link href={WORLDS_FINAL.secondary.href} className={styles.secondary}>{WORLDS_FINAL.secondary.label} <span aria-hidden>→</span></Link>
         </div>
       </div>
+      <p className={styles.fallbackNote}>{WORLDS_CREDITS}</p>
     </section>
   );
 }
