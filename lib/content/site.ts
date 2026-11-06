@@ -47,6 +47,14 @@ export const reels: Reel[] = [
 
 export const TOTAL_REELS = reels.length;
 
+/**
+ * Working pages that sit in the menu beside the reels without being part of the film: they have no reel mark and no end card,
+ * and do not change the reel count (so the "REEL n / 17" marks and the hand-off from reel to reel stay as they were).
+ */
+export const tools = [
+  { n: 18, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
+] as const;
+
 export function reelFor(pathname: string): Reel | undefined {
   if (pathname === "/lithos") return reels.find((r) => r.href === "/statue");
   return reels.find((r) => pathname === r.href || pathname.startsWith(`${r.href}/`));

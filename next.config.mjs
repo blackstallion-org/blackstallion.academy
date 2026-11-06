@@ -95,6 +95,8 @@ const nextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // The motion lab is the one page that opens the camera (its own origin only; no microphone) and loads the on-device AI runtime.
+      { source: "/motion-lab", headers: [{ key: "Permissions-Policy", value: "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(self), gyroscope=(self)" }] },
       // Files under public/ keep their names when they change, so they are not marked immutable; a day in the browser's
       // cache plus a week of revalidate-in-the-background spares repeat visitors a round trip for every still, clip and
       // model (the platform default for public files is max-age=0, must-revalidate).

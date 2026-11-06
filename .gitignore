@@ -63,3 +63,7 @@ next-env.d.ts
 /output/
 /.playwright-cli/
 .env*.local
+
+# motion lab: runtime and model files prepared by scripts/motion-lab-assets.mjs
+/public/motion-lab/
+/public/models/motion-lab/
