@@ -29,7 +29,7 @@ const KNOWN: Record<Side, { at: [number, number, number]; move: [number, number,
 const TOLERANCE = 0.02;
 
 /** The visible opening (metres) and how far the cornea stands proud of the coat; `depth` is the ellipsoid's outward semi-axis. */
-export const EYE = { length: 0.057, height: 0.03, bulge: 0.0026, depth: 0.012, face: 0.025, tilt: 0.16, lift: 0.003 };
+export const EYE = { length: 0.054, height: 0.036, bulge: 0.0026, depth: 0.012, face: 0.025, tilt: 0.16, lift: 0.003 };
 
 export type EyeCentres = { L: THREE.Vector3; R: THREE.Vector3 };
 /** Per eye: the centre of the opening on the face, the outward normal there, and the axis along the face toward the muzzle. */
@@ -131,9 +131,11 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
       .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position;");
     shader.fragmentShader = shader.fragmentShader
       .replace("#include <common>", "#include <common>\nvarying vec3 vRest; uniform vec3 uEyeC[2]; uniform vec3 uEyeN[2]; uniform vec3 uEyeH[2]; uniform vec2 uEyeS;")
+      .replace("#include <lights_physical_fragment>", "#include <lights_physical_fragment>\n#ifdef USE_CLEARCOAT\nmaterial.clearcoat *= 1.0 - 0.85 * eyeRim;\n#endif\nmaterial.specularColorBlended *= 1.0 - 0.8 * eyeRim;")
       .replace(
         "#include <color_fragment>",
         `#include <color_fragment>
+        float eyeRim = 0.0;
         {
           int s = vRest.x > 0.0 ? 0 : 1;
           vec3 nn = uEyeN[s];
@@ -148,9 +150,9 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
           float ang = atan(qi.y, qi.x);
           float lower = smoothstep(0.15, -0.9, q.y);
           float fibres = 0.6 + 0.4 * sin(ang * 46.0 + sin(ang * 11.0) * 2.4) * (0.5 + 0.5 * sin(r * 26.0));
-          vec3 irisCol = mix(vec3(0.016, 0.008, 0.004), vec3(0.11, 0.05, 0.016), lower * fibres * smoothstep(0.3, 0.9, r));
+          vec3 irisCol = mix(vec3(0.05, 0.02, 0.006), vec3(0.24, 0.1, 0.026), (0.35 + 0.65 * lower) * fibres * smoothstep(0.2, 0.85, r));
           irisCol *= 1.0 - 0.55 * smoothstep(1.05, 1.35, r); // the limbal ring darkens toward the corners
-          irisCol *= mix(1.0, 0.3, smoothstep(0.2, 0.9, q.y)); // the shadow of the heavy upper lid
+          irisCol *= mix(1.0, 0.45, smoothstep(0.25, 0.85, q.y)); // the shadow of the heavy upper lid
           // the pupil: a wide horizontal ellipse a little below centre, the granula (dark lumps) along its upper edge
           float pupil = 1.0 - smoothstep(0.85, 1.0, length(vec2(qi.x / 0.62, (qi.y + 0.06) / 0.26)));
           float gran = (1.0 - smoothstep(0.7, 1.0, length(vec2(qi.x / 0.4, (qi.y - 0.2) / 0.11)))) * (0.6 + 0.4 * sin(qi.x * 34.0));
@@ -158,9 +160,13 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
           // a sliver of pinkish-white sclera in the rear corner only
           float scl = smoothstep(-0.86, -1.0, q.x) * (1.0 - smoothstep(-0.05, 0.35, q.y)) * (1.0 - smoothstep(0.35, 0.6, -q.y));
           col = mix(col, vec3(0.2, 0.13, 0.11), scl * 0.7);
+          // the lids: a dark, wet rim all round the opening (no bright outline), heaviest along the upper lid, so the eye sits in its socket
+          float e = length(vec2(q.x, q.y * (q.y > 0.0 ? 1.18 : 1.0)));
+          eyeRim = smoothstep(0.8, 0.97, e);
+          col *= 1.0 - 0.93 * eyeRim;
           diffuseColor.rgb = col;
         }`,
       );
   };
-  material.customProgramCacheKey = () => "marwari-eye-v3";
+  material.customProgramCacheKey = () => "marwari-eye-v4";
 }
