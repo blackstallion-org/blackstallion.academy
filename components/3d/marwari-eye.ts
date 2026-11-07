@@ -29,7 +29,7 @@ const KNOWN: Record<Side, { at: [number, number, number]; move: [number, number,
 const TOLERANCE = 0.02;
 
 /** The visible opening (metres) and how far the cornea stands proud of the coat; `depth` is the ellipsoid's outward semi-axis. */
-export const EYE = { length: 0.054, height: 0.036, bulge: 0.0026, depth: 0.012, face: 0.025, tilt: 0.16, lift: 0.003 };
+export const EYE = { length: 0.056, height: 0.034, bulge: 0.0026, depth: 0.012, face: 0.025, tilt: 0.16, lift: 0.003 };
 
 export type EyeCentres = { L: THREE.Vector3; R: THREE.Vector3 };
 /** Per eye: the centre of the opening on the face, the outward normal there, and the axis along the face toward the muzzle. */
@@ -131,11 +131,11 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
       .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position;");
     shader.fragmentShader = shader.fragmentShader
       .replace("#include <common>", "#include <common>\nvarying vec3 vRest; uniform vec3 uEyeC[2]; uniform vec3 uEyeN[2]; uniform vec3 uEyeH[2]; uniform vec2 uEyeS;")
-      .replace("#include <lights_physical_fragment>", "#include <lights_physical_fragment>\n#ifdef USE_CLEARCOAT\nmaterial.clearcoat *= 1.0 - 0.85 * eyeRim;\n#endif\nmaterial.specularColorBlended *= 1.0 - 0.8 * eyeRim;")
+      .replace("#include <lights_physical_fragment>", "#include <lights_physical_fragment>\n#ifdef USE_CLEARCOAT\nmaterial.clearcoat *= 1.0 - eyeEdge;\n#endif\nmaterial.specularColorBlended *= 1.0 - 0.9 * eyeEdge; material.roughness = mix(material.roughness, 0.5, eyeEdge);")
       .replace(
         "#include <color_fragment>",
         `#include <color_fragment>
-        float eyeRim = 0.0;
+        float eyeRim = 0.0; float eyeEdge = 0.0;
         {
           int s = vRest.x > 0.0 ? 0 : 1;
           vec3 nn = uEyeN[s];
@@ -144,29 +144,46 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
           vec3 p = vRest - uEyeC[s];
           // across the opening: x toward the muzzle, y up, both -1..1 at the lids
           vec2 q = vec2(dot(p, hz) / uEyeS.x, dot(p, vt) / uEyeS.y);
-          // the iris is round on the real eye: measure it in a circle the height of the opening
-          vec2 qi = vec2(q.x * uEyeS.x / uEyeS.y, q.y);
+          // painted from the owner's close-up reference (8 Nov 2026): the iris fills the whole opening, a deep, glossy brown with fine
+          // radial fibres, a long horizontal pupil with ragged granula on its upper edge, a pink caruncle in the front (nasal) corner,
+          // thick black wet lids and the shadow of the upper lid with its lashes
+          float e = length(vec2(q.x, q.y * (q.y > 0.0 ? 1.12 : 1.0)));
+          vec2 qi = vec2(q.x * uEyeS.x / uEyeS.y, q.y + 0.04); // pupil-centred, in the opening's height units
           float r = length(qi);
           float ang = atan(qi.y, qi.x);
-          float lower = smoothstep(0.15, -0.9, q.y);
-          float fibres = 0.6 + 0.4 * sin(ang * 46.0 + sin(ang * 11.0) * 2.4) * (0.5 + 0.5 * sin(r * 26.0));
-          vec3 irisCol = mix(vec3(0.05, 0.02, 0.006), vec3(0.24, 0.1, 0.026), (0.35 + 0.65 * lower) * fibres * smoothstep(0.2, 0.85, r));
-          irisCol *= 1.0 - 0.55 * smoothstep(1.05, 1.35, r); // the limbal ring darkens toward the corners
-          irisCol *= mix(1.0, 0.45, smoothstep(0.25, 0.85, q.y)); // the shadow of the heavy upper lid
-          // the pupil: a wide horizontal ellipse a little below centre, the granula (dark lumps) along its upper edge
-          float pupil = 1.0 - smoothstep(0.85, 1.0, length(vec2(qi.x / 0.62, (qi.y + 0.06) / 0.26)));
-          float gran = (1.0 - smoothstep(0.7, 1.0, length(vec2(qi.x / 0.4, (qi.y - 0.2) / 0.11)))) * (0.6 + 0.4 * sin(qi.x * 34.0));
-          vec3 col = mix(irisCol, vec3(0.0015, 0.001, 0.0008), max(pupil, gran * 0.85));
-          // a sliver of pinkish-white sclera in the rear corner only
-          float scl = smoothstep(-0.86, -1.0, q.x) * (1.0 - smoothstep(-0.05, 0.35, q.y)) * (1.0 - smoothstep(0.35, 0.6, -q.y));
-          col = mix(col, vec3(0.2, 0.13, 0.11), scl * 0.7);
-          // the lids: a dark, wet rim all round the opening (no bright outline), heaviest along the upper lid, so the eye sits in its socket
-          float e = length(vec2(q.x, q.y * (q.y > 0.0 ? 1.18 : 1.0)));
-          eyeRim = smoothstep(0.8, 0.97, e);
-          col *= 1.0 - 0.93 * eyeRim;
+          float n1 = sin(ang * 61.0 + sin(ang * 7.0) * 3.1) * 0.5 + 0.5;
+          float n2 = sin(ang * 23.0 + r * 9.0 + sin(ang * 3.0) * 2.0) * 0.5 + 0.5;
+          float fibres = 0.55 + 0.3 * n1 + 0.25 * n2;
+          vec3 deep = vec3(0.035, 0.013, 0.005);
+          vec3 warm = vec3(0.13, 0.05, 0.017);
+          vec3 amber = vec3(0.21, 0.085, 0.03);
+          // brighter, warmer just around the pupil and in the lower half where light passes through the cornea
+          float lower = smoothstep(0.35, -0.75, q.y);
+          float collar = 1.0 - smoothstep(0.25, 0.75, abs(r - 0.42) * 2.0);
+          vec3 col = mix(deep, warm, fibres * (0.45 + 0.35 * lower));
+          col = mix(col, amber, 0.25 * collar * fibres * (0.4 + 0.6 * lower));
+          col *= 1.0 - 0.55 * smoothstep(0.62, 0.95, e); // the limbus darkens toward the lids
+          col *= mix(1.0, 0.35, smoothstep(0.2, 0.95, q.y)); // the shadow of the upper lid and lashes
+          // the pupil: a long horizontal bar with soft, slightly ragged ends
+          float edge = 0.06 * sin(q.x * 31.0) + 0.04 * sin(q.x * 13.0 + 1.3);
+          float pupil = 1.0 - smoothstep(0.82, 1.0, length(vec2(q.x / 0.5, (q.y + 0.05 + edge * 0.4) / (0.15 + edge * 0.35))));
+          // the granula: dark, uneven lumps along the pupil's upper edge
+          float gx = q.x / 0.42;
+          float gran = (1.0 - smoothstep(0.75, 1.0, length(vec2(gx, (q.y - 0.13 - 0.05 * sin(q.x * 22.0)) / (0.075 + 0.04 * sin(q.x * 17.0 + 0.7))))));
+          gran *= 0.55 + 0.45 * sin(q.x * 41.0 + 0.5);
+          col = mix(col, vec3(0.002, 0.0012, 0.0008), clamp(max(pupil, gran), 0.0, 1.0));
+          // the caruncle: a pink, moist mound low in the front (nasal) corner
+          float car = smoothstep(0.62, 0.9, q.x) * smoothstep(0.25, -0.35, q.y) * (1.0 - smoothstep(0.96, 1.05, e));
+          col = mix(col, vec3(0.3, 0.12, 0.1), car * 0.7);
+          // the lids: black, wet rims all round the opening, heaviest along the top
+          eyeRim = smoothstep(0.86, 1.0, e) + 0.35 * smoothstep(0.55, 0.95, q.y) * smoothstep(0.7, 0.95, e);
+          eyeRim = clamp(eyeRim, 0.0, 1.0);
+          eyeEdge = smoothstep(0.84, 0.97, e);
+          col *= 0.75;
+          col = mix(col, vec3(0.006, 0.005, 0.005), eyeRim * 0.95);
           diffuseColor.rgb = col;
         }`,
       );
   };
-  material.customProgramCacheKey = () => "marwari-eye-v4";
+  material.customProgramCacheKey = () => "marwari-eye-v6";
 }
