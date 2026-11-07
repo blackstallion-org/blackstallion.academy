@@ -29,7 +29,7 @@ const KNOWN: Record<Side, { at: [number, number, number]; move: [number, number,
 const TOLERANCE = 0.02;
 
 /** The visible opening (metres) and how far the cornea stands proud of the coat; `depth` is the ellipsoid's outward semi-axis. */
-export const EYE = { length: 0.056, height: 0.034, bulge: 0.0026, depth: 0.012, face: 0.025, tilt: 0.16, lift: 0.003 };
+export const EYE = { length: 0.054, height: 0.037, bulge: 0.0026, depth: 0.012, face: 0.025, tilt: 0.16, lift: 0.003 };
 
 export type EyeCentres = { L: THREE.Vector3; R: THREE.Vector3 };
 /** Per eye: the centre of the opening on the face, the outward normal there, and the axis along the face toward the muzzle. */
@@ -131,11 +131,12 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
       .replace("#include <begin_vertex>", "#include <begin_vertex>\nvRest = position;");
     shader.fragmentShader = shader.fragmentShader
       .replace("#include <common>", "#include <common>\nvarying vec3 vRest; uniform vec3 uEyeC[2]; uniform vec3 uEyeN[2]; uniform vec3 uEyeH[2]; uniform vec2 uEyeS;")
+      .replace("#include <emissivemap_fragment>", "#include <emissivemap_fragment>\ntotalEmissiveRadiance += vec3(0.62, 0.66, 0.7) * eyeSky * 0.1;")
       .replace("#include <lights_physical_fragment>", "#include <lights_physical_fragment>\n#ifdef USE_CLEARCOAT\nmaterial.clearcoat *= 1.0 - eyeEdge;\n#endif\nmaterial.specularColorBlended *= 1.0 - 0.9 * eyeEdge; material.roughness = mix(material.roughness, 0.5, eyeEdge);")
       .replace(
         "#include <color_fragment>",
         `#include <color_fragment>
-        float eyeRim = 0.0; float eyeEdge = 0.0;
+        float eyeRim = 0.0; float eyeEdge = 0.0; float eyeSky = 0.0;
         {
           int s = vRest.x > 0.0 ? 0 : 1;
           vec3 nn = uEyeN[s];
@@ -155,8 +156,8 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
           float n2 = sin(ang * 23.0 + r * 9.0 + sin(ang * 3.0) * 2.0) * 0.5 + 0.5;
           float fibres = 0.55 + 0.3 * n1 + 0.25 * n2;
           vec3 deep = vec3(0.035, 0.013, 0.005);
-          vec3 warm = vec3(0.13, 0.05, 0.017);
-          vec3 amber = vec3(0.21, 0.085, 0.03);
+          vec3 warm = vec3(0.12, 0.042, 0.009);
+          vec3 amber = vec3(0.19, 0.068, 0.012);
           // brighter, warmer just around the pupil and in the lower half where light passes through the cornea
           float lower = smoothstep(0.35, -0.75, q.y);
           float collar = 1.0 - smoothstep(0.25, 0.75, abs(r - 0.42) * 2.0);
@@ -171,7 +172,7 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
           float gx = q.x / 0.42;
           float gran = (1.0 - smoothstep(0.75, 1.0, length(vec2(gx, (q.y - 0.13 - 0.05 * sin(q.x * 22.0)) / (0.075 + 0.04 * sin(q.x * 17.0 + 0.7))))));
           gran *= 0.55 + 0.45 * sin(q.x * 41.0 + 0.5);
-          col = mix(col, vec3(0.002, 0.0012, 0.0008), clamp(max(pupil, gran), 0.0, 1.0));
+          col = mix(col, vec3(0.004, 0.002, 0.001), 0.85 * clamp(max(pupil, gran), 0.0, 1.0));
           // the caruncle: a pink, moist mound low in the front (nasal) corner
           float car = smoothstep(0.62, 0.9, q.x) * smoothstep(0.25, -0.35, q.y) * (1.0 - smoothstep(0.96, 1.05, e));
           col = mix(col, vec3(0.3, 0.12, 0.1), car * 0.7);
@@ -179,11 +180,19 @@ export function installEye(material: THREE.MeshPhysicalMaterial, layout: EyeLayo
           eyeRim = smoothstep(0.86, 1.0, e) + 0.35 * smoothstep(0.55, 0.95, q.y) * smoothstep(0.7, 0.95, e);
           eyeRim = clamp(eyeRim, 0.0, 1.0);
           eyeEdge = smoothstep(0.84, 0.97, e);
+          // the lashes: fine dark strands hanging over the top of the eye
+          float lashY = q.y + 0.1 * q.x * q.x;
+          float strands = smoothstep(0.25, 0.95, 0.5 + 0.5 * sin(q.x * 96.0 + sin(q.x * 13.0) * 3.0 + lashY * 9.0));
+          float lashZone = smoothstep(0.42, 0.72, lashY);
+          col *= 1.0 - 0.8 * lashZone * strands;
+          // the sky in the cornea: a pale band across the top of the iris, just under the lashes, broken by them
+          float band = smoothstep(0.24, 0.36, lashY) * (1.0 - smoothstep(0.5, 0.62, lashY)) * (1.0 - smoothstep(0.62, 0.9, abs(q.x)));
+          eyeSky = band * (1.0 - 0.6 * strands * smoothstep(0.35, 0.6, lashY)) * (1.0 - eyeRim);
           col *= 0.75;
           col = mix(col, vec3(0.006, 0.005, 0.005), eyeRim * 0.95);
           diffuseColor.rgb = col;
         }`,
       );
   };
-  material.customProgramCacheKey = () => "marwari-eye-v6";
+  material.customProgramCacheKey = () => "marwari-eye-v7";
 }
