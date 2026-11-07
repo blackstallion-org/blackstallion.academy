@@ -29,7 +29,7 @@ const KNOWN: Record<Side, { at: [number, number, number]; move: [number, number,
 const TOLERANCE = 0.02;
 
 /** The visible opening (metres) and how far the cornea stands proud of the coat; `depth` is the ellipsoid's outward semi-axis. */
-export const EYE = { length: 0.055, height: 0.034, bulge: 0.0048, depth: 0.013, face: 0.025 };
+export const EYE = { length: 0.057, height: 0.03, bulge: 0.0026, depth: 0.012, face: 0.025, tilt: 0.16, lift: 0.003 };
 
 export type EyeCentres = { L: THREE.Vector3; R: THREE.Vector3 };
 /** Per eye: the centre of the opening on the face, the outward normal there, and the axis along the face toward the muzzle. */
@@ -82,6 +82,16 @@ export function reseatEyes(eyes: THREE.SkinnedMesh, coat: THREE.SkinnedMesh): Ey
     const hz = new THREE.Vector3(0, 0, 1).addScaledVector(n, -n.z).normalize();
     const vt = new THREE.Vector3().crossVectors(n, hz).multiplyScalar(sx);
     if (vt.y < 0) vt.negate();
+    // set like a real horse's eye: the almond tilts down toward the muzzle (front corner low, rear corner high) and sits a little up
+    // under the brow, seated into the face rather than standing on it
+    {
+      const c = Math.cos(EYE.tilt);
+      const sn = Math.sin(EYE.tilt);
+      const h2 = hz.clone().multiplyScalar(c).addScaledVector(vt, -sn);
+      vt.multiplyScalar(c).addScaledVector(hz, sn);
+      hz.copy(h2);
+      centre.addScaledVector(vt, EYE.lift);
+    }
     // the ellipsoid: the plane of the face cuts it at (depth - bulge) from its centre, which shrinks the cut by `cut`
     const t = (EYE.depth - EYE.bulge) / EYE.depth;
     const cut = Math.sqrt(1 - t * t);

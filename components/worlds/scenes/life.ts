@@ -7,6 +7,7 @@ import { disposeTree } from "../core/assets";
 import { CameraPath, key, type CameraKey } from "../core/camera";
 import { Motes, smoothstep, span } from "../core/kit";
 import { TailHair } from "./life/tail";
+import { LightWings } from "./life/wings";
 import type { QualitySettings } from "../core/quality";
 import type { Grade, ShotPose, World, WorldContext } from "../core/types";
 import { cellMaterial, fiberMaterial, fogUniforms, sparkTexture, tissueMaterial, xrayMaterial } from "./life/shaders";
@@ -105,6 +106,9 @@ class LifeWorld implements World {
   private trail: Motes | null = null;
   private tail: TailHair | null = null;
   private tailBone: THREE.Object3D | null = null;
+  private wings: LightWings | null = null;
+  private withers: THREE.Object3D | null = null;
+  private gallop: THREE.AnimationAction | null = null;
   private readonly tailAt = new THREE.Vector3();
   private sparks: THREE.Points | null = null;
   private fibers: THREE.Mesh[] = [];
@@ -218,7 +222,11 @@ class LifeWorld implements World {
     this.tail = new TailHair();
     this.tailBone = model.getObjectByName("Tail_1") ?? null;
     this.horse.add(this.tail.mesh);
+    this.wings = new LightWings();
+    this.withers = model.getObjectByName("Spine_Thoracic") ?? null;
+    this.horse.add(this.wings.mesh);
     this.horse.position.copy(HORSE);
+    this.horse.rotation.order = "YXZ"; // yaw to its heading first, then pitch (nose up on the take-off)
     this.horse.rotation.y = -Math.PI / 2;
     this.root.add(this.horse);
     this.mixer = new THREE.AnimationMixer(model);
@@ -227,6 +235,7 @@ class LifeWorld implements World {
       const a = this.mixer.clipAction(gallop);
       a.timeScale = 0.42; // slow motion: the anatomy reads, the gallop still carries
       a.play();
+      this.gallop = a;
     }
     // the trail of light streaming off the horse (in the horse's frame: it runs toward local +Z, the light flows back)
     this.trail = new Motes({ count: Math.round(1400 * dens) + 300, box: [1.6, 1.4, 14], center: { x: 0, y: 1.2, z: -7.5 }, size: 0.035, color: "#ffcf7a", drift: [0, 0.05, -6], swirl: 0.15, additive: true, opacity: 1.6, seed: 77 });
@@ -309,9 +318,17 @@ class LifeWorld implements World {
     // the horse really travels (toward world -X, its heading) and the camera travels with it, so the floor and the cells
     // slide past instead of the horse galloping on the spot
     const run = 5 - 10 * smoothstep(0.25, 1, p);
-    this.horse.position.x = HORSE.x + run;
+    // ...then it gathers, jumps, and rises into flight on wings of light; the camera rises with it (a little less, so it climbs in frame)
+    const jump = Math.sin(Math.PI * span(p, 0.55, 0.66));
+    const fly = smoothstep(0.6, 1, p);
+    const lift = 0.75 * jump * (1 - fly) + 3.6 * fly;
+    this.horse.position.set(HORSE.x + run, HORSE.y + lift, HORSE.z);
+    this.horse.rotation.x = -(0.2 * jump + 0.09 * smoothstep(0.62, 0.78, p) * (1 - smoothstep(0.9, 1, p)));
+    if (this.gallop) this.gallop.timeScale = 0.42 - 0.17 * fly; // the legs keep reaching, slower, in the air
     out.pos.x += run;
     out.look.x += run;
+    out.pos.y += lift * 0.82;
+    out.look.y += lift * 0.82;
     this.shared.uTime.value = time;
     // the murk thins as we leave the corridor so the clearing reads clearly
     this.shared.uFogDensity.value = THREE.MathUtils.lerp(0.02, 0.011, smoothstep(0.3, 0.45, p));
@@ -321,6 +338,10 @@ class LifeWorld implements World {
     if (this.tail && this.tailBone) {
       this.tailBone.getWorldPosition(this.tailAt);
       this.tail.mesh.position.copy(this.horse.worldToLocal(this.tailAt));
+    }
+    if (this.wings && this.withers) {
+      this.withers.getWorldPosition(this.tailAt);
+      this.wings.mesh.position.copy(this.horse.worldToLocal(this.tailAt)).add({ x: 0, y: 0.1, z: 0.6 });
     }
 
     // which anatomical layer carries the light (deterministic from p)
@@ -332,6 +353,8 @@ class LifeWorld implements World {
     set("shell", shell);
     set("hair", shell * 0.8);
     this.tail?.update(time, shell);
+    const open = smoothstep(0.54, 0.68, p);
+    this.wings?.update(time, reveal * open * 1.1, open, smoothstep(0.62, 0.72, p));
     set("muscle", reveal * (0.18 + 0.82 * muscle));
     set("tendon", reveal * (0.12 + 0.88 * Math.max(muscle, bone) * 0.8));
     set("bone", reveal * (0.12 + 0.88 * Math.min(1, bone)));
