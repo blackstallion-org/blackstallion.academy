@@ -59,7 +59,7 @@ const browser = await chromium.launch();
 const newPage = async (viewport = { width: 1440, height: 900 }, reducedMotion = "no-preference") => {
   const context = await browser.newContext({ viewport, reducedMotion });
   // The home page is tested as a returning visitor: neither the loader nor the first-visit intro film (tests/intro.test.mjs) covers it.
-  await context.addInitScript(() => { try { sessionStorage.setItem("bsah-loaded", "1"); } catch {} try { localStorage.setItem("bsah-intro-seen", "1"); } catch {} });
+  await context.addInitScript(() => { try { sessionStorage.setItem("bsah-loaded", "1"); } catch {} try { sessionStorage.setItem("bsah-intro-seen", "1"); } catch {} });
   // External media/fonts are not needed for these checks and may be unreachable from CI; fail them fast.
   await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (route) => route.abort());
   const page = await context.newPage();
