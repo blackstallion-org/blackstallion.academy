@@ -806,3 +806,15 @@ workspace); no live payment, e-mail or signed-in run was possible.
 - [x] **7 Nov 2026 · /worlds back to the scroll film.** `/worlds` is the scroll-controlled Four Worlds again (`FourWorldsScroll`, restored from `e4a6504`, its own overlay, sound button and CSS module); no autoplay there. The autoplay film remains the first-visit intro only. Horse sounds (idle neighs/snorts, ambience) are held back while the film is up (`WorldsSound.tsx`); the film's music and text sounds stay. The "Sound off · turn on" switch is removed from the intro. `WorldsReplay` deleted.
 - [x] **7 Nov 2026 · /worlds text and sound.** The scroll `/worlds` page shows the intro's headline and sentence per world (placed by scroll position, `STORY` shared in `core/director.ts`) with the film's text sound. The per-world cue sounds were removed from the intro and the page: only the text sound and the music stay. Horse sounds are held back on both.
 - [x] **7 Nov 2026 · Pre-release checks.** Fixed three failing media tests (Motion Lab models moved to `public/motion-lab/models/`, outside the media folders and still git-ignored; `npm run motion-lab:assets` fetches them), regenerated the stale media manifest (the re-trimmed `four-worlds.mp3`), ESLint now ignores the generated LiteRT runtime and `test-media/`, menu number of Motion Lab is 19 (it duplicated Four Worlds' 18). Checked: typecheck, lint (0 errors), 337 unit tests, production build, `npm audit --omit=dev` (0), security headers, no exposed files or source maps, `/auth/confirm` redirects. Not run: Playwright e2e and Lighthouse (not installed in the project).
+
+## 2026-11-07 · Life world: new horse of light
+
+- Replaced the anatomy-exhibit horse in the Life world (`/worlds` and the home intro) with the owner's Tripo model, optimised to
+  `public/models/horse-of-light.glb`: 1.9M → 35k triangles, Draco geometry, WebP texture, 55 MB → 255 KB.
+- The model has no rig, so `lightHorseMaterial` (`components/worlds/scenes/life/shaders.ts`) gallops it in the vertex shader: each leg
+  swings at shoulder/hip and folds below the knee in rotary-gallop order, the body rocks and lifts twice a stride, the neck nods.
+  Lit gold body (key light, floor bounce, specular, fresnel rim, the travelling band of light); fades in on the old reveal beat and
+  brightens on the muscle and bone beats. Travel, jump, wings, trail and camera path unchanged; the strand tail is gone (the model
+  has its own).
+- Checked at 1440 and 390 (the hold at p=0.37, close-up at 0.44); two frames 350 ms apart confirm the stride. lint (0 errors),
+  typecheck, 337 tests and build pass. The media manifest was regenerated.

@@ -1,16 +1,13 @@
 import * as THREE from "three";
-import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { clone as cloneSkinned } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { asset } from "@/lib/content/asset";
 import { vnoise } from "@/components/stallion-film/noise";
 import { disposeTree } from "../core/assets";
 import { CameraPath, key, type CameraKey } from "../core/camera";
 import { Motes, smoothstep, span } from "../core/kit";
-import { TailHair } from "./life/tail";
 import { LightWings } from "./life/wings";
 import type { QualitySettings } from "../core/quality";
 import type { Grade, ShotPose, World, WorldContext } from "../core/types";
-import { cellMaterial, fiberMaterial, fogUniforms, sparkTexture, tissueMaterial, xrayMaterial } from "./life/shaders";
+import { cellMaterial, fiberMaterial, fogUniforms, sparkTexture, lightHorseMaterial, tissueMaterial } from "./life/shaders";
 
 /**
  * WORLD 02 — LIFE, the inner world.
@@ -25,6 +22,8 @@ import { cellMaterial, fiberMaterial, fogUniforms, sparkTexture, tissueMaterial,
  * on the horse at (0, 0, 45); the horse faces -X so, seen from the corridor side, it gallops to the right of the frame.
  */
 const HORSE = new THREE.Vector3(0, 0, 45);
+/** Nose to tail of the horse of light (m). */
+const LENGTH = 2.9;
 const CLEAR_R = 17;
 
 function corridor(z: number, out = new THREE.Vector3()) {
@@ -98,17 +97,15 @@ class LifeWorld implements World {
   private path = buildPath();
   private root = new THREE.Group();
   private horse = new THREE.Group();
-  private mixer: THREE.AnimationMixer | null = null;
-  private layers: Record<"shell" | "hair" | "muscle" | "tendon" | "bone", THREE.ShaderMaterial[]> = { shell: [], hair: [], muscle: [], tendon: [], bone: [] };
+  private body: THREE.ShaderMaterial | null = null;
+  /** stride of the shader gallop, in cycles */
+  private stride = 0;
   private cells: THREE.InstancedMesh | null = null;
   private cellCount = 0;
   private motes: Motes[] = [];
   private trail: Motes | null = null;
-  private tail: TailHair | null = null;
-  private tailBone: THREE.Object3D | null = null;
   private wings: LightWings | null = null;
-  private withers: THREE.Object3D | null = null;
-  private gallop: THREE.AnimationAction | null = null;
+  private readonly withersAt = new THREE.Vector3();
   private readonly tailAt = new THREE.Vector3();
   private sparks: THREE.Points | null = null;
   private fibers: THREE.Mesh[] = [];
@@ -213,97 +210,57 @@ class LifeWorld implements World {
     this.sparks = new THREE.Points(sg, new THREE.PointsMaterial({ map: sparkTexture(), size: 2.6, sizeAttenuation: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, color: new THREE.Color(1.6, 1.25, 0.8) }));
     this.root.add(this.sparks);
 
-    // the horse of light
-    const gltf = await ctx.assets.glb(asset("/models/anatomy-exhibit.glb"));
-    // a copy: the loader caches the GLTF, and this world rebuilds its meshes (a revisit must find the original intact)
-    const model = cloneSkinned(gltf.scene);
-    this.buildHorse(model);
-    this.horse.add(model);
-    this.tail = new TailHair();
-    this.tailBone = model.getObjectByName("Tail_1") ?? null;
-    this.horse.add(this.tail.mesh);
+    // the horse of light: one static textured mesh (public/models/horse-of-light.glb, 35k triangles, Draco + WebP), set in the
+    // exhibit's frame (runs toward local +Z, hooves on y = 0, about 2.9 m nose to tail) and galloped in its vertex shader
+    const gltf = await ctx.assets.glb(asset("/models/horse-of-light.glb"));
+    let src: THREE.Mesh | null = null;
+    gltf.scene.traverse((o) => { if (!src && (o as THREE.Mesh).isMesh) src = o as THREE.Mesh; });
+    if (src) this.buildHorse(src);
     this.wings = new LightWings();
-    this.withers = model.getObjectByName("Spine_Thoracic") ?? null;
     this.horse.add(this.wings.mesh);
     this.horse.position.copy(HORSE);
     this.horse.rotation.order = "YXZ"; // yaw to its heading first, then pitch (nose up on the take-off)
     this.horse.rotation.y = -Math.PI / 2;
     this.root.add(this.horse);
-    this.mixer = new THREE.AnimationMixer(model);
-    const gallop = gltf.animations.find((a) => a.name === "Gallop_R");
-    if (gallop) {
-      const a = this.mixer.clipAction(gallop);
-      a.timeScale = 0.42; // slow motion: the anatomy reads, the gallop still carries
-      a.play();
-      this.gallop = a;
-    }
     // the trail of light streaming off the horse (in the horse's frame: it runs toward local +Z, the light flows back)
     this.trail = new Motes({ count: Math.round(1400 * dens) + 300, box: [1.6, 1.4, 14], center: { x: 0, y: 1.2, z: -7.5 }, size: 0.035, color: "#ffcf7a", drift: [0, 0.05, -6], swirl: 0.15, additive: true, opacity: 1.6, seed: 77 });
     this.horse.add(this.trail.points);
     this.setQuality(ctx.quality);
   }
 
-  /** Merges the exhibit's 120 skinned parts into one mesh per layer (one draw call each) and gives each layer its light. */
-  private buildHorse(model: THREE.Object3D) {
-    const groups: Record<string, THREE.SkinnedMesh[]> = {};
-    const hide: THREE.Object3D[] = [];
-    model.traverse((o) => {
-      const sm = o as THREE.SkinnedMesh;
-      if (!(sm as THREE.Mesh).isMesh) return;
-      const mat = (Array.isArray(sm.material) ? sm.material[0] : sm.material) as THREE.Material;
-      const name = mat?.name ?? "";
-      const layer = name === "Marwari_Coat" ? "shell" : name === "Marwari_Hair" ? "hair" : name === "Muscle" ? "muscle" : name === "Tendon" ? "tendon" : name === "Bone" ? "bone" : null;
-      if (!layer || !sm.isSkinnedMesh) { hide.push(o); return; }
-      (groups[layer] ??= []).push(sm);
-    });
-    hide.forEach((o) => { o.visible = false; });
-    const look = {
-      shell: xrayMaterial("#ffb054", { rimPower: 2.6, body: 0.12, rim: 2.2 }),
-      hair: xrayMaterial("#ffc46e", { rimPower: 1.6, body: 0.1, rim: 0.36, strands: 1 }),
-      muscle: xrayMaterial("#ff5a24", { rimPower: 1.7, body: 0.55, rim: 1.3 }),
-      tendon: xrayMaterial("#ffe3b0", { rimPower: 1.4, body: 0.7, rim: 1.0 }),
-      bone: xrayMaterial("#fff0d2", { rimPower: 1.3, body: 0.95, rim: 1.1 }),
-    } as const;
-    for (const [layer, list] of Object.entries(groups) as [keyof typeof look, THREE.SkinnedMesh[]][]) {
-      const first = list[0];
-      const same = list.every((m) => m.skeleton.bones.length === first.skeleton.bones.length && m.bindMatrix.equals(first.bindMatrix));
-      const mat = look[layer];
-      this.layers[layer].push(mat);
-      // the strand tail replaces the exhibit's hair on the tail bones
-      if (layer === "hair") {
-        const ids = ["Tail_1", "Tail_2", "Tail_3", "Tail_4"].map((n) => first.skeleton.bones.findIndex((b) => b.name === n));
-        mat.uniforms.uCut.value.set(ids[0], ids[1], ids[2], ids[3]);
-      }
-      if (list.length > 1 && same) {
-        const geos = list.map((m) => {
-          const g = new THREE.BufferGeometry();
-          for (const k of ["position", "normal", "skinIndex", "skinWeight"]) g.setAttribute(k, m.geometry.getAttribute(k));
-          g.setIndex(m.geometry.getIndex());
-          return g;
-        });
-        const merged = mergeGeometries(geos, false);
-        if (merged) {
-          const sm = new THREE.SkinnedMesh(merged, mat);
-          sm.frustumCulled = false;
-          sm.name = `light-${layer}`;
-          first.parent!.add(sm);
-          sm.bind(first.skeleton, first.bindMatrix);
-          for (const m of list) { m.visible = false; m.parent?.remove(m); m.geometry.dispose(); }
-          geos.forEach((g) => g.dispose());
-          continue;
-        }
-      }
-      for (const m of list) { m.material = mat; m.frustumCulled = false; }
-    }
-    // draw order: bones under muscles under the shell (all additive, so order only matters for the fog-free glow overlap)
-    model.traverse((o) => {
-      const n = o.name;
-      if (n === "light-bone") o.renderOrder = 3;
-      if (n === "light-tendon") o.renderOrder = 4;
-      if (n === "light-muscle") o.renderOrder = 5;
-      if (n === "light-shell") o.renderOrder = 6;
-      if (n === "light-hair") o.renderOrder = 7;
-    });
+  /**
+   * Puts the model in the horse's frame: its long axis turned onto local +Z with the head forward (the head end is the one whose
+   * top is highest), hooves on y = 0, scaled to LENGTH. Geometry and map are copies of the cached ones.
+   */
+  private buildHorse(src: THREE.Mesh) {
+    // copies: the loader caches the GLTF and dispose() frees this world's tree, so a revisit must find the original intact
+    const geo = src.geometry.clone();
+    geo.computeBoundingBox();
+    const bb = geo.boundingBox!;
+    const pos = geo.getAttribute("position");
+    const topY = bb.max.y - (bb.max.y - bb.min.y) * 0.15;
+    let sum = 0;
+    let cnt = 0;
+    for (let i = 0; i < pos.count; i++) if (pos.getY(i) > topY) { sum += pos.getX(i); cnt++; }
+    const headPlus = cnt === 0 || sum / cnt >= (bb.min.x + bb.max.x) / 2;
+    const map = (src.material as THREE.MeshStandardMaterial).map?.clone() ?? null;
+    if (map) map.anisotropy = 8;
+    const box = new THREE.Vector4(headPlus ? bb.min.x : bb.max.x, headPlus ? bb.max.x : bb.min.x, bb.min.y, bb.max.y);
+    const mat = lightHorseMaterial(map, box);
+    this.body = mat;
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.name = "light-horse";
+    mesh.frustumCulled = false;
+    mesh.renderOrder = 6;
+    const s = LENGTH / (bb.max.x - bb.min.x);
+    mesh.scale.setScalar(s);
+    // model +X (or -X) onto the horse's +Z
+    mesh.rotation.y = headPlus ? -Math.PI / 2 : Math.PI / 2;
+    mesh.position.set(0, -bb.min.y * s, 0);
+    this.horse.add(mesh);
+    // where the wings sit, in the horse's frame (the rig used to give this as a bone); the model carries its own tail
+    const h = (bb.max.y - bb.min.y) * s;
+    this.withersAt.set(0, h * 0.82, LENGTH * 0.12);
   }
 
   enter() {}
@@ -324,7 +281,8 @@ class LifeWorld implements World {
     const lift = 0.75 * jump * (1 - fly) + 3.6 * fly;
     this.horse.position.set(HORSE.x + run, HORSE.y + lift, HORSE.z);
     this.horse.rotation.x = -(0.2 * jump + 0.09 * smoothstep(0.62, 0.78, p) * (1 - smoothstep(0.9, 1, p)));
-    if (this.gallop) this.gallop.timeScale = 0.42 - 0.17 * fly; // the legs keep reaching, slower, in the air
+    // slow-motion gallop (about 0.7 strides a second, as the exhibit's clip at 0.42x); the legs keep reaching, slower, in the air
+    this.stride += dt * (0.72 - 0.3 * fly);
     out.pos.x += run;
     out.look.x += run;
     out.pos.y += lift * 0.82;
@@ -334,30 +292,25 @@ class LifeWorld implements World {
     this.shared.uFogDensity.value = THREE.MathUtils.lerp(0.02, 0.011, smoothstep(0.3, 0.45, p));
     for (const m of this.motes) m.update(time);
     this.trail?.update(time);
-    this.mixer?.update(dt);
-    if (this.tail && this.tailBone) {
-      this.tailBone.getWorldPosition(this.tailAt);
-      this.tail.mesh.position.copy(this.horse.worldToLocal(this.tailAt));
-    }
-    if (this.wings && this.withers) {
-      this.withers.getWorldPosition(this.tailAt);
-      this.wings.mesh.position.copy(this.horse.worldToLocal(this.tailAt)).add({ x: 0, y: 0.1, z: 0.6 });
-    }
+    // the wings ride the body's bob (the same lift as the vertex shader: twice per stride)
+    const bob = (0.5 + 0.5 * Math.sin(this.stride * Math.PI * 4)) * 0.06;
+    this.wings?.mesh.position.copy(this.withersAt).add({ x: 0, y: 0.1 + bob, z: 0.6 });
 
     // which anatomical layer carries the light (deterministic from p)
     const reveal = smoothstep(0.36, 0.46, p);
     const muscle = smoothstep(0.55, 0.63, p) * (1 - 0.6 * smoothstep(0.73, 0.79, p)) + 0.25 * smoothstep(0.86, 0.95, p);
     const bone = smoothstep(0.7, 0.78, p) + 0.2 * smoothstep(0.86, 0.95, p);
     const shell = reveal * (1 - 0.6 * smoothstep(0.55, 0.62, p) + 0.5 * smoothstep(0.86, 0.95, p));
-    const set = (k: keyof typeof this.layers, v: number) => this.layers[k].forEach((m) => { m.uniforms.uLevel.value = v; m.uniforms.uTime.value = time; m.uniforms.uFogDensity.value = this.shared.uFogDensity.value; });
-    set("shell", shell);
-    set("hair", shell * 0.8);
-    this.tail?.update(time, shell);
+    if (this.body) {
+      const u = this.body.uniforms;
+      u.uLevel.value = Math.max(shell, reveal * 0.8); // a solid body: it dims a little on the anatomy beats, never vanishes
+      u.uInner.value = 0.6 * Math.max(muscle, Math.min(1, bone)); // the anatomy beats: the light runs brighter through the body
+      u.uPhase.value = this.stride;
+      u.uTime.value = time;
+      u.uFogDensity.value = this.shared.uFogDensity.value;
+    }
     const open = smoothstep(0.54, 0.68, p);
     this.wings?.update(time, reveal * open * 1.1, open, smoothstep(0.62, 0.72, p));
-    set("muscle", reveal * (0.18 + 0.82 * muscle));
-    set("tendon", reveal * (0.12 + 0.88 * Math.max(muscle, bone) * 0.8));
-    set("bone", reveal * (0.12 + 0.88 * Math.min(1, bone)));
     if (this.trail) this.trail.uniforms.uOpacity.value = 1.05 * reveal;
     // the light scatters into grains before the dust transition
     const scatter = span(p, 0.86, 1);
@@ -366,7 +319,6 @@ class LifeWorld implements World {
   }
 
   dispose() {
-    this.mixer?.stopAllAction();
     for (const m of this.motes) m.dispose();
     this.trail?.dispose();
     disposeTree(this.root);
