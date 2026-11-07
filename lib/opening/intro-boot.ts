@@ -1,11 +1,11 @@
-/** localStorage key meaning "this browser has seen the intro film to its end (or skipped it)". Remembered across sessions; ?intro plays it again. */
+/** localStorage key meaning "this browser has seen the intro film to its end (or skipped it)". Remembered for this visit only (sessionStorage); ?intro plays it again. */
 export const INTRO_SEEN_KEY = "bsah-intro-seen";
 /** sessionStorage key set when the film ends on /worlds and hands over to the homepage (the homepage then fades up from black). */
 export const INTRO_REVEAL_KEY = "bsah-intro-reveal";
 
 /** Remembers that the intro has been seen. localStorage when the browser allows it, else this session only. Safe to call anywhere. */
 export function markIntroSeen(): void {
-  try { window.localStorage.setItem(INTRO_SEEN_KEY, "1"); return; } catch { /* private mode or blocked: fall back */ }
+  // this visit only: whoever opens the website again (a new tab or window, another day) sees the intro again
   try { window.sessionStorage.setItem(INTRO_SEEN_KEY, "1"); } catch { /* nothing can be remembered */ }
 }
 
@@ -24,7 +24,7 @@ export function buildIntroBootScript(): string {
     `var d=document.documentElement,s=sessionStorage,q=location.search,K="${INTRO_SEEN_KEY}",L=null;`,
     `try{L=localStorage}catch(e){}`,
     `if(/[?&]intro(=|&|$)/.test(q)){try{if(L)L.removeItem(K)}catch(e){}s.removeItem(K)}`,
-    `var seen=false;try{seen=!!(L&&L.getItem(K))}catch(e){}if(!seen)seen=!!s.getItem(K);`,
+    `try{if(L)L.removeItem(K)}catch(e){}var seen=!!s.getItem(K);`,
     `var c=navigator.connection||{};`,
     `if(location.pathname==="/"&&!seen&&q.indexOf("nointro")===-1&&q.indexOf("noload")===-1&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&!c.saveData&&!/(^|-)(slow-)?2g$/.test(c.effectiveType||"")){`,
     `s.setItem("bsah-loaded","1");d.dataset.bsahIntro="1";`,

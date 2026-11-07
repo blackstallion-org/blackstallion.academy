@@ -7,7 +7,7 @@ import { BOUNDARIES } from "./timeline";
  */
 export const FILM_SECONDS = 76;
 /** after the last frame: the letterbox closes, the picture fades to black, then the homepage is revealed (seconds) */
-export const END_SECONDS = 8;
+export const END_SECONDS = 6.8;
 /** the bars draw back from black over this long at the start */
 export const OPEN_SECONDS = 5;
 

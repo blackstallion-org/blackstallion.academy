@@ -2,7 +2,7 @@
 
 import { Fragment, useImperativeHandle, useRef, useState, type CSSProperties, type Ref } from "react";
 import { INTRO_COPY } from "@/lib/content/worlds";
-import { END_SECONDS, FILM_SECONDS, OPEN_SECONDS, STORY, storyAt } from "./core/director";
+import { FILM_SECONDS, OPEN_SECONDS, STORY, storyAt } from "./core/director";
 import { letterbox } from "./core/letterbox";
 import type { EngineStatus } from "./core/engine";
 import { sfx } from "./core/sfx";
@@ -30,7 +30,8 @@ export function WorldsOverlay({ ref, status, onSkip, veil }: { ref?: Ref<Overlay
     update(p: number, t: number) {
       const portrait = window.innerWidth < window.innerHeight;
       // the ending: the bars close slowly over the last picture; the film is black before the page is revealed
-      const closing = smooth((t - (FILM_SECONDS + 0.6)) / (END_SECONDS - 3));
+      // only once the last shot has fully played out (the picture is still for a beat), then over 3 s
+      const closing = smooth((t - (FILM_SECONDS + 1.2)) / 3);
       const h = letterbox(p, smooth(t / OPEN_SECONDS), portrait, closing);
       const s = `scaleY(${Math.max(0, Math.min(1, h * 2)).toFixed(4)})`;
       if (top.current) top.current.style.transform = s;

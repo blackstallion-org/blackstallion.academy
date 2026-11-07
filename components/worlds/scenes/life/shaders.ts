@@ -230,6 +230,92 @@ export function xrayMaterial(color: THREE.ColorRepresentation, opts: { rimPower:
   });
 }
 
+/**
+ * The horse of light (public/models/horse-of-light.glb, one static textured mesh): lit gold body with a fresnel rim, and a gallop
+ * made in the vertex shader, since the model has no rig. Model-space frame: +X toward the head, +Y up, Z across the body.
+ * uBox = (tail x, head x, ground y, top y), uHalfZ the half width. Each leg swings about its shoulder or hip, more toward the hoof
+ * (a curve, not a hinge); the body rocks and bobs twice per stride. uPhase is the stride in cycles, uRun the amount (0 stands still).
+ */
+export function lightHorseMaterial(map: THREE.Texture | null, box: THREE.Vector4, halfZ: number) {
+  return new THREE.ShaderMaterial({
+    uniforms: {
+      uMap: { value: map }, uHasMap: { value: map ? 1 : 0 }, uBox: { value: box }, uHalfZ: { value: halfZ }, uPhase: { value: 0 }, uRun: { value: 1 },
+      uLevel: { value: 1 }, uInner: { value: 0 }, uTime: { value: 0 }, uKey: { value: new THREE.Vector3(-0.4, 0.8, 0.45).normalize() }, ...fogUniforms(),
+    },
+    side: THREE.DoubleSide,
+    transparent: true,
+    vertexShader: /* glsl */ `
+      uniform vec4 uBox; uniform float uHalfZ; uniform float uPhase; uniform float uRun;
+      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec2 vUv; varying vec3 vW;
+      const float TAU = 6.2831853;
+      vec2 rot(vec2 p, vec2 c, float a) { float s = sin(a), k = cos(a); p -= c; return vec2(k * p.x - s * p.y, s * p.x + k * p.y) + c; }
+      void main() {
+        vec3 p = position; vec3 n = normal;
+        float len = uBox.y - uBox.x, h = uBox.w - uBox.z;
+        float u = (p.x - uBox.x) / len;          // 0 tail .. 1 head
+        float v = (p.y - uBox.z) / h;            // 0 hoof .. 1 top
+        float hipY = uBox.z + h * 0.52;
+        // Every weight below is a smooth ramp, never a step: neighbouring vertices always move almost alike, so a leg bends as one
+        // piece and never tears from the body or from the leg beside it.
+        float fore = smoothstep(0.42, 0.66, u);                    // hind pair .. fore pair
+        float side = smoothstep(-uHalfZ * 0.5, uHalfZ * 0.5, p.z);  // far leg .. near leg
+        // rotary gallop: hind pair, then fore pair; the leading leg of each pair a little after its partner
+        float ph = (uPhase + fore * 0.4 + side * 0.1) * TAU;
+        // how much of the swing a vertex takes: none at the body, rising down the leg (more at the hoof than at the knee, so the
+        // leg curves like a pendulum instead of hinging); nothing at the head, chest front or tail
+        float down = 1.0 - smoothstep(0.12, 0.5, v);
+        float legW = down * down * (3.0 - 2.0 * down) * smoothstep(0.05, 0.16, u) * (1.0 - smoothstep(0.84, 0.94, u));
+        float pivotX = uBox.x + len * mix(0.3, 0.7, fore);
+        float swing = sin(ph) * mix(0.2, 0.17, fore) * uRun * legW;
+        p.xy = rot(p.xy, vec2(pivotX, hipY), swing);
+        n.xy = rot(n.xy, vec2(0.0), swing);
+        // the head and neck nod with the stride
+        float neck = smoothstep(0.7, 0.9, u) * smoothstep(0.45, 0.7, v);
+        float nod = sin(uPhase * TAU + 0.6) * 0.05 * uRun * neck;
+        p.xy = rot(p.xy, vec2(uBox.x + len * 0.74, uBox.z + h * 0.66), nod);
+        // the whole body rocks (nose up, then down) and lifts twice per stride
+        float rock = sin(uPhase * TAU - 0.8) * 0.035 * uRun;
+        p.xy = rot(p.xy, vec2(uBox.x + len * 0.5, hipY), rock);
+        n.xy = rot(n.xy, vec2(0.0), rock + nod);
+        p.y += (0.5 + 0.5 * sin(uPhase * TAU * 2.0)) * h * 0.03 * uRun;
+        vec4 wp = modelMatrix * vec4(p, 1.0);
+        vN = normalize(mat3(modelMatrix) * n);
+        vV = normalize(cameraPosition - wp.xyz);
+        vW = wp.xyz; vUv = uv;
+        vec4 mv = viewMatrix * wp; vDist = -mv.z;
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform sampler2D uMap; uniform float uHasMap; uniform float uLevel; uniform float uInner; uniform float uTime; uniform vec3 uKey;
+      uniform vec3 uFogColor; uniform float uFogDensity;
+      varying vec3 vN; varying vec3 vV; varying float vDist; varying vec2 vUv; varying vec3 vW;
+      void main() {
+        vec3 N = normalize(vN); vec3 V = normalize(vV);
+        if (!gl_FrontFacing) N = -N;
+        vec3 base = uHasMap > 0.5 ? texture2D(uMap, vUv).rgb : vec3(1.0, 0.7, 0.35);
+        base = pow(base, vec3(2.2));
+        float ndl = max(dot(N, uKey), 0.0);
+        float ndv = max(dot(N, V), 0.0);
+        vec3 H = normalize(uKey + V);
+        float spec = pow(max(dot(N, H), 0.0), 48.0);
+        float rim = pow(1.0 - ndv, 2.4);
+        // key light from above-front, warm bounce from the glowing floor below, a hot rim from the light behind it
+        float bounce = 0.5 + 0.5 * -N.y;
+        vec3 col = base * (0.18 + 1.25 * ndl) + base * vec3(1.0, 0.55, 0.22) * bounce * 0.35;
+        col += vec3(1.0, 0.82, 0.55) * spec * 0.9;
+        col += vec3(1.0, 0.62, 0.26) * rim * 2.0;
+        // the light moving through the body (brighter on the anatomy beats)
+        float band = 0.5 + 0.5 * sin(vW.y * 7.0 - uTime * 2.0 + vW.x * 2.5);
+        col += base * (0.35 + uInner) * band * 0.6;
+        if (uLevel < 0.01) discard;
+        float fog = exp(-pow(uFogDensity * vDist, 1.6));
+        // the silhouette feathers out over the last few degrees, so the outline reads soft instead of stair-stepped at any resolution
+        float edge = mix(0.3, 1.0, smoothstep(0.0, 0.28, ndv));
+        gl_FragColor = vec4(mix(uFogColor, col, fog), clamp(uLevel, 0.0, 1.0) * edge);
+      }`,
+  });
+}
+
 /** A soft four-ray star (the bright sparks of the reference), drawn once into a canvas. */
 export function sparkTexture() {
   const c = document.createElement("canvas");
