@@ -827,3 +827,8 @@ workspace); no live payment, e-mail or signed-in run was possible.
 - Silhouette feathers over the last few degrees so the outline is soft, not stair-stepped, at any resolution.
 - `horse-of-light.glb` 255 → 204 KB (tighter Draco quantisation, WebP q80), same 35k triangles.
 - Checked at 1440 (three frames 450 ms apart and the flight); tests 337/337, lint 0 errors, build pass.
+
+## 2026-11-07 · e2e: returning visitor marks the intro seen for this visit
+
+- The intro now remembers "seen" per visit (sessionStorage, commit 8c9e209), but the e2e setup still set localStorage, so in CI the intro
+  covered the home page and the hero-film check failed at 360 px. The e2e init script now sets `bsah-intro-seen` in sessionStorage.
