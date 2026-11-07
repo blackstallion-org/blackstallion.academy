@@ -4,7 +4,6 @@ import { vnoise } from "@/components/stallion-film/noise";
 import { disposeTree } from "../core/assets";
 import { CameraPath, key, type CameraKey } from "../core/camera";
 import { Motes, smoothstep, span } from "../core/kit";
-import { LightWings } from "./life/wings";
 import type { QualitySettings } from "../core/quality";
 import type { Grade, ShotPose, World, WorldContext } from "../core/types";
 import { cellMaterial, fiberMaterial, fogUniforms, sparkTexture, lightHorseMaterial, tissueMaterial } from "./life/shaders";
@@ -104,8 +103,6 @@ class LifeWorld implements World {
   private cellCount = 0;
   private motes: Motes[] = [];
   private trail: Motes | null = null;
-  private wings: LightWings | null = null;
-  private readonly withersAt = new THREE.Vector3();
   private readonly tailAt = new THREE.Vector3();
   private sparks: THREE.Points | null = null;
   private fibers: THREE.Mesh[] = [];
@@ -216,8 +213,6 @@ class LifeWorld implements World {
     let src: THREE.Mesh | null = null;
     gltf.scene.traverse((o) => { if (!src && (o as THREE.Mesh).isMesh) src = o as THREE.Mesh; });
     if (src) this.buildHorse(src);
-    this.wings = new LightWings();
-    this.horse.add(this.wings.mesh);
     this.horse.position.copy(HORSE);
     this.horse.rotation.order = "YXZ"; // yaw to its heading first, then pitch (nose up on the take-off)
     this.horse.rotation.y = -Math.PI / 2;
@@ -246,7 +241,7 @@ class LifeWorld implements World {
     const map = (src.material as THREE.MeshStandardMaterial).map?.clone() ?? null;
     if (map) map.anisotropy = 8;
     const box = new THREE.Vector4(headPlus ? bb.min.x : bb.max.x, headPlus ? bb.max.x : bb.min.x, bb.min.y, bb.max.y);
-    const mat = lightHorseMaterial(map, box);
+    const mat = lightHorseMaterial(map, box, Math.max(Math.abs(bb.min.z), Math.abs(bb.max.z)));
     this.body = mat;
     const mesh = new THREE.Mesh(geo, mat);
     mesh.name = "light-horse";
@@ -258,9 +253,6 @@ class LifeWorld implements World {
     mesh.rotation.y = headPlus ? -Math.PI / 2 : Math.PI / 2;
     mesh.position.set(0, -bb.min.y * s, 0);
     this.horse.add(mesh);
-    // where the wings sit, in the horse's frame (the rig used to give this as a bone); the model carries its own tail
-    const h = (bb.max.y - bb.min.y) * s;
-    this.withersAt.set(0, h * 0.82, LENGTH * 0.12);
   }
 
   enter() {}
@@ -275,7 +267,7 @@ class LifeWorld implements World {
     // the horse really travels (toward world -X, its heading) and the camera travels with it, so the floor and the cells
     // slide past instead of the horse galloping on the spot
     const run = 5 - 10 * smoothstep(0.25, 1, p);
-    // ...then it gathers, jumps, and rises into flight on wings of light; the camera rises with it (a little less, so it climbs in frame)
+    // ...then it gathers, jumps, and rises into flight; the camera rises with it (a little less, so it climbs in frame)
     const jump = Math.sin(Math.PI * span(p, 0.55, 0.66));
     const fly = smoothstep(0.6, 1, p);
     const lift = 0.75 * jump * (1 - fly) + 3.6 * fly;
@@ -292,9 +284,6 @@ class LifeWorld implements World {
     this.shared.uFogDensity.value = THREE.MathUtils.lerp(0.02, 0.011, smoothstep(0.3, 0.45, p));
     for (const m of this.motes) m.update(time);
     this.trail?.update(time);
-    // the wings ride the body's bob (the same lift as the vertex shader: twice per stride)
-    const bob = (0.5 + 0.5 * Math.sin(this.stride * Math.PI * 4)) * 0.06;
-    this.wings?.mesh.position.copy(this.withersAt).add({ x: 0, y: 0.1 + bob, z: 0.6 });
 
     // which anatomical layer carries the light (deterministic from p)
     const reveal = smoothstep(0.36, 0.46, p);
@@ -309,8 +298,6 @@ class LifeWorld implements World {
       u.uTime.value = time;
       u.uFogDensity.value = this.shared.uFogDensity.value;
     }
-    const open = smoothstep(0.54, 0.68, p);
-    this.wings?.update(time, reveal * open * 1.1, open, smoothstep(0.62, 0.72, p));
     if (this.trail) this.trail.uniforms.uOpacity.value = 1.05 * reveal;
     // the light scatters into grains before the dust transition
     const scatter = span(p, 0.86, 1);

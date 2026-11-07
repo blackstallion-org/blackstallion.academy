@@ -818,3 +818,12 @@ workspace); no live payment, e-mail or signed-in run was possible.
   has its own).
 - Checked at 1440 and 390 (the hold at p=0.37, close-up at 0.44); two frames 350 ms apart confirm the stride. lint (0 errors),
   typecheck, 337 tests and build pass. The media manifest was regenerated.
+
+## 2026-11-07 · Horse of light: wings off, legs fixed, lighter file
+
+- Removed the wings of light (and the now-unused `life/wings.ts`, `life/tail.ts`). The flight beat keeps its rise, without wings.
+- Legs: the knee hinge and the hard left/right and fore/hind splits are gone (they kinked and tore the legs). Every weight is now a
+  smooth ramp; each leg swings from shoulder or hip and curves more toward the hoof. Smaller swing, rock and nod.
+- Silhouette feathers over the last few degrees so the outline is soft, not stair-stepped, at any resolution.
+- `horse-of-light.glb` 255 → 204 KB (tighter Draco quantisation, WebP q80), same 35k triangles.
+- Checked at 1440 (three frames 450 ms apart and the flight); tests 337/337, lint 0 errors, build pass.
