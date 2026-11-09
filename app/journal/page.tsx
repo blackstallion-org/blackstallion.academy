@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { EndCard } from "@/components/film/EndCard";
 import { FilmImage } from "@/components/film/FilmImage";
+import { TitleLoopVideo } from "@/components/film/TitleLoopVideo";
+import { asset } from "@/lib/content/asset";
 import { Arrow, ReelMark } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { StallionPortrait } from "@/components/sections/journal/StallionPortrait";
@@ -30,8 +32,13 @@ export default function JournalPage() {
         </div>
       </header>
 
+      {/* 9 Nov 2026: the black Marwari at full gallop across the dunes, silent, as a band under the masthead. */}
+      <div aria-hidden className="tone-photo relative mt-10 aspect-[16/10] w-full overflow-hidden bg-night sm:aspect-[21/9]">
+        <TitleLoopVideo src={asset("/video/horse-ears-gallop.mp4")} poster={asset("/video/horse-ears-gallop-poster.webp")} />
+      </div>
+
       {/* Featured */}
-      <section aria-label="Featured story" className="gutter mt-12 pb-[clamp(5rem,10vw,9rem)]">
+      <section aria-label="Featured story" className="gutter mt-14 pb-[clamp(5rem,10vw,9rem)]">
         <Link href={`/journal/${featured.slug}`} className="group grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-end">
           <div className="relative aspect-[4/3] overflow-hidden lg:aspect-[16/11]">
             <FilmImage name={featured.cover} grade="none" priority sizes="(min-width: 1024px) 60vw, 100vw" className="transition-transform duration-[1600ms] group-hover:scale-[1.03]" />

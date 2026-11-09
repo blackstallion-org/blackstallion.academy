@@ -848,3 +848,8 @@ workspace); no live payment, e-mail or signed-in run was possible.
 - e2e hero check rewritten for the 2:1 band and the kept original film (passes at 360/390/430/1440); engineering-browser file names updated.
 - Not done: the old poster `hero-main-poster-mobile.webp` is deleted in the owner's working tree, so the original film uses its
   desktop poster on phones. The `/cadets` clip is the only place the gallop video is used.
+
+## 2026-11-09 · /journal: gallop clip band
+
+- `/journal`: the 9 s black-Marwari gallop (`horse-ears-gallop.mp4`) plays silently in a full-width band (21:9, 16:10 on phones) under the
+  Chronicle masthead, via `TitleLoopVideo` (on-screen only, still under reduced motion or Data Saver). Checked at 1024 px: plays, no overflow.
