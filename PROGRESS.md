@@ -853,3 +853,9 @@ workspace); no live payment, e-mail or signed-in run was possible.
 
 - `/journal`: the 9 s black-Marwari gallop (`horse-ears-gallop.mp4`) plays silently in a full-width band (21:9, 16:10 on phones) under the
   Chronicle masthead, via `TitleLoopVideo` (on-screen only, still under reduced motion or Data Saver). Checked at 1024 px: plays, no overflow.
+
+## 2026-11-09 · Gallop clip: generator watermark removed
+
+- The 9 s gallop clip carried the generator's four-point sparkle mark (bottom right, about 75 px at 1080p). It is now removed from the file
+  itself (ffmpeg `delogo` over x 1695, y 854, 90×92 of the 1920×1080 source) and the poster re-made, so it is gone on /cadets and /journal
+  at every size. Checked on frames at 3 s and 7 s. File 1.30 MB.
