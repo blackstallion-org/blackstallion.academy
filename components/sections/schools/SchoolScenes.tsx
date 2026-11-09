@@ -32,7 +32,7 @@ export function SchoolsTitle() {
         <SatelliteZoneMap variant="hero" initialMode="india" className="absolute inset-0" />
       </div>
       <div className="tone-light editorial-details gutter">
-        <ReelMark n={11} act="ledger" />
+        <ReelMark n={12} act="ledger" />
         <Headline id="schools-title" as="h1" size="1" animate="mount" inscription="Your campus" voice="becomes a citadel." />
         <ScrollRevealText className="t-story text-sand">A turnkey equestrian hub, funded, built and run by BSAH at zero capital expenditure to the school board, returning 25–30% of tuition to your institution.</ScrollRevealText>
         <div className="flex flex-wrap items-center gap-4">

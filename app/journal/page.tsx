@@ -24,7 +24,7 @@ export default function JournalPage() {
     <>
       {/* T15 · Masthead */}
       <header id="articles" className="gutter pt-28 md:pt-32 scroll-mt-12">
-        <ReelMark n={15} act="ledger" />
+        <ReelMark n={16} act="ledger" />
         <div className="mt-8 border-y-2 border-double border-line py-6 text-center">
           <p className="label text-dust">Hyderabad · Vol. I · Stories from the stable</p>
           <h1 className="t-inscribe mt-3 text-[clamp(1.9rem,8vw,8.5rem)] leading-none text-bone">The Chronicle</h1>
@@ -84,7 +84,7 @@ export default function JournalPage() {
         </ol>
       </section>
 
-      <EndCard current={15} />
+      <EndCard current={16} />
     </>
   );
 }

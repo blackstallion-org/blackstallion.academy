@@ -27,7 +27,7 @@ export function CadetsTitle() {
     <section aria-labelledby="cadets-h" className="tone-dark relative min-h-[100svh] overflow-hidden bg-night pb-[clamp(3rem,9vh,6.5rem)] pt-[clamp(5.5rem,9vh,7.5rem)]">
       <div className="gutter grid min-h-[calc(100svh-clamp(5.5rem,9vh,7.5rem)-clamp(3rem,9vh,6.5rem))] gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-end">
         <div className="pb-[4vh]">
-          <ReelMark n={7} act="citadel" />
+          <ReelMark n={9} act="citadel" />
           <Headline id="cadets-h" as="h1" size="poster" animate="mount" className="mt-6" inscription="The hall" voice="of valour." />
           <p className="t-story mt-6 max-w-lg text-sand">Cadets earn their place: hour by hour, rank by rank, sealed in brass.</p>
         </div>

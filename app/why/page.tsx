@@ -25,7 +25,7 @@ export default function WhyPage() {
       <Monolith lines={why.sanctuary} coda={`${entity.motto}.`} label="The sanctuary of unpowered truth" />
       <TrainList />
       <ReplayHeadline typeface="condensed" id="why-replay" label="The sovereign truth" text="A horse cannot be deceived by an algorithm." tone="dark" defaultMode="words" />
-      <EndCard current={5} />
+      <EndCard current={6} />
     </>
   );
 }

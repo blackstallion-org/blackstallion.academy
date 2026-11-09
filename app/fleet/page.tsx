@@ -32,7 +32,7 @@ export default function FleetPage() {
       <CctvGrid />
       <CareLog />
       <ReplayHeadline typeface="elegant" id="fleet-replay" label="Beyond the registry" text="No two horses tell the same story." tone="dark" defaultMode="lines" />
-      <EndCard current={7} />
+      <EndCard current={8} />
     </>
   );
 }

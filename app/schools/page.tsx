@@ -63,7 +63,7 @@ export default function SchoolsPage() {
         </div>
       </section>
 
-      <EndCard current={11} />
+      <EndCard current={12} />
     </>
   );
 }

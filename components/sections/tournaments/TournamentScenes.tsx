@@ -47,7 +47,7 @@ export function CircuitTitle() {
 {/* The circuit is the council's: its seal stands beside the line that names it (supplied artwork, background removed). */}
 <div className="tone-light editorial-details gutter flex flex-wrap items-center justify-between gap-x-12 gap-y-8">
   <div className="min-w-0 max-w-2xl">
-    <ReelMark n={13} act="ledger" />
+    <ReelMark n={14} act="ledger" />
     <ScrollRevealText className="t-story mt-6 text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText>
   </div>
   <figure className="flex shrink-0 items-center gap-5">

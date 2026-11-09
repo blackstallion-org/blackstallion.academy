@@ -23,7 +23,7 @@ export default function SafetyPage() {
       <SafetyKitScroll />
       <NumberWall />
       <People />
-      <EndCard current={10} />
+      <EndCard current={11} />
     </>
   );
 }

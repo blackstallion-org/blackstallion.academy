@@ -29,7 +29,7 @@ export default function CadetsPage() {
       <CreedCard />
       <MilestoneReels />
       <ReplayHeadline typeface="western" id="cadets-replay" label="The first lesson, remembered" text="Confidence begins with a quiet hello." tone="dark" defaultMode="lines" />
-      <EndCard current={8} />
+      <EndCard current={9} />
     </>
   );
 }
