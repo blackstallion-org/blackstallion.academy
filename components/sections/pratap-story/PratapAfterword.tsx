@@ -44,7 +44,9 @@ export function PratapAfterword() {
             ))}
             <div className="mt-10 flex flex-wrap gap-4">
               <Cta href={pratapSummary.links[0].href} variant="ghost">{pratapSummary.links[0].label}</Cta>
-              <Cta href={pratapSummary.links[1].href} variant="link">{pratapSummary.links[1].label}</Cta>
+              {pratapSummary.links.slice(1).map((l) => (
+                <Cta key={l.href} href={l.href} variant="link">{l.label}</Cta>
+              ))}
             </div>
           </div>
         </div>

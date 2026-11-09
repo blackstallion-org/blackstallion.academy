@@ -24,5 +24,6 @@ export const pratapSummary = {
   links: [
     { label: "Back to the legend", href: "/legend" },
     { label: "Meet the stallions", href: "/fleet" },
+    { label: "More painted histories", href: "/history/india" },
   ],
 };

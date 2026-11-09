@@ -1,0 +1,262 @@
+/*
+ * Illustrated history scrolls (/history/*, /story/rani-lakshmibai, /story/alexander-bucephalus).
+ * The palette is the miniature painter's: these pages read as painted documents (like .parchment), so they keep their
+ * own fixed surface in both site themes. Fonts are the site's own (display, Newsreader, Plus Jakarta Sans).
+ */
+.hs {
+  --hs-indigo: #17284b;
+  --hs-malachite: #174d48;
+  --hs-vermilion: #a63c32;
+  --hs-gold: #c7a15a;
+  --hs-ivory: #f2e9d8;
+  --hs-ink: #182329;
+  --hs-ink-soft: color-mix(in srgb, var(--hs-ink) 78%, var(--hs-ivory));
+  --hs-rule: color-mix(in srgb, var(--hs-gold) 55%, transparent);
+  --hs-nav: clamp(5.5rem, 9vh, 7.5rem);
+  --hs-controls: 6rem;
+  background: var(--hs-ivory);
+  color: var(--hs-ink);
+  isolation: isolate;
+}
+@media (min-width: 1024px) {
+  .hs { --hs-controls: 7rem; }
+}
+.hs-paper {
+  background-color: var(--hs-ivory);
+  /* The wasli grain is a whisper over ivory, not a tint. */
+  background-image: linear-gradient(rgb(242 233 216 / 0.8), rgb(242 233 216 / 0.8)), var(--hs-grain, none);
+  background-size: 512px 512px;
+}
+
+/* Anchors land below the fixed nav and the chapter controls. */
+.hs [id] { scroll-margin-top: calc(var(--hs-controls) + 1rem); }
+
+/* ------------------------------------------------------------------ title card */
+.hs-title {
+  padding-top: var(--hs-nav);
+  padding-bottom: clamp(2rem, 6vh, 4rem);
+}
+.hs-label {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hs-vermilion);
+}
+.hs-lede { font-family: var(--font-serif); font-size: var(--text-lede); line-height: 1.55; color: var(--hs-ink-soft); }
+.hs-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6.4vw, 6.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--hs-ink);
+}
+.hs-h1 .hs-voice, .hs-voice {
+  display: block;
+  font-style: italic;
+  font-weight: 420;
+  color: var(--hs-vermilion);
+}
+.hs-h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 3.2vw, 2.9rem); line-height: 1.02; color: var(--hs-ink); }
+.hs-h3 { font-family: var(--font-display); font-size: clamp(1.45rem, 2.4vw, 2.2rem); line-height: 1.05; color: var(--hs-ink); }
+
+/* Controls: wrapped, gap-protected, never in the top 80px (they sit in the flow, below the title). */
+.hs-controls { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; align-items: center; min-height: 2.75rem; }
+.hs-button {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--hs-ink) 35%, transparent);
+  color: var(--hs-ink);
+  background: var(--hs-ivory);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.hs-button:hover { border-color: var(--hs-vermilion); color: var(--hs-vermilion); }
+.hs-button[aria-pressed="true"] { background: var(--hs-ink); color: var(--hs-ivory); border-color: var(--hs-ink); }
+.hs a:focus-visible, .hs button:focus-visible, .hs summary:focus-visible {
+  outline: 2px solid var(--hs-vermilion);
+  outline-offset: 3px;
+}
+.hs-link { color: var(--hs-vermilion); text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+.hs-link:hover { color: var(--hs-ink); }
+
+/* Chapter index */
+.hs-index ol { display: grid; gap: 0.15rem 2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); }
+.hs-index a {
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--hs-rule);
+  color: var(--hs-ink);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+}
+.hs-index a:hover { color: var(--hs-vermilion); }
+.hs-index .hs-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--hs-vermilion); min-width: 2.6rem; }
+
+/* ------------------------------------------------------------------ the painted frame (opening plates) */
+.hs-frame {
+  position: relative;
+  border: 1px solid var(--hs-gold);
+  outline: 6px solid var(--hs-ivory);
+  box-shadow: 0 0 0 7px var(--hs-vermilion), 0 0 0 9px var(--hs-gold);
+}
+
+/* ------------------------------------------------------------------ scenes */
+.hs-scene { position: relative; }
+.hs-art { position: relative; overflow: hidden; }
+.hs-layer { position: absolute; pointer-events: none; will-change: transform; }
+.hs-layer img, .hs-layer .hs-ph { display: block; width: 100%; height: 100%; }
+.hs-layer-b { inset: -3% 0; z-index: 0; }
+.hs-layer-b img { object-fit: cover; }
+.hs-layer-relief { z-index: 1; left: var(--rmx); top: var(--rmy); width: var(--rmw); height: var(--rmh); }
+@media (min-width: 1024px) { .hs-layer-relief { left: var(--rx); top: var(--ry); width: var(--rw); height: var(--rh); } }
+.hs-layer-s {
+  z-index: 2;
+  left: var(--mx, var(--dx, auto));
+  right: var(--mr, var(--dr, auto));
+  bottom: var(--mb, var(--db));
+  width: var(--mw, var(--dw));
+  height: auto;
+}
+.hs-layer-s img, .hs-layer-s .hs-ph { height: auto; }
+.hs-layer-f { z-index: 3; left: 0; right: 0; bottom: -1px; height: auto; }
+.hs-layer-f img, .hs-layer-f .hs-ph { height: auto; }
+
+/* Reading surface: solid, never a translucent card; grows with the text. */
+.hs-reading {
+  position: relative;
+  z-index: 4;
+  background: var(--hs-ivory);
+  color: var(--hs-ink);
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 2.25rem);
+}
+.hs-reading p.hs-body { font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.7; color: var(--hs-ink-soft); }
+.hs-reading p.hs-body + p.hs-body { margin-top: 0.9rem; }
+.hs-qual {
+  margin-top: 1.1rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--hs-gold);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--hs-ink-soft);
+}
+.hs-sources { margin-top: 1.1rem; font-family: var(--font-sans); font-size: 0.86rem; color: var(--hs-ink-soft); }
+.hs-sources summary { cursor: pointer; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.72rem; color: var(--hs-ink); min-height: 2.75rem; display: flex; align-items: center; }
+.hs-sources ul { margin-top: 0.4rem; display: grid; gap: 0.3rem; padding-left: 1rem; list-style: disc; }
+
+/* Mobile and tablet: artwork in natural flow, then the solid reading surface. No pinning. */
+.hs-art { aspect-ratio: 4 / 3; }
+.hs-scene + .hs-scene { margin-top: 0; }
+
+@media (min-width: 1024px) {
+  /* Anthology: the painting is the section's ground; the reading surface alternates sides and the section grows with it. */
+  .hs-anth { min-height: 56.25vw; display: flex; align-items: flex-start; }
+  .hs-anth .hs-art { position: absolute; inset: 0; aspect-ratio: auto; overflow: visible; }
+  .hs-anth .hs-art-clip { position: absolute; inset: 0; overflow: hidden; }
+  .hs-anth .hs-layer-s { left: var(--dx, auto); right: var(--dr, auto); bottom: var(--db); width: var(--dw); }
+  /* The foreground crosses the join into the next scene. */
+  .hs-anth .hs-layer-f { bottom: -7%; }
+  .hs-anth .hs-reading {
+    width: min(31rem, 38vw);
+    margin: clamp(4rem, 9vw, 8rem) clamp(2rem, 5vw, 5rem) clamp(9rem, 14vw, 12rem);
+    box-shadow: 0 0 0 1px var(--hs-rule);
+  }
+  .hs-anth[data-side="right"] { justify-content: flex-end; }
+
+  /* Personal story: a 100svh sticky stage inside a ~160svh section. The stage grows with its text (200% text size), and
+     the pinned travel comes from the spacer after it, so nothing is ever clipped. */
+  .hs-pers .hs-stage { position: sticky; top: 0; min-height: max(100svh, 36rem); display: flex; align-items: center; }
+  .hs-pers .hs-run { height: 60svh; }
+  .hs-pers .hs-art { position: absolute; inset: 0; aspect-ratio: auto; }
+  .hs-pers .hs-layer-s { left: var(--dx, auto); right: var(--dr, auto); bottom: var(--db); width: var(--dw); max-width: 62svh; }
+  .hs-pers .hs-reading {
+    width: min(27rem, 34vw);
+    margin: var(--hs-controls) clamp(2rem, 5vw, 5rem) 2rem;
+    box-shadow: 0 0 0 1px var(--hs-rule);
+  }
+  .hs-pers[data-side="right"] .hs-stage { justify-content: flex-end; }
+}
+
+/* Reading mode, reduced motion: static flow, every word visible, no sticky stage, no parallax. */
+.hs-run { display: none; }
+@media (min-width: 1024px) { .hs-run { display: block; } }
+.hs[data-reading="static"] .hs-run { display: none; }
+.hs[data-reading="static"] .hs-pers .hs-stage { position: relative; height: auto; min-height: 0; display: block; }
+.hs[data-reading="static"] .hs-pers .hs-art { position: relative; inset: auto; aspect-ratio: 16 / 9; }
+.hs[data-reading="static"] .hs-pers .hs-reading { width: auto; max-width: 44rem; margin: 0 auto; box-shadow: none; }
+.hs[data-reading="static"] .hs-layer { transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .hs .hs-run { display: none; }
+  .hs .hs-pers .hs-stage { position: relative; height: auto; min-height: 0; display: block; }
+  .hs .hs-pers .hs-art { position: relative; inset: auto; aspect-ratio: 16 / 9; }
+  .hs .hs-pers .hs-reading { width: auto; max-width: 44rem; margin: 0 auto; box-shadow: none; }
+  .hs .hs-layer { transform: none !important; will-change: auto; }
+  .hs .hs-relief-canvas { transition: none; }
+}
+
+/* ------------------------------------------------------------------ chapter bands (personal stories) */
+.hs-chapter {
+  position: relative;
+  z-index: 5;
+  padding: clamp(3rem, 8vh, 5rem) 0 clamp(2rem, 5vh, 3rem);
+  text-align: center;
+  border-top: 1px solid var(--hs-rule);
+}
+.hs-chapter .hs-numeral { font-family: var(--font-display); font-size: 0.95rem; letter-spacing: 0.3em; color: var(--hs-vermilion); }
+.hs-rosette { width: 2.5rem; height: 2.5rem; margin: 0 auto 0.75rem; }
+
+/* ------------------------------------------------------------------ development placeholder */
+.hs-ph {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background:
+    repeating-linear-gradient(135deg, color-mix(in srgb, var(--hs-ink) 7%, transparent) 0 1px, transparent 1px 14px),
+    color-mix(in srgb, var(--hs-gold) 16%, var(--hs-ivory));
+  border: 1px dashed color-mix(in srgb, var(--hs-ink) 40%, transparent);
+}
+.hs-ph span {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--hs-ink);
+  background: var(--hs-ivory);
+  padding: 0.25rem 0.5rem;
+}
+.hs-layer-f .hs-ph { background: color-mix(in srgb, var(--hs-malachite) 14%, transparent); }
+
+/* ------------------------------------------------------------------ reliefs */
+.hs-relief-canvas { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s var(--ease-citadel); }
+.hs-relief-canvas[data-ready="true"] { opacity: 1; }
+.hs-relief-blend { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 90%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 90%, transparent 100%); }
+.hs-relief-map { box-shadow: 0 0 0 1px var(--hs-gold), 0 0 0 5px var(--hs-ivory), 0 0 0 6px var(--hs-vermilion); }
+.hs-map-label {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--hs-ink);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--hs-ivory) 92%, transparent);
+  padding: 0.1rem 0.35rem;
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+.hs-map-label[data-below] { transform: translate(-50%, 35%); }
+.hs-map-labels { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s var(--ease-citadel); }
+.hs-map-labels[data-ready="true"] { opacity: 1; }
+@media (max-width: 1023px) { .hs-map-label small { display: none; } .hs-map-label { font-size: 0.56rem; padding: 0 0.2rem; } }
+.hs-map-label small { display: block; font-family: var(--font-mono); font-weight: 400; font-size: 0.58rem; color: var(--hs-vermilion); }
