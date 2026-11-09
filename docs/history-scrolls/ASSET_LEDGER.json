@@ -28,20 +28,22 @@
       "role": "opening",
       "path": "/images/history/world/wo00.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A painted panorama of the world, from Greek islands to the steppe",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Opening plate: a vast panoramic landscape seen from above, from Greek islands and temples on the left, across deserts with caravans and tents, through high snow mountains, to grassy steppe with herds of horses on the right, lapis sky with a gold sun, calm uncluttered upper third. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "34a236dd-da9b-49b1-8747-b4191abd987c"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH01-B",
@@ -112,20 +114,22 @@
       "role": "B",
       "path": "/images/history/lakshmibai/jh02-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A riverside court and riding ground at Bithur on the Ganges",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: the riverside court at Bithur on the Ganges in the 1830s, a walled garden courtyard with a pavilion, a dusty riding ground beside it, bathing ghats and the broad river beyond, warm morning light. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "7fa18247-36fa-4ae8-8c1c-64ff37c9c5be"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH02-S",
@@ -136,15 +140,17 @@
       "alpha": true,
       "alt": "A girl of about twelve canters a grey pony, a practice sword raised",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a girl of about twelve in a simple ivory and saffron riding dress with a sash riding a grey pony at a collected canter, side view facing right, holding a wooden practice sword raised. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "d0c0a6e1-3932-46bc-a8da-d88ed6e78a99"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH02-F",
@@ -155,35 +161,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: a low garden hedge of clipped shrubs, marigolds and a stone edging, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "d3932e4a-2ad2-4bcd-bc7f-e6428c438851"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH03-B",
       "role": "B",
       "path": "/images/history/lakshmibai/jh03-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A painted palace hall at Jhansi",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: the interior of a Maratha palace hall at Jhansi in the 1850s shown in cutaway, painted arches, carpets, a low cushioned seat of state, latticed windows looking out to the fort. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "e3a660ed-55ad-4894-b8a8-2a13af118f02"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH03-S",
@@ -194,15 +204,17 @@
       "alpha": true,
       "alt": "Rani Lakshmibai seated with a letter, her adopted son beside her",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: Rani Lakshmibai seated upright on a low cushion, dressed in an ivory sari with a vermilion border, holding a folded letter, a small boy of about five standing beside her. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "24324a7c-a515-46ee-b8ba-9b31decbf1e6"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH03-F",
@@ -213,35 +225,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: the edge of a patterned carpet with a row of brass lamps and bolsters, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "cdea614d-576e-48d3-a43d-da2d49607981"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH04-B",
       "role": "B",
       "path": "/images/history/lakshmibai/jh04-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "Masons repair the walls of Jhansi fort; a cannon on the rampart",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: the ramparts and a gateway of Jhansi fort in daylight, masons repairing a stone bastion, a bronze cannon on its wooden carriage on the wall, the town below. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "9308d233-cfaf-4f0b-a462-ea1c40ec7542"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH04-S",
@@ -252,15 +268,17 @@
       "alpha": true,
       "alt": "Rani Lakshmibai on a grey horse, giving instructions",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: Rani Lakshmibai on a grey horse standing still, three-quarter view, one hand raised as she gives instructions, quilted riding coat and turban. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "f3aeced6-14d1-474e-baf6-aa3d0c2c09c1"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH04-F",
@@ -271,35 +289,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: a pile of cut building stone, cannonballs stacked in a pyramid and coils of rope, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "40c71394-4b4b-4ab5-9038-44b64a73ad4a"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH05-B",
       "role": "B",
       "path": "/images/history/lakshmibai/jh05-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "Jhansi fort under siege, seen from far across the plain",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: Jhansi fort on its hill seen from far across the plain, the walls wreathed in stylised grey smoke from distant guns, siege tents shown very small in the distance, overcast ochre sky, nothing graphic. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "be051f11-a574-4232-bf27-ef730df2379f"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH05-S",
@@ -310,15 +332,17 @@
       "alpha": true,
       "alt": "Defenders on the rampart of Jhansi fort",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: three defenders on a short section of crenellated stone rampart, Indian soldiers in white and saffron aiming matchlocks over the parapet beside a cannon, side view, no blood. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "11675fb0-6c27-46dc-b6c5-b190c405c046"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH05-F",
@@ -329,15 +353,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: stylised curling grey and ochre smoke clouds, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "0794a427-701a-45a3-a799-d74c2943ea38"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH06-B",
@@ -368,15 +394,17 @@
       "alpha": true,
       "alt": "Rani Lakshmibai gallops into the night, her son seated behind her",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: Rani Lakshmibai galloping on a dark bay horse at night, side view facing right, a boy of about eight seated behind her holding on, a shawl wrapped around them both, mane flying. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "ca76c050-c878-44f8-81ff-1b4d827de12d"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH06-F",
@@ -387,35 +415,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: dark thorny scrub and rocks in indigo shadow with a few fireflies, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "08ec9895-8b66-4fbf-95aa-9a5221a1902f"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH07-B",
       "role": "B",
       "path": "/images/history/lakshmibai/jh07-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "Gwalior fort on its cliff at dusk",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: the great sandstone fort of Gwalior on its long flat-topped cliff above the plain at dusk, gardens and a river in the middle distance, a road winding toward it. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "2164b1f7-33a1-4dbb-b836-f1a5320998aa"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH07-S",
@@ -426,15 +458,17 @@
       "alpha": true,
       "alt": "Rani Lakshmibai rides a grey horse toward Gwalior",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: Rani Lakshmibai in a quilted riding coat and turban, sword sheathed, riding a grey horse at a steady trot, side view facing left. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "edf4ca44-c6bb-429a-9a99-aa1da5fac93b"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH07-F",
@@ -445,35 +479,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: a line of tall grasses and a small roadside shrine stone with a marigold garland, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "99a73782-59c7-4d58-a196-6493f31deda9"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH08-B",
       "role": "B",
       "path": "/images/history/lakshmibai/jh08-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A memorial garden in Gwalior at sunset",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: a quiet memorial garden in Gwalior at sunset, a stone platform with a small domed chhatri, flowering trees and birds. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "cb7be730-db32-4630-b1ef-d07afab668c5"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH08-S",
@@ -484,15 +522,17 @@
       "alpha": true,
       "alt": "A bronze statue of Rani Lakshmibai on horseback",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a bronze equestrian statue of a queen on a rearing horse with a sword raised, standing on a stone plinth, painted as a statue in miniature style. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "13db449b-8839-47dd-9440-2098ba63560e"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "JH08-F",
@@ -503,15 +543,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: a bed of marigolds and tulsi plants with a small clay oil lamp, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "2c8f1f36-c415-401d-aaf9-efcc6c0a3dfd"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL01-B",
@@ -530,9 +572,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "702b31e1-b970-4caf-aa1e-0af4f56c462b"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL01-S",
@@ -550,9 +593,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "56b66ba3-c833-4476-8cb3-19858ff6f82c"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL01-F",
@@ -570,9 +614,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "a709019f-f602-422f-b95d-7da6936005cf"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL02-B",
@@ -655,9 +700,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "5f7040b0-69c7-4fa0-a157-7e1b10b59c7f"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL03-S",
@@ -675,9 +721,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "30718da6-a382-4699-958a-878eecd788c0"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL03-F",
@@ -695,9 +742,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "5ee078fa-92fd-4307-ae19-90bfc190be2f"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL04-B",
@@ -716,9 +764,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "28fad2e6-5739-4e66-a01b-17bd524f3a78"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL04-S",
@@ -736,9 +785,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "eca1e7ba-3b64-4220-857e-79cebcdd409a"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL04-F",
@@ -756,9 +806,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "f8de89c1-6649-4b5a-a4f2-f272c42dae8f"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL05-B",
@@ -777,9 +828,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "896b24f4-835e-4e2a-b4e1-f2aa19cb8b3e"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL05-S",
@@ -797,9 +849,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "f242545f-4610-46b3-aa66-1905e5ff6e69"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL05-F",
@@ -817,9 +870,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "41adbb35-8867-430e-ab1d-0eed2b03ce90"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL06-B",
@@ -838,9 +892,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "f6a69ece-a8bd-4cdb-836c-73a35ea007f1"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL06-S",
@@ -858,9 +913,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "efe4b4f2-a25c-498f-b132-0792e312f02e"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL06-F",
@@ -878,9 +934,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "ac644e78-6a01-4b2a-85c0-b2fac1536218"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL07-B",
@@ -899,9 +956,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "0c89503a-288f-44bb-be6b-2e0d2a42d965"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL07-S",
@@ -919,9 +977,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "3680367e-90be-4755-875b-5efb5a965040"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL07-F",
@@ -939,9 +998,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "d53f5320-1343-4dfc-95d4-d2a0d0884fbf"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL08-B",
@@ -960,9 +1020,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "f186cdac-3316-41d0-9efe-a1e554365641"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL08-S",
@@ -980,9 +1041,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "a072a510-0427-40bf-9a92-67aedd0f5747"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "AL08-F",
@@ -1000,9 +1062,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "9e916b49-2911-4e49-99f9-a489c20ab0b7"
       },
-      "review": "Reviewed 2026-11-09 by Claude: generated by background agent, style consistent with miniature brief."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN01-B",
@@ -1021,9 +1084,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "e8961445-074a-4524-bfd2-75d97d1f9e0d"
       },
-      "review": "Reviewed 2026-11-09 by Claude: background agent batch, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN01-S",
@@ -1041,9 +1105,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "ab482419-5784-45ff-9d09-51f68cb1cf93"
       },
-      "review": "Reviewed 2026-11-09 by Claude: background agent batch, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN01-F",
@@ -1061,9 +1126,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "eb4716a4-5395-4bbe-ad2d-8cf1ba4005d4"
       },
-      "review": "Reviewed 2026-11-09 by Claude: background agent batch, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN02-B",
@@ -1082,9 +1148,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "06a95447-21d1-46c2-820d-26c6bf761b6d"
       },
-      "review": "Reviewed 2026-11-09 by Claude: background agent batch, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN02-S",
@@ -1102,9 +1169,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "627ab050-11de-40a9-8e9b-aa368f84a7ac"
       },
-      "review": "Reviewed 2026-11-09 by Claude: batch gen, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN02-F",
@@ -1122,9 +1190,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "73a5349b-98c0-4c68-a778-5ad8165ab692"
       },
-      "review": "Reviewed 2026-11-09 by Claude: background agent batch, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN03-B",
@@ -1143,9 +1212,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "8c9f11a5-f383-4954-9994-fc5c1ee1ae17"
       },
-      "review": "Reviewed 2026-11-09 by Claude: batch gen, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN03-S",
@@ -1163,9 +1233,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "1c728205-ae56-4ad5-a019-89f52cb69537"
       },
-      "review": "Reviewed 2026-11-09 by Claude: batch gen, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN03-F",
@@ -1183,9 +1254,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "4e237869-4c6d-4fb1-ab6f-8df3bcdb79fc"
       },
-      "review": "Reviewed 2026-11-09 by Claude: batch gen, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN04-B",
@@ -1204,9 +1276,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "31639b9c-bcc9-482c-ba78-3e12fa4720f7"
       },
-      "review": "Reviewed 2026-11-09 by Claude: batch gen, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN04-S",
@@ -1224,9 +1297,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "faea574e-5aed-49bd-b425-acc900e94845"
       },
-      "review": "Reviewed 2026-11-09 by Claude: batch gen, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN04-F",
@@ -1244,9 +1318,10 @@
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
+        "background": "transparent",
+        "job_id": "85005b3b-2ed8-4965-81b1-599d79557d15"
       },
-      "review": "Reviewed 2026-11-09 by Claude: batch gen, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN05-B",
@@ -1265,9 +1340,10 @@
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
+        "background": "opaque",
+        "job_id": "35c071a9-a3c2-4473-9fa1-48273f471b20"
       },
-      "review": "Reviewed 2026-11-09 by Claude: batch gen, miniature style verified."
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN05-S",
@@ -1278,15 +1354,17 @@
       "alpha": true,
       "alt": "A grey horse in jewelled trappings led by a groom",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a magnificent grey horse in jewelled trappings of gold and embroidered velvet led by a groom in a white turban and kurta, side view facing left. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "40481295-59aa-4b68-a2f6-ea3ef19a6836"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN05-F",
@@ -1297,35 +1375,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: a marble fountain edge with roses and cypress saplings, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "72a445d4-0fd8-41ce-8cb7-ddeb6419aecc"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN06-B",
       "role": "B",
       "path": "/images/history/india/in06-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "The polo ground at Imphal",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: an open green polo ground in Imphal ringed by trees and low wooden pavilions, blue hills of Manipur behind. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "c20fdd5a-77da-4f52-b00a-cf2e8b8616e7"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN06-S",
@@ -1336,15 +1418,17 @@
       "alpha": true,
       "alt": "A Manipuri player gallops a pony, mallet raised",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a Manipuri polo player in traditional dress with a white turban and leg guards riding a small sturdy pony at a gallop, mallet raised, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "0d09e54c-5141-4fdb-a3dc-4b5661329702"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN06-F",
@@ -1355,35 +1439,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: grass tufts, a bamboo boundary rail and a polo ball, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "6683c1c9-ba03-4497-b1fc-4a7fb0e986c9"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN07-B",
       "role": "B",
       "path": "/images/history/india/in07-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "Haifa and the Kishon river below Mount Carmel",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: the coastal plain below Mount Carmel and the town of Haifa in 1918, the Kishon river and marshy ground, the bay beyond, no fighting visible. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "4bee2266-7aab-4b3d-a46d-e0c2fe9873be"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN07-S",
@@ -1394,15 +1482,17 @@
       "alpha": true,
       "alt": "A Jodhpur Lancer gallops with lance lowered",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: an Indian cavalryman of the Jodhpur Lancers in a khaki tunic and tall turban riding a bay horse at a gallop with lance lowered, side view facing left. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "620e9bee-26c8-4c93-b33c-9801e358a8c7"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "IN07-F",
@@ -1413,35 +1503,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: marsh reeds and wild flowers along a riverbank, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "6d433ce8-f381-4490-8e54-fb801d0c53ea"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO01-B",
       "role": "B",
       "path": "/images/history/world/wo01-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "Olive groves of Attica",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: the countryside of ancient Attica with olive groves, a farmhouse and a training ground, the Acropolis faint in the distance. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "01a951cf-e1a4-437d-b695-fce3d5dc2a04"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO01-S",
@@ -1452,15 +1546,17 @@
       "alpha": true,
       "alt": "Xenophon calms a nervous bay horse",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a bearded Athenian man in a himation calmly leading a nervous bay horse by the bridle and stroking its neck, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "83752af8-5856-4b7a-9dbd-e86574c40167"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO01-F",
@@ -1471,35 +1567,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: olive saplings, rocks and wild thyme, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "365e5ac2-8f72-43dd-bbf8-d9656dcc3f58"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO02-B",
       "role": "B",
       "path": "/images/history/world/wo02-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A mountain pass of the Pamirs",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: a high mountain pass in the Pamirs, snow peaks, a valley path, a caravanserai far off. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "7ba0f41c-6af7-4eaa-8f13-0502f189c7bc"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO02-S",
@@ -1510,15 +1610,17 @@
       "alpha": true,
       "alt": "A merchant leads a horse loaded with silk",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a caravan horse loaded with bales of silk led by a Central Asian merchant in a long robe and fur hat, side view facing left. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "1b6dc0a0-7bfc-4e68-a144-6a8c0ad102f9"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO02-F",
@@ -1529,35 +1631,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: rocky scree, alpine flowers and a cairn of stones, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "73cd5481-334a-48ae-9b3e-21f3bc5d9ffb"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO03-B",
       "role": "B",
       "path": "/images/history/world/wo03-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A relay station on the steppe",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: a relay station on the Mongolian steppe: round felt tents, a corral of horses, endless grassland and distant hills under a wide sky. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "595de7b6-4fc7-470d-b910-5a2a9d289ca9"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO03-S",
@@ -1568,15 +1674,17 @@
       "alpha": true,
       "alt": "A Mongol messenger gallops on a dun horse",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a Mongol messenger in a deel robe and fur-trimmed hat galloping on a stocky dun Mongolian horse, side view facing right, a small tablet hanging from his belt. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "82ed78ae-5fb3-4bb7-9129-e8a520a11a1e"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO03-F",
@@ -1587,35 +1695,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: steppe feather grass and a wooden hitching post, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "58921ad6-4475-461d-b0cf-07bf77547947"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO04-B",
       "role": "B",
       "path": "/images/history/world/wo04-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A Bedouin camp in the desert at evening",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: a Bedouin encampment in the Arabian desert at evening, long black goat-hair tents, palms and dunes. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "98cbc7d8-d5a1-43a1-a373-adeb7c9f8412"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO04-S",
@@ -1626,15 +1738,17 @@
       "alpha": true,
       "alt": "A Bedouin girl offers water to a grey mare",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a grey Arabian mare with a dished face standing calmly while a Bedouin girl in a dark robe offers her water from a bowl, side view. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "881f9eae-e05b-4f38-b145-a46dccaa480b"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO04-F",
@@ -1645,35 +1759,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: the edge of a woven rug, a brass coffee pot and sand, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "6ebfe124-aa1b-42ce-80f3-b675a01611ce"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO05-B",
       "role": "B",
       "path": "/images/history/world/wo05-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "The steppe in autumn",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: the open Eurasian steppe in autumn, golden grass, low hills and a river. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "d2bf624d-460e-427b-86ef-41e2f3a9281b"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO05-S",
@@ -1703,35 +1821,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: feather grass and thistles, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "8bfd95ee-5d12-40ac-95c7-3a2363c7e80e"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO06-B",
       "role": "B",
       "path": "/images/history/world/wo06-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A snowy pass in the Alps",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: a high Alpine pass in 1800, snowy peaks and a rocky road, troops shown very small far away. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "6b940f17-91e6-4009-a273-13e0d6ee84d7"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO06-S",
@@ -1742,15 +1864,17 @@
       "alpha": true,
       "alt": "A small grey Arab stallion in a French officer's saddle",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a small grey Arab stallion with a French officer's saddle and a dark blue saddle cloth, standing alert and riderless, side view facing left. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "7e8aa59f-1322-4337-888f-ce1d966e8a26"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO06-F",
@@ -1761,35 +1885,39 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: snow-covered rocks and pine branches, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "d26bee6d-dd97-4ce6-a4a5-f0c2c4f8b922"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO07-B",
       "role": "B",
       "path": "/images/history/world/wo07-b.webp",
       "width": 2400,
-      "height": 1350,
+      "height": 1357,
       "alpha": false,
       "alt": "A veterinary hospital behind the lines",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: a First World War army veterinary hospital behind the lines in France: rows of canvas tents and timber horse lines, a muddy field, a barn, grey sky. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "2k",
         "aspect_ratio": "16:9",
-        "background": "opaque"
-      }
+        "background": "opaque",
+        "job_id": "2b94e055-8edc-4e38-9df2-331b48135f48"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO07-S",
@@ -1800,15 +1928,17 @@
       "alpha": true,
       "alt": "An orderly bandages a bay horse's foreleg",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a veterinary orderly in a khaki uniform bandaging the foreleg of a patient bay draught horse standing quietly, side view. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "0dd254a3-9313-4627-b7d7-723744689792"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "WO07-F",
@@ -1819,15 +1949,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: duckboards, a bucket, a hurricane lantern and mud, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "791909c8-d35f-484f-a9be-9dd7acb13f76"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "SH01",
@@ -1859,15 +1991,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting border strip on a fully transparent background: a continuous floral scroll of gold vines and small vermilion and malachite flowers between two thin gold rules, perfectly horizontal, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "34f8c740-bc21-4ffe-9272-8194ba7b24e3"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "SH03",
@@ -1878,15 +2012,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting ornament on a fully transparent background: a single symmetrical gold and lapis rosette with lotus petals, centred, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "1:1",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "7812eb0d-e6ce-476a-a0a6-6f51030cc275"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "SH04",
@@ -1897,15 +2033,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting element on a fully transparent background: a horizontal band of stylised curling ivory and pale gold clouds with fine ink outlines, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "e7d6c9f8-481a-4aac-a8d8-a4c72cb09cfa"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "SH05",
@@ -1916,15 +2054,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting element on a fully transparent background: a loose scatter of tiny gold dust motes and small painted petals, sparse, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "1:1",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "509da95e-f4e6-45d2-a3b0-9c777a445954"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "SH06",
@@ -1935,15 +2075,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting element on a fully transparent background: a horizontal band of stylised water ripples and small waves drawn in fine indigo and ivory lines, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "6d1735b4-0637-4ecc-9b37-47dc2983c16c"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "SH07",
@@ -1954,15 +2096,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting element on a fully transparent background: a loose flock of seven small birds in flight, painted in ink with touches of gold, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "4126c97b-2f92-462b-af7f-aa6c07567052"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     },
     {
       "id": "SH08",
@@ -1973,15 +2117,17 @@
       "alpha": true,
       "alt": "",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting element on a fully transparent background: the scalloped hanging edge of an embroidered textile canopy in vermilion and gold with tassels, perfectly horizontal along the top, no text.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "21:9",
-        "background": "transparent"
-      }
+        "background": "transparent",
+        "job_id": "4e6e283e-0063-4fc1-9025-4f60f74d5c8d"
+      },
+      "review": "auto-accepted: valid WebP on disk"
     }
   ]
 }
