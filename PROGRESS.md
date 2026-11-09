@@ -867,3 +867,8 @@ workspace); no live payment, e-mail or signed-in run was possible.
   Mute. The button reads ALL / HORSE / MUSIC / OFF. Tooltips wrap (max 12 rem) so the longer text stays on screen.
   (An earlier version of this entry turned the menu into text rows; the owner asked to keep the icon UI, so that was reverted.)
 
+
+## 2026-11-09 · /cadets: background video removed
+
+- Owner's request: the gallop clip behind the /cadets title is removed; the title section is back to exactly what it was (headline, line,
+  cadet photograph). The clip now plays only on /journal. `TitleLoopVideo` stays for that page.
