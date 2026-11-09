@@ -149,6 +149,21 @@ export function effectPlaying(): boolean {
 let effectsAllowed = true;
 export function setEffectsAllowed(on: boolean): void { effectsAllowed = on; if (!on) stopEffects(); }
 
+/**
+ * Pressing "Horse sounds" in the sound menu answers with a horse right away: a neigh, a call or a snort, a little louder than the
+ * ambient ones. The spacing rules that keep the page from nagging (12 s between horse sounds, one at a time) are set aside for this
+ * one deliberate press; everything else (sound off, the film owning the sound stage, a hidden tab) still applies.
+ */
+export function previewHorse(): boolean {
+  if (!soundEnabled() || !unlocked) return false;
+  stopEffects();
+  lastAny = 0;
+  lastEquine = 0;
+  lastPlayed.clear();
+  const picks: SoundEffect[] = ["neigh", "horseCall", "snort"];
+  return playEffect(picks[Math.floor(Math.random() * picks.length)], 0.3);
+}
+
 export function playEffect(name: SoundEffect, volume = LEVELS[name], minGapMs = 0): boolean {
   if (!effectsAllowed) return false;
   if (!soundEnabled() || !unlocked || document.hidden) return false;

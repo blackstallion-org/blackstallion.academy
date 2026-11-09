@@ -199,47 +199,45 @@ try {
     await context.close();
   });
 
-  // ---- homepage film: it fills the first screen (HeroFilm.tsx). The frame is 1.28 screens wide (1.3 on a phone), centred, in the film's
-  // own 1606:900 shape, so the title cards run across it whole; its soft top and bottom (a mask) dissolve the baked-in bars into the
-  // dark; on a phone dust fills the dark around the band; the controls sit on the foot of the screen, nothing in the top 80 px.
-  await check("hero film: a band after the doctrine screen, centred frame in the film's shape, controls on its foot at 360/390/430/1440", async () => {
+  // ---- homepage film (HeroFilm.tsx). 9 Nov 2026: the opening film is the owner's Marwar film, a true 2:1 picture, so its band has that
+  // shape and the picture fills it edge to edge (no mask, no crop); the controls sit on the foot of the band, nothing in the top 80 px.
+  // The original opening film (scope picture, masked wide frame) is kept lower on the page as its own section, without "Skip intro".
+  await check("hero film: a 2:1 band after the doctrine screen, picture edge to edge, controls on its foot at 360/390/430/1440; the original film kept lower", async () => {
     const out = [];
     for (const [w, h] of [[360, 740], [390, 844], [430, 932], [1440, 900]]) {
       const { page, context } = await newPage({ width: w, height: h });
       await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
       await page.waitForTimeout(800);
       // Owner's order (2 Nov 2026): the "who we are" doctrine screen comes first and the film band follows it. Bring the band to the top, then measure.
-      const order = await page.evaluate(() => ({ doctrine: document.querySelector("section#doctrine").getBoundingClientRect().top + scrollY, film: document.querySelector("section#top").getBoundingClientRect().top + scrollY }));
+      const order = await page.evaluate(() => ({ doctrine: document.querySelector("section#doctrine").getBoundingClientRect().top + scrollY, film: document.querySelector("section#top").getBoundingClientRect().top + scrollY, first: document.querySelector("section#first-film").getBoundingClientRect().top + scrollY }));
       assert.ok(order.doctrine < order.film, `${w}: the doctrine screen comes before the film band`);
+      assert.ok(order.first > order.film + 2 * h, `${w}: the original opening film is kept lower on the page`);
       await page.evaluate(() => { const s = document.querySelector("section#top"); window.scrollTo(0, s.getBoundingClientRect().top + scrollY); });
       await page.waitForTimeout(1500);
       const m = await page.evaluate(() => {
         const rect = (el) => { const r = el.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, w: r.width, h: r.height }; };
         const section = document.querySelector("section#top");
         const frame = section.querySelector("video").parentElement;
-        const dust = section.firstElementChild;
-        const style = getComputedStyle(frame);
+        const first = document.querySelector("section#first-film");
         return {
           vw: window.innerWidth,
           section: rect(section),
           frame: rect(frame),
           controls: rect(section.querySelector("[data-sound]")),
-          dustDisplay: getComputedStyle(dust).display,
-          dust: rect(dust),
-          mask: style.maskImage !== "none" || style.webkitMaskImage !== "none",
+          mask: getComputedStyle(frame).maskImage !== "none" || getComputedStyle(frame).webkitMaskImage !== "none",
+          skip: [...section.querySelectorAll("button")].some((b) => /Skip intro/.test(b.textContent || "")),
+          firstSkip: [...first.querySelectorAll("button")].some((b) => /Skip intro/.test(b.textContent || "")),
+          firstSources: [...first.querySelectorAll("source")].map((x) => x.getAttribute("src") || ""),
         };
       });
-      // the band shows the middle of the frame (its soft top and bottom are cropped): about 0.7 of the frame's height, at the top of the screen
-      assert.ok(Math.abs(m.section.top) <= 2 && m.section.h >= 0.6 * m.frame.h && m.section.h <= 0.85 * m.frame.h, `${w}: the film band is the middle of the frame (${Math.round(m.section.h)}px of a ${Math.round(m.frame.h)}px frame)`);
-      const wanted = w < 768 ? 1.3 * m.vw : 1.28 * m.section.w;
-      assert.ok(Math.abs(m.frame.w - wanted) <= 2, `${w}: frame is 1.28 screens wide (1.3 on a phone): ${Math.round(m.frame.w)} not ${Math.round(wanted)}`);
-      assert.ok(Math.abs(m.frame.h - (m.frame.w * 900) / 1606) <= 2, `${w}: frame ratio ${Math.round(m.frame.w)}x${Math.round(m.frame.h)}`);
-      assert.ok(Math.abs((m.frame.left + m.frame.right) / 2 - m.vw / 2) <= 1, `${w}: frame centred across the screen`);
-      assert.ok(Math.abs((m.frame.top + m.frame.bottom) / 2 - (m.section.top + m.section.bottom) / 2) <= 1, `${w}: frame centred down the screen`);
-      assert.ok(m.mask, `${w}: the frame's soft top and bottom (mask) are in place`);
-      assert.ok(Math.abs(m.controls.bottom - m.section.bottom) <= 1 && m.controls.top > m.section.top + m.section.h / 2, `${w}: controls on the foot of the screen`);
-      assert.ok(m.dustDisplay !== "none" && Math.abs(m.dust.w - m.frame.w) <= 2 && Math.abs(m.dust.h - m.frame.h) <= 2, `${w}: the dust layer matches the frame`);
-      out.push(`${w}:${Math.round(m.frame.h)}px`);
+      assert.ok(Math.abs(m.section.top) <= 2 && Math.abs(m.section.w - m.vw) <= 1, `${w}: the film band is at the top of the screen, full width`);
+      assert.ok(Math.abs(m.section.h - m.section.w / 2) <= 2, `${w}: the band is the film's 2:1 shape (${Math.round(m.section.w)}x${Math.round(m.section.h)})`);
+      assert.ok(Math.abs(m.frame.w - m.section.w) <= 1 && Math.abs(m.frame.h - m.section.h) <= 1, `${w}: the picture fills the band edge to edge`);
+      assert.ok(!m.mask, `${w}: no mask on the picture`);
+      assert.ok(Math.abs(m.controls.bottom - m.section.bottom) <= 1 && m.controls.top > m.section.top + m.section.h / 2, `${w}: controls on the foot of the band`);
+      assert.ok(m.skip, `${w}: the opening film has Skip intro`);
+      assert.ok(!m.firstSkip && m.firstSources.some((x) => /hero-main-desktop\.mp4/.test(x)), `${w}: the original film is kept, without Skip intro`);
+      out.push(`${w}:${Math.round(m.section.h)}px`);
       await context.close();
     }
     return out.join(" ");

@@ -77,7 +77,7 @@ try {
     for (const width of [390, 1440]) await test(`hero ${width}: selected media, controls, progress and skip`, async () => {
       const p = await page({ viewport: { width, height: 900 }, isMobile: width < 768, hasTouch: width < 768 }); await open(p, "/");
       const video = p.locator('#top video'); await p.waitForFunction(() => document.querySelector('#top video')?.readyState >= 2, { timeout: 30000 });
-      const src = await video.evaluate((element) => element.currentSrc); assert.ok(src.includes(width < 768 ? "hero-main-mobile.mp4" : "hero-main-desktop.mp4"));
+      const src = await video.evaluate((element) => element.currentSrc); assert.ok(src.includes(width < 768 ? "hero-marwar-mobile.mp4" : "hero-marwar-desktop.mp4"));
       await p.getByRole("button", { name: "Pause video", exact: true }).click(); assert.ok(await video.evaluate((element) => element.paused));
       await p.getByRole("button", { name: "Sound OFF — Unmute video sound", exact: true }).click(); assert.equal(await video.evaluate((element) => element.muted), false);
       await p.getByRole("button", { name: "Play video", exact: true }).click(); await p.waitForTimeout(400); assert.equal(await video.evaluate((element) => element.paused), false);
@@ -87,7 +87,7 @@ try {
       await fit(p); await p.context().close(); return { selectedSource: src.split("/").at(-1), skipTargetTop: top, controls: true, progress };
     });
     await test("hero failures and autoplay rejection retain useful poster", async () => {
-      const p = await page({ viewport: { width: 390, height: 844 } }); await p.route("**/video/hero-main-*.mp4", (route) => route.abort()); await open(p, "/");
+      const p = await page({ viewport: { width: 390, height: 844 } }); await p.route("**/video/hero-marwar-*.mp4", (route) => route.abort()); await open(p, "/");
       await p.getByText("The film is unavailable.", { exact: false }).waitFor(); assert.equal(await p.locator('#top picture img').evaluate((element) => element.complete && element.naturalWidth > 0), true); await snap(p, "hero-failure-poster"); await p.context().close();
       const blocked = await page(); await blocked.addInitScript(() => { HTMLMediaElement.prototype.play = () => Promise.reject(new DOMException("Synthetic autoplay block", "NotAllowedError")); }); await open(blocked, "/"); await blocked.getByText("Press play to watch the opening film.").waitFor(); await blocked.context().close(); return { failedPoster: true, blockedPoster: true };
     });

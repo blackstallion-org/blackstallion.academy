@@ -7,10 +7,11 @@ import { soundEnabled, subscribeSound } from "@/lib/audio/engine";
 import { getMusicState, type MusicState, subscribeMusic } from "@/lib/audio/mixer";
 import { applySoundMode, getSoundMode, subscribeSoundMode, type SoundMode } from "@/lib/audio/mode";
 
+/** The three sounds and mute, in the owner's icon row: all sound, horse sounds without the song, the song without the horse sounds. */
 const OPTIONS: { mode: SoundMode; label: string; icon: ComponentType<{ size?: number | string; className?: string }> }[] = [
-  { mode: "theme", label: "Theme Music", icon: Music2 },
-  { mode: "horse", label: "Horse Sounds", icon: HorseIcon },
-  { mode: "music", label: "Open-Range Music", icon: AudioLines },
+  { mode: "theme", label: "All sound · theme song + horse sounds", icon: Music2 },
+  { mode: "horse", label: "Horse sounds · no song", icon: HorseIcon },
+  { mode: "music", label: "Theme song only · no horse sounds", icon: AudioLines },
   { mode: "none", label: "Mute", icon: VolumeX },
 ];
 
@@ -34,7 +35,7 @@ export function SoundToggle() {
   const wrap = useRef<HTMLDivElement>(null);
   const playing = on && music === "playing";
   const waiting = on && !playing;
-  const label = !on ? "OFF" : mode === "theme" ? "THEME" : mode === "horse" ? "HORSE" : mode === "music" ? "MUSIC" : "ON";
+  const label = !on ? "OFF" : mode === "theme" ? "ALL" : mode === "horse" ? "HORSE" : mode === "music" ? "MUSIC" : "ON";
 
   useEffect(() => {
     if (!open) return;
@@ -102,7 +103,7 @@ export function SoundToggle() {
                 >
                   <Icon size={20} aria-hidden="true" />
                   {checked && <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-gold" />}
-                  <span aria-hidden="true" className="pointer-events-none absolute right-0 top-full z-10 mt-2 whitespace-nowrap rounded-md border border-brass/30 bg-night px-2.5 py-1.5 font-mono text-[0.6rem] tracking-wide text-sand opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                  <span aria-hidden="true" className="pointer-events-none absolute right-0 top-full z-10 mt-2 w-max max-w-[12rem] whitespace-normal rounded-md border border-brass/30 bg-night px-2.5 py-1.5 font-mono text-[0.6rem] tracking-wide text-sand opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                     {option.label}
                   </span>
                 </button>

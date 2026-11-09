@@ -1,4 +1,4 @@
-import { setEffectsAllowed, setSound, soundEnabled, stopEffects } from "./engine";
+import { previewHorse, setEffectsAllowed, setSound, soundEnabled, stopEffects } from "./engine";
 import { resumeAmbience, setMusicAllowed, startMusic } from "./mixer";
 
 /**
@@ -25,6 +25,8 @@ export function applySoundMode(next: SoundMode): void {
   setMusicAllowed(next !== "horse");
   if (next === "music") stopEffects();
   // setSound(true) starts whatever the mode allows (the music, the greeting snort) and turns the engine on.
-  if (!soundEnabled()) { setSound(true); return; }
+  if (!soundEnabled()) { setSound(true); if (next === "horse") previewHorse(); return; }
   if (next !== "horse") void startMusic().then(() => resumeAmbience());
+  // Pressing "Horse sounds" must be answered with a horse, whatever played last.
+  if (next === "horse") previewHorse();
 }
