@@ -13,6 +13,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Label, ReelMark } from "@/components/film/Marks";
 import { PinnedScene } from "@/components/film/PinnedScene";
+import { TitleLoopVideo } from "@/components/film/TitleLoopVideo";
 import { r } from "@/components/film/range";
 import { Reveal } from "@/components/film/Reveal";
 import { creed, day, passport, reels, spotlights, uniform } from "@/lib/content/academy";
@@ -25,7 +26,10 @@ import { asset } from "@/lib/content/asset";
 export function CadetsTitle() {
   return (
     <section aria-labelledby="cadets-h" className="tone-dark relative min-h-[100svh] overflow-hidden bg-night pb-[clamp(3rem,9vh,6.5rem)] pt-[clamp(5.5rem,9vh,7.5rem)]">
-      <div className="gutter grid min-h-[calc(100svh-clamp(5.5rem,9vh,7.5rem)-clamp(3rem,9vh,6.5rem))] gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-end">
+      {/* 9 Nov 2026: a black Marwari at full gallop across the dunes runs behind the title; the gradient holds the text and the cadet panel sits on top. */}
+      <TitleLoopVideo src={asset("/video/horse-ears-gallop.mp4")} poster={asset("/video/horse-ears-gallop-poster.webp")} />
+      <div aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,color-mix(in_srgb,var(--color-night)_88%,transparent)_0%,color-mix(in_srgb,var(--color-night)_55%,transparent)_45%,color-mix(in_srgb,var(--color-night)_8%,transparent)_100%)] max-lg:bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-night)_45%,transparent)_0%,var(--color-night)_85%)]" />
+      <div className="gutter relative grid min-h-[calc(100svh-clamp(5.5rem,9vh,7.5rem)-clamp(3rem,9vh,6.5rem))] gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-end">
         <div className="pb-[4vh]">
           <ReelMark n={7} act="citadel" />
           <Headline id="cadets-h" as="h1" size="poster" animate="mount" className="mt-6" inscription="The hall" voice="of valour." />

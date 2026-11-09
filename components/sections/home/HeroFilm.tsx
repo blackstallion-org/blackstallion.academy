@@ -4,12 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { saveDataMode } from "@/lib/motion/save-data";
-import { asset } from "@/lib/content/asset";
+import { OPENING_FILM, type HeroFilmSpec } from "@/lib/content/hero-films";
 
 type Playback = "loading" | "buffering" | "playing" | "paused" | "blocked" | "failed" | "ended" | "skipped";
 
-/** Existing opening film, with device-sized sources and a useful still at every failure state. */
-export function HeroFilm() {
+/**
+ * A home-page film (lib/content/hero-films.ts), with device-sized sources and a useful still at every failure state. The default is the
+ * opening film under the doctrine screen; the original opening film is the same component with its own spec further down the page.
+ */
+export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) {
+  const archive = film.id !== OPENING_FILM.id;
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
   const bufferedRef = useRef<HTMLSpanElement>(null);
@@ -27,6 +31,8 @@ export function HeroFilm() {
   // poster, which is the same still: the hero is painted from the first frame instead of only once the film plays
   // (that late reveal used to be the page's LCP).
   const primed = useRef(false);
+  const startAt = useRef(film.startAt); // fixed for the life of this player, so prime() stays a plain ref reader
+
   const [seeked, setSeeked] = useState(false);
   // On phones the status line takes its own row, so every brief stall (common while the page is still starting)
   // used to push the page down and back up (layout shift). It now appears only if buffering lasts over a second.
@@ -75,7 +81,7 @@ export function HeroFilm() {
     const video = videoRef.current;
     if (!video || primed.current || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
     primed.current = true;
-    if (video.currentTime < 2.8) { setSeeked(true); video.currentTime = Math.min(2.8, video.duration || 2.8); }
+    if (startAt.current > 0 && video.currentTime < startAt.current) { setSeeked(true); video.currentTime = Math.min(startAt.current, video.duration || startAt.current); }
   }
   const updateProgress = () => {
     const video = videoRef.current;
@@ -117,39 +123,40 @@ export function HeroFilm() {
   };
   const playing = state === "playing";
 
-  // The film is a scope picture (about 2.5:1) delivered inside 16:9 files with black bars baked in (the picture is 71 % of the frame's
-  // height: rows 130 to 770 of 900), and its title cards run across 71 % of the picture's width. So the film fills the first screen as
-  // far as it can without cutting a word: the frame is made 1.28 screens wide (the picture then shows 78 % of itself, the title cards
-  // whole) and the picture's soft top and bottom edges dissolve into the dark of the screen, where the baked bars are. On a phone the
-  // same rule makes a band across the middle of the dark, under the dust.
-  // 4 Nov 2026 (owner): no empty bands. The section is cut to the picture itself (about 1.95:1 of the screen's width), so
-  // the film sits edge to edge between the doctrine and the stallion with no black or cream bars above or below it.
+  // "full" (the Marwar film, 9 Nov 2026): a true 2:1 picture, so the section has its shape and the picture fills it edge to edge.
+  // "scope" (the original film): a scope picture (about 2.5:1) delivered inside 16:9 files with black bars baked in (the picture is 71 % of
+  // the frame's height: rows 130 to 770 of 900), and its title cards run across 71 % of the picture's width. So it fills its band as far
+  // as it can without cutting a word: the frame is 1.28 screens wide (1.3 on a phone) and its soft top and bottom edges (a mask) dissolve
+  // into the dark, where the baked bars are. 4 Nov 2026 (owner): no empty bands, the section is cut to the picture itself (1.95:1).
   const FRAME_ASPECT = "1606 / 900";
-  return <section id="top" aria-label="Opening Film" data-playback={state} className="tone-photo relative aspect-[1.95/1] w-full overflow-hidden bg-night">
-    {/* 31 Oct 2026 (owner's request): no picture behind the film. Around the frame the screen is plain black on phone and
-        desktop, and the frame's edges are cut clean where the baked bars begin (they used to dissolve into a dust still). */}
-    <div className="absolute left-1/2 top-1/2 w-[130vw] -translate-x-1/2 -translate-y-1/2 md:w-[128%]" style={{ aspectRatio: FRAME_ASPECT, maskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)" }}>
-      <picture className="absolute inset-0">
-        <source media="(max-width: 767px)" srcSet={asset("/video/hero-main-poster-mobile.webp")} />
-        {/* Native picture is deliberately available before JS and video decoding. */}
-        <img data-hero-poster src={asset("/video/hero-main-poster.webp")} alt="Marwari stallions in the academy opening film" fetchPriority="high" className="h-full w-full object-cover" />
-      </picture>
-      <video ref={videoRef} className={`absolute inset-0 h-full w-full object-cover ${state !== "failed" && (hasFrame || !seeked) ? "opacity-100" : "opacity-0"}`} muted loop playsInline preload="metadata" poster={asset("/video/hero-main-poster.webp")} aria-label="The Marwari Stallion opening film"
-        onLoadedMetadata={() => { if (videoRef.current && !videoRef.current.paused) prime(); updateProgress(); }}
-        onPlaying={() => { failed.current = false; setHasFrame(true); setState("playing"); }} onPause={() => setState((previous) => previous === "skipped" || previous === "failed" ? previous : "paused")}
-        onWaiting={() => setState((previous) => failed.current || previous === "failed" ? "failed" : "buffering")} onStalled={() => setState((previous) => previous === "playing" ? "buffering" : previous)} onEnded={() => setState("ended")}
-        onError={() => { failed.current = true; setState("failed"); }} onTimeUpdate={updateProgress} onProgress={updateProgress} onVolumeChange={(event) => setMuted(event.currentTarget.muted)}>
-        {/* No onError on <source>: a source whose media query does not match fires "error" when it is skipped, which
-            wrongly marked the film as failed on wide screens. Real failures are caught by the video's own error
-            event and by the NETWORK_NO_SOURCE watchdog above. */}
-        <source media="(max-width: 767px)" src={asset("/video/hero-main-mobile.mp4")} type="video/mp4" />
-        <source src={asset("/video/hero-main-desktop.mp4")} type="video/mp4" />
-      </video>
-    </div>
+  const scope = film.layout === "scope";
+  const picture = <>
+    <picture className="absolute inset-0">
+      <source media="(max-width: 767px)" srcSet={film.posterMobile} />
+      {/* Native picture is deliberately available before JS and video decoding. */}
+      <img data-hero-poster src={film.poster} alt={film.posterAlt} fetchPriority={archive ? "low" : "high"} loading={archive ? "lazy" : undefined} className="h-full w-full object-cover" />
+    </picture>
+    <video ref={videoRef} className={`absolute inset-0 h-full w-full object-cover ${state !== "failed" && (hasFrame || !seeked) ? "opacity-100" : "opacity-0"}`} muted loop playsInline preload="metadata" poster={film.poster} aria-label={`${film.label}`}
+      onLoadedMetadata={() => { if (videoRef.current && !videoRef.current.paused) prime(); updateProgress(); }}
+      onPlaying={() => { failed.current = false; setHasFrame(true); setState("playing"); }} onPause={() => setState((previous) => previous === "skipped" || previous === "failed" ? previous : "paused")}
+      onWaiting={() => setState((previous) => failed.current || previous === "failed" ? "failed" : "buffering")} onStalled={() => setState((previous) => previous === "playing" ? "buffering" : previous)} onEnded={() => setState("ended")}
+      onError={() => { failed.current = true; setState("failed"); }} onTimeUpdate={updateProgress} onProgress={updateProgress} onVolumeChange={(event) => setMuted(event.currentTarget.muted)}>
+      {/* No onError on <source>: a source whose media query does not match fires "error" when it is skipped, which
+          wrongly marked the film as failed on wide screens. Real failures are caught by the video's own error
+          event and by the NETWORK_NO_SOURCE watchdog above. */}
+      <source media="(max-width: 767px)" src={film.mobile} type="video/mp4" />
+      <source src={film.desktop} type="video/mp4" />
+    </video>
+  </>;
+  return <section id={film.id} aria-label={film.label} data-playback={state} className={`tone-photo relative w-full overflow-hidden bg-night ${scope ? "aspect-[1.95/1]" : "aspect-[2/1]"}`}>
+    {/* 31 Oct 2026 (owner's request): no picture behind the film. Around a scope frame the screen is plain black on phone and desktop. */}
+    {scope
+      ? <div className="absolute left-1/2 top-1/2 w-[130vw] -translate-x-1/2 -translate-y-1/2 md:w-[128%]" style={{ aspectRatio: FRAME_ASPECT, maskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)" }}>{picture}</div>
+      : <div className="absolute inset-0">{picture}</div>}
 
     {/* Controls sit on the foot of the screen (never in the top 80 px, which belongs to the nav). */}
     <div data-sound="off" className="no-print gutter absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-center justify-end sm:justify-between gap-x-3 gap-y-2 pb-3 pt-6 md:pb-7 md:pt-12">
-      <button type="button" onClick={skip} className="label hidden min-h-11 rounded-full border border-brass/50 bg-night/40 px-4 text-sand backdrop-blur-[2px] hover:text-gold sm:inline-block">Skip intro</button>
+      {archive ? <span className="hidden sm:block" /> : <button type="button" onClick={skip} className="label hidden min-h-11 rounded-full border border-brass/50 bg-night/40 px-4 text-sand backdrop-blur-[2px] hover:text-gold sm:inline-block">Skip intro</button>}
       <p className="order-last w-full text-center text-xs text-sand sm:order-none sm:w-auto sm:flex-1" role="status" aria-live="polite">
         {state === "buffering" ? (longStall ? "Buffering film…" : null) : state === "failed" ? "The film is unavailable. Continue to explore the academy." : state === "blocked" ? "Press play to watch the opening film." : null}
       </p>
@@ -161,7 +168,7 @@ export function HeroFilm() {
       </div>
     </div>
     {/* Seek bar along the bottom edge: drag, click or touch anywhere on it to scrub, like a video player. Arrow keys step 5 s (Shift: 10 s). */}
-    <div ref={seekRef} role="slider" tabIndex={0} aria-label="Seek the opening film" aria-valuemin={0} aria-valuemax={100} aria-valuenow={0} data-seek
+    <div ref={seekRef} role="slider" tabIndex={0} aria-label={`Seek: ${film.label}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={0} data-seek
       className="absolute inset-x-0 bottom-0 z-10 h-6 cursor-pointer touch-none select-none outline-none focus-visible:ring-2 focus-visible:ring-gold/70"
       onPointerDown={(event) => { if (state === "failed") return; event.currentTarget.setPointerCapture(event.pointerId); scrubbing.current = true; seekFromPointer(event.clientX, event.currentTarget); }}
       onPointerMove={(event) => { if (scrubbing.current) seekFromPointer(event.clientX, event.currentTarget); }}

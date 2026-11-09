@@ -832,3 +832,19 @@ workspace); no live payment, e-mail or signed-in run was possible.
 
 - The intro now remembers "seen" per visit (sessionStorage, commit 8c9e209), but the e2e setup still set localStorage, so in CI the intro
   covered the home page and the hero-film check failed at 360 px. The e2e init script now sets `bsah-intro-seen` in sessionStorage.
+
+## 2026-11-09 · New opening film; original kept; gallop clip on /cadets
+
+- Home hero: the owner's 65 s Marwar film (`copy_8595A2EA….MOV`, 4K 2:1) replaces the opening film under the doctrine screen.
+  Encoded to `public/video/hero-marwar-desktop.mp4` (1920×960, 15 MB) and `-mobile.mp4` (960×480, 6 MB) with loudness-normalised AAC,
+  plus WebP posters; plays muted with the existing controls (sound, ±10 s, seek, skip). Its band is the film's own 2:1 shape and the
+  picture fills it edge to edge (no mask or crop). On a phone that makes a full-width 2:1 band, like before.
+- The original opening film is kept: the same `HeroFilm` player with `FIRST_FILM` (`lib/content/hero-films.ts`) as its own section
+  (`#first-film`, no "Skip intro") after `HorseFirst` on the home page, under a short "The first film" caption.
+- `HeroFilm` now takes a film spec; `OPENING_FILM` keeps the `#top` anchor ("Replay opening film" still lands on it).
+- `/cadets` title: the owner's 9 s black-Marwari gallop (`Create_visual_with_horse_ears….mp4`, 1.3 MB, silent) plays behind the title
+  (`components/film/TitleLoopVideo.tsx`: on-screen only, never under reduced motion or Data Saver, poster until the first frame).
+  A gradient holds the text; the cadet panel sits on top. Looks right in the dark and the light theme.
+- e2e hero check rewritten for the 2:1 band and the kept original film (passes at 360/390/430/1440); engineering-browser file names updated.
+- Not done: the old poster `hero-main-poster-mobile.webp` is deleted in the owner's working tree, so the original film uses its
+  desktop poster on phones. The `/cadets` clip is the only place the gallop video is used.
