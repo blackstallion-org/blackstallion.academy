@@ -872,3 +872,10 @@ workspace); no live payment, e-mail or signed-in run was possible.
 
 - Owner's request: the gallop clip behind the /cadets title is removed; the title section is back to exactly what it was (headline, line,
   cadet photograph). The clip now plays only on /journal. `TitleLoopVideo` stays for that page.
+
+## 2026-11-09 · Sound menu: "Horse sounds" answers with a horse
+
+- Pressing the horse icon now plays a horse sound at once (neigh, call or snort, a little louder than the ambient ones) via
+  `previewHorse()` in `lib/audio/engine.ts`, called from `applySoundMode("horse")`. It sets aside the 12 s spacing rule for that one
+  press, so repeating the press also answers. Checked in the page: pressing it after the song-only mode played snort.mp3.
+  Not heard on real speakers; a film playing with sound on still owns the sound stage and silences it by design.
