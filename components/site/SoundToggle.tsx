@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore, type ComponentType } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { AudioLines, Music2, VolumeX } from "lucide-react";
+import { Music2, VolumeX } from "lucide-react";
 import { soundEnabled, subscribeSound } from "@/lib/audio/engine";
 import { getMusicState, type MusicState, subscribeMusic } from "@/lib/audio/mixer";
 import { applySoundMode, getSoundMode, subscribeSoundMode, type SoundMode } from "@/lib/audio/mode";
 
-const OPTIONS: { mode: SoundMode; label: string; icon: ComponentType<{ size?: number | string; className?: string }> }[] = [
-  { mode: "theme", label: "Theme Music", icon: Music2 },
-  { mode: "horse", label: "Horse Sounds", icon: HorseIcon },
-  { mode: "music", label: "Open-Range Music", icon: AudioLines },
-  { mode: "none", label: "Mute", icon: VolumeX },
+/** Three choices (owner, 9 Nov 2026): everything, the horse sounds without the song, or silence. */
+const OPTIONS: { mode: SoundMode; label: string; note: string; icon: ComponentType<{ size?: number | string; className?: string }> }[] = [
+  { mode: "theme", label: "All sound", note: "Theme song + horse sounds", icon: Music2 },
+  { mode: "horse", label: "Horse sounds", note: "No song", icon: HorseIcon },
+  { mode: "none", label: "Mute", note: "Silence", icon: VolumeX },
 ];
 
 function HorseIcon({ size = 20, className }: { size?: number | string; className?: string }) {
@@ -34,7 +34,7 @@ export function SoundToggle() {
   const wrap = useRef<HTMLDivElement>(null);
   const playing = on && music === "playing";
   const waiting = on && !playing;
-  const label = !on ? "OFF" : mode === "theme" ? "THEME" : mode === "horse" ? "HORSE" : mode === "music" ? "MUSIC" : "ON";
+  const label = !on ? "OFF" : mode === "theme" ? "ALL" : mode === "horse" ? "HORSE" : mode === "music" ? "MUSIC" : "ON";
 
   useEffect(() => {
     if (!open) return;
@@ -85,7 +85,7 @@ export function SoundToggle() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="absolute right-0 top-full z-50 mt-2 flex gap-1 rounded-xl border border-brass/30 bg-night p-2 text-sand shadow-[0_14px_36px_rgba(18,10,5,0.2)]"
+            className="absolute right-0 top-full z-50 mt-2 flex w-[min(17rem,calc(100vw-2rem))] flex-col gap-1 rounded-xl border border-brass/30 bg-night p-2 text-sand shadow-[0_14px_36px_rgba(18,10,5,0.2)]"
           >
             {OPTIONS.map((option) => {
               const checked = option.mode === "none" ? !on || mode === "none" : on && mode === option.mode;
@@ -95,16 +95,17 @@ export function SoundToggle() {
                   key={option.mode}
                   type="button"
                   role="menuitemradio"
-                  aria-label={option.label}
+                  aria-label={`${option.label}: ${option.note}`}
                   aria-checked={checked}
                   onClick={() => pick(option.mode)}
-                  className={`group relative grid h-11 w-11 place-items-center rounded-lg transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${checked ? "bg-brass/15 text-gold" : "text-sand hover:bg-brass/10 hover:text-gold"}`}
+                  className={`flex min-h-12 w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${checked ? "bg-brass/15 text-gold" : "text-sand hover:bg-brass/10 hover:text-gold"}`}
                 >
                   <Icon size={20} aria-hidden="true" />
-                  {checked && <span aria-hidden="true" className="absolute bottom-1 h-1 w-1 rounded-full bg-gold" />}
-                  <span aria-hidden="true" className="pointer-events-none absolute right-0 top-full z-10 mt-2 whitespace-nowrap rounded-md border border-brass/30 bg-night px-2.5 py-1.5 font-mono text-[0.6rem] tracking-wide text-sand opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                    {option.label}
+                  <span className="flex min-w-0 flex-1 flex-col">
+                    <span className="label">{option.label}</span>
+                    <span className="t-ui text-xs text-dust">{option.note}</span>
                   </span>
+                  {checked && <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />}
                 </button>
               );
             })}

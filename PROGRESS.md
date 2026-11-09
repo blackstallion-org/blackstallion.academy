@@ -859,3 +859,10 @@ workspace); no live payment, e-mail or signed-in run was possible.
 - The 9 s gallop clip carried the generator's four-point sparkle mark (bottom right, about 75 px at 1080p). It is now removed from the file
   itself (ffmpeg `delogo` over x 1695, y 854, 90×92 of the 1920×1080 source) and the poster re-made, so it is gone on /cadets and /journal
   at every size. Checked on frames at 3 s and 7 s. File 1.30 MB.
+
+## 2026-11-09 · Sound menu: three choices
+
+- The top-right sound menu had four icon buttons (theme, horse, open-range music, mute). It is now three labelled rows (owner's request):
+  **All sound** (theme song + horse sounds), **Horse sounds** (no song), **Mute**. The song-alone option is gone from the menu; the
+  `music` mode stays in `lib/audio/mode.ts` because the /worlds film's own sound toggle uses it. Button reads ALL / HORSE / OFF.
+  Checked in the page: three `menuitemradio` items, no horizontal overflow at 468 px. Not heard on real speakers.
