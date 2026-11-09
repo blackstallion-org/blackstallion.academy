@@ -172,6 +172,7 @@ export function PersonalStoryPage({ page }: { page: HistoryPage }) {
                 <SceneArt scene={scene} priority={ci === 0 && si === 0} />
                 <SceneReading scene={scene} heading="h3" next={nextOf(ci, si, scene)} />
               </div>
+              <div className="hs-run" aria-hidden />
             </section>
           ))}
         </div>

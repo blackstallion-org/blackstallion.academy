@@ -175,9 +175,10 @@
   }
   .hs-anth[data-side="right"] { justify-content: flex-end; }
 
-  /* Personal story: a 100svh sticky stage inside a ~160svh section. */
-  .hs-pers { height: 160svh; }
-  .hs-pers .hs-stage { position: sticky; top: 0; height: 100svh; min-height: 36rem; display: flex; align-items: center; overflow: hidden; }
+  /* Personal story: a 100svh sticky stage inside a ~160svh section. The stage grows with its text (200% text size), and
+     the pinned travel comes from the spacer after it, so nothing is ever clipped. */
+  .hs-pers .hs-stage { position: sticky; top: 0; min-height: max(100svh, 36rem); display: flex; align-items: center; }
+  .hs-pers .hs-run { height: 60svh; }
   .hs-pers .hs-art { position: absolute; inset: 0; aspect-ratio: auto; }
   .hs-pers .hs-layer-s { left: var(--dx, auto); right: var(--dr, auto); bottom: var(--db); width: var(--dw); max-width: 62svh; }
   .hs-pers .hs-reading {
@@ -189,13 +190,15 @@
 }
 
 /* Reading mode, reduced motion: static flow, every word visible, no sticky stage, no parallax. */
-.hs[data-reading="static"] .hs-pers { height: auto; }
+.hs-run { display: none; }
+@media (min-width: 1024px) { .hs-run { display: block; } }
+.hs[data-reading="static"] .hs-run { display: none; }
 .hs[data-reading="static"] .hs-pers .hs-stage { position: relative; height: auto; min-height: 0; display: block; }
 .hs[data-reading="static"] .hs-pers .hs-art { position: relative; inset: auto; aspect-ratio: 16 / 9; }
 .hs[data-reading="static"] .hs-pers .hs-reading { width: auto; max-width: 44rem; margin: 0 auto; box-shadow: none; }
 .hs[data-reading="static"] .hs-layer { transform: none !important; }
 @media (prefers-reduced-motion: reduce) {
-  .hs .hs-pers { height: auto; }
+  .hs .hs-run { display: none; }
   .hs .hs-pers .hs-stage { position: relative; height: auto; min-height: 0; display: block; }
   .hs .hs-pers .hs-art { position: relative; inset: auto; aspect-ratio: 16 / 9; }
   .hs .hs-pers .hs-reading { width: auto; max-width: 44rem; margin: 0 auto; box-shadow: none; }
