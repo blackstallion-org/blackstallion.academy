@@ -55,6 +55,8 @@ export const tools = [
   { n: 19, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
   { n: 20, href: "/history/india", act: "legend" as Act, title: "Horses of India", badge: "Painted" },
   { n: 21, href: "/history/world", act: "legend" as Act, title: "Horses of the World", badge: "Painted" },
+  { n: 22, href: "/story/rani-lakshmibai", act: "ledger" as Act, title: "Rani Lakshmibai", badge: "Painted" },
+  { n: 23, href: "/story/alexander-bucephalus", act: "legend" as Act, title: "Alexander & Bucephalus", badge: "Painted" },
 ] as const;
 
 export function reelFor(pathname: string): Reel | undefined {
