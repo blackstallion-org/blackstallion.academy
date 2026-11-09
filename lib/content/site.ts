@@ -43,6 +43,10 @@ export const reels: Reel[] = [
   { n: 16, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
   { n: 17, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
   { n: 18, href: "/worlds", act: "legend", title: "Four Worlds", inscription: "One horse.", voice: "Four worlds.", blurb: "A scroll-controlled film: the valley, the anatomy, the cavalry country and the future, with one black Marwari.", image: "duneSilhouette" },
+  { n: 19, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
+  { n: 20, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
+  { n: 21, href: "/story/rani-lakshmibai", act: "ledger", title: "Rani Lakshmibai", inscription: "Jhansi will not", voice: "be surrendered.", blurb: "Four chapters, painted: the queen who rode out of a besieged fort.", image: "bgCharge" },
+  { n: 22, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Four chapters, painted: a boy, a horse no one could ride, and the edge of the known world.", image: "duneSilhouette" },
 ];
 
 export const TOTAL_REELS = reels.length;
@@ -52,11 +56,7 @@ export const TOTAL_REELS = reels.length;
  * and do not change the reel count (so the "REEL n / 17" marks and the hand-off from reel to reel stay as they were).
  */
 export const tools = [
-  { n: 19, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
-  { n: 20, href: "/history/india", act: "legend" as Act, title: "Horses of India", badge: "Painted" },
-  { n: 21, href: "/history/world", act: "legend" as Act, title: "Horses of the World", badge: "Painted" },
-  { n: 22, href: "/story/rani-lakshmibai", act: "ledger" as Act, title: "Rani Lakshmibai", badge: "Painted" },
-  { n: 23, href: "/story/alexander-bucephalus", act: "legend" as Act, title: "Alexander & Bucephalus", badge: "Painted" },
+  { n: 23, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
 ] as const;
 
 export function reelFor(pathname: string): Reel | undefined {
