@@ -13,6 +13,7 @@ const STATIC_ROUTES = [
   "/", "/legend", "/worlds", "/lore", "/anatomy", "/statue", "/science", "/stride", "/why", "/curriculum", "/fleet", "/cadets",
   "/parents", "/safety", "/equipment", "/schools", "/schools/mou", "/verify", "/tournaments", "/command", "/journal",
   "/about", "/contact", "/privacy",
+  "/story/pratap-chetak", "/story/rani-lakshmibai", "/story/alexander-bucephalus", "/history/india", "/history/world",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

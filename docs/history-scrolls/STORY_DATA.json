@@ -1,0 +1,1314 @@
+{
+  "generatedFrom": "lib/content/history/*.ts",
+  "pages": [
+    {
+      "route": "/history/india",
+      "format": "anthology",
+      "title": "Seven Roads of the Indian Horse · An Illustrated History",
+      "description": "An illustrated vertical scroll of horsemanship in India: the keepers of Marwar, the Shalihotra tradition, Shivaji's hill country, Bajirao's long roads, Ranjit Singh's stables, Manipur's polo ponies and the riders who reached Haifa.",
+      "opening": {
+        "label": "An illustrated history · India",
+        "inscription": "Seven roads",
+        "voice": "of the Indian horse.",
+        "lede": "From the desert of Marwar to the polo grounds of Imphal, horses carried India's history. Seven scenes, painted in the manner of the miniature, each with its sources.",
+        "asset": "IN00"
+      },
+      "chapters": [
+        {
+          "id": "india-scenes",
+          "numeral": "",
+          "title": "Seven roads",
+          "scenes": [
+            {
+              "id": "IN01",
+              "anchor": "the-keepers-of-marwar",
+              "label": "Marwar, Rajasthan",
+              "title": "The keepers of Marwar",
+              "body": [
+                "In the dry country around Jodhpur, the Rathore rulers of Marwar and the families who served them bred a horse for the desert: hardy on little water, quick over sand, with ears that curve inward until the tips almost touch. The Marwari carried Rajput cavalry for centuries, and breeders kept its lines by memory and by the stud records of noble houses.",
+                "In the twentieth century, as cavalry gave way to machines, the breed came close to disappearing. Since the 1990s breeders and enthusiasts have worked to revive it and to record its bloodlines again. Every BSAH cadet rides one."
+              ],
+              "qualification": "Stories that the breed descends from horses saved from a shipwreck belong to tradition, not record.",
+              "sources": [
+                {
+                  "label": "BSAH, The Marwari (/legend)"
+                },
+                {
+                  "label": "Indigenous Horse Society of India, breed notes"
+                }
+              ],
+              "layers": {
+                "B": "IN01-B",
+                "S": "IN01-S",
+                "F": "IN01-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "5%",
+                  "b": "8%",
+                  "w": "30%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              },
+              "relief": "IN01"
+            },
+            {
+              "id": "IN02",
+              "anchor": "knowledge-passed-through-hands",
+              "label": "The Shalihotra tradition",
+              "title": "Knowledge passed through hands",
+              "body": [
+                "Long before veterinary colleges, India had a written science of the horse. Sanskrit treatises attributed to the sage Shalihotra describe how to judge a horse's build and temperament, how to feed and stable it, and how to treat its injuries and illnesses.",
+                "The knowledge travelled by copying. Scribes made new manuscripts, teachers added commentaries, and over the centuries the texts were translated into other languages, including Persian. In the stables, it passed the other way too: from an experienced keeper's hands to an apprentice's, one horse at a time."
+              ],
+              "interpretation": true,
+              "qualification": "Shalihotra's dates and authorship are uncertain; the texts bearing his name were compiled over a long period. The stable scene is an artistic interpretation.",
+              "sources": [
+                {
+                  "label": "Shalihotra Samhita manuscript tradition"
+                },
+                {
+                  "label": "G. J. Meulenbeld, A History of Indian Medical Literature"
+                }
+              ],
+              "layers": {
+                "B": "IN02-B",
+                "S": "IN02-S",
+                "F": "IN02-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "5%",
+                  "b": "8%",
+                  "w": "34%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "IN03",
+              "anchor": "shivajis-hill-country",
+              "label": "The Sahyadri, Maharashtra",
+              "title": "Shivaji's hill country",
+              "body": [
+                "In the seventeenth century Shivaji Bhonsle built a Maratha state among the steep ridges of the Sahyadri, the Western Ghats. Its strength lay in hill forts such as Rajgad and Raigad, and in light cavalry that could climb narrow ghat roads and move fast between them.",
+                "Maratha horsemen were of two kinds: bargirs, who rode horses supplied by the state, and shiledars, who brought their own. Small, sure-footed horses suited the broken country better than heavy chargers. Shivaji was crowned at Raigad in 1674, and the state he founded grew for another century."
+              ],
+              "sources": [
+                {
+                  "label": "Jadunath Sarkar, Shivaji and His Times"
+                },
+                {
+                  "label": "Stewart Gordon, The Marathas 1600–1818 (1993)"
+                }
+              ],
+              "layers": {
+                "B": "IN03-B",
+                "S": "IN03-S",
+                "F": "IN03-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "5%",
+                  "b": "8%",
+                  "w": "32%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "IN04",
+              "anchor": "bajiraos-long-roads",
+              "label": "The Deccan to the north",
+              "title": "Bajirao's long roads",
+              "body": [
+                "Bajirao I became Peshwa, chief minister of the Maratha state, in 1720, and is remembered for the speed of his campaigns. His cavalry travelled light, lived off the country and covered long distances quickly, appearing where opponents did not expect them.",
+                "At Palkhed in 1728 his manoeuvres cut off the Nizam's army from its supplies without a pitched battle. In 1737 he rode north to the outskirts of Delhi. Speed on horseback depended on care for the horse: rest, grazing and water along roads that ran across half of India."
+              ],
+              "sources": [
+                {
+                  "label": "Stewart Gordon, The Marathas 1600–1818 (1993)"
+                },
+                {
+                  "label": "G. S. Sardesai, New History of the Marathas"
+                }
+              ],
+              "layers": {
+                "B": "IN04-B",
+                "S": "IN04-S",
+                "F": "IN04-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "5%",
+                  "b": "8%",
+                  "w": "34%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "IN05",
+              "anchor": "ranjit-singhs-stables",
+              "label": "Lahore, historic Punjab",
+              "title": "Ranjit Singh's stables",
+              "body": [
+                "Maharaja Ranjit Singh ruled the Sikh Empire from Lahore, in historic Punjab, from 1799 until his death in 1839. Lahore is today in Pakistan. He built one of the strongest armies in Asia, with regular cavalry trained alongside its traditional horsemen.",
+                "His love of horses was famous. European visitors to his court described stables of fine horses from Punjab, Central Asia and beyond, shown in trappings of gold, silver and embroidered cloth. He went to great lengths to acquire horses he admired, and visitors wrote that he would talk about them for hours."
+              ],
+              "sources": [
+                {
+                  "label": "Khushwant Singh, Ranjit Singh: Maharaja of the Punjab (1962)"
+                },
+                {
+                  "label": "Emily Eden and William Osborne, travel accounts of the 1838 visit"
+                }
+              ],
+              "layers": {
+                "B": "IN05-B",
+                "S": "IN05-S",
+                "F": "IN05-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "5%",
+                  "b": "8%",
+                  "w": "34%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "IN06",
+              "anchor": "manipurs-polo-ponies",
+              "label": "Imphal, Manipur",
+              "title": "Manipur's polo ponies",
+              "body": [
+                "In Manipur, in north-east India, people have long played sagol kangjei: polo on the small, quick Manipuri pony. The game was part of court life and festivals, played on open grounds such as Mapal Kangjeibung in Imphal, often described as one of the oldest polo grounds still in use.",
+                "British officers in neighbouring Cachar learned the game in the 1850s and founded a club at Silchar in 1859. From there polo spread across India and to Britain, and on to the world. The Manipuri pony itself is now rare, and local breeders work to protect it."
+              ],
+              "sources": [
+                {
+                  "label": "Horace A. Laffaye, The Evolution of Polo (2009)"
+                },
+                {
+                  "label": "Government of Manipur, Manipuri pony conservation notes"
+                }
+              ],
+              "layers": {
+                "B": "IN06-B",
+                "S": "IN06-S",
+                "F": "IN06-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "5%",
+                  "b": "8%",
+                  "w": "32%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "IN07",
+              "anchor": "the-riders-who-reached-haifa",
+              "label": "Haifa, 1918",
+              "title": "The riders who reached Haifa",
+              "body": [
+                "On 23 September 1918, in the last months of the First World War, the Jodhpur and Mysore Lancers rode against the town of Haifa, then held by Ottoman and German forces. Attacking with lances across difficult ground near the Kishon river, they took the town in a single afternoon.",
+                "Major Dalpat Singh of the Jodhpur Lancers was among those killed. The Teen Murti memorial in New Delhi honours the Indian cavalry of the campaign, and the Indian Army marks 23 September as Haifa Day. It is often described as one of the last cavalry charges of its kind."
+              ],
+              "sources": [
+                {
+                  "label": "Official History of the War: Military Operations, Egypt and Palestine, vol. II"
+                },
+                {
+                  "label": "Indian Army, Haifa Day commemorations"
+                }
+              ],
+              "layers": {
+                "B": "IN07-B",
+                "S": "IN07-S",
+                "F": "IN07-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "5%",
+                  "b": "6%",
+                  "w": "38%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "related": [
+        {
+          "href": "/story/rani-lakshmibai",
+          "label": "Rani Lakshmibai",
+          "blurb": "The queen who would not give up Jhansi. A scroll story in eight scenes."
+        },
+        {
+          "href": "/story/pratap-chetak",
+          "label": "Pratap & Chetak",
+          "blurb": "Six painted chapters from Mewar, 1576."
+        },
+        {
+          "href": "/story/alexander-bucephalus",
+          "label": "Alexander & Bucephalus",
+          "blurb": "From Macedon to the Hydaspes."
+        },
+        {
+          "href": "/history/world",
+          "label": "Seven roads of the world's horse",
+          "blurb": "The companion anthology."
+        }
+      ]
+    },
+    {
+      "route": "/history/world",
+      "format": "anthology",
+      "title": "Seven Roads of the World's Horse · An Illustrated History",
+      "description": "An illustrated vertical scroll of horsemanship across the world: Xenophon, the Silk Roads, the Mongol relay, the Bedouin mare, the mounted archer, Napoleon's Marengo and the veterinary lines of the First World War.",
+      "opening": {
+        "label": "An illustrated history · The world",
+        "inscription": "Seven roads",
+        "voice": "of the world's horse.",
+        "lede": "Across three thousand years and four continents, people learned what horses need. Seven scenes, painted in the manner of the miniature, each with its sources.",
+        "asset": "WO00"
+      },
+      "chapters": [
+        {
+          "id": "world-scenes",
+          "numeral": "",
+          "title": "Seven roads",
+          "scenes": [
+            {
+              "id": "WO01",
+              "anchor": "xenophon-understanding-the-horse",
+              "label": "Athens, 4th century BC",
+              "title": "Xenophon: understanding the horse",
+              "body": [
+                "Xenophon was an Athenian soldier and writer who lived from about 430 to 354 BC. His short book On Horsemanship is one of the oldest complete works on the subject to survive anywhere.",
+                "Much of it still reads as good advice. Choose a horse by looking first at its feet. Never handle a horse in anger, he warns, because anger acts without forethought. Teach by reward rather than force, and lead a nervous horse calmly toward what frightens it until it learns there is nothing to fear. The first rule at BSAH is the same."
+              ],
+              "sources": [
+                {
+                  "label": "Xenophon, On Horsemanship (Peri Hippikes)"
+                }
+              ],
+              "layers": {
+                "B": "WO01-B",
+                "S": "WO01-S",
+                "F": "WO01-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "5%",
+                  "b": "8%",
+                  "w": "32%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "WO02",
+              "anchor": "horses-along-the-silk-roads",
+              "label": "The Silk Roads",
+              "title": "Horses along the Silk Roads",
+              "body": [
+                "The Silk Roads were not one road but many routes linking China, Central Asia, Persia and the Mediterranean. Silk moved west; horses were among the most valued goods moving east.",
+                "In the second century BC the Han emperor Wudi sent armies across the mountains to Ferghana, in Central Asia, to obtain its famous 'heavenly horses'. For centuries after, Chinese states traded silk and later tea for horses from the steppe and the high passes. Caravans crossed mountain routes such as those of the Pamirs, and the horse was both cargo and companion."
+              ],
+              "sources": [
+                {
+                  "label": "Sima Qian, Records of the Grand Historian, ch. 123"
+                },
+                {
+                  "label": "Valerie Hansen, The Silk Road: A New History (2012)"
+                }
+              ],
+              "layers": {
+                "B": "WO02-B",
+                "S": "WO02-S",
+                "F": "WO02-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "5%",
+                  "b": "8%",
+                  "w": "30%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              },
+              "relief": "WO02"
+            },
+            {
+              "id": "WO03",
+              "anchor": "the-relay-across-the-steppe",
+              "label": "The Mongol Empire, 13th century",
+              "title": "The relay across the steppe",
+              "body": [
+                "The Mongol Empire stretched from Korea to eastern Europe. To hold it together the Mongols built the yam, a relay system of stations along the main routes where official riders could find food, shelter and fresh horses.",
+                "A messenger carrying the right tablet of authority could change horses at each station and keep moving, so news crossed the empire far faster than any single horse could carry it. Marco Polo described the stations with amazement. The system depended on the herds kept at every post, and on the people who looked after them."
+              ],
+              "qualification": "Marco Polo's figures for the number of stations and horses are not reliable and are not repeated here.",
+              "sources": [
+                {
+                  "label": "Marco Polo, The Travels, book II"
+                },
+                {
+                  "label": "Adam J. Silverstein, Postal Systems in the Pre-Modern Islamic World (2007)"
+                }
+              ],
+              "layers": {
+                "B": "WO03-B",
+                "S": "WO03-S",
+                "F": "WO03-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "5%",
+                  "b": "8%",
+                  "w": "36%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "WO04",
+              "anchor": "the-horse-beside-the-tent",
+              "label": "Arabia",
+              "title": "The horse beside the tent",
+              "body": [
+                "Among the Bedouin of Arabia, a good mare was one of a family's most precious possessions. Accounts from the nineteenth century describe mares kept close to the tent, sharing water and shade with the household, handled from foalhood by children and adults alike.",
+                "Bloodlines were remembered and recited rather than written, traced through the mother's line into named strains. Horses bred this way, carried west by traders and travellers, became the foundation of the Arabian breed and influenced many others, including the Thoroughbred. Closeness and calm handling were part of the breeding."
+              ],
+              "interpretation": true,
+              "qualification": "The tent scene is an artistic interpretation drawn from nineteenth-century travellers' accounts.",
+              "sources": [
+                {
+                  "label": "Lady Anne Blunt, Bedouin Tribes of the Euphrates (1879)"
+                },
+                {
+                  "label": "Peter Upton, The Classic Arab Horse"
+                }
+              ],
+              "layers": {
+                "B": "WO04-B",
+                "S": "WO04-S",
+                "F": "WO04-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "5%",
+                  "b": "8%",
+                  "w": "34%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "WO05",
+              "anchor": "the-mounted-archer",
+              "label": "The steppe",
+              "title": "The mounted archer",
+              "body": [
+                "For more than two thousand years, peoples of the Eurasian steppe, from the Scythians and Parthians to the Huns and Mongols, fought and hunted as mounted archers. They used short composite bows of wood, horn and sinew, powerful enough to shoot from the saddle.",
+                "The skill was learned in childhood. A rider had to guide the horse with legs and balance alone, leaving both hands for the bow, and shoot to the side or even behind while moving. Today horseback archery is practised again as a sport in Mongolia, Korea, Hungary and beyond."
+              ],
+              "sources": [
+                {
+                  "label": "Herodotus, Histories 4"
+                },
+                {
+                  "label": "Christopher I. Beckwith, Empires of the Silk Road (2009)"
+                }
+              ],
+              "layers": {
+                "B": "WO05-B",
+                "S": "WO05-S",
+                "F": "WO05-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "5%",
+                  "b": "8%",
+                  "w": "36%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "WO06",
+              "anchor": "napoleon-and-marengo",
+              "label": "France, 1800–1815",
+              "title": "Napoleon and Marengo",
+              "body": [
+                "Marengo was a small grey Arab stallion, said to have come from Egypt after the French campaign of 1798–99 and named after Napoleon's victory at Marengo in 1800. He is remembered as one of the horses Napoleon rode in many campaigns.",
+                "After Waterloo in 1815 he was taken to England, where he lived until 1831. His skeleton is now at the National Army Museum in London. Jacques-Louis David painted Napoleon crossing the Alps on a rearing horse; in fact he crossed on a sure-footed mule, as a later painter showed."
+              ],
+              "qualification": "Much of Marengo's story, including his age and service record, rests on tradition and has been questioned by historians.",
+              "sources": [
+                {
+                  "label": "National Army Museum, London: Marengo"
+                },
+                {
+                  "label": "Paul Delaroche, Bonaparte Crossing the Alps (1850)"
+                }
+              ],
+              "layers": {
+                "B": "WO06-B",
+                "S": "WO06-S",
+                "F": "WO06-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "5%",
+                  "b": "8%",
+                  "w": "30%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            },
+            {
+              "id": "WO07",
+              "anchor": "behind-the-lines",
+              "label": "The First World War, 1914–1918",
+              "title": "Behind the lines",
+              "body": [
+                "Horses and mules were essential in the First World War. They hauled guns, ambulances and supplies through mud that stopped motor lorries. Millions served, on every front.",
+                "Behind the lines, veterinary hospitals treated wounds, exhaustion, mange and lameness, and returned many animals to work. Army veterinary corps, among them the British Army Veterinary Corps and Indian veterinary staff, ran hospitals, convalescent depots and mobile sections. After the war Dorothy Brooke found former war horses working in Cairo and in 1934 founded the hospital that became the charity Brooke."
+              ],
+              "sources": [
+                {
+                  "label": "Royal Army Veterinary Corps Museum"
+                },
+                {
+                  "label": "Brooke, history of the charity"
+                }
+              ],
+              "layers": {
+                "B": "WO07-B",
+                "S": "WO07-S",
+                "F": "WO07-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "5%",
+                  "b": "8%",
+                  "w": "36%"
+                },
+                "m": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "88%"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "related": [
+        {
+          "href": "/story/alexander-bucephalus",
+          "label": "Alexander & Bucephalus",
+          "blurb": "A horse nobody could settle. A scroll story in eight scenes."
+        },
+        {
+          "href": "/story/rani-lakshmibai",
+          "label": "Rani Lakshmibai",
+          "blurb": "The queen who would not give up Jhansi."
+        },
+        {
+          "href": "/story/pratap-chetak",
+          "label": "Pratap & Chetak",
+          "blurb": "Six painted chapters from Mewar, 1576."
+        },
+        {
+          "href": "/history/india",
+          "label": "Seven roads of the Indian horse",
+          "blurb": "The companion anthology."
+        }
+      ]
+    },
+    {
+      "route": "/story/rani-lakshmibai",
+      "format": "personal",
+      "title": "Rani Lakshmibai of Jhansi · A Scroll Story",
+      "description": "Eight painted scenes from the life of Rani Lakshmibai: learning to ride at Bithur, the annexation of Jhansi, the siege of 1858, the night she left the fort and the road to Gwalior, with tradition and record told apart.",
+      "opening": {
+        "label": "A scroll story · Jhansi, 1828–1858",
+        "inscription": "Rani Lakshmibai",
+        "voice": "who would not give up Jhansi.",
+        "lede": "A queen, a city and the year that made her a legend. Scroll to unroll the painting, or read the story straight through."
+      },
+      "chapters": [
+        {
+          "id": "chapter-the-rider",
+          "numeral": "I",
+          "title": "The rider",
+          "scenes": [
+            {
+              "id": "JH01",
+              "anchor": "the-rider-and-the-city",
+              "label": "Jhansi, Bundelkhand",
+              "title": "The rider and the city",
+              "body": [
+                "Jhansi stands in Bundelkhand, in central India. Its fort sits on a rocky hill above the town, built in the early seventeenth century. In 1857 and 1858 the woman who ruled from it, Rani Lakshmibai, became one of the most remembered figures of the uprising against the East India Company."
+              ],
+              "sources": [
+                {
+                  "label": "Jhansi Fort, Archaeological Survey of India listing"
+                },
+                {
+                  "label": "Tapti Roy, Raj of the Rani (2006)"
+                }
+              ],
+              "layers": {
+                "B": "JH01-B",
+                "S": "JH01-S",
+                "F": "JH01-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "6%",
+                  "b": "6%",
+                  "w": "34%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              },
+              "relief": "JH01"
+            },
+            {
+              "id": "JH02",
+              "anchor": "learning-to-ride",
+              "label": "Bithur, the 1830s",
+              "title": "Learning to ride",
+              "body": [
+                "She was born Manikarnika Tambe in Varanasi, probably in the late 1820s. Her father served at the court of the former Peshwa at Bithur, near Kanpur. There, accounts say, she learned to ride and to handle a sword, unusual skills for a girl of her time."
+              ],
+              "qualification": "Her year of birth is debated, and most details of her childhood come from biographies written after her death.",
+              "sources": [
+                {
+                  "label": "Joyce Lebra-Chapman, The Rani of Jhansi (1986)"
+                },
+                {
+                  "label": "D. B. Parasnis, Jhansi ki Rani Lakshmibai (Marathi, 1894)"
+                }
+              ],
+              "layers": {
+                "B": "JH02-B",
+                "S": "JH02-S",
+                "F": "JH02-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "6%",
+                  "b": "6%",
+                  "w": "36%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "chapter-the-kingdom",
+          "numeral": "II",
+          "title": "The kingdom",
+          "scenes": [
+            {
+              "id": "JH03",
+              "anchor": "a-queens-responsibility",
+              "label": "Jhansi, 1842–1854",
+              "title": "A queen's responsibility",
+              "body": [
+                "She married Gangadhar Rao, the Raja of Jhansi, in the early 1840s and took the name Lakshmibai. Their son died in infancy. Before the Raja died in 1853 the couple adopted a boy, Damodar Rao. The Company refused to recognise him as heir and annexed Jhansi in 1854."
+              ],
+              "qualification": "The annexation applied the Company's 'doctrine of lapse'. She petitioned against it, without success.",
+              "sources": [
+                {
+                  "label": "Lord Dalhousie's minutes on Jhansi, 1854"
+                },
+                {
+                  "label": "Tapti Roy, Raj of the Rani (2006)"
+                }
+              ],
+              "layers": {
+                "B": "JH03-B",
+                "S": "JH03-S",
+                "F": "JH03-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "6%",
+                  "b": "6%",
+                  "w": "30%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            },
+            {
+              "id": "JH04",
+              "anchor": "preparing-jhansi",
+              "label": "Jhansi, 1857",
+              "title": "Preparing Jhansi",
+              "body": [
+                "In June 1857 Company soldiers at Jhansi rose in revolt, and Europeans in the town were killed. Lakshmibai then governed Jhansi. Over the following months she raised troops, repaired the walls and had guns made for the fort, as a British force advanced through central India."
+              ],
+              "qualification": "Historians still debate what part, if any, she played in the events of June 1857.",
+              "sources": [
+                {
+                  "label": "Christopher Hibbert, The Great Mutiny (1978)"
+                },
+                {
+                  "label": "Tapti Roy, Raj of the Rani (2006)"
+                }
+              ],
+              "layers": {
+                "B": "JH04-B",
+                "S": "JH04-S",
+                "F": "JH04-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "6%",
+                  "b": "6%",
+                  "w": "40%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "chapter-the-siege",
+          "numeral": "III",
+          "title": "The siege",
+          "scenes": [
+            {
+              "id": "JH05",
+              "anchor": "the-siege",
+              "label": "Jhansi, March–April 1858",
+              "title": "The siege",
+              "body": [
+                "In March 1858 the Central India Field Force under Sir Hugh Rose surrounded Jhansi. For about two weeks guns fired on the walls and the defenders fired back. A relief army led by Tatya Tope was turned back at the Betwa river, and in early April the town was stormed."
+              ],
+              "sources": [
+                {
+                  "label": "Sir Hugh Rose's dispatches, 1858"
+                },
+                {
+                  "label": "Saul David, The Indian Mutiny (2002)"
+                }
+              ],
+              "layers": {
+                "B": "JH05-B",
+                "S": "JH05-S",
+                "F": "JH05-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "6%",
+                  "b": "4%",
+                  "w": "44%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            },
+            {
+              "id": "JH06",
+              "anchor": "leaving-the-fort",
+              "label": "Jhansi to Kalpi, April 1858",
+              "title": "Leaving the fort",
+              "body": [
+                "As the town fell, Lakshmibai left Jhansi at night with a small escort and her adopted son, and rode north-east towards Kalpi. Popular tradition says she leapt from the fort wall on horseback with the boy tied to her back. It is the image most people know."
+              ],
+              "qualification": "The leap is tradition. Contemporary records establish only that she escaped by night and reached Kalpi.",
+              "sources": [
+                {
+                  "label": "Joyce Lebra-Chapman, The Rani of Jhansi (1986)"
+                },
+                {
+                  "label": "Harleen Singh, The Rani of Jhansi: Gender, History, and Fable in India (2014)"
+                }
+              ],
+              "layers": {
+                "B": "JH06-B",
+                "S": "JH06-S",
+                "F": "JH06-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "6%",
+                  "b": "10%",
+                  "w": "42%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "chapter-the-memory",
+          "numeral": "IV",
+          "title": "The road and the memory",
+          "scenes": [
+            {
+              "id": "JH07",
+              "anchor": "the-road-to-gwalior",
+              "label": "Gwalior, June 1858",
+              "title": "The road to Gwalior",
+              "body": [
+                "From Kalpi she joined Tatya Tope and Rao Sahib. In June 1858 their forces took Gwalior. Company troops attacked within weeks, and Lakshmibai was killed in the fighting near Gwalior on 17 or 18 June 1858, still on horseback according to most accounts."
+              ],
+              "qualification": "Accounts differ on the exact date and on how she died.",
+              "sources": [
+                {
+                  "label": "Sir Hugh Rose's dispatches, 1858"
+                },
+                {
+                  "label": "Saul David, The Indian Mutiny (2002)"
+                }
+              ],
+              "layers": {
+                "B": "JH07-B",
+                "S": "JH07-S",
+                "F": "JH07-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "6%",
+                  "b": "6%",
+                  "w": "40%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            },
+            {
+              "id": "JH08",
+              "anchor": "what-remains",
+              "label": "Remembrance",
+              "title": "What remains",
+              "body": [
+                "Her memorial stands in Gwalior. Subhadra Kumari Chauhan's poem 'Jhansi ki Rani' made her a household name, and statues of her on horseback stand across India. What she is remembered for is not one horse or one leap, but refusing to give up the city she governed."
+              ],
+              "qualification": "No single horse can be identified through her life. The horses named in later songs and stories belong to legend.",
+              "sources": [
+                {
+                  "label": "Subhadra Kumari Chauhan, 'Jhansi ki Rani' (1930)"
+                },
+                {
+                  "label": "Harleen Singh (2014)"
+                }
+              ],
+              "layers": {
+                "B": "JH08-B",
+                "S": "JH08-S",
+                "F": "JH08-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "6%",
+                  "b": "6%",
+                  "w": "34%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "afterword": {
+        "label": "Afterword",
+        "inscription": "Record",
+        "voice": "and remembrance.",
+        "paragraphs": [
+          "Lakshmibai's life is known from two kinds of source. The first is the record: East India Company correspondence about the annexation of Jhansi, her own petitions, and the dispatches of the officers who besieged the town and fought at Gwalior. These fix the outline: the adoption of Damodar Rao, the annexation of 1854, the siege of March and April 1858, her escape to Kalpi and her death near Gwalior in June 1858.",
+          "The second is remembrance: Marathi and Hindi biographies written decades later, folk songs, and Subhadra Kumari Chauhan's poem of 1930. They give the scenes most people picture, including the leap from the fort wall with her son on her back. These stories matter because they show how India came to remember her, but they are not the same as evidence, and this scroll labels them as tradition.",
+          "Historians also disagree about her part in the killing of Europeans at Jhansi in June 1857. Some contemporaries blamed her; others, then and since, argue she had no control over the soldiers involved. The scroll does not settle that argument; it tells you that it exists.",
+          "Damodar Rao survived the war and lived until 1906. In 1943 the Indian National Army named its women's regiment after her. For BSAH cadets the lesson is the one in her riding: composure, skill learned early, and the courage to keep going when the road is hard."
+        ]
+      },
+      "related": [
+        {
+          "href": "/story/pratap-chetak",
+          "label": "Pratap & Chetak",
+          "blurb": "Six painted chapters from Mewar, 1576."
+        },
+        {
+          "href": "/story/alexander-bucephalus",
+          "label": "Alexander & Bucephalus",
+          "blurb": "A horse nobody could settle, and the boy who did."
+        },
+        {
+          "href": "/history/india",
+          "label": "Seven roads of the Indian horse",
+          "blurb": "From Marwar to Haifa."
+        }
+      ]
+    },
+    {
+      "route": "/story/alexander-bucephalus",
+      "format": "personal",
+      "title": "Alexander and Bucephalus · A Scroll Story",
+      "description": "Eight painted scenes of Alexander and his horse Bucephalus: the horse nobody could settle, the turn toward the sun, the long march east, the Hydaspes and Porus, and the city named after a horse, told from Plutarch and Arrian.",
+      "opening": {
+        "label": "A scroll story · Macedon to the Hydaspes, c. 344–326 BC",
+        "inscription": "Alexander and Bucephalus",
+        "voice": "a horse nobody could settle.",
+        "lede": "The best-known horse of the ancient world, as the ancient writers told it. Scroll to unroll the painting, or read the story straight through."
+      },
+      "chapters": [
+        {
+          "id": "chapter-the-horse",
+          "numeral": "I",
+          "title": "The horse",
+          "scenes": [
+            {
+              "id": "AL01",
+              "anchor": "a-horse-nobody-could-settle",
+              "label": "Macedon, Alexander's boyhood",
+              "title": "A horse nobody could settle",
+              "body": [
+                "Plutarch tells that a horse dealer from Thessaly brought a large black horse to King Philip II of Macedon, asking a very high price. The horse reared and would let no one mount. Philip ordered it led away. His young son Alexander said they were losing a fine horse through clumsiness."
+              ],
+              "qualification": "Told by Plutarch, writing about four hundred years later. He gives the price as thirteen talents.",
+              "sources": [
+                {
+                  "label": "Plutarch, Life of Alexander 6"
+                }
+              ],
+              "layers": {
+                "B": "AL01-B",
+                "S": "AL01-S",
+                "F": "AL01-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "6%",
+                  "b": "6%",
+                  "w": "36%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            },
+            {
+              "id": "AL02",
+              "anchor": "turning-toward-the-sun",
+              "label": "Macedon, Alexander's boyhood",
+              "title": "Turning toward the sun",
+              "body": [
+                "Alexander, Plutarch writes, had noticed that the horse was frightened by its own moving shadow. He took the bridle and turned the horse to face the sun, so the shadow fell behind it. He spoke to it quietly, waited until it calmed, and only then mounted. The horse was Bucephalus."
+              ],
+              "qualification": "Plutarch's account. No earlier source for the shadow episode survives.",
+              "sources": [
+                {
+                  "label": "Plutarch, Life of Alexander 6"
+                }
+              ],
+              "layers": {
+                "B": "AL02-B",
+                "S": "AL02-S",
+                "F": "AL02-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "6%",
+                  "b": "6%",
+                  "w": "38%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "chapter-the-partnership",
+          "numeral": "II",
+          "title": "The partnership",
+          "scenes": [
+            {
+              "id": "AL03",
+              "anchor": "trust-takes-time",
+              "label": "Pella, Macedon",
+              "title": "Trust takes time",
+              "body": [
+                "His name means 'ox-head', perhaps from a brand or the broad shape of his head. Ancient writers say that once Bucephalus wore his royal trappings he would accept no rider but Alexander. A partnership like that is built in ordinary days of handling, feeding and riding, long before any battle."
+              ],
+              "interpretation": true,
+              "qualification": "The everyday scene is an artistic interpretation; the explanations of his name come from Arrian and others.",
+              "sources": [
+                {
+                  "label": "Arrian, Anabasis 5.19"
+                },
+                {
+                  "label": "Plutarch, Life of Alexander 6, 32"
+                }
+              ],
+              "layers": {
+                "B": "AL03-B",
+                "S": "AL03-S",
+                "F": "AL03-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "6%",
+                  "b": "6%",
+                  "w": "34%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            },
+            {
+              "id": "AL04",
+              "anchor": "across-the-sea-along-the-roads",
+              "label": "The Hellespont, 334 BC",
+              "title": "Across the sea, along the roads",
+              "body": [
+                "In 334 BC Alexander, now king, crossed the Hellespont into Asia. Over the next eight years his army marched through Anatolia, the Levant, Egypt, Mesopotamia and Persia. Ancient writers say Bucephalus carried him in his greatest battles, though by then other horses did the daily work of the march."
+              ],
+              "qualification": "The route on the map is simplified from the main stages recorded by Arrian.",
+              "sources": [
+                {
+                  "label": "Arrian, Anabasis 1–3"
+                },
+                {
+                  "label": "Robin Lane Fox, Alexander the Great (1973)"
+                }
+              ],
+              "layers": {
+                "B": "AL04-B",
+                "S": "AL04-S",
+                "F": "AL04-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "6%",
+                  "b": "6%",
+                  "w": "30%"
+                },
+                "m": {
+                  "r": "4%",
+                  "b": "4%",
+                  "w": "40%"
+                }
+              },
+              "relief": "AL04"
+            }
+          ]
+        },
+        {
+          "id": "chapter-far-country",
+          "numeral": "III",
+          "title": "Far country",
+          "scenes": [
+            {
+              "id": "AL05",
+              "anchor": "beyond-familiar-country",
+              "label": "The Hindu Kush, 329–327 BC",
+              "title": "Beyond familiar country",
+              "body": [
+                "Beyond Persia the army crossed the Hindu Kush into Bactria and Sogdiana. Somewhere on these marches, the ancient accounts say, Bucephalus was seized by local people. Alexander threatened their whole land unless the horse came back. It was returned, and he treated the people well."
+              ],
+              "qualification": "Plutarch and Arrian name different peoples and places for the theft.",
+              "sources": [
+                {
+                  "label": "Plutarch, Life of Alexander 44"
+                },
+                {
+                  "label": "Arrian, Anabasis 5.19"
+                }
+              ],
+              "layers": {
+                "B": "AL05-B",
+                "S": "AL05-S",
+                "F": "AL05-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "6%",
+                  "b": "6%",
+                  "w": "40%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            },
+            {
+              "id": "AL06",
+              "anchor": "at-the-hydaspes",
+              "label": "The Hydaspes, 326 BC",
+              "title": "At the Hydaspes",
+              "body": [
+                "In 326 BC Alexander reached the Hydaspes, the river now called the Jhelum, in Punjab. On the far bank stood King Porus, who ruled the lands beyond, with cavalry, infantry and war elephants. Alexander crossed in a storm. Porus fought on after his army broke, and Alexander later restored him as king."
+              ],
+              "qualification": "Known through Greek and Roman writers; no account from Porus's side survives.",
+              "sources": [
+                {
+                  "label": "Arrian, Anabasis 5.8–19"
+                },
+                {
+                  "label": "Plutarch, Life of Alexander 60"
+                }
+              ],
+              "layers": {
+                "B": "AL06-B",
+                "S": "AL06-S",
+                "F": "AL06-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "6%",
+                  "b": "4%",
+                  "w": "44%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "chapter-remembrance",
+          "numeral": "IV",
+          "title": "Remembrance",
+          "scenes": [
+            {
+              "id": "AL07",
+              "anchor": "the-companion-is-gone",
+              "label": "The Hydaspes, 326 BC",
+              "title": "The companion is gone",
+              "body": [
+                "Bucephalus died at the Hydaspes. Arrian writes that he was not wounded but died of age and exhaustion, at about thirty. Other writers said he died of wounds from the battle. All agree that Alexander grieved for him as for a friend."
+              ],
+              "qualification": "Competing ancient accounts: Arrian and Onesicritus give old age; others give wounds.",
+              "sources": [
+                {
+                  "label": "Arrian, Anabasis 5.19"
+                },
+                {
+                  "label": "Plutarch, Life of Alexander 61"
+                }
+              ],
+              "layers": {
+                "B": "AL07-B",
+                "S": "AL07-S",
+                "F": "AL07-F"
+              },
+              "side": "left",
+              "subject": {
+                "d": {
+                  "r": "6%",
+                  "b": "6%",
+                  "w": "40%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            },
+            {
+              "id": "AL08",
+              "anchor": "a-name-remembered",
+              "label": "Bucephala, 326 BC",
+              "title": "A name remembered",
+              "body": [
+                "Near the river Alexander founded a city and named it Bucephala, after the horse. Its exact site has never been found, though it lay somewhere near the modern town of Jhelum, in Pakistan. The name outlived the city, carried by historians, painters and storytellers for more than two thousand years."
+              ],
+              "qualification": "The location of Bucephala is unknown; several sites have been proposed.",
+              "sources": [
+                {
+                  "label": "Arrian, Anabasis 5.19"
+                },
+                {
+                  "label": "Plutarch, Life of Alexander 61"
+                }
+              ],
+              "layers": {
+                "B": "AL08-B",
+                "S": "AL08-S",
+                "F": "AL08-F"
+              },
+              "side": "right",
+              "subject": {
+                "d": {
+                  "x": "6%",
+                  "b": "6%",
+                  "w": "34%"
+                },
+                "m": {
+                  "x": "8%",
+                  "b": "8%",
+                  "w": "84%"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "afterword": {
+        "label": "Afterword",
+        "inscription": "How we know",
+        "voice": "what we know.",
+        "paragraphs": [
+          "Nothing written by Alexander's own companions survives complete. What we have are later histories that used those lost works: Arrian's Anabasis, written in the second century AD from the memoirs of Ptolemy and Aristobulus, and Plutarch's Life of Alexander, written around the same time. Both lived roughly four centuries after the events.",
+          "The taming scene, with the horse afraid of its shadow, comes from Plutarch. It is a story about attention: Alexander succeeds not by force but by noticing what the horse fears. Whether it happened exactly so, no one can now say, and this scroll attributes it to Plutarch rather than presenting it as fact.",
+          "Porus is often reduced to the king Alexander defeated. The Greek writers themselves describe him as tall, brave and dignified in defeat, and say Alexander returned his kingdom to him and enlarged it. His own people's account of the battle has not survived, which is a reminder of whose stories the record keeps.",
+          "The ancient writers disagree about how Bucephalus died, and about where the city named for him stood. We give both accounts. For BSAH cadets the lesson is the first scene: a frightened horse, a rider who looks before acting, and trust that has to be earned."
+        ]
+      },
+      "related": [
+        {
+          "href": "/story/rani-lakshmibai",
+          "label": "Rani Lakshmibai",
+          "blurb": "The queen who would not give up Jhansi."
+        },
+        {
+          "href": "/story/pratap-chetak",
+          "label": "Pratap & Chetak",
+          "blurb": "Six painted chapters from Mewar, 1576."
+        },
+        {
+          "href": "/history/world",
+          "label": "Seven roads of the world's horse",
+          "blurb": "From Xenophon to the veterinary lines of 1914–18."
+        }
+      ]
+    }
+  ]
+}

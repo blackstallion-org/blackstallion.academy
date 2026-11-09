@@ -53,6 +53,8 @@ export const TOTAL_REELS = reels.length;
  */
 export const tools = [
   { n: 19, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
+  { n: 20, href: "/history/india", act: "legend" as Act, title: "Horses of India", badge: "Painted" },
+  { n: 21, href: "/history/world", act: "legend" as Act, title: "Horses of the World", badge: "Painted" },
 ] as const;
 
 export function reelFor(pathname: string): Reel | undefined {
@@ -101,6 +103,7 @@ export const corridors = [
 export const legalNav = [
   { label: "About", href: "/about" },
   { label: "Lore of the Bards", href: "/lore" },
+  { label: "Painted histories", href: "/history/india" },
   { label: "Journal", href: "/journal" },
   { label: "The Command", href: "/command" },
   { label: "Privacy", href: "/privacy" },
