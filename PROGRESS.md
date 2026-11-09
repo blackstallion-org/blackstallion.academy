@@ -860,9 +860,10 @@ workspace); no live payment, e-mail or signed-in run was possible.
   itself (ffmpeg `delogo` over x 1695, y 854, 90×92 of the 1920×1080 source) and the poster re-made, so it is gone on /cadets and /journal
   at every size. Checked on frames at 3 s and 7 s. File 1.30 MB.
 
-## 2026-11-09 · Sound menu: three choices
+## 2026-11-09 · Sound menu: same icon row, three clear sounds
 
-- The top-right sound menu had four icon buttons (theme, horse, open-range music, mute). It is now three labelled rows (owner's request):
-  **All sound** (theme song + horse sounds), **Horse sounds** (no song), **Mute**. The song-alone option is gone from the menu; the
-  `music` mode stays in `lib/audio/mode.ts` because the /worlds film's own sound toggle uses it. Button reads ALL / HORSE / OFF.
-  Checked in the page: three `menuitemradio` items, no horizontal overflow at 468 px. Not heard on real speakers.
+- The sound menu keeps its icon row (note, horse, waveform, mute). The three sounds are now named by what they play, in the tooltip and
+  for screen readers: **All sound** (theme song + horse sounds), **Horse sounds** (no song), **Theme song only** (no horse sounds), then
+  Mute. The button reads ALL / HORSE / MUSIC / OFF. Tooltips wrap (max 12 rem) so the longer text stays on screen.
+  (An earlier version of this entry turned the menu into text rows; the owner asked to keep the icon UI, so that was reverted.)
+
