@@ -41,7 +41,7 @@ export function HistoryArt({ id, sizes, priority, decorative, className }: Props
       sizes={sizes}
       priority={priority}
       loading={priority ? undefined : "lazy"}
-      quality={90}
+      quality={75}
       className={className}
       style={a.focal ? { objectPosition: a.focal } : undefined}
       aria-hidden={decorative || undefined}

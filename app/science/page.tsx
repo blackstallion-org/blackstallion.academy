@@ -5,7 +5,6 @@ import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { ComparisonLedger, ScienceTitle } from "@/components/sections/science/ScienceScenes";
-import { DualBody } from "@/components/sections/anatomy/DualBody";
 import { claims, comparison, statusColor } from "@/lib/content/science";
 import { cn } from "@/lib/utils";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
@@ -20,10 +19,7 @@ export default function SciencePage() {
   return (
     <>
       <ScienceTitle />
-      {/* One horse and one rider on this page (R15/R16, 2 Nov 2026): the dual-body study, coat first, with bone, muscle and the
-          posture line as optional views and walk, trot and canter. The stride laboratory, which used to follow it here with the same
-          horse and rider again, lives on its own route, /stride. */}
-      <DualBody />
+      {/* The 3D horse-and-rider study was removed from this page at the owner's request (10 Nov 2026); it remains on /anatomy. */}
       <section aria-label="The stride laboratory" className="gutter relative py-16 md:py-20">
         <Link href="/stride" className="group flex flex-wrap items-baseline justify-between gap-4 border-y border-line py-8 hover:border-gold">
           <span>

@@ -1,3 +1,4 @@
+import { asset } from "@/lib/content/asset";
 import type { HistoryPage, Placement, Scene } from "./types";
 
 const away = (side: Scene["side"], w: string, b = "6%", m?: Placement): Scene["subject"] => ({
@@ -142,6 +143,15 @@ export const alexander: HistoryPage = {
     { id: "chapter-far-country", numeral: "III", title: "Far country", scenes: scenes.slice(4, 6) },
     { id: "chapter-remembrance", numeral: "IV", title: "Remembrance", scenes: scenes.slice(6, 8) },
   ],
+  statue: {
+    src: asset("/images/story/alexander/statue.webp"),
+    width: 960,
+    height: 1280,
+    alt: "The bronze equestrian statue of Alexander the Great on a rearing Bucephalus, sword in hand, on the seafront at Thessaloniki",
+    caption: "Alexander on Bucephalus, in bronze, at Thessaloniki.",
+    credit: "Photograph: Yair Haklai, CC BY-SA 4.0, via Wikimedia Commons",
+    creditHref: "https://commons.wikimedia.org/wiki/File:Equestrian_statue_of_Alexander_the_Great,_Thessaloniki.jpg",
+  },
   afterword: {
     label: "Afterword",
     inscription: "How we know",
