@@ -60,7 +60,7 @@ const smooth = (e0: number, e1: number, x: number) => {
 /** Turns a scene rig into bones (in mesh space) and a skinned grid mesh over the whole cutout. */
 export function build(rig: SceneRig, aspect: number): Built {
   const S = (p: P): P => [p[0] * aspect, p[1]];
-  const bones: Bone[] = [{ role: "global", figure: -1, parent: -1, depth: 0, pivot: [0, 0] }];
+  const bones: Bone[] = [{ role: "global", figure: -1, parent: -1, depth: 0, pivot: [aspect * 0.5, 0.95] }];
   const roots: number[] = [];
   const add = (b: Omit<Bone, "depth">) => {
     bones.push({ ...b, depth: bones[b.parent].depth + 1 });

@@ -72,9 +72,9 @@ export function Atmosphere({ dir }: { dir?: number }) {
             ? { ...base, kind: 2, c: 0, x: Math.random() * w, y: seed ? Math.random() * h : h + 80, vx: 0.2 + Math.random() * 0.3, vy: -(0.25 + Math.random() * 0.35), r: 60 + Math.random() * 90, a: 0.07 + Math.random() * 0.06, max: 900 }
             : { ...base, x: Math.random() * w, y: seed ? Math.random() * h : h + 10, vx: (Math.random() - 0.3) * 0.6, vy: -(0.6 + Math.random() * 1.2), r: 1.5 + Math.random() * 2.5, a: 0.6 + Math.random() * 0.4, max: 500 };
         case "haze":
-          return { ...base, x: Math.random() * w, y: seed ? Math.random() * h : h * (0.2 + Math.random() * 0.8), vx: (Math.random() - 0.4) * 0.3, vy: -(0.05 + Math.random() * 0.15), r: Math.random() < 0.2 ? 30 + Math.random() * 50 : 2 + Math.random() * 4, a: 0.15 + Math.random() * 0.3, max: 700 };
+          return { ...base, x: Math.random() * w, y: seed ? Math.random() * h : h * (0.2 + Math.random() * 0.8), vx: (Math.random() - 0.4) * 0.3, vy: -(0.05 + Math.random() * 0.15), r: 1.5 + Math.random() * 3, a: 0.15 + Math.random() * 0.3, max: 700 };
         default:
-          return { ...base, x: seed ? Math.random() * w : -10, y: h * (0.25 + Math.random() * 0.75), vx: 0.2 + Math.random() * 0.5, vy: (Math.random() - 0.55) * 0.3, r: Math.random() < 0.15 ? 18 + Math.random() * 30 : 1.5 + Math.random() * 3, a: 0.25 + Math.random() * 0.45, max: 700 };
+          return { ...base, x: seed ? Math.random() * w : -10, y: h * (0.25 + Math.random() * 0.75), vx: 0.2 + Math.random() * 0.5, vy: (Math.random() - 0.55) * 0.3, r: 1.2 + Math.random() * 2.6, a: 0.2 + Math.random() * 0.4, max: 700 };
       }
     };
 

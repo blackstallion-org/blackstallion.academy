@@ -14,10 +14,10 @@ type Gait = { period: number; phase: Record<"FL" | "FR" | "HL" | "HR", number>; 
  * Canter: three-beat (one hind, then the diagonal pair, then the leading fore). Walk: four-beat lateral sequence.
  */
 const GAITS: Partial<Record<HorsePreset, Gait>> = {
-  gallop: { period: 0.46, phase: { HL: 0, HR: 0.09, FL: 0.36, FR: 0.46 }, swing: 13, fold: 24, pitch: 2.6, bob: 0.012, neck: 6 },
-  canter: { period: 0.64, phase: { HL: 0, HR: 0.3, FL: 0.33, FR: 0.62 }, swing: 11, fold: 20, pitch: 2, bob: 0.009, neck: 5 },
-  walk: { period: 1.2, phase: { HL: 0, FL: 0.25, HR: 0.5, FR: 0.75 }, swing: 7, fold: 14, pitch: 0.6, bob: 0.003, neck: 2.5 },
-  elephant: { period: 1.9, phase: { HL: 0, FL: 0.25, HR: 0.5, FR: 0.75 }, swing: 5, fold: 9, pitch: 0.4, bob: 0.004, neck: 3 },
+  gallop: { period: 0.46, phase: { HL: 0, HR: 0.09, FL: 0.36, FR: 0.46 }, swing: 3.5, fold: 7, pitch: 1.5, bob: 0.016, neck: 3 },
+  canter: { period: 0.64, phase: { HL: 0, HR: 0.3, FL: 0.33, FR: 0.62 }, swing: 3, fold: 5, pitch: 1.2, bob: 0.011, neck: 2.5 },
+  walk: { period: 1.2, phase: { HL: 0, FL: 0.25, HR: 0.5, FR: 0.75 }, swing: 2.2, fold: 4, pitch: 0.5, bob: 0.004, neck: 1.8 },
+  elephant: { period: 1.9, phase: { HL: 0, FL: 0.25, HR: 0.5, FR: 0.75 }, swing: 1.8, fold: 3, pitch: 0.3, bob: 0.004, neck: 2 },
 };
 
 /** A seeded pseudo-random value in 0..1. */
@@ -67,8 +67,10 @@ export function pose(bones: Bone[], figures: Figure[], t: number): Pose {
       const body = Math.sin(TAU * ph * 2 - 1.1);
       const pitch = Math.sin(TAU * ph) * g.pitch * D * fwd;
       horsePitch[fi] = pitch;
-      locals[B("root")].a = pitch;
-      locals[B("root")].ty = -Math.abs(body) * g.bob;
+      // The whole painting rides the stride: it rises and leans as one piece, so nothing stretches.
+      locals[0].a += pitch * 0.9;
+      locals[0].ty += -Math.abs(body) * g.bob;
+      locals[B("root")].a = pitch * 0.25;
       locals[B("neck")].a = -fwd * Math.sin(TAU * ph + 0.6) * g.neck * D + drift(tt, f.seed, 0.4) * D;
       locals[B("head")].a = -fwd * Math.sin(TAU * ph + 1.4) * g.neck * 0.5 * D;
       locals[B("tail")].a = -fwd * (Math.sin(TAU * ph + 2) * 5 + drift(tt, f.seed + 4, 0.8) * 4) * D;
