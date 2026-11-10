@@ -5,6 +5,33 @@ import type { HistoryPage, Scene } from "@/lib/content/history/types";
 import { HistoryArt } from "./HistoryArt";
 import { HistoryScrollRoot, ReadingToggle } from "./HistoryScrollRoot";
 import { worldFor } from "@/lib/content/history/motion";
+import Image from "next/image";
+import type { Photo } from "@/lib/content/history/types";
+
+/** A photograph of a real monument: credited and linked to its licence page, never treated as painted art. */
+function StatuePhoto({ photo, priority }: { photo: Photo; priority?: boolean }) {
+  return (
+    <figure className="mx-auto max-w-3xl">
+      <div className="hs-frame overflow-hidden">
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          width={photo.width}
+          height={photo.height}
+          sizes="(min-width: 768px) 768px, 92vw"
+          priority={priority}
+          className="h-auto w-full"
+        />
+      </div>
+      <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+        <span className="hs-voice text-lg">{photo.caption}</span>
+        <a className="hs-link font-[family-name:var(--font-sans)] text-[0.78rem]" href={photo.creditHref} rel="noopener noreferrer" target="_blank">
+          {photo.credit}
+        </a>
+      </figcaption>
+    </figure>
+  );
+}
 import { SceneArt, SceneReading } from "./Scene";
 import "./history-scroll.css";
 
@@ -122,6 +149,36 @@ export function AnthologyPage({ page }: { page: HistoryPage }) {
           <div className="hs-run" aria-hidden />
         </section>
       ))}
+      {page.feature && (
+        <section id={page.feature.id} aria-labelledby={`${page.feature.id}-h`} className="gutter relative z-10 border-t border-[var(--hs-rule)] bg-[var(--hs-ivory)] py-[clamp(4rem,10vh,8rem)]">
+          <div className="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+            <div>
+              <p className="hs-label">{page.feature.label}</p>
+              <h2 id={`${page.feature.id}-h`} className="hs-h2 mt-3">
+                {page.feature.inscription}
+                <span className="hs-voice">{page.feature.voice}</span>
+              </h2>
+              <div className="mt-6">
+                {page.feature.paragraphs.map((p, i) => (
+                  <p key={i} className="mb-5 max-w-[38rem] font-[family-name:var(--font-serif)] text-[1.12rem] leading-[1.75] text-[var(--hs-ink-soft)]">
+                    {p}
+                  </p>
+                ))}
+              </div>
+              {page.feature.qualification && <p className="hs-qual max-w-[38rem]">{page.feature.qualification}</p>}
+              <details className="hs-sources max-w-[38rem]">
+                <summary>Sources and notes</summary>
+                <ul>
+                  {page.feature.sources.map((src) => (
+                    <li key={src.label}>{src.label}</li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+            <StatuePhoto photo={page.feature.photo} />
+          </div>
+        </section>
+      )}
       <Related page={page} />
       <MissingNote page={page} />
     </HistoryScrollRoot>
@@ -184,6 +241,11 @@ export function PersonalStoryPage({ page }: { page: HistoryPage }) {
           ))}
         </div>
       ))}
+      {page.statue && (
+        <section aria-label={page.statue.caption} className="gutter relative z-10 border-t border-[var(--hs-rule)] bg-[var(--hs-ivory)] py-[clamp(4rem,10vh,8rem)]">
+          <StatuePhoto photo={page.statue} />
+        </section>
+      )}
       {page.afterword && (
         <section id="afterword" aria-labelledby="afterword-h" className="gutter border-t border-[var(--hs-rule)] py-[clamp(4rem,10vh,8rem)]">
           <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">

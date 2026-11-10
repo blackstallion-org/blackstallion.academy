@@ -60,12 +60,27 @@ export function CursorScrubVideo({ className, objectPosition = "50% 50%", fit = 
       let last = 0;
       let holdTimer = 0;
 
+      // One seek at a time: writing currentTime while the previous seek is still running makes browsers drop or queue frames,
+      // which is what made the heads stick. The newest wanted time waits and is applied as soon as the decoder is free.
+      let pending = -1;
+      const apply = (time: number) => {
+        lastWritten = time;
+        video.currentTime = time;
+      };
+      const onSeeked = () => {
+        if (pending >= 0 && Math.abs(pending - lastWritten) >= 1 / 96) apply(pending);
+        pending = -1;
+      };
+      video.addEventListener("seeked", onSeeked);
       const seekTo = (progress: number) => {
         // Clamp inside the valid duration; the last frame sits just before `duration` so it stays seekable.
         const time = Math.min(Math.max(progress * duration, 0), Math.max(duration - 0.001, 0));
         if (Math.abs(time - lastWritten) < 1 / 96) return; // less than half a frame of change: nothing to show
-        lastWritten = time;
-        video.currentTime = time;
+        if (video.seeking) {
+          pending = time;
+          return;
+        }
+        apply(time);
       };
       const frame = (now: number) => {
         const dt = Math.min((now - last) / 1000, 0.1);
@@ -141,6 +156,7 @@ export function CursorScrubVideo({ className, objectPosition = "50% 50%", fit = 
 
       detach = () => {
         cancelAnimationFrame(raf);
+        video.removeEventListener("seeked", onSeeked);
         window.clearTimeout(holdTimer);
         area.removeEventListener("pointermove", onMove as EventListener);
         area.removeEventListener("pointerleave", onLeave as EventListener);
@@ -152,14 +168,35 @@ export function CursorScrubVideo({ className, objectPosition = "50% 50%", fit = 
       };
     };
 
-    // Interaction waits for the metadata (the duration); it may already have arrived before hydration.
+    // The whole film is downloaded once and played from memory, so every seek lands on data that is already here. Streaming
+    // it made seeks into parts not yet downloaded stall (the heads froze, and only a reload with the file cached fixed it).
+    // Interaction waits for the metadata (the duration) of the in-memory copy.
     video.pause();
-    if (video.readyState >= 1) enable();
-    video.addEventListener("loadedmetadata", enable);
+    let objectUrl = "";
+    const ctrl = new AbortController();
+    fetch(SRC, { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.blob() : Promise.reject(new Error(String(r.status)))))
+      .then((blob) => {
+        if (disposed) return;
+        objectUrl = URL.createObjectURL(blob);
+        video.addEventListener("loadedmetadata", enable, { once: true });
+        video.src = objectUrl;
+        video.load();
+      })
+      .catch(() => {
+        // Fall back to streaming: interaction still works, a little less smoothly until the file has arrived.
+        if (disposed) return;
+        video.addEventListener("loadedmetadata", enable, { once: true });
+        video.preload = "auto";
+        video.src = SRC;
+        video.load();
+      });
     return () => {
       disposed = true;
+      ctrl.abort();
       video.removeEventListener("loadedmetadata", enable);
       detach?.();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, []);
 
@@ -173,11 +210,10 @@ export function CursorScrubVideo({ className, objectPosition = "50% 50%", fit = 
     >
       <video
         ref={videoRef}
-        src={SRC}
         poster={POSTER}
         muted
         playsInline
-        preload="auto"
+        preload="none"
         disablePictureInPicture
         disableRemotePlayback
         controls={false}

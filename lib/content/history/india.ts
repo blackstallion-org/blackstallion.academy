@@ -1,3 +1,4 @@
+import { asset } from "@/lib/content/asset";
 import type { HistoryPage, Scene } from "./types";
 
 const L = (n: string) => ({ B: `IN${n}-B`, S: `IN${n}-S`, F: `IN${n}-F` });
@@ -172,6 +173,31 @@ export const india: HistoryPage = {
     asset: "IN00",
   },
   chapters: [{ id: "india-scenes", numeral: "", title: "Ten roads", scenes }],
+  feature: {
+    id: "rudrama-devi",
+    label: "Warangal, 1263–1289",
+    inscription: "Rudrama Devi",
+    voice: "of the Kakatiyas.",
+    paragraphs: [
+      "Rudrama Devi ruled the Kakatiya kingdom of the eastern Deccan, from its capital at Warangal, for some twenty-six years in the thirteenth century. She was one of very few women to rule in her own right in medieval India, and her father is said to have named her heir and raised her in the duties of a prince.",
+      "She defended the kingdom against rival powers on its borders, and inscriptions record her in the dress and titles of a king. The Venetian traveller Marco Polo, who passed through the region soon after her reign, praised the ruler of the kingdom for justice and good government. Today she is remembered in Telangana as a warrior queen, and statues across the state show her on horseback.",
+    ],
+    qualification: "Her exact dates, and the story of her death in battle around 1289, rest on a few inscriptions, including one at Chandupatla, and are debated by historians. The horseback image is a modern memorial, not a portrait.",
+    sources: [
+      { label: "Chandupatla inscription (1289)" },
+      { label: "Marco Polo, The Travels, on the kingdom of Mutfili" },
+      { label: "Cynthia Talbot, Precolonial India in Practice (2001)" },
+    ],
+    photo: {
+      src: asset("/images/history/india/rudrama-statue.webp"),
+      width: 1340,
+      height: 1600,
+      alt: "A gilded statue of Rani Rudrama Devi on horseback, one arm raised, on a dark plinth inscribed with her name in Telugu and English",
+      caption: "Rani Rudrama Devi, at Warangal Fort.",
+      credit: "Photograph: Ms Sarah Welch, CC0, via Wikimedia Commons",
+      creditHref: "https://commons.wikimedia.org/wiki/File:Rani_Rudrama_Devi,_Warangal_Fort_Telangana,_India_-_2.jpg",
+    },
+  },
   related: [
     { href: "/story/rani-lakshmibai", label: "Rani Lakshmibai", blurb: "The queen who would not give up Jhansi. A scroll story in eight scenes." },
     { href: "/story/pratap-chetak", label: "Pratap & Chetak", blurb: "Six painted chapters from Mewar, 1576." },

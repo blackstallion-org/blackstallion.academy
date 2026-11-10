@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { useId, useRef } from "react";
-import { blaze, earLeft, earRight } from "@/components/brand/paths";
+import { asset } from "@/lib/content/asset";
 import { ease, inViewOnce, sealStamp } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { r3 } from "@/lib/round";
@@ -97,6 +97,9 @@ export function SealStamp({
             <stop offset="55%" stopColor="#C9A66B" />
             <stop offset="100%" stopColor="#8A6A3E" />
           </radialGradient>
+          <mask id={`seal-crest-${uid}`} maskUnits="userSpaceOnUse" x="33" y="33" width="54" height="54">
+            <image href={asset("/brand/bsah-stamp-mark.webp?v=2")} x="33" y="33" width="54" height="54" preserveAspectRatio="xMidYMid meet" />
+          </mask>
           <path id={`seal-top-${uid}`} d="M18 60 A42 42 0 0 1 102 60" />
           <path id={`seal-bottom-${uid}`} d="M14 60 A46 46 0 0 0 106 60" />
         </defs>
@@ -126,11 +129,8 @@ export function SealStamp({
               BSAH · STPCI
             </textPath>
           </text>
-          <g transform="translate(40 38) scale(0.625)">
-            <path d={earLeft} />
-            <path d={earRight} />
-            <path d={blaze} />
-          </g>
+          {/* the official BSAH crest, engraved */}
+          <rect x="33" y="33" width="54" height="54" mask={`url(#seal-crest-${uid})`} />
         </g>
       </motion.svg>
     </motion.div>

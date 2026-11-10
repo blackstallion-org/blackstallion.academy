@@ -1,3 +1,4 @@
+import { asset } from "@/lib/content/asset";
 import type { HistoryPage, Placement, Scene } from "./types";
 
 /** Subject on the side away from the reading area. */
@@ -140,6 +141,15 @@ export const lakshmibai: HistoryPage = {
     { id: "chapter-the-siege", numeral: "III", title: "The siege", scenes: scenes.slice(4, 6) },
     { id: "chapter-the-memory", numeral: "IV", title: "The road and the memory", scenes: scenes.slice(6, 8) },
   ],
+  statue: {
+    src: asset("/images/story/lakshmibai/statue.webp"),
+    width: 1200,
+    height: 1600,
+    alt: "A bronze statue of Rani Lakshmibai on a rearing horse, sword raised, on a stone plinth against a blue sky in Shimla",
+    caption: "Rani Lakshmibai, in bronze, at Shimla.",
+    credit: "Photograph: Slyronit, CC BY-SA 4.0, via Wikimedia Commons",
+    creditHref: "https://commons.wikimedia.org/wiki/File:Rani_Lakshmibai_Statue,_Shimla.jpg",
+  },
   afterword: {
     label: "Afterword",
     inscription: "Record",
