@@ -49,6 +49,42 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - [ ] **Payments** (`/pay`, Razorpay) and the parent app.
 - [ ] **Commissioned photography** replaces every placeholder one-for-one.
 
+## Session 10 Nov 2026 · Living motion on the four history pages
+
+- `/history/india`, `/history/world`, `/story/rani-lakshmibai` and `/story/alexander-bucephalus` now move as you scroll. The code is in `components/history-scroll/HistoryScrollRoot.tsx`, with settings in `lib/content/history/motion.ts`.
+- Camera: background plates push in and drift, and foregrounds counter-drift. Amplitudes are set per page (`WORLDS`).
+- Characters: each subject cutout has a gait from `SUBJECT_MOTION` (gallop, canter, walk, rear or still) and a direction. Riders cross the scene with the scroll, and the gait loop speeds up with scroll speed.
+- Atmosphere (`components/history-scroll/Atmosphere.tsx`): one canvas per scene, drawn only while on screen. Dust over India, wind and cloud shadow on the steppe, embers and smoke at Jhansi, haze for Alexander, and hoof dust for galloping riders.
+- No new images or dependencies. Reduced motion and reading mode turn all of it off. Checked: lint, typecheck, build, Playwright at 1440 and 390, reduced motion, and no horizontal overflow.
+
+## Session 10 Nov 2026 · Puppet rigs: every character on the four history pages moves
+
+- 26 painted cutouts now have 2D skeletal rigs (`lib/content/history/rigs.ts`): horses with four two-bone legs, neck, head and tail; people with torso, head and two-bone arms and legs; riders attached to their horses; cloth regions that ripple. The statues AL08 and JH08 stay still on purpose; WO05 has no art yet.
+- Engine in `components/history-scroll/puppet/`: `build.ts` (bones and soft skin weights on a 96×72 mesh, nearest-region claims so crossing legs do not smear), `motion.ts` (gallop four-beat, canter three-beat, walk lateral sequence, elephant walk, idle with weight shift, ear and tail flicks, rearing, lying breath; riders counter the horse's pitch; standing, walking, working and seated people), `gl.ts` (one shared WebGL2 context for the page, skinning in the vertex shader), `Puppet.tsx` (one 30 fps clock, only on-screen puppets draw, quickens slightly with scroll speed).
+- Hoof contacts dispatch `hs-hoof` events; `Atmosphere.tsx` puts dust exactly there and adds a slow drifting light patch. Foreground strips sway in the wind, rooted at the bottom.
+- The old whole-image GSAP bob is gone; scroll travel is halved. Reduced motion, reading mode or no WebGL: the original still paintings.
+- `/dev/rigs` (unlinked) shows every rig live with its bones, for adjusting joint marks.
+- Limits: limbs bend from the painted pose (a puppet stride, not redrawn frames); no blinking (painted eyes have no lids); figures painted into the background plates do not move.
+
+## Session 10 Nov 2026 · Menu order, /ride removed
+
+- The experimental `/ride` page and its `components/runway` engine were removed at the owner's request.
+- Motion Lab moved to the bottom of Act II as item 12, so the menu reads 01–23: Act I 01–04, Act II 05–12, Act III 13–23. Page marks and end cards were renumbered to match; `TOTAL_REELS` counts the reels and Motion Lab together, and `nextReel` hands off by position in the reel list.
+
+## Session 10 Nov 2026 · Last two images and six new scenes
+
+- WO05-S (the steppe archer, now rigged) and JH06-B (Jhansi at night) are generated and accepted, so no scene shows a placeholder.
+- India and the world page grew from seven to ten scenes each, with 13 new images (about 0.5 credit for a character and 1 for a background): India adds the Mughal stables (IN08), Skinner's Horse (IN10) and the Pushkar fair (IN09); the world page adds the heavenly horses of Ferghana (WO08), the riding hall in Vienna (WO09, with its own foreground strip) and the Plains nations (WO10). Each has copy, sources and a caveat, a puppet rig, and the sides now alternate down the page.
+- Cleaning note: IN09-S came with a painted white halo; it was removed by filling inward from the edge through light pixels.
+- Not done: a sideways (horizontal) scroll experience. The new scenes extend the existing vertical scroll.
+
+## Session 10 Nov 2026 · Fixed painted stage on all four history pages
+
+- Implements `docs/history-scrolls` addendum "fixed painted stage": every story on India, World, Lakshmibai and Alexander is a 100svh sticky stage inside a 160svh section (`.hs-stage` + `.hs-run`, `--hs-run: 60svh`), released when its own section ends. The anthologies now use the same structure the personal pages already had; nothing is pinned for longer than its own story.
+- Layer speeds (`HistoryScrollRoot.tsx`, one scoped `gsap.matchMedia()` reverted on unmount): background slowest, foreground band strongest (it carries the eye over the join, the next scene starts 7svh beneath it), a faint soft-light sun-and-sky wash over the background plate only, and a restrained entrance for the character. The old sideways drift of the characters is removed; their own movement is the puppet rig. Phones get a gentler version, with the art in flow above the text.
+- The supplied SVG/GSAP reference files (`references/parallax-scroll/`) were not in the repo, so this follows the written description only.
+- Verified at 1440×900 and 390×844: each stage holds at the top of the viewport through its runway, forward and reverse scroll match, anchors land 128px below the top, browser back restores the scroll position, reduced motion has no pinning, scrub, puppets or weather, and a missing image shows its labelled placeholder with the layout intact.
+
 ## Notes for the next session
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).

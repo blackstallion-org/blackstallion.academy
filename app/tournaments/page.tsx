@@ -20,7 +20,7 @@ export default function TournamentsPage() {
       <TournamentActionGallery />
       <Podium />
       <ReplayHeadline typeface="condensed" id="tournaments-replay" label="The circuit doctrine" text="Victory belongs to the disciplined rein." tone="dark" defaultMode="words" />
-      <EndCard current={13} />
+      <EndCard current={15} />
     </>
   );
 }

@@ -375,7 +375,7 @@
       "alt": "The walls of Jhansi fort at night under a crescent moon",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: Jhansi fort at night seen from below, a tall stone wall and bastion against a deep indigo sky with stars and a crescent moon, a few torches on the wall, the dark plain. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
@@ -383,7 +383,8 @@
         "resolution": "2k",
         "aspect_ratio": "16:9",
         "background": "opaque"
-      }
+      },
+      "review": "Reviewed 10 Nov 2026: Jhansi wall at night, crescent moon, torches; lower fifth calm."
     },
     {
       "id": "JH06-S",
@@ -1800,9 +1801,9 @@
       "width": 1168,
       "height": 880,
       "alpha": true,
-      "alt": "A mounted archer shoots backwards at the gallop",
+      "alt": "A steppe archer draws his bow at the gallop",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a steppe mounted archer in a felt cap and belted coat riding a chestnut horse at a gallop, drawing a short recurve bow and shooting backwards over the horse's tail, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
       "generation": {
         "model": "gpt_image_2_6",
@@ -1810,7 +1811,8 @@
         "resolution": "1k",
         "aspect_ratio": "4:3",
         "background": "transparent"
-      }
+      },
+      "review": "Reviewed 10 Nov 2026: complete horse, clean transparent cutout, in style. He shoots forward, not backwards."
     },
     {
       "id": "WO05-F",
@@ -2128,6 +2130,272 @@
         "job_id": "4e6e283e-0063-4fc1-9025-4f60f74d5c8d"
       },
       "review": "auto-accepted: valid WebP on disk"
+    },
+    {
+      "id": "IN08-B",
+      "role": "B",
+      "path": "/images/history/india/in08-b.webp",
+      "width": 2400,
+      "height": 1350,
+      "alpha": false,
+      "alt": "The imperial stable courtyard of a Mughal palace",
+      "focal": "50% 60%",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: the red sandstone stable courtyard of a Mughal palace, long arcades of arched stalls with carved brackets, a swept courtyard and a pool, a few trees. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "background": "opaque"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "IN08-S",
+      "role": "S",
+      "path": "/images/history/india/in08-s.webp",
+      "width": 1168,
+      "height": 880,
+      "alpha": true,
+      "alt": "A groom leads a tall stallion from the imperial stables",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a Mughal stable groom in a white jama and turban leading a tall dark bay Central Asian stallion in a gilded saddlecloth, walking, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "1k",
+        "aspect_ratio": "4:3",
+        "background": "transparent"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "IN09-B",
+      "role": "B",
+      "path": "/images/history/india/in09-b.webp",
+      "width": 2400,
+      "height": 1350,
+      "alpha": false,
+      "alt": "The lake and fairground at Pushkar",
+      "focal": "50% 60%",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: the sacred lake at Pushkar in Rajasthan at dusk, white ghats and small domed temples around the water, a sandy fairground with striped tents, camels resting, dunes beyond. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "background": "opaque"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "IN09-S",
+      "role": "S",
+      "path": "/images/history/india/in09-s.webp",
+      "width": 1168,
+      "height": 880,
+      "alpha": true,
+      "alt": "A Rajasthani horseman on a Marwari at the fair",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a Rajasthani horseman in a saffron turban and white kurta riding a decorated Marwari horse with ears curving inward, collected trot, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "1k",
+        "aspect_ratio": "4:3",
+        "background": "transparent"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "IN10-B",
+      "role": "B",
+      "path": "/images/history/india/in10-b.webp",
+      "width": 2400,
+      "height": 1350,
+      "alpha": false,
+      "alt": "A cavalry cantonment parade ground",
+      "focal": "50% 60%",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: an early nineteenth-century cavalry cantonment in northern India, a parade ground of packed earth, a low mud-brick fort with a gateway, tamarind trees and rows of tents. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "background": "opaque"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "IN10-S",
+      "role": "S",
+      "path": "/images/history/india/in10-s.webp",
+      "width": 1168,
+      "height": 880,
+      "alpha": true,
+      "alt": "A sowar of Skinner's Horse in his yellow coat",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a cavalry sowar in a yellow coat and dark turban carrying a lance with a pennant, riding a bay horse at a canter, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "1k",
+        "aspect_ratio": "4:3",
+        "background": "transparent"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "WO08-B",
+      "role": "B",
+      "path": "/images/history/world/wo08-b.webp",
+      "width": 2400,
+      "height": 1350,
+      "alpha": false,
+      "alt": "The Ferghana valley and its horse pastures",
+      "focal": "50% 60%",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: a high green valley in Ferghana below snow-capped peaks, a walled oasis town with a gate tower, orchards and a herd of fine horses grazing by a river. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "background": "opaque"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "WO08-S",
+      "role": "S",
+      "path": "/images/history/world/wo08-s.webp",
+      "width": 1168,
+      "height": 880,
+      "alpha": true,
+      "alt": "An envoy leads a Ferghana horse",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a Han Chinese envoy in a silk robe and tall black hat leading a tall slender golden-chestnut stallion with an arched neck, walking, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "1k",
+        "aspect_ratio": "4:3",
+        "background": "transparent"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "WO09-B",
+      "role": "B",
+      "path": "/images/history/world/wo09-b.webp",
+      "width": 2400,
+      "height": 1350,
+      "alpha": false,
+      "alt": "The riding hall in Vienna",
+      "focal": "50% 60%",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: the baroque riding hall in Vienna, a tall white hall with a gallery of columns, crystal chandeliers, a sand floor and a portrait of an emperor at the far end. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "background": "opaque"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "WO09-S",
+      "role": "S",
+      "path": "/images/history/world/wo09-s.webp",
+      "width": 1168,
+      "height": 880,
+      "alpha": true,
+      "alt": "A rider on a white Lipizzaner",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a rider in a bicorne hat, brown tailcoat, white breeches and tall black boots on a white Lipizzaner stallion in collected trot, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "1k",
+        "aspect_ratio": "4:3",
+        "background": "transparent"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "WO10-B",
+      "role": "B",
+      "path": "/images/history/world/wo10-b.webp",
+      "width": 2400,
+      "height": 1350,
+      "alpha": false,
+      "alt": "The Great Plains with a camp and a buffalo herd",
+      "focal": "50% 60%",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Background plate: the Great Plains of North America, rolling grassland under a huge sky, a river with cottonwoods, a camp of conical tipis and a distant buffalo herd. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "background": "opaque"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "WO10-S",
+      "role": "S",
+      "path": "/images/history/world/wo10-s.webp",
+      "width": 1168,
+      "height": 880,
+      "alpha": true,
+      "alt": "A Plains horseman on a painted horse",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a Plains horseman in leggings with a feathered headband and a lance riding a painted pinto horse at a gallop, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "1k",
+        "aspect_ratio": "4:3",
+        "background": "transparent"
+      },
+      "review": "Reviewed 10 Nov 2026: in style, complete figure, clean edges."
+    },
+    {
+      "id": "WO09-F",
+      "role": "F",
+      "path": "/images/history/world/wo09-f.webp",
+      "width": 1344,
+      "height": 576,
+      "alpha": true,
+      "alt": "",
+      "version": 1,
+      "status": "accepted",
+      "review": "Reviewed 10 Nov 2026: sand-floor edge with a low barrier, transparent above.",
+      "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. Foreground strip on a fully transparent background: the edge of a riding-hall sand floor with a low painted wooden barrier in white and gold, a sand rake and a small heap of straw, running across the full width along the bottom, irregular upper edge, transparent above. No people, no animals, no text, no border.",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "quality": "medium",
+        "resolution": "1k",
+        "aspect_ratio": "21:9",
+        "background": "transparent"
+      }
     }
   ]
 }

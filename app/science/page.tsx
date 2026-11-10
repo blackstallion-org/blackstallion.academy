@@ -68,7 +68,7 @@ export default function SciencePage() {
         </div>
       </section>
 
-      <EndCard current={4} />
+      <EndCard current={5} />
     </>
   );
 }

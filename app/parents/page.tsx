@@ -36,7 +36,7 @@ export default function ParentsPage() {
         </div>
       </section>
       <ReplayHeadline typeface="brush" id="parents-replay" label="The guardian vow" text="You watch them discover who they are." tone="dark" defaultMode="lines" />
-      <EndCard current={9} />
+      <EndCard current={10} />
     </>
   );
 }

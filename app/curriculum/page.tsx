@@ -66,7 +66,7 @@ export default function CurriculumPage() {
       <DisciplineActionGallery />
       <DisciplinePanels />
       <ReplayHeadline typeface="heritage" id="curriculum-replay" label="The warrior trait" text="Every drill maps to a character a leader needs." tone="dark" defaultMode="lines" />
-      <EndCard current={6} />
+      <EndCard current={7} />
     </>
   );
 }
