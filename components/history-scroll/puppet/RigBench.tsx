@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { asset } from "@/lib/content/asset";
 import { RIGS } from "@/lib/content/history/rigs";
 import { Puppet } from "./Puppet";
 import type { Figure, Limb, P } from "./types";
 import "../history-scroll.css";
 
 const PATH: Record<string, string> = { IN: "india", WO: "world", JH: "lakshmibai", AL: "alexander" };
-const srcFor = (id: string) => `/images/history/${PATH[id.slice(0, 2)]}/${id.toLowerCase()}-s.webp`;
+const srcFor = (id: string) => asset(`/images/history/${PATH[id.slice(0, 2)]}/${id.toLowerCase()}-s.webp`);
 
 function Bones({ f }: { f: Figure }) {
   const line = (a: P, b: P, k: string) => <line key={k} x1={a[0] * 100} y1={a[1] * 100} x2={b[0] * 100} y2={b[1] * 100} />;
