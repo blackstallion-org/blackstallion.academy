@@ -129,6 +129,8 @@
   height: auto;
 }
 .hs-layer-s img, .hs-layer-s .hs-ph { height: auto; }
+.hs-gait { transform-origin: 50% 100%; will-change: transform; }
+.hs-layer-atmo { inset: 0; width: 100%; height: 100%; z-index: 2; }
 .hs-layer-f { z-index: 3; left: 0; right: 0; bottom: -1px; height: auto; }
 .hs-layer-f img, .hs-layer-f .hs-ph { height: auto; }
 
@@ -196,13 +198,13 @@
 .hs[data-reading="static"] .hs-pers .hs-stage { position: relative; height: auto; min-height: 0; display: block; }
 .hs[data-reading="static"] .hs-pers .hs-art { position: relative; inset: auto; aspect-ratio: 16 / 9; }
 .hs[data-reading="static"] .hs-pers .hs-reading { width: auto; max-width: 44rem; margin: 0 auto; box-shadow: none; }
-.hs[data-reading="static"] .hs-layer { transform: none !important; }
+.hs[data-reading="static"] .hs-layer, .hs[data-reading="static"] .hs-gait { transform: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .hs .hs-run { display: none; }
   .hs .hs-pers .hs-stage { position: relative; height: auto; min-height: 0; display: block; }
   .hs .hs-pers .hs-art { position: relative; inset: auto; aspect-ratio: 16 / 9; }
   .hs .hs-pers .hs-reading { width: auto; max-width: 44rem; margin: 0 auto; box-shadow: none; }
-  .hs .hs-layer { transform: none !important; will-change: auto; }
+  .hs .hs-layer, .hs .hs-gait { transform: none !important; will-change: auto; }
   .hs .hs-relief-canvas { transition: none; }
 }
 

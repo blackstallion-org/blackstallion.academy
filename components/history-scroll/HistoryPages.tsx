@@ -4,6 +4,7 @@ import { historyAsset, missingAssets } from "@/lib/content/history/assets";
 import type { HistoryPage, Scene } from "@/lib/content/history/types";
 import { HistoryArt } from "./HistoryArt";
 import { HistoryScrollRoot, ReadingToggle } from "./HistoryScrollRoot";
+import { worldFor } from "@/lib/content/history/motion";
 import { SceneArt, SceneReading } from "./Scene";
 import "./history-scroll.css";
 
@@ -93,7 +94,7 @@ function MissingNote({ page }: { page: HistoryPage }) {
 export function AnthologyPage({ page }: { page: HistoryPage }) {
   const scenes = allScenes(page);
   return (
-    <HistoryScrollRoot grain={grainUrl()}>
+    <HistoryScrollRoot grain={grainUrl()} world={worldFor(page.route)}>
       <Title page={page}>
         <ChapterIndex items={scenes.map((s, i) => ({ href: `#${s.anchor}`, num: String(i + 1).padStart(2, "0"), label: s.title }))} />
       </Title>
@@ -138,7 +139,7 @@ export function PersonalStoryPage({ page }: { page: HistoryPage }) {
     return after ? { href: `#${after.id}`, label: `Skip to chapter ${after.numeral}: ${after.title} ↓` } : { href: "#afterword", label: `After ${scene.title.toLowerCase()}: the afterword ↓` };
   };
   return (
-    <HistoryScrollRoot grain={grainUrl()}>
+    <HistoryScrollRoot grain={grainUrl()} world={worldFor(page.route)}>
       <Title page={page}>
         <div className="hs-controls mt-8">
           <ReadingToggle />

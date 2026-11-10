@@ -4,6 +4,8 @@ import type { CSSProperties } from "react";
 import { asset } from "@/lib/content/asset";
 import { historyAsset } from "@/lib/content/history/assets";
 import { RELIEFS } from "@/lib/content/history/reliefs";
+import { SUBJECT_MOTION } from "@/lib/content/history/motion";
+import { Atmosphere } from "./Atmosphere";
 import type { Scene } from "@/lib/content/history/types";
 import { HistoryArt } from "./HistoryArt";
 import { ReliefMount } from "./ReliefMount";
@@ -32,6 +34,7 @@ function plateFor(scene: Scene) {
 export function SceneArt({ scene, priority }: { scene: Scene; priority?: boolean }) {
   const plate = plateFor(scene);
   const map = scene.relief && RELIEFS[scene.relief].kind === "map";
+  const m = SUBJECT_MOTION[scene.id];
   return (
     <div className="hs-art">
       <div className="hs-art-clip">
@@ -40,9 +43,19 @@ export function SceneArt({ scene, priority }: { scene: Scene; priority?: boolean
           {plate && scene.relief && <ReliefMount id={scene.relief} plate={plate} />}
         </div>
         {map && scene.relief && <ReliefMount id={scene.relief} />}
-        <div className="hs-layer hs-layer-s" data-hs-layer="S" style={vars(scene.subject)}>
-          <HistoryArt id={scene.layers.S} sizes="(min-width: 1024px) 42vw, 88vw" priority={priority} />
+        <div
+          className="hs-layer hs-layer-s"
+          data-hs-layer="S"
+          data-hs-gait={m?.gait}
+          data-hs-dir={m?.dir}
+          data-hs-travel={m?.travel}
+          style={vars(scene.subject)}
+        >
+          <div className="hs-gait">
+            <HistoryArt id={scene.layers.S} sizes="(min-width: 1024px) 42vw, 88vw" priority={priority} />
+          </div>
         </div>
+        <Atmosphere gait={m?.gait} dir={m?.dir} />
       </div>
       <div className="hs-layer hs-layer-f" data-hs-layer="F">
         <HistoryArt id={scene.layers.F} sizes="100vw" decorative />

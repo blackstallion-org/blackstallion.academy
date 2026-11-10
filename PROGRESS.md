@@ -49,6 +49,14 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - [ ] **Payments** (`/pay`, Razorpay) and the parent app.
 - [ ] **Commissioned photography** replaces every placeholder one-for-one.
 
+## Session 10 Nov 2026 · Living motion on the four history pages
+
+- `/history/india`, `/history/world`, `/story/rani-lakshmibai` and `/story/alexander-bucephalus` now move as you scroll. The code is in `components/history-scroll/HistoryScrollRoot.tsx`, with settings in `lib/content/history/motion.ts`.
+- Camera: background plates push in and drift, and foregrounds counter-drift. Amplitudes are set per page (`WORLDS`).
+- Characters: each subject cutout has a gait from `SUBJECT_MOTION` (gallop, canter, walk, rear or still) and a direction. Riders cross the scene with the scroll, and the gait loop speeds up with scroll speed.
+- Atmosphere (`components/history-scroll/Atmosphere.tsx`): one canvas per scene, drawn only while on screen. Dust over India, wind and cloud shadow on the steppe, embers and smoke at Jhansi, haze for Alexander, and hoof dust for galloping riders.
+- No new images or dependencies. Reduced motion and reading mode turn all of it off. Checked: lint, typecheck, build, Playwright at 1440 and 390, reduced motion, and no horizontal overflow.
+
 ## Notes for the next session
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).
