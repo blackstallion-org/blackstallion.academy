@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "@/lib/motion/reduced";
-import { WORLDS, type Gait } from "@/lib/content/history/motion";
+import { WORLDS } from "@/lib/content/history/motion";
 import { energy, useReadingMode } from "./HistoryScrollRoot";
 
 type P = { x: number; y: number; vx: number; vy: number; r: number; a: number; life: number; max: number; c: number; kind: 0 | 1 | 2; puff?: boolean };
@@ -29,7 +29,7 @@ function sprites(colors: string[]) {
  * The page's weather between the subject and the foreground: dust over Marwar, wind on the steppe, embers at Jhansi,
  * haze for Alexander. Draws only while its scene is on screen; galloping subjects also kick dust at the hooves.
  */
-export function Atmosphere({ gait, dir }: { gait?: Gait; dir?: number }) {
+export function Atmosphere({ dir }: { dir?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
   const { reading, world } = useReadingMode();
@@ -41,8 +41,7 @@ export function Atmosphere({ gait, dir }: { gait?: Gait; dir?: number }) {
     if (!ctx) return;
     const W = WORLDS[world];
     const sp = sprites(W.colors);
-    const kicks = gait === "gallop" || gait === "canter";
-    const subject = canvas.parentElement?.querySelector<HTMLElement>('[data-hs-layer="S"]');
+    const art = canvas.closest(".hs-art");
     const ps: P[] = [];
     let w = 0;
     let h = 0;
@@ -79,15 +78,16 @@ export function Atmosphere({ gait, dir }: { gait?: Gait; dir?: number }) {
       }
     };
 
-    const puff = () => {
-      if (!subject) return;
+    // Dust exactly where a hoof lands: the puppet reports each contact (components/history-scroll/puppet/Puppet.tsx).
+    const onHoof = (e: Event) => {
+      const { x, y } = (e as CustomEvent<{ x: number; y: number }>).detail;
       const cr = canvas.getBoundingClientRect();
-      const sr = subject.getBoundingClientRect();
       const d = dir ?? 1;
-      const x = sr.left - cr.left + sr.width * (d > 0 ? 0.15 + Math.random() * 0.45 : 0.4 + Math.random() * 0.45);
-      const y = sr.bottom - cr.top - sr.height * 0.04;
-      ps.push({ x, y, vx: -d * (0.6 + Math.random() * 1.2), vy: -(0.2 + Math.random() * 0.5), r: 8 + Math.random() * 14, a: 0.35, life: 0, max: 70, c: 1 % sp.length, kind: 2, puff: true });
+      for (let k = 0; k < 3; k++)
+        ps.push({ x: x - cr.left + (Math.random() - 0.5) * 10, y: y - cr.top - 2, vx: -d * (0.4 + Math.random() * 1.1), vy: -(0.15 + Math.random() * 0.45), r: 6 + Math.random() * 10, a: 0.3, life: 0, max: 60 + Math.random() * 30, c: 1 % sp.length, kind: 2, puff: true });
     };
+    art?.addEventListener("hs-hoof", onHoof);
+    let light = Math.random() * 100;
 
     const frame = () => {
       raf = visible ? requestAnimationFrame(frame) : 0;
@@ -105,11 +105,20 @@ export function Atmosphere({ gait, dir }: { gait?: Gait; dir?: number }) {
         ctx.fillRect(0, 0, w, h);
       }
 
+      // A slow, warm patch of light drifting across the scene: the sun through moving cloud.
+      light += 0.004 * e;
+      const lx = (0.5 + Math.sin(light * 0.7) * 0.35) * w;
+      const ly = (0.35 + Math.sin(light * 0.45 + 1) * 0.15) * h;
+      const lg = ctx.createRadialGradient(lx, ly, 0, lx, ly, Math.max(w, h) * 0.45);
+      lg.addColorStop(0, `rgba(255,236,200,${(0.05 + Math.sin(light * 1.3) * 0.02).toFixed(3)})`);
+      lg.addColorStop(1, "rgba(255,236,200,0)");
+      ctx.fillStyle = lg;
+      ctx.fillRect(0, 0, w, h);
+
       let ambient = 0;
       for (const p of ps) if (!p.puff) ambient++;
       for (; ambient < MAX; ambient++) ps.push(spawn(!seeded));
       seeded = true;
-      if (kicks && Math.random() < 0.25 + energy.v * 0.4) puff();
 
       for (let i = ps.length - 1; i >= 0; i--) {
         const p = ps[i];
@@ -154,9 +163,10 @@ export function Atmosphere({ gait, dir }: { gait?: Gait; dir?: number }) {
       ro.disconnect();
       io.disconnect();
       document.removeEventListener("visibilitychange", onVis);
+      art?.removeEventListener("hs-hoof", onHoof);
       ctx.clearRect(0, 0, w, h);
     };
-  }, [reduced, reading, world, gait, dir]);
+  }, [reduced, reading, world, dir]);
 
   if (reduced || reading) return null;
   return <canvas ref={ref} className="hs-layer hs-layer-atmo" aria-hidden />;

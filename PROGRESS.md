@@ -64,6 +64,15 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - Reusable engine in plain three.js: `components/runway/engine.ts` (`RunwayEngine` with a camera path and stations), `wireframe.ts`, `runner.ts`, `stations/*`. A new page in this style is its own station list plus copy in `lib/content/`.
 - Reduced motion or no WebGL: a still frame plus every station as text. Checked: typecheck, lint, build, Playwright at 1440 and 390 across the run, dialog keyboard, colour switch.
 
+## Session 10 Nov 2026 · Puppet rigs: every character on the four history pages moves
+
+- 26 painted cutouts now have 2D skeletal rigs (`lib/content/history/rigs.ts`): horses with four two-bone legs, neck, head and tail; people with torso, head and two-bone arms and legs; riders attached to their horses; cloth regions that ripple. The statues AL08 and JH08 stay still on purpose; WO05 has no art yet.
+- Engine in `components/history-scroll/puppet/`: `build.ts` (bones and soft skin weights on a 96×72 mesh, nearest-region claims so crossing legs do not smear), `motion.ts` (gallop four-beat, canter three-beat, walk lateral sequence, elephant walk, idle with weight shift, ear and tail flicks, rearing, lying breath; riders counter the horse's pitch; standing, walking, working and seated people), `gl.ts` (one shared WebGL2 context for the page, skinning in the vertex shader), `Puppet.tsx` (one 30 fps clock, only on-screen puppets draw, quickens slightly with scroll speed).
+- Hoof contacts dispatch `hs-hoof` events; `Atmosphere.tsx` puts dust exactly there and adds a slow drifting light patch. Foreground strips sway in the wind, rooted at the bottom.
+- The old whole-image GSAP bob is gone; scroll travel is halved. Reduced motion, reading mode or no WebGL: the original still paintings.
+- `/dev/rigs` (unlinked) shows every rig live with its bones, for adjusting joint marks.
+- Limits: limbs bend from the painted pose (a puppet stride, not redrawn frames); no blinking (painted eyes have no lids); figures painted into the background plates do not move.
+
 ## Notes for the next session
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).

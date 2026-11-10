@@ -17,6 +17,8 @@
   background: var(--hs-ivory);
   color: var(--hs-ink);
   isolation: isolate;
+  /* Foregrounds and swinging limbs may reach past the edge; never let them widen the page (clip keeps sticky working). */
+  overflow-x: clip;
 }
 @media (min-width: 1024px) {
   .hs { --hs-controls: 7rem; }
@@ -129,7 +131,9 @@
   height: auto;
 }
 .hs-layer-s img, .hs-layer-s .hs-ph { height: auto; }
-.hs-gait { transform-origin: 50% 100%; will-change: transform; }
+.hs-gait { position: relative; }
+.hs-puppet { position: absolute; pointer-events: none; display: block; }
+[data-puppet="live"] > img { visibility: hidden; }
 .hs-layer-atmo { inset: 0; width: 100%; height: 100%; z-index: 2; }
 .hs-layer-f { z-index: 3; left: 0; right: 0; bottom: -1px; height: auto; }
 .hs-layer-f img, .hs-layer-f .hs-ph { height: auto; }

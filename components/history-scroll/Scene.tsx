@@ -5,6 +5,8 @@ import { asset } from "@/lib/content/asset";
 import { historyAsset } from "@/lib/content/history/assets";
 import { RELIEFS } from "@/lib/content/history/reliefs";
 import { SUBJECT_MOTION } from "@/lib/content/history/motion";
+import { RIGS } from "@/lib/content/history/rigs";
+import { Puppet } from "./puppet/Puppet";
 import { Atmosphere } from "./Atmosphere";
 import type { Scene } from "@/lib/content/history/types";
 import { HistoryArt } from "./HistoryArt";
@@ -53,12 +55,14 @@ export function SceneArt({ scene, priority }: { scene: Scene; priority?: boolean
         >
           <div className="hs-gait">
             <HistoryArt id={scene.layers.S} sizes="(min-width: 1024px) 42vw, 88vw" priority={priority} />
+            {RIGS[scene.id] && <Puppet rig={RIGS[scene.id]} />}
           </div>
         </div>
-        <Atmosphere gait={m?.gait} dir={m?.dir} />
+        <Atmosphere dir={m?.dir} />
       </div>
       <div className="hs-layer hs-layer-f" data-hs-layer="F">
         <HistoryArt id={scene.layers.F} sizes="100vw" decorative />
+        <Puppet sway={0.006} />
       </div>
     </div>
   );
