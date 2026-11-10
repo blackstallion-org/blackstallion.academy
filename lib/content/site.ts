@@ -36,29 +36,29 @@ export const reels: Reel[] = [
   { n: 9, href: "/cadets", act: "citadel", title: "The Hall of Valour", inscription: "The hall", voice: "of valour.", blurb: "Hour by hour, rank by rank, sealed in brass.", image: "cadetZayd" },
   { n: 10, href: "/parents", act: "citadel", title: "The Guardian", inscription: "The guardian", voice: "sees every stride.", blurb: "Admissions, fees and the parent app.", image: "parentsRail" },
   { n: 11, href: "/safety", act: "citadel", title: "The Shield", inscription: "Safety", voice: "before speed.", blurb: "Ex-cavalry faculty, daily vet care, insurance.", image: "safetyKit" },
-  { n: 12, href: "/schools", act: "ledger", title: "The Citadel", inscription: "Your campus", voice: "becomes a citadel.", blurb: "Tiers, returns and the draft MOU for school boards.", image: "schoolAerial" },
-  { n: 13, href: "/verify", act: "ledger", title: "The Seal", inscription: "Every hour", voice: "sealed in brass.", blurb: "Verify a cadet's passport.", image: "bgPassport" },
-  { n: 14, href: "/tournaments", act: "ledger", title: "The Circuit", inscription: "Lances down.", voice: "Zones on the circuit.", blurb: "STPCI standings and fixtures.", image: "bgCharge" },
-  { n: 15, href: "/command", act: "ledger", title: "The Command", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
-  { n: 16, href: "/journal", act: "ledger", title: "The Chronicle", inscription: "Stories", voice: "from the stable.", blurb: "Legends, science and the circuit.", image: "journalReins" },
-  { n: 17, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
-  { n: 18, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
-  { n: 19, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
-  { n: 20, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
-  { n: 21, href: "/story/rani-lakshmibai", act: "ledger", title: "Rani Lakshmibai", inscription: "Jhansi will not", voice: "be surrendered.", blurb: "Four chapters, painted: the queen who rode out of a besieged fort.", image: "bgCharge" },
-  { n: 22, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Four chapters, painted: a boy, a horse no one could ride, and the edge of the known world.", image: "duneSilhouette" },
+  { n: 13, href: "/schools", act: "ledger", title: "The Citadel", inscription: "Your campus", voice: "becomes a citadel.", blurb: "Tiers, returns and the draft MOU for school boards.", image: "schoolAerial" },
+  { n: 14, href: "/verify", act: "ledger", title: "The Seal", inscription: "Every hour", voice: "sealed in brass.", blurb: "Verify a cadet's passport.", image: "bgPassport" },
+  { n: 15, href: "/tournaments", act: "ledger", title: "The Circuit", inscription: "Lances down.", voice: "Zones on the circuit.", blurb: "STPCI standings and fixtures.", image: "bgCharge" },
+  { n: 16, href: "/command", act: "ledger", title: "The Command", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
+  { n: 17, href: "/journal", act: "ledger", title: "The Chronicle", inscription: "Stories", voice: "from the stable.", blurb: "Legends, science and the circuit.", image: "journalReins" },
+  { n: 18, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
+  { n: 19, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
+  { n: 20, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
+  { n: 21, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
+  { n: 22, href: "/story/rani-lakshmibai", act: "ledger", title: "Rani Lakshmibai", inscription: "Jhansi will not", voice: "be surrendered.", blurb: "Four chapters, painted: the queen who rode out of a besieged fort.", image: "bgCharge" },
+  { n: 23, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Four chapters, painted: a boy, a horse no one could ride, and the edge of the known world.", image: "duneSilhouette" },
 ];
 
-export const TOTAL_REELS = reels.length;
-
 /**
- * Working pages that sit in the menu beside the reels without being part of the film: they have no reel mark and no end card,
- * and do not change the reel count (so the "REEL n / 22" marks and the hand-off from reel to reel stay as they were).
+ * Working pages that sit in the menu beside the reels without being part of the film: they have no reel mark and no end
+ * card. The menu numbers them with the reels (so a reel mark reads "REEL n / 23"), after the reels of their act.
  */
 export const tools = [
-  { n: 23, href: "/motion-lab", act: "ledger" as Act, title: "Motion Lab", badge: "3D page" },
-  { n: 24, href: "/ride", act: "ledger" as Act, title: "Ride Wild", badge: "3D page" },
+  { n: 12, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
 ] as const;
+
+/** The menu numbers the reels and the working pages together, so the count is both. */
+export const TOTAL_REELS = reels.length + tools.length;
 
 export function reelFor(pathname: string): Reel | undefined {
   if (pathname === "/lithos") return reels.find((r) => r.href === "/statue");
@@ -66,7 +66,8 @@ export function reelFor(pathname: string): Reel | undefined {
 }
 
 export function nextReel(n: number): Reel {
-  return reels[n % reels.length];
+  const i = reels.findIndex((r) => r.n === n);
+  return reels[(i + 1) % reels.length];
 }
 
 export function reelByHref(href: string): Reel {

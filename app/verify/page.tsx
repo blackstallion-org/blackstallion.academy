@@ -26,7 +26,7 @@ export default function VerifyPage() {
 
       <Privacy />
 
-      <EndCard current={13} />
+      <EndCard current={14} />
     </>
   );
 }

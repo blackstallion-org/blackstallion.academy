@@ -57,13 +57,6 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - Atmosphere (`components/history-scroll/Atmosphere.tsx`): one canvas per scene, drawn only while on screen. Dust over India, wind and cloud shadow on the steppe, embers and smoke at Jhansi, haze for Alexander, and hoof dust for galloping riders.
 - No new images or dependencies. Reduced motion and reading mode turn all of it off. Checked: lint, typecheck, build, Playwright at 1440 and 390, reduced motion, and no horizontal overflow.
 
-## Session 10 Nov 2026 · Ride Wild (/ride): the scroll-driven runway
-
-- New page `/ride` (tools entry 24, "3D page"): the Marwari (`marwari-hero-refined.glb`, `Sprint_R`) as a white lat/long wireframe on a near-black body, blue-violet ground, halftone "RIDE WILD" title, strip and INFO dialog under the site nav, BG COLOR swatches and picker, RESTART.
-- Scroll pushes the camera down a runway past five stations: card stacks, HUD arch (figures marked SAMPLE), metal knob console, glass slabs, and a point cloud that converges into "BSAH".
-- Reusable engine in plain three.js: `components/runway/engine.ts` (`RunwayEngine` with a camera path and stations), `wireframe.ts`, `runner.ts`, `stations/*`. A new page in this style is its own station list plus copy in `lib/content/`.
-- Reduced motion or no WebGL: a still frame plus every station as text. Checked: typecheck, lint, build, Playwright at 1440 and 390 across the run, dialog keyboard, colour switch.
-
 ## Session 10 Nov 2026 · Puppet rigs: every character on the four history pages moves
 
 - 26 painted cutouts now have 2D skeletal rigs (`lib/content/history/rigs.ts`): horses with four two-bone legs, neck, head and tail; people with torso, head and two-bone arms and legs; riders attached to their horses; cloth regions that ripple. The statues AL08 and JH08 stay still on purpose; WO05 has no art yet.
@@ -72,6 +65,11 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - The old whole-image GSAP bob is gone; scroll travel is halved. Reduced motion, reading mode or no WebGL: the original still paintings.
 - `/dev/rigs` (unlinked) shows every rig live with its bones, for adjusting joint marks.
 - Limits: limbs bend from the painted pose (a puppet stride, not redrawn frames); no blinking (painted eyes have no lids); figures painted into the background plates do not move.
+
+## Session 10 Nov 2026 · Menu order, /ride removed
+
+- The experimental `/ride` page and its `components/runway` engine were removed at the owner's request.
+- Motion Lab moved to the bottom of Act II as item 12, so the menu reads 01–23: Act I 01–04, Act II 05–12, Act III 13–23. Page marks and end cards were renumbered to match; `TOTAL_REELS` counts the reels and Motion Lab together, and `nextReel` hands off by position in the reel list.
 
 ## Notes for the next session
 
