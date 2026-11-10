@@ -1,0 +1,14 @@
+[     166ms] [LOG] [Fast Refresh] done in 2205ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[     369ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[     973ms] [LOG] [Fast Refresh] done in 706ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    1468ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    1497ms] [LOG] [HMR] connected @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    5401ms] RangeError: Failed to execute 'exponentialRampToValueAtTime' on 'AudioParam': The float target value provided (0) should not be in the range (-1.40130e-45, 1.40130e-45).
+    at HoofSound.hit (http://localhost:3100/_next/static/chunks/components_stallion-film_11hipvz0_-b_9._.js:1588:16)
+    at FilmEngine.onFoot (http://localhost:3100/_next/static/chunks/components_stallion-film_11hipvz0_-b_9._.js:1071:28)
+    at loco.onFootEvent (http://localhost:3100/_next/static/chunks/components_stallion-film_11hipvz0_-b_9._.js:627:43)
+    at Locomotor.sense (http://localhost:3100/_next/static/chunks/components_stallion-film_11hipvz0_-b_9._.js:2333:35)
+    at FilmEngine.afterMixer (http://localhost:3100/_next/static/chunks/components_stallion-film_11hipvz0_-b_9._.js:988:14)
+    at StallionStage.useEffect.frame (http://localhost:3100/_next/static/chunks/components_15fmx8-db63ut._.js:583:31)
+[   21438ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[   21499ms] [LOG] [Fast Refresh] done in 6ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719

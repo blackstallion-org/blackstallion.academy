@@ -1,0 +1,637 @@
+- generic [active] [ref=f35e1]:
+  - link "Skip to content" [ref=f35e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f35e3]:
+    - generic [ref=f35e4]:
+      - link "Black Stallion Academy, home" [ref=f35e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f35e7]: Black Stallion
+      - navigation "Primary" [ref=f35e8]:
+        - list [ref=f35e9]:
+          - listitem [ref=f35e10]:
+            - link "Legend" [ref=f35e11] [cursor=pointer]:
+              - /url: /legend
+              - generic [ref=f35e12]:
+                - generic [ref=f35e13]: Legend
+                - generic [aria-hidden] [ref=f35e14]:
+                  - generic [ref=f35e15]: L
+                  - generic [ref=f35e16]: e
+                  - generic [ref=f35e17]: g
+                  - generic [ref=f35e18]: e
+                  - generic [ref=f35e19]: "n"
+                  - generic [ref=f35e20]: d
+                - generic [aria-hidden] [ref=f35e21]:
+                  - generic [ref=f35e22]: L
+                  - generic [ref=f35e23]: e
+                  - generic [ref=f35e24]: g
+                  - generic [ref=f35e25]: e
+                  - generic [ref=f35e26]: "n"
+                  - generic [ref=f35e27]: d
+          - listitem [ref=f35e28]:
+            - link "Curriculum" [ref=f35e29] [cursor=pointer]:
+              - /url: /curriculum
+              - generic [ref=f35e30]:
+                - generic [ref=f35e31]: Curriculum
+                - generic [aria-hidden] [ref=f35e32]:
+                  - generic [ref=f35e33]: C
+                  - generic [ref=f35e34]: u
+                  - generic [ref=f35e35]: r
+                  - generic [ref=f35e36]: r
+                  - generic [ref=f35e37]: i
+                  - generic [ref=f35e38]: c
+                  - generic [ref=f35e39]: u
+                  - generic [ref=f35e40]: l
+                  - generic [ref=f35e41]: u
+                  - generic [ref=f35e42]: m
+                - generic [aria-hidden] [ref=f35e43]:
+                  - generic [ref=f35e44]: C
+                  - generic [ref=f35e45]: u
+                  - generic [ref=f35e46]: r
+                  - generic [ref=f35e47]: r
+                  - generic [ref=f35e48]: i
+                  - generic [ref=f35e49]: c
+                  - generic [ref=f35e50]: u
+                  - generic [ref=f35e51]: l
+                  - generic [ref=f35e52]: u
+                  - generic [ref=f35e53]: m
+          - listitem [ref=f35e54]:
+            - link "Parents" [ref=f35e55] [cursor=pointer]:
+              - /url: /parents
+              - generic [ref=f35e56]:
+                - generic [ref=f35e57]: Parents
+                - generic [aria-hidden] [ref=f35e58]:
+                  - generic [ref=f35e59]: P
+                  - generic [ref=f35e60]: a
+                  - generic [ref=f35e61]: r
+                  - generic [ref=f35e62]: e
+                  - generic [ref=f35e63]: "n"
+                  - generic [ref=f35e64]: t
+                  - generic [ref=f35e65]: s
+                - generic [aria-hidden] [ref=f35e66]:
+                  - generic [ref=f35e67]: P
+                  - generic [ref=f35e68]: a
+                  - generic [ref=f35e69]: r
+                  - generic [ref=f35e70]: e
+                  - generic [ref=f35e71]: "n"
+                  - generic [ref=f35e72]: t
+                  - generic [ref=f35e73]: s
+          - listitem [ref=f35e74]:
+            - link "Schools" [ref=f35e75] [cursor=pointer]:
+              - /url: /schools
+              - generic [ref=f35e76]:
+                - generic [ref=f35e77]: Schools
+                - generic [aria-hidden] [ref=f35e78]:
+                  - generic [ref=f35e79]: S
+                  - generic [ref=f35e80]: c
+                  - generic [ref=f35e81]: h
+                  - generic [ref=f35e82]: o
+                  - generic [ref=f35e83]: o
+                  - generic [ref=f35e84]: l
+                  - generic [ref=f35e85]: s
+                - generic [aria-hidden] [ref=f35e86]:
+                  - generic [ref=f35e87]: S
+                  - generic [ref=f35e88]: c
+                  - generic [ref=f35e89]: h
+                  - generic [ref=f35e90]: o
+                  - generic [ref=f35e91]: o
+                  - generic [ref=f35e92]: l
+                  - generic [ref=f35e93]: s
+          - listitem [ref=f35e94]:
+            - link "Circuit" [ref=f35e95] [cursor=pointer]:
+              - /url: /tournaments
+              - generic [ref=f35e96]:
+                - generic [ref=f35e97]: Circuit
+                - generic [aria-hidden] [ref=f35e98]:
+                  - generic [ref=f35e99]: C
+                  - generic [ref=f35e100]: i
+                  - generic [ref=f35e101]: r
+                  - generic [ref=f35e102]: c
+                  - generic [ref=f35e103]: u
+                  - generic [ref=f35e104]: i
+                  - generic [ref=f35e105]: t
+                - generic [aria-hidden] [ref=f35e106]:
+                  - generic [ref=f35e107]: C
+                  - generic [ref=f35e108]: i
+                  - generic [ref=f35e109]: r
+                  - generic [ref=f35e110]: c
+                  - generic [ref=f35e111]: u
+                  - generic [ref=f35e112]: i
+                  - generic [ref=f35e113]: t
+          - listitem [ref=f35e114]:
+            - link "Verify" [ref=f35e115] [cursor=pointer]:
+              - /url: /verify
+              - generic [ref=f35e116]:
+                - generic [ref=f35e117]: Verify
+                - generic [aria-hidden] [ref=f35e118]:
+                  - generic [ref=f35e119]: V
+                  - generic [ref=f35e120]: e
+                  - generic [ref=f35e121]: r
+                  - generic [ref=f35e122]: i
+                  - generic [ref=f35e123]: f
+                  - generic [ref=f35e124]: "y"
+                - generic [aria-hidden] [ref=f35e125]:
+                  - generic [ref=f35e126]: V
+                  - generic [ref=f35e127]: e
+                  - generic [ref=f35e128]: r
+                  - generic [ref=f35e129]: i
+                  - generic [ref=f35e130]: f
+                  - generic [ref=f35e131]: "y"
+      - generic [ref=f35e132]:
+        - link "Staff sign-in" [ref=f35e133] [cursor=pointer]:
+          - /url: /admin/login
+        - button "Sound on. Toggle website sound effects." [pressed] [ref=f35e137] [cursor=pointer]:
+          - generic [ref=f35e138]: Sound
+          - generic [ref=f35e139]: "ON"
+        - link "Enrol a cadet" [ref=f35e140] [cursor=pointer]:
+          - /url: /contact?gate=parents
+        - button "Reels" [ref=f35e141] [cursor=pointer]
+  - main [ref=f35e146]:
+    - heading "An athletic curriculum that builds character." [level=1] [ref=f35e148]
+    - region [ref=f35e150]:
+      - paragraph [ref=f35e151]: Four ranks
+      - heading "Squire to Sovereign Lancer." [level=2] [ref=f35e152]:
+        - generic [ref=f35e153]:
+          - generic [ref=f35e154]: Squire to
+          - generic [ref=f35e156]: Sovereign Lancer.
+      - tablist "Cadet ranks" [ref=f35e158]:
+        - tab "I Cadet Squire Stable care, grooming, tack assembly, equine psychology, basic walk and trot. Bronze rank pin · soft-bound blue passport logbook PILLARS 01–03" [selected] [ref=f35e159] [cursor=pointer]:
+          - generic [ref=f35e160]: I
+          - generic [ref=f35e161]: Cadet Squire
+          - generic [ref=f35e162]: Stable care, grooming, tack assembly, equine psychology, basic walk and trot.
+          - generic [ref=f35e163]: Bronze rank pin · soft-bound blue passport logbook
+          - generic [ref=f35e164]: PILLARS 01–03
+        - tab "II Cadet Rider Independent canter transitions, 3D pelvic alignment, obstacle trotting. Silver rank pin · leather passport sleeve PILLARS 04–06" [ref=f35e165] [cursor=pointer]:
+          - generic [ref=f35e166]: II
+          - generic [ref=f35e167]: Cadet Rider
+          - generic [ref=f35e168]: Independent canter transitions, 3D pelvic alignment, obstacle trotting.
+          - generic [ref=f35e169]: Silver rank pin · leather passport sleeve
+          - generic [ref=f35e170]: PILLARS 04–06
+        - tab "III Cadet Knight Advanced equestrian drills, introductory lance grip, mounted archery posture, jump courses. Gold rank pin · brass belt buckle · official STPCI registration PILLARS 07–09" [ref=f35e171] [cursor=pointer]:
+          - generic [ref=f35e172]: III
+          - generic [ref=f35e173]: Cadet Knight
+          - generic [ref=f35e174]: Advanced equestrian drills, introductory lance grip, mounted archery posture, jump courses.
+          - generic [ref=f35e175]: Gold rank pin · brass belt buckle · official STPCI registration
+          - generic [ref=f35e176]: PILLARS 07–09
+        - tab "IV Sovereign Lancer Full-speed tent pegging, mounted archery runs, barrel racing, the national Governor's Cup circuit. Sovereign brass epaulettes · sealed brass Sovereign Passport PILLARS 10–13" [ref=f35e177] [cursor=pointer]:
+          - generic [ref=f35e178]: IV
+          - generic [ref=f35e179]: Sovereign Lancer
+          - generic [ref=f35e180]: Full-speed tent pegging, mounted archery runs, barrel racing, the national Governor's Cup circuit.
+          - generic [ref=f35e181]: Sovereign brass epaulettes · sealed brass Sovereign Passport
+          - generic [ref=f35e182]: PILLARS 10–13
+      - tabpanel "I Cadet Squire Stable care, grooming, tack assembly, equine psychology, basic walk and trot. Bronze rank pin · soft-bound blue passport logbook PILLARS 01–03" [ref=f35e183]:
+        - generic [ref=f35e184]:
+          - paragraph [ref=f35e185]: RANK I OF IV
+          - paragraph [ref=f35e186]: Cadet Squire
+          - 'img "Progress: rank 1 of 4" [ref=f35e187]'
+        - generic [ref=f35e192]:
+          - paragraph [ref=f35e193]: Core focus
+          - list [ref=f35e194]:
+            - listitem [ref=f35e195]: · Stable care
+            - listitem [ref=f35e196]: · Grooming
+            - listitem [ref=f35e197]: · Tack assembly
+            - listitem [ref=f35e198]: · Equine psychology
+            - listitem [ref=f35e199]: · Basic walk and trot
+        - generic [ref=f35e200]:
+          - paragraph [ref=f35e201]: Artifacts
+          - list [ref=f35e202]:
+            - listitem [ref=f35e203]: · Bronze rank pin
+            - listitem [ref=f35e204]: · Soft-bound blue passport logbook
+        - paragraph [ref=f35e205]: Illustrative progression. Ranks are awarded only on verified assessment records; nothing chosen here is saved.
+    - region "The Eye of the Sovereign · Four Phases of the Saddle" [ref=f35e206]:
+      - generic [ref=f35e207]:
+        - img "Close-up of a Marwari's eye and inward-curving ear" [ref=f35e210]
+        - generic [ref=f35e212]:
+          - generic [ref=f35e213]: Phase Progression · Cinema Reel
+          - heading "The Eye of the Sovereign Stallion" [level=2] [ref=f35e214]
+          - paragraph [ref=f35e215]: Before a cadet touches the rein, they must read the ear and the eye. Thirteen sovereign pillars mastered across four tactical phases.
+    - region [ref=f35e216]:
+      - generic [ref=f35e217]:
+        - paragraph [ref=f35e218]: The Sovereign Codex
+        - heading "Thirteen pillars, one sovereign ledger." [level=2] [ref=f35e219]:
+          - generic [ref=f35e220]:
+            - generic [ref=f35e221]: Thirteen pillars,
+            - generic [ref=f35e223]: one sovereign ledger.
+        - paragraph [ref=f35e225]: Nine foundations every rider on earth has learned the hard way, and four tactical disciplines that belong to BSAH. Open a tile.
+        - tablist "Filter the pillars by phase" [ref=f35e226]:
+          - tab "All thirteen01–13" [selected] [ref=f35e227] [cursor=pointer]
+          - tab "I · The Foundation01–03" [ref=f35e228] [cursor=pointer]
+          - tab "II · The Crucible04–09" [ref=f35e229] [cursor=pointer]
+          - tab "III · Sovereign Command10–13" [ref=f35e230] [cursor=pointer]
+        - tabpanel "All thirteen01–13" [ref=f35e231]:
+          - list [ref=f35e232]:
+            - listitem [ref=f35e233]:
+              - generic [ref=f35e234]:
+                - button "01 Grooming & feeding Phase I · The Foundation" [expanded] [ref=f35e235] [cursor=pointer]:
+                  - generic [ref=f35e236]: "01"
+                  - generic [ref=f35e237]:
+                    - generic [ref=f35e238]: Grooming & feeding
+                    - generic [ref=f35e239]: Phase I · The Foundation
+                  - generic [aria-hidden] [ref=f35e240]: +
+                - generic [ref=f35e242]:
+                  - generic [ref=f35e243]:
+                    - generic [ref=f35e244]:
+                      - term [ref=f35e245]: Skill developed
+                      - definition [ref=f35e246]: Responsibility, attention to detail
+                    - generic [ref=f35e247]:
+                      - term [ref=f35e248]: The trait
+                      - definition [ref=f35e249]: Reliability, conscientiousness
+                  - paragraph [ref=f35e250]: Before a leader commands, they must serve. Cadets learn that authority is earned on the ground through meticulous care and zero ego.
+                  - paragraph [ref=f35e251]: LEDGER 01/13 · DRILLED AT CADET SQUIRE
+            - listitem [ref=f35e252]:
+              - button "03 Learning commands & cues Phase I · The Foundation" [ref=f35e254] [cursor=pointer]:
+                - generic [ref=f35e255]: "03"
+                - generic [ref=f35e256]:
+                  - generic [ref=f35e257]: Learning commands & cues
+                  - generic [ref=f35e258]: Phase I · The Foundation
+                - generic [aria-hidden] [ref=f35e259]: +
+            - listitem [ref=f35e260]:
+              - button "05 Jumping & challenging obstacles Phase II · The Crucible" [ref=f35e262] [cursor=pointer]:
+                - generic [ref=f35e263]: "05"
+                - generic [ref=f35e264]:
+                  - generic [ref=f35e265]: Jumping & challenging obstacles
+                  - generic [ref=f35e266]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=f35e267]: +
+            - listitem [ref=f35e268]:
+              - button "07 Regular practice & training Phase II · The Crucible" [ref=f35e270] [cursor=pointer]:
+                - generic [ref=f35e271]: "07"
+                - generic [ref=f35e272]:
+                  - generic [ref=f35e273]: Regular practice & training
+                  - generic [ref=f35e274]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=f35e275]: +
+            - listitem [ref=f35e276]:
+              - button "09 Dealing with mistakes & falls Phase II · The Crucible" [ref=f35e278] [cursor=pointer]:
+                - generic [ref=f35e279]: "09"
+                - generic [ref=f35e280]:
+                  - generic [ref=f35e281]: Dealing with mistakes & falls
+                  - generic [ref=f35e282]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=f35e283]: +
+            - listitem [ref=f35e284]:
+              - button "11 Mounted archery & bow release Phase III · Sovereign CommandBSAH discipline" [ref=f35e286] [cursor=pointer]:
+                - generic [ref=f35e287]: "11"
+                - generic [ref=f35e288]:
+                  - generic [ref=f35e289]: Mounted archery & bow release
+                  - generic [ref=f35e290]: Phase III · Sovereign CommandBSAH discipline
+                - generic [aria-hidden] [ref=f35e291]: +
+            - listitem [ref=f35e292]:
+              - button "13 Cavalry squad formation & parade command Phase III · Sovereign CommandBSAH discipline" [ref=f35e294] [cursor=pointer]:
+                - generic [ref=f35e295]: "13"
+                - generic [ref=f35e296]:
+                  - generic [ref=f35e297]: Cavalry squad formation & parade command
+                  - generic [ref=f35e298]: Phase III · Sovereign CommandBSAH discipline
+                - generic [aria-hidden] [ref=f35e299]: +
+          - list [ref=f35e300]:
+            - listitem [ref=f35e301]:
+              - button "02 Mounting & initial handling Phase I · The Foundation" [ref=f35e303] [cursor=pointer]:
+                - generic [ref=f35e304]: "02"
+                - generic [ref=f35e305]:
+                  - generic [ref=f35e306]: Mounting & initial handling
+                  - generic [ref=f35e307]: Phase I · The Foundation
+                - generic [aria-hidden] [ref=f35e308]: +
+            - listitem [ref=f35e309]:
+              - button "04 Riding at different speeds & terrains Phase II · The Crucible" [ref=f35e311] [cursor=pointer]:
+                - generic [ref=f35e312]: "04"
+                - generic [ref=f35e313]:
+                  - generic [ref=f35e314]: Riding at different speeds & terrains
+                  - generic [ref=f35e315]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=f35e316]: +
+            - listitem [ref=f35e317]:
+              - button "06 Working with a stubborn / unpredictable horse Phase II · The Crucible" [ref=f35e319] [cursor=pointer]:
+                - generic [ref=f35e320]: "06"
+                - generic [ref=f35e321]:
+                  - generic [ref=f35e322]: Working with a stubborn / unpredictable horse
+                  - generic [ref=f35e323]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=f35e324]: +
+            - listitem [ref=f35e325]:
+              - button "08 Building trust with the horse Phase II · The Crucible" [ref=f35e327] [cursor=pointer]:
+                - generic [ref=f35e328]: "08"
+                - generic [ref=f35e329]:
+                  - generic [ref=f35e330]: Building trust with the horse
+                  - generic [ref=f35e331]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=f35e332]: +
+            - listitem [ref=f35e333]:
+              - button "10 Skill-at-arms & tent pegging runs Phase III · Sovereign CommandBSAH discipline" [ref=f35e335] [cursor=pointer]:
+                - generic [ref=f35e336]: "10"
+                - generic [ref=f35e337]:
+                  - generic [ref=f35e338]: Skill-at-arms & tent pegging runs
+                  - generic [ref=f35e339]: Phase III · Sovereign CommandBSAH discipline
+                - generic [aria-hidden] [ref=f35e340]: +
+            - listitem [ref=f35e341]:
+              - button "12 High-velocity barrel racing Phase III · Sovereign CommandBSAH discipline" [ref=f35e343] [cursor=pointer]:
+                - generic [ref=f35e344]: "12"
+                - generic [ref=f35e345]:
+                  - generic [ref=f35e346]: High-velocity barrel racing
+                  - generic [ref=f35e347]: Phase III · Sovereign CommandBSAH discipline
+                - generic [aria-hidden] [ref=f35e348]: +
+    - region [ref=f35e349]:
+      - generic [ref=f35e350]:
+        - generic [ref=f35e403]:
+          - paragraph [ref=f35e404]: "45"
+          - paragraph [ref=f35e405]: minutes
+        - generic [ref=f35e406]:
+          - paragraph [ref=f35e407]: One session
+          - heading "Forty-five minutes, exactly." [level=2] [ref=f35e408]:
+            - generic [ref=f35e409]:
+              - generic [ref=f35e410]: Forty-five
+              - generic [ref=f35e412]: minutes, exactly.
+          - list [ref=f35e414]:
+            - listitem [ref=f35e415]:
+              - generic [ref=f35e416]: 00–10
+              - generic [ref=f35e417]:
+                - generic [ref=f35e418]: Ground protocol & tack inspection
+                - generic [ref=f35e419]: The cadet arrives in uniform, inspects hooves, adjusts the girth, checks reins and settles the heart rate alongside the assigned stallion.
+            - listitem [ref=f35e420]:
+              - generic [ref=f35e421]: 10–25
+              - generic [ref=f35e422]:
+                - generic [ref=f35e423]: Core riding & biomechanical alignment Mounted
+                - generic [ref=f35e424]: Mount up. Five minutes of breath alignment at the walk, then trot and canter posture drills on pelvic kinematics and core engagement.
+            - listitem [ref=f35e425]:
+              - generic [ref=f35e426]: 25–35
+              - generic [ref=f35e427]:
+                - generic [ref=f35e428]: Tactical skill-at-arms module Mounted
+                - generic [ref=f35e429]: "Progressive rotation: ground targets and vaulting-buck drills for Ranks I–II; mounted lance runs, archery releases or barrel patterns for Ranks III–IV."
+            - listitem [ref=f35e430]:
+              - generic [ref=f35e431]: 35–45
+              - generic [ref=f35e432]:
+                - generic [ref=f35e433]: Dismount, care & digital logging
+                - generic [ref=f35e434]: Wash down and reward the stallion, log the session grades, scan the QR seal into the Sovereign Passport.
+    - region "The work of learning" [ref=f35e435]:
+      - generic [aria-hidden] [ref=f35e436]:
+        - generic [ref=f35e437]: Black Stallion Academy
+        - generic [ref=f35e438]: The work of learning
+      - heading "Discipline grows one quiet hour at a time." [level=2] [ref=f35e440]
+      - paragraph [ref=f35e441]: A moment between chapters
+    - region [ref=f35e442]:
+      - img "A batch of cadets standing with their horses at dusk" [ref=f35e446]
+      - generic [ref=f35e448]:
+        - paragraph [ref=f35e449]: Batches
+        - heading "Before school. After school. Weekends." [level=2] [ref=f35e450]:
+          - generic [ref=f35e451]:
+            - generic [ref=f35e452]: Before school.
+            - generic [ref=f35e454]: After school. Weekends.
+        - region "Curriculum progression table" [ref=f35e456]:
+          - table [ref=f35e457]:
+            - caption [ref=f35e458]: Batch timetable (sample, confirm per hub)
+            - rowgroup [ref=f35e459]:
+              - row [ref=f35e460]:
+                - columnheader "Batch" [ref=f35e461]
+                - columnheader "Time" [ref=f35e462]
+                - columnheader "Days" [ref=f35e463]
+                - columnheader "Cadets" [ref=f35e464]
+                - columnheader "Focus" [ref=f35e465]
+            - rowgroup [ref=f35e466]:
+              - row [ref=f35e467]:
+                - rowheader "Dawn Patrol" [ref=f35e468]
+                - cell "06:15 AM–07:00 AM" [ref=f35e469]
+                - cell "Mon · Wed · Fri" [ref=f35e470]
+                - cell "High School / Senior Squad" [ref=f35e471]
+                - cell "High-intensity drills, zero class conflict" [ref=f35e472]
+              - row [ref=f35e473]:
+                - rowheader "Twilight Batch" [ref=f35e474]
+                - cell "03:45 PM–04:30 PM" [ref=f35e475]
+                - cell "Tue · Thu · Fri" [ref=f35e476]
+                - cell "Primary & Middle School" [ref=f35e477]
+                - cell "Post-school transition before bus departures" [ref=f35e478]
+              - row [ref=f35e479]:
+                - rowheader "Sunset Command" [ref=f35e480]
+                - cell "04:45 PM–05:30 PM" [ref=f35e481]
+                - cell "Mon–Thu" [ref=f35e482]
+                - cell "Advanced Lancer Squad" [ref=f35e483]
+                - cell "Skill-at-arms, lance runs, barrel racing" [ref=f35e484]
+              - row [ref=f35e485]:
+                - rowheader "Weekend Circuit" [ref=f35e486]
+                - cell "07:00 AM–07:45 AM · 08:00 AM–08:45 AM" [ref=f35e487]
+                - cell "Sat & Sun" [ref=f35e488]
+                - cell "Open / Parent-Cadet Batches" [ref=f35e489]
+                - cell "Skill-at-arms, family attendance, monthly trials" [ref=f35e490]
+        - paragraph [ref=f35e492]: Sample timings; each hub publishes its own. Small batches of eight cadets per instructor (sample).
+    - region [ref=f35e493]:
+      - paragraph [ref=f35e494]: Graded three ways
+      - heading "Every session, sealed the same day." [level=2] [ref=f35e495]:
+        - generic [ref=f35e496]:
+          - generic [ref=f35e497]: Every session,
+          - generic [ref=f35e499]: sealed the same day.
+      - generic [ref=f35e501]:
+        - generic [ref=f35e502]:
+          - generic [ref=f35e503]: Riding
+          - paragraph [ref=f35e506]: Seat, hands, transitions and the discipline of the day.
+        - generic [ref=f35e507]:
+          - generic [ref=f35e508]: Ground
+          - paragraph [ref=f35e511]: Leading, handling, safety around the horse.
+        - generic [ref=f35e512]:
+          - generic [ref=f35e513]: Stable
+          - paragraph [ref=f35e516]: Grooming, tack, feed and the care log.
+      - paragraph [ref=f35e517]: Grades enter the ledger the same day and appear in the parent app.
+    - region "Tactical Skill Modules" [ref=f35e518]:
+      - generic [ref=f35e519]:
+        - generic:
+          - generic:
+            - paragraph: Tactical Skill Modules
+            - generic: Four Sovereign Disciplines
+          - link "Curriculum breakdown" [ref=f35e521] [cursor=pointer]:
+            - /url: /curriculum
+        - generic:
+          - img "A lance tip piercing a wooden peg at full gallop in tent-pegging"
+          - generic:
+            - heading "LOWERED LANCE" [level=2]: LOWEREDLANCE
+        - generic [ref=f35e525]:
+          - generic [ref=f35e526]: 01 / 04
+          - generic [ref=f35e528]:
+            - button "Previous slide" [ref=f35e529] [cursor=pointer]: ←
+            - button "Next slide" [ref=f35e530] [cursor=pointer]: →
+        - generic: Swipe or use arrows to cycle
+      - generic [ref=f35e531]:
+        - article [ref=f35e532]:
+          - heading "LOWERED LANCE" [level=3] [ref=f35e533]
+          - paragraph [ref=f35e534]: REEL 01 · 35 KM/H · CAVALRY LANCE
+          - paragraph [ref=f35e535]: A 9-foot ash lance lowered at full 35 km/h gallop. Hand-eye calibration to lift a 6 cm target peg from the sand.
+        - article [ref=f35e536]:
+          - heading "BARREL RACING" [level=3] [ref=f35e537]
+          - paragraph [ref=f35e538]: REEL 02 · ACCELERATION & G-FORCE
+          - paragraph [ref=f35e539]: Tight three-point turns demanding precision rein-contact, weight-shift into the stirrups, and instant bursts of power.
+        - article [ref=f35e540]:
+          - heading "MOUNTED ARCHERY" [level=3] [ref=f35e541]
+          - paragraph [ref=f35e542]: REEL 03 · INSTINCTIVE BOW
+          - paragraph [ref=f35e543]: Reins dropped to draw and loose arrows at targets in under twelve seconds along a 90-metre track.
+        - article [ref=f35e544]:
+          - heading "SOVEREIGN FORMATION" [level=3] [ref=f35e545]
+          - paragraph [ref=f35e546]: REEL 04 · SQUADRON COHESION
+          - paragraph [ref=f35e547]: Synchronized cavalry maneuvers where six to twelve cadets move as a single organism across the arena plane.
+    - region [ref=f35e548]:
+      - generic [ref=f35e549]:
+        - paragraph [ref=f35e550]: The disciplines
+        - heading "Four ways to win a field." [level=2] [ref=f35e551]:
+          - generic [ref=f35e552]:
+            - generic [ref=f35e553]: Four ways
+            - generic [ref=f35e555]: to win a field.
+      - list [ref=f35e557]:
+        - listitem [ref=f35e558]:
+          - img "A lance tip piercing a wooden peg at full gallop" [ref=f35e562]
+          - generic [ref=f35e563]:
+            - generic [ref=f35e564]: "01"
+            - heading "Tent pegging" [level=3] [ref=f35e565]
+            - paragraph [ref=f35e566]: "Lance and sword at the gallop: speed, focus, hand-eye timing."
+        - listitem [ref=f35e567]:
+          - img "A rider turning tightly around a barrel in spraying sand" [ref=f35e571]
+          - generic [ref=f35e572]:
+            - generic [ref=f35e573]: "02"
+            - heading "Barrel racing" [level=3] [ref=f35e574]
+            - paragraph [ref=f35e575]: "Tight turns at speed: seat control and acceleration."
+        - listitem [ref=f35e576]:
+          - img "A girl cadet drawing a bow at the canter" [ref=f35e580]
+          - generic [ref=f35e581]:
+            - generic [ref=f35e582]: "03"
+            - heading "Mounted archery" [level=3] [ref=f35e583]
+            - paragraph [ref=f35e584]: Reins released at the canter to draw and loose.
+        - listitem [ref=f35e585]:
+          - img "Cadets riding in line formation across an arena at dusk" [ref=f35e589]
+          - generic [ref=f35e590]:
+            - generic [ref=f35e591]: "04"
+            - heading "Formation" [level=3] [ref=f35e592]
+            - paragraph [ref=f35e593]: "Riding as one: rhythm, spacing and trust in the line."
+    - region [ref=f35e594]:
+      - paragraph [ref=f35e595]: The warrior trait
+      - heading "Every drill maps to a character a leader needs." [level=2] [ref=f35e596]
+    - region "Next reel" [ref=f35e597]:
+      - link "A lantern-lit stable corridor Twenty-one stallions. Next · Reel 07 · Act II The Studbook — Every one has a name. 06 16" [ref=f35e598] [cursor=pointer]:
+        - /url: /fleet
+        - generic [ref=f35e599]:
+          - img "A lantern-lit stable corridor" [ref=f35e602]
+          - paragraph [ref=f35e605]:
+            - generic [ref=f35e606]: Twenty-one
+            - generic [ref=f35e607]: stallions.
+        - generic [ref=f35e608]:
+          - paragraph [ref=f35e609]:
+            - text: Next ·
+            - generic [ref=f35e610]: Reel 07
+            - text: · Act II
+          - paragraph [ref=f35e611]: The Studbook — Every one has a name.
+          - generic [ref=f35e614]:
+            - generic [ref=f35e615]: "06"
+            - generic [ref=f35e618]: "16"
+  - contentinfo "Site Footer" [ref=f35e619]:
+    - generic [ref=f35e620]:
+      - generic [aria-hidden] [ref=f35e624]:
+        - generic [aria-hidden] [ref=f35e625]: T
+        - generic [aria-hidden] [ref=f35e626]: H
+        - generic [aria-hidden] [ref=f35e627]: E
+        - generic [aria-hidden] [ref=f35e629]: B
+        - generic [aria-hidden] [ref=f35e630]: L
+        - generic [aria-hidden] [ref=f35e631]: A
+        - generic [aria-hidden] [ref=f35e632]: C
+        - generic [aria-hidden] [ref=f35e633]: K
+        - generic [aria-hidden] [ref=f35e635]: S
+        - generic [aria-hidden] [ref=f35e636]: T
+        - generic [aria-hidden] [ref=f35e637]: A
+        - generic [aria-hidden] [ref=f35e638]: L
+        - generic [aria-hidden] [ref=f35e639]: L
+        - generic [aria-hidden] [ref=f35e640]: I
+        - generic [aria-hidden] [ref=f35e641]: O
+        - generic [aria-hidden] [ref=f35e642]: "N"
+        - generic [aria-hidden] [ref=f35e644]: A
+        - generic [aria-hidden] [ref=f35e645]: C
+        - generic [aria-hidden] [ref=f35e646]: A
+        - generic [aria-hidden] [ref=f35e647]: D
+        - generic [aria-hidden] [ref=f35e648]: E
+        - generic [aria-hidden] [ref=f35e649]: M
+        - generic [aria-hidden] [ref=f35e650]: "Y"
+        - generic [aria-hidden] [ref=f35e652]: ·
+        - generic [aria-hidden] [ref=f35e654]: D
+        - generic [aria-hidden] [ref=f35e655]: O
+        - generic [aria-hidden] [ref=f35e656]: M
+        - generic [aria-hidden] [ref=f35e657]: I
+        - generic [aria-hidden] [ref=f35e658]: "N"
+        - generic [aria-hidden] [ref=f35e659]: U
+        - generic [aria-hidden] [ref=f35e660]: S
+        - generic [aria-hidden] [ref=f35e662]: S
+        - generic [aria-hidden] [ref=f35e663]: U
+        - generic [aria-hidden] [ref=f35e664]: I
+        - generic [aria-hidden] [ref=f35e666]: ·
+        - generic [aria-hidden] [ref=f35e668]: D
+        - generic [aria-hidden] [ref=f35e669]: O
+        - generic [aria-hidden] [ref=f35e670]: M
+        - generic [aria-hidden] [ref=f35e671]: I
+        - generic [aria-hidden] [ref=f35e672]: "N"
+        - generic [aria-hidden] [ref=f35e673]: U
+        - generic [aria-hidden] [ref=f35e674]: S
+        - generic [aria-hidden] [ref=f35e676]: E
+        - generic [aria-hidden] [ref=f35e677]: Q
+        - generic [aria-hidden] [ref=f35e678]: U
+        - generic [aria-hidden] [ref=f35e679]: I
+        - generic [aria-hidden] [ref=f35e681]: ·
+      - paragraph [ref=f35e686]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=f35e687] [cursor=pointer]:
+          - /url: /
+          - text: black stallion academy
+      - paragraph [ref=f35e688]:
+        - emphasis [ref=f35e689]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=f35e690]:
+        - list [ref=f35e691]:
+          - listitem [ref=f35e692]:
+            - link "The Legend" [ref=f35e693] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=f35e694]:
+            - link "The Instrument" [ref=f35e695] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=f35e696]:
+            - link "3D Monument" [ref=f35e697] [cursor=pointer]:
+              - /url: /statue
+          - listitem [ref=f35e698]:
+            - link "Science & Matrix" [ref=f35e699] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=f35e700]:
+            - link "Crucible & Cure" [ref=f35e701] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=f35e702]:
+            - link "Curriculum" [ref=f35e703] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=f35e704]:
+            - link "The Studbook" [ref=f35e705] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=f35e706]:
+            - link "For Schools" [ref=f35e707] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=f35e708]:
+            - link "Cadets" [ref=f35e709] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=f35e710]:
+            - link "Parents" [ref=f35e711] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=f35e712]:
+            - link "The Circuit" [ref=f35e713] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=f35e714]:
+            - link "Information desk" [ref=f35e715] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=f35e716]:
+            - link "The Gate" [ref=f35e717] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=f35e718]:
+        - generic [ref=f35e719]:
+          - generic [ref=f35e720]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=f35e721] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+          - generic [aria-hidden] [ref=f35e722]: ·
+        - generic [ref=f35e723]:
+          - generic [ref=f35e724]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=f35e725] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+          - generic [aria-hidden] [ref=f35e726]: ·
+        - generic [ref=f35e727]:
+          - generic [ref=f35e728]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=f35e729] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=f35e730]:
+        - paragraph [ref=f35e731]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - generic [ref=f35e732]:
+          - link "About" [ref=f35e733] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=f35e734] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=f35e735] [cursor=pointer]:
+            - /url: /journal
+          - link "Information desk" [ref=f35e736] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=f35e737] [cursor=pointer]:
+            - /url: /privacy
+  - button "Open Next.js Dev Tools" [ref=f35e743] [cursor=pointer]

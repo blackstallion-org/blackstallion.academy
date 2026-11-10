@@ -1,0 +1,445 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - paragraph [ref=e10]: BLACK STALLION
+  - banner [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - link "Black Stallion Academy, home" [ref=e14] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e15]: Black Stallion
+        - generic [ref=e16]:
+          - generic [ref=e17]: 05/15
+          - text: The Ledger
+      - generic [ref=e18]:
+        - button "Sound off. Toggle ambient sound." [ref=e19] [cursor=pointer]:
+          - generic [ref=e20]: Sound
+          - generic [ref=e21]: "OFF"
+        - link "Enrol a cadet" [ref=e22] [cursor=pointer]:
+          - /url: /contact?gate=parents
+        - button "Reels" [ref=e23] [cursor=pointer]
+  - main [ref=e28]:
+    - generic [ref=e29]:
+      - heading "An athletic curriculum that builds character." [level=1] [ref=e30]
+      - generic [ref=e31]:
+        - generic:
+          - img "Classical equestrian sculpture of a warrior riding a rearing stallion against deep black"
+        - generic:
+          - heading "An athletic curriculum that builds character." [level=1]:
+            - generic: An athletic curriculum
+            - generic: that builds character.
+    - region [ref=e32]:
+      - paragraph [ref=e33]: Four ranks
+      - heading "Squire to Sovereign Lancer." [level=2] [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: Squire to
+          - generic [ref=e38]: Sovereign Lancer.
+      - tablist "Cadet ranks" [ref=e40]:
+        - tab "I Cadet Squire Stable care, grooming, tack assembly, equine psychology, basic walk and trot. Bronze rank pin · soft-bound blue passport logbook PILLARS 01–03" [selected] [ref=e41] [cursor=pointer]:
+          - generic [ref=e42]: I
+          - generic [ref=e43]: Cadet Squire
+          - generic [ref=e44]: Stable care, grooming, tack assembly, equine psychology, basic walk and trot.
+          - generic [ref=e45]: Bronze rank pin · soft-bound blue passport logbook
+          - generic [ref=e46]: PILLARS 01–03
+        - tab "II Cadet Rider Independent canter transitions, 3D pelvic alignment, obstacle trotting. Silver rank pin · leather passport sleeve PILLARS 04–06" [ref=e47] [cursor=pointer]:
+          - generic [ref=e48]: II
+          - generic [ref=e49]: Cadet Rider
+          - generic [ref=e50]: Independent canter transitions, 3D pelvic alignment, obstacle trotting.
+          - generic [ref=e51]: Silver rank pin · leather passport sleeve
+          - generic [ref=e52]: PILLARS 04–06
+        - tab "III Cadet Knight Advanced equestrian drills, introductory lance grip, mounted archery posture, jump courses. Gold rank pin · brass belt buckle · official STPCI registration PILLARS 07–09" [ref=e53] [cursor=pointer]:
+          - generic [ref=e54]: III
+          - generic [ref=e55]: Cadet Knight
+          - generic [ref=e56]: Advanced equestrian drills, introductory lance grip, mounted archery posture, jump courses.
+          - generic [ref=e57]: Gold rank pin · brass belt buckle · official STPCI registration
+          - generic [ref=e58]: PILLARS 07–09
+        - tab "IV Sovereign Lancer Full-speed tent pegging, mounted archery runs, barrel racing, the national Governor's Cup circuit. Sovereign brass epaulettes · sealed brass Sovereign Passport PILLARS 10–13" [ref=e59] [cursor=pointer]:
+          - generic [ref=e60]: IV
+          - generic [ref=e61]: Sovereign Lancer
+          - generic [ref=e62]: Full-speed tent pegging, mounted archery runs, barrel racing, the national Governor's Cup circuit.
+          - generic [ref=e63]: Sovereign brass epaulettes · sealed brass Sovereign Passport
+          - generic [ref=e64]: PILLARS 10–13
+      - tabpanel "I Cadet Squire Stable care, grooming, tack assembly, equine psychology, basic walk and trot. Bronze rank pin · soft-bound blue passport logbook PILLARS 01–03" [ref=e65]:
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: RANK I OF IV
+          - paragraph [ref=e68]: Cadet Squire
+          - 'generic "Progress: rank 1 of 4" [ref=e69]'
+        - generic [ref=e74]:
+          - paragraph [ref=e75]: Core focus
+          - list [ref=e76]:
+            - listitem [ref=e77]: · Stable care
+            - listitem [ref=e78]: · Grooming
+            - listitem [ref=e79]: · Tack assembly
+            - listitem [ref=e80]: · Equine psychology
+            - listitem [ref=e81]: · Basic walk and trot
+        - generic [ref=e82]:
+          - paragraph [ref=e83]: Artifacts
+          - list [ref=e84]:
+            - listitem [ref=e85]: · Bronze rank pin
+            - listitem [ref=e86]: · Soft-bound blue passport logbook
+        - paragraph [ref=e87]: Illustrative progression. Ranks are awarded only on verified assessment records; nothing chosen here is saved.
+    - region [ref=e88]:
+      - generic [ref=e89]:
+        - paragraph [ref=e90]: The Sovereign Codex
+        - heading "Thirteen pillars, one sovereign ledger." [level=2] [ref=e91]:
+          - generic [ref=e92]:
+            - generic [ref=e93]: Thirteen pillars,
+            - generic [ref=e95]: one sovereign ledger.
+        - paragraph [ref=e97]: Nine foundations every rider on earth has learned the hard way, and four tactical disciplines that belong to BSAH. Open a tile.
+        - tablist "Filter the pillars by phase" [ref=e98]:
+          - tab "All thirteen01–13" [selected] [ref=e99] [cursor=pointer]
+          - tab "I · The Foundation01–03" [ref=e100] [cursor=pointer]
+          - tab "II · The Crucible04–09" [ref=e101] [cursor=pointer]
+          - tab "III · Sovereign Command10–13" [ref=e102] [cursor=pointer]
+        - tabpanel "All thirteen01–13" [ref=e103]:
+          - list [ref=e104]:
+            - listitem [ref=e105]:
+              - generic [ref=e106]:
+                - button "01 Grooming & feeding Phase I · The Foundation" [expanded] [ref=e107] [cursor=pointer]:
+                  - generic [ref=e108]: "01"
+                  - generic [ref=e109]:
+                    - generic [ref=e110]: Grooming & feeding
+                    - generic [ref=e111]: Phase I · The Foundation
+                  - generic [aria-hidden] [ref=e112]: +
+                - generic [ref=e114]:
+                  - generic [ref=e115]:
+                    - generic [ref=e116]:
+                      - term [ref=e117]: Skill developed
+                      - definition [ref=e118]: Responsibility, attention to detail
+                    - generic [ref=e119]:
+                      - term [ref=e120]: The trait
+                      - definition [ref=e121]: Reliability, conscientiousness
+                  - paragraph [ref=e122]: Before a leader commands, they must serve. Cadets learn that authority is earned on the ground through meticulous care and zero ego.
+                  - paragraph [ref=e123]: LEDGER 01/13 · DRILLED AT CADET SQUIRE
+            - listitem [ref=e124]:
+              - button "03 Learning commands & cues Phase I · The Foundation" [ref=e126] [cursor=pointer]:
+                - generic [ref=e127]: "03"
+                - generic [ref=e128]:
+                  - generic [ref=e129]: Learning commands & cues
+                  - generic [ref=e130]: Phase I · The Foundation
+                - generic [aria-hidden] [ref=e131]: +
+            - listitem [ref=e132]:
+              - button "05 Jumping & challenging obstacles Phase II · The Crucible" [ref=e134] [cursor=pointer]:
+                - generic [ref=e135]: "05"
+                - generic [ref=e136]:
+                  - generic [ref=e137]: Jumping & challenging obstacles
+                  - generic [ref=e138]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=e139]: +
+            - listitem [ref=e140]:
+              - button "07 Regular practice & training Phase II · The Crucible" [ref=e142] [cursor=pointer]:
+                - generic [ref=e143]: "07"
+                - generic [ref=e144]:
+                  - generic [ref=e145]: Regular practice & training
+                  - generic [ref=e146]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=e147]: +
+            - listitem [ref=e148]:
+              - button "09 Dealing with mistakes & falls Phase II · The Crucible" [ref=e150] [cursor=pointer]:
+                - generic [ref=e151]: "09"
+                - generic [ref=e152]:
+                  - generic [ref=e153]: Dealing with mistakes & falls
+                  - generic [ref=e154]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=e155]: +
+            - listitem [ref=e156]:
+              - button "11 Mounted archery & bow release Phase III · Sovereign CommandBSAH discipline" [ref=e158] [cursor=pointer]:
+                - generic [ref=e159]: "11"
+                - generic [ref=e160]:
+                  - generic [ref=e161]: Mounted archery & bow release
+                  - generic [ref=e162]: Phase III · Sovereign CommandBSAH discipline
+                - generic [aria-hidden] [ref=e163]: +
+            - listitem [ref=e164]:
+              - button "13 Cavalry squad formation & parade command Phase III · Sovereign CommandBSAH discipline" [ref=e166] [cursor=pointer]:
+                - generic [ref=e167]: "13"
+                - generic [ref=e168]:
+                  - generic [ref=e169]: Cavalry squad formation & parade command
+                  - generic [ref=e170]: Phase III · Sovereign CommandBSAH discipline
+                - generic [aria-hidden] [ref=e171]: +
+          - list [ref=e172]:
+            - listitem [ref=e173]:
+              - button "02 Mounting & initial handling Phase I · The Foundation" [ref=e175] [cursor=pointer]:
+                - generic [ref=e176]: "02"
+                - generic [ref=e177]:
+                  - generic [ref=e178]: Mounting & initial handling
+                  - generic [ref=e179]: Phase I · The Foundation
+                - generic [aria-hidden] [ref=e180]: +
+            - listitem [ref=e181]:
+              - button "04 Riding at different speeds & terrains Phase II · The Crucible" [ref=e183] [cursor=pointer]:
+                - generic [ref=e184]: "04"
+                - generic [ref=e185]:
+                  - generic [ref=e186]: Riding at different speeds & terrains
+                  - generic [ref=e187]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=e188]: +
+            - listitem [ref=e189]:
+              - button "06 Working with a stubborn / unpredictable horse Phase II · The Crucible" [ref=e191] [cursor=pointer]:
+                - generic [ref=e192]: "06"
+                - generic [ref=e193]:
+                  - generic [ref=e194]: Working with a stubborn / unpredictable horse
+                  - generic [ref=e195]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=e196]: +
+            - listitem [ref=e197]:
+              - button "08 Building trust with the horse Phase II · The Crucible" [ref=e199] [cursor=pointer]:
+                - generic [ref=e200]: "08"
+                - generic [ref=e201]:
+                  - generic [ref=e202]: Building trust with the horse
+                  - generic [ref=e203]: Phase II · The Crucible
+                - generic [aria-hidden] [ref=e204]: +
+            - listitem [ref=e205]:
+              - button "10 Skill-at-arms & tent pegging runs Phase III · Sovereign CommandBSAH discipline" [ref=e207] [cursor=pointer]:
+                - generic [ref=e208]: "10"
+                - generic [ref=e209]:
+                  - generic [ref=e210]: Skill-at-arms & tent pegging runs
+                  - generic [ref=e211]: Phase III · Sovereign CommandBSAH discipline
+                - generic [aria-hidden] [ref=e212]: +
+            - listitem [ref=e213]:
+              - button "12 High-velocity barrel racing Phase III · Sovereign CommandBSAH discipline" [ref=e215] [cursor=pointer]:
+                - generic [ref=e216]: "12"
+                - generic [ref=e217]:
+                  - generic [ref=e218]: High-velocity barrel racing
+                  - generic [ref=e219]: Phase III · Sovereign CommandBSAH discipline
+                - generic [aria-hidden] [ref=e220]: +
+    - region [ref=e221]:
+      - generic [ref=e222]:
+        - generic [ref=e275]:
+          - paragraph [ref=e276]: "45"
+          - paragraph [ref=e277]: minutes
+        - generic [ref=e278]:
+          - paragraph [ref=e279]: One session
+          - heading "Forty-five minutes, exactly." [level=2] [ref=e280]:
+            - generic [ref=e281]:
+              - generic [ref=e282]: Forty-five
+              - generic [ref=e284]: minutes, exactly.
+          - list [ref=e286]:
+            - listitem [ref=e287]:
+              - generic [ref=e288]: 00–10
+              - generic [ref=e289]:
+                - generic [ref=e290]: Ground protocol & tack inspection
+                - generic [ref=e291]: The cadet arrives in uniform, inspects hooves, adjusts the girth, checks reins and settles the heart rate alongside the assigned stallion.
+            - listitem [ref=e292]:
+              - generic [ref=e293]: 10–25
+              - generic [ref=e294]:
+                - generic [ref=e295]: Core riding & biomechanical alignment Mounted
+                - generic [ref=e296]: Mount up. Five minutes of breath alignment at the walk, then trot and canter posture drills on pelvic kinematics and core engagement.
+            - listitem [ref=e297]:
+              - generic [ref=e298]: 25–35
+              - generic [ref=e299]:
+                - generic [ref=e300]: Tactical skill-at-arms module Mounted
+                - generic [ref=e301]: "Progressive rotation: ground targets and vaulting-buck drills for Ranks I–II; mounted lance runs, archery releases or barrel patterns for Ranks III–IV."
+            - listitem [ref=e302]:
+              - generic [ref=e303]: 35–45
+              - generic [ref=e304]:
+                - generic [ref=e305]: Dismount, care & digital logging
+                - generic [ref=e306]: Wash down and reward the stallion, log the session grades, scan the QR seal into the Sovereign Passport.
+    - region [ref=e307]:
+      - img "Cadets in ceremonial dress formation in arena at dusk" [ref=e311]
+      - generic [ref=e313]:
+        - paragraph [ref=e314]: Batches
+        - heading "Before school. After school. Weekends." [level=2] [ref=e315]:
+          - generic [ref=e316]:
+            - generic [ref=e317]: Before school.
+            - generic [ref=e319]: After school. Weekends.
+        - table [ref=e322]:
+          - caption [ref=e323]: Batch timetable (sample, confirm per hub)
+          - rowgroup [ref=e324]:
+            - row [ref=e325]:
+              - columnheader "Batch" [ref=e326]
+              - columnheader "Time" [ref=e327]
+              - columnheader "Days" [ref=e328]
+              - columnheader "Cadets" [ref=e329]
+              - columnheader "Focus" [ref=e330]
+          - rowgroup [ref=e331]:
+            - row [ref=e332]:
+              - rowheader "Dawn Patrol" [ref=e333]
+              - cell "06:15 AM–07:00 AM" [ref=e334]
+              - cell "Mon · Wed · Fri" [ref=e335]
+              - cell "High School / Senior Squad" [ref=e336]
+              - cell "High-intensity drills, zero class conflict" [ref=e337]
+            - row [ref=e338]:
+              - rowheader "Twilight Batch" [ref=e339]
+              - cell "03:45 PM–04:30 PM" [ref=e340]
+              - cell "Tue · Thu · Fri" [ref=e341]
+              - cell "Primary & Middle School" [ref=e342]
+              - cell "Post-school transition before bus departures" [ref=e343]
+            - row [ref=e344]:
+              - rowheader "Sunset Command" [ref=e345]
+              - cell "04:45 PM–05:30 PM" [ref=e346]
+              - cell "Mon–Thu" [ref=e347]
+              - cell "Advanced Lancer Squad" [ref=e348]
+              - cell "Skill-at-arms, lance runs, barrel racing" [ref=e349]
+            - row [ref=e350]:
+              - rowheader "Weekend Circuit" [ref=e351]
+              - cell "07:00 AM–07:45 AM · 08:00 AM–08:45 AM" [ref=e352]
+              - cell "Sat & Sun" [ref=e353]
+              - cell "Open / Parent-Cadet Batches" [ref=e354]
+              - cell "Skill-at-arms, family attendance, monthly trials" [ref=e355]
+        - paragraph [ref=e357]: Sample timings; each hub publishes its own. Small batches of eight cadets per instructor (sample).
+    - region [ref=e358]:
+      - paragraph [ref=e359]: Graded three ways
+      - heading "Every session, sealed the same day." [level=2] [ref=e360]:
+        - generic [ref=e361]:
+          - generic [ref=e362]: Every session,
+          - generic [ref=e364]: sealed the same day.
+      - generic [ref=e366]:
+        - generic [ref=e367]:
+          - generic [ref=e368]: Riding
+          - paragraph [ref=e371]: Seat, hands, transitions and the discipline of the day.
+        - generic [ref=e372]:
+          - generic [ref=e373]: Ground
+          - paragraph [ref=e376]: Leading, handling, safety around the horse.
+        - generic [ref=e377]:
+          - generic [ref=e378]: Stable
+          - paragraph [ref=e381]: Grooming, tack, feed and the care log.
+      - paragraph [ref=e382]: Grades enter the ledger the same day and appear in the parent app.
+    - region "Tactical Skill Modules" [ref=e383]:
+      - generic [ref=e384]:
+        - generic:
+          - generic:
+            - paragraph: Tactical Skill Modules
+            - generic: Four Sovereign Disciplines
+          - link "Curriculum breakdown" [ref=e386] [cursor=pointer]:
+            - /url: /curriculum
+        - generic:
+          - img "A lance tip piercing a wooden peg at full gallop in tent-pegging"
+          - generic:
+            - paragraph: REEL 01 · 35 KM/H · CAVALRY LANCE
+            - heading "LOWERED LANCE" [level=2]: LOWEREDLANCE
+            - generic [ref=e391]:
+              - paragraph [ref=e393]: A 9-foot ash lance lowered at full 35 km/h gallop. Hand-eye calibration to lift a 6 cm target peg from the sand.
+              - button "Read more ↓" [ref=e394] [cursor=pointer]:
+                - generic [ref=e395]: Read more
+                - generic [ref=e396]: ↓
+        - generic [ref=e397]:
+          - generic [ref=e398]: 01 / 04
+          - generic [ref=e400]:
+            - button "Previous slide" [ref=e401] [cursor=pointer]: ←
+            - button "Next slide" [ref=e402] [cursor=pointer]: →
+        - generic: Swipe or use arrows to cycle
+    - region [ref=e403]:
+      - generic [ref=e404]:
+        - paragraph [ref=e405]: The disciplines
+        - heading "Four ways to win a field." [level=2] [ref=e406]:
+          - generic [ref=e407]:
+            - generic [ref=e408]: Four ways
+            - generic [ref=e410]: to win a field.
+      - list [ref=e412]:
+        - listitem [ref=e413]:
+          - img "A lance tip piercing a wooden peg at full gallop in sunset dust" [ref=e416]
+          - generic [ref=e418]:
+            - paragraph [ref=e419]: "01"
+            - paragraph [ref=e420]: Tent pegging
+            - paragraph [ref=e421]: "Lance and sword at the gallop: speed, focus, hand-eye timing."
+        - listitem [ref=e422]:
+          - img "A rider turning tightly around a barrel in spraying sand at speed" [ref=e425]
+          - generic [ref=e427]:
+            - paragraph [ref=e428]: "02"
+            - paragraph [ref=e429]: Barrel racing
+            - paragraph [ref=e430]: "Tight turns at speed: seat control and acceleration."
+        - listitem [ref=e431]:
+          - img "A horse and rider at full speed across open terrain at golden sunset" [ref=e434]
+          - generic [ref=e436]:
+            - paragraph [ref=e437]: "03"
+            - paragraph [ref=e438]: Mounted archery
+            - paragraph [ref=e439]: Reins released at the canter to draw and loose.
+        - listitem [ref=e440]:
+          - img "Master farrier shaping a horse shoe in classical forge" [ref=e443]
+          - generic [ref=e445]:
+            - paragraph [ref=e446]: "04"
+            - paragraph [ref=e447]: Groundcare & Formation
+            - paragraph [ref=e448]: Equine husbandry, ground handling, and troop formation.
+    - region "Next reel" [ref=e449]:
+      - link "Weekly progress ledger and official BSAH certification seals Next · Reel 06 · Act II Twenty-one stallions. The Studbook — Every one has a name. 05 15" [ref=e450] [cursor=pointer]:
+        - /url: /fleet
+        - img "Weekly progress ledger and official BSAH certification seals" [ref=e453]
+        - generic [ref=e455]:
+          - paragraph [ref=e456]:
+            - text: Next ·
+            - generic [ref=e457]: Reel 06
+            - text: · Act II
+          - paragraph [ref=e458]:
+            - generic [ref=e459]: Twenty-one
+            - generic [ref=e460]: stallions.
+          - paragraph [ref=e461]: The Studbook — Every one has a name.
+          - generic [ref=e464]:
+            - generic [ref=e465]: "05"
+            - generic [ref=e468]: "15"
+  - contentinfo "Site Footer" [ref=e469]:
+    - generic [ref=e470]:
+      - paragraph [ref=e473]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=e474] [cursor=pointer]:
+          - /url: /
+          - text: black stallion academy
+      - paragraph [ref=e475]:
+        - emphasis [ref=e476]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=e477]:
+        - list [ref=e478]:
+          - listitem [ref=e479]:
+            - link "The Legend" [ref=e480] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=e481]:
+            - link "The Instrument" [ref=e482] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=e483]:
+            - link "Science & Matrix" [ref=e484] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=e485]:
+            - link "Crucible & Cure" [ref=e486] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=e487]:
+            - link "Curriculum" [ref=e488] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=e489]:
+            - link "The Studbook" [ref=e490] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=e491]:
+            - link "For Schools" [ref=e492] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=e493]:
+            - link "Cadets" [ref=e494] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=e495]:
+            - link "Parents" [ref=e496] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=e497]:
+            - link "The Circuit" [ref=e498] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=e499]:
+            - link "Command AI" [ref=e500] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=e501]:
+            - link "The Gate" [ref=e502] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=e503]:
+        - generic [ref=e504]:
+          - generic [ref=e505]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=e506] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+          - generic [aria-hidden] [ref=e507]: ·
+        - generic [ref=e508]:
+          - generic [ref=e509]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=e510] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+          - generic [aria-hidden] [ref=e511]: ·
+        - generic [ref=e512]:
+          - generic [ref=e513]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=e514] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=e515]:
+        - paragraph [ref=e516]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - generic [ref=e517]:
+          - link "About" [ref=e518] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=e519] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=e520] [cursor=pointer]:
+            - /url: /journal
+          - link "Command AI" [ref=e521] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=e522] [cursor=pointer]:
+            - /url: /privacy
+          - link "About" [ref=e523] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=e524] [cursor=pointer]:
+            - /url: /lore
+          - link "Privacy Notice" [ref=e525] [cursor=pointer]:
+            - /url: /privacy
+  - button "Open Next.js Dev Tools" [ref=e531] [cursor=pointer]
+  - alert [ref=e535]

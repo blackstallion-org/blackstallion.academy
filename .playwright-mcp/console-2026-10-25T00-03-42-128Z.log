@@ -1,0 +1,44 @@
+[     553ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[     602ms] [LOG] [HMR] connected @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[   26100ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   27102ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   28104ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   29107ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   30111ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   34822ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   35117ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   35126ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   35479ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   35885ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   36339ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   36844ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   37400ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   38003ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   38677ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   39380ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   40120ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   40134ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   40937ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   41792ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   42695ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   43664ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   44668ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   45123ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   45722ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   46844ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   48003ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   49207ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   50127ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   50461ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   51767ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   53143ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   54548ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   55134ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   56004ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   57528ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   59088ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   60141ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[   60693ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   62375ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   64079ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/video/hero-main-mobile.mp4:0
+[   65147ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=VfvuTX7SAdiptALjL4SMx' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398

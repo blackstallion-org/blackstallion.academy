@@ -1,0 +1,648 @@
+- generic [active] [ref=f13e1]:
+  - link "Skip to content" [ref=f13e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f13e3]:
+    - generic [ref=f13e4]:
+      - link "Black Stallion Academy, home" [ref=f13e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f13e7]: Black Stallion
+      - navigation "Primary" [ref=f13e8]:
+        - list [ref=f13e9]:
+          - listitem [ref=f13e10]:
+            - link "Legend" [ref=f13e11] [cursor=pointer]:
+              - /url: /legend
+              - generic [ref=f13e12]:
+                - generic [ref=f13e13]: Legend
+                - generic [aria-hidden] [ref=f13e14]:
+                  - generic [ref=f13e15]: L
+                  - generic [ref=f13e16]: e
+                  - generic [ref=f13e17]: g
+                  - generic [ref=f13e18]: e
+                  - generic [ref=f13e19]: "n"
+                  - generic [ref=f13e20]: d
+                - generic [aria-hidden] [ref=f13e21]:
+                  - generic [ref=f13e22]: L
+                  - generic [ref=f13e23]: e
+                  - generic [ref=f13e24]: g
+                  - generic [ref=f13e25]: e
+                  - generic [ref=f13e26]: "n"
+                  - generic [ref=f13e27]: d
+          - listitem [ref=f13e28]:
+            - link "Curriculum" [ref=f13e29] [cursor=pointer]:
+              - /url: /curriculum
+              - generic [ref=f13e30]:
+                - generic [ref=f13e31]: Curriculum
+                - generic [aria-hidden] [ref=f13e32]:
+                  - generic [ref=f13e33]: C
+                  - generic [ref=f13e34]: u
+                  - generic [ref=f13e35]: r
+                  - generic [ref=f13e36]: r
+                  - generic [ref=f13e37]: i
+                  - generic [ref=f13e38]: c
+                  - generic [ref=f13e39]: u
+                  - generic [ref=f13e40]: l
+                  - generic [ref=f13e41]: u
+                  - generic [ref=f13e42]: m
+                - generic [aria-hidden] [ref=f13e43]:
+                  - generic [ref=f13e44]: C
+                  - generic [ref=f13e45]: u
+                  - generic [ref=f13e46]: r
+                  - generic [ref=f13e47]: r
+                  - generic [ref=f13e48]: i
+                  - generic [ref=f13e49]: c
+                  - generic [ref=f13e50]: u
+                  - generic [ref=f13e51]: l
+                  - generic [ref=f13e52]: u
+                  - generic [ref=f13e53]: m
+          - listitem [ref=f13e54]:
+            - link "Parents" [ref=f13e55] [cursor=pointer]:
+              - /url: /parents
+              - generic [ref=f13e56]:
+                - generic [ref=f13e57]: Parents
+                - generic [aria-hidden] [ref=f13e58]:
+                  - generic [ref=f13e59]: P
+                  - generic [ref=f13e60]: a
+                  - generic [ref=f13e61]: r
+                  - generic [ref=f13e62]: e
+                  - generic [ref=f13e63]: "n"
+                  - generic [ref=f13e64]: t
+                  - generic [ref=f13e65]: s
+                - generic [aria-hidden] [ref=f13e66]:
+                  - generic [ref=f13e67]: P
+                  - generic [ref=f13e68]: a
+                  - generic [ref=f13e69]: r
+                  - generic [ref=f13e70]: e
+                  - generic [ref=f13e71]: "n"
+                  - generic [ref=f13e72]: t
+                  - generic [ref=f13e73]: s
+          - listitem [ref=f13e74]:
+            - link "Schools" [ref=f13e75] [cursor=pointer]:
+              - /url: /schools
+              - generic [ref=f13e76]:
+                - generic [ref=f13e77]: Schools
+                - generic [aria-hidden] [ref=f13e78]:
+                  - generic [ref=f13e79]: S
+                  - generic [ref=f13e80]: c
+                  - generic [ref=f13e81]: h
+                  - generic [ref=f13e82]: o
+                  - generic [ref=f13e83]: o
+                  - generic [ref=f13e84]: l
+                  - generic [ref=f13e85]: s
+                - generic [aria-hidden] [ref=f13e86]:
+                  - generic [ref=f13e87]: S
+                  - generic [ref=f13e88]: c
+                  - generic [ref=f13e89]: h
+                  - generic [ref=f13e90]: o
+                  - generic [ref=f13e91]: o
+                  - generic [ref=f13e92]: l
+                  - generic [ref=f13e93]: s
+          - listitem [ref=f13e94]:
+            - link "Circuit" [ref=f13e95] [cursor=pointer]:
+              - /url: /tournaments
+              - generic [ref=f13e96]:
+                - generic [ref=f13e97]: Circuit
+                - generic [aria-hidden] [ref=f13e98]:
+                  - generic [ref=f13e99]: C
+                  - generic [ref=f13e100]: i
+                  - generic [ref=f13e101]: r
+                  - generic [ref=f13e102]: c
+                  - generic [ref=f13e103]: u
+                  - generic [ref=f13e104]: i
+                  - generic [ref=f13e105]: t
+                - generic [aria-hidden] [ref=f13e106]:
+                  - generic [ref=f13e107]: C
+                  - generic [ref=f13e108]: i
+                  - generic [ref=f13e109]: r
+                  - generic [ref=f13e110]: c
+                  - generic [ref=f13e111]: u
+                  - generic [ref=f13e112]: i
+                  - generic [ref=f13e113]: t
+          - listitem [ref=f13e114]:
+            - link "Verify" [ref=f13e115] [cursor=pointer]:
+              - /url: /verify
+              - generic [ref=f13e116]:
+                - generic [ref=f13e117]: Verify
+                - generic [aria-hidden] [ref=f13e118]:
+                  - generic [ref=f13e119]: V
+                  - generic [ref=f13e120]: e
+                  - generic [ref=f13e121]: r
+                  - generic [ref=f13e122]: i
+                  - generic [ref=f13e123]: f
+                  - generic [ref=f13e124]: "y"
+                - generic [aria-hidden] [ref=f13e125]:
+                  - generic [ref=f13e126]: V
+                  - generic [ref=f13e127]: e
+                  - generic [ref=f13e128]: r
+                  - generic [ref=f13e129]: i
+                  - generic [ref=f13e130]: f
+                  - generic [ref=f13e131]: "y"
+      - generic [ref=f13e132]:
+        - link "Staff sign-in" [ref=f13e133] [cursor=pointer]:
+          - /url: /admin/login
+        - button "Sound on. Toggle website sound effects." [pressed] [ref=f13e137] [cursor=pointer]:
+          - generic [ref=f13e138]: Sound
+          - generic [ref=f13e139]: "ON"
+        - link "Enrol a cadet" [ref=f13e140] [cursor=pointer]:
+          - /url: /contact?gate=parents
+        - button "Reels" [ref=f13e141] [cursor=pointer]
+  - main [ref=f13e146]:
+    - region [ref=f13e147]:
+      - generic [ref=f13e148]:
+        - img "A young rider at sitting trot with an upright, stacked spine" [ref=f13e152]
+        - heading "What the saddle does to a child." [level=1] [ref=f13e163]:
+          - generic [ref=f13e164]:
+            - generic [ref=f13e165]: What the saddle
+            - generic [ref=f13e167]: does to a child.
+      - generic [ref=f13e169]:
+        - paragraph [ref=f13e170]:
+          - generic [ref=f13e171]: REEL 04 / 16
+          - generic [ref=f13e173]: Act II · The Citadel
+        - paragraph [ref=f13e174]: Four systems, one twenty-minute session. Here is what we can show, and how sure we are.
+        - paragraph [ref=f13e175]: Axis 0.0° · Pelvis ≈100/min · Stride
+    - region "Reel 04 · The Matrix" [ref=f13e176]:
+      - generic [ref=f13e177]:
+        - generic [ref=f13e178]:
+          - generic [ref=f13e179]: REEL 03
+          - generic [ref=f13e180]: •
+          - generic [ref=f13e181]: THE MATRIX
+        - generic [ref=f13e182]:
+          - generic [ref=f13e184]:
+            - strong [ref=f13e185]: "03"
+            - text: / 05
+          - button "Open Registration and QA Inspector" [ref=f13e188] [cursor=pointer]
+      - generic [ref=f13e192]:
+        - generic [ref=f13e193]:
+          - generic [ref=f13e194]:
+            - paragraph [ref=f13e195]: What twenty minutes
+            - heading "does to a child." [level=2] [ref=f13e196]: does toa child.
+          - navigation "Anatomical System Selector" [ref=f13e197]:
+            - tablist "Four Anatomical Regions" [ref=f13e198]:
+              - tab "01 Brain" [selected] [ref=f13e199] [cursor=pointer]:
+                - generic [ref=f13e200]:
+                  - generic [ref=f13e201]: "01"
+                  - generic [ref=f13e202]: Brain
+              - tab "02 Spine" [ref=f13e206] [cursor=pointer]:
+                - generic [ref=f13e207]:
+                  - generic [ref=f13e208]: "02"
+                  - generic [ref=f13e209]: Spine
+              - tab "03 Muscle" [ref=f13e219] [cursor=pointer]:
+                - generic [ref=f13e220]:
+                  - generic [ref=f13e221]: "03"
+                  - generic [ref=f13e222]: Muscle
+              - tab "04 Heart" [ref=f13e226] [cursor=pointer]:
+                - generic [ref=f13e227]:
+                  - generic [ref=f13e228]: "04"
+                  - generic [ref=f13e229]: Heart
+          - generic [ref=f13e233]:
+            - generic [ref=f13e234]:
+              - img "Equestrian child rider thumbnail" [ref=f13e236]
+              - generic [ref=f13e237]:
+                - paragraph [ref=f13e238]: Real change.
+                - paragraph [ref=f13e239]: Measurable growth.
+            - button "Compare all four physiological systems" [ref=f13e240] [cursor=pointer]:
+              - generic [ref=f13e241]: ›
+        - generic [ref=f13e243]:
+          - img "Realistic child equestrian rider in side-profile composition on a dapple-grey horse facing right" [ref=f13e244]
+          - img "Interactive Anatomical Visualization Stage":
+            - button "01 BRAIN" [ref=f13e245]:
+              - generic [ref=f13e249]: "01"
+              - generic [ref=f13e250]: BRAIN
+            - button "02 SPINE" [ref=f13e251]:
+              - generic [ref=f13e255]: "02"
+              - generic [ref=f13e256]: SPINE
+            - button "03 MUSCLE" [ref=f13e257]:
+              - generic [ref=f13e261]: "03"
+              - generic [ref=f13e262]: MUSCLE
+            - button "04 HEART" [ref=f13e263]:
+              - generic [ref=f13e267]: "04"
+              - generic [ref=f13e268]: HEART
+        - tabpanel "01 Brain" [ref=f13e269]:
+          - generic [ref=f13e270]:
+            - generic [ref=f13e271]:
+              - generic [ref=f13e272]: "01"
+              - generic [ref=f13e274]: BRAIN
+            - heading "Calmer mind. Stronger decisions." [level=2] [ref=f13e275]: Calmer mind.Stronger decisions.
+            - paragraph [ref=f13e276]: Steering a living animal means reading, deciding and correcting every second, with calm hands and clear intent. This builds focus, emotional control and confidence that carries beyond the arena.
+            - generic [ref=f13e277]:
+              - generic [ref=f13e278]:
+                - generic [ref=f13e279]: SUPPORTED EVIDENCE
+                - generic [ref=f13e282]: Peer-Reviewed RCT
+              - paragraph [ref=f13e283]: In a randomised trial, children in a 12-week horse programme had lower stress-hormone levels than a wait-list group (Pendry et al., 2014).
+              - button "SEE THE EVIDENCE" [ref=f13e285] [cursor=pointer]:
+                - generic [aria-hidden] [ref=f13e287]: →
+          - generic [ref=f13e288]:
+            - group "Anatomical Detail Thumbnails" [ref=f13e289]:
+              - button "Select Brain view" [pressed] [ref=f13e290] [cursor=pointer]:
+                - img "Brain anatomical detail" [ref=f13e291]
+              - button "Select Spine view" [ref=f13e292] [cursor=pointer]:
+                - img "Spine anatomical detail" [ref=f13e293]
+              - button "Select Muscle view" [ref=f13e294] [cursor=pointer]:
+                - img "Muscle anatomical detail" [ref=f13e295]
+              - button "Select Heart view" [ref=f13e296] [cursor=pointer]:
+                - img "Heart anatomical detail" [ref=f13e297]
+            - generic [ref=f13e301]:
+              - button "Previous anatomical region" [ref=f13e302] [cursor=pointer]: ←
+              - button "Next anatomical region" [ref=f13e303] [cursor=pointer]: →
+      - generic [ref=f13e304]:
+        - generic [ref=f13e305]: THE BLACK STALLION ACADEMY
+        - generic [ref=f13e306]: "STAGE COORDINATE SPACE: 1600 × 1200 • ACTIVE: 01 BRAIN"
+      - region "One conversation. Two bodies." [ref=f13e307]:
+        - iframe [ref=f13e308]:
+          - main [ref=f14e2]:
+            - generic [ref=f14e3]:
+              - generic [ref=f14e4]:
+                - heading "One conversation. Two bodies." [level=1] [ref=f14e5]
+                - paragraph [ref=f14e6]: Select a connection to explore how balanced riding helps both horse and rider reach the same purpose.
+              - generic [ref=f14e7]:
+                - generic "Three-dimensional Marwari horse with a seated cadet rider. Drag to turn the model; use the connection choices to change the highlighted anatomy." [ref=f14e8]
+                - generic [ref=f14e9]: Preparing the exhibit
+                - generic: CADET SPINE
+                - generic: MARWARI EQUINE
+              - generic [ref=f14e14]:
+                - button "Cervical alignment Ears & attention" [pressed] [ref=f14e15] [cursor=pointer]:
+                  - generic [ref=f14e26]:
+                    - generic [ref=f14e27]: Cervical alignment
+                    - generic [ref=f14e28]: Ears & attention
+                - button "Core posture Withers & seat" [ref=f14e32] [cursor=pointer]:
+                  - generic [ref=f14e42]:
+                    - generic [ref=f14e43]: Core posture
+                    - generic [ref=f14e44]: Withers & seat
+                - button "Lumbar balance Reins & contact" [ref=f14e48] [cursor=pointer]:
+                  - generic [ref=f14e58]:
+                    - generic [ref=f14e59]: Lumbar balance
+                    - generic [ref=f14e60]: Reins & contact
+              - complementary [ref=f14e64]:
+                - generic [ref=f14e65]:
+                  - generic [ref=f14e66]: "01"
+                  - generic [ref=f14e69]: POSTURE LINE
+                - heading "Cervical alignment" [level=2] [ref=f14e70]
+                - generic [ref=f14e71]: EARS & ATTENTION
+                - paragraph [ref=f14e72]: A steady trunk and balanced seat help the rider follow the horse’s movement without gripping. Instructor feedback connects posture to a quieter, more responsive horse.
+                - generic [ref=f14e73]:
+                  - generic [ref=f14e74]:
+                    - generic [ref=f14e75]:
+                      - generic [ref=f14e76]: CADET FOCUS
+                      - generic [ref=f14e77]: Cranio-Cervical Axis & Soft Rein Contact
+                    - generic [ref=f14e78]:
+                      - generic [ref=f14e79]: EQUINE ANATOMY
+                      - generic [ref=f14e80]: Poll (C1–C2), Cervical Arch & Lyre Ears
+                  - generic [ref=f14e81]:
+                    - button "C1–C7 Cervical & Lyre Ears" [ref=f14e82] [cursor=pointer]
+                    - button "Withers & Trapezius" [ref=f14e83] [cursor=pointer]
+                    - button "Longissimus Bridge" [ref=f14e84] [cursor=pointer]
+                    - button "Lumbosacral & Gluteals" [ref=f14e85] [cursor=pointer]
+                - generic [ref=f14e86]:
+                  - generic [ref=f14e87]:
+                    - button "Previous connection" [ref=f14e88] [cursor=pointer]
+                    - generic [ref=f14e91]: 1 / 3
+                    - button "Next connection" [ref=f14e92] [cursor=pointer]
+                  - generic [ref=f14e95]: Horse and rider
+              - generic [ref=f14e96]:
+                - generic [ref=f14e97]:
+                  - 'button "Cadet rider: on" [pressed] [ref=f14e98] [cursor=pointer]'
+                  - generic [ref=f14e101]: Drag to turn
+                - generic [ref=f14e102]:
+                  - generic [ref=f14e103]:
+                    - generic [ref=f14e104]: VIEW MODE
+                    - generic [ref=f14e105]: Posture line
+                  - generic [ref=f14e106]:
+                    - button "Posture line view" [pressed] [ref=f14e107] [cursor=pointer]:
+                      - generic [ref=f14e111]: ALIGN
+                    - button "Skeleton view" [ref=f14e112] [cursor=pointer]:
+                      - generic [ref=f14e118]: BONE
+                    - button "Muscle view" [ref=f14e119] [cursor=pointer]:
+                      - generic [ref=f14e125]: MUSCLE
+                    - button "Coat view" [ref=f14e126] [cursor=pointer]:
+                      - generic [ref=f14e129]: COAT
+                - generic [ref=f14e130]:
+                  - generic [ref=f14e131]:
+                    - generic [ref=f14e132]: PLAY MOVEMENT
+                    - generic [ref=f14e133]: 4-BEAT LATERAL
+                  - generic [ref=f14e134]:
+                    - button "Play movement" [ref=f14e135] [cursor=pointer]
+                    - generic [ref=f14e138]:
+                      - button "Stride phase 0%" [ref=f14e140] [cursor=pointer]
+                      - button "Stride phase 25%" [ref=f14e141] [cursor=pointer]
+                      - button "Stride phase 50%" [ref=f14e142] [cursor=pointer]
+                      - button "Stride phase 75%" [ref=f14e143] [cursor=pointer]
+                      - button "Stride phase 100%" [ref=f14e144] [cursor=pointer]
+                  - generic [ref=f14e145]:
+                    - button "WALK" [ref=f14e146] [cursor=pointer]
+                    - button "TROT" [ref=f14e147] [cursor=pointer]
+                    - button "CANTER" [ref=f14e148] [cursor=pointer]
+    - region [ref=f13e309]:
+      - generic [ref=f13e310]:
+        - generic [ref=f13e311]: The Matrix Movement study
+        - button "Pause study (movement)" [pressed] [ref=f13e313] [cursor=pointer]:
+          - generic [ref=f13e314]: Pause study
+          - generic [aria-hidden] [ref=f13e315]: Ⅱ
+      - generic [ref=f13e316]:
+        - generic [ref=f13e317]:
+          - paragraph [ref=f13e318]: The walk
+          - heading [level=2] [ref=f13e319]:
+            - text: A hundredsteps
+            - emphasis [ref=f13e320]: a minute.
+        - generic [ref=f13e321]:
+          - img "A young rider sitting upright on a walking bay horse" [ref=f13e322]
+          - generic [ref=f13e323]: Horse + rider / a shared rhythm
+      - generic [ref=f13e324]:
+        - generic [ref=f13e325]:
+          - paragraph [ref=f13e326]: "At a walk, a horse’s back moves the rider’s pelvis forward, sideways and up and down about a hundred times a minute: the same pattern the body makes when it walks."
+          - paragraph [ref=f13e327]: A natural rhythm. A constant conversation.
+        - complementary [ref=f13e328]:
+          - paragraph [ref=f13e329]: Three dimensions. One stride.
+          - paragraph [ref=f13e330]: The horse’s back guides the rider’s pelvis through a repeating pattern of movement.
+          - generic [ref=f13e331]:
+            - button "Up / down Vertical" [pressed] [ref=f13e332] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f13e333]: ↕
+              - generic [ref=f13e334]:
+                - strong [ref=f13e335]: Up / down
+                - generic [ref=f13e336]: Vertical
+            - button "Forward / back Antero-posterior" [ref=f13e338] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f13e339]: ⇄
+              - generic [ref=f13e340]:
+                - strong [ref=f13e341]: Forward / back
+                - generic [ref=f13e342]: Antero-posterior
+            - button "Side to side Lateral" [ref=f13e344] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f13e345]: ↔
+              - generic [ref=f13e346]:
+                - strong [ref=f13e347]: Side to side
+                - generic [ref=f13e348]: Lateral
+          - paragraph [ref=f13e350]: Select a direction to explore the rhythm below.
+      - generic [ref=f13e351]:
+        - generic [ref=f13e352]:
+          - strong [ref=f13e353]: ≈100
+          - generic [ref=f13e354]: movements / min
+          - generic [ref=f13e355]: Source · American Hippotherapy Association
+        - generic [ref=f13e356]:
+          - generic [ref=f13e357]:
+            - generic [ref=f13e358]: Horse’s back movement
+            - generic [ref=f13e360]: Rider’s pelvis movement
+          - generic [ref=f13e362]:
+            - generic [ref=f13e363]:
+              - generic [ref=f13e364]: Up
+              - generic [ref=f13e365]: Neutral
+              - generic [ref=f13e366]: Down
+            - img "Illustrative up / down movement of horse and rider" [ref=f13e367]
+          - generic [ref=f13e372]:
+            - generic [ref=f13e373]: Vertical movement
+            - generic [ref=f13e374]: Illustration of rhythm · not a clinical measurement
+      - generic [aria-hidden] [ref=f13e375]:
+        - generic [ref=f13e376]: "01"
+        - generic [ref=f13e378]: "02"
+        - generic [ref=f13e380]: "03"
+        - generic [ref=f13e382]: "04"
+        - generic [ref=f13e384]: "05"
+        - generic [ref=f13e386]: "06"
+        - generic [ref=f13e388]: "07"
+        - generic [ref=f13e390]: "08"
+        - generic [ref=f13e392]: "09"
+      - generic [ref=f13e394]:
+        - generic [ref=f13e395]: The walk / motion study
+        - generic [ref=f13e396]: Balance begins with movement
+    - region "The saddle, in four frames" [ref=f13e397]:
+      - generic [ref=f13e398]:
+        - generic [ref=f13e399]:
+          - heading "The saddle, in four frames" [level=2] [ref=f13e400]
+          - list [ref=f13e401]:
+            - listitem [ref=f13e402]:
+              - heading "The slouch." [level=3] [ref=f13e403]
+              - paragraph [ref=f13e404]: "I: Hours over a screen teach the body to fold forward."
+            - listitem [ref=f13e405]:
+              - heading "The stack." [level=3] [ref=f13e406]
+              - paragraph [ref=f13e407]: "II: In the saddle the spine stacks: head over shoulders over hips."
+            - listitem [ref=f13e408]:
+              - heading "The horse's side." [level=3] [ref=f13e409]
+              - paragraph [ref=f13e410]: "III: A horse in side profile: the back the rider's hips follow."
+            - listitem [ref=f13e411]:
+              - heading "Quiet hands." [level=3] [ref=f13e412]
+              - paragraph [ref=f13e413]: "IV: Reins held lightly; the horse answers small signals."
+        - generic [ref=f13e423]:
+          - paragraph [ref=f13e424]: I · 01 / 04
+          - heading [level=3] [ref=f13e425]: The slouch.
+          - paragraph [ref=f13e426]: Hours over a screen teach the body to fold forward.
+    - region [ref=f13e427]:
+      - paragraph [ref=f13e428]: Demands compared
+      - heading "Twenty minutes in the saddle." [level=2] [ref=f13e429]:
+        - generic [ref=f13e430]:
+          - generic [ref=f13e431]: Twenty minutes
+          - generic [ref=f13e433]: in the saddle.
+      - generic [ref=f13e435]:
+        - generic [ref=f13e436]:
+          - generic [ref=f13e438]: 20-min BSAH session
+          - generic [ref=f13e439]: 40-min court sport
+        - generic [ref=f13e440]:
+          - generic [ref=f13e441]: Stress
+          - generic [ref=f13e442]: Calm is required for the horse to cooperate
+          - generic [ref=f13e443]: Adrenaline spikes; calm isn't required
+        - generic [ref=f13e444]:
+          - generic [ref=f13e445]: Posture
+          - generic [ref=f13e446]: Upright, stacked spine for the whole session
+          - generic [ref=f13e447]: Repeated forward hunching and twisting
+        - generic [ref=f13e448]:
+          - generic [ref=f13e449]: Core
+          - generic [ref=f13e450]: Deep stabilisers work continuously
+          - generic [ref=f13e451]: Major limb muscles; deep core less engaged
+        - generic [ref=f13e452]:
+          - generic [ref=f13e453]: Joints
+          - generic [ref=f13e454]: Low impact; the horse absorbs the ground
+          - generic [ref=f13e455]: Repeated hard landings on court surfaces
+        - generic [ref=f13e456]:
+          - generic [ref=f13e457]: Empathy
+          - generic [ref=f13e458]: A living partner to read and care for
+          - generic [ref=f13e459]: Fast reflexes, no partner to read
+        - paragraph [ref=f13e460]: This compares what each activity demands, not measured outcomes. BSAH is collecting session data to measure outcomes.
+    - region [ref=f13e461]:
+      - generic [ref=f13e462]:
+        - generic [ref=f13e463]:
+          - paragraph [ref=f13e464]: The honest part
+          - heading "What we can stand behind." [level=2] [ref=f13e465]:
+            - generic [ref=f13e466]:
+              - generic [ref=f13e467]: What we can
+              - generic [ref=f13e469]: stand behind.
+          - paragraph [ref=f13e471]: Every health claim on this site is listed here with its status. If we cannot source it, we do not say it.
+        - list [ref=f13e472]:
+          - listitem [ref=f13e473]:
+            - generic [ref=f13e474]: "[1]"
+            - generic [ref=f13e475]:
+              - paragraph [ref=f13e476]: Horse programmes can lower children's stress hormones
+              - paragraph [ref=f13e477]:
+                - link "Pendry, Smith & Roeter, Human-Animal Interaction Bulletin, 2014 (randomised, 12 weeks, grades 5–8)" [ref=f13e478] [cursor=pointer]:
+                  - /url: https://www.sciencedaily.com/releases/2014/04/140424170556.htm
+            - generic [ref=f13e479]: Supported
+          - listitem [ref=f13e480]:
+            - generic [ref=f13e481]: "[2]"
+            - generic [ref=f13e482]:
+              - paragraph [ref=f13e483]: A horse's walk moves the rider's pelvis about a hundred times a minute, like human gait
+              - paragraph [ref=f13e484]:
+                - link "American Hippotherapy Association" [ref=f13e485] [cursor=pointer]:
+                  - /url: https://www.americanhippotherapyassociation.org/
+            - generic [ref=f13e486]: Supported
+          - listitem [ref=f13e487]:
+            - generic [ref=f13e488]: "[3]"
+            - generic [ref=f13e489]:
+              - paragraph [ref=f13e490]: Riding demands an upright, stacked posture and continuous core work
+              - paragraph [ref=f13e491]: Rider biomechanics literature
+            - generic [ref=f13e492]: Supported
+          - listitem [ref=f13e493]:
+            - generic [ref=f13e494]: "[4]"
+            - generic [ref=f13e495]:
+              - paragraph [ref=f13e496]: Riding is low impact on knees and ankles compared with court sports
+              - paragraph [ref=f13e497]: Activity comparison; BSAH data collection under way
+            - generic [ref=f13e498]: Emerging
+          - listitem [ref=f13e499]:
+            - generic [ref=f13e500]: "[5]"
+            - generic [ref=f13e501]:
+              - paragraph [ref=f13e502]: Heart rate reaches a training zone during trot and canter
+              - paragraph [ref=f13e503]: BSAH session heart-rate logging (in progress)
+            - generic [ref=f13e504]: Emerging
+          - listitem [ref=f13e505]:
+            - generic [ref=f13e506]: "[6]"
+            - generic [ref=f13e507]:
+              - paragraph [ref=f13e508]: Precise percentage drops in cortisol or counts of muscles activated
+              - paragraph [ref=f13e509]: No source we can stand behind yet; not used on this site
+            - generic [ref=f13e510]: Not yet published
+    - region "Next reel" [ref=f13e511]:
+      - link "A boy in cadet uniform sitting tall on a Marwari at golden hour Digital fragility is a choice. Next · Reel 05 · Act II Crisis & Cure — Character is forged in the arena. 04 16" [ref=f13e512] [cursor=pointer]:
+        - /url: /why
+        - generic [ref=f13e513]:
+          - img "A boy in cadet uniform sitting tall on a Marwari at golden hour" [ref=f13e516]
+          - paragraph [ref=f13e519]:
+            - generic [ref=f13e520]: Digital fragility
+            - generic [ref=f13e521]: is a choice.
+        - generic [ref=f13e522]:
+          - paragraph [ref=f13e523]:
+            - text: Next ·
+            - generic [ref=f13e524]: Reel 05
+            - text: · Act II
+          - paragraph [ref=f13e525]: Crisis & Cure — Character is forged in the arena.
+          - generic [ref=f13e528]:
+            - generic [ref=f13e529]: "04"
+            - generic [ref=f13e532]: "16"
+  - contentinfo "Site Footer" [ref=f13e533]:
+    - generic [ref=f13e534]:
+      - generic [aria-hidden] [ref=f13e538]:
+        - generic [aria-hidden] [ref=f13e539]: T
+        - generic [aria-hidden] [ref=f13e540]: H
+        - generic [aria-hidden] [ref=f13e541]: E
+        - generic [aria-hidden] [ref=f13e543]: B
+        - generic [aria-hidden] [ref=f13e544]: L
+        - generic [aria-hidden] [ref=f13e545]: A
+        - generic [aria-hidden] [ref=f13e546]: C
+        - generic [aria-hidden] [ref=f13e547]: K
+        - generic [aria-hidden] [ref=f13e549]: S
+        - generic [aria-hidden] [ref=f13e550]: T
+        - generic [aria-hidden] [ref=f13e551]: A
+        - generic [aria-hidden] [ref=f13e552]: L
+        - generic [aria-hidden] [ref=f13e553]: L
+        - generic [aria-hidden] [ref=f13e554]: I
+        - generic [aria-hidden] [ref=f13e555]: O
+        - generic [aria-hidden] [ref=f13e556]: "N"
+        - generic [aria-hidden] [ref=f13e558]: A
+        - generic [aria-hidden] [ref=f13e559]: C
+        - generic [aria-hidden] [ref=f13e560]: A
+        - generic [aria-hidden] [ref=f13e561]: D
+        - generic [aria-hidden] [ref=f13e562]: E
+        - generic [aria-hidden] [ref=f13e563]: M
+        - generic [aria-hidden] [ref=f13e564]: "Y"
+        - generic [aria-hidden] [ref=f13e566]: ·
+        - generic [aria-hidden] [ref=f13e568]: D
+        - generic [aria-hidden] [ref=f13e569]: O
+        - generic [aria-hidden] [ref=f13e570]: M
+        - generic [aria-hidden] [ref=f13e571]: I
+        - generic [aria-hidden] [ref=f13e572]: "N"
+        - generic [aria-hidden] [ref=f13e573]: U
+        - generic [aria-hidden] [ref=f13e574]: S
+        - generic [aria-hidden] [ref=f13e576]: S
+        - generic [aria-hidden] [ref=f13e577]: U
+        - generic [aria-hidden] [ref=f13e578]: I
+        - generic [aria-hidden] [ref=f13e580]: ·
+        - generic [aria-hidden] [ref=f13e582]: D
+        - generic [aria-hidden] [ref=f13e583]: O
+        - generic [aria-hidden] [ref=f13e584]: M
+        - generic [aria-hidden] [ref=f13e585]: I
+        - generic [aria-hidden] [ref=f13e586]: "N"
+        - generic [aria-hidden] [ref=f13e587]: U
+        - generic [aria-hidden] [ref=f13e588]: S
+        - generic [aria-hidden] [ref=f13e590]: E
+        - generic [aria-hidden] [ref=f13e591]: Q
+        - generic [aria-hidden] [ref=f13e592]: U
+        - generic [aria-hidden] [ref=f13e593]: I
+        - generic [aria-hidden] [ref=f13e595]: ·
+      - paragraph [ref=f13e600]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=f13e601] [cursor=pointer]:
+          - /url: /
+          - text: black stallion academy
+      - paragraph [ref=f13e602]:
+        - emphasis [ref=f13e603]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=f13e604]:
+        - list [ref=f13e605]:
+          - listitem [ref=f13e606]:
+            - link "The Legend" [ref=f13e607] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=f13e608]:
+            - link "The Instrument" [ref=f13e609] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=f13e610]:
+            - link "3D Monument" [ref=f13e611] [cursor=pointer]:
+              - /url: /statue
+          - listitem [ref=f13e612]:
+            - link "Science & Matrix" [ref=f13e613] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=f13e614]:
+            - link "Crucible & Cure" [ref=f13e615] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=f13e616]:
+            - link "Curriculum" [ref=f13e617] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=f13e618]:
+            - link "The Studbook" [ref=f13e619] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=f13e620]:
+            - link "For Schools" [ref=f13e621] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=f13e622]:
+            - link "Cadets" [ref=f13e623] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=f13e624]:
+            - link "Parents" [ref=f13e625] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=f13e626]:
+            - link "The Circuit" [ref=f13e627] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=f13e628]:
+            - link "Information desk" [ref=f13e629] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=f13e630]:
+            - link "The Gate" [ref=f13e631] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=f13e632]:
+        - generic [ref=f13e633]:
+          - generic [ref=f13e634]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=f13e635] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+          - generic [aria-hidden] [ref=f13e636]: ·
+        - generic [ref=f13e637]:
+          - generic [ref=f13e638]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=f13e639] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+          - generic [aria-hidden] [ref=f13e640]: ·
+        - generic [ref=f13e641]:
+          - generic [ref=f13e642]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=f13e643] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=f13e644]:
+        - paragraph [ref=f13e645]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - generic [ref=f13e646]:
+          - link "About" [ref=f13e647] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=f13e648] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=f13e649] [cursor=pointer]:
+            - /url: /journal
+          - link "Information desk" [ref=f13e650] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=f13e651] [cursor=pointer]:
+            - /url: /privacy
+  - button "Open Next.js Dev Tools" [ref=f13e657] [cursor=pointer]

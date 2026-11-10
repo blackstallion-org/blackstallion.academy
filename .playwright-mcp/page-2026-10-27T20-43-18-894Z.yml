@@ -1,0 +1,628 @@
+- generic [active] [ref=f25e1]:
+  - link "Skip to content" [ref=f25e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f25e3]:
+    - generic [ref=f25e4]:
+      - link "Black Stallion Academy, home" [ref=f25e6] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f25e7]:
+        - link "Staff sign-in" [ref=f25e8] [cursor=pointer]:
+          - /url: /admin/login
+        - button "Sound on. Toggle website sound effects." [pressed] [ref=f25e12] [cursor=pointer]:
+          - generic [ref=f25e13]: "ON"
+        - button "Reels" [ref=f25e14] [cursor=pointer]
+  - main [ref=f25e19]:
+    - 'region "The Covenant: Cinematic 3D encounter between cadet and stallion" [ref=f25e20]':
+      - generic [ref=f25e21]:
+        - generic:
+          - paragraph [ref=f25e26]: BSAH · THE COVENANT
+          - generic [ref=f25e27]:
+            - generic:
+              - generic:
+                - generic:
+                  - generic: SCENE 01
+                  - generic: EQUILIBRIUM
+                - heading "Two wills meet. Stillness first." [level=2]:
+                  - generic: Two wills meet.
+                  - generic: Stillness first.
+                - paragraph: The cadet stands grounded. The Marwari stallion bows its crown. Before reins are taken, the measure of courage is taken eye to eye.
+            - generic [ref=f25e29]:
+              - generic [ref=f25e30]:
+                - generic [ref=f25e31]: SCENE 02
+                - generic [ref=f25e33]: THE NOBLE CREST
+              - heading "Royal Marwari bloodline. Unbroken spirit." [level=2] [ref=f25e34]:
+                - generic [ref=f25e35]: Royal Marwari bloodline.
+                - generic [ref=f25e36]: Unbroken spirit.
+              - paragraph [ref=f25e37]: Curled lyre ears locked forward, breath misting in the cold morning air. Centuries of battlefield loyalty carved into sinew and bone.
+            - generic:
+              - generic:
+                - generic:
+                  - generic: SCENE 03
+                  - generic: THE TOUCH
+                - heading "Where command dissolves. A touch on velvet." [level=2]:
+                  - generic: Where command dissolves.
+                  - generic: A touch on velvet.
+                - paragraph: A single touch upon warm velvet. The bit relaxes. The stallion yields its breath not to physical force, but to absolute stillness.
+            - generic:
+              - generic:
+                - generic:
+                  - generic: SCENE 04
+                  - generic: TRANSFIGURATION
+                - heading "A rider is not born. Forged in silence." [level=2]:
+                  - generic: A rider is not born.
+                  - generic: Forged in silence.
+                - paragraph: Pride without arrogance. Sovereignty without fear. The young cadet steps forward—no longer separate from the stallion, but one.
+          - generic [ref=f25e38]:
+            - generic [ref=f25e39]:
+              - button "01 THE" [ref=f25e40] [cursor=pointer]
+              - button "02 EQUILIBRIUM" [ref=f25e41] [cursor=pointer]
+              - button "03 THE" [ref=f25e42] [cursor=pointer]
+              - button "04 THE" [ref=f25e43] [cursor=pointer]
+              - button "05 TRANSFIGURATION" [ref=f25e44] [cursor=pointer]
+            - generic [ref=f25e45]: 41%
+    - region [ref=f25e49]:
+      - generic [ref=f25e50]:
+        - img "A lantern-lit stable corridor" [ref=f25e53]
+        - heading "Twenty-one stallions. Every one has a name." [level=1] [ref=f25e55]:
+          - generic [ref=f25e56]:
+            - generic [ref=f25e57]: Twenty-one stallions.
+            - generic [ref=f25e59]: Every one has a name.
+      - generic [ref=f25e61]:
+        - paragraph [ref=f25e62]:
+          - generic [ref=f25e63]: REEL 07 / 16
+          - generic [ref=f25e65]: Act II · The Citadel
+        - paragraph [ref=f25e66]: Indigenous Marwari and Kathiawari horses, microchipped, vet-checked daily and on camera around the clock.
+    - region [ref=f25e67]:
+      - generic [ref=f25e68]:
+        - paragraph [ref=f25e69]: Reel 07A · Studbook visual study
+        - heading "The Sovereign Marwari" [level=2] [ref=f25e70]
+        - paragraph [ref=f25e71]: Indigenous Rajasthani warhorse lineage. Microchipped under ISO 11784 telemetry with distinct lyre-curved ears and unyielding composure.
+      - img "A bay Marwari stallion with inward-curving ears and a white blaze, against a warm studio backdrop" [ref=f25e73]
+      - link "Explore Marwari Legend" [ref=f25e75] [cursor=pointer]:
+        - /url: /legend
+    - region "The stable, in four frames" [ref=f25e76]:
+      - generic [ref=f25e77]:
+        - generic [ref=f25e78]:
+          - heading "The stable, in four frames" [level=2] [ref=f25e79]
+          - list [ref=f25e80]:
+            - listitem [ref=f25e81]:
+              - heading "Chetak IX." [level=3] [ref=f25e82]
+              - paragraph [ref=f25e83]: "I: A dark bay Marwari with a white blaze."
+            - listitem [ref=f25e84]:
+              - heading "Veer." [level=3] [ref=f25e85]
+              - paragraph [ref=f25e86]: "II: A chestnut-gold Kathiawari stallion."
+            - listitem [ref=f25e87]:
+              - heading "Kesar." [level=3] [ref=f25e88]
+              - paragraph [ref=f25e89]: "III: A skewbald Marwari stallion."
+            - listitem [ref=f25e90]:
+              - heading "Arbudh." [level=3] [ref=f25e91]
+              - paragraph [ref=f25e92]: "IV: A light bay Marwari with four white socks."
+        - generic [ref=f25e102]:
+          - paragraph [ref=f25e103]: I · 01 / 04
+          - heading [level=3] [ref=f25e104]: Chetak IX.
+          - paragraph [ref=f25e105]: A dark bay Marwari with a white blaze.
+    - region "The horses" [ref=f25e106]:
+      - generic [aria-hidden] [ref=f25e107]:
+        - generic [ref=f25e108]: Black Stallion Academy
+        - generic [ref=f25e109]: The horses
+      - heading "Every horse has a name. Every name has a story." [level=2] [ref=f25e111]
+      - paragraph [ref=f25e112]: A moment between chapters
+    - region [ref=f25e113]:
+      - generic [ref=f25e114]:
+        - generic [ref=f25e115]:
+          - paragraph [ref=f25e116]: The registry
+          - heading "The studbook." [level=2] [ref=f25e117]:
+            - generic [ref=f25e118]:
+              - generic [ref=f25e119]: The
+              - generic [ref=f25e121]: studbook.
+        - radiogroup "Filter by breed" [ref=f25e123]:
+          - radio "All" [checked] [ref=f25e124] [cursor=pointer]
+          - radio "Marwari" [ref=f25e125] [cursor=pointer]
+          - radio "Kathiawari" [ref=f25e126] [cursor=pointer]
+      - region "Fleet comparison table" [ref=f25e127]:
+        - table [ref=f25e128]:
+          - caption [ref=f25e129]: Stallion registry (sample records)
+          - rowgroup [ref=f25e130]:
+            - row [ref=f25e131]:
+              - columnheader "Photograph" [ref=f25e132]
+              - columnheader "Name" [ref=f25e134]
+              - columnheader "Breed" [ref=f25e135]
+              - columnheader "Microchip (ISO 11784)" [ref=f25e136]
+              - columnheader "Hub" [ref=f25e137]
+              - columnheader "Status" [ref=f25e138]
+              - columnheader "Details" [ref=f25e139]
+          - rowgroup [ref=f25e141]:
+            - row [ref=f25e142]:
+              - cell [ref=f25e143]:
+                - img "Chetak IX, a dark bay Marwari with a white blaze" [ref=f25e147]
+              - rowheader "Chetak IX" [ref=f25e148]
+              - cell "Purebred Marwari" [ref=f25e149]
+              - cell "356 098 112 004 912" [ref=f25e150]
+              - cell "Zone 01A · Narsingi" [ref=f25e151]
+              - cell "Rest" [ref=f25e152]
+              - cell [ref=f25e157]:
+                - button "Open Chetak IX" [ref=f25e158] [cursor=pointer]:
+                  - text: Open
+                  - generic [ref=f25e159]: Chetak IX
+            - row [ref=f25e160]:
+              - cell [ref=f25e161]:
+                - img "Veer, a chestnut-gold Kathiawari stallion" [ref=f25e165]
+              - rowheader "Veer" [ref=f25e166]
+              - cell "Kathiawari cavalry line" [ref=f25e167]
+              - cell "356 098 112 004 988" [ref=f25e168]
+              - cell "Zone 01C · Gachibowli" [ref=f25e169]
+              - cell "Arena session" [ref=f25e170]
+              - cell [ref=f25e175]:
+                - button "Open Veer" [ref=f25e176] [cursor=pointer]:
+                  - text: Open
+                  - generic [ref=f25e177]: Veer
+            - row [ref=f25e178]:
+              - cell [ref=f25e179]:
+                - img "A black Marwari stallion traced by a thin line of gold light" [ref=f25e183]
+              - rowheader "Zilzal" [ref=f25e184]
+              - cell "Purebred Marwari" [ref=f25e185]
+              - cell "356 098 112 005 011" [ref=f25e186]
+              - cell "Zone 01B · Begumpet" [ref=f25e187]
+              - cell "Rest" [ref=f25e188]
+              - cell [ref=f25e193]:
+                - button "Open Zilzal" [ref=f25e194] [cursor=pointer]:
+                  - text: Open
+                  - generic [ref=f25e195]: Zilzal
+            - row [ref=f25e196]:
+              - cell [ref=f25e197]:
+                - img "A dappled grey Marwari stallion with a silver bridle by lantern light" [ref=f25e201]
+              - rowheader "Tofan" [ref=f25e202]
+              - cell "Purebred Marwari" [ref=f25e203]
+              - cell "356 098 112 004 991" [ref=f25e204]
+              - cell "Zone 01A · Narsingi" [ref=f25e205]
+              - cell "Night feed" [ref=f25e206]
+              - cell [ref=f25e211]:
+                - button "Open Tofan" [ref=f25e212] [cursor=pointer]:
+                  - text: Open
+                  - generic [ref=f25e213]: Tofan
+            - row [ref=f25e214]:
+              - cell [ref=f25e215]:
+                - img "Kesar, a skewbald Marwari stallion" [ref=f25e219]
+              - rowheader "Kesar" [ref=f25e220]
+              - cell "Marwari" [ref=f25e221]
+              - cell "356 098 112 005 027" [ref=f25e222]
+              - cell "Zone 01C · Gachibowli" [ref=f25e223]
+              - cell "Rest" [ref=f25e224]
+              - cell [ref=f25e229]:
+                - button "Open Kesar" [ref=f25e230] [cursor=pointer]:
+                  - text: Open
+                  - generic [ref=f25e231]: Kesar
+            - row [ref=f25e232]:
+              - cell [ref=f25e233]:
+                - img "Arbudh, a light bay Marwari with four white socks" [ref=f25e237]
+              - rowheader "Arbudh" [ref=f25e238]
+              - cell "Marwari" [ref=f25e239]
+              - cell "356 098 112 005 034" [ref=f25e240]
+              - cell "Zone 01B · Begumpet" [ref=f25e241]
+              - cell "Arena session" [ref=f25e242]
+              - cell [ref=f25e247]:
+                - button "Open Arbudh" [ref=f25e248] [cursor=pointer]:
+                  - text: Open
+                  - generic [ref=f25e249]: Arbudh
+      - paragraph [ref=f25e250]: 15 more stallions in the registry · records shown are samples.
+    - region "Studbook Visualizer" [ref=f25e251]:
+      - generic [ref=f25e252]:
+        - generic:
+          - generic:
+            - paragraph: Studbook Visualizer
+          - link "Full registry" [ref=f25e254] [cursor=pointer]:
+            - /url: /fleet
+        - generic:
+          - img "Chetak IX flagship Marwari stallion with ancestral lyre ears"
+          - generic:
+            - heading "CHETAK IX FLAGSHIP" [level=2]: CHETAK IXFLAGSHIP
+        - generic [ref=f25e258]:
+          - generic [ref=f25e259]: 01 / 04
+          - generic [ref=f25e261]:
+            - button "Previous slide" [ref=f25e262] [cursor=pointer]: ←
+            - button "Next slide" [ref=f25e263] [cursor=pointer]: →
+      - generic [ref=f25e264]:
+        - article [ref=f25e265]:
+          - heading "CHETAK IX FLAGSHIP" [level=3] [ref=f25e266]
+          - paragraph [ref=f25e267]: "REEL 01 · MARWARI · CHIP #0104"
+          - paragraph [ref=f25e268]: Ancestral inward-curving lyre ears, exceptional courage under the lance, and a calm, rhythmic sitting trot.
+        - article [ref=f25e269]:
+          - heading "VEER THE CHARGER" [level=3] [ref=f25e270]
+          - paragraph [ref=f25e271]: "REEL 02 · KATHIAWARI · CHIP #0108"
+          - paragraph [ref=f25e272]: Famous for the rapid lateral pace-gait (revaal) and swift turns around the peg. Renowned desert stamina.
+        - article [ref=f25e273]:
+          - heading "KESAR THE WARRIOR" [level=3] [ref=f25e274]
+          - paragraph [ref=f25e275]: "REEL 03 · MARWARI · CHIP #0112"
+          - paragraph [ref=f25e276]: Rare dual-tone coat pattern with silver-trimmed parade tack. Lead stallion for squadron formation charges.
+        - article [ref=f25e277]:
+          - heading "ARBUDH THE PILLAR" [level=3] [ref=f25e278]
+          - paragraph [ref=f25e279]: "REEL 04 · MARWARI · CHIP #0119"
+          - paragraph [ref=f25e280]: Four white stockings and balanced rhythm. Gentle mouth, patient with beginner squire mounts.
+    - region [ref=f25e281]:
+      - paragraph [ref=f25e282]: Official Marwari studbook
+      - heading "The colour registry." [level=2] [ref=f25e283]:
+        - generic [ref=f25e284]:
+          - generic [ref=f25e285]: The colour
+          - generic [ref=f25e287]: registry.
+      - list [ref=f25e289]:
+        - listitem [ref=f25e290]:
+          - generic [ref=f25e292]:
+            - generic [ref=f25e293]:
+              - generic [ref=f25e294]: "01"
+              - generic [ref=f25e295]: Bhanwar / Telia Kumat
+            - generic [ref=f25e296]: "Dark bay · #2A1D15"
+            - generic [ref=f25e297]: Deep mahogany body, dark points. Grounded endurance.
+        - listitem [ref=f25e298]:
+          - generic [ref=f25e300]:
+            - generic [ref=f25e301]:
+              - generic [ref=f25e302]: "02"
+              - generic [ref=f25e303]: Kala
+            - generic [ref=f25e304]: "Black · #0F0E0D"
+            - generic [ref=f25e305]: Rare obsidian sheen, white blaze. The sovereign vow of loyalty.
+        - listitem [ref=f25e306]:
+          - generic [ref=f25e308]:
+            - generic [ref=f25e309]:
+              - generic [ref=f25e310]: "03"
+              - generic [ref=f25e311]: Surang / Kumat
+            - generic [ref=f25e312]: "Chestnut & bay · #593822"
+            - generic [ref=f25e313]: Rich copper-brown to the golden-red tones of a Thar sunset.
+        - listitem [ref=f25e314]:
+          - generic [ref=f25e316]:
+            - generic [ref=f25e317]:
+              - generic [ref=f25e318]: "04"
+              - generic [ref=f25e319]: Shwet / Kagra
+            - generic [ref=f25e320]: "Grey & dappled · #8C8882"
+            - generic [ref=f25e321]: Silver and iron tones maturing into a silver-white coat.
+        - listitem [ref=f25e322]:
+          - generic [ref=f25e324]:
+            - generic [ref=f25e325]:
+              - generic [ref=f25e326]: "05"
+              - generic [ref=f25e327]: Nukra
+            - generic [ref=f25e328]: "Pure white · #D9D5CD"
+            - generic [ref=f25e329]: Pure ceremonial white. Formal protocol and precision.
+        - listitem [ref=f25e330]:
+          - generic [ref=f25e332]:
+            - generic [ref=f25e333]:
+              - generic [ref=f25e334]: "06"
+              - generic [ref=f25e335]: Ablak
+            - generic [ref=f25e336]: Piebald / skewbald · Dual-tone
+            - generic [ref=f25e337]: Striking two-tone contrast patterns of individuality.
+      - paragraph [ref=f25e338]: Registry names as used in Marwar; shades indicative.
+    - region [ref=f25e339]:
+      - generic [ref=f25e340]:
+        - generic [ref=f25e341]: REEL 06B · BENTO STUDBOOK VISUALIZER
+        - heading "Eight sovereign bloodlines. One sacred ledger." [level=2] [ref=f25e343]
+        - paragraph [ref=f25e344]: Twenty-one indigenous Marwari and Kathiawari stallions registered under ISO 11784 telemetry. Scroll to expand the royal stable mosaic across the horizon.
+      - generic [ref=f25e346]:
+        - button "Inspect Chetak IX, Purebred Marwari" [ref=f25e347] [cursor=pointer]:
+          - img "Chetak IX flagship purebred Marwari stallion" [ref=f25e348]
+        - button "Inspect Veer, Kathiawari Cavalry Line" [ref=f25e349] [cursor=pointer]:
+          - img "Veer chestnut gold Kathiawari stallion" [ref=f25e350]
+        - button "Inspect Kesar, Marwari Ablak" [ref=f25e351] [cursor=pointer]:
+          - img "Kesar skewbald Marwari stallion" [ref=f25e352]
+        - button "Inspect Arbudh, Marwari Endurance Line" [ref=f25e353] [cursor=pointer]:
+          - img "Arbudh light bay Marwari stallion" [ref=f25e354]
+        - button "Inspect Zilzal, Purebred Marwari" [ref=f25e355] [cursor=pointer]:
+          - img "Zilzal obsidian black Marwari stallion" [ref=f25e356]
+        - button "Inspect Tofan, Purebred Marwari" [ref=f25e357] [cursor=pointer]:
+          - img "Tofan dappled grey Marwari stallion" [ref=f25e358]
+        - button "Inspect Bahadur, Purebred Marwari" [ref=f25e359] [cursor=pointer]:
+          - img "Bahadur Marwari stallion on desert ridge" [ref=f25e360]
+        - button "Inspect Kala Bhairav, Purebred Marwari" [ref=f25e361] [cursor=pointer]:
+          - img "Kala Bhairav midnight obsidian Marwari stallion" [ref=f25e362]
+      - generic [ref=f25e363]:
+        - article [ref=f25e364]:
+          - button "01 · Chetak IX The Calm Sovereign Dark Bay · Blaze · ISO 004 912 · Inspect ↗" [ref=f25e365] [cursor=pointer]:
+            - heading "01 · Chetak IX" [level=3] [ref=f25e366]
+            - paragraph [ref=f25e367]: The Calm Sovereign
+            - generic [ref=f25e368]: Dark Bay · Blaze · ISO 004 912 · Inspect ↗
+        - article [ref=f25e369]:
+          - button "02 · Veer The High-Velocity Lancer Chestnut Gold · ISO 004 988 · Inspect ↗" [ref=f25e370] [cursor=pointer]:
+            - heading "02 · Veer" [level=3] [ref=f25e371]
+            - paragraph [ref=f25e372]: The High-Velocity Lancer
+            - generic [ref=f25e373]: Chestnut Gold · ISO 004 988 · Inspect ↗
+        - article [ref=f25e374]:
+          - button "03 · Kesar The Mounted Archer Skewbald Ablak · ISO 005 027 · Inspect ↗" [ref=f25e375] [cursor=pointer]:
+            - heading "03 · Kesar" [level=3] [ref=f25e376]
+            - paragraph [ref=f25e377]: The Mounted Archer
+            - generic [ref=f25e378]: Skewbald Ablak · ISO 005 027 · Inspect ↗
+        - article [ref=f25e379]:
+          - button "04 · Arbudh The Desert Pillar Light Bay · 4 Socks · ISO 005 034 · Inspect ↗" [ref=f25e380] [cursor=pointer]:
+            - heading "04 · Arbudh" [level=3] [ref=f25e381]
+            - paragraph [ref=f25e382]: The Desert Pillar
+            - generic [ref=f25e383]: Light Bay · 4 Socks · ISO 005 034 · Inspect ↗
+        - article [ref=f25e384]:
+          - button "05 · Zilzal The Stoic Leader Obsidian Black · ISO 005 011 · Inspect ↗" [ref=f25e385] [cursor=pointer]:
+            - heading "05 · Zilzal" [level=3] [ref=f25e386]
+            - paragraph [ref=f25e387]: The Stoic Leader
+            - generic [ref=f25e388]: Obsidian Black · ISO 005 011 · Inspect ↗
+        - article [ref=f25e389]:
+          - button "06 · Tofan The Tempest Lancer Dappled Grey · ISO 004 991 · Inspect ↗" [ref=f25e390] [cursor=pointer]:
+            - heading "06 · Tofan" [level=3] [ref=f25e391]
+            - paragraph [ref=f25e392]: The Tempest Lancer
+            - generic [ref=f25e393]: Dappled Grey · ISO 004 991 · Inspect ↗
+        - article [ref=f25e394]:
+          - button "07 · Bahadur The Ridge Sentinel Mahogany Bay · ISO 005 049 · Inspect ↗" [ref=f25e395] [cursor=pointer]:
+            - heading "07 · Bahadur" [level=3] [ref=f25e396]
+            - paragraph [ref=f25e397]: The Ridge Sentinel
+            - generic [ref=f25e398]: Mahogany Bay · ISO 005 049 · Inspect ↗
+        - article [ref=f25e399]:
+          - button "08 · Kala Bhairav The Sovereign Knight Midnight Obsidian · ISO 005 056 · Inspect ↗" [ref=f25e400] [cursor=pointer]:
+            - heading "08 · Kala Bhairav" [level=3] [ref=f25e401]
+            - paragraph [ref=f25e402]: The Sovereign Knight
+            - generic [ref=f25e403]: Midnight Obsidian · ISO 005 056 · Inspect ↗
+      - generic [ref=f25e405]:
+        - paragraph [ref=f25e406]: BSAH ARCHIVAL FOLIO · CHAPTER VI
+        - heading "The Living Bloodline that Never Left the Field" [level=3] [ref=f25e407]
+        - generic [ref=f25e408]:
+          - paragraph [ref=f25e409]: For over eight hundred years, the desert clans of Marwar bred horses not for docile surrender, but for absolute fidelity in the chaos of battle. Their inward-curving lyre ears swivel 180 degrees to intercept the rider’s lowest whisper over galloping hooves and roaring dust storms.
+          - paragraph [ref=f25e410]: Every stallion housed at the Black Stallion Academy is microchipped under ISO 11784/11785 standards, undergoes pre-dawn pulse and tendon inspections, and rests in lantern-lit stalls with round-the-clock parent telemetry. When a cadet mounts Chetak IX or Veer, they are not riding livestock; they are communing with eight centuries of living Indian history.
+          - paragraph [ref=f25e411]: The transition from squiredom to Sovereign Lancer demands that every cadet master the distinct personality of multiple steeds. From the measured, steady breathing of Chetak IX to the lightning sprint of Veer under the lowered tent-pegging lance, the studbook records each cadet’s ascent into sovereign command.
+    - region [ref=f25e412]:
+      - generic [ref=f25e413]:
+        - generic [ref=f25e414]:
+          - paragraph [ref=f25e415]: The stable at night
+          - heading "Light the stallion." [level=2] [ref=f25e416]:
+            - generic [ref=f25e417]:
+              - generic [ref=f25e418]: Light the
+              - generic [ref=f25e420]: stallion.
+          - paragraph [ref=f25e422]: "The lantern is your pointer. Draw it across the horse and the coat answers: light rakes the muscle of the neck, a shadow falls behind the ears, and the dark gives way to the animal. Choose a stallion below."
+          - tablist "Stallions in the stable" [ref=f25e423]:
+            - tab "Chetak IX Dark bay, white blaze" [selected] [ref=f25e424] [cursor=pointer]:
+              - generic [ref=f25e425]: Chetak IX
+              - generic [ref=f25e426]: Dark bay, white blaze
+            - tab "Veer Chestnut gold" [ref=f25e427] [cursor=pointer]:
+              - generic [ref=f25e428]: Veer
+              - generic [ref=f25e429]: Chestnut gold
+            - tab "Zilzal Jet black" [ref=f25e430] [cursor=pointer]:
+              - generic [ref=f25e431]: Zilzal
+              - generic [ref=f25e432]: Jet black
+          - tabpanel "Chetak IX Dark bay, white blaze" [ref=f25e433]:
+            - paragraph [ref=f25e434]: Sample profile
+            - paragraph [ref=f25e435]: The Calm Sovereign
+          - paragraph [ref=f25e436]: Move your pointer over the horse to carry the lantern.
+          - paragraph [ref=f25e437]: Or focus the picture and use the arrow keys.
+          - paragraph [ref=f25e438]: The relighting is a shader working from a depth map made from the photograph, not a second photograph. Studbook profiles are sample data.
+        - group "A lantern you move over the portrait. Use the arrow keys to move it." [ref=f25e439]:
+          - img "Chetak IX, a dark bay Marwari with a white blaze, in a dark stable." [ref=f25e440]
+    - region [ref=f25e441]:
+      - generic [ref=f25e442]:
+        - generic [ref=f25e443]:
+          - paragraph [ref=f25e444]: Stall-cam
+          - heading "On camera all night." [level=2] [ref=f25e445]:
+            - generic [ref=f25e446]:
+              - generic [ref=f25e447]: On camera
+              - generic [ref=f25e449]: all night.
+        - paragraph [ref=f25e451]: "Planned: a camera in every stall, so parents can watch their child’s assigned stallion rest, eat and sleep from the parent app (in development)."
+      - generic [ref=f25e452]:
+        - figure "CAM 01 · Chetak IX REC Stall 3 · REST IST --:--:--" [ref=f25e453]:
+          - img "Night-vision view of a horse resting in its stall" [ref=f25e456]
+          - generic [ref=f25e458]:
+            - generic [ref=f25e459]:
+              - generic [ref=f25e460]: CAM 01 · Chetak IX
+              - generic [ref=f25e461]: REC
+            - generic [ref=f25e463]:
+              - generic [ref=f25e464]: Stall 3 · REST
+              - generic [ref=f25e465]: IST --:--:--
+        - figure "CAM 02 · Veer REC Arena · SESSION IST --:--:--" [ref=f25e466]:
+          - img "Night-vision view of a horse resting in its stall" [ref=f25e469]
+          - generic [ref=f25e471]:
+            - generic [ref=f25e472]:
+              - generic [ref=f25e473]: CAM 02 · Veer
+              - generic [ref=f25e474]: REC
+            - generic [ref=f25e476]:
+              - generic [ref=f25e477]: Arena · SESSION
+              - generic [ref=f25e478]: IST --:--:--
+        - figure "CAM 03 · Zilzal REC Stall 7 · REST IST --:--:--" [ref=f25e479]:
+          - img "Night-vision view of a horse resting in its stall" [ref=f25e482]
+          - generic [ref=f25e484]:
+            - generic [ref=f25e485]:
+              - generic [ref=f25e486]: CAM 03 · Zilzal
+              - generic [ref=f25e487]: REC
+            - generic [ref=f25e489]:
+              - generic [ref=f25e490]: Stall 7 · REST
+              - generic [ref=f25e491]: IST --:--:--
+        - figure "CAM 04 · Tofan REC Stall 1 · NIGHT FEED IST --:--:--" [ref=f25e492]:
+          - img "Night-vision view of a horse resting in its stall" [ref=f25e495]
+          - generic [ref=f25e497]:
+            - generic [ref=f25e498]:
+              - generic [ref=f25e499]: CAM 04 · Tofan
+              - generic [ref=f25e500]: REC
+            - generic [ref=f25e502]:
+              - generic [ref=f25e503]: Stall 1 · NIGHT FEED
+              - generic [ref=f25e504]: IST --:--:--
+    - region [ref=f25e505]:
+      - generic [ref=f25e506]:
+        - generic [ref=f25e507]:
+          - paragraph [ref=f25e508]: Daily
+          - heading "The stable log." [level=2] [ref=f25e509]:
+            - generic [ref=f25e510]:
+              - generic [ref=f25e511]: The stable
+              - generic [ref=f25e513]: log.
+          - paragraph [ref=f25e515]: Horses are checked before cadets, every day. A sample day from the duty log.
+        - list [ref=f25e516]:
+          - listitem [ref=f25e517]:
+            - generic [ref=f25e518]: 05:30
+            - generic [ref=f25e519]: Water check
+            - generic [ref=f25e520]: All stalls
+            - generic [ref=f25e521]: OK
+          - listitem [ref=f25e522]:
+            - generic [ref=f25e523]: 06:00
+            - generic [ref=f25e524]: Feed
+            - generic [ref=f25e525]: Oats, lucerne, salt
+            - generic [ref=f25e526]: Logged
+          - listitem [ref=f25e527]:
+            - generic [ref=f25e528]: 06:20
+            - generic [ref=f25e529]: Hoof inspection
+            - generic [ref=f25e530]: 21 of 21
+            - generic [ref=f25e531]: Tofan front-left stone bruise · rested
+          - listitem [ref=f25e532]:
+            - generic [ref=f25e533]: 09:00
+            - generic [ref=f25e534]: Vet round
+            - generic [ref=f25e535]: Temperatures, eyes, gait
+            - generic [ref=f25e536]: Clear
+          - listitem [ref=f25e537]:
+            - generic [ref=f25e538]: 14:00
+            - generic [ref=f25e539]: Hydration log
+            - generic [ref=f25e540]: Afternoon heat protocol
+            - generic [ref=f25e541]: Logged
+          - listitem [ref=f25e542]:
+            - generic [ref=f25e543]: 15:30
+            - generic [ref=f25e544]: Tack check
+            - generic [ref=f25e545]: Before sessions
+            - generic [ref=f25e546]: OK
+          - listitem [ref=f25e547]:
+            - generic [ref=f25e548]: 18:30
+            - generic [ref=f25e549]: Cool-down
+            - generic [ref=f25e550]: Walk out, rugs on
+            - generic [ref=f25e551]: Done
+          - listitem [ref=f25e552]:
+            - generic [ref=f25e553]: 21:00
+            - generic [ref=f25e554]: Night feed
+            - generic [ref=f25e555]: On camera
+            - generic [ref=f25e556]: Live
+    - region [ref=f25e557]:
+      - paragraph [ref=f25e558]: Beyond the registry
+      - heading "No two horses tell the same story." [level=2] [ref=f25e559]
+    - region "Next reel" [ref=f25e560]:
+      - link "A teenage cadet holding a tent-pegging lance at dusk The hall of valour. Next · Reel 08 · Act II The Hall of Valour — Hour by hour, rank by rank, sealed in brass. 07 16" [ref=f25e561] [cursor=pointer]:
+        - /url: /cadets
+        - generic [ref=f25e562]:
+          - img "A teenage cadet holding a tent-pegging lance at dusk" [ref=f25e565]
+          - paragraph [ref=f25e568]:
+            - generic [ref=f25e569]: The hall
+            - generic [ref=f25e570]: of valour.
+        - generic [ref=f25e571]:
+          - paragraph [ref=f25e572]:
+            - text: Next ·
+            - generic [ref=f25e573]: Reel 08
+            - text: · Act II
+          - paragraph [ref=f25e574]: The Hall of Valour — Hour by hour, rank by rank, sealed in brass.
+          - generic [ref=f25e577]:
+            - generic [ref=f25e578]: "07"
+            - generic [ref=f25e581]: "16"
+  - contentinfo "Site Footer" [ref=f25e582]:
+    - generic [ref=f25e583]:
+      - generic [aria-hidden] [ref=f25e587]:
+        - generic [aria-hidden] [ref=f25e588]: T
+        - generic [aria-hidden] [ref=f25e589]: H
+        - generic [aria-hidden] [ref=f25e590]: E
+        - generic [aria-hidden] [ref=f25e592]: B
+        - generic [aria-hidden] [ref=f25e593]: L
+        - generic [aria-hidden] [ref=f25e594]: A
+        - generic [aria-hidden] [ref=f25e595]: C
+        - generic [aria-hidden] [ref=f25e596]: K
+        - generic [aria-hidden] [ref=f25e598]: S
+        - generic [aria-hidden] [ref=f25e599]: T
+        - generic [aria-hidden] [ref=f25e600]: A
+        - generic [aria-hidden] [ref=f25e601]: L
+        - generic [aria-hidden] [ref=f25e602]: L
+        - generic [aria-hidden] [ref=f25e603]: I
+        - generic [aria-hidden] [ref=f25e604]: O
+        - generic [aria-hidden] [ref=f25e605]: "N"
+        - generic [aria-hidden] [ref=f25e607]: A
+        - generic [aria-hidden] [ref=f25e608]: C
+        - generic [aria-hidden] [ref=f25e609]: A
+        - generic [aria-hidden] [ref=f25e610]: D
+        - generic [aria-hidden] [ref=f25e611]: E
+        - generic [aria-hidden] [ref=f25e612]: M
+        - generic [aria-hidden] [ref=f25e613]: "Y"
+        - generic [aria-hidden] [ref=f25e615]: ·
+        - generic [aria-hidden] [ref=f25e617]: D
+        - generic [aria-hidden] [ref=f25e618]: O
+        - generic [aria-hidden] [ref=f25e619]: M
+        - generic [aria-hidden] [ref=f25e620]: I
+        - generic [aria-hidden] [ref=f25e621]: "N"
+        - generic [aria-hidden] [ref=f25e622]: U
+        - generic [aria-hidden] [ref=f25e623]: S
+        - generic [aria-hidden] [ref=f25e625]: S
+        - generic [aria-hidden] [ref=f25e626]: U
+        - generic [aria-hidden] [ref=f25e627]: I
+        - generic [aria-hidden] [ref=f25e629]: ·
+        - generic [aria-hidden] [ref=f25e631]: D
+        - generic [aria-hidden] [ref=f25e632]: O
+        - generic [aria-hidden] [ref=f25e633]: M
+        - generic [aria-hidden] [ref=f25e634]: I
+        - generic [aria-hidden] [ref=f25e635]: "N"
+        - generic [aria-hidden] [ref=f25e636]: U
+        - generic [aria-hidden] [ref=f25e637]: S
+        - generic [aria-hidden] [ref=f25e639]: E
+        - generic [aria-hidden] [ref=f25e640]: Q
+        - generic [aria-hidden] [ref=f25e641]: U
+        - generic [aria-hidden] [ref=f25e642]: I
+        - generic [aria-hidden] [ref=f25e644]: ·
+      - paragraph [ref=f25e649]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=f25e650] [cursor=pointer]:
+          - /url: /
+          - text: black stallion academy
+      - paragraph [ref=f25e651]:
+        - emphasis [ref=f25e652]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=f25e653]:
+        - list [ref=f25e654]:
+          - listitem [ref=f25e655]:
+            - link "The Legend" [ref=f25e656] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=f25e657]:
+            - link "The Instrument" [ref=f25e658] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=f25e659]:
+            - link "3D Monument" [ref=f25e660] [cursor=pointer]:
+              - /url: /statue
+          - listitem [ref=f25e661]:
+            - link "Science & Matrix" [ref=f25e662] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=f25e663]:
+            - link "Crucible & Cure" [ref=f25e664] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=f25e665]:
+            - link "Curriculum" [ref=f25e666] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=f25e667]:
+            - link "The Studbook" [ref=f25e668] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=f25e669]:
+            - link "For Schools" [ref=f25e670] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=f25e671]:
+            - link "Cadets" [ref=f25e672] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=f25e673]:
+            - link "Parents" [ref=f25e674] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=f25e675]:
+            - link "The Circuit" [ref=f25e676] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=f25e677]:
+            - link "Information desk" [ref=f25e678] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=f25e679]:
+            - link "The Gate" [ref=f25e680] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=f25e681]:
+        - generic [ref=f25e682]:
+          - generic [ref=f25e683]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=f25e684] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+        - generic [ref=f25e685]:
+          - generic [ref=f25e686]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=f25e687] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+        - generic [ref=f25e688]:
+          - generic [ref=f25e689]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=f25e690] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=f25e691]:
+        - paragraph [ref=f25e692]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - generic [ref=f25e693]:
+          - link "About" [ref=f25e694] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=f25e695] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=f25e696] [cursor=pointer]:
+            - /url: /journal
+          - link "Information desk" [ref=f25e697] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=f25e698] [cursor=pointer]:
+            - /url: /privacy
+  - button "Open Next.js Dev Tools" [ref=f25e704] [cursor=pointer]

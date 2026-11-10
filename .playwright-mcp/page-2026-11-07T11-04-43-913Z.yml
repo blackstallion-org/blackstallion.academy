@@ -1,0 +1,286 @@
+- generic [active] [ref=f1e1]:
+  - link "Skip to content" [ref=f1e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f1e3]:
+    - generic [ref=f1e4]:
+      - link "The Black Stallion Academy of Horsemanship, home" [ref=f1e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f1e8]:
+          - generic [ref=f1e9]: Black Stallion
+          - generic [ref=f1e10]: Academy of Horsemanship
+      - navigation "Primary" [ref=f1e11]:
+        - list [ref=f1e12]:
+          - listitem [ref=f1e13]:
+            - link "Legend" [ref=f1e14] [cursor=pointer]:
+              - /url: /legend
+              - generic [ref=f1e15]:
+                - generic [ref=f1e16]: Legend
+                - generic [aria-hidden] [ref=f1e17]:
+                  - generic [ref=f1e18]: L
+                  - generic [ref=f1e19]: e
+                  - generic [ref=f1e20]: g
+                  - generic [ref=f1e21]: e
+                  - generic [ref=f1e22]: "n"
+                  - generic [ref=f1e23]: d
+                - generic [aria-hidden] [ref=f1e24]:
+                  - generic [ref=f1e25]: L
+                  - generic [ref=f1e26]: e
+                  - generic [ref=f1e27]: g
+                  - generic [ref=f1e28]: e
+                  - generic [ref=f1e29]: "n"
+                  - generic [ref=f1e30]: d
+          - listitem [ref=f1e31]:
+            - link "Worlds" [ref=f1e32] [cursor=pointer]:
+              - /url: /worlds
+              - generic [ref=f1e33]:
+                - generic [ref=f1e34]: Worlds
+                - generic [aria-hidden] [ref=f1e35]:
+                  - generic [ref=f1e36]: W
+                  - generic [ref=f1e37]: o
+                  - generic [ref=f1e38]: r
+                  - generic [ref=f1e39]: l
+                  - generic [ref=f1e40]: d
+                  - generic [ref=f1e41]: s
+                - generic [aria-hidden] [ref=f1e42]:
+                  - generic [ref=f1e43]: W
+                  - generic [ref=f1e44]: o
+                  - generic [ref=f1e45]: r
+                  - generic [ref=f1e46]: l
+                  - generic [ref=f1e47]: d
+                  - generic [ref=f1e48]: s
+          - listitem [ref=f1e49]:
+            - link "Curriculum" [ref=f1e50] [cursor=pointer]:
+              - /url: /curriculum
+              - generic [ref=f1e51]:
+                - generic [ref=f1e52]: Curriculum
+                - generic [aria-hidden] [ref=f1e53]:
+                  - generic [ref=f1e54]: C
+                  - generic [ref=f1e55]: u
+                  - generic [ref=f1e56]: r
+                  - generic [ref=f1e57]: r
+                  - generic [ref=f1e58]: i
+                  - generic [ref=f1e59]: c
+                  - generic [ref=f1e60]: u
+                  - generic [ref=f1e61]: l
+                  - generic [ref=f1e62]: u
+                  - generic [ref=f1e63]: m
+                - generic [aria-hidden] [ref=f1e64]:
+                  - generic [ref=f1e65]: C
+                  - generic [ref=f1e66]: u
+                  - generic [ref=f1e67]: r
+                  - generic [ref=f1e68]: r
+                  - generic [ref=f1e69]: i
+                  - generic [ref=f1e70]: c
+                  - generic [ref=f1e71]: u
+                  - generic [ref=f1e72]: l
+                  - generic [ref=f1e73]: u
+                  - generic [ref=f1e74]: m
+          - listitem [ref=f1e75]:
+            - link "Parents" [ref=f1e76] [cursor=pointer]:
+              - /url: /parents
+              - generic [ref=f1e77]:
+                - generic [ref=f1e78]: Parents
+                - generic [aria-hidden] [ref=f1e79]:
+                  - generic [ref=f1e80]: P
+                  - generic [ref=f1e81]: a
+                  - generic [ref=f1e82]: r
+                  - generic [ref=f1e83]: e
+                  - generic [ref=f1e84]: "n"
+                  - generic [ref=f1e85]: t
+                  - generic [ref=f1e86]: s
+                - generic [aria-hidden] [ref=f1e87]:
+                  - generic [ref=f1e88]: P
+                  - generic [ref=f1e89]: a
+                  - generic [ref=f1e90]: r
+                  - generic [ref=f1e91]: e
+                  - generic [ref=f1e92]: "n"
+                  - generic [ref=f1e93]: t
+                  - generic [ref=f1e94]: s
+          - listitem [ref=f1e95]:
+            - link "Schools" [ref=f1e96] [cursor=pointer]:
+              - /url: /schools
+              - generic [ref=f1e97]:
+                - generic [ref=f1e98]: Schools
+                - generic [aria-hidden] [ref=f1e99]:
+                  - generic [ref=f1e100]: S
+                  - generic [ref=f1e101]: c
+                  - generic [ref=f1e102]: h
+                  - generic [ref=f1e103]: o
+                  - generic [ref=f1e104]: o
+                  - generic [ref=f1e105]: l
+                  - generic [ref=f1e106]: s
+                - generic [aria-hidden] [ref=f1e107]:
+                  - generic [ref=f1e108]: S
+                  - generic [ref=f1e109]: c
+                  - generic [ref=f1e110]: h
+                  - generic [ref=f1e111]: o
+                  - generic [ref=f1e112]: o
+                  - generic [ref=f1e113]: l
+                  - generic [ref=f1e114]: s
+          - listitem [ref=f1e115]:
+            - link "Circuit" [ref=f1e116] [cursor=pointer]:
+              - /url: /tournaments
+              - generic [ref=f1e117]:
+                - generic [ref=f1e118]: Circuit
+                - generic [aria-hidden] [ref=f1e119]:
+                  - generic [ref=f1e120]: C
+                  - generic [ref=f1e121]: i
+                  - generic [ref=f1e122]: r
+                  - generic [ref=f1e123]: c
+                  - generic [ref=f1e124]: u
+                  - generic [ref=f1e125]: i
+                  - generic [ref=f1e126]: t
+                - generic [aria-hidden] [ref=f1e127]:
+                  - generic [ref=f1e128]: C
+                  - generic [ref=f1e129]: i
+                  - generic [ref=f1e130]: r
+                  - generic [ref=f1e131]: c
+                  - generic [ref=f1e132]: u
+                  - generic [ref=f1e133]: i
+                  - generic [ref=f1e134]: t
+          - listitem [ref=f1e135]:
+            - link "Verify" [ref=f1e136] [cursor=pointer]:
+              - /url: /verify
+              - generic [ref=f1e137]:
+                - generic [ref=f1e138]: Verify
+                - generic [aria-hidden] [ref=f1e139]:
+                  - generic [ref=f1e140]: V
+                  - generic [ref=f1e141]: e
+                  - generic [ref=f1e142]: r
+                  - generic [ref=f1e143]: i
+                  - generic [ref=f1e144]: f
+                  - generic [ref=f1e145]: "y"
+                - generic [aria-hidden] [ref=f1e146]:
+                  - generic [ref=f1e147]: V
+                  - generic [ref=f1e148]: e
+                  - generic [ref=f1e149]: r
+                  - generic [ref=f1e150]: i
+                  - generic [ref=f1e151]: f
+                  - generic [ref=f1e152]: "y"
+      - generic [ref=f1e153]:
+        - link "Staff sign-in" [ref=f1e154] [cursor=pointer]:
+          - /url: /admin/login
+        - button "Switch to dark mode" [ref=f1e158] [cursor=pointer]
+        - 'button "Sound: on. Choose what plays." [ref=f1e255] [cursor=pointer]':
+          - generic [ref=f1e163]: Sound
+          - generic [ref=f1e164]: "ON"
+        - link "Enrol a cadet" [ref=f1e167] [cursor=pointer]:
+          - /url: /contact?gate=parents
+        - 'button "Reels: all pages" [ref=f1e168] [cursor=pointer]':
+          - generic [ref=f1e169]: Reels
+  - main [ref=f1e173]:
+    - 'region "Four Worlds: a scroll-controlled film" [ref=f1e256]':
+      - generic [ref=f1e257]:
+        - generic:
+          - generic [aria-hidden]:
+            - generic:
+              - heading [level=2]:
+                - generic: Muscle,
+                - generic: bone,
+                - generic: breath.
+              - paragraph: The horse within the horse, illustrated.
+          - list "The four worlds":
+            - listitem: 01 Origins. One horse, small against the world.
+            - listitem: 02 Life. Muscle, bone, breath.
+            - listitem: 03 Legacy. Bred in Marwar for the cavalry.
+            - listitem: 04 Beyond. The same horse, a new century.
+          - button "Turn the film's music on" [ref=f1e259] [cursor=pointer]:
+            - generic [ref=f1e260]: Sound
+            - generic [ref=f1e261]: "Off"
+    - region "Credits" [ref=f1e175]:
+      - generic [ref=f1e176]:
+        - link "Return to the academy" [ref=f1e177] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=f1e178]: "Four Worlds is rendered live in your browser. Planet and moon textures: Solar System Scope (solarsystemscope.com), CC BY 4.0, based on NASA imagery. Skies, ground textures and a boulder scan: Poly Haven and ambientCG (CC0). Terrain, academy, fort, riders, orbital platform and stars: built for BSAH in Blender. Horse and anatomy: the academy's own Marwari model."
+  - contentinfo "Site Footer" [ref=f1e179]:
+    - generic [ref=f1e180]:
+      - generic [ref=f1e181]:
+        - figure "The academy" [ref=f1e182]:
+          - img "The Black Stallion Academy of Horsemanship crest" [ref=f1e183]
+        - figure "The council" [ref=f1e186]:
+          - img "School Tent Pegging Council of India seal" [ref=f1e187]
+      - paragraph [ref=f1e189]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=f1e190] [cursor=pointer]:
+          - /url: /
+          - text: The Black Stallion Academy
+          - generic [ref=f1e191]: of Horsemanship
+      - paragraph [ref=f1e192]:
+        - emphasis [ref=f1e193]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=f1e194]:
+        - list [ref=f1e195]:
+          - listitem [ref=f1e196]:
+            - link "The Legend" [ref=f1e197] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=f1e198]:
+            - link "The Instrument" [ref=f1e199] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=f1e200]:
+            - link "3D Monument" [ref=f1e201] [cursor=pointer]:
+              - /url: /statue
+          - listitem [ref=f1e202]:
+            - link "Motion Lab" [ref=f1e203] [cursor=pointer]:
+              - /url: /motion-lab
+          - listitem [ref=f1e204]:
+            - link "Science & Matrix" [ref=f1e205] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=f1e206]:
+            - link "Crucible & Cure" [ref=f1e207] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=f1e208]:
+            - link "Curriculum" [ref=f1e209] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=f1e210]:
+            - link "The Studbook" [ref=f1e211] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=f1e212]:
+            - link "For Schools" [ref=f1e213] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=f1e214]:
+            - link "Cadets" [ref=f1e215] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=f1e216]:
+            - link "Parents" [ref=f1e217] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=f1e218]:
+            - link "The Circuit" [ref=f1e219] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=f1e220]:
+            - link "The Command" [ref=f1e221] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=f1e222]:
+            - link "The Gate" [ref=f1e223] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=f1e224]:
+        - generic [ref=f1e225]:
+          - generic [ref=f1e226]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=f1e227] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+          - generic [aria-hidden] [ref=f1e228]: ·
+        - generic [ref=f1e229]:
+          - generic [ref=f1e230]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=f1e231] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+          - generic [aria-hidden] [ref=f1e232]: ·
+        - generic [ref=f1e233]:
+          - generic [ref=f1e234]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=f1e235] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=f1e236]:
+        - paragraph [ref=f1e237]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - paragraph [ref=f1e238]: "Music: “A Melody from the Open Range” by Music of the Valley. Field recordings: Freesound contributors (CC0)."
+        - generic [ref=f1e239]:
+          - link "About" [ref=f1e240] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=f1e241] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=f1e242] [cursor=pointer]:
+            - /url: /journal
+          - link "The Command" [ref=f1e243] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=f1e244] [cursor=pointer]:
+            - /url: /privacy
+          - link "Film credits" [ref=f1e245] [cursor=pointer]:
+            - /url: /worlds/credits
+  - button "Open Next.js Dev Tools" [ref=f1e251] [cursor=pointer]
+  - alert [ref=f1e262]

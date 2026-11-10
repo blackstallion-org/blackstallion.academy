@@ -1,0 +1,140 @@
+[    1223ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[   13298ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[   81960ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[   85114ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  146664ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  151478ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  179640ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  184295ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  217002ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  217054ms] [LOG] [HMR] connected @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  217589ms] [INFO] [stage] effect start; dolly was false navigated was false @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  217626ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  217628ms] [INFO] [stage] cleanup @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  217628ms] [INFO] [stage] effect start; dolly was false navigated was false @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  217656ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  219679ms] [INFO] [stage] enterPassport; dolly false navigated false status ready @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  220986ms] [INFO] [stage] router.push @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  221258ms] [INFO] [stage] cleanup @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  221424ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  222869ms] [INFO] [stage] effect start; dolly was true navigated was true @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  222902ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  222908ms] [INFO] [stage] cleanup @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  222935ms] [INFO] [stage] effect start; dolly was false navigated was false @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  222964ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  227381ms] [INFO] [stage] enterPassport; dolly false navigated false status ready @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  228685ms] [INFO] [stage] router.push @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  228956ms] [INFO] [stage] cleanup @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  229021ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  229219ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3100/anatomy/vendor/three.min.js:5
+[  229219ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3100/anatomy/vendor/three.min.js:5
+[  229219ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3100/anatomy/vendor/three.min.js:5
+[  229219ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3100/anatomy/vendor/three.min.js:5
+[  229219ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3100/anatomy/vendor/three.min.js:5
+[  229219ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3100/anatomy/vendor/three.min.js:5
+[  229220ms] [WARNING] THREE.MeshBasicMaterial: 'emissive' is not a property of this material. @ http://localhost:3100/anatomy/vendor/three.min.js:5
+[  229220ms] [WARNING] THREE.MeshBasicMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3100/anatomy/vendor/three.min.js:5
+[  247114ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  248124ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  249128ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  250131ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  251135ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  256151ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  261166ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  266176ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  271182ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  276216ms] [ERROR] WebSocket connection to 'ws://localhost:3100/_next/hmr?id=Zf53TgDX8qq7bcXsoEicb' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  277270ms] [INFO] [stage] effect start; dolly was false navigated was false @ http://localhost:3200/_next/static/chunks/2q2mp_b3frgnd.js:0
+[  277338ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  279060ms] [INFO] [stage] enterPassport; dolly false navigated false status ready @ http://localhost:3200/_next/static/chunks/2q2mp_b3frgnd.js:0
+[  280371ms] [INFO] [stage] router.push @ http://localhost:3200/_next/static/chunks/2q2mp_b3frgnd.js:0
+[  280493ms] [INFO] [stage] cleanup @ http://localhost:3200/_next/static/chunks/2q2mp_b3frgnd.js:0
+[  282058ms] [INFO] [stage] effect start; dolly was true navigated was true @ http://localhost:3200/_next/static/chunks/2q2mp_b3frgnd.js:0
+[  282090ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  286194ms] [INFO] [stage] enterPassport; dolly false navigated false status ready @ http://localhost:3200/_next/static/chunks/2q2mp_b3frgnd.js:0
+[  287502ms] [INFO] [stage] router.push @ http://localhost:3200/_next/static/chunks/2q2mp_b3frgnd.js:0
+[  287624ms] [INFO] [stage] cleanup @ http://localhost:3200/_next/static/chunks/2q2mp_b3frgnd.js:0
+[  288556ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  288556ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  288556ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  288557ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  288557ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  288557ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  288557ms] [WARNING] THREE.MeshBasicMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  288557ms] [WARNING] THREE.MeshBasicMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  325262ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  330103ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  334209ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  334209ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  334209ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  334209ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  334209ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  334209ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  334209ms] [WARNING] THREE.MeshBasicMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  334209ms] [WARNING] THREE.MeshBasicMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  334984ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  338984ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  338984ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  338984ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  338985ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  338985ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  338985ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  338985ms] [WARNING] THREE.MeshBasicMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  338985ms] [WARNING] THREE.MeshBasicMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  339850ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  343797ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  343797ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  343797ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  343797ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  343797ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  343797ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  343797ms] [WARNING] THREE.MeshBasicMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  343797ms] [WARNING] THREE.MeshBasicMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  344666ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  348635ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  348635ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  348635ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  348635ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  348635ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  348635ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  348635ms] [WARNING] THREE.MeshBasicMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  348635ms] [WARNING] THREE.MeshBasicMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  349493ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  353447ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  353447ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  353447ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  353448ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  353448ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  353448ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  353448ms] [WARNING] THREE.MeshBasicMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  353448ms] [WARNING] THREE.MeshBasicMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  354319ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[  358266ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  358266ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  358266ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  358267ms] [WARNING] THREE.ShaderMaterial: 'color' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  358267ms] [WARNING] THREE.ShaderMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  358267ms] [WARNING] THREE.ShaderMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  358267ms] [WARNING] THREE.MeshBasicMaterial: 'emissive' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  358267ms] [WARNING] THREE.MeshBasicMaterial: 'emissiveIntensity' is not a property of this material. @ http://localhost:3200/anatomy/vendor/three.min.js:5
+[  359135ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3200/_next/static/chunks/05o7gr42jqv9c.js:0
+[52710000ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52710302ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52710655ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52711059ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52711517ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52712020ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52712572ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52713213ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52713867ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52714570ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52715325ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52716130ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52716981ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52717942ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/video/hero-main-desktop.mp4:0
+[52718537ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3200/cadets?_rsc=GTJ1Nu8SPt0kQukB#passport:0
+[52718539ms] [ERROR] Failed to fetch RSC payload for http://localhost:3200/cadets#passport. Falling back to browser navigation. TypeError: Failed to fetch
+    at n (http://localhost:3200/_next/static/chunks/210tptjpwz1b5.js:2:36223)
+    at N (http://localhost:3200/_next/static/chunks/210tptjpwz1b5.js:1:32005)
+    at async T (http://localhost:3200/_next/static/chunks/210tptjpwz1b5.js:1:29448)
+    at async R (http://localhost:3200/_next/static/chunks/210tptjpwz1b5.js:1:7132) @ http://localhost:3200/_next/static/chunks/210tptjpwz1b5.js:0

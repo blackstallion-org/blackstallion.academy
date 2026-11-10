@@ -1,0 +1,151 @@
+[     276ms] [LOG] [Fast Refresh] done in 2054ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    1147ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    1200ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    5031ms] [ERROR] INFO: [environment.cc:36] Creating LiteRT environment with options @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5032ms] [ERROR] WARNING: [npu_registry.cc:34] NPU accelerator could not be loaded and registered: kLiteRtStatusErrorNotFound. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5032ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5398, name=GPU WebGPU @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5032ms] [ERROR] INFO: [gpu_registry.cc:121] Statically linked GPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5032ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5570, name=CpuAccelerator @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5032ms] [ERROR] INFO: [cpu_registry.cc:73] XNNPACK CPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5032ms] [ERROR] INFO: [gpu_environment.h:155] Created LiteRT GpuEnvironment. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5032ms] [ERROR] INFO: [environment.cc:47] Adding options to the existing LiteRT environment @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5047ms] [ERROR] INFO: [environment.cc:36] Creating LiteRT environment with options @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5047ms] [ERROR] WARNING: [npu_registry.cc:34] NPU accelerator could not be loaded and registered: kLiteRtStatusErrorNotFound. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5048ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5248, name=GPU WebGPU @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5048ms] [ERROR] INFO: [gpu_registry.cc:121] Statically linked GPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5048ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0x2f7e80, name=CpuAccelerator @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5048ms] [ERROR] INFO: [cpu_registry.cc:73] XNNPACK CPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5049ms] [ERROR] INFO: [compiled_model.cc:966] Flatbuffer model initialized directly from incoming litert model. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5050ms] [ERROR] INFO: Created TensorFlow Lite XNNPACK delegate for CPU. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[    5146ms] [ERROR] INFO: [compiled_model.cc:966] Flatbuffer model initialized directly from incoming litert model. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[   72916ms] [ERROR] Failed to load resource: net::ERR_FILE_NOT_FOUND @ blob:http://localhost:3300/047af9f0-b3b3-41b5-82d4-9da8b93bb618:0
+[  121404ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  121422ms] [LOG] [Fast Refresh] done in 120ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  141017ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  141222ms] [LOG] [Fast Refresh] done in 205ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  155950ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  156281ms] [LOG] [Fast Refresh] done in 432ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  167827ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  167937ms] [LOG] [Fast Refresh] done in 213ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  175590ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  175639ms] [LOG] [Fast Refresh] done in 150ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  183515ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  183575ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  185834ms] [ERROR] INFO: [environment.cc:36] Creating LiteRT environment with options @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185835ms] [ERROR] WARNING: [npu_registry.cc:34] NPU accelerator could not be loaded and registered: kLiteRtStatusErrorNotFound. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185835ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5398, name=GPU WebGPU @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185835ms] [ERROR] INFO: [gpu_registry.cc:121] Statically linked GPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185835ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5570, name=CpuAccelerator @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185835ms] [ERROR] INFO: [cpu_registry.cc:73] XNNPACK CPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185835ms] [ERROR] INFO: [gpu_environment.h:155] Created LiteRT GpuEnvironment. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185835ms] [ERROR] INFO: [environment.cc:47] Adding options to the existing LiteRT environment @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185864ms] [ERROR] INFO: [environment.cc:36] Creating LiteRT environment with options @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185864ms] [ERROR] WARNING: [npu_registry.cc:34] NPU accelerator could not be loaded and registered: kLiteRtStatusErrorNotFound. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185864ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5248, name=GPU WebGPU @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185865ms] [ERROR] INFO: [gpu_registry.cc:121] Statically linked GPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185865ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0x2f7e80, name=CpuAccelerator @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185865ms] [ERROR] INFO: [cpu_registry.cc:73] XNNPACK CPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185872ms] [ERROR] INFO: [compiled_model.cc:966] Flatbuffer model initialized directly from incoming litert model. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  185874ms] [ERROR] INFO: Created TensorFlow Lite XNNPACK delegate for CPU. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  186009ms] [ERROR] INFO: [compiled_model.cc:966] Flatbuffer model initialized directly from incoming litert model. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  217267ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  217286ms] [LOG] [Fast Refresh] done in 183ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  258593ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  258638ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  260433ms] [ERROR] INFO: [environment.cc:36] Creating LiteRT environment with options @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260433ms] [ERROR] WARNING: [npu_registry.cc:34] NPU accelerator could not be loaded and registered: kLiteRtStatusErrorNotFound. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260433ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5398, name=GPU WebGPU @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260433ms] [ERROR] INFO: [gpu_registry.cc:121] Statically linked GPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260433ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5570, name=CpuAccelerator @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260433ms] [ERROR] INFO: [cpu_registry.cc:73] XNNPACK CPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260433ms] [ERROR] INFO: [gpu_environment.h:155] Created LiteRT GpuEnvironment. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260433ms] [ERROR] INFO: [environment.cc:47] Adding options to the existing LiteRT environment @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260456ms] [ERROR] INFO: [environment.cc:36] Creating LiteRT environment with options @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260456ms] [ERROR] WARNING: [npu_registry.cc:34] NPU accelerator could not be loaded and registered: kLiteRtStatusErrorNotFound. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260456ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5248, name=GPU WebGPU @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260456ms] [ERROR] INFO: [gpu_registry.cc:121] Statically linked GPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260456ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0x2f7e80, name=CpuAccelerator @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260456ms] [ERROR] INFO: [cpu_registry.cc:73] XNNPACK CPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260458ms] [ERROR] INFO: [compiled_model.cc:966] Flatbuffer model initialized directly from incoming litert model. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260459ms] [ERROR] INFO: Created TensorFlow Lite XNNPACK delegate for CPU. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260568ms] [ERROR] INFO: [compiled_model.cc:966] Flatbuffer model initialized directly from incoming litert model. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  260695ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  260699ms] [LOG] [Fast Refresh] done in 138ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  281355ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  282576ms] [LOG] [Fast Refresh] done in 1321ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  297643ms] [LOG] [Fast Refresh] done in 1321ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  297732ms] [LOG] [Fast Refresh] done in 1321ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  298253ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  298376ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  300617ms] [ERROR] INFO: [environment.cc:36] Creating LiteRT environment with options @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300617ms] [ERROR] WARNING: [npu_registry.cc:34] NPU accelerator could not be loaded and registered: kLiteRtStatusErrorNotFound. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300617ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5398, name=GPU WebGPU @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300617ms] [ERROR] INFO: [gpu_registry.cc:121] Statically linked GPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300618ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5570, name=CpuAccelerator @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300618ms] [ERROR] INFO: [cpu_registry.cc:73] XNNPACK CPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300618ms] [ERROR] INFO: [gpu_environment.h:155] Created LiteRT GpuEnvironment. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300618ms] [ERROR] INFO: [environment.cc:47] Adding options to the existing LiteRT environment @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300639ms] [ERROR] INFO: [environment.cc:36] Creating LiteRT environment with options @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300640ms] [ERROR] WARNING: [npu_registry.cc:34] NPU accelerator could not be loaded and registered: kLiteRtStatusErrorNotFound. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300640ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0xd5248, name=GPU WebGPU @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300640ms] [ERROR] INFO: [gpu_registry.cc:121] Statically linked GPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300640ms] [ERROR] INFO: [accelerator_registry.cc:54] RegisterAccelerator: ptr=0x2f7e80, name=CpuAccelerator @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300640ms] [ERROR] INFO: [cpu_registry.cc:73] XNNPACK CPU accelerator registered. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300641ms] [ERROR] INFO: [compiled_model.cc:966] Flatbuffer model initialized directly from incoming litert model. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300642ms] [ERROR] INFO: Created TensorFlow Lite XNNPACK delegate for CPU. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  300738ms] [ERROR] INFO: [compiled_model.cc:966] Flatbuffer model initialized directly from incoming litert model. @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[  330735ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  330760ms] [LOG] [Fast Refresh] done in 153ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  343479ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  343575ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  386790ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  387039ms] [LOG] [Fast Refresh] done in 311ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  396920ms] [LOG] [Fast Refresh] done in 311ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  397117ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  397168ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  410221ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  410265ms] [LOG] [Fast Refresh] done in 56ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  412545ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  412558ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  427641ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  427716ms] [LOG] [Fast Refresh] done in 135ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  429747ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  429778ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  447618ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  447658ms] [LOG] [Fast Refresh] done in 110ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  491799ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  492125ms] [LOG] [Fast Refresh] done in 427ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  499586ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  499697ms] [LOG] [Fast Refresh] done in 213ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  520341ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  520365ms] [LOG] [Fast Refresh] done in 128ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  531608ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  531701ms] [LOG] [Fast Refresh] done in 194ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  652591ms] [ERROR] WebSocket connection to 'ws://localhost:3300/_next/hmr?id=gSlwnDGxHFlE4JuFd8-GM' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  653598ms] [ERROR] WebSocket connection to 'ws://localhost:3300/_next/hmr?id=gSlwnDGxHFlE4JuFd8-GM' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  654602ms] [ERROR] WebSocket connection to 'ws://localhost:3300/_next/hmr?id=gSlwnDGxHFlE4JuFd8-GM' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  655618ms] [ERROR] WebSocket connection to 'ws://localhost:3300/_next/hmr?id=gSlwnDGxHFlE4JuFd8-GM' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  656621ms] [ERROR] WebSocket connection to 'ws://localhost:3300/_next/hmr?id=gSlwnDGxHFlE4JuFd8-GM' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16398
+[  661699ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  671553ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  671650ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  671942ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  672214ms] [LOG] [Fast Refresh] done in 433ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  681759ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  683589ms] [LOG] [Fast Refresh] done in 2020ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  683792ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  684026ms] [LOG] [Fast Refresh] done in 335ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  684660ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  684861ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  690707ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  692622ms] [LOG] [Fast Refresh] done in 2016ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  692932ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  692986ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  693158ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  693415ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3300/_next/image?url=%2Fmedia%2Fschool-aerial.png&w=384&q=95:0
+[  693467ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3300/_next/image?url=%2Fmedia%2Fcadet-rohan.png&w=384&q=95:0
+[  693472ms] [LOG] [Fast Refresh] done in 426ms @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  693519ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3300/_next/image?url=%2Fmedia%2Fparents-rail.png&w=384&q=95:0
+[  693568ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3300/_next/image?url=%2Fmedia%2Fsafety-instructor.png&w=384&q=95:0
+[  695935ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  696007ms] [LOG] [HMR] connected @ http://localhost:3300/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719

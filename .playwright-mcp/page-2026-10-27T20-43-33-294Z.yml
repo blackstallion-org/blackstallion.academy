@@ -1,0 +1,512 @@
+- generic [active] [ref=f26e1]:
+  - link "Skip to content" [ref=f26e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f26e3]:
+    - generic [ref=f26e4]:
+      - link "Black Stallion Academy, home" [ref=f26e6] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f26e7]:
+        - link "Staff sign-in" [ref=f26e8] [cursor=pointer]:
+          - /url: /admin/login
+        - button "Sound on. Toggle website sound effects." [pressed] [ref=f26e12] [cursor=pointer]:
+          - generic [ref=f26e13]: "ON"
+        - button "Reels" [ref=f26e14] [cursor=pointer]
+  - main [ref=f26e19]:
+    - region "3D museum of the Marwari. Scroll to walk through the hall, or use the walkthrough navigation." [ref=f26e20]:
+      - generic [ref=f26e21]:
+        - generic:
+          - 'heading "THE MARWARI: A museum of the horse. Walk the hall of the breed." [level=2]'
+          - paragraph [aria-hidden]: Walk the hall of the breed
+          - paragraph: Six plates. One bloodline.
+          - generic: Scroll to enter
+        - navigation "Gallery walkthrough" [ref=f26e22]:
+          - list [ref=f26e24]:
+            - listitem [ref=f26e25]:
+              - button "Entrance" [ref=f26e26] [cursor=pointer]
+            - listitem [ref=f26e28]:
+              - button "Driven into the desert" [ref=f26e29] [cursor=pointer]
+            - listitem [ref=f26e31]:
+              - button "The tips touch" [ref=f26e32] [cursor=pointer]
+            - listitem [ref=f26e34]:
+              - button "Victory. Death. Or home." [ref=f26e35] [cursor=pointer]
+            - listitem [ref=f26e37]:
+              - button "The leap from the wall" [ref=f26e38] [cursor=pointer]
+            - listitem [ref=f26e40]:
+              - button "From royalty to the cart" [ref=f26e41] [cursor=pointer]
+            - listitem [ref=f26e43]:
+              - button "The line that refused to end" [ref=f26e44] [cursor=pointer]
+            - listitem [ref=f26e46]:
+              - button "The story begins" [ref=f26e47] [cursor=pointer]
+        - link "Skip the walk" [ref=f26e49] [cursor=pointer]:
+          - /url: "#legend-story"
+        - link "The six plates" [ref=f26e50] [cursor=pointer]:
+          - /url: "#plates"
+        - status [ref=f26e51]:
+          - generic [ref=f26e53]:
+            - paragraph [ref=f26e54]: THE MARWARI
+            - paragraph [ref=f26e56]: Preparing the hall…
+            - paragraph [ref=f26e57]: Walk the hall of the breed
+    - region "The land of death" [ref=f26e58]:
+      - generic [ref=f26e60]:
+        - img "A lone Marwari silhouetted on a dune at dusk" [ref=f26e66]
+        - heading "The land of death." [level=1] [ref=f26e69]:
+          - generic [ref=f26e70]:
+            - generic [ref=f26e71]: The land
+            - generic [ref=f26e73]: of death.
+    - generic [ref=f26e75]:
+      - paragraph [ref=f26e76]:
+        - generic [ref=f26e77]: REEL 01 / 16
+        - generic [ref=f26e79]: Act I · The Legend
+      - paragraph [ref=f26e80]: Marwar is often translated as “the land of death”. It gave India a horse that would not die easily, and would not leave the field.
+    - region [ref=f26e81]:
+      - img "A person walking beside a horse in a misty landscape" [ref=f26e83]
+      - generic [ref=f26e84]:
+        - paragraph [ref=f26e85]: The Marwari · an opening note
+        - heading [level=2] [ref=f26e86]:
+          - text: Where the horse
+          - emphasis [ref=f26e87]: became a story.
+        - paragraph [ref=f26e88]: Before the names and dates, there was the bond. Follow the Marwari from the land that shaped it to the riders who carry its legacy today.
+        - link "Begin the legend" [ref=f26e89] [cursor=pointer]:
+          - /url: "#ocean"
+          - text: Begin the legend ↗
+    - region "The Sovereign Gallop across the Thar" [ref=f26e90]:
+      - generic [ref=f26e91]:
+        - generic:
+          - generic:
+            - generic: Field Dispatch · Cinema Reel
+            - heading "The Sovereign Gallop across the Thar" [level=2]
+            - paragraph: A purebred Marwari stallion at full gallop in Rajasthan. Eight hundred years of desert agility captured in golden hour dust.
+    - region "The Marwari, in four frames" [ref=f26e93]:
+      - generic [ref=f26e94]:
+        - generic [ref=f26e95]:
+          - heading "The Marwari, in four frames" [level=2] [ref=f26e96]
+          - list [ref=f26e97]:
+            - listitem [ref=f26e98]:
+              - heading "Born in the Thar." [level=3] [ref=f26e99]
+              - paragraph [ref=f26e100]: "I: A Marwari's hooves lift out of deep desert sand."
+            - listitem [ref=f26e101]:
+              - heading "Ears that meet." [level=3] [ref=f26e102]
+              - paragraph [ref=f26e103]: "II: The lyre-shaped ears curve inward until the tips touch: the breed's best-known mark."
+            - listitem [ref=f26e104]:
+              - heading "Danced at weddings." [level=3] [ref=f26e105]
+              - paragraph [ref=f26e106]: "III: In Rajasthan the Marwari danced at night in wedding processions."
+            - listitem [ref=f26e107]:
+              - heading "Still on the ridge." [level=3] [ref=f26e108]
+              - paragraph [ref=f26e109]: "IV: A lone stallion on the dune at sunset: the lineage did not end."
+        - generic [ref=f26e119]:
+          - paragraph [ref=f26e120]: I · 01 / 04
+          - heading [level=3] [ref=f26e121]: Born in the Thar.
+          - paragraph [ref=f26e122]: A Marwari's hooves lift out of deep desert sand.
+    - region [ref=f26e123]:
+      - generic [ref=f26e124]:
+        - generic [ref=f26e125]:
+          - paragraph [ref=f26e126]:
+            - generic [ref=f26e127]: I
+            - text: One bloodline
+          - heading "Eight hundred years in one bloodline." [level=2] [ref=f26e130]:
+            - generic [ref=f26e131]:
+              - generic [ref=f26e132]: Eight hundred years
+              - generic [ref=f26e134]: in one bloodline.
+          - paragraph [ref=f26e136]: Man saw the world from horseback, and the world expanded.
+          - paragraph [ref=f26e138]: "For centuries, civilisation was shaped by the partnership between horse and rider, and the world expanded from horseback. The Marwari emerged from a complex historical crucible: native desert stock, infused with influences from Arabian and Central Asian lines, refined through generations of strict selective breeding by the horsemen of Rajasthan. Whatever the exact genetic currents of its origins, the result is an undeniable masterpiece of adaptation. The Thar Desert stripped away weakness; what remained was a sovereign breed unique to Indian soil — compact, fiercely loyal, and structurally engineered for survival, endurance and absolute grace."
+        - figure "PLATE IA stallion of Marwar. Placeholder image." [ref=f26e139]:
+          - img "A black Marwari stallion traced by a thin line of gold light" [ref=f26e146]
+      - generic [ref=f26e148]:
+        - paragraph [ref=f26e149]: Reel 01 · The three theories of origin
+        - list [ref=f26e150]:
+          - listitem [ref=f26e151]:
+            - paragraph [ref=f26e152]:
+              - generic [ref=f26e153]: The shipwreck
+              - generic [ref=f26e154]: Legend
+            - paragraph [ref=f26e155]: Oral histories and early records — later referenced in the sixteenth-century imperial chronicle Ain-i-Akbari — suggest the breed's unique characteristics were influenced by Arabian bloodlines introduced to the west coast. An Arab merchant vessel, the accounts say, was wrecked off the coast of Kutch; seven high-quality horses survived, swam ashore, and were bred with indigenous Marwari and Kathiawari mares, introducing the spirited temperament and fine head shape that became hallmarks of the breed.
+          - listitem [ref=f26e156]:
+            - paragraph [ref=f26e157]:
+              - generic [ref=f26e158]: The steppe
+              - generic [ref=f26e159]: Historical influence
+            - paragraph [ref=f26e160]: "Over several centuries, military campaigns, migrations and trade networks brought Turkoman, Afghan and Central Asian steppe horses — including lines like the Akhal-Teke — into northern and western India. Bred with local mares, these sturdy warhorses infused the native stock with endurance, bone density and a natural capacity to thrive in hostile, arid environments: the raw stamina that desert horsemen needed simply to survive."
+          - listitem [ref=f26e161]:
+            - paragraph [ref=f26e162]:
+              - generic [ref=f26e163]: The native
+              - generic [ref=f26e164]: Most accepted
+            - paragraph [ref=f26e165]: The most widely accepted view is that the Marwari is fundamentally an indigenous horse of India, shaped by natural selection in the harsh Thar Desert. Genetic and phenotypic studies describe it as a distinct population, though its precise ancestry is not settled. Its lyre-shaped ears, curving inward until the tips touch, are the breed's most recognisable trait. For over eight centuries this rugged native bloodline was carefully preserved by the Rathore horsemen of Marwar to produce a horse that is, at its heart, an unbreakable product of Indian soil.
+    - region [ref=f26e166]:
+      - generic [ref=f26e167]:
+        - img "Ruins of a sandstone Rajput fort above the Thar at dusk" [ref=f26e172]
+        - generic [ref=f26e177]: River plains
+        - generic [ref=f26e178]: The Thar
+        - generic [ref=f26e179]: Marwar
+      - generic [ref=f26e180]:
+        - generic [ref=f26e181]:
+          - paragraph [ref=f26e182]:
+            - generic [ref=f26e183]: II
+            - text: Marwar, 1193
+          - heading "Driven into the desert." [level=2] [ref=f26e186]:
+            - generic [ref=f26e187]:
+              - generic [ref=f26e188]: Driven into
+              - generic [ref=f26e190]: the desert.
+        - paragraph [ref=f26e192]: Driven from fertile river plains into the arid expanse of the Thar, the horsemen of Marwar survived on terrain, not ideology. Little grew there. Water came by the cupful. The horses that lived were the ones that could march for days, through heat by day and cold by night, on scraps of fodder, and still carry a rider. The desert did not yield to rank, title or rhetoric. It rewarded stamina, efficiency and stillness, and in time it had given the people of Marwar a horse.
+    - region [ref=f26e193]:
+      - generic [ref=f26e194]:
+        - img "A Marwari's hooves lifting out of deep desert sand" [ref=f26e200]
+        - generic [ref=f26e201]:
+          - paragraph [ref=f26e202]:
+            - generic [ref=f26e203]: III
+            - text: Bred by law
+          - heading "Bred by law." [level=2] [ref=f26e206]:
+            - generic [ref=f26e207]:
+              - generic [ref=f26e208]: Bred by
+              - generic [ref=f26e210]: law.
+          - paragraph [ref=f26e212]: For centuries the horse-breeders of Marwar bred strictly, keeping only the finest stallions. What they chose for is still in the breed.
+          - list [ref=f26e213]:
+            - listitem [ref=f26e214]:
+              - generic [ref=f26e215]: "01"
+              - generic [ref=f26e216]:
+                - generic [ref=f26e217]: Upright shoulder
+                - generic [ref=f26e218]: Lifts the hoof clean out of soft sand.
+            - listitem [ref=f26e219]:
+              - generic [ref=f26e220]: "02"
+              - generic [ref=f26e221]:
+                - generic [ref=f26e222]: Slim, hard legs
+                - generic [ref=f26e223]: Built for distance, not the sprint.
+            - listitem [ref=f26e224]:
+              - generic [ref=f26e225]: "03"
+              - generic [ref=f26e226]:
+                - generic [ref=f26e227]: Fine, silky coat
+                - generic [ref=f26e228]: Sheds desert heat.
+            - listitem [ref=f26e229]:
+              - generic [ref=f26e230]: "04"
+              - generic [ref=f26e231]:
+                - generic [ref=f26e232]: Endurance
+                - generic [ref=f26e233]: Not the fastest horse alive. One of the hardest to tire.
+            - listitem [ref=f26e234]:
+              - generic [ref=f26e235]: "05"
+              - generic [ref=f26e236]:
+                - generic [ref=f26e237]: The homing sense
+                - generic [ref=f26e238]: Lost in the desert, the saying goes, trust your horse to find the way home.
+            - listitem [ref=f26e239]:
+              - generic [ref=f26e240]: "06"
+              - generic [ref=f26e241]:
+                - generic [ref=f26e242]: The revaal
+                - generic [ref=f26e243]: A smooth natural ambling gait, easy on a rider over long distances.
+    - region "The ears" [ref=f26e244]:
+      - generic [ref=f26e246]:
+        - generic [ref=f26e247]:
+          - img "A Marwari's lyre-shaped ears curving inward until the tips touch" [ref=f26e250]
+          - heading "The tips touch." [level=2] [ref=f26e253]:
+            - generic [ref=f26e254]:
+              - generic [ref=f26e255]: The tips
+              - generic [ref=f26e257]: touch.
+        - generic [ref=f26e259]:
+          - paragraph [ref=f26e260]:
+            - generic [ref=f26e261]: IV
+            - text: The ears
+          - generic [ref=f26e263]:
+            - paragraph [ref=f26e264]: A Marwari's ears curve inward until the tips meet, like the arms of a lyre.
+            - paragraph [aria-hidden] [ref=f26e265]: They can turn through 180 degrees, and the horse's hearing is famously sharp.
+            - paragraph [aria-hidden] [ref=f26e266]: When the blood is mixed, the curve is the first thing to go. Breeders read the ears as a seal of purity.
+            - paragraph [aria-hidden] [ref=f26e267]: That curve is our monogram.
+    - region [ref=f26e273]:
+      - paragraph [ref=f26e274]:
+        - generic [ref=f26e275]: V
+        - text: The lore of the bards
+      - heading "The Traditional Lore of the Bards." [level=2] [ref=f26e278]:
+        - generic [ref=f26e279]:
+          - generic [ref=f26e280]: The Traditional Lore
+          - generic [ref=f26e282]: of the Bards.
+      - paragraph [ref=f26e284]: The oral histories, markings, and cadence of Marwar.
+      - paragraph [ref=f26e285]: "Folklore is kept in a reel of its own, apart from this history and from the science: Kala, the hair whorls, the Nukra lineage and the Nachni heritage."
+      - link "Enter the lore of the bards →" [ref=f26e286] [cursor=pointer]:
+        - /url: /lore
+    - region "Three reasons" [ref=f26e287]:
+      - generic [ref=f26e288]:
+        - img "Marwari horsemen as dark silhouettes riding through a plume of golden desert dust" [ref=f26e291]
+        - generic [ref=f26e293]:
+          - generic [ref=f26e294]: Victory.
+          - generic [ref=f26e295]: Death.
+          - generic [ref=f26e296]: Or carrying its rider home.
+      - generic [ref=f26e297]:
+        - paragraph [ref=f26e298]:
+          - generic [ref=f26e299]: VI
+          - text: Three reasons
+        - paragraph [ref=f26e302]: "In the late sixteenth century the horsemen of Marwar faced the ultimate test of terrain and survival, and fielded a cavalry of more than fifty thousand. They held one belief about their horses: a Marwari leaves the battlefield in only three ways."
+        - paragraph [ref=f26e304]: The bards tell of horses rearing to shield a fallen rider, crossing rivers wounded, and leaping walls no horse should clear.
+    - region "The living legacy" [ref=f26e305]:
+      - generic [aria-hidden] [ref=f26e306]:
+        - generic [ref=f26e307]: Black Stallion Academy
+        - generic [ref=f26e308]: The living legacy
+      - heading "A horse carried centuries of memory." [level=2] [ref=f26e310]
+      - paragraph [ref=f26e311]: A moment between chapters
+    - region [ref=f26e312]:
+      - generic [ref=f26e313]:
+        - paragraph [ref=f26e314]:
+          - generic [ref=f26e315]: VII
+          - text: Roll of honour
+        - heading "The roll of honour." [level=2] [ref=f26e318]:
+          - generic [ref=f26e319]:
+            - generic [ref=f26e320]: The roll
+            - generic [ref=f26e322]: of honour.
+      - list "Horses remembered" [ref=f26e324]:
+        - listitem [ref=f26e325]:
+          - img "Weathered leather tack and oxidized bronze stirrups on dark stone, wind-blown sand" [ref=f26e331]
+          - generic [ref=f26e332]:
+            - paragraph [ref=f26e333]: The ballads
+            - paragraph [ref=f26e334]: The stallion at the stream
+          - paragraph [ref=f26e335]: A blue-grey stallion, wounded in the leg, would not leave the field until his rider turned him, then carried his rider across a stream to safety before he fell. Ballads across Rajasthan tell the story, and the details differ from teller to teller.
+        - listitem [ref=f26e336]:
+          - img "A lone Marwari stallion silhouetted on a desert dune ridge at sunset" [ref=f26e342]
+          - generic [ref=f26e343]:
+            - paragraph [ref=f26e344]: Folklore· legend
+            - paragraph [ref=f26e345]: The leap from the wall
+          - paragraph [ref=f26e346]: In one told story, a horse carried its rider up onto a fortress rampart and leapt from the wall to save him. The horse did not survive the fall. Folklore, not record.
+        - listitem [ref=f26e347]:
+          - img "Arbudh, a light bay Marwari with four white socks" [ref=f26e353]
+          - generic [ref=f26e354]:
+            - paragraph [ref=f26e355]: Marwar, 17th century
+            - paragraph [ref=f26e356]: The general's horse
+          - paragraph [ref=f26e357]: Remembered in ballad as the war horse of a Marwar general who guarded a young heir through years of danger.
+        - listitem [ref=f26e358]:
+          - img "A dappled grey Marwari stallion with a silver bridle by lantern light" [ref=f26e364]
+          - generic [ref=f26e365]:
+            - paragraph [ref=f26e366]: The ballads
+            - paragraph [ref=f26e367]: And the rest
+          - paragraph [ref=f26e368]: Kesar Kalmi, Udal and many more whose names survive only in song.
+      - generic [ref=f26e369]:
+        - paragraph [ref=f26e370]: Their courage carried riders home alive. The same quality, calm under pressure, is what the academy teaches.
+        - paragraph [ref=f26e371]: Scroll sideways for the full roll →
+    - region [ref=f26e372]:
+      - generic [ref=f26e373]:
+        - img "A thin Marwari harnessed to a village cart, 1950s" [ref=f26e379]
+        - generic [ref=f26e380]:
+          - paragraph [ref=f26e381]:
+            - generic [ref=f26e382]: VIII
+            - text: The fall
+          - heading "From royalty to the cart." [level=2] [ref=f26e385]:
+            - generic [ref=f26e386]:
+              - generic [ref=f26e387]: From royalty
+              - generic [ref=f26e389]: to the cart.
+      - list [ref=f26e392]:
+        - listitem [ref=f26e393]:
+          - generic [ref=f26e394]: "01"
+          - paragraph [ref=f26e395]: For centuries only royal and Rajput warrior families could own these horses. A Marwari, it was said, stood above a prince.
+        - listitem [ref=f26e396]:
+          - generic [ref=f26e397]: "02"
+          - paragraph [ref=f26e398]: The British preferred their Thoroughbreds. Through the colonial years the Marwari went to fewer battles and was bred with less care; by the 1930s the stock was thinning.
+        - listitem [ref=f26e399]:
+          - generic [ref=f26e400]: "03"
+          - paragraph [ref=f26e401]: Marwar's lancers still rode for Sir Pratap Singh in the First World War, near the end of the age of cavalry.
+        - listitem [ref=f26e402]:
+          - generic [ref=f26e403]: "04"
+          - paragraph [ref=f26e404]: Then came independence. The princes gave up their states and, in the land reforms that followed, their estates.
+        - listitem [ref=f26e405]:
+          - generic [ref=f26e406]: "05"
+          - paragraph [ref=f26e407]: The stables had nowhere to go. Thousands of horses were sold as pack animals, castrated or shot. To many, the horse had become a symbol of the old order.
+        - listitem [ref=f26e408]:
+          - generic [ref=f26e409]: "06"
+          - paragraph [ref=f26e410]: Crossed with other breeds, the pure line began to disappear.
+    - region [ref=f26e411]:
+      - paragraph [ref=f26e413]:
+        - generic [ref=f26e414]: Revival
+      - generic [ref=f26e416]:
+        - paragraph [ref=f26e417]:
+          - generic [ref=f26e418]: IX
+          - text: The revival
+        - heading "The line that refused to end." [level=2] [ref=f26e421]:
+          - generic [ref=f26e422]:
+            - generic [ref=f26e423]: The line
+            - generic [ref=f26e425]: that refused to end.
+        - list [ref=f26e429]:
+          - listitem [ref=f26e430]:
+            - paragraph [ref=f26e431]: Early 1900s
+            - paragraph [ref=f26e432]: Maharaja Umaid Singh of Jodhpur steps in to save the breed; his grandson, Maharaja Gaj Singh II, carries the work on.
+          - listitem [ref=f26e433]:
+            - paragraph [ref=f26e434]: "1995"
+            - paragraph [ref=f26e435]: British horsewoman Francesca Kelly founds Marwari Bloodlines; a breed society forms in India.
+          - listitem [ref=f26e436]:
+            - paragraph [ref=f26e437]: "1999"
+            - paragraph [ref=f26e438]: Kelly and Raghuvendra Singh Dundlod lead the founding of the Indigenous Horse Society of India.
+          - listitem [ref=f26e439]:
+            - paragraph [ref=f26e440]: 2000s
+            - paragraph [ref=f26e441]: Endurance wins at the national games persuade the Equestrian Federation of India to sanction shows for indigenous horses.
+          - listitem [ref=f26e442]:
+            - paragraph [ref=f26e443]: "2009"
+            - paragraph [ref=f26e444]: Official registration begins; registered Marwaris are cold-branded.
+          - listitem [ref=f26e445]:
+            - paragraph [ref=f26e446]: Today
+            - paragraph [ref=f26e447]: The breed is no longer at risk, working in endurance, tent pegging, weddings and festivals.
+        - generic [ref=f26e448]:
+          - paragraph [ref=f26e449]: As told in Marwar
+          - paragraph [ref=f26e450]: The stallion that stayed
+          - paragraph [ref=f26e451]: "When Maharaja Gaj Singh II visited the thikana of Badgaon to choose a colt sired by its famous stallion Vangalia, he asked to see the sire himself. The thakur, afraid of losing his best horse, led Vangalia out. The Maharaja admired him and left him where he stood: the stallion served the breed best where the mares of south Marwar could reach him. He chose a colt and rode home."
+    - region [ref=f26e452]:
+      - img "A young cadet touching the curled ear of a Marwari stallion at dawn" [ref=f26e458]
+      - generic [ref=f26e459]:
+        - paragraph [ref=f26e460]:
+          - generic [ref=f26e461]: X
+          - text: Every cadet rides one
+        - heading "Every cadet rides one." [level=2] [ref=f26e464]:
+          - generic [ref=f26e465]:
+            - generic [ref=f26e466]: Every cadet
+            - generic [ref=f26e468]: rides one.
+        - paragraph [ref=f26e471]: "The Marwari survived the desert, the wars and the years when India almost forgot it. At BSAH it does what it was bred for: it carries the next generation, and asks them to be worthy of the ride."
+        - paragraph [ref=f26e472]: Breed history from the Marwari horse literature and breed-society records (see the claims ledger in the site blueprint). Stories marked legend are folklore as told in Marwar; details vary between sources.
+    - region [ref=f26e473]:
+      - generic [ref=f26e474]:
+        - paragraph [ref=f26e475]: The last exhibit
+        - heading "A horse that would not vanish." [level=2] [ref=f26e476]:
+          - generic [ref=f26e477]:
+            - generic [ref=f26e478]: A horse that
+            - generic [ref=f26e480]: would not vanish.
+        - paragraph [ref=f26e482]: The corridor ends at a stallion. Move your pointer over him, or press and hold on him, and the black coat dissolves into glass, cell by cell, until only the shape of the animal remains. Let go and the coat closes over him again. The breed came close to disappearing in the twentieth century; here it takes the opposite turn.
+      - generic [ref=f26e483]:
+        - img "A black Marwari stallion" [ref=f26e484]
+        - generic:
+          - generic:
+            - paragraph: Hover over the stallion, or press and hold.
+            - paragraph: This device cannot draw the 3D exhibit. A photograph of the stallion is shown instead.
+            - paragraph: A rendered model; the glass effect is a shader, not a photograph.
+    - region [ref=f26e485]:
+      - paragraph [ref=f26e486]: The story continues
+      - heading "The story stays with the horse." [level=2] [ref=f26e487]
+    - region "Next reel" [ref=f26e488]:
+      - link "A dark bay Marwari stallion in full side profile on black, outlined in gold light The instrument. Next · Reel 02 · Act I The Instrument — Five hundred kilograms that read you first. 01 16" [ref=f26e489] [cursor=pointer]:
+        - /url: /anatomy
+        - generic [ref=f26e490]:
+          - img "A dark bay Marwari stallion in full side profile on black, outlined in gold light" [ref=f26e493]
+          - paragraph [ref=f26e496]:
+            - generic [ref=f26e497]: The
+            - generic [ref=f26e498]: instrument.
+        - generic [ref=f26e499]:
+          - paragraph [ref=f26e500]:
+            - text: Next ·
+            - generic [ref=f26e501]: Reel 02
+            - text: · Act I
+          - paragraph [ref=f26e502]: The Instrument — Five hundred kilograms that read you first.
+          - generic [ref=f26e505]:
+            - generic [ref=f26e506]: "01"
+            - generic [ref=f26e509]: "16"
+  - contentinfo "Site Footer" [ref=f26e510]:
+    - generic [ref=f26e511]:
+      - generic [aria-hidden] [ref=f26e515]:
+        - generic [aria-hidden] [ref=f26e516]: T
+        - generic [aria-hidden] [ref=f26e517]: H
+        - generic [aria-hidden] [ref=f26e518]: E
+        - generic [aria-hidden] [ref=f26e520]: B
+        - generic [aria-hidden] [ref=f26e521]: L
+        - generic [aria-hidden] [ref=f26e522]: A
+        - generic [aria-hidden] [ref=f26e523]: C
+        - generic [aria-hidden] [ref=f26e524]: K
+        - generic [aria-hidden] [ref=f26e526]: S
+        - generic [aria-hidden] [ref=f26e527]: T
+        - generic [aria-hidden] [ref=f26e528]: A
+        - generic [aria-hidden] [ref=f26e529]: L
+        - generic [aria-hidden] [ref=f26e530]: L
+        - generic [aria-hidden] [ref=f26e531]: I
+        - generic [aria-hidden] [ref=f26e532]: O
+        - generic [aria-hidden] [ref=f26e533]: "N"
+        - generic [aria-hidden] [ref=f26e535]: A
+        - generic [aria-hidden] [ref=f26e536]: C
+        - generic [aria-hidden] [ref=f26e537]: A
+        - generic [aria-hidden] [ref=f26e538]: D
+        - generic [aria-hidden] [ref=f26e539]: E
+        - generic [aria-hidden] [ref=f26e540]: M
+        - generic [aria-hidden] [ref=f26e541]: "Y"
+        - generic [aria-hidden] [ref=f26e543]: ·
+        - generic [aria-hidden] [ref=f26e545]: D
+        - generic [aria-hidden] [ref=f26e546]: O
+        - generic [aria-hidden] [ref=f26e547]: M
+        - generic [aria-hidden] [ref=f26e548]: I
+        - generic [aria-hidden] [ref=f26e549]: "N"
+        - generic [aria-hidden] [ref=f26e550]: U
+        - generic [aria-hidden] [ref=f26e551]: S
+        - generic [aria-hidden] [ref=f26e553]: S
+        - generic [aria-hidden] [ref=f26e554]: U
+        - generic [aria-hidden] [ref=f26e555]: I
+        - generic [aria-hidden] [ref=f26e557]: ·
+        - generic [aria-hidden] [ref=f26e559]: D
+        - generic [aria-hidden] [ref=f26e560]: O
+        - generic [aria-hidden] [ref=f26e561]: M
+        - generic [aria-hidden] [ref=f26e562]: I
+        - generic [aria-hidden] [ref=f26e563]: "N"
+        - generic [aria-hidden] [ref=f26e564]: U
+        - generic [aria-hidden] [ref=f26e565]: S
+        - generic [aria-hidden] [ref=f26e567]: E
+        - generic [aria-hidden] [ref=f26e568]: Q
+        - generic [aria-hidden] [ref=f26e569]: U
+        - generic [aria-hidden] [ref=f26e570]: I
+        - generic [aria-hidden] [ref=f26e572]: ·
+      - paragraph [ref=f26e577]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=f26e578] [cursor=pointer]:
+          - /url: /
+          - text: black stallion academy
+      - paragraph [ref=f26e579]:
+        - emphasis [ref=f26e580]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=f26e581]:
+        - list [ref=f26e582]:
+          - listitem [ref=f26e583]:
+            - link "The Legend" [ref=f26e584] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=f26e585]:
+            - link "The Instrument" [ref=f26e586] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=f26e587]:
+            - link "3D Monument" [ref=f26e588] [cursor=pointer]:
+              - /url: /statue
+          - listitem [ref=f26e589]:
+            - link "Science & Matrix" [ref=f26e590] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=f26e591]:
+            - link "Crucible & Cure" [ref=f26e592] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=f26e593]:
+            - link "Curriculum" [ref=f26e594] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=f26e595]:
+            - link "The Studbook" [ref=f26e596] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=f26e597]:
+            - link "For Schools" [ref=f26e598] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=f26e599]:
+            - link "Cadets" [ref=f26e600] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=f26e601]:
+            - link "Parents" [ref=f26e602] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=f26e603]:
+            - link "The Circuit" [ref=f26e604] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=f26e605]:
+            - link "Information desk" [ref=f26e606] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=f26e607]:
+            - link "The Gate" [ref=f26e608] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=f26e609]:
+        - generic [ref=f26e610]:
+          - generic [ref=f26e611]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=f26e612] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+        - generic [ref=f26e613]:
+          - generic [ref=f26e614]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=f26e615] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+        - generic [ref=f26e616]:
+          - generic [ref=f26e617]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=f26e618] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=f26e619]:
+        - paragraph [ref=f26e620]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - generic [ref=f26e621]:
+          - link "About" [ref=f26e622] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=f26e623] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=f26e624] [cursor=pointer]:
+            - /url: /journal
+          - link "Information desk" [ref=f26e625] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=f26e626] [cursor=pointer]:
+            - /url: /privacy
+  - button "Open Next.js Dev Tools" [ref=f26e632] [cursor=pointer]
+  - alert [ref=f26e636]

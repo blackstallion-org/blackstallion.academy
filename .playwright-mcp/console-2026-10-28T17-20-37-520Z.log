@@ -1,0 +1,680 @@
+[     926ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    1016ms] [LOG] [HMR] connected @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    1346ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    1696ms] [LOG] [Fast Refresh] done in 516ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[    8232ms] [WARNING] The resource http://localhost:3100/animations/pixel-horse.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3100/:0
+[   14533ms] [WARNING] Image with src "/media/school-arena-night.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[   14998ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[   15051ms] [LOG] [HMR] connected @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[   60534ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[   60640ms] [LOG] [Fast Refresh] done in 206ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  722988ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  723584ms] [LOG] [Fast Refresh] done in 698ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  723784ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  724354ms] [LOG] [Fast Refresh] done in 670ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  724555ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  725059ms] [LOG] [Fast Refresh] done in 606ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  726991ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  732405ms] [LOG] [Fast Refresh] done in 5515ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  996616ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[  997632ms] [LOG] [Fast Refresh] done in 1122ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1007299ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1007426ms] [LOG] [Fast Refresh] done in 229ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1076024ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1076223ms] [LOG] [Fast Refresh] done in 302ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1089478ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1089551ms] [LOG] [Fast Refresh] done in 174ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1174221ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1174411ms] [LOG] [Fast Refresh] done in 291ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1224872ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1225075ms] [LOG] [Fast Refresh] done in 305ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1350460ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1356539ms] [LOG] [Fast Refresh] done in 6053ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1357365ms] [LOG] [Fast Refresh] done in 6053ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1357425ms] [LOG] [Fast Refresh] done in 6053ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1357426ms] [LOG] [Fast Refresh] done in 6053ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1358239ms] [LOG] [Fast Refresh] done in 6053ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1388386ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1389200ms] [ERROR] %o
+
+%s ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at commitAttachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7212:63)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyAttachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7222:13)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7766:32)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105) The above error occurred in the <article> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:17441
+[ 1389293ms] [ERROR] [bsah] route error ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at commitAttachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7212:63)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyAttachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7222:13)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7766:32)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105) @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[ 1389294ms] [ERROR] [bsah] route error ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at commitAttachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7212:63)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyAttachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7222:13)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7766:32)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7752:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7716:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7810:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105)
+    at commitLayoutEffectOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7712:17)
+    at recursivelyTraverseLayoutEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8400:105) @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[ 1389296ms] [ERROR] %o
+
+%s ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyDetachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7243:37)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7920:46)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7982:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8059:13)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8087:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8273:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17) The above error occurred in the <article> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:17441
+[ 1389302ms] [ERROR] %o
+
+%s ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyDetachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7243:37)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7920:46)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7982:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8059:13)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8087:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8273:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17) The above error occurred in the <article> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:17441
+[ 1389306ms] [ERROR] %o
+
+%s ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyDetachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7243:37)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7920:46)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7982:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8059:13)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8087:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8273:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17) The above error occurred in the <article> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:17441
+[ 1389307ms] [ERROR] %o
+
+%s ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyDetachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7243:37)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7920:46)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7982:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8059:13)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8087:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8273:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17) The above error occurred in the <article> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:17441
+[ 1389307ms] [ERROR] [bsah] route error ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyDetachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7243:37)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7920:46)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7982:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8059:13)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8087:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8273:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17) @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[ 1389308ms] [ERROR] [bsah] route error ReferenceError: slideEls is not defined
+    at eval (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):316:13)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at safelyDetachRef (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7243:37)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7920:46)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7926:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7979:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7982:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7962:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseDeletionEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7894:53)
+    at commitDeletionEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:7958:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8059:13)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8087:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8273:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17)
+    at recursivelyTraverseMutationEffects (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8069:106)
+    at commitMutationEffectsOnFiber (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8082:17) @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[ 1389317ms] [LOG] [Fast Refresh] done in 760ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1389669ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1392258ms] [ERROR] %o
+
+%s ReferenceError: bind is not defined
+    at BronzeAndTime (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):543:27)
+    at Object.react_stack_bottom_frame (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:15013:24)
+    at renderWithHooks (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:4451:24)
+    at updateFunctionComponent (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:5923:21)
+    at beginWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:6524:540)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at performUnitOfWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9440:97)
+    at workLoopSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9334:40)
+    at renderRootSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9318:13)
+    at performWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8984:47)
+    at performSyncWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10148:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10064:316)
+    at flushSyncWork$1 (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9118:86)
+    at Object.scheduleRefresh (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:82:13)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:405:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:398:38)
+    at applyUpdate (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:138:31)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:146:13 The above error occurred in the <BronzeAndTime> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:17441
+[ 1392268ms] [ERROR] [bsah] route error ReferenceError: bind is not defined
+    at BronzeAndTime (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):543:27)
+    at Object.react_stack_bottom_frame (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:15013:24)
+    at renderWithHooks (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:4451:24)
+    at updateFunctionComponent (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:5923:21)
+    at beginWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:6524:540)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at performUnitOfWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9440:97)
+    at workLoopSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9334:40)
+    at renderRootSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9318:13)
+    at performWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8984:47)
+    at performSyncWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10148:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10064:316)
+    at flushSyncWork$1 (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9118:86)
+    at Object.scheduleRefresh (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:82:13)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:405:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:398:38)
+    at applyUpdate (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:138:31)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:146:13 @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[ 1392928ms] [ERROR] %o
+
+%s ReferenceError: bind is not defined
+    at BronzeAndTime (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):560:27)
+    at Object.react_stack_bottom_frame (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:15013:24)
+    at renderWithHooks (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:4451:24)
+    at updateFunctionComponent (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:5923:21)
+    at beginWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:6524:540)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at performUnitOfWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9440:97)
+    at workLoopSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9334:40)
+    at renderRootSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9318:13)
+    at performWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8984:47)
+    at performSyncWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10148:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10064:316)
+    at flushSyncWork$1 (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9118:86)
+    at Object.scheduleRefresh (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:82:13)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:405:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:398:38)
+    at applyUpdate (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:138:31)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:146:13 The above error occurred in the <BronzeAndTime> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:17441
+[ 1392931ms] [ERROR] [bsah] route error ReferenceError: bind is not defined
+    at BronzeAndTime (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):560:27)
+    at Object.react_stack_bottom_frame (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:15013:24)
+    at renderWithHooks (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:4451:24)
+    at updateFunctionComponent (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:5923:21)
+    at beginWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:6524:540)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at performUnitOfWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9440:97)
+    at workLoopSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9334:40)
+    at renderRootSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9318:13)
+    at performWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8984:47)
+    at performSyncWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10148:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10064:316)
+    at flushSyncWork$1 (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9118:86)
+    at Object.scheduleRefresh (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:82:13)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:405:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:398:38)
+    at applyUpdate (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:138:31)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:146:13 @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[ 1393122ms] [ERROR] %o
+
+%s ReferenceError: bind is not defined
+    at BronzeAndTime (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):577:27)
+    at Object.react_stack_bottom_frame (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:15013:24)
+    at renderWithHooks (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:4451:24)
+    at updateFunctionComponent (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:5923:21)
+    at beginWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:6524:540)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at performUnitOfWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9440:97)
+    at workLoopSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9334:40)
+    at renderRootSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9318:13)
+    at performWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8984:47)
+    at performSyncWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10148:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10064:316)
+    at flushSyncWork$1 (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9118:86)
+    at Object.scheduleRefresh (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:82:13)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:405:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:398:38)
+    at applyUpdate (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:138:31)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:146:13 The above error occurred in the <BronzeAndTime> component. It was handled by the <ErrorBoundaryHandler> error boundary. @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:17441
+[ 1393124ms] [ERROR] [bsah] route error ReferenceError: bind is not defined
+    at BronzeAndTime (http://localhost:3100/_next/static/chunks/_07rkcsh_nqyem._.js?id=%255Bproject%255D/components/sections/home/BronzeAndTime.tsx+%255Bapp-client%255D+(ecmascript):577:27)
+    at Object.react_stack_bottom_frame (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:15013:24)
+    at renderWithHooks (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:4451:24)
+    at updateFunctionComponent (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:5923:21)
+    at beginWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:6524:540)
+    at runWithFiberInDEV (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:777:74)
+    at performUnitOfWork (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9440:97)
+    at workLoopSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9334:40)
+    at renderRootSync (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9318:13)
+    at performWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:8984:47)
+    at performSyncWorkOnRoot (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10148:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:10064:316)
+    at flushSyncWork$1 (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:9118:86)
+    at Object.scheduleRefresh (http://localhost:3100/_next/static/chunks/1daa_next_dist_compiled_react-dom_cjs_react-dom-client_development_0mp0cp_t-ezj9.js:82:13)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:405:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:398:38)
+    at applyUpdate (http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:138:31)
+    at http://localhost:3100/_next/static/chunks/node_modules_next_dist_compiled_1amofcmz--cdp._.js:146:13 @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:995
+[ 1393728ms] [LOG] [Fast Refresh] done in 3522ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1393923ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1395211ms] [LOG] [Fast Refresh] done in 82ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1395212ms] [LOG] [Fast Refresh] done in 82ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1395212ms] [LOG] [Fast Refresh] done in 82ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1395506ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1395655ms] [LOG] [Fast Refresh] done in 240ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1415144ms] [LOG] [Fast Refresh] done in 240ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1415318ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1415646ms] [LOG] [Fast Refresh] done in 429ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1690727ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1692304ms] [LOG] [Fast Refresh] done in 1548ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1697905ms] [LOG] [Fast Refresh] done in 1548ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1698067ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1698115ms] [LOG] [Fast Refresh] done in 150ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1852036ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1853388ms] [LOG] [Fast Refresh] done in 1432ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1859947ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1859997ms] [LOG] [Fast Refresh] done in 73ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1861683ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1861722ms] [LOG] [Fast Refresh] done in 16ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1874997ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1875045ms] [LOG] [Fast Refresh] done in 104ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1890465ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1890791ms] [LOG] [Fast Refresh] done in 428ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1977102ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1977506ms] [LOG] [Fast Refresh] done in 405ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 1992668ms] [LOG] [Fast Refresh] done in 405ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2038337ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2039277ms] [LOG] [Fast Refresh] done in 925ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2042753ms] [LOG] [Fast Refresh] done in 925ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2042820ms] [LOG] [Fast Refresh] done in 925ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2044097ms] [LOG] [Fast Refresh] done in 925ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2111056ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2111454ms] [LOG] [Fast Refresh] done in 416ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2112478ms] [LOG] [Fast Refresh] done in 416ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2112621ms] [LOG] [Fast Refresh] done in 416ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2114125ms] [LOG] [Fast Refresh] done in 416ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2177020ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2178070ms] [LOG] [Fast Refresh] done in 881ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2185795ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2186098ms] [LOG] [Fast Refresh] done in 330ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2205739ms] [LOG] [Fast Refresh] done in 330ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2231001ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719
+[ 2231213ms] [LOG] [Fast Refresh] done in 321ms @ http://localhost:3100/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:719

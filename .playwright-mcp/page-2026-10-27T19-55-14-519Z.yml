@@ -1,0 +1,893 @@
+- generic [active] [ref=f15e1]:
+  - link "Skip to content" [ref=f15e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f15e3]:
+    - generic [ref=f15e4]:
+      - link "Black Stallion Academy, home" [ref=f15e6] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f15e7]:
+        - link "Staff sign-in" [ref=f15e8] [cursor=pointer]:
+          - /url: /admin/login
+        - button "Sound on. Toggle website sound effects." [pressed] [ref=f15e12] [cursor=pointer]:
+          - generic [ref=f15e13]: "ON"
+        - button "Reels" [ref=f15e14] [cursor=pointer]
+  - main [ref=f15e19]:
+    - generic [ref=f15e20]:
+      - region "Opening Film" [ref=f15e21]:
+        - generic [ref=f15e22]:
+          - img "Marwari stallions in the academy opening film" [ref=f15e24]
+          - generic "The Marwari Stallion opening film" [ref=f15e25]
+        - generic [ref=f15e26]:
+          - button "Skip intro" [ref=f15e27] [cursor=pointer]
+          - status
+          - generic [ref=f15e28]:
+            - button "Sound off. Unmute the film" [ref=f15e29] [cursor=pointer]: Sound off
+            - button "Play the film" [ref=f15e30] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f15e31]: ▶
+      - region "The Marwari stallion" [ref=f15e32]:
+        - generic [ref=f15e34]:
+          - generic:
+            - paragraph: The Stallion · Kala Marwari
+            - paragraph: Scroll to follow the stallion.
+          - navigation "Film chapters" [ref=f15e36]:
+            - list [ref=f15e37]:
+              - listitem [ref=f15e38]:
+                - button "I" [ref=f15e39] [cursor=pointer]
+              - listitem [ref=f15e40]:
+                - button "II" [ref=f15e41] [cursor=pointer]
+              - listitem [ref=f15e42]:
+                - button "III" [ref=f15e43] [cursor=pointer]
+            - button "Skip the film ↓" [ref=f15e44] [cursor=pointer]
+      - region "Institutional Doctrine" [ref=f15e45]:
+        - generic [ref=f15e46]:
+          - paragraph [ref=f15e47]:
+            - img "STPCI crest" [ref=f15e48]
+            - generic [ref=f15e64]: Governed by the School Tent Pegging Council of India
+          - heading "We do not teach children to ride. We forge them to lead." [level=1] [ref=f15e65]:
+            - generic [ref=f15e66]: We do not teach children to ride.
+            - generic [ref=f15e68]: We forge them to lead.
+          - generic [ref=f15e70]:
+            - paragraph [ref=f15e71]: The interscholastic equestrian leadership academy and national tent pegging circuit for India's schools. Indigenous Marwari stallions, ex-cavalry instructors and a ledger of every hour, on your child's own campus.
+            - generic [ref=f15e72]:
+              - link "Watch the legend" [ref=f15e73] [cursor=pointer]:
+                - /url: /legend
+              - link "Find your campus" [ref=f15e77] [cursor=pointer]:
+                - /url: /schools#hubs
+          - generic [ref=f15e81]:
+            - generic "Academy at a glance" [ref=f15e82]:
+              - generic "Academy figures; scroll horizontally on small screens" [ref=f15e83]:
+                - generic [ref=f15e84]:
+                  - term [ref=f15e85]: pillars of character, drilled in the saddle
+                  - definition [ref=f15e86]: "13"
+                  - definition [ref=f15e87]: pillars of character, drilled in the saddle
+                - generic [ref=f15e88]:
+                  - term [ref=f15e89]: of tuition back to partner schools
+                  - definition [ref=f15e90]: 25–30%
+                  - definition [ref=f15e91]: of tuition back to partner schools
+                - generic [ref=f15e92]:
+                  - term [ref=f15e93]: stall-cam planned for every parent
+                  - definition [ref=f15e94]: 24/7
+                  - definition [ref=f15e95]: stall-cam planned for every parent
+              - group "Choose an academy figure" [ref=f15e96]:
+                - 'button "Show figure 1: pillars of character, drilled in the saddle" [pressed] [ref=f15e97] [cursor=pointer]'
+                - 'button "Show figure 2: of tuition back to partner schools" [ref=f15e99] [cursor=pointer]'
+                - 'button "Show figure 3: stall-cam planned for every parent" [ref=f15e101] [cursor=pointer]'
+            - generic "Live command figures (sample)" [ref=f15e103]:
+              - generic [ref=f15e104]:
+                - generic [ref=f15e105]:
+                  - text: BSAH National Command (demo data)
+                  - generic [aria-hidden] [ref=f15e107]: ·
+                - generic [ref=f15e108]:
+                  - text: Hours logged 14,800 (sample)
+                  - generic [aria-hidden] [ref=f15e109]: ·
+                - generic [ref=f15e110]:
+                  - text: Canter transitions passed 342 (sample)
+                  - generic [aria-hidden] [ref=f15e111]: ·
+                - generic [ref=f15e112]:
+                  - text: Active stallions 21 (sample)
+                  - generic [aria-hidden] [ref=f15e113]: ·
+                - generic [ref=f15e114]:
+                  - text: Hubs live 3 (sample)
+                  - generic [aria-hidden] [ref=f15e115]: ·
+                - generic [ref=f15e116]:
+                  - text: "Next: Governor's Cup · 14 Nov"
+                  - generic [aria-hidden] [ref=f15e117]: ·
+                - generic [ref=f15e118]:
+                  - text: BSAH National Command (demo data)
+                  - generic [aria-hidden] [ref=f15e120]: ·
+                - generic [ref=f15e121]:
+                  - text: Hours logged 14,800 (sample)
+                  - generic [aria-hidden] [ref=f15e122]: ·
+                - generic [ref=f15e123]:
+                  - text: Canter transitions passed 342 (sample)
+                  - generic [aria-hidden] [ref=f15e124]: ·
+                - generic [ref=f15e125]:
+                  - text: Active stallions 21 (sample)
+                  - generic [aria-hidden] [ref=f15e126]: ·
+                - generic [ref=f15e127]:
+                  - text: Hubs live 3 (sample)
+                  - generic [aria-hidden] [ref=f15e128]: ·
+                - generic [ref=f15e129]:
+                  - text: "Next: Governor's Cup · 14 Nov"
+                  - generic [aria-hidden] [ref=f15e130]: ·
+      - region "The Legend Reel" [ref=f15e132]:
+        - generic [ref=f15e133]:
+          - generic:
+            - generic:
+              - paragraph: The Legend Reel
+            - link "Explore chronicle" [ref=f15e135] [cursor=pointer]:
+              - /url: /legend
+          - generic:
+            - img "A Marwari's hooves lifting out of deep desert sand in the Thar Basin"
+            - generic:
+              - heading "Eight Hundred Years" [level=2]: Eight HundredYears
+          - generic [ref=f15e139]:
+            - generic [ref=f15e140]: 01 / 03
+            - generic [ref=f15e142]:
+              - button "Previous slide" [ref=f15e143] [cursor=pointer]: ←
+              - button "Next slide" [ref=f15e144] [cursor=pointer]: →
+        - generic [ref=f15e145]:
+          - article [ref=f15e146]:
+            - heading "Eight Hundred Years" [level=3] [ref=f15e147]
+            - paragraph [ref=f15e148]: REEL 01 · 1193 AD · THAR BASIN
+            - paragraph [ref=f15e149]: Driven onto the arid dunes of Marwar, forged by desert endurance.
+            - generic [ref=f15e150]: "01"
+          - article [ref=f15e151]:
+            - heading "Bred By Terrain" [level=3] [ref=f15e152]
+            - paragraph [ref=f15e153]: REEL 02 · 1350 AD · THE DESERT SHIELD
+            - paragraph [ref=f15e154]: Bred by geography, not ideology. Surviving on a cup of desert water.
+            - generic [ref=f15e155]: "02"
+          - article [ref=f15e156]:
+            - heading "The Art Of Life" [level=3] [ref=f15e157]
+            - paragraph [ref=f15e158]: REEL 03 · 1576 AD · THE LIVING VOW
+            - paragraph [ref=f15e159]: Victory, death, or carrying the rider home. The unbroken covenant.
+            - generic [ref=f15e160]: "03"
+      - region [ref=f15e161]:
+        - generic [ref=f15e162]:
+          - paragraph [ref=f15e163]: Black Stallion Academy of Horsemanship
+          - heading [level=2] [ref=f15e164]:
+            - text: Every rider begins
+            - emphasis [ref=f15e165]: somewhere.
+          - paragraph [ref=f15e166]: Four moments from first contact to the saddle.
+        - generic [ref=f15e167]:
+          - article [ref=f15e168]:
+            - img "A quiet first contact between a person and a horse" [ref=f15e170]
+            - generic [ref=f15e171]:
+              - generic [ref=f15e172]: "01"
+              - heading "First, meet the horse." [level=3] [ref=f15e173]
+              - paragraph [ref=f15e174]: Before the saddle, there is a conversation. Learn to notice, approach and listen.
+          - article [ref=f15e175]:
+            - img "A rider close to a horse" [ref=f15e177]
+            - generic [ref=f15e178]:
+              - generic [ref=f15e179]: "02"
+              - heading "Build trust on the ground." [level=3] [ref=f15e180]
+              - paragraph [ref=f15e181]: A calm beginning makes room for confidence to follow.
+          - article [ref=f15e182]:
+            - img "A stirrup fitted to a saddle" [ref=f15e184]
+            - generic [ref=f15e185]:
+              - generic [ref=f15e186]: "03"
+              - heading "Get to know the tack." [level=3] [ref=f15e187]
+              - paragraph [ref=f15e188]: The small details matter when horse and rider begin to move together.
+          - article [ref=f15e189]:
+            - img "A rider sitting on a horse in profile" [ref=f15e191]
+            - generic [ref=f15e192]:
+              - generic [ref=f15e193]: "04"
+              - heading "Then, find your seat." [level=3] [ref=f15e194]
+              - paragraph [ref=f15e195]: Start with balance, attention and a pace you can understand.
+        - link "Ask about the first ride" [ref=f15e196] [cursor=pointer]:
+          - /url: /contact
+          - text: Ask about the first ride
+          - generic [aria-hidden] [ref=f15e197]: ↗
+      - region [ref=f15e198]:
+        - generic [ref=f15e199]:
+          - generic [ref=f15e200]:
+            - paragraph [ref=f15e201]:
+              - generic [ref=f15e202]: REEL 02 ·
+              - text: The Instrument
+            - heading "Five hundred kilograms that read you first." [level=2] [ref=f15e204]:
+              - generic [ref=f15e205]:
+                - generic [ref=f15e206]: Five hundred kilograms
+                - generic [ref=f15e208]: that read you first.
+          - paragraph [ref=f15e210]: Every part of the Marwari teaches the rider something. Choose a point on the plate.
+        - generic [ref=f15e211]:
+          - generic [ref=f15e212]:
+            - generic [ref=f15e213]: Specimen Plate 02 · Conformation Study
+            - generic [ref=f15e216]:
+              - button "3D Living Model" [pressed] [ref=f15e217] [cursor=pointer]
+              - button "2D Archive Plate" [ref=f15e218] [cursor=pointer]
+          - generic [ref=f15e219]:
+            - generic [ref=f15e220]:
+              - img "A dark bay Marwari stallion in full side profile on black, outlined in gold light" [ref=f15e223]
+              - paragraph [ref=f15e225]: PLATE 02 · MARWARI · 15.2 HH
+              - list:
+                - listitem [ref=f15e226]:
+                  - 'button "Ears: 180° of Attention" [pressed] [ref=f15e227] [cursor=pointer]':
+                    - generic: Ears
+                - listitem [ref=f15e230]:
+                  - 'button "Neck: The Crest" [ref=f15e231] [cursor=pointer]':
+                    - generic: Neck
+                - listitem [ref=f15e234]:
+                  - 'button "Saddle: The Moving Floor" [ref=f15e235] [cursor=pointer]':
+                    - generic: Saddle
+                - listitem [ref=f15e238]:
+                  - 'button "Reins: Ten Grams" [ref=f15e239] [cursor=pointer]':
+                    - generic: Reins
+                - listitem [ref=f15e242]:
+                  - 'button "Hoof: Desert Feet" [ref=f15e243] [cursor=pointer]':
+                    - generic: Hoof
+            - generic [ref=f15e246]:
+              - generic [ref=f15e248]:
+                - paragraph [ref=f15e249]: Ears
+                - heading "180° of Attention" [level=3] [ref=f15e250]
+                - paragraph [ref=f15e251]: 180° Independent Acoustic Swivel
+                - paragraph [ref=f15e252]: The lyre-shaped ears swivel independently toward sound and movement. A horse that is listening is a horse that is paying attention, and its ears show it first.
+                - paragraph [ref=f15e253]: Trains Composure & Active Environmental Reading
+              - group "Choose a point" [ref=f15e254]:
+                - button "Ears" [pressed] [ref=f15e255] [cursor=pointer]
+                - button "Neck" [ref=f15e256] [cursor=pointer]
+                - button "Saddle" [ref=f15e257] [cursor=pointer]
+                - button "Reins" [ref=f15e258] [cursor=pointer]
+                - button "Hoof" [ref=f15e259] [cursor=pointer]
+        - link "Explore the instrument" [ref=f15e261] [cursor=pointer]:
+          - /url: /anatomy
+      - region "The first bond" [ref=f15e265]:
+        - generic [aria-hidden] [ref=f15e266]:
+          - generic [ref=f15e267]: Black Stallion Academy
+          - generic [ref=f15e268]: The first bond
+        - heading "Every ride begins with a moment of trust." [level=2] [ref=f15e270]
+        - paragraph [ref=f15e271]: A moment between chapters
+      - 'region "The Citadel: Now, the proof." [ref=f15e272]':
+        - separator [ref=f15e273]:
+          - generic [ref=f15e277]: Act II · The Citadel
+        - heading "Now, the proof." [level=2] [ref=f15e282]
+      - region "Reel 04 · The Matrix" [ref=f15e283]:
+        - generic [ref=f15e284]:
+          - generic [ref=f15e285]:
+            - generic [ref=f15e286]: REEL 03
+            - generic [ref=f15e287]: •
+            - generic [ref=f15e288]: THE MATRIX
+          - button "Open Registration and QA Inspector" [ref=f15e290] [cursor=pointer]
+        - generic [ref=f15e294]:
+          - generic [ref=f15e295]:
+            - generic [ref=f15e296]:
+              - paragraph [ref=f15e297]: What twenty minutes
+              - heading "does to a child." [level=2] [ref=f15e298]: does toa child.
+            - navigation "Anatomical System Selector" [ref=f15e299]:
+              - tablist "Four Anatomical Regions" [ref=f15e300]:
+                - tab "01 Brain" [selected] [ref=f15e301] [cursor=pointer]:
+                  - generic [ref=f15e302]:
+                    - generic [ref=f15e303]: "01"
+                    - generic [ref=f15e304]: Brain
+                - tab "02 Spine" [ref=f15e308] [cursor=pointer]:
+                  - generic [ref=f15e309]:
+                    - generic [ref=f15e310]: "02"
+                    - generic [ref=f15e311]: Spine
+                - tab "03 Muscle" [ref=f15e321] [cursor=pointer]:
+                  - generic [ref=f15e322]:
+                    - generic [ref=f15e323]: "03"
+                    - generic [ref=f15e324]: Muscle
+                - tab "04 Heart" [ref=f15e328] [cursor=pointer]:
+                  - generic [ref=f15e329]:
+                    - generic [ref=f15e330]: "04"
+                    - generic [ref=f15e331]: Heart
+          - generic [ref=f15e336]:
+            - img "Realistic child equestrian rider in side-profile composition on a dapple-grey horse facing right" [ref=f15e337]
+            - img "Interactive Anatomical Visualization Stage":
+              - button "01 BRAIN" [ref=f15e338]:
+                - generic [ref=f15e342]: "01"
+                - generic [ref=f15e343]: BRAIN
+              - button "02 SPINE" [ref=f15e344]:
+                - generic [ref=f15e348]: "02"
+                - generic [ref=f15e349]: SPINE
+              - button "03 MUSCLE" [ref=f15e350]:
+                - generic [ref=f15e354]: "03"
+                - generic [ref=f15e355]: MUSCLE
+              - button "04 HEART" [ref=f15e356]:
+                - generic [ref=f15e360]: "04"
+                - generic [ref=f15e361]: HEART
+          - tabpanel "01 Brain" [ref=f15e362]:
+            - generic [ref=f15e363]:
+              - generic [ref=f15e364]:
+                - generic [ref=f15e365]: "01"
+                - generic [ref=f15e367]: BRAIN
+              - heading "Calmer mind. Stronger decisions." [level=2] [ref=f15e368]: Calmer mind.Stronger decisions.
+              - paragraph [ref=f15e369]: Steering a living animal means reading, deciding and correcting every second, with calm hands and clear intent. This builds focus, emotional control and confidence that carries beyond the arena.
+              - generic [ref=f15e370]:
+                - generic [ref=f15e371]:
+                  - generic [ref=f15e372]: SUPPORTED EVIDENCE
+                  - generic [ref=f15e375]: Peer-Reviewed RCT
+                - paragraph [ref=f15e376]: In a randomised trial, children in a 12-week horse programme had lower stress-hormone levels than a wait-list group (Pendry et al., 2014).
+                - button "SEE THE EVIDENCE" [ref=f15e378] [cursor=pointer]:
+                  - generic [aria-hidden] [ref=f15e380]: →
+            - generic [ref=f15e381]:
+              - group "Anatomical Detail Thumbnails" [ref=f15e382]:
+                - button "Select Brain view" [pressed] [ref=f15e383] [cursor=pointer]:
+                  - img "Brain anatomical detail" [ref=f15e384]
+                - button "Select Spine view" [ref=f15e385] [cursor=pointer]:
+                  - img "Spine anatomical detail" [ref=f15e386]
+                - button "Select Muscle view" [ref=f15e387] [cursor=pointer]:
+                  - img "Muscle anatomical detail" [ref=f15e388]
+                - button "Select Heart view" [ref=f15e389] [cursor=pointer]:
+                  - img "Heart anatomical detail" [ref=f15e390]
+              - generic [ref=f15e394]:
+                - button "Previous anatomical region" [ref=f15e395] [cursor=pointer]: ←
+                - button "Next anatomical region" [ref=f15e396] [cursor=pointer]: →
+        - generic [ref=f15e397]:
+          - generic [ref=f15e398]: THE BLACK STALLION ACADEMY
+          - generic [ref=f15e399]: "STAGE COORDINATE SPACE: 1600 × 1200 • ACTIVE: 01 BRAIN"
+        - region "One conversation. Two bodies." [ref=f15e400]:
+          - iframe [ref=f15e401]
+      - region [ref=f15e402]:
+        - generic [ref=f15e403]:
+          - generic [ref=f15e404]:
+            - paragraph [ref=f15e405]:
+              - generic [ref=f15e406]: REEL 05 ·
+              - text: Crisis & Cure
+            - heading "Digital fragility is a choice." [level=2] [ref=f15e408]:
+              - generic [ref=f15e409]:
+                - generic [ref=f15e410]: Digital fragility
+                - generic [ref=f15e412]: is a choice.
+          - paragraph [ref=f15e414]: "Screens fold a child's spine and scatter attention. A horse asks for the opposite: presence, poise and a quiet mind."
+        - generic [ref=f15e415]:
+          - generic [ref=f15e416]:
+            - img "A boy hunched over a glowing phone in a dark room" [ref=f15e419]
+            - img "A boy in cadet uniform sitting tall on a Marwari at golden hour" [ref=f15e423]
+            - generic: The crisis
+            - generic: The cure
+            - slider "Compare The crisis and The cure" [ref=f15e425] [cursor=pointer]
+          - paragraph [ref=f15e428]: Drag to compare · arrow keys work too
+        - list [ref=f15e429]:
+          - listitem [ref=f15e430]:
+            - generic [ref=f15e431]: Tech-neck slouch
+            - generic [ref=f15e432]: Regal carriage
+          - listitem [ref=f15e433]:
+            - generic [ref=f15e434]: The endless scroll
+            - generic [ref=f15e435]: Stoic composure
+          - listitem [ref=f15e436]:
+            - generic [ref=f15e437]: Alone behind glass
+            - generic [ref=f15e438]: A living partner
+          - listitem [ref=f15e439]:
+            - generic [ref=f15e440]: App badges
+            - generic [ref=f15e441]: A sealed passport
+        - link "Why riding" [ref=f15e443] [cursor=pointer]:
+          - /url: /why
+      - region [ref=f15e447]:
+        - generic [ref=f15e448]:
+          - paragraph [ref=f15e449]: REEL 04 · THREE DOORS
+          - heading "Through the Gate" [level=2] [ref=f15e450]
+          - paragraph [ref=f15e451]: Choose the part of the academy you want to explore.
+          - list [ref=f15e452]:
+            - listitem [ref=f15e453]:
+              - img "Parents at an arena rail watching their child ride at dusk" [ref=f15e457]
+              - paragraph [ref=f15e458]: "01"
+              - heading "The Guardian" [level=3] [ref=f15e459]
+              - paragraph [ref=f15e460]: "Watch your cadet's journey from the rail. Planned for the parent app: 24/7 stall-cams, gate alerts and verified session reels."
+              - link "For parents" [ref=f15e461] [cursor=pointer]:
+                - /url: /parents
+            - listitem [ref=f15e462]:
+              - img "A teenage cadet holding a tent-pegging lance at dusk" [ref=f15e466]
+              - paragraph [ref=f15e467]: "02"
+              - heading "The Hall of Valour" [level=3] [ref=f15e468]
+              - paragraph [ref=f15e469]: A sealed leather passport, your own Marwari stallion, and the national circuit.
+              - link "For cadets" [ref=f15e470] [cursor=pointer]:
+                - /url: /cadets
+            - listitem [ref=f15e471]:
+              - img "A floodlit school riding arena at night" [ref=f15e475]
+              - paragraph [ref=f15e476]: "03"
+              - heading "The Zero-CapEx Engine" [level=3] [ref=f15e477]
+              - paragraph [ref=f15e478]: Turnkey campus riding arena funded, built, and operated by BSAH with zero school expenditure.
+              - link "For schools" [ref=f15e479] [cursor=pointer]:
+                - /url: /schools
+      - region [ref=f15e480]:
+        - generic [ref=f15e481]:
+          - paragraph [ref=f15e482]: The ledger
+          - heading "Four ranks. Thirteen pillars." [level=2] [ref=f15e483]:
+            - generic [ref=f15e484]:
+              - generic [ref=f15e485]: Four ranks.
+              - generic [ref=f15e487]: Thirteen pillars.
+          - paragraph [ref=f15e489]: Nine foundations of horsemanship, four BSAH tactical disciplines. Every drill maps to a trait a leader needs, and the ledger records each step from Squire to Sovereign Lancer.
+        - img "A cadet riding in the arena while an academy instructor watches" [ref=f15e491]
+        - generic [ref=f15e492]:
+          - tablist "Cadet ranks" [ref=f15e493]:
+            - tab "Rank I Cadet Squire Ground care and trot" [selected] [ref=f15e494] [cursor=pointer]:
+              - generic [ref=f15e495]: Rank I
+              - generic [ref=f15e496]: Cadet Squire
+              - generic [ref=f15e497]: Ground care and trot
+            - tab "Rank II Cadet Rider Independent canter" [ref=f15e498] [cursor=pointer]:
+              - generic [ref=f15e499]: Rank II
+              - generic [ref=f15e500]: Cadet Rider
+              - generic [ref=f15e501]: Independent canter
+            - tab "Rank III Cadet Knight Lance and bow" [ref=f15e502] [cursor=pointer]:
+              - generic [ref=f15e503]: Rank III
+              - generic [ref=f15e504]: Cadet Knight
+              - generic [ref=f15e505]: Lance and bow
+            - tab "Rank IV Sovereign Lancer National competition" [ref=f15e506] [cursor=pointer]:
+              - generic [ref=f15e507]: Rank IV
+              - generic [ref=f15e508]: Sovereign Lancer
+              - generic [ref=f15e509]: National competition
+          - tabpanel "Rank I Cadet Squire Ground care and trot" [ref=f15e510]:
+            - generic [ref=f15e511]:
+              - heading "Cadet Squire" [level=3] [ref=f15e512]
+              - paragraph [ref=f15e513]: Stable care, grooming, tack assembly, equine psychology, basic walk and trot.
+              - paragraph [ref=f15e514]: Bronze rank pin · soft-bound blue passport logbook
+              - link "The full curriculum" [ref=f15e515] [cursor=pointer]:
+                - /url: /curriculum#rank-squire
+            - list [ref=f15e516]:
+              - listitem [ref=f15e517]:
+                - generic [ref=f15e518]: Pillar 1
+                - generic [ref=f15e519]:
+                  - paragraph [ref=f15e520]: Grooming & feeding
+                  - paragraph [ref=f15e521]: Before a leader commands, they must serve. Cadets learn that authority is earned on the ground through meticulous care and zero ego.
+              - listitem [ref=f15e522]:
+                - generic [ref=f15e523]: Pillar 2
+                - generic [ref=f15e524]:
+                  - paragraph [ref=f15e525]: Mounting & initial handling
+                  - paragraph [ref=f15e526]: Cultivating emotional calm and steady presence during initial engagement with a 500 kg partner.
+              - listitem [ref=f15e527]:
+                - generic [ref=f15e528]: Pillar 3
+                - generic [ref=f15e529]:
+                  - paragraph [ref=f15e530]: Learning commands & cues
+                  - paragraph [ref=f15e531]: Translating internal intent into clean, readable physical cues that bridge human and equine understanding.
+      - region [ref=f15e532]:
+        - generic [ref=f15e533]:
+          - paragraph [ref=f15e534]:
+            - generic [ref=f15e535]: REEL 07 ·
+            - text: The Studbook
+          - heading "Twenty-one stallions. Every one has a name." [level=2] [ref=f15e537]:
+            - generic [ref=f15e538]:
+              - generic [ref=f15e539]: Twenty-one stallions.
+              - generic [ref=f15e541]: Every one has a name.
+        - generic [ref=f15e543]:
+          - list [ref=f15e544]:
+            - listitem [ref=f15e545]:
+              - button "01 Chetak IX" [pressed] [ref=f15e546] [cursor=pointer]:
+                - generic [ref=f15e547]: "01"
+                - generic [ref=f15e548]: Chetak IX
+            - listitem [ref=f15e549]:
+              - button "02 Veer" [ref=f15e550] [cursor=pointer]:
+                - generic [ref=f15e551]: "02"
+                - generic [ref=f15e552]: Veer
+            - listitem [ref=f15e553]:
+              - button "03 Zilzal" [ref=f15e554] [cursor=pointer]:
+                - generic [ref=f15e555]: "03"
+                - generic [ref=f15e556]: Zilzal
+            - listitem [ref=f15e557]:
+              - button "04 Tofan" [ref=f15e558] [cursor=pointer]:
+                - generic [ref=f15e559]: "04"
+                - generic [ref=f15e560]: Tofan
+            - listitem [ref=f15e561]:
+              - button "05 Kesar" [ref=f15e562] [cursor=pointer]:
+                - generic [ref=f15e563]: "05"
+                - generic [ref=f15e564]: Kesar
+            - listitem [ref=f15e565]:
+              - button "06 Arbudh" [ref=f15e566] [cursor=pointer]:
+                - generic [ref=f15e567]: "06"
+                - generic [ref=f15e568]: Arbudh
+            - listitem [ref=f15e569]: and 15 more in the registry.
+          - generic [ref=f15e570]:
+            - generic [ref=f15e571]:
+              - img "Chetak IX, a dark bay Marwari with a white blaze" [ref=f15e575]
+              - generic [ref=f15e577]:
+                - generic [ref=f15e578]:
+                  - term [ref=f15e579]: Name
+                  - definition [ref=f15e580]: Chetak IX
+                  - definition [ref=f15e581]: Rest
+                - generic [ref=f15e585]:
+                  - term [ref=f15e586]: Breed
+                  - definition [ref=f15e587]: Purebred Marwari
+                - generic [ref=f15e588]:
+                  - term [ref=f15e589]: Coat
+                  - definition [ref=f15e590]: Dark bay, white blaze
+                - generic [ref=f15e591]:
+                  - term [ref=f15e592]: Microchip (ISO)
+                  - definition [ref=f15e593]: 356 098 112 004 912
+                - generic [ref=f15e594]:
+                  - term [ref=f15e595]: Height
+                  - definition [ref=f15e596]: 15.2 hh
+            - link "Open the studbook" [ref=f15e598] [cursor=pointer]:
+              - /url: /fleet
+      - region [ref=f15e602]:
+        - generic [ref=f15e603]:
+          - paragraph [ref=f15e604]: BSAH / A photographic study
+          - heading [level=2] [ref=f15e605]:
+            - button "The living archive." [ref=f15e606] [cursor=pointer]
+          - paragraph [ref=f15e607]: Six perspectives. One world.Choose a frame to turn the story.
+        - img "A quiet encounter between a person and a horse" [ref=f15e609]
+        - generic [ref=f15e610]:
+          - generic [ref=f15e611]: 01 / 06
+          - paragraph [ref=f15e612]:
+            - strong [ref=f15e613]: First contact.
+            - text: The story begins with a moment of attention.
+        - group "Choose an archive photograph" [ref=f15e614]:
+          - button "01 First contact" [pressed] [ref=f15e615] [cursor=pointer]:
+            - generic [ref=f15e616]: "01"
+            - text: First contact
+          - button "02 The first bond" [ref=f15e617] [cursor=pointer]:
+            - generic [ref=f15e618]: "02"
+            - text: The first bond
+          - button "03 The details" [ref=f15e619] [cursor=pointer]:
+            - generic [ref=f15e620]: "03"
+            - text: The details
+          - button "04 In balance" [ref=f15e621] [cursor=pointer]:
+            - generic [ref=f15e622]: "04"
+            - text: In balance
+          - button "05 The Marwari" [ref=f15e623] [cursor=pointer]:
+            - generic [ref=f15e624]: "05"
+            - text: The Marwari
+          - button "06 Up close" [ref=f15e625] [cursor=pointer]:
+            - generic [ref=f15e626]: "06"
+            - text: Up close
+      - region [ref=f15e627]:
+        - generic [ref=f15e628]:
+          - generic [ref=f15e629]:
+            - paragraph [ref=f15e630]: The house palette
+            - heading "Leather, brass, and the horse." [level=2] [ref=f15e631]:
+              - generic [ref=f15e632]:
+                - generic [ref=f15e633]: Leather, brass,
+                - generic [ref=f15e635]: and the horse.
+            - paragraph [ref=f15e637]: "Every colour on this site comes from the stable: ivory linen, parchment, saddle leather, chestnut coats and the charcoal of a stall at night."
+            - list "House colours" [ref=f15e638]:
+              - listitem [ref=f15e639]: Ivory
+              - listitem [ref=f15e641]: Leather
+              - listitem [ref=f15e643]: Charcoal
+              - listitem [ref=f15e645]: Chestnut
+              - listitem [ref=f15e647]: Caramel
+          - figure "Moodboard of reins, a Marwari eye, leather tack, a rearing stallion and a cadet, with the house colours." [ref=f15e649]:
+            - generic [ref=f15e650]:
+              - generic [ref=f15e651]:
+                - img "Gloved hands holding leather reins lightly" [ref=f15e655]
+                - img "A Marwari stallion rearing against a molten gold sky" [ref=f15e659]
+              - generic [ref=f15e660]:
+                - img "Close-up of a Marwari's eye and inward-curving ear" [ref=f15e664]
+                - img "Weathered leather tack and oxidized bronze stirrups on dark stone, wind-blown sand" [ref=f15e668]
+                - img "A young cadet cantering a bay Marwari" [ref=f15e672]
+      - 'region "The Ledger: Now, the decision." [ref=f15e674]':
+        - separator [ref=f15e675]:
+          - generic [ref=f15e679]: Act III · The Ledger
+        - heading "Now, the decision." [level=2] [ref=f15e684]
+      - region [ref=f15e685]:
+        - generic [ref=f15e687]:
+          - generic [ref=f15e688]:
+            - paragraph [ref=f15e689]:
+              - generic [ref=f15e690]: REEL 12 ·
+              - text: The Seal · Tactile Dispatch
+            - heading "Every hour sealed in brass." [level=2] [ref=f15e692]:
+              - generic [ref=f15e693]:
+                - generic [ref=f15e694]: Every hour
+                - generic [ref=f15e696]: sealed in brass.
+            - paragraph [ref=f15e698]: Admissions officers and federations can check a cadet's rank, hours and EFI registration in seconds.
+            - generic [ref=f15e699]:
+              - paragraph [ref=f15e700]: On-Chain Cryptographic Registry
+              - generic [ref=f15e702]:
+                - generic [ref=f15e703]: Passport code
+                - generic [ref=f15e704]:
+                  - textbox "Passport code" [ref=f15e705]:
+                    - /placeholder: BSAH-2026-HYD-042
+                    - text: BSAH-2026-HYD-042
+                  - button "Verify" [ref=f15e706] [cursor=pointer]
+                - paragraph [ref=f15e707]: The code is printed inside the cadet’s Sovereign Passport.
+            - generic [ref=f15e709]:
+              - generic [ref=f15e710]:
+                - generic [ref=f15e711]: Tactile Reveal Controls
+                - generic [ref=f15e712]: WebGL2 Physics
+              - generic [ref=f15e714]:
+                - generic [ref=f15e715]: "Document:"
+                - generic [ref=f15e716]:
+                  - button "Sovereign Deed" [ref=f15e717] [cursor=pointer]
+                  - button "Archival Letter" [ref=f15e718] [cursor=pointer]
+              - generic [ref=f15e719]:
+                - generic [ref=f15e720]: "Trigger:"
+                - generic [ref=f15e721]:
+                  - button "Hover / Tap" [ref=f15e722] [cursor=pointer]
+                  - button "Click to Toggle" [ref=f15e723] [cursor=pointer]
+                  - button "In View" [ref=f15e724] [cursor=pointer]
+              - generic [ref=f15e725]:
+                - generic [ref=f15e726]:
+                  - generic [ref=f15e727]: "Fold:"
+                  - button "thirds" [ref=f15e728] [cursor=pointer]
+                  - button "half" [ref=f15e729] [cursor=pointer]
+                  - button "none" [ref=f15e730] [cursor=pointer]
+                - generic [ref=f15e731]:
+                  - generic [ref=f15e732]: "Shape:"
+                  - button "1" [ref=f15e733] [cursor=pointer]
+                  - button "3" [ref=f15e734] [cursor=pointer]
+                  - button "7" [ref=f15e735] [cursor=pointer]
+                  - button "11" [ref=f15e736] [cursor=pointer]
+          - generic [ref=f15e737]:
+            - generic [ref=f15e738]: Archival Specimen · BSAH-2026-HYD-042
+            - generic [ref=f15e742]:
+              - generic:
+                - link "BSAH Sovereign Commission Archival Document":
+                  - /url: /verify/BSAH-2026-HYD-042
+                  - generic [aria-hidden] [ref=f15e743] [cursor=pointer]
+            - generic [ref=f15e744]:
+              - paragraph [ref=f15e745]: Hover or touch to unfold the crumpled paper ball · Move cursor to cast raking light
+              - paragraph [ref=f15e746]: Real-time WebGL2 cloth simulation with crease memory & procedural shadow passes
+      - region [ref=f15e747]:
+        - img "Three riders charging with lances lowered through dust" [ref=f15e751]
+        - generic [ref=f15e753]:
+          - generic [ref=f15e754]:
+            - paragraph [ref=f15e755]:
+              - generic [ref=f15e756]: REEL 13 ·
+              - text: The Circuit
+            - heading "Lances down. Zones on the circuit." [level=2] [ref=f15e758]:
+              - generic [ref=f15e759]:
+                - generic [ref=f15e760]: Lances down.
+                - generic [ref=f15e762]: Zones on the circuit.
+          - paragraph [ref=f15e764]:
+            - text: Sovereign Governor's Cup · 14 Nov · Hyderabad · in
+            - generic [ref=f15e765]: "--d --h"
+        - generic [ref=f15e766]:
+          - paragraph [ref=f15e767]: STPCI standings 2026–27 · sample
+          - list [ref=f15e768]:
+            - listitem [ref=f15e769]:
+              - generic [ref=f15e770]:
+                - generic [ref=f15e771]:
+                  - generic [ref=f15e772]: "01"
+                  - generic [ref=f15e773]: 01 · Financial District Hub
+                - generic [ref=f15e774]:
+                  - generic [ref=f15e775]: "0"
+                  - text: pts · 12 gold
+            - listitem [ref=f15e783]:
+              - generic [ref=f15e784]:
+                - generic [ref=f15e785]:
+                  - generic [ref=f15e786]: "02"
+                  - generic [ref=f15e787]: 02 · Golf Course Road Belt
+                - generic [ref=f15e788]:
+                  - generic [ref=f15e789]: "0"
+                  - text: pts · 9 gold
+            - listitem [ref=f15e797]:
+              - generic [ref=f15e798]:
+                - generic [ref=f15e799]:
+                  - generic [ref=f15e800]: "03"
+                  - generic [ref=f15e801]: 03 · BKC & South Mumbai Circuit
+                - generic [ref=f15e802]:
+                  - generic [ref=f15e803]: "0"
+                  - text: pts · 7 gold
+          - link "The full circuit" [ref=f15e812] [cursor=pointer]:
+            - /url: /tournaments
+      - region [ref=f15e816]:
+        - paragraph [ref=f15e817]:
+          - generic [ref=f15e818]: REEL 10 ·
+          - text: The Shield
+        - heading "Safety before speed." [level=2] [ref=f15e820]:
+          - generic [ref=f15e821]:
+            - generic [ref=f15e822]: Safety
+            - generic [ref=f15e824]: before speed.
+        - generic [ref=f15e826]:
+          - generic [ref=f15e827]:
+            - paragraph [ref=f15e828]:
+              - generic [ref=f15e829]: Ex-cavalry
+            - paragraph [ref=f15e830]: Instructors from Indian Army RVC and NCC cavalry units.
+          - generic [ref=f15e831]:
+            - paragraph [ref=f15e833]:
+              - generic [ref=f15e834]: Daily
+            - paragraph [ref=f15e835]: Hoof, feed and hydration checks for every stallion, every day.
+          - generic [ref=f15e836]:
+            - paragraph [ref=f15e838]:
+              - generic [ref=f15e839]: Cover
+            - paragraph [ref=f15e840]: Accident-insurance terms are being confirmed and will be published here.
+        - link "How we keep cadets safe" [ref=f15e842] [cursor=pointer]:
+          - /url: /safety
+      - region [ref=f15e846]:
+        - generic [ref=f15e848]:
+          - paragraph [ref=f15e849]: Reel 14 / Information desk
+          - heading "Ask the command terminal." [level=2] [ref=f15e850]: Ask thecommand terminal.
+          - paragraph [ref=f15e851]: "For principals and trustees: returns, insurance, safety and curriculum, answered on the spot."
+          - link "Find an answer" [ref=f15e852] [cursor=pointer]:
+            - /url: /command
+        - generic [ref=f15e855]:
+          - heading "What would you like to know?" [level=3] [ref=f15e856]
+          - paragraph [ref=f15e857]: Ask the academy about riding, enrolment or your campus.
+          - generic [ref=f15e858]:
+            - generic [ref=f15e859]: Ask a question
+            - textbox "Ask a question" [ref=f15e860]:
+              - /placeholder: Ask your question…
+            - button "Send question" [disabled] [ref=f15e861]
+          - list "Suggested questions" [ref=f15e864]:
+            - listitem [ref=f15e865]:
+              - button "CapEx & revenue share" [ref=f15e866] [cursor=pointer]
+            - listitem [ref=f15e867]:
+              - button "STPCI accreditation" [ref=f15e868] [cursor=pointer]
+            - listitem [ref=f15e869]:
+              - button "Curriculum & class timings" [ref=f15e870] [cursor=pointer]
+          - paragraph [ref=f15e871]: "Demo: published answers only. Not connected to live data. Questions are not saved."
+      - region [ref=f15e872]:
+        - generic [ref=f15e873]:
+          - paragraph [ref=f15e874]:
+            - generic [ref=f15e875]: REEL 15 ·
+            - text: The Chronicle
+          - heading "Stories from the stable." [level=2] [ref=f15e877]:
+            - generic [ref=f15e878]:
+              - generic [ref=f15e879]: Stories
+              - generic [ref=f15e881]: from the stable.
+        - generic [ref=f15e883]:
+          - link [ref=f15e884] [cursor=pointer]:
+            - /url: /journal/the-horse-that-would-not-leave-the-field
+            - img "Weathered leather tack and oxidized bronze stirrups on dark stone, wind-blown sand" [ref=f15e889]
+            - generic [ref=f15e890]:
+              - paragraph [ref=f15e891]: Legend · 5 min read
+              - paragraph [ref=f15e892]: The horse that would not leave the field.
+          - list [ref=f15e893]:
+            - listitem [ref=f15e894]:
+              - 'link "01 The horse that would not leave the field. Victory, death, or the wounded rider: the vow behind the Marwari, and the stallion at the stream." [ref=f15e895] [cursor=pointer]':
+                - /url: /journal/the-horse-that-would-not-leave-the-field
+                - generic [ref=f15e896]: "01"
+                - generic [ref=f15e897]:
+                  - generic [ref=f15e898]: The horse that would not leave the field.
+                  - generic [ref=f15e899]: "Victory, death, or the wounded rider: the vow behind the Marwari, and the stallion at the stream."
+            - listitem [ref=f15e900]:
+              - link "02 Why the ears curl. The lyre-shaped ears that turn 180 degrees, and why breeders read them as a seal of purity." [ref=f15e901] [cursor=pointer]:
+                - /url: /journal/why-the-ears-curl
+                - generic [ref=f15e902]: "02"
+                - generic [ref=f15e903]:
+                  - generic [ref=f15e904]: Why the ears curl.
+                  - generic [ref=f15e905]: The lyre-shaped ears that turn 180 degrees, and why breeders read them as a seal of purity.
+            - listitem [ref=f15e906]:
+              - 'link "03 Omens of the stable. Greys, blazes, devman whorls and the black horse: how Marwar read a horse''s future in its coat." [ref=f15e907] [cursor=pointer]':
+                - /url: /journal/omens-of-the-stable
+                - generic [ref=f15e908]: "03"
+                - generic [ref=f15e909]:
+                  - generic [ref=f15e910]: Omens of the stable.
+                  - generic [ref=f15e911]: "Greys, blazes, devman whorls and the black horse: how Marwar read a horse's future in its coat."
+            - listitem [ref=f15e912]:
+              - link "04 From royalty to cart horse, and back. How the Marwari nearly vanished after 1947, and the people who brought it back." [ref=f15e913] [cursor=pointer]:
+                - /url: /journal/from-royalty-to-cart-horse-and-back
+                - generic [ref=f15e914]: "04"
+                - generic [ref=f15e915]:
+                  - generic [ref=f15e916]: From royalty to cart horse, and back.
+                  - generic [ref=f15e917]: How the Marwari nearly vanished after 1947, and the people who brought it back.
+            - listitem [ref=f15e918]:
+              - link "Read the Chronicle" [ref=f15e919] [cursor=pointer]:
+                - /url: /journal
+      - region "The arena is open" [ref=f15e923]:
+        - generic [ref=f15e924]:
+          - img "A lone Marwari silhouetted on a dune at dusk" [ref=f15e927]
+          - generic [ref=f15e928]:
+            - paragraph [ref=f15e929]: The arena is open.
+            - heading "Your cadet's legacy begins today." [level=2] [ref=f15e930]
+            - generic [ref=f15e931]:
+              - link "Enrol a cadet" [ref=f15e932] [cursor=pointer]:
+                - /url: /contact?gate=parents
+              - link "Partner your campus" [ref=f15e936] [cursor=pointer]:
+                - /url: /contact?gate=schools
+              - link "Schedule a board audit" [ref=f15e940] [cursor=pointer]:
+                - /url: /contact?gate=audit
+            - list [ref=f15e944]:
+              - listitem [ref=f15e945]:
+                - link "boards@blackstallion.academy" [ref=f15e946] [cursor=pointer]:
+                  - /url: mailto:boards@blackstallion.academy
+              - listitem [ref=f15e947]:
+                - link "parents@blackstallion.academy" [ref=f15e948] [cursor=pointer]:
+                  - /url: mailto:parents@blackstallion.academy
+              - listitem [ref=f15e949]:
+                - link "partners@blackstallion.academy" [ref=f15e950] [cursor=pointer]:
+                  - /url: mailto:partners@blackstallion.academy
+            - paragraph [ref=f15e951]: Dominus Sui, Dominus Equi. Master of oneself, master of the horse.
+            - link "Begin at reel one" [ref=f15e952] [cursor=pointer]:
+              - /url: /legend
+  - contentinfo "Site Footer" [ref=f15e956]:
+    - generic [ref=f15e957]:
+      - generic [aria-hidden] [ref=f15e961]:
+        - generic [aria-hidden] [ref=f15e962]: T
+        - generic [aria-hidden] [ref=f15e963]: H
+        - generic [aria-hidden] [ref=f15e964]: E
+        - generic [aria-hidden] [ref=f15e966]: B
+        - generic [aria-hidden] [ref=f15e967]: L
+        - generic [aria-hidden] [ref=f15e968]: A
+        - generic [aria-hidden] [ref=f15e969]: C
+        - generic [aria-hidden] [ref=f15e970]: K
+        - generic [aria-hidden] [ref=f15e972]: S
+        - generic [aria-hidden] [ref=f15e973]: T
+        - generic [aria-hidden] [ref=f15e974]: A
+        - generic [aria-hidden] [ref=f15e975]: L
+        - generic [aria-hidden] [ref=f15e976]: L
+        - generic [aria-hidden] [ref=f15e977]: I
+        - generic [aria-hidden] [ref=f15e978]: O
+        - generic [aria-hidden] [ref=f15e979]: "N"
+        - generic [aria-hidden] [ref=f15e981]: A
+        - generic [aria-hidden] [ref=f15e982]: C
+        - generic [aria-hidden] [ref=f15e983]: A
+        - generic [aria-hidden] [ref=f15e984]: D
+        - generic [aria-hidden] [ref=f15e985]: E
+        - generic [aria-hidden] [ref=f15e986]: M
+        - generic [aria-hidden] [ref=f15e987]: "Y"
+        - generic [aria-hidden] [ref=f15e989]: ·
+        - generic [aria-hidden] [ref=f15e991]: D
+        - generic [aria-hidden] [ref=f15e992]: O
+        - generic [aria-hidden] [ref=f15e993]: M
+        - generic [aria-hidden] [ref=f15e994]: I
+        - generic [aria-hidden] [ref=f15e995]: "N"
+        - generic [aria-hidden] [ref=f15e996]: U
+        - generic [aria-hidden] [ref=f15e997]: S
+        - generic [aria-hidden] [ref=f15e999]: S
+        - generic [aria-hidden] [ref=f15e1000]: U
+        - generic [aria-hidden] [ref=f15e1001]: I
+        - generic [aria-hidden] [ref=f15e1003]: ·
+        - generic [aria-hidden] [ref=f15e1005]: D
+        - generic [aria-hidden] [ref=f15e1006]: O
+        - generic [aria-hidden] [ref=f15e1007]: M
+        - generic [aria-hidden] [ref=f15e1008]: I
+        - generic [aria-hidden] [ref=f15e1009]: "N"
+        - generic [aria-hidden] [ref=f15e1010]: U
+        - generic [aria-hidden] [ref=f15e1011]: S
+        - generic [aria-hidden] [ref=f15e1013]: E
+        - generic [aria-hidden] [ref=f15e1014]: Q
+        - generic [aria-hidden] [ref=f15e1015]: U
+        - generic [aria-hidden] [ref=f15e1016]: I
+        - generic [aria-hidden] [ref=f15e1018]: ·
+      - paragraph [ref=f15e1023]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=f15e1024] [cursor=pointer]:
+          - /url: /
+          - text: black stallion academy
+      - paragraph [ref=f15e1025]:
+        - emphasis [ref=f15e1026]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=f15e1027]:
+        - list [ref=f15e1028]:
+          - listitem [ref=f15e1029]:
+            - link "The Legend" [ref=f15e1030] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=f15e1031]:
+            - link "The Instrument" [ref=f15e1032] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=f15e1033]:
+            - link "3D Monument" [ref=f15e1034] [cursor=pointer]:
+              - /url: /statue
+          - listitem [ref=f15e1035]:
+            - link "Science & Matrix" [ref=f15e1036] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=f15e1037]:
+            - link "Crucible & Cure" [ref=f15e1038] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=f15e1039]:
+            - link "Curriculum" [ref=f15e1040] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=f15e1041]:
+            - link "The Studbook" [ref=f15e1042] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=f15e1043]:
+            - link "For Schools" [ref=f15e1044] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=f15e1045]:
+            - link "Cadets" [ref=f15e1046] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=f15e1047]:
+            - link "Parents" [ref=f15e1048] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=f15e1049]:
+            - link "The Circuit" [ref=f15e1050] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=f15e1051]:
+            - link "Information desk" [ref=f15e1052] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=f15e1053]:
+            - link "The Gate" [ref=f15e1054] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=f15e1055]:
+        - generic [ref=f15e1056]:
+          - generic [ref=f15e1057]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=f15e1058] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+        - generic [ref=f15e1059]:
+          - generic [ref=f15e1060]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=f15e1061] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+        - generic [ref=f15e1062]:
+          - generic [ref=f15e1063]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=f15e1064] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=f15e1065]:
+        - paragraph [ref=f15e1066]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - generic [ref=f15e1067]:
+          - link "About" [ref=f15e1068] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=f15e1069] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=f15e1070] [cursor=pointer]:
+            - /url: /journal
+          - link "Information desk" [ref=f15e1071] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=f15e1072] [cursor=pointer]:
+            - /url: /privacy
+  - button "Open Next.js Dev Tools" [ref=f15e1078] [cursor=pointer]

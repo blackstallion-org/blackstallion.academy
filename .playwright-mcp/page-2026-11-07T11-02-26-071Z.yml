@@ -1,0 +1,267 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "The Black Stallion Academy of Horsemanship, home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]:
+          - generic [ref=e9]: Black Stallion
+          - generic [ref=e10]: Academy of Horsemanship
+      - navigation "Primary" [ref=e11]:
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "Legend" [ref=e14] [cursor=pointer]:
+              - /url: /legend
+              - generic [ref=e15]:
+                - generic [ref=e16]: Legend
+                - generic [aria-hidden] [ref=e17]:
+                  - generic [ref=e18]: L
+                  - generic [ref=e19]: e
+                  - generic [ref=e20]: g
+                  - generic [ref=e21]: e
+                  - generic [ref=e22]: "n"
+                  - generic [ref=e23]: d
+                - generic [aria-hidden] [ref=e24]:
+                  - generic [ref=e25]: L
+                  - generic [ref=e26]: e
+                  - generic [ref=e27]: g
+                  - generic [ref=e28]: e
+                  - generic [ref=e29]: "n"
+                  - generic [ref=e30]: d
+          - listitem [ref=e31]:
+            - link "Worlds" [ref=e32] [cursor=pointer]:
+              - /url: /worlds
+              - generic [ref=e33]:
+                - generic [ref=e34]: Worlds
+                - generic [aria-hidden] [ref=e35]:
+                  - generic [ref=e36]: W
+                  - generic [ref=e37]: o
+                  - generic [ref=e38]: r
+                  - generic [ref=e39]: l
+                  - generic [ref=e40]: d
+                  - generic [ref=e41]: s
+                - generic [aria-hidden] [ref=e42]:
+                  - generic [ref=e43]: W
+                  - generic [ref=e44]: o
+                  - generic [ref=e45]: r
+                  - generic [ref=e46]: l
+                  - generic [ref=e47]: d
+                  - generic [ref=e48]: s
+          - listitem [ref=e49]:
+            - link "Curriculum" [ref=e50] [cursor=pointer]:
+              - /url: /curriculum
+              - generic [ref=e51]:
+                - generic [ref=e52]: Curriculum
+                - generic [aria-hidden] [ref=e53]:
+                  - generic [ref=e54]: C
+                  - generic [ref=e55]: u
+                  - generic [ref=e56]: r
+                  - generic [ref=e57]: r
+                  - generic [ref=e58]: i
+                  - generic [ref=e59]: c
+                  - generic [ref=e60]: u
+                  - generic [ref=e61]: l
+                  - generic [ref=e62]: u
+                  - generic [ref=e63]: m
+                - generic [aria-hidden] [ref=e64]:
+                  - generic [ref=e65]: C
+                  - generic [ref=e66]: u
+                  - generic [ref=e67]: r
+                  - generic [ref=e68]: r
+                  - generic [ref=e69]: i
+                  - generic [ref=e70]: c
+                  - generic [ref=e71]: u
+                  - generic [ref=e72]: l
+                  - generic [ref=e73]: u
+                  - generic [ref=e74]: m
+          - listitem [ref=e75]:
+            - link "Parents" [ref=e76] [cursor=pointer]:
+              - /url: /parents
+              - generic [ref=e77]:
+                - generic [ref=e78]: Parents
+                - generic [aria-hidden] [ref=e79]:
+                  - generic [ref=e80]: P
+                  - generic [ref=e81]: a
+                  - generic [ref=e82]: r
+                  - generic [ref=e83]: e
+                  - generic [ref=e84]: "n"
+                  - generic [ref=e85]: t
+                  - generic [ref=e86]: s
+                - generic [aria-hidden] [ref=e87]:
+                  - generic [ref=e88]: P
+                  - generic [ref=e89]: a
+                  - generic [ref=e90]: r
+                  - generic [ref=e91]: e
+                  - generic [ref=e92]: "n"
+                  - generic [ref=e93]: t
+                  - generic [ref=e94]: s
+          - listitem [ref=e95]:
+            - link "Schools" [ref=e96] [cursor=pointer]:
+              - /url: /schools
+              - generic [ref=e97]:
+                - generic [ref=e98]: Schools
+                - generic [aria-hidden] [ref=e99]:
+                  - generic [ref=e100]: S
+                  - generic [ref=e101]: c
+                  - generic [ref=e102]: h
+                  - generic [ref=e103]: o
+                  - generic [ref=e104]: o
+                  - generic [ref=e105]: l
+                  - generic [ref=e106]: s
+                - generic [aria-hidden] [ref=e107]:
+                  - generic [ref=e108]: S
+                  - generic [ref=e109]: c
+                  - generic [ref=e110]: h
+                  - generic [ref=e111]: o
+                  - generic [ref=e112]: o
+                  - generic [ref=e113]: l
+                  - generic [ref=e114]: s
+          - listitem [ref=e115]:
+            - link "Circuit" [ref=e116] [cursor=pointer]:
+              - /url: /tournaments
+              - generic [ref=e117]:
+                - generic [ref=e118]: Circuit
+                - generic [aria-hidden] [ref=e119]:
+                  - generic [ref=e120]: C
+                  - generic [ref=e121]: i
+                  - generic [ref=e122]: r
+                  - generic [ref=e123]: c
+                  - generic [ref=e124]: u
+                  - generic [ref=e125]: i
+                  - generic [ref=e126]: t
+                - generic [aria-hidden] [ref=e127]:
+                  - generic [ref=e128]: C
+                  - generic [ref=e129]: i
+                  - generic [ref=e130]: r
+                  - generic [ref=e131]: c
+                  - generic [ref=e132]: u
+                  - generic [ref=e133]: i
+                  - generic [ref=e134]: t
+          - listitem [ref=e135]:
+            - link "Verify" [ref=e136] [cursor=pointer]:
+              - /url: /verify
+              - generic [ref=e137]:
+                - generic [ref=e138]: Verify
+                - generic [aria-hidden] [ref=e139]:
+                  - generic [ref=e140]: V
+                  - generic [ref=e141]: e
+                  - generic [ref=e142]: r
+                  - generic [ref=e143]: i
+                  - generic [ref=e144]: f
+                  - generic [ref=e145]: "y"
+                - generic [aria-hidden] [ref=e146]:
+                  - generic [ref=e147]: V
+                  - generic [ref=e148]: e
+                  - generic [ref=e149]: r
+                  - generic [ref=e150]: i
+                  - generic [ref=e151]: f
+                  - generic [ref=e152]: "y"
+      - generic [ref=e153]:
+        - link "Staff sign-in" [ref=e154] [cursor=pointer]:
+          - /url: /admin/login
+        - button "Switch to dark mode" [ref=e158] [cursor=pointer]
+        - 'button "Sound: off. Choose what plays." [ref=e162] [cursor=pointer]':
+          - generic [ref=e163]: Sound
+          - generic [ref=e164]: "OFF"
+        - link "Enrol a cadet" [ref=e167] [cursor=pointer]:
+          - /url: /contact?gate=parents
+        - 'button "Reels: all pages" [ref=e168] [cursor=pointer]':
+          - generic [ref=e169]: Reels
+  - main [ref=e173]:
+    - region "Credits" [ref=e175]:
+      - generic [ref=e176]:
+        - link "Return to the academy" [ref=e177] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=e178]: "Four Worlds is rendered live in your browser. Planet and moon textures: Solar System Scope (solarsystemscope.com), CC BY 4.0, based on NASA imagery. Skies, ground textures and a boulder scan: Poly Haven and ambientCG (CC0). Terrain, academy, fort, riders, orbital platform and stars: built for BSAH in Blender. Horse and anatomy: the academy's own Marwari model."
+  - contentinfo "Site Footer" [ref=e179]:
+    - generic [ref=e180]:
+      - generic [ref=e181]:
+        - figure "The academy" [ref=e182]:
+          - img "The Black Stallion Academy of Horsemanship crest" [ref=e183]
+        - figure "The council" [ref=e186]:
+          - img "School Tent Pegging Council of India seal" [ref=e187]
+      - paragraph [ref=e189]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=e190] [cursor=pointer]:
+          - /url: /
+          - text: The Black Stallion Academy
+          - generic [ref=e191]: of Horsemanship
+      - paragraph [ref=e192]:
+        - emphasis [ref=e193]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=e194]:
+        - list [ref=e195]:
+          - listitem [ref=e196]:
+            - link "The Legend" [ref=e197] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=e198]:
+            - link "The Instrument" [ref=e199] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=e200]:
+            - link "3D Monument" [ref=e201] [cursor=pointer]:
+              - /url: /statue
+          - listitem [ref=e202]:
+            - link "Motion Lab" [ref=e203] [cursor=pointer]:
+              - /url: /motion-lab
+          - listitem [ref=e204]:
+            - link "Science & Matrix" [ref=e205] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=e206]:
+            - link "Crucible & Cure" [ref=e207] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=e208]:
+            - link "Curriculum" [ref=e209] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=e210]:
+            - link "The Studbook" [ref=e211] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=e212]:
+            - link "For Schools" [ref=e213] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=e214]:
+            - link "Cadets" [ref=e215] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=e216]:
+            - link "Parents" [ref=e217] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=e218]:
+            - link "The Circuit" [ref=e219] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=e220]:
+            - link "The Command" [ref=e221] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=e222]:
+            - link "The Gate" [ref=e223] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=e224]:
+        - generic [ref=e225]:
+          - generic [ref=e226]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=e227] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+          - generic [aria-hidden] [ref=e228]: ·
+        - generic [ref=e229]:
+          - generic [ref=e230]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=e231] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+          - generic [aria-hidden] [ref=e232]: ·
+        - generic [ref=e233]:
+          - generic [ref=e234]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=e235] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=e236]:
+        - paragraph [ref=e237]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - paragraph [ref=e238]: "Music: “A Melody from the Open Range” by Music of the Valley. Field recordings: Freesound contributors (CC0)."
+        - generic [ref=e239]:
+          - link "About" [ref=e240] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=e241] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=e242] [cursor=pointer]:
+            - /url: /journal
+          - link "The Command" [ref=e243] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=e244] [cursor=pointer]:
+            - /url: /privacy
+          - link "Film credits" [ref=e245] [cursor=pointer]:
+            - /url: /worlds/credits
+  - button "Open Next.js Dev Tools" [ref=e251] [cursor=pointer]

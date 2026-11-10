@@ -1,0 +1,518 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Black Stallion Academy, home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: Black Stallion
+      - navigation "Primary" [ref=e9]:
+        - list [ref=e10]:
+          - listitem [ref=e11]:
+            - link "Legend" [ref=e12] [cursor=pointer]:
+              - /url: /legend
+              - generic [ref=e13]:
+                - generic [ref=e14]: Legend
+                - generic [aria-hidden] [ref=e15]:
+                  - generic [ref=e16]: L
+                  - generic [ref=e17]: e
+                  - generic [ref=e18]: g
+                  - generic [ref=e19]: e
+                  - generic [ref=e20]: "n"
+                  - generic [ref=e21]: d
+                - generic [aria-hidden] [ref=e22]:
+                  - generic [ref=e23]: L
+                  - generic [ref=e24]: e
+                  - generic [ref=e25]: g
+                  - generic [ref=e26]: e
+                  - generic [ref=e27]: "n"
+                  - generic [ref=e28]: d
+          - listitem [ref=e29]:
+            - link "Curriculum" [ref=e30] [cursor=pointer]:
+              - /url: /curriculum
+              - generic [ref=e31]:
+                - generic [ref=e32]: Curriculum
+                - generic [aria-hidden] [ref=e33]:
+                  - generic [ref=e34]: C
+                  - generic [ref=e35]: u
+                  - generic [ref=e36]: r
+                  - generic [ref=e37]: r
+                  - generic [ref=e38]: i
+                  - generic [ref=e39]: c
+                  - generic [ref=e40]: u
+                  - generic [ref=e41]: l
+                  - generic [ref=e42]: u
+                  - generic [ref=e43]: m
+                - generic [aria-hidden] [ref=e44]:
+                  - generic [ref=e45]: C
+                  - generic [ref=e46]: u
+                  - generic [ref=e47]: r
+                  - generic [ref=e48]: r
+                  - generic [ref=e49]: i
+                  - generic [ref=e50]: c
+                  - generic [ref=e51]: u
+                  - generic [ref=e52]: l
+                  - generic [ref=e53]: u
+                  - generic [ref=e54]: m
+          - listitem [ref=e55]:
+            - link "Parents" [ref=e56] [cursor=pointer]:
+              - /url: /parents
+              - generic [ref=e57]:
+                - generic [ref=e58]: Parents
+                - generic [aria-hidden] [ref=e59]:
+                  - generic [ref=e60]: P
+                  - generic [ref=e61]: a
+                  - generic [ref=e62]: r
+                  - generic [ref=e63]: e
+                  - generic [ref=e64]: "n"
+                  - generic [ref=e65]: t
+                  - generic [ref=e66]: s
+                - generic [aria-hidden] [ref=e67]:
+                  - generic [ref=e68]: P
+                  - generic [ref=e69]: a
+                  - generic [ref=e70]: r
+                  - generic [ref=e71]: e
+                  - generic [ref=e72]: "n"
+                  - generic [ref=e73]: t
+                  - generic [ref=e74]: s
+          - listitem [ref=e75]:
+            - link "Schools" [ref=e76] [cursor=pointer]:
+              - /url: /schools
+              - generic [ref=e77]:
+                - generic [ref=e78]: Schools
+                - generic [aria-hidden] [ref=e79]:
+                  - generic [ref=e80]: S
+                  - generic [ref=e81]: c
+                  - generic [ref=e82]: h
+                  - generic [ref=e83]: o
+                  - generic [ref=e84]: o
+                  - generic [ref=e85]: l
+                  - generic [ref=e86]: s
+                - generic [aria-hidden] [ref=e87]:
+                  - generic [ref=e88]: S
+                  - generic [ref=e89]: c
+                  - generic [ref=e90]: h
+                  - generic [ref=e91]: o
+                  - generic [ref=e92]: o
+                  - generic [ref=e93]: l
+                  - generic [ref=e94]: s
+          - listitem [ref=e95]:
+            - link "Circuit" [ref=e96] [cursor=pointer]:
+              - /url: /tournaments
+              - generic [ref=e97]:
+                - generic [ref=e98]: Circuit
+                - generic [aria-hidden] [ref=e99]:
+                  - generic [ref=e100]: C
+                  - generic [ref=e101]: i
+                  - generic [ref=e102]: r
+                  - generic [ref=e103]: c
+                  - generic [ref=e104]: u
+                  - generic [ref=e105]: i
+                  - generic [ref=e106]: t
+                - generic [aria-hidden] [ref=e107]:
+                  - generic [ref=e108]: C
+                  - generic [ref=e109]: i
+                  - generic [ref=e110]: r
+                  - generic [ref=e111]: c
+                  - generic [ref=e112]: u
+                  - generic [ref=e113]: i
+                  - generic [ref=e114]: t
+          - listitem [ref=e115]:
+            - link "Verify" [ref=e116] [cursor=pointer]:
+              - /url: /verify
+              - generic [ref=e117]:
+                - generic [ref=e118]: Verify
+                - generic [aria-hidden] [ref=e119]:
+                  - generic [ref=e120]: V
+                  - generic [ref=e121]: e
+                  - generic [ref=e122]: r
+                  - generic [ref=e123]: i
+                  - generic [ref=e124]: f
+                  - generic [ref=e125]: "y"
+                - generic [aria-hidden] [ref=e126]:
+                  - generic [ref=e127]: V
+                  - generic [ref=e128]: e
+                  - generic [ref=e129]: r
+                  - generic [ref=e130]: i
+                  - generic [ref=e131]: f
+                  - generic [ref=e132]: "y"
+      - generic [ref=e133]:
+        - link "Staff sign-in" [ref=e134] [cursor=pointer]:
+          - /url: /admin/login
+        - button "Sound on. Toggle website sound effects." [pressed] [ref=e138] [cursor=pointer]:
+          - generic [ref=e139]: Sound
+          - generic [ref=e140]: "ON"
+        - link "Enrol a cadet" [ref=e141] [cursor=pointer]:
+          - /url: /contact?gate=parents
+        - button "Reels" [ref=e142] [cursor=pointer]
+  - main [ref=e147]:
+    - region [ref=e148]:
+      - generic [ref=e149]:
+        - img "A dark bay Marwari stallion in full side profile on black, outlined in gold light" [ref=e154]
+        - heading "The instrument." [level=1] [ref=e157]:
+          - generic [ref=e158]:
+            - generic [ref=e159]: The
+            - generic [ref=e161]: instrument.
+      - generic [ref=e163]:
+        - paragraph [ref=e164]:
+          - generic [ref=e165]: REEL 02 / 16
+          - generic [ref=e167]: Act I · The Legend
+        - paragraph [ref=e168]: Five hundred kilograms of muscle and nerve that notices your breathing before you do.
+        - generic [ref=e169]:
+          - generic [ref=e170]:
+            - term [ref=e171]: Plate
+            - definition [ref=e172]: 02 · Marwari
+          - generic [ref=e173]:
+            - term [ref=e174]: Species
+            - definition [ref=e175]: Equus ferus caballus
+          - generic [ref=e176]:
+            - term [ref=e177]: Subject
+            - definition [ref=e178]: Stallion · 15.2 hh
+          - generic [ref=e179]:
+            - term [ref=e180]: Coat
+            - definition [ref=e181]: Dark bay
+          - generic [ref=e182]:
+            - term [ref=e183]: Catalogue
+            - definition [ref=e184]: BSAH-0912
+        - paragraph [ref=e185]: PLATE 02 · MARWARI · 15.2 HH
+    - region [ref=e186]:
+      - paragraph [ref=e187]: Read it four ways
+      - heading "Six points, six lessons." [level=2] [ref=e189]:
+        - generic [ref=e190]:
+          - generic [ref=e191]: Six points,
+          - generic [ref=e193]: six lessons.
+      - paragraph [ref=e195]: Choose a point on the plate. Each one shows the horse, what it asks of the rider, what it builds, and what the old stories say.
+      - generic [ref=e196]:
+        - generic [ref=e197]: Specimen Plate 02 · Conformation Study
+        - generic [ref=e201]:
+          - generic [ref=e202]:
+            - img "A dark bay Marwari stallion in full side profile on black, outlined in gold light" [ref=e205]
+            - paragraph [ref=e207]: PLATE 02 · MARWARI · 15.2 HH
+            - list:
+              - listitem [ref=e208]:
+                - 'button "Ears: 180° of Attention" [pressed] [ref=e209] [cursor=pointer]':
+                  - generic: Ears
+              - listitem [ref=e212]:
+                - 'button "Neck: The Crest" [ref=e213] [cursor=pointer]':
+                  - generic: Neck
+              - listitem [ref=e216]:
+                - 'button "Saddle: The Moving Floor" [ref=e217] [cursor=pointer]':
+                  - generic: Saddle
+              - listitem [ref=e220]:
+                - 'button "Flank: Legs that steer" [ref=e221] [cursor=pointer]':
+                  - generic: Flank
+              - listitem [ref=e224]:
+                - 'button "Reins: Ten Grams" [ref=e225] [cursor=pointer]':
+                  - generic: Reins
+              - listitem [ref=e228]:
+                - 'button "Hoof: Desert Feet" [ref=e229] [cursor=pointer]':
+                  - generic: Hoof
+          - generic [ref=e232]:
+            - generic [ref=e234]:
+              - paragraph [ref=e235]: Ears
+              - heading "180° of Attention" [level=3] [ref=e236]
+              - paragraph [ref=e237]: 180° Independent Acoustic Swivel
+              - paragraph [ref=e238]: Trait Composure & Active Environmental Reading
+              - generic [ref=e239]:
+                - generic [ref=e240]:
+                  - term [ref=e241]: Equine science
+                  - definition [ref=e242]: Lyre-shaped ears turn through 180° and track sound independently.
+                - generic [ref=e243]:
+                  - term [ref=e244]: Rider
+                  - definition [ref=e245]: Your breathing and tension are audible to the horse; they force the cadet into total physical stillness and emotional composure.
+                - generic [ref=e246]:
+                  - term [ref=e247]: What it builds
+                  - definition [ref=e248]: Emotional self-governance
+                - generic [ref=e249]:
+                  - term [ref=e250]: From the legend
+                  - definition [ref=e251]: Riders trusted the ears to point toward danger in the dark.
+            - group "Choose a point" [ref=e252]:
+              - button "Ears" [pressed] [ref=e253] [cursor=pointer]
+              - button "Neck" [ref=e254] [cursor=pointer]
+              - button "Saddle" [ref=e255] [cursor=pointer]
+              - button "Flank" [ref=e256] [cursor=pointer]
+              - button "Reins" [ref=e257] [cursor=pointer]
+              - button "Hoof" [ref=e258] [cursor=pointer]
+    - region "One conversation. Two bodies." [ref=e259]:
+      - iframe [ref=e260]:
+        - main [ref=f1e2]:
+          - generic [ref=f1e3]:
+            - generic [ref=f1e4]:
+              - heading "One conversation. Two bodies." [level=1] [ref=f1e5]
+              - paragraph [ref=f1e6]: Select a connection to explore how balanced riding helps both horse and rider reach the same purpose.
+            - generic [ref=f1e8]:
+              - img "Side view of a Marwari horse with a seated cadet rider" [ref=f1e9]
+              - paragraph [ref=f1e23]: The interactive 3D model is not available in this browser. The drawing shows the cadet seated on the horse; each connection is explained in words.
+            - generic [ref=f1e24]:
+              - button "Cervical alignment Ears & attention" [pressed] [ref=f1e25] [cursor=pointer]:
+                - generic [ref=f1e36]:
+                  - generic [ref=f1e37]: Cervical alignment
+                  - generic [ref=f1e38]: Ears & attention
+              - button "Core posture Withers & seat" [ref=f1e42] [cursor=pointer]:
+                - generic [ref=f1e52]:
+                  - generic [ref=f1e53]: Core posture
+                  - generic [ref=f1e54]: Withers & seat
+              - button "Lumbar balance Reins & contact" [ref=f1e58] [cursor=pointer]:
+                - generic [ref=f1e68]:
+                  - generic [ref=f1e69]: Lumbar balance
+                  - generic [ref=f1e70]: Reins & contact
+            - complementary [ref=f1e74]:
+              - generic [ref=f1e75]:
+                - generic [ref=f1e76]: "01"
+                - generic [ref=f1e79]: POSTURE LINE
+              - heading "Cervical alignment" [level=2] [ref=f1e80]
+              - generic [ref=f1e81]: EARS & ATTENTION
+              - paragraph [ref=f1e82]: A steady trunk and balanced seat help the rider follow the horse’s movement without gripping. Instructor feedback connects posture to a quieter, more responsive horse.
+              - generic [ref=f1e83]:
+                - generic [ref=f1e84]:
+                  - generic [ref=f1e85]:
+                    - generic [ref=f1e86]: CADET FOCUS
+                    - generic [ref=f1e87]: Cranio-Cervical Axis & Soft Rein Contact
+                  - generic [ref=f1e88]:
+                    - generic [ref=f1e89]: EQUINE ANATOMY
+                    - generic [ref=f1e90]: Poll (C1–C2), Cervical Arch & Lyre Ears
+                - generic [ref=f1e91]:
+                  - button "C1–C7 Cervical & Lyre Ears" [ref=f1e92] [cursor=pointer]
+                  - button "Withers & Trapezius" [ref=f1e93] [cursor=pointer]
+                  - button "Longissimus Bridge" [ref=f1e94] [cursor=pointer]
+                  - button "Lumbosacral & Gluteals" [ref=f1e95] [cursor=pointer]
+              - generic [ref=f1e96]:
+                - generic [ref=f1e97]:
+                  - button "Previous connection" [ref=f1e98] [cursor=pointer]
+                  - generic [ref=f1e101]: 1 / 3
+                  - button "Next connection" [ref=f1e102] [cursor=pointer]
+                - generic [ref=f1e105]: Horse and rider
+    - region "The living form" [ref=e261]:
+      - generic [aria-hidden] [ref=e262]:
+        - generic [ref=e263]: Black Stallion Academy
+        - generic [ref=e264]: The living form
+      - heading "Read the horse before asking it to move." [level=2] [ref=e266]
+      - paragraph [ref=e267]: A moment between chapters
+    - region [ref=e268]:
+      - generic [ref=e269]:
+        - generic [ref=e270]:
+          - paragraph [ref=e271]: The reins
+          - heading "Ten grams against half a tonne." [level=2] [ref=e273]:
+            - generic [ref=e274]:
+              - generic [ref=e275]: Ten grams
+              - generic [ref=e277]: against half a tonne.
+          - paragraph [ref=e279]: The lightest touch on the rein can turn a 500 kg stallion. Pull hard and the horse braces against you. Children learn fast that force fails and clarity works.
+        - 'img "A balance: ten grams on one side levels five hundred kilograms on the other" [ref=e281]':
+          - generic [ref=e286]:
+            - generic [ref=e288]: 10 g
+            - generic [ref=e289]: REIN
+          - generic [ref=e290]:
+            - generic [ref=e292]: 500 kg
+            - generic [ref=e293]: STALLION
+    - region [ref=e294]:
+      - generic [ref=e295]:
+        - generic [ref=e297]:
+          - generic "Marwari horse ear movement and independent 180-degree listening biomechanics film" [ref=e298]
+          - generic [ref=e299]: Independent 180° Mobility
+          - generic [ref=e302]: AURICULAR BIOMECHANICS
+          - generic [ref=e305]: −90° ⟷ +90°
+        - generic [ref=e306]:
+          - paragraph [ref=e307]: The ears
+          - heading "One hundred and eighty degrees of attention." [level=2] [ref=e309]:
+            - generic [ref=e310]:
+              - generic [ref=e311]: One hundred and eighty
+              - generic [ref=e313]: degrees of attention.
+          - paragraph [ref=e315]: Each ear turns on its own. One can follow the instructor’s voice while the other listens to the rider’s breathing.
+    - region [ref=e316]:
+      - generic [ref=e317]:
+        - generic [ref=e318]:
+          - paragraph [ref=e319]: The sculptor's study
+          - heading "Read it in stone." [level=2] [ref=e320]:
+            - generic [ref=e321]:
+              - generic [ref=e322]: Read it
+              - generic [ref=e324]: in stone.
+          - paragraph [ref=e326]: "A sculptor learns a horse by its planes before its colour. Carry the light across the marble: the ears curving inward until the tips touch, the hollow above the eye, the jaw, and the long muscle of the neck running down to the chest."
+          - paragraph [ref=e327]: "Study in white marble: the ears, the eye, the jaw, the neck."
+          - paragraph [ref=e328]: Move your pointer over the marble to carry the light.
+          - paragraph [ref=e329]: Or focus the picture and use the arrow keys.
+          - paragraph [ref=e330]: "Illustration (placeholder art): a rendered marble study, not a photograph of a real sculpture. The relighting is a shader working from a depth map made from the picture."
+        - group "A light you move over a marble study of a Marwari head. Use the arrow keys to move it." [ref=e331]:
+          - img "A white marble bust of a Marwari stallion with inward-curving ears, a carved bridle with tassels and a long wavy mane, on a black plinth." [ref=e332]
+    - region [ref=e333]:
+      - paragraph [ref=e334]: Breed standard
+      - heading "The specification." [level=2] [ref=e336]:
+        - generic [ref=e337]:
+          - generic [ref=e338]: The
+          - generic [ref=e340]: specification.
+      - generic [ref=e342]:
+        - paragraph [ref=e343]: Compiled from breed-society standards and Marwar horse literature. Individual horses and lines vary.
+        - generic [ref=e344]:
+          - generic [ref=e345]:
+            - term [ref=e346]: Origin
+            - definition [ref=e347]: Marwar, Rajasthan, India
+          - generic [ref=e348]:
+            - term [ref=e349]: Height
+            - definition [ref=e350]: Stallions average about 150 cm (14.3 hands)
+          - generic [ref=e351]:
+            - term [ref=e352]: Ears
+            - definition [ref=e353]: Medium, curving inward until the tips touch; turn through 180°
+          - generic [ref=e354]:
+            - term [ref=e355]: Gait
+            - definition [ref=e356]: A natural ambling gait called the revaal
+          - generic [ref=e357]:
+            - term [ref=e358]: Colours
+            - definition [ref=e359]: All colours; bay most common, grey most prized
+          - generic [ref=e360]:
+            - term [ref=e361]: Temperament
+            - definition [ref=e362]: Brave, loyal, alert
+          - generic [ref=e363]:
+            - term [ref=e364]: Registry
+            - definition [ref=e365]: Marwari Horse Society; government-authorised registration since 2009
+          - generic [ref=e366]:
+            - term [ref=e367]: Status
+            - definition [ref=e368]: Not at risk
+    - region "Next reel" [ref=e369]:
+      - link "Classical marble and bronze equestrian sculpture of a warrior riding a rearing stallion against deep black Cast in bronze. Built to endure. Next · Reel 03 · Act I The 3D Monument — A five-chapter cinematic 3D journey through the Rossbändiger monument. 02 16" [ref=e370] [cursor=pointer]:
+        - /url: /statue
+        - generic [ref=e371]:
+          - img "Classical marble and bronze equestrian sculpture of a warrior riding a rearing stallion against deep black" [ref=e374]
+          - paragraph [ref=e377]:
+            - generic [ref=e378]: Cast in bronze.
+            - generic [ref=e379]: Built to endure.
+        - generic [ref=e380]:
+          - paragraph [ref=e381]:
+            - text: Next ·
+            - generic [ref=e382]: Reel 03
+            - text: · Act I
+          - paragraph [ref=e383]: The 3D Monument — A five-chapter cinematic 3D journey through the Rossbändiger monument.
+          - generic [ref=e386]:
+            - generic [ref=e387]: "02"
+            - generic [ref=e390]: "16"
+  - contentinfo "Site Footer" [ref=e391]:
+    - generic [ref=e392]:
+      - generic [aria-hidden] [ref=e396]:
+        - generic [aria-hidden] [ref=e397]: T
+        - generic [aria-hidden] [ref=e398]: H
+        - generic [aria-hidden] [ref=e399]: E
+        - generic [aria-hidden] [ref=e401]: B
+        - generic [aria-hidden] [ref=e402]: L
+        - generic [aria-hidden] [ref=e403]: A
+        - generic [aria-hidden] [ref=e404]: C
+        - generic [aria-hidden] [ref=e405]: K
+        - generic [aria-hidden] [ref=e407]: S
+        - generic [aria-hidden] [ref=e408]: T
+        - generic [aria-hidden] [ref=e409]: A
+        - generic [aria-hidden] [ref=e410]: L
+        - generic [aria-hidden] [ref=e411]: L
+        - generic [aria-hidden] [ref=e412]: I
+        - generic [aria-hidden] [ref=e413]: O
+        - generic [aria-hidden] [ref=e414]: "N"
+        - generic [aria-hidden] [ref=e416]: A
+        - generic [aria-hidden] [ref=e417]: C
+        - generic [aria-hidden] [ref=e418]: A
+        - generic [aria-hidden] [ref=e419]: D
+        - generic [aria-hidden] [ref=e420]: E
+        - generic [aria-hidden] [ref=e421]: M
+        - generic [aria-hidden] [ref=e422]: "Y"
+        - generic [aria-hidden] [ref=e424]: ·
+        - generic [aria-hidden] [ref=e426]: D
+        - generic [aria-hidden] [ref=e427]: O
+        - generic [aria-hidden] [ref=e428]: M
+        - generic [aria-hidden] [ref=e429]: I
+        - generic [aria-hidden] [ref=e430]: "N"
+        - generic [aria-hidden] [ref=e431]: U
+        - generic [aria-hidden] [ref=e432]: S
+        - generic [aria-hidden] [ref=e434]: S
+        - generic [aria-hidden] [ref=e435]: U
+        - generic [aria-hidden] [ref=e436]: I
+        - generic [aria-hidden] [ref=e438]: ·
+        - generic [aria-hidden] [ref=e440]: D
+        - generic [aria-hidden] [ref=e441]: O
+        - generic [aria-hidden] [ref=e442]: M
+        - generic [aria-hidden] [ref=e443]: I
+        - generic [aria-hidden] [ref=e444]: "N"
+        - generic [aria-hidden] [ref=e445]: U
+        - generic [aria-hidden] [ref=e446]: S
+        - generic [aria-hidden] [ref=e448]: E
+        - generic [aria-hidden] [ref=e449]: Q
+        - generic [aria-hidden] [ref=e450]: U
+        - generic [aria-hidden] [ref=e451]: I
+        - generic [aria-hidden] [ref=e453]: ·
+      - paragraph [ref=e458]:
+        - link "The Black Stallion Academy of Horsemanship Home" [ref=e459] [cursor=pointer]:
+          - /url: /
+          - text: black stallion academy
+      - paragraph [ref=e460]:
+        - emphasis [ref=e461]: Dominus Sui, Dominus Equi.
+        - text: Master of oneself, master of the horse. The interscholastic equestrian leadership academy and national circuit.
+      - navigation "Footer Navigation" [ref=e462]:
+        - list [ref=e463]:
+          - listitem [ref=e464]:
+            - link "The Legend" [ref=e465] [cursor=pointer]:
+              - /url: /legend
+          - listitem [ref=e466]:
+            - link "The Instrument" [ref=e467] [cursor=pointer]:
+              - /url: /anatomy
+          - listitem [ref=e468]:
+            - link "3D Monument" [ref=e469] [cursor=pointer]:
+              - /url: /statue
+          - listitem [ref=e470]:
+            - link "Science & Matrix" [ref=e471] [cursor=pointer]:
+              - /url: /science
+          - listitem [ref=e472]:
+            - link "Crucible & Cure" [ref=e473] [cursor=pointer]:
+              - /url: /why
+          - listitem [ref=e474]:
+            - link "Curriculum" [ref=e475] [cursor=pointer]:
+              - /url: /curriculum
+          - listitem [ref=e476]:
+            - link "The Studbook" [ref=e477] [cursor=pointer]:
+              - /url: /fleet
+          - listitem [ref=e478]:
+            - link "For Schools" [ref=e479] [cursor=pointer]:
+              - /url: /schools
+          - listitem [ref=e480]:
+            - link "Cadets" [ref=e481] [cursor=pointer]:
+              - /url: /cadets
+          - listitem [ref=e482]:
+            - link "Parents" [ref=e483] [cursor=pointer]:
+              - /url: /parents
+          - listitem [ref=e484]:
+            - link "The Circuit" [ref=e485] [cursor=pointer]:
+              - /url: /tournaments
+          - listitem [ref=e486]:
+            - link "Information desk" [ref=e487] [cursor=pointer]:
+              - /url: /command
+          - listitem [ref=e488]:
+            - link "The Gate" [ref=e489] [cursor=pointer]:
+              - /url: /contact
+      - generic "Direct Corridors" [ref=e490]:
+        - generic [ref=e491]:
+          - generic [ref=e492]: "SCHOOL BOARDS:"
+          - link "boards@blackstallion.academy" [ref=e493] [cursor=pointer]:
+            - /url: mailto:boards@blackstallion.academy
+          - generic [aria-hidden] [ref=e494]: ·
+        - generic [ref=e495]:
+          - generic [ref=e496]: "PARENT HELPDESK:"
+          - link "parents@blackstallion.academy" [ref=e497] [cursor=pointer]:
+            - /url: mailto:parents@blackstallion.academy
+          - generic [aria-hidden] [ref=e498]: ·
+        - generic [ref=e499]:
+          - generic [ref=e500]: "REGIONAL PARTNERS:"
+          - link "partners@blackstallion.academy" [ref=e501] [cursor=pointer]:
+            - /url: mailto:partners@blackstallion.academy
+      - generic [ref=e502]:
+        - paragraph [ref=e503]: "© 2026 Vicarius Infinitum Holdings Pvt Ltd · Operating arm: The Black Stallion Academy of Horsemanship Pvt Ltd (BSAH) · Sanctioned by the School Tent Pegging Council of India (STPCI) · Hyderabad, Telangana, India."
+        - generic [ref=e504]:
+          - link "About" [ref=e505] [cursor=pointer]:
+            - /url: /about
+          - link "Lore of the Bards" [ref=e506] [cursor=pointer]:
+            - /url: /lore
+          - link "Journal" [ref=e507] [cursor=pointer]:
+            - /url: /journal
+          - link "Information desk" [ref=e508] [cursor=pointer]:
+            - /url: /command
+          - link "Privacy" [ref=e509] [cursor=pointer]:
+            - /url: /privacy
+  - button "Open Next.js Dev Tools" [ref=e515] [cursor=pointer]:
+    - generic [ref=e518]:
+      - text: Compiling
+      - generic [ref=e519]:
+        - generic [ref=e520]: .
+        - generic [ref=e521]: .
+        - generic [ref=e522]: .
