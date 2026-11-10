@@ -1,0 +1,101 @@
+/*
+ * /ride: the runway page. Its own scoped ground (the brief's blue-violet, changeable by BG COLOR) and a strict
+ * black/white/grey for everything on it, like the history pages' .hs scope. Fonts are the site's own.
+ */
+.rw {
+  --rw-bg: #2260d9;
+  --rw-ink: #f6f6f4;
+  --rw-dim: color-mix(in srgb, var(--rw-ink) 68%, transparent);
+  --rw-line: color-mix(in srgb, var(--rw-ink) 40%, transparent);
+  --rw-top: 6rem;
+  background: var(--rw-bg);
+  color: var(--rw-ink);
+  transition: background-color 0.4s ease;
+}
+@media (min-width: 1024px) {
+  .rw { --rw-top: 7rem; }
+}
+.rw-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.rw-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+/* The page's own strip sits under the site nav (AGENTS.md: nothing in the top 80px). */
+.rw-strip {
+  position: absolute;
+  top: var(--rw-top);
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.75rem;
+  border-top: 1px solid var(--rw-line);
+  border-bottom: 1px solid var(--rw-line);
+  padding-block: 0.5rem;
+}
+.rw-brand { font-family: var(--font-sans); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; }
+.rw-brand span { color: var(--rw-dim); }
+
+.rw-btn {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  min-height: 2.75rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--rw-ink);
+  color: var(--rw-ink);
+  background: transparent;
+  transition: background 0.2s, color 0.2s;
+}
+.rw-btn:hover, .rw-btn[aria-pressed="true"] { background: var(--rw-ink); color: #0b0b0c; }
+.rw :focus-visible { outline: 2px solid var(--rw-ink); outline-offset: 3px; }
+
+.rw-hero {
+  position: absolute;
+  left: 0;
+  top: calc(var(--rw-top) + 4.5rem);
+  bottom: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(46vw, 40rem);
+  pointer-events: none;
+}
+.rw-hero svg { width: 100%; height: auto; fill: var(--rw-ink); }
+.rw-sub { font-family: var(--font-sans); font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; font-size: clamp(0.72rem, 1.1vw, 0.95rem); margin-top: 1.25rem; }
+@media (max-width: 767px) {
+  .rw-hero { width: auto; right: 0; top: calc(var(--rw-top) + 4rem); bottom: auto; }
+}
+
+.rw-dock {
+  position: absolute;
+  right: 0;
+  bottom: clamp(1rem, 4vh, 2rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+.rw-swatches { display: flex; gap: 0.4rem; align-items: center; }
+.rw-swatch { width: 1.9rem; height: 1.9rem; border: 1px solid var(--rw-ink); padding: 0; }
+.rw-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--rw-bg), 0 0 0 4px var(--rw-ink); }
+.rw-picker { width: 2.75rem; height: 2.75rem; border: 1px solid var(--rw-ink); background: transparent; padding: 0.2rem; cursor: pointer; }
+.rw-station { position: absolute; left: 0; bottom: clamp(1rem, 4vh, 2rem); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; max-width: 45%; }
+.rw-station b { display: block; font-family: var(--font-sans); font-size: clamp(1rem, 2vw, 1.5rem); letter-spacing: 0.02em; text-transform: none; margin-top: 0.3rem; }
+@media (max-width: 767px) {
+  .rw-station { bottom: 6.5rem; max-width: none; right: 0; }
+}
+.rw-meter { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--rw-line); }
+.rw-meter i { display: block; height: 100%; background: var(--rw-ink); transform-origin: left; transform: scaleX(var(--rw-p, 0)); }
+
+.rw-dialog { max-width: min(34rem, calc(100vw - 2rem)); background: #0b0b0c; color: var(--rw-ink); border: 1px solid var(--rw-line); padding: 2rem; }
+.rw-dialog::backdrop { background: rgb(0 0 0 / 0.55); }
+
+/* Plain-text version of every station: screen readers always; everyone under reduced motion or without WebGL. */
+.rw-text { padding-block: clamp(3rem, 8vh, 6rem); }
+.rw-text li + li { margin-top: 2.5rem; }
+.rw[data-still="true"] .rw-stage { position: relative; height: min(80svh, 46rem); }

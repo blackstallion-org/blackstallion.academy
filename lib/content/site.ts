@@ -57,6 +57,7 @@ export const TOTAL_REELS = reels.length;
  */
 export const tools = [
   { n: 23, href: "/motion-lab", act: "ledger" as Act, title: "Motion Lab", badge: "3D page" },
+  { n: 24, href: "/ride", act: "ledger" as Act, title: "Ride Wild", badge: "3D page" },
 ] as const;
 
 export function reelFor(pathname: string): Reel | undefined {
