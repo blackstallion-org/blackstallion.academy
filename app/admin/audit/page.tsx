@@ -55,7 +55,7 @@ export default async function AuditPage({ searchParams }: PageProps<"/admin/audi
           <TableRegion label="Audit events (scrolls sideways on small screens)" minWidth="min-w-[52rem]">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b border-line">
+                <tr className="border-b border-white/10">
                   <th scope="col" className={th}>When</th>
                   <th scope="col" className={th}>Event</th>
                   <th scope="col" className={th}>Record</th>
@@ -63,26 +63,26 @@ export default async function AuditPage({ searchParams }: PageProps<"/admin/audi
                   <th scope="col" className={th}>Details</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line">
+              <tbody className="divide-y divide-white/5">
                 {rows.map((r) => {
                   const target = auditEntityHref(r.entity_type, r.entity_id);
                   return (
-                    <tr key={r.id}>
-                      <td className={`${td} whitespace-nowrap`}><time dateTime={r.created_at}>{formatDateTimeIST(r.created_at)}</time></td>
+                    <tr key={r.id} className="hover:bg-white/[0.02] transition-colors">
+                      <td className={`${td} whitespace-nowrap`}><time dateTime={r.created_at} className="font-mono text-xs text-white/50">{formatDateTimeIST(r.created_at)}</time></td>
                       <td className={td}>
-                        <span className="text-bone">{auditActionLabel(r.action, r.entity_type)}</span>
-                        <span className="font-mono block text-[0.7rem] text-dust">{r.action}</span>
+                        <span className="font-semibold text-white">{auditActionLabel(r.action, r.entity_type)}</span>
+                        <span className="font-mono block text-[0.7rem] text-[#E8FF1F]/70 mt-0.5">{r.action}</span>
                       </td>
                       <td className={td}>
-                        <span className="font-mono block text-xs">{r.entity_type}</span>
+                        <span className="font-mono block text-xs text-white/80">{r.entity_type}</span>
                         {r.entity_id && (target ? (
-                          <Link href={target} className="font-mono block break-all text-[0.7rem] text-gold underline decoration-line underline-offset-4 hover:text-bone">{r.entity_id}</Link>
+                          <Link href={target} className="font-mono block break-all text-[0.7rem] text-[#E8FF1F] underline decoration-white/20 underline-offset-4 hover:decoration-[#E8FF1F]">{r.entity_id}</Link>
                         ) : (
-                          <span className="font-mono block break-all text-[0.7rem] text-dust">{r.entity_id}</span>
+                          <span className="font-mono block break-all text-[0.7rem] text-white/40">{r.entity_id}</span>
                         ))}
                       </td>
-                      <td className={td}>{staffLabel(r.actor_user_id, user.id, names)}</td>
-                      <td className={`${td} font-mono break-words text-[0.7rem]`}>{auditDetails(r.metadata) || "—"}</td>
+                      <td className={td}><span className="text-white/80">{staffLabel(r.actor_user_id, user.id, names)}</span></td>
+                      <td className={`${td} font-mono break-words text-[0.7rem] text-white/60`}>{auditDetails(r.metadata) || "—"}</td>
                     </tr>
                   );
                 })}

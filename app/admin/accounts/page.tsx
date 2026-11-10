@@ -51,14 +51,34 @@ export default async function AccountsPage({ searchParams }: PageProps<"/admin/a
         schools wait here for approval. Every approval or hold is written to the audit log. Times are India Standard Time.
       </PageHeading>
 
-      <ul className="mt-8 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-4" aria-label="Accounts by kind">
-        {MEMBER_KINDS.map((k) => (
-          <li key={k} className="bg-night p-5">
-            <p className="label text-dust">{KINDS[k].label}s</p>
-            <p className="t-voice mt-2 text-3xl text-bone">{tally.get(k)?.all ?? 0}</p>
-            <p className="t-ui mt-1 text-xs text-gold">{tally.get(k)?.pending ? `${tally.get(k)?.pending} awaiting review` : "none waiting"}</p>
-          </li>
-        ))}
+      <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4" aria-label="Accounts by kind">
+        {MEMBER_KINDS.map((k) => {
+          const pending = tally.get(k)?.pending ?? 0;
+          return (
+            <li
+              key={k}
+              className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl shadow-xl transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]"
+            >
+              <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[28px] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_0_0_1px_rgba(255,255,255,0.06)]" />
+              <div className="relative z-10 flex flex-col justify-between h-full">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-white/50">{KINDS[k].label}s</p>
+                  <p className="mt-2 text-3xl font-bold tracking-tight text-white">{tally.get(k)?.all ?? 0}</p>
+                </div>
+                <div className="mt-3">
+                  {pending > 0 ? (
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#E8FF1F]/15 border border-[#E8FF1F]/30 px-2.5 py-0.5 text-xs font-semibold text-[#E8FF1F]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#E8FF1F] shadow-[0_0_6px_#E8FF1F]" />
+                      {pending} awaiting review
+                    </span>
+                  ) : (
+                    <span className="text-xs text-white/40">all reviewed</span>
+                  )}
+                </div>
+              </div>
+            </li>
+          );
+        })}
       </ul>
 
       <FilterForm action="/admin/accounts" label="Filter accounts" active={filtered}>
@@ -72,11 +92,13 @@ export default async function AccountsPage({ searchParams }: PageProps<"/admin/a
         <EmptyState clearHref={filtered ? "/admin/accounts" : undefined}>{filtered ? "No accounts match these filters." : "No accounts yet."}</EmptyState>
       ) : (
         <>
-          <p className="t-ui mt-6 text-sm text-dust" role="status">{total > rows.length ? `Showing the newest ${rows.length} of ${total} accounts.` : `${total} ${total === 1 ? "account" : "accounts"}${filtered ? " match." : "."}`}</p>
+          <p className="mt-6 text-sm text-white/60" role="status">
+            {total > rows.length ? `Showing the newest ${rows.length} of ${total} accounts.` : `${total} ${total === 1 ? "account" : "accounts"}${filtered ? " match." : "."}`}
+          </p>
           <TableRegion label="Accounts (scrolls sideways on small screens)" minWidth="min-w-[56rem]">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b border-line">
+                <tr className="border-b border-white/10">
                   <th scope="col" className={th}>Created</th>
                   <th scope="col" className={th}>Name</th>
                   <th scope="col" className={th}>Kind</th>
@@ -87,15 +109,15 @@ export default async function AccountsPage({ searchParams }: PageProps<"/admin/a
               </thead>
               <tbody>
                 {rows.map((m) => (
-                  <tr key={m.profile_id} className="border-b border-line align-top">
-                    <td className={td}><time dateTime={m.created_at}>{formatDateTimeIST(m.created_at)}</time></td>
-                    <td className={td}><span className="text-bone">{m.full_name}</span><br /><span className="break-all text-xs text-dust">{m.email ?? "no e-mail"}</span></td>
+                  <tr key={m.profile_id} className="border-b border-white/5 align-top hover:bg-white/[0.02] transition-colors">
+                    <td className={td}><time dateTime={m.created_at} className="font-mono text-xs text-white/50">{formatDateTimeIST(m.created_at)}</time></td>
+                    <td className={td}><span className="font-semibold text-white">{m.full_name}</span><br /><span className="break-all text-xs text-white/45">{m.email ?? "no e-mail"}</span></td>
                     <td className={td}><Tag>{KINDS[m.kind].label}</Tag></td>
                     <td className={td}>
-                      <span className="text-sand">{[m.organisation, m.city, m.phone].filter(Boolean).join(" · ") || "none given"}</span>
-                      {Object.entries(m.details).map(([k, v]) => <span key={k} className="mt-1 block break-words text-xs text-dust"><span className="uppercase tracking-wide">{k.replace(/_/g, " ")}:</span> {v}</span>)}
+                      <span className="text-white/70">{[m.organisation, m.city, m.phone].filter(Boolean).join(" · ") || "none given"}</span>
+                      {Object.entries(m.details).map(([k, v]) => <span key={k} className="mt-1 block break-words text-xs text-white/45"><span className="uppercase tracking-wide text-white/30">{k.replace(/_/g, " ")}:</span> {v}</span>)}
                     </td>
-                    <td className={td}><span className={m.status === "active" ? "text-gold" : m.status === "suspended" ? "text-blood" : "text-sand"}>{STATUS_LABEL[m.status]}</span></td>
+                    <td className={td}><span className={m.status === "active" ? "font-semibold text-[#E8FF1F]" : m.status === "suspended" ? "text-red-400" : "text-white/60"}>{STATUS_LABEL[m.status]}</span></td>
                     <td className={td}><ReviewButtons profile={m.profile_id} status={m.status} name={m.full_name} /></td>
                   </tr>
                 ))}

@@ -505,47 +505,104 @@
 }
 
 /* ------------------------------------------------------------------
-   The staff console (owner's request): the website's own colours. The console takes the role tokens from :root (ivory canvas,
-   ember cards, chestnut and antique-gold accents) in light, and from `.tone-dark` when its dark option is on. Only the category
-   colours used by the charts are mapped onto those tokens here, so nothing violet or grey is left from the earlier templates.
+   The staff console (owner's request): Finance Bento theme. Deep obsidian black
+   background (#000000 / #050507), neon lime accent (#E8FF1F), periwinkle (#A9B2FF),
+   copper (#FFB37A), pure white text, 28px rounded glass containers with rim highlights.
    ------------------------------------------------------------------ */
 .console {
-  --color-background: var(--color-night);
-  --color-foreground: var(--color-bone);
-  --color-card: var(--color-ember);
-  --color-card-foreground: var(--color-bone);
-  --color-popover: var(--color-ember);
-  --color-popover-foreground: var(--color-bone);
-  --color-muted: var(--color-umber);
-  --color-muted-foreground: var(--color-dust);
-  --color-border: var(--color-line);
-  --color-ring: var(--color-gold);
-  --color-signal-violet: var(--color-gold);
-  --color-signal-emerald: var(--color-brass);
-  --color-signal-amber: var(--color-copper);
-  --color-signal-sky: var(--color-dust);
-  --color-signal-rose: var(--color-blood);
-  --delta-good: var(--color-brass);
-  --delta-bad: var(--color-blood);
+  --color-night: #050507;
+  --color-umber: #0c0d12;
+  --color-ember: #12141c;
+  --color-brass: #E8FF1F;
+  --color-copper: #FFB37A;
+  --color-line: rgba(255, 255, 255, 0.12);
+  --color-gold: #E8FF1F;
+  --color-bone: #ffffff;
+  --color-sand: rgba(255, 255, 255, 0.72);
+  --color-dust: rgba(255, 255, 255, 0.42);
+  --color-blood: #ff5656;
+  --color-background: #000000;
+  --color-foreground: #ffffff;
+  --color-card: rgba(255, 255, 255, 0.04);
+  --color-card-foreground: #ffffff;
+  --color-popover: #0c0d12;
+  --color-popover-foreground: #ffffff;
+  --color-muted: rgba(255, 255, 255, 0.06);
+  --color-muted-foreground: rgba(255, 255, 255, 0.45);
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-ring: #E8FF1F;
+  --color-signal-violet: #A9B2FF;
+  --color-signal-emerald: #E8FF1F;
+  --color-signal-amber: #FFB37A;
+  --color-signal-sky: #67bfff;
+  --color-signal-rose: #ff5656;
+  --delta-good: #E8FF1F;
+  --delta-bad: #ff5656;
+  --acc: #E8FF1F;
+  --t1: #ffffff;
+  --t2: rgba(255, 255, 255, 0.64);
+  --t3: rgba(255, 255, 255, 0.38);
+  --hair: rgba(255, 255, 255, 0.12);
+  --fiat: #ffffff;
+  --stocks: #A9B2FF;
+  --crypto: #FFB37A;
   --font-mono: var(--font-sans);
-  font-family: var(--font-sans);
-  background-color: var(--color-night);
-  color: var(--color-bone);
+  font-family: Geist, var(--font-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background-color: #000000;
+  color: #ffffff;
 }
-.console .plate { background-color: var(--color-ember); border: 0; border-radius: 0.75rem; box-shadow: var(--plate-shadow); }
-.console.tone-photo .plate { border: 1px solid var(--color-line); }
+
+.console .plate {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+}
+
+.console .field {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 0.625rem 0.875rem;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.console .field:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.console .field::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.console .field:focus-visible {
+  outline: 2px solid #E8FF1F;
+  outline-offset: 1px;
+  border-color: #E8FF1F;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.console select.field option {
+  background: #0c0d12;
+  color: #ffffff;
+}
 
 .console .t-voice, .console .t-inscribe, .console .font-display {
-  font-family: var(--font-sans);
+  font-family: Geist, var(--font-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   font-style: normal;
   font-weight: 700;
   text-transform: none;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
-.console .t-story { font-family: var(--font-sans); font-style: normal; }
+.console .t-story { font-family: Geist, var(--font-sans); font-style: normal; }
 .console .font-mono { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
-.console .label { letter-spacing: 0.03em; }
-.console :where(button, input, select, textarea, summary) { border-radius: 0.5rem; }
+.console .label { letter-spacing: 0.04em; }
 
 /* ===== Meridian-Style Footer for BSAH ===== */
 .footer-meridian {

@@ -36,19 +36,28 @@ export default async function ApplicationsPage({ searchParams }: PageProps<"/adm
         : !rows.length ? <EmptyState clearHref={filtered ? "/admin/applications" : undefined}>{filtered ? "No applications match these filters." : "No applications yet."}</EmptyState>
         : (
           <>
-            <p className="t-ui mt-6 text-sm text-dust" role="status">{count ?? rows.length} {count === 1 ? "application" : "applications"}{filtered ? " match." : "."}</p>
+            <p className="mt-6 text-sm text-white/60" role="status">{count ?? rows.length} {count === 1 ? "application" : "applications"}{filtered ? " match." : "."}</p>
             <TableRegion label="Applications (scrolls sideways on small screens)" minWidth="min-w-[52rem]">
               <table className="w-full border-collapse">
-                <thead><tr className="border-b border-line"><th scope="col" className={th}>Reference</th><th scope="col" className={th}>Kind</th><th scope="col" className={th}>Applicant</th><th scope="col" className={th}>Status</th><th scope="col" className={th}>Submitted</th><th scope="col" className={th}>Fee</th></tr></thead>
-                <tbody>
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th scope="col" className={th}>Reference</th>
+                    <th scope="col" className={th}>Kind</th>
+                    <th scope="col" className={th}>Applicant</th>
+                    <th scope="col" className={th}>Status</th>
+                    <th scope="col" className={th}>Submitted</th>
+                    <th scope="col" className={th}>Fee</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
                   {rows.map((r) => (
-                    <tr key={r.id} className="border-b border-line/60">
-                      <td className={td}><Link href={`/admin/applications/${r.id}`} className="font-mono text-gold underline-offset-4 hover:underline">{r.reference}</Link></td>
-                      <td className={td}>{KIND_INFO[r.kind].label}</td>
-                      <td className={td}>{r.applicant_name}<span className="block text-xs text-dust">{r.applicant_email}</span></td>
-                      <td className={td}>{STATUS_INFO[r.status].label}</td>
-                      <td className={td}>{formatDateTimeIST(r.submitted_at)}</td>
-                      <td className={td}>{r.payment_status.replace("_", " ")}</td>
+                    <tr key={r.id} className="hover:bg-white/[0.02] transition-colors">
+                      <td className={td}><Link href={`/admin/applications/${r.id}`} className="font-mono font-semibold text-[#E8FF1F] underline-offset-4 hover:underline">{r.reference}</Link></td>
+                      <td className={td}><span className="text-white/80">{KIND_INFO[r.kind].label}</span></td>
+                      <td className={td}><span className="font-semibold text-white">{r.applicant_name}</span><span className="block text-xs text-white/50">{r.applicant_email}</span></td>
+                      <td className={td}><span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-0.5 text-xs font-medium text-white/90">{STATUS_INFO[r.status].label}</span></td>
+                      <td className={td}><time dateTime={r.submitted_at ?? undefined} className="font-mono text-xs text-white/50">{formatDateTimeIST(r.submitted_at)}</time></td>
+                      <td className={td}><span className="text-xs uppercase tracking-wider text-white/70">{r.payment_status.replace("_", " ")}</span></td>
                     </tr>
                   ))}
                 </tbody>

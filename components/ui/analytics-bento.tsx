@@ -91,7 +91,7 @@ function smooth(P: [number, number][]) {
 function CountUp({ value, prefix = "", duration = 1100 }: { value: number; prefix?: string; duration?: number }) {
   const ref = React.useRef(null as HTMLSpanElement | null);
   const from = React.useRef(0);
-  const reduce = true; // opens finished: no count-up or draw-in on arrival
+  const reduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   React.useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -169,14 +169,20 @@ const Delta = ({ children, className = "" }: { children: React.ReactNode; classN
   const down = text.startsWith("\u2212") || text.startsWith("-");
   const flat = text === "\u2014" || text === "0%";
   return (
-    <span className={`inline-flex items-center gap-[3px] font-semibold tracking-[-0.02em] ${down ? "text-blood" : flat ? "text-muted-foreground" : "text-emerald-600"} ${className}`}>
+    <span className={`inline-flex items-center gap-[3px] font-semibold tracking-[-0.02em] ${down ? "text-[#ff5656]" : flat ? "text-muted-foreground" : "text-[#E8FF1F]"} ${className}`}>
       {!flat && <Arrow down={down} />}
       {children}
     </span>
   );
 };
 const Card = ({ className = "", children, ...rest }: React.JSX.IntrinsicElements["section"]) => (
-  <section className={`relative min-w-0 overflow-hidden rounded-xl border-0 bg-card p-5 text-card-foreground shadow-sm sm:p-6 ${className}`} {...rest}>
+  <section
+    className={`relative min-w-0 overflow-hidden rounded-[24px] sm:rounded-[28px] border border-white/10 bg-white/[0.04] p-5 text-card-foreground shadow-xl backdrop-blur-xl sm:p-6 ${className}`}
+    style={{
+      boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 20px 40px -15px rgba(0,0,0,0.5)",
+    }}
+    {...rest}
+  >
     {children}
   </section>
 );
@@ -463,7 +469,7 @@ function Treemap({ data, period, mono, tip }: { data: AnalyticsBentoProps["categ
 
 function Radar({ values, axis, year, color, prefix, mono, tip }: { values: number[]; axis: string[]; year: string; color: string; prefix: string; mono: string; tip: TipRef }) {
   const [ref, { w }] = useSize();
-  const reduce = true; // opens finished: no count-up or draw-in on arrival
+  const reduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const line = React.useRef(null as SVGPathElement | null);
   const cur = React.useRef(null as number[] | null);
   const [hover, setHover] = React.useState(null as number | null);

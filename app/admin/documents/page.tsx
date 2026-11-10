@@ -5,6 +5,7 @@ import { REFERENCE_PATTERN } from "@/lib/admin/constants";
 import { formatDateTimeIST, type LeadLink } from "@/lib/admin/present";
 import { logAdminError, signDocumentPaths } from "@/lib/admin/server";
 import { AdminShell } from "../AdminShell";
+import { EmptyState, LoadError, PageHeading } from "../ui";
 
 type DocRow = { id: string; kind: string; title: string; storage_path: string; lead_reference: string | null; created_at: string };
 
@@ -23,31 +24,49 @@ export default async function DocumentsPage() {
   const leadByRef = new Map(((leadsRes.data ?? []) as LeadLink[]).map((l) => [l.idempotency_key, l]));
   return (
     <AdminShell name={profile.display_name} current="documents">
-      <h1 className="t-voice mt-8 text-[clamp(1.8rem,4vw,3rem)] text-bone">Documents</h1>
-      <p className="t-ui mt-2 text-sm text-dust">Draft MOUs generated from requests. Download links expire after five minutes.</p>
-      {error && <p role="alert" className="mt-4 text-blood">Documents could not be loaded.</p>}
-      {!error && !docs.length && <p className="t-ui mt-6 text-sand">No documents yet.</p>}
-      {leadsRes.error && <p role="alert" className="t-ui mt-4 text-sm text-blood">Links to the matching enquiries could not be loaded.</p>}
-      {docs.length > 0 && <ul className="mt-8 divide-y divide-line border-y border-line">
-        {docs.map((d) => {
-          const url = urls.get(d.storage_path);
-          const lead = d.lead_reference ? leadByRef.get(d.lead_reference) : undefined;
-          return (
-            <li key={d.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
-              <div className="min-w-0">
-                <p className="t-ui break-words text-bone">{d.title}</p>
-                <p className="font-mono text-[0.7rem] text-dust">{d.kind} · {formatDateTimeIST(d.created_at)}</p>
-                {lead ? (
-                  <Link href={`/admin/leads/${lead.id}`} className="label mt-1 inline-block py-1 text-sand hover:text-gold">Enquiry from {lead.contact_name ?? "website visitor"} →</Link>
-                ) : d.lead_reference ? (
-                  <p className="font-mono mt-1 break-all text-[0.7rem] text-dust">Reference {d.lead_reference} · no matching enquiry</p>
-                ) : null}
-              </div>
-              {url ? <a href={url} className="label py-2 text-gold hover:text-bone">Download PDF<span className="sr-only">: {d.title}</span></a> : <span className="label text-dust">Unavailable</span>}
-            </li>
-          );
-        })}
-      </ul>}
+      <PageHeading title="Documents">Draft MOUs generated from requests. Download links expire after five minutes.</PageHeading>
+      {error && <LoadError>Documents could not be loaded.</LoadError>}
+      {!error && !docs.length && <EmptyState>No documents yet.</EmptyState>}
+      {leadsRes.error && <LoadError>Links to the matching enquiries could not be loaded.</LoadError>}
+      {docs.length > 0 && (
+        <ul className="mt-6 flex flex-col gap-3.5">
+          {docs.map((d) => {
+            const url = urls.get(d.storage_path);
+            const lead = d.lead_reference ? leadByRef.get(d.lead_reference) : undefined;
+            return (
+              <li
+                key={d.id}
+                className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.03] p-5 sm:p-6 backdrop-blur-xl shadow-lg transition-all duration-200 hover:border-white/20 hover:bg-white/[0.05] flex flex-wrap items-center justify-between gap-4"
+              >
+                <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[24px] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />
+                <div className="relative z-10 min-w-0">
+                  <p className="text-base font-semibold text-white">{d.title}</p>
+                  <p className="font-mono text-xs text-white/45 mt-1">{d.kind} · {formatDateTimeIST(d.created_at)}</p>
+                  {lead ? (
+                    <Link href={`/admin/leads/${lead.id}`} className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-[#E8FF1F] hover:underline">
+                      Enquiry from {lead.contact_name ?? "website visitor"} →
+                    </Link>
+                  ) : d.lead_reference ? (
+                    <p className="font-mono mt-1 break-all text-xs text-white/40">Reference {d.lead_reference} · no matching enquiry</p>
+                  ) : null}
+                </div>
+                <div className="relative z-10">
+                  {url ? (
+                    <a
+                      href={url}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-[#E8FF1F] px-4 py-2 text-xs font-semibold text-[#0b0b0c] shadow-sm shadow-[#E8FF1F]/20 hover:brightness-105 active:scale-[0.98] transition-all"
+                    >
+                      Download PDF<span className="sr-only">: {d.title}</span>
+                    </a>
+                  ) : (
+                    <span className="text-xs text-white/40">Unavailable</span>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </AdminShell>
   );
 }

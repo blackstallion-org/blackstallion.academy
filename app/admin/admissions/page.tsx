@@ -30,23 +30,51 @@ export default async function AdmissionsPage() {
       <PageHeading title="Admissions">Every application by kind and status. Open a number to see the applications behind it.</PageHeading>
       {appsRes.error ? <LoadError>Registration data could not be loaded. If the registration migration has not been applied to this database yet, that is why.</LoadError> : (
         <>
-          <ul className="mt-8 grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-4">
+          <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
             {tiles.map((t) => (
-              <li key={t.label} className="bg-night p-5"><Link href={t.href} className="block hover:text-gold"><span className="label text-dust">{t.label}</span><span className="t-voice mt-2 block text-3xl text-bone">{t.value}</span></Link></li>
+              <li
+                key={t.label}
+                className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl shadow-xl transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] group"
+              >
+                <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[28px] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_0_0_1px_rgba(255,255,255,0.06)]" />
+                <Link href={t.href} className="relative z-10 flex flex-col justify-between h-full">
+                  <div>
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-white/50 group-hover:text-white/80 transition-colors">{t.label}</span>
+                    <span className="mt-2 block text-3xl font-bold tracking-tight text-white group-hover:text-[#E8FF1F] transition-colors">{t.value}</span>
+                  </div>
+                  <div className="mt-3 flex items-center gap-1.5 text-xs text-[#E8FF1F] font-medium opacity-80 group-hover:opacity-100 transition-opacity">
+                    <span>View applications</span> →
+                  </div>
+                </Link>
+              </li>
             ))}
           </ul>
-          <div className="mt-10 overflow-x-auto">
-            <table className="w-full min-w-[44rem] border-collapse">
-              <thead><tr className="border-b border-line"><th scope="col" className="label py-3 pr-6 text-left text-dust">Kind</th>{COLUMNS.map((s) => <th key={s} scope="col" className="label py-3 pr-6 text-right text-dust">{STATUS_INFO[s].label}</th>)}</tr></thead>
-              <tbody>
-                {APPLICATION_KINDS.map((k) => (
-                  <tr key={k} className="border-b border-line/60">
-                    <th scope="row" className="t-ui py-3 pr-6 text-left text-sm text-bone">{KIND_INFO[k].plural}</th>
-                    {COLUMNS.map((s) => <td key={s} className="t-ui py-3 pr-6 text-right text-sm"><Link href={`/admin/applications?kind=${k}&status=${s}`} className={n(k, s) ? "text-gold hover:underline" : "text-dust"}>{n(k, s)}</Link></td>)}
+          <div className="relative mt-8 overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-xl">
+            <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[28px] shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]" />
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[44rem] border-collapse">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th scope="col" className="py-4 px-5 text-left text-[11px] font-semibold uppercase tracking-wider text-white/45">Kind</th>
+                    {COLUMNS.map((s) => <th key={s} scope="col" className="py-4 px-5 text-right text-[11px] font-semibold uppercase tracking-wider text-white/45">{STATUS_INFO[s].label}</th>)}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {APPLICATION_KINDS.map((k) => (
+                    <tr key={k} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      <th scope="row" className="py-4 px-5 text-left text-sm font-semibold text-white">{KIND_INFO[k].plural}</th>
+                      {COLUMNS.map((s) => (
+                        <td key={s} className="py-4 px-5 text-right text-sm">
+                          <Link href={`/admin/applications?kind=${k}&status=${s}`} className={n(k, s) ? "font-mono font-semibold text-[#E8FF1F] hover:underline" : "font-mono text-white/30"}>
+                            {n(k, s)}
+                          </Link>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </>
       )}

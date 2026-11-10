@@ -8,6 +8,7 @@ import { deleteLibraryItem } from "../library-actions";
 import { AdminShell } from "../AdminShell";
 import { UploadForm } from "../forms";
 import { CopyLink, LibraryUploader } from "../LibraryUploader";
+import { LoadError, PageHeading } from "../ui";
 
 type MediaRow = { id: string; storage_path: string; alt_text: string; mime_type: string; bytes: number; created_at: string; bucket?: string };
 
@@ -31,60 +32,76 @@ export default async function MediaPage() {
   const library = rows.filter((m) => m.bucket === LIBRARY_BUCKET);
   return (
     <AdminShell name={profile.display_name} current="media">
-      <h1 className="t-voice mt-8 text-[clamp(1.8rem,4vw,3rem)] text-bone">Website images</h1>
-      <p className="t-ui mt-2 max-w-2xl text-sm text-dust">Images uploaded here are public (website-assets bucket). Existing site photography and 3D models stay where they are.</p>
+      <PageHeading title="Website images">Images uploaded here are public (website-assets bucket). Existing site photography and 3D models stay where they are.</PageHeading>
       <div className="mt-8"><UploadForm /></div>
-      {result.error && <p role="alert" className="mt-4 text-blood">Images could not be loaded.</p>}
-      <ul className="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
+      {result.error && <LoadError>Images could not be loaded.</LoadError>}
+      <ul className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
         {images.map((m) => {
           const url = supabase.storage.from("website-assets").getPublicUrl(m.storage_path).data.publicUrl;
           return (
-            <li key={m.id} className="flex flex-col gap-2">
+            <li key={m.id} className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04] p-3 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] flex flex-col gap-2.5 group">
+              <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[24px] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />
               {/* eslint-disable-next-line @next/next/no-img-element -- admin preview of user-uploaded storage objects */}
-              <img src={url} alt={m.alt_text} className="aspect-[4/3] w-full object-cover" loading="lazy" />
-              <p className="t-ui text-xs text-sand">{m.alt_text}</p>
-              <p className="font-mono text-[0.65rem] text-dust">{m.mime_type} · {Math.round(m.bytes / 1024)} KB</p>
-              <form action={deleteMedia}><input type="hidden" name="id" value={m.id} /><button className="label text-blood hover:text-bone">Delete</button></form>
+              <img src={url} alt={m.alt_text} className="aspect-[4/3] w-full rounded-xl object-cover bg-black/40" loading="lazy" />
+              <div className="relative z-10 px-1">
+                <p className="text-xs font-medium text-white/80 line-clamp-1">{m.alt_text}</p>
+                <p className="font-mono text-[10px] text-white/40 mt-0.5">{m.mime_type} · {Math.round(m.bytes / 1024)} KB</p>
+                <form action={deleteMedia} className="mt-2">
+                  <input type="hidden" name="id" value={m.id} />
+                  <button className="text-xs font-semibold text-red-400 hover:text-red-300 transition-colors">Delete</button>
+                </form>
+              </div>
             </li>
           );
         })}
       </ul>
 
-      <section aria-labelledby="library-h" className="mt-20 border-t border-line/50 pt-12">
-        <h2 id="library-h" className="t-voice text-[clamp(1.5rem,3vw,2.2rem)] text-bone">Media library</h2>
-        <p className="t-ui mt-2 max-w-2xl text-sm text-dust">
-          Images, videos and 3D models up to 50 MB, kept in the public <span className="font-mono">{LIBRARY_BUCKET}</span> bucket and shown on the{" "}
-          <a href="/gallery" className="underline hover:text-bone">gallery page</a>. A file is checked by its real contents before it is shown.
+      <section aria-labelledby="library-h" className="mt-20 border-t border-white/10 pt-12">
+        <div className="flex items-center gap-2">
+          <h2 id="library-h" className="text-xl sm:text-2xl font-bold tracking-tight text-white">Media library</h2>
+          <span className="h-2 w-2 rounded-full bg-[#E8FF1F] shadow-[0_0_8px_#E8FF1F]" />
+        </div>
+        <p className="mt-2 max-w-2xl text-sm text-white/60">
+          Images, videos and 3D models up to 50 MB, kept in the public <span className="font-mono text-[#E8FF1F]">{LIBRARY_BUCKET}</span> bucket and shown on the{" "}
+          <a href="/gallery" className="text-[#E8FF1F] underline decoration-white/20 underline-offset-4 hover:decoration-[#E8FF1F]">gallery page</a>. A file is checked by its real contents before it is shown.
         </p>
         {!libraryReady && (
-          <p role="alert" className="mt-4 max-w-2xl text-sm text-blood">
+          <p role="alert" className="mt-4 max-w-2xl text-sm text-red-400">
             The media library is not switched on yet: apply <span className="font-mono">supabase/live/migrations/20261029001300_bsah_media_library.sql</span> to the project first.
           </p>
         )}
         <div className="mt-8">
           <LibraryUploader url={config?.url ?? ""} publishableKey={config?.publishable ?? ""} ready={Boolean(config) && libraryReady} />
         </div>
-        {libraryReady && library.length === 0 && <p className="t-ui mt-10 text-sm text-dust">Nothing has been uploaded to the library yet.</p>}
-        <ul className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {libraryReady && library.length === 0 && <p className="mt-10 text-sm text-white/40">Nothing has been uploaded to the library yet.</p>}
+        <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {library.map((m) => {
             const url = config ? publicObjectUrl(config.url, LIBRARY_BUCKET, m.storage_path) : "";
             return (
-              <li key={m.id} className="flex min-w-0 flex-col gap-2">
-                {m.mime_type.startsWith("video/") ? (
-                  <video src={url} controls preload="metadata" playsInline className="aspect-video w-full bg-night object-contain" aria-label={m.alt_text} />
-                ) : m.mime_type === "model/gltf-binary" ? (
-                  <div className="flex aspect-video w-full items-center justify-center border border-line/50 text-dust"><span className="label">3D model · GLB</span></div>
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element -- admin preview of user-uploaded storage objects
-                  <img src={url} alt={m.alt_text} className="aspect-video w-full object-cover" loading="lazy" />
-                )}
-                <p className="t-ui text-xs text-sand">{m.alt_text}</p>
-                <p className="font-mono text-[0.65rem] text-dust">{m.mime_type} · {size(m.bytes)}</p>
-                <p className="break-all font-mono text-[0.6rem] text-dust">{m.storage_path}</p>
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                  <a href={url} target="_blank" rel="noopener noreferrer" className="label text-dust hover:text-bone">Open</a>
-                  <CopyLink url={url} />
-                  <form action={deleteLibraryItem}><input type="hidden" name="id" value={m.id} /><button className="label text-blood hover:text-bone">Delete</button></form>
+              <li key={m.id} className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.04] p-4 backdrop-blur-xl shadow-xl flex flex-col gap-3 group">
+                <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[24px] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />
+                <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-black/50">
+                  {m.mime_type.startsWith("video/") ? (
+                    <video src={url} controls preload="metadata" playsInline className="h-full w-full object-contain" aria-label={m.alt_text} />
+                  ) : m.mime_type === "model/gltf-binary" ? (
+                    <div className="flex h-full w-full items-center justify-center border border-white/10 text-white/50"><span className="text-xs uppercase tracking-wider font-semibold">3D model · GLB</span></div>
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element -- admin preview of user-uploaded storage objects
+                    <img src={url} alt={m.alt_text} className="h-full w-full object-cover" loading="lazy" />
+                  )}
+                </div>
+                <div className="relative z-10 flex flex-col gap-1">
+                  <p className="text-sm font-semibold text-white">{m.alt_text}</p>
+                  <p className="font-mono text-xs text-white/45">{m.mime_type} · {size(m.bytes)}</p>
+                  <p className="break-all font-mono text-[10px] text-white/40">{m.storage_path}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-3">
+                    <a href={url} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-white/70 hover:text-white transition-colors">Open</a>
+                    <CopyLink url={url} />
+                    <form action={deleteLibraryItem}>
+                      <input type="hidden" name="id" value={m.id} />
+                      <button className="text-xs font-semibold text-red-400 hover:text-red-300">Delete</button>
+                    </form>
+                  </div>
                 </div>
               </li>
             );

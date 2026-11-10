@@ -56,7 +56,7 @@ export default async function AdminHome({ searchParams }: PageProps<"/admin/enqu
       ) : (
         <>
           <ResultCount count={total} page={page} shown={leads.length} singular="enquiry" plural="enquiries" filtered={filtered} />
-          <ul className="mt-4 divide-y divide-line border-y border-line">
+          <ul className="mt-6 flex flex-col gap-3.5">
             {leads.map((l) => <LeadRow key={l.id} lead={l} currentUserId={user.id} names={names} />)}
           </ul>
           <Pagination page={page} pages={totalPages(total)} hrefFor={href} />
@@ -91,27 +91,37 @@ function LeadRow({ lead: l, currentUserId, names }: { lead: Lead; currentUserId:
   const utm = utmSummary(l.attribution);
   const assigned = l.assigned_to ? (l.assigned_to === currentUserId ? "Assigned to you" : `Assigned to ${staffLabel(l.assigned_to, currentUserId, names)}`) : null;
   return (
-    <li className="grid gap-4 py-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-8">
-      <div className="min-w-0">
-        <p className="label flex flex-wrap items-center gap-x-3 gap-y-2 text-brass">
-          <span>{gateTitle(l.gate ?? "generic")}</span>
-          <time dateTime={l.created_at} className="text-dust">{formatDateTimeIST(l.created_at)}</time>
+    <li className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.03] p-5 sm:p-6 backdrop-blur-xl shadow-lg transition-all duration-200 hover:border-white/20 hover:bg-white/[0.05] grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-8">
+      {/* Rim highlight */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[24px] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />
+      <div className="relative z-10 min-w-0">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#E8FF1F]">
+            {gateTitle(l.gate ?? "generic")}
+          </span>
+          <time dateTime={l.created_at} className="font-mono text-xs text-white/45">{formatDateTimeIST(l.created_at)}</time>
           {qr && <QrBadge code={qr} />}
+        </div>
+        <p className="mt-3 text-base font-semibold text-white">
+          <Link href={`/admin/leads/${l.id}`} className="hover:text-[#E8FF1F] transition-colors">{l.contact_name}</Link>
+          {organisation && <span className="font-normal text-white/60"> · {organisation}</span>}
         </p>
-        <p className="t-ui mt-2 break-words text-bone">
-          <Link href={`/admin/leads/${l.id}`} className="underline decoration-line underline-offset-4 hover:text-gold hover:decoration-gold">{l.contact_name}</Link>
-          {organisation && <span className="text-sand"> · {organisation}</span>}
-        </p>
-        <p className="t-ui break-words text-sm text-sand">{[l.email, l.phone].filter(Boolean).join(" · ")}</p>
-        {message && <p className="t-ui mt-2 line-clamp-2 max-w-3xl whitespace-pre-wrap break-words text-sm text-sand">{message}</p>}
-        {(utm || assigned) && (
-          <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[0.7rem] text-dust">
-            {assigned && <span className="label">{assigned}</span>}
-            {utm && <span className="font-mono break-all">{utm}</span>}
+        <p className="mt-1 text-sm text-white/60">{[l.email, l.phone].filter(Boolean).join(" · ") || "No direct contact provided"}</p>
+        {message && (
+          <p className="mt-2.5 line-clamp-2 max-w-3xl rounded-xl border border-white/5 bg-black/30 p-3 text-xs leading-relaxed text-white/70">
+            {message}
           </p>
         )}
+        {(utm || assigned) && (
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-white/45">
+            {assigned && <span className="font-medium text-[#E8FF1F]">{assigned}</span>}
+            {utm && <span className="font-mono text-white/40">{utm}</span>}
+          </div>
+        )}
       </div>
-      <LeadStatusForm id={l.id} status={l.status} contactName={l.contact_name} compact />
+      <div className="relative z-10 shrink-0">
+        <LeadStatusForm id={l.id} status={l.status} contactName={l.contact_name} compact />
+      </div>
     </li>
   );
 }

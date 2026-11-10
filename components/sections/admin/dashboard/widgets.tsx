@@ -3,12 +3,27 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import type { ReactNode } from "react";
-import { Activity, ArrowUpRight, BarChart3, CalendarDays, CircleGauge, FileSignature, Inbox, ListChecks, MailQuestion, MapPin, ScrollText, Signpost, TrendingDown, TrendingUp, Minus, Users, type LucideIcon } from "lucide-react";
+import { Activity, ArrowDown, ArrowUp, ArrowUpRight, BarChart3, CalendarDays, CircleGauge, FileSignature, Inbox, ListChecks, MailQuestion, MapPin, ScrollText, Signpost, Minus, Users, type LucideIcon } from "lucide-react";
 import { gateLabel, relativeTime, statusName, type Aggregates, type Delta, type OverviewSnapshot, type RangeDays } from "@/lib/admin/overview";
 import { cn } from "@/lib/utils";
-import { ease } from "@/lib/motion/tokens";
 import { AreaChart, BarList, Columns, CountUp, Sparkline, SplitBar, TickGauge } from "./charts";
 import styles from "./LiveDashboard.module.css";
+
+/**
+ * Gradients adopted directly from Finance Bento:
+ * Blue (#nw net worth), Graph (#alloc allocation), Pink (#flow cash flow),
+ * Copper (#crypto), Green (#stocks weekly), Lime (#ret return tile).
+ */
+export const BENTO_GRADIENTS = {
+  blue: { top: "#b9a6ff", base: "#2e43ff", bottom: "#6d7dff", core: "#05082a" },
+  graph: { top: "#9a9aa8", base: "#3a3a44", bottom: "#55555f", core: "#060608" },
+  pink: { top: "#ffb3d6", base: "#ff2a85", bottom: "#ff6aa8", core: "#3a031c" },
+  copper: { top: "#f6bf96", base: "#c2683a", bottom: "#dc8a5c", core: "#1d0b05" },
+  green: { top: "#a6e8c8", base: "#36956f", bottom: "#58b58c", core: "#061d15" },
+  lime: { top: "#f4ffb8", base: "#a3c400", bottom: "#c9e03a", core: "#121700" },
+} as const;
+
+export type BentoVariant = keyof typeof BENTO_GRADIENTS | "glass" | "solid";
 
 /** Everything a widget may read. Widgets never fetch: the dashboard hands them the snapshot and what was computed from it. */
 export type WidgetCtx = { snapshot: OverviewSnapshot; agg: Aggregates; range: RangeDays; now: number; reduced: boolean; fresh: ReadonlySet<string> };
@@ -17,15 +32,17 @@ export type WidgetSize = "kpi" | "wide" | "side" | "third";
 export type WidgetDef = {
   id: string;
   title: string;
-  /** The small word in the "Add widget" list. */
+  /** The small uppercase caption above the title. */
   tag: string;
   blurb: string;
   size: WidgetSize;
+  /** Visual preset from Finance Bento */
+  variant?: BentoVariant;
   /** Spans two rows on a wide screen (the live feed). */
   tall?: boolean;
   /** Where the title links to, if anywhere. */
   href?: string;
-  /** The App1-style mark in the card's top-right corner, and its category colour (a `--color-signal-*` token). */
+  /** Accent mark in card header */
   icon?: LucideIcon;
   accent?: string;
   render: (c: WidgetCtx) => ReactNode;
@@ -35,36 +52,92 @@ export type WidgetDef = {
 const periodLabel = (range: RangeDays) => `last ${range} days`;
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-/** "29 Oct" from "2026-10-29", by hand: the server and the browser must print the same text, and Intl month names differ between them. */
 const dayLabel = (day: string) => `${Number(day.slice(8, 10))} ${MONTHS[Number(day.slice(5, 7)) - 1]}`;
 
 /* ------------------------------------------------------------------ small parts */
 
-function DeltaPill({ delta, goodWhenUp = true }: { delta: Delta; goodWhenUp?: boolean }) {
-  const Icon = delta.direction === "up" ? TrendingUp : delta.direction === "down" ? TrendingDown : Minus;
+export function DeltaPill({ delta, goodWhenUp = true, light = false }: { delta: Delta; goodWhenUp?: boolean; light?: boolean }) {
+  const Icon = delta.direction === "up" ? ArrowUp : delta.direction === "down" ? ArrowDown : Minus;
   const good = delta.direction === "flat" ? null : (delta.direction === "up") === goodWhenUp;
-  // Mosaic's delta: a green pill for a good move, a red one for a bad one, grey when flat; the arrow and the sign carry it too.
   return (
-    <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold", good === null ? "bg-line text-dust" : good ? "bg-signal-emerald/20 text-[var(--delta-good)]" : "bg-signal-rose/20 text-[var(--delta-bad)]")}>
-      <Icon className="h-3 w-3" aria-hidden />
-      {delta.pct === null ? (delta.direction === "up" ? "New" : "No change") : `${delta.pct > 0 ? "+" : ""}${delta.pct}%`}
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 h-[22px] px-2.5 rounded-full font-mono text-[11px] font-semibold tracking-tight shadow-sm",
+        light
+          ? "bg-black/90 text-[#E8FF1F]"
+          : good === null
+          ? "bg-white/10 text-white/50 border border-white/10"
+          : good
+          ? "bg-black/80 text-[#E8FF1F] border border-[#E8FF1F]/30"
+          : "bg-black/80 text-[#ff5656] border border-[#ff5656]/30"
+      )}
+    >
+      <Icon className="h-3 w-3" strokeWidth={2.5} aria-hidden />
+      {delta.pct === null ? (delta.direction === "up" ? "New" : "0%") : `${delta.pct > 0 ? "+" : ""}${delta.pct}%`}
     </span>
   );
 }
 
-function Kpi({ value, reduced, label, foot, delta, spark, href }: { value: number | null; reduced: boolean; label: string; foot: ReactNode; delta?: Delta; spark?: readonly number[]; href: string }) {
+function Kpi({
+  value,
+  reduced,
+  label,
+  foot,
+  delta,
+  spark,
+  href,
+  light = false,
+}: {
+  value: number | null;
+  reduced: boolean;
+  label: string;
+  foot: ReactNode;
+  delta?: Delta;
+  spark?: readonly number[];
+  href: string;
+  light?: boolean;
+}) {
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex items-start justify-between gap-2">
-        <CountUp value={value} reduced={reduced} className="font-mono text-3xl font-bold leading-none text-bone" />
-        {delta && <DeltaPill delta={delta} />}
+    <div className="flex h-full flex-col justify-between">
+      <div>
+        <div className="flex items-start justify-between gap-2">
+          <CountUp
+            value={value}
+            reduced={reduced}
+            className={cn(
+              "font-mono text-4xl sm:text-5xl font-light tracking-tight leading-none",
+              light ? "text-[#0b0b0c]" : "text-white"
+            )}
+          />
+          {delta && <DeltaPill delta={delta} light={light} />}
+        </div>
+        {spark ? (
+          <Sparkline
+            data={spark}
+            reduced={reduced}
+            className="mt-4"
+            color={light ? "#0b0b0c" : "var(--acc)"}
+          />
+        ) : (
+          <div className="mt-3 h-3" aria-hidden />
+        )}
       </div>
-      {spark ? <Sparkline data={spark} reduced={reduced} className="mt-4" /> : <div className="mt-3 h-3" aria-hidden />}
-      <p className="t-ui mt-3 text-xs leading-snug text-dust">{foot}</p>
-      <Link href={href} className="label mt-auto inline-flex min-h-11 items-center gap-1 pt-3 text-gold hover:text-bone">
-        Open <ArrowUpRight className="h-3 w-3" aria-hidden />
-        <span className="sr-only"> {label}</span>
-      </Link>
+
+      <div className="mt-4 pt-2">
+        <p className={cn("text-xs leading-snug font-medium", light ? "text-black/65" : "text-white/50")}>
+          {foot}
+        </p>
+        <Link
+          href={href}
+          className={cn(
+            "mt-3 inline-flex min-h-8 items-center gap-1.5 text-xs font-semibold tracking-wide uppercase transition-opacity hover:opacity-75",
+            light ? "text-[#0b0b0c]" : "text-[#E8FF1F]"
+          )}
+        >
+          Open <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+          <span className="sr-only"> {label}</span>
+        </Link>
+      </div>
     </div>
   );
 }
@@ -75,20 +148,34 @@ const unavailable = (s: OverviewSnapshot, key: string) => s.unavailable.includes
 
 function Feed({ c }: { c: WidgetCtx }) {
   const items = c.snapshot.activity;
-  if (!items.length) return <p className="t-ui text-sm text-dust">{unavailable(c.snapshot, "latest") ? "The feed could not be loaded." : "Nothing has happened yet."}</p>;
+  if (!items.length) {
+    return (
+      <p className="text-sm text-white/50">
+        {unavailable(c.snapshot, "latest") ? "The feed could not be loaded." : "Nothing has happened yet."}
+      </p>
+    );
+  }
   return (
-    <ul className="relative flex flex-col md:max-h-[15.5rem] md:overflow-y-auto md:pr-1" aria-live="polite" aria-relevant="additions" aria-label="Recent activity">
+    <ul className="relative flex flex-col gap-1.5 md:max-h-[17.5rem] md:overflow-y-auto md:pr-1" aria-live="polite" aria-relevant="additions" aria-label="Recent activity">
       <AnimatePresence initial={false}>
         {items.map((it) => {
           const Icon = it.kind === "enquiry" ? Inbox : ScrollText;
           const body = (
             <>
-              <span aria-hidden className={cn("mt-0.5 grid h-8 w-8 shrink-0 place-items-center border", it.kind === "enquiry" ? "border-gold/50 text-gold" : "border-line text-brass")}>
+              <span
+                aria-hidden
+                className={cn(
+                  "mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-xl border backdrop-blur-md",
+                  it.kind === "enquiry"
+                    ? "border-[#E8FF1F]/40 bg-[#E8FF1F]/15 text-[#E8FF1F]"
+                    : "border-white/20 bg-white/10 text-white"
+                )}
+              >
                 <Icon className="h-3.5 w-3.5" />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="t-ui block text-sm leading-snug text-bone">{it.title}</span>
-                <span className="mt-0.5 block font-mono text-[0.68rem] text-dust">{relativeTime(it.at, c.now)}</span>
+                <span className="block text-sm font-medium leading-snug text-white/90">{it.title}</span>
+                <span className="mt-0.5 block font-mono text-[0.68rem] text-white/50">{relativeTime(it.at, c.now)}</span>
               </span>
             </>
           );
@@ -96,18 +183,21 @@ function Feed({ c }: { c: WidgetCtx }) {
             <motion.li
               key={it.id}
               layout={c.reduced ? false : "position"}
-              initial={c.reduced ? false : { opacity: 0, y: -14 }}
+              initial={c.reduced ? false : { opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: c.reduced ? 0 : 0.5, ease: ease.citadel }}
-              className={cn("border-b border-line last:border-b-0", c.fresh.has(it.id) && !c.reduced && styles.flash)}
+              transition={{ duration: c.reduced ? 0 : 0.45, ease: [0.32, 0.72, 0, 1] }}
+              className={cn(
+                "rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-2.5 transition-colors hover:bg-white/[0.08]",
+                c.fresh.has(it.id) && !c.reduced && styles.flash
+              )}
             >
               {it.href ? (
-                <Link href={it.href} className="flex min-h-12 gap-3 py-3 hover:bg-umber/50">
+                <Link href={it.href} className="flex min-h-10 items-center gap-3">
                   {body}
                 </Link>
               ) : (
-                <div className="flex min-h-12 gap-3 py-3">{body}</div>
+                <div className="flex min-h-10 items-center gap-3">{body}</div>
               )}
             </motion.li>
           );
@@ -119,13 +209,14 @@ function Feed({ c }: { c: WidgetCtx }) {
 
 /* ------------------------------------------------------------------ the catalogue */
 
-const sketch = "h-full w-full text-brass";
+const sketch = "h-full w-full text-white/40";
 
 export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "kpi-enquiries",
     icon: Inbox,
-    accent: "var(--color-signal-emerald)",
+    accent: "#E8FF1F",
+    variant: "lime",
     title: "Enquiries",
     tag: "Key figure",
     blurb: "How many enquiries arrived in the period, against the period before.",
@@ -138,7 +229,8 @@ export const WIDGETS: readonly WidgetDef[] = [
         delta={c.agg.delta}
         spark={c.agg.spark}
         href="/admin/enquiries"
-        foot={<>{c.agg.previousTotal.toLocaleString("en-IN")} in the {c.range} days before · {periodLabel(c.range)}</>}
+        light
+        foot={<>{c.agg.previousTotal.toLocaleString("en-IN")} in previous {c.range}d · {periodLabel(c.range)}</>}
       />
     ),
     preview: (
@@ -151,9 +243,10 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "kpi-new",
     icon: MailQuestion,
-    accent: "var(--color-signal-amber)",
-    title: "Waiting for a first reply",
-    tag: "Key figure",
+    accent: "var(--acc)",
+    variant: "glass",
+    title: "Waiting for reply",
+    tag: "Priority",
     blurb: "Enquiries still marked New, across all time, and how many of the period's have nobody assigned.",
     size: "kpi",
     render: (c) => (
@@ -162,7 +255,7 @@ export const WIDGETS: readonly WidgetDef[] = [
         reduced={c.reduced}
         label="new enquiries"
         href="/admin/enquiries?status=new"
-        foot={<>{c.agg.unassignedNew.toLocaleString("en-IN")} of the {periodLabel(c.range)} have no one assigned yet</>}
+        foot={<>{c.agg.unassignedNew.toLocaleString("en-IN")} of {periodLabel(c.range)} have no one assigned</>}
       />
     ),
     preview: (
@@ -175,12 +268,21 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "kpi-accounts",
     icon: Users,
-    accent: "var(--color-signal-violet)",
+    accent: "var(--stocks)",
+    variant: "glass",
     title: "Accounts to review",
-    tag: "Key figure",
+    tag: "Staff review",
     blurb: "Teacher and school accounts waiting for a staff decision.",
     size: "kpi",
-    render: (c) => <Kpi value={c.snapshot.totals.accountsPending} reduced={c.reduced} label="accounts to review" href="/admin/accounts" foot="Teachers and schools are approved by hand; students and parents are active at once" />,
+    render: (c) => (
+      <Kpi
+        value={c.snapshot.totals.accountsPending}
+        reduced={c.reduced}
+        label="accounts to review"
+        href="/admin/accounts"
+        foot="Teachers and schools approved by hand; cadets active at once"
+      />
+    ),
     preview: (
       <svg viewBox="0 0 120 60" className={sketch} aria-hidden>
         <circle cx="30" cy="26" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -192,12 +294,21 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "kpi-mou",
     icon: FileSignature,
-    accent: "var(--color-signal-sky)",
+    accent: "var(--crypto)",
+    variant: "glass",
     title: "MOU requests open",
-    tag: "Key figure",
+    tag: "Schools",
     blurb: "School board agreements that are pending or being reviewed.",
     size: "kpi",
-    render: (c) => <Kpi value={c.snapshot.totals.mouOpen} reduced={c.reduced} label="open MOU requests" href="/admin/mou" foot="Pending or under review" />,
+    render: (c) => (
+      <Kpi
+        value={c.snapshot.totals.mouOpen}
+        reduced={c.reduced}
+        label="open MOU requests"
+        href="/admin/mou"
+        foot="School agreements pending or under active review"
+      />
+    ),
     preview: (
       <svg viewBox="0 0 120 60" className={sketch} aria-hidden>
         <rect x="14" y="8" width="36" height="46" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -208,18 +319,19 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
   {
     id: "trend",
-    icon: TrendingUp,
-    accent: "var(--color-signal-emerald)",
+    icon: Activity,
+    accent: "#FFFFFF",
+    variant: "blue",
     title: "Enquiries over time",
-    tag: "Chart",
+    tag: "Trend stream",
     blurb: "A line for each day of the period, with the period before as a dashed line. Touch or hover any day.",
     size: "wide",
     render: (c) => (
       <AreaChart
         reduced={c.reduced}
         unit="enquiries"
-        color="var(--color-signal-violet)"
-        previousColor="var(--color-dust)"
+        color="#ffffff"
+        previousColor="rgba(255, 255, 255, 0.45)"
         data={c.agg.daily.map((d, i) => ({
           label: dayLabel(d.day),
           value: d.count,
@@ -237,11 +349,13 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "activity",
     icon: Activity,
-    accent: "var(--color-signal-rose)",
+    accent: "var(--crypto)",
+    variant: "copper",
     title: "Live activity",
-    tag: "Feed",
+    tag: "Live feed",
     blurb: "New enquiries and staff changes as they happen. New rows slide in and glow for a few seconds.",
     size: "side",
+    tall: true,
     render: (c) => <Feed c={c} />,
     preview: (
       <svg viewBox="0 0 120 60" className={sketch} aria-hidden>
@@ -258,12 +372,19 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "forms",
     icon: BarChart3,
-    accent: "var(--color-signal-violet)",
+    accent: "var(--acc)",
+    variant: "graph",
     title: "By form",
-    tag: "Bars",
+    tag: "Channels",
     blurb: "Which website forms the enquiries came through.",
     size: "third",
-    render: (c) => <BarList reduced={c.reduced} rows={c.agg.byGate.map((g) => ({ key: g.key, label: gateLabel(g.key), count: g.count }))} empty="No enquiries in this period." />,
+    render: (c) => (
+      <BarList
+        reduced={c.reduced}
+        rows={c.agg.byGate.map((g) => ({ key: g.key, label: gateLabel(g.key), count: g.count }))}
+        empty="No enquiries in this period."
+      />
+    ),
     preview: (
       <svg viewBox="0 0 120 60" className={sketch} aria-hidden>
         {[[8, 88], [22, 64], [36, 42], [50, 22]].map(([y, w]) => (
@@ -275,15 +396,21 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "pipeline",
     icon: ListChecks,
-    accent: "var(--color-signal-amber)",
+    accent: "#ff6aa8",
+    variant: "pink",
     title: "Where they stand",
-    tag: "Pipeline",
+    tag: "Status split",
     blurb: "The period's enquiries by status, from New to Closed.",
     size: "third",
     render: (c) => (
       <SplitBar
         reduced={c.reduced}
-        parts={c.agg.byStatus.map((s) => ({ key: s.key, label: statusName(s.key), count: s.count, tone: STATUS_TONE[s.key] ?? "var(--color-dust)" }))}
+        parts={c.agg.byStatus.map((s) => ({
+          key: s.key,
+          label: statusName(s.key),
+          count: s.count,
+          tone: STATUS_TONE[s.key] ?? "rgba(255, 255, 255, 0.5)",
+        }))}
       />
     ),
     preview: (
@@ -297,15 +424,16 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "handled",
     icon: CircleGauge,
-    accent: "var(--color-signal-emerald)",
+    accent: "var(--acc)",
+    variant: "graph",
     title: "Picked up",
-    tag: "Gauge",
+    tag: "Allocation gauge",
     blurb: "The share of the period's enquiries that someone has moved on from New.",
     size: "side",
     render: (c) => (
       <div>
-        <TickGauge percent={c.agg.handledPct} reduced={c.reduced} label="of enquiries picked up" />
-        <p className="t-ui mt-3 text-center text-xs text-dust">{periodLabel(c.range)}</p>
+        <TickGauge percent={c.agg.handledPct} reduced={c.reduced} label="picked up" />
+        <p className="mt-2 text-center text-xs text-white/50">{periodLabel(c.range)}</p>
       </div>
     ),
     preview: (
@@ -321,9 +449,10 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "weekday",
     icon: CalendarDays,
-    accent: "var(--color-signal-violet)",
+    accent: "var(--acc)",
+    variant: "green",
     title: "Busiest days",
-    tag: "Columns",
+    tag: "Weekly volume",
     blurb: "Which days of the week enquiries tend to arrive on (India time).",
     size: "third",
     render: (c) => <Columns rows={c.agg.byWeekday} reduced={c.reduced} unit="enquiries" />,
@@ -338,18 +467,19 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "sources",
     icon: Signpost,
-    accent: "var(--color-signal-amber)",
+    accent: "var(--stocks)",
+    variant: "glass",
     title: "Where they came from",
-    tag: "Split",
+    tag: "Acquisition",
     blurb: "QR codes, campaign links and direct visits.",
     size: "third",
     render: (c) => (
       <SplitBar
         reduced={c.reduced}
         parts={[
-          { key: "qr", label: "QR codes", count: c.agg.sources.qr, tone: "var(--color-signal-violet)" },
-          { key: "campaign", label: "Campaign links", count: c.agg.sources.campaign, tone: "var(--color-signal-sky)" },
-          { key: "direct", label: "Direct", count: c.agg.sources.direct, tone: "var(--color-signal-emerald)" },
+          { key: "qr", label: "QR codes", count: c.agg.sources.qr, tone: "var(--acc)" },
+          { key: "campaign", label: "Campaign links", count: c.agg.sources.campaign, tone: "var(--stocks)" },
+          { key: "direct", label: "Direct visits", count: c.agg.sources.direct, tone: "var(--crypto)" },
         ]}
       />
     ),
@@ -365,17 +495,27 @@ export const WIDGETS: readonly WidgetDef[] = [
   {
     id: "hubs",
     icon: MapPin,
-    accent: "var(--color-signal-rose)",
+    accent: "var(--acc)",
+    variant: "glass",
     title: "QR captures by hub",
-    tag: "List",
+    tag: "Physical hubs",
     blurb: "Which hubs the scanned QR codes brought the most families from.",
     size: "third",
     href: "/admin/qr",
     render: (c) =>
       c.snapshot.hubs === null ? (
-        <p className="t-ui text-sm text-dust">QR captures could not be loaded.</p>
+        <p className="text-sm text-white/50">QR captures could not be loaded.</p>
       ) : (
-        <BarList reduced={c.reduced} rows={c.snapshot.hubs.map((h) => ({ key: h.hub, label: h.hub, count: h.captures, note: h.converted ? `${h.converted} enrolled` : undefined }))} empty="No QR captures yet." />
+        <BarList
+          reduced={c.reduced}
+          rows={c.snapshot.hubs.map((h) => ({
+            key: h.hub,
+            label: h.hub,
+            count: h.captures,
+            note: h.converted ? `${h.converted} enrolled` : undefined,
+          }))}
+          empty="No QR captures yet."
+        />
       ),
     preview: (
       <svg viewBox="0 0 120 60" className={sketch} aria-hidden>
@@ -390,15 +530,29 @@ export const WIDGETS: readonly WidgetDef[] = [
   },
 ];
 
-/** One tone per status, from the console's Mosaic palette (the legend always names them, so colour is never the only signal). */
-const STATUS_TONE: Record<string, string> = {
-  new: "var(--color-signal-violet)",
-  reviewing: "var(--color-signal-sky)",
-  contacted: "var(--color-signal-amber)",
-  qualified: "var(--color-signal-emerald)",
-  closed: "var(--color-dust)",
-  rejected: "var(--color-signal-rose)",
+/** Finance Bento palette applied to statuses: lime, stocks periwinkle, crypto peach, fiat white. */
+export const STATUS_TONE: Record<string, string> = {
+  new: "var(--acc)",
+  reviewing: "var(--stocks)",
+  contacted: "var(--crypto)",
+  qualified: "#ffffff",
+  closed: "rgba(255, 255, 255, 0.4)",
+  rejected: "#ff6aa8",
 };
 
-export const DEFAULT_LAYOUT: readonly string[] = ["kpi-enquiries", "kpi-new", "kpi-accounts", "kpi-mou", "trend", "activity", "forms", "pipeline", "handled", "weekday", "sources", "hubs"];
+export const DEFAULT_LAYOUT: readonly string[] = [
+  "kpi-enquiries",
+  "kpi-new",
+  "kpi-accounts",
+  "kpi-mou",
+  "trend",
+  "activity",
+  "forms",
+  "pipeline",
+  "handled",
+  "weekday",
+  "sources",
+  "hubs",
+];
+
 export const widgetById = (id: string) => WIDGETS.find((w) => w.id === id);

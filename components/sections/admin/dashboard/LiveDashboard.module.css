@@ -1,36 +1,333 @@
-/* A row that has just arrived: a warm wash that fades over a few seconds. Off under reduced motion (the component does not add it). */
-.flash {
-  animation: flash 4.2s ease-out 1;
-}
-@keyframes flash {
-  0% { background-color: color-mix(in srgb, var(--color-gold) 26%, transparent); }
-  100% { background-color: transparent; }
+/* ------------------------------------------------------------------ */
+/*  Finance Bento Dashboard Theme & Animation Styles                  */
+/*  Adopted for BSAH Admin & Dev Dashboards                          */
+/* ------------------------------------------------------------------ */
+
+.fpb {
+  --acc: #E8FF1F;
+  --t1: #ffffff;
+  --t2: rgba(255, 255, 255, 0.56);
+  --t3: rgba(255, 255, 255, 0.38);
+  --hair: rgba(255, 255, 255, 0.14);
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --fiat: #FFFFFF;
+  --stocks: #A9B2FF;
+  --crypto: #FFB37A;
+  font-family: Geist, var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+  width: 100%;
 }
 
-/* The live dot: a slow breath, so "live" is something you can see without reading it. */
+.fpbC {
+  position: relative;
+  padding: 24px 26px 26px;
+  background: #000000;
+  color: #ffffff;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.85);
+}
+
+@media (max-width: 767px) {
+  .fpbC {
+    padding: 16px 14px;
+    border-radius: 20px;
+  }
+}
+
+/* Card anatomy with 28px radius, glow, and rim */
+.card {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.card .rim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  z-index: 9;
+}
+
+.g {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.core {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 16%;
+  bottom: -6%;
+  border-radius: 90px;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+}
+
+.solid {
+  background: var(--acc);
+  color: #0b0b0c;
+}
+
+.solid .rim {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Segmented Period Controls */
+.seg {
+  display: flex;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.seg button {
+  border: 0;
+  height: 30px;
+  min-width: 52px;
+  padding: 0 14px;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--t2);
+  font: 600 12.5px Geist, var(--font-jakarta), sans-serif;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+
+.seg button[aria-pressed="true"],
+.seg button[aria-checked="true"] {
+  background: #ffffff;
+  color: #0b0b0c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.seg button:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
+
+/* Control buttons */
+.ctrlBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--t1);
+  font: 600 12.5px Geist, var(--font-jakarta), sans-serif;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.ctrlBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.ctrlBtnActive {
+  background: rgba(232, 255, 31, 0.15);
+  border-color: var(--acc);
+  color: var(--acc);
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: var(--acc);
+  border: 1px solid var(--acc);
+  color: #0b0b0c;
+  font: 600 12.5px Geist, var(--font-jakarta), sans-serif;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: 0 4px 16px -2px rgba(232, 255, 31, 0.35);
+  transition: filter 0.2s, transform 0.2s;
+}
+.addBtn:hover {
+  filter: brightness(1.08);
+}
+
+/* Badges & Chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: 11px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  font: 600 11px "Geist Mono", var(--font-mono), monospace;
+  letter-spacing: -0.02em;
+}
+
+.chipGlass {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.delta {
+  font: 600 12.5px "Geist Mono", var(--font-mono), monospace;
+  color: var(--acc);
+  letter-spacing: -0.02em;
+}
+
+/* Typography styles */
+.ttl {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cap {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--t2);
+}
+
+.solid .cap {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.big {
+  font-size: 40px;
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  font-size: 12.5px;
+  color: var(--t3);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Tooltip */
+.tip {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  background: rgba(14, 14, 16, 0.94);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 10px 12px;
+  font-size: 12px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap;
+  min-width: 150px;
+}
+
+.tip.on {
+  opacity: 1;
+  transform: none;
+}
+
+.tip .t {
+  color: var(--t2);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.tip .r {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  line-height: 20px;
+}
+
+.tip .r span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--t2);
+}
+
+.tip i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.tip b {
+  font: 500 12px "Geist Mono", var(--font-mono), monospace;
+}
+
+/* Live breathing dot */
 .dot {
   position: relative;
   display: inline-block;
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 9999px;
-  background: var(--color-gold);
+  background: var(--acc);
+  box-shadow: 0 0 12px var(--acc);
 }
+
 .dot::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: var(--color-gold);
+  background: var(--acc);
   animation: breathe 2.4s ease-out infinite;
 }
-.dotIdle { background: var(--color-dust); }
-.dotIdle::after { display: none; }
+
+.dotIdle {
+  background: var(--t3);
+  box-shadow: none;
+}
+.dotIdle::after {
+  display: none;
+}
+
 @keyframes breathe {
-  0% { transform: scale(1); opacity: 0.55; }
+  0% { transform: scale(1); opacity: 0.8; }
   100% { transform: scale(3.2); opacity: 0; }
 }
 
+/* Flash for fresh feed items */
+.flash {
+  animation: flash 4.2s ease-out 1;
+}
+
+@keyframes flash {
+  0% { background-color: color-mix(in srgb, var(--acc) 28%, transparent); }
+  100% { background-color: transparent; }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
   .dot::after { animation: none; display: none; }
 }
