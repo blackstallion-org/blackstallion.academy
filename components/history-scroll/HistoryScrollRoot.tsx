@@ -28,36 +28,28 @@ export function HistoryScrollRoot({ children, grain, world }: { children: ReactN
     if (!root || reduced || reading) return;
     gsap.registerPlugin(ScrollTrigger);
     const W = WORLDS[world];
-    const ctx = gsap.context(() => {
+    // One scoped matchMedia: the desktop stage gets the full layer motion; phones, where the art sits in flow above the
+    // text, get a gentler version. Everything is reverted on unmount, so other pages' triggers are untouched.
+    const mm = gsap.matchMedia(root);
+    mm.add({ desk: "(min-width: 1024px)", phone: "(max-width: 1023px)" }, (c) => {
+      const k = c.conditions?.desk ? 1 : 0.45;
       root.querySelectorAll<HTMLElement>("[data-hs-scene]").forEach((scene) => {
         const B = scene.querySelector<HTMLElement>('[data-hs-layer="B"]');
         const S = scene.querySelector<HTMLElement>('[data-hs-layer="S"]');
         const F = scene.querySelector<HTMLElement>('[data-hs-layer="F"]');
-        const dir = Number(S?.dataset.hsDir ?? 1);
-        const travel = Number(S?.dataset.hsTravel ?? 0);
-
+        const tint = scene.querySelector<HTMLElement>("[data-hs-tint]");
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: {
-            trigger: scene,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-          },
+          scrollTrigger: { trigger: scene, start: "top bottom", end: "bottom top", scrub: 0.6, invalidateOnRefresh: true },
         });
-        if (B) tl.fromTo(B, { yPercent: -W.depth.B, scale: 1 + W.push }, { yPercent: W.depth.B, scale: 1 }, 0);
-        if (S) {
-          const art = S.parentElement ?? scene;
-          tl.fromTo(
-            S,
-            // A small drift with the scroll; the figure's own legs and body come from its puppet rig.
-            { x: () => (-dir * travel * art.clientWidth) / 400, yPercent: -1 },
-            { x: () => (dir * travel * art.clientWidth) / 400, yPercent: 1 },
-            0,
-          );
-        }
-        if (F) tl.fromTo(F, { yPercent: W.depth.F }, { yPercent: -W.depth.F }, 0);
+        // Slowest to strongest: background plate, then the foreground band that carries the eye into the next scene.
+        if (B) tl.fromTo(B, { yPercent: -W.depth.B * k, scale: 1 + W.push * k }, { yPercent: W.depth.B * k, scale: 1, duration: 1 }, 0);
+        if (F) tl.fromTo(F, { yPercent: W.depth.F * k }, { yPercent: -W.depth.F * k, duration: 1 }, 0);
+        // A faint sun-and-sky wash that rises and settles over the scene.
+        if (tint) tl.fromTo(tint, { opacity: 0 }, { opacity: 0.22, ease: "sine.inOut", duration: 0.5 }, 0).to(tint, { opacity: 0, ease: "sine.inOut", duration: 0.5 }, 0.5);
+        // The character settles into the frame as the stage arrives; its own movement comes from its puppet rig.
+        if (S && c.conditions?.desk)
+          gsap.fromTo(S, { yPercent: 5 }, { yPercent: 0, ease: "power2.out", scrollTrigger: { trigger: scene, start: "top 85%", end: "top 25%", scrub: 0.6 } });
       });
 
       // Scroll speed feeds the energy; it eases back to rest on its own when the visitor stops.
@@ -70,7 +62,7 @@ export function HistoryScrollRoot({ children, grain, world }: { children: ReactN
           if (target > energy.v) gsap.to(energy, { v: target, duration: 0.25, overwrite: true });
         },
       });
-    }, root);
+    });
 
     const tick = () => {
       energy.v *= 0.95;
@@ -94,7 +86,7 @@ export function HistoryScrollRoot({ children, grain, world }: { children: ReactN
       imgs.forEach((img) => img.removeEventListener("load", refresh));
       gsap.ticker.remove(tick);
       energy.v = 0;
-      ctx.revert();
+      mm.revert();
     };
   }, [reduced, reading, world]);
 
@@ -106,7 +98,7 @@ export function HistoryScrollRoot({ children, grain, world }: { children: ReactN
   const style = grain ? ({ "--hs-grain": `url("${grain}")` } as CSSProperties) : undefined;
   return (
     <ReadingContext.Provider value={{ reading, setReading, world }}>
-      <div ref={ref} className="hs hs-paper" data-reading={reading ? "static" : "story"} style={style} data-parallax-skip>
+      <div ref={ref} className="hs hs-paper" data-world={world} data-reading={reading ? "static" : "story"} style={style} data-parallax-skip>
         {children}
       </div>
     </ReadingContext.Provider>

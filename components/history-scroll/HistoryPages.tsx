@@ -110,13 +110,16 @@ export function AnthologyPage({ page }: { page: HistoryPage }) {
           key={scene.id}
           id={scene.anchor}
           aria-labelledby={`${scene.anchor}-h`}
-          className="hs-scene hs-anth"
+          className="hs-scene hs-pers"
           data-hs-scene
           data-side={scene.side}
           style={{ zIndex: scenes.length - i }}
         >
-          <SceneArt scene={scene} priority={i === 0} />
-          <SceneReading scene={scene} heading="h2" />
+          <div className="hs-stage">
+            <SceneArt scene={scene} priority={i === 0} />
+            <SceneReading scene={scene} heading="h2" />
+          </div>
+          <div className="hs-run" aria-hidden />
         </section>
       ))}
       <Related page={page} />
@@ -138,6 +141,8 @@ export function PersonalStoryPage({ page }: { page: HistoryPage }) {
     }
     return after ? { href: `#${after.id}`, label: `Skip to chapter ${after.numeral}: ${after.title} ↓` } : { href: "#afterword", label: `After ${scene.title.toLowerCase()}: the afterword ↓` };
   };
+  const total = page.chapters.reduce((n, c) => n + c.scenes.length, 0);
+  const order = new Map(page.chapters.flatMap((c) => c.scenes).map((sc, i) => [sc.id, i]));
   return (
     <HistoryScrollRoot grain={grainUrl()} world={worldFor(page.route)}>
       <Title page={page}>
@@ -168,6 +173,7 @@ export function PersonalStoryPage({ page }: { page: HistoryPage }) {
               className="hs-scene hs-pers"
               data-hs-scene
               data-side={scene.side}
+              style={{ zIndex: total - (order.get(scene.id) ?? 0) }}
             >
               <div className="hs-stage">
                 <SceneArt scene={scene} priority={ci === 0 && si === 0} />

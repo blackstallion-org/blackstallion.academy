@@ -78,6 +78,13 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - Cleaning note: IN09-S came with a painted white halo; it was removed by filling inward from the edge through light pixels.
 - Not done: a sideways (horizontal) scroll experience. The new scenes extend the existing vertical scroll.
 
+## Session 10 Nov 2026 · Fixed painted stage on all four history pages
+
+- Implements `docs/history-scrolls` addendum "fixed painted stage": every story on India, World, Lakshmibai and Alexander is a 100svh sticky stage inside a 160svh section (`.hs-stage` + `.hs-run`, `--hs-run: 60svh`), released when its own section ends. The anthologies now use the same structure the personal pages already had; nothing is pinned for longer than its own story.
+- Layer speeds (`HistoryScrollRoot.tsx`, one scoped `gsap.matchMedia()` reverted on unmount): background slowest, foreground band strongest (it carries the eye over the join, the next scene starts 7svh beneath it), a faint soft-light sun-and-sky wash over the background plate only, and a restrained entrance for the character. The old sideways drift of the characters is removed; their own movement is the puppet rig. Phones get a gentler version, with the art in flow above the text.
+- The supplied SVG/GSAP reference files (`references/parallax-scroll/`) were not in the repo, so this follows the written description only.
+- Verified at 1440×900 and 390×844: each stage holds at the top of the viewport through its runway, forward and reverse scroll match, anchors land 128px below the top, browser back restores the scroll position, reduced motion has no pinning, scrub, puppets or weather, and a missing image shows its labelled placeholder with the layout intact.
+
 ## Notes for the next session
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).
