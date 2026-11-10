@@ -53,7 +53,7 @@ export const SUBJECT_MOTION: Record<string, SubjectMotion> = {
   WO02: M("walk", -1),
   WO03: M("gallop"),
   WO04: M("still"),
-  WO05: M("canter"),
+  WO05: M("gallop"),
   WO06: M("still"),
   WO07: M("still"),
   JH01: M("walk", -1),
