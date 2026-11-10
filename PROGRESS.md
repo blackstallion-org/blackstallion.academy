@@ -71,6 +71,13 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - The experimental `/ride` page and its `components/runway` engine were removed at the owner's request.
 - Motion Lab moved to the bottom of Act II as item 12, so the menu reads 01–23: Act I 01–04, Act II 05–12, Act III 13–23. Page marks and end cards were renumbered to match; `TOTAL_REELS` counts the reels and Motion Lab together, and `nextReel` hands off by position in the reel list.
 
+## Session 10 Nov 2026 · Last two images and six new scenes
+
+- WO05-S (the steppe archer, now rigged) and JH06-B (Jhansi at night) are generated and accepted, so no scene shows a placeholder.
+- India and the world page grew from seven to ten scenes each, with 13 new images (about 0.5 credit for a character and 1 for a background): India adds the Mughal stables (IN08), Skinner's Horse (IN10) and the Pushkar fair (IN09); the world page adds the heavenly horses of Ferghana (WO08), the riding hall in Vienna (WO09, with its own foreground strip) and the Plains nations (WO10). Each has copy, sources and a caveat, a puppet rig, and the sides now alternate down the page.
+- Cleaning note: IN09-S came with a painted white halo; it was removed by filling inward from the edge through light pixels.
+- Not done: a sideways (horizontal) scroll experience. The new scenes extend the existing vertical scroll.
+
 ## Notes for the next session
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).
