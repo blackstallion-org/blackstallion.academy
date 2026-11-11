@@ -19,7 +19,7 @@ export function SovereignCouncil() {
         Proposed advisory structure. The following seats and nominees are under consideration; no appointment or endorsement is represented as confirmed.
       </p>
       <ul className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
-        {seats.map((seat, index) => (
+        {seats.map((seat) => (
           <li key={seat.name}>
             <figure>
               <div className="relative aspect-[4/5] overflow-hidden bg-umber">

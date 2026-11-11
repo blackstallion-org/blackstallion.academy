@@ -929,3 +929,26 @@ workspace); no live payment, e-mail or signed-in run was possible.
   `previewHorse()` in `lib/audio/engine.ts`, called from `applySoundMode("horse")`. It sets aside the 12 s spacing rule for that one
   press, so repeating the press also answers. Checked in the page: pressing it after the song-only mode played snort.mp3.
   Not heard on real speakers; a film playing with sound on still owns the sound stage and silences it by design.
+
+## 2026-11-12 · Launch audit (main at 3de3f14)
+
+- Checks on latest main: lint 0 errors (warnings 23 → 20 after removing an unused import, an unused map index and a stale
+  eslint directive), typecheck pass, 337/337 unit tests, production build pass, browser e2e 19/19.
+- Dependencies: `npm audit --omit=dev` 0 vulnerabilities; 7 moderate in the dev-only lint toolchain (minimatch ReDoS), not shipped.
+- Secrets: no keys in tracked files (only placeholders in docs and tests); only `.env.example` is tracked.
+- Server code: every admin/enrol action checks the session (`requireStaff`, `requireAdmissions`, `requireAccount`,
+  `requirePrivilegedSession`); public actions (login, phone codes, trustee unlock, verify, MOU PDF, leads) are rate-limited
+  (database limiter shared across instances) and validated with zod; the dev dashboard refuses production; the Razorpay webhook
+  checks the signature over the raw body.
+- Live site (project-t9r95.vercel.app, on latest main): all 41 sitemap routes 200; private routes redirect to login; /dev 404;
+  HSTS, CSP, X-Frame-Options DENY, nosniff, referrer and permissions policies present (camera allowed only on /motion-lab);
+  database up; satellite map works (MapTiler key set); home has no failed requests or console errors; no overflow at 390 px.
+- Not launch-ready yet (owner actions):
+  1. Live database privacy: anonymous clients can read `school_hubs` (incl. revenue share and contact e-mail) and
+     `equine_fleet` (incl. microchip id and stall CCTV stream URL). The fix `supabase/live/migrations/20261023001200_anon_privacy_hardening.sql`
+     is prepared but not applied; it needs the owner's approval (shared database). Not applied here.
+  2. `blackstallion.academy` has Cloudflare nameservers but no A/CNAME record, so the domain does not load; add it in Vercel and Cloudflare.
+  3. robots.txt disallows everything: set `NEXT_PUBLIC_ALLOW_INDEXING=1` on Vercel at launch (with the privacy notice).
+  4. `20261106001700_motion_lab.sql` is not applied, so Motion Lab cloud save is off (local saves work).
+  5. Open owner items from PRODUCTION_READINESS.md §5 (staff account, key rotation, branch protection, paid plans, legal sign-off).
+  The site's Supabase project is not in the connected Supabase account, so its security advisors could not be run.

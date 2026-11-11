@@ -68,7 +68,6 @@ function Kit({ activeRef }: { activeRef: RefObject<number> }) {
     // eslint-disable-next-line react-hooks/immutability -- a three.js scene is a mutable object owned by the canvas, set up and torn down here
     threeScene.environment = env;
     return () => {
-      // eslint-disable-next-line react-hooks/immutability -- as above
       threeScene.environment = null;
       env.dispose();
       pmrem.dispose();
