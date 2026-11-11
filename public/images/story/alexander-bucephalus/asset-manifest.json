@@ -1,0 +1,176 @@
+{
+  "source_conversation_id": "6af4ad77-5114-83ee-a7d7-e7eefbfcf919",
+  "source_conversation_title": "Create Wide BSAH GIF",
+  "verified_at": "2026-11-12T00:04:05.279363+05:30",
+  "status": "All nine accessible image attachments preserved: eight still images and one chat screenshot. No accessible sprite sheets or animated GIF attachments; frame-sequence GIF recovery remains unavailable.",
+  "preservation": "Existing originals retained. Four additional originals copied without conversion. Every saved image verified byte-for-byte against the accessible attachment, SHA-256 checked, and fully decoded.",
+  "storage_check": {
+    "write_probe_bytes": 1048576,
+    "write_and_fsync_succeeded": true,
+    "free_bytes_after_save": 3681247232
+  },
+  "gif_previews": [],
+  "notes": [
+    "No new images or animation frames generated. Static artwork was not relabeled as animated GIFs.",
+    "The source .gif attachment contains a single-frame PNG, saved with the correct .png extension without changing bytes.",
+    "The chat reader returned all available turns with no older cursor; attachments are not mapped to individual messages, so generated-output versus upload provenance is unverified.",
+    "The screenshot includes artwork thumbnails and claims about animation; it is not an extractable frame sequence.",
+    "Existing artifacts/history-scrolls/alexander-awakening/ contains a separate GIF and other media. Their origin in the referenced conversation cannot be established; these files were left unchanged and are not claimed as recovered chat GIFs.",
+    "Saving assets does not add them to any page or change website layout."
+  ],
+  "files": [
+    {
+      "filename": "chat-preview-reference.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/chat-preview-reference.png",
+      "public_url": "/images/story/alexander-bucephalus/chat-preview-reference.png",
+      "original_filename": "image(7).png",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-PnT7nr/image(7).png",
+      "bytes": 1785940,
+      "sha256": "88a7e636e4fac26139f070f3cfb905ed18baf17f69aa17d8062b11a0d1157c4d",
+      "format": "PNG",
+      "dimensions": [
+        1760,
+        1398
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Chat screenshot; documentation only, not a sprite sheet."
+    },
+    {
+      "filename": "alexander-and-bucephalus-portrait.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/alexander-and-bucephalus-portrait.png",
+      "public_url": "/images/story/alexander-bucephalus/alexander-and-bucephalus-portrait.png",
+      "original_filename": "image(6).png",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-Zp7nXX/image(6).png",
+      "bytes": 4766417,
+      "sha256": "f55f514c562ef5223909e2cf644fe3d3df49c2c8a6d9ec8aa4ffe903e85ca600",
+      "format": "PNG",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Single still artwork."
+    },
+    {
+      "filename": "alexander-approaches-rearing-bucephalus.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/alexander-approaches-rearing-bucephalus.png",
+      "public_url": "/images/story/alexander-bucephalus/alexander-approaches-rearing-bucephalus.png",
+      "original_filename": "image(5).png",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-K89EqU/image(5).png",
+      "bytes": 4780483,
+      "sha256": "049cdc7aba90240e9e6044b545215920864410fd30ade2ca2dc3a1253eaf81c6",
+      "format": "PNG",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Single still artwork."
+    },
+    {
+      "filename": "alexander-leads-cavalry-charge.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/alexander-leads-cavalry-charge.png",
+      "public_url": "/images/story/alexander-bucephalus/alexander-leads-cavalry-charge.png",
+      "original_filename": "image(4).png",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-ZqU4pf/image(4).png",
+      "bytes": 4912486,
+      "sha256": "0240239a0cff93741066972c26ec5273a12e520152d35dd89d008f01db9519f2",
+      "format": "PNG",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Single still artwork."
+    },
+    {
+      "filename": "alexander-calms-bucephalus.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/alexander-calms-bucephalus.png",
+      "public_url": "/images/story/alexander-bucephalus/alexander-calms-bucephalus.png",
+      "original_filename": "image(3).png",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-RAWbIE/image(3).png",
+      "bytes": 4735487,
+      "sha256": "dbaa50bed644e93416a26990ad4dfee3b0065c10d36ca6e3e79ed27ff6b77e44",
+      "format": "PNG",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Single still artwork."
+    },
+    {
+      "filename": "alexander-rides-bucephalus.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/alexander-rides-bucephalus.png",
+      "public_url": "/images/story/alexander-bucephalus/alexander-rides-bucephalus.png",
+      "original_filename": "image(20261111-181549).png",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-uiwM24/image(20261111-181549).png",
+      "bytes": 4848211,
+      "sha256": "cff95119ff3225349661d6e377beab5c8a8257fd0faafa157ce3b19d398a0dac",
+      "format": "PNG",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Single still artwork."
+    },
+    {
+      "filename": "alexander-closed-eye-mosaic.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/alexander-closed-eye-mosaic.png",
+      "public_url": "/images/story/alexander-bucephalus/alexander-closed-eye-mosaic.png",
+      "original_filename": "image(2).png",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-ajcVhq/image(2).png",
+      "bytes": 4347399,
+      "sha256": "0d61e1828a533dfa56052d7f57c173293fe5122392e4737fdba7917cd6ef87e1",
+      "format": "PNG",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Single still artwork."
+    },
+    {
+      "filename": "alexander-and-bucephalus-mosaic-reference.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/alexander-and-bucephalus-mosaic-reference.png",
+      "public_url": "/images/story/alexander-bucephalus/alexander-and-bucephalus-mosaic-reference.png",
+      "original_filename": "image(1).png",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-0hHfay/image(1).png",
+      "bytes": 3120149,
+      "sha256": "6afda8f301b9a88cd01bdf7eb31cd9dfce73ddbd3653bf387a0852f54882a8f8",
+      "format": "PNG",
+      "dimensions": [
+        1433,
+        860
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Single still reference image."
+    },
+    {
+      "filename": "awakening-closed-eye-preview.png",
+      "saved_path": "/Users/stingraj/blackstallion-website/public/images/story/alexander-bucephalus/awakening-closed-eye-preview.png",
+      "public_url": "/images/story/alexander-bucephalus/awakening-closed-eye-preview.png",
+      "original_filename": "D980D105-2792-4EDA-9CF0-D4B03D073C74(1).gif",
+      "source_path": "/var/folders/ty/42gywtp95t1cv4png65y0rdw0000gn/T/codex-file-preview-INVUZL/D980D105-2792-4EDA-9CF0-D4B03D073C74(1).gif",
+      "bytes": 418583,
+      "sha256": "38b091695f2e921dca5f248e9f0968313b2404099a863aa54e8417c8e7157027",
+      "format": "PNG",
+      "dimensions": [
+        553,
+        309
+      ],
+      "frames": 1,
+      "animated": false,
+      "note": "Still preview only. Source filename ends in .gif but file content is a single-frame PNG; bytes preserved with correct extension."
+    }
+  ]
+}

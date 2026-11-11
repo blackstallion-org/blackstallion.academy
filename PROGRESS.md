@@ -85,6 +85,20 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - The supplied SVG/GSAP reference files (`references/parallax-scroll/`) were not in the repo, so this follows the written description only.
 - Verified at 1440×900 and 390×844: each stage holds at the top of the viewport through its runway, forward and reverse scroll match, anchors land 128px below the top, browser back restores the scroll position, reduced motion has no pinning, scrub, puppets or weather, and a missing image shows its labelled placeholder with the layout intact.
 
+## Session 12 Nov 2026 · Reel 23 is now the Alexander & Bucephalus exhibition
+
+- `/story/alexander-bucephalus` (reel 23) is now twelve "rooms", each one of the owner's mosaic GIFs hung on the ivory wall beside a museum wall card (numeral, place and date, title, one or two sentences, an optional qualification, source). Copy is in `lib/content/history/alexander-exhibition.ts`, with the GIF selection (19 supplied, 12 used, the exclusions named) at the top; component in `components/sections/story/AlexanderExhibition.tsx`.
+- GIFs became looping MP4s that keep each GIF's own frame timings: 1104 px (`public/video/alexander/<slug>.mp4`, about 1.5 MB each) and native 552 px for phones (`<slug>-sm.mp4`, about 0.55 MB), with first-frame posters in `public/images/alexander/`. A film's source is set only as its room comes near and plays only on screen.
+- Nothing on the pictures: no shade, fade or zoom. GSAP (driven by the site's Lenis scroll) unveils each plate once with a clip curtain and raises the wall-card lines out of masks; layouts alternate left, right, full-width band, a quiet small plate (XI) and a centred coda (XII). Room rail: numerals at the right edge on desktop, a current-room bar with previous and next on phones and tablets. Reduced motion: first-frame stills, no curtains, no rising text.
+- At the owner's request it replaced the eight-scene puppet-rig scroll story on the same URL (the reel-list blurb now says twelve mosaic rooms). That story's content stays in `lib/content/history/alexander.ts`, still used by `/dev/rigs`, the history scripts and the related links; its AL rigs are no longer shown on a public page.
+
+## Session 12 Nov 2026 · Pratap & Chetak moves to the Rani Lakshmibai format
+
+- `/story/pratap-chetak` now renders `PersonalStoryPage` like `/story/rani-lakshmibai`: eight painted scenes in six chapters (`lib/content/history/pratap-chetak.ts`), each with the ivory reading card, qualification, sources and skip links, then the afterword and related links. Copy is sourced (Abul Fazl, Badauni, Tod, Shyamaldas, G. N. Sharma) and the Chetak episodes are marked as legend (Blueprint Part 9).
+- Plates PR01–PR08-B (`public/images/history/pratap/`) were composited from the story's own painted bands and scenery, and the foreground strip from its shrub band; the subjects reuse the story's hero cutouts. All 24 entries are in `docs/history-scrolls/ASSET_LEDGER.json`. World profile `pratap` (dust) in `motion.ts`.
+- Puppets: rigs in `lib/content/history/pratap-rigs.ts`, mapped to PR01, 02, 04–08 in `rigs.ts`; PR03 (the duel) stays still because two horses and riders are knotted together.
+- The old sticky-world story (`components/sections/pratap-story/`, `lib/content/pratap.ts`) is no longer routed; it is kept, unchanged, in case the owner wants it back.
+
 ## Notes for the next session
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).

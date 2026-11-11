@@ -46,7 +46,7 @@ export const reels: Reel[] = [
   { n: 20, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
   { n: 21, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
   { n: 22, href: "/story/rani-lakshmibai", act: "ledger", title: "Rani Lakshmibai", inscription: "Jhansi will not", voice: "be surrendered.", blurb: "Four chapters, painted: the queen who rode out of a besieged fort.", image: "bgCharge" },
-  { n: 23, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Four chapters, painted: a boy, a horse no one could ride, and the edge of the known world.", image: "duneSilhouette" },
+  { n: 23, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Twelve mosaic rooms: a boy, a horse no one could ride, and a city named for it on the Hydaspes.", image: "duneSilhouette" },
 ];
 
 /**

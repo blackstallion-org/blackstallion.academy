@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "trackLength": { "india": 12, "world": 12 },
+  "assets": [
+    { "id": "IN-H01", "path": "/images/history/horizontal/india/in-h01.webp", "status": "accepted", "role": "bridge", "width": 2400, "height": 800, "alpha": false },
+    { "id": "IN-H02", "path": "/images/history/horizontal/india/in-h02.webp", "status": "accepted", "role": "bridge", "width": 2400, "height": 800, "alpha": false },
+    { "id": "IN-H03", "path": "/images/history/horizontal/india/in-h03.webp", "status": "accepted", "role": "bridge", "width": 2400, "height": 800, "alpha": false },
+    { "id": "IN-H04", "path": "/images/history/horizontal/india/in-h04.webp", "status": "accepted", "role": "bridge", "width": 2400, "height": 800, "alpha": false },
+    { "id": "WO-H01", "path": "/images/history/horizontal/world/wo-h01.webp", "status": "accepted", "role": "bridge", "width": 2400, "height": 800, "alpha": false },
+    { "id": "WO-H02", "path": "/images/history/horizontal/world/wo-h02.webp", "status": "accepted", "role": "bridge", "width": 2400, "height": 800, "alpha": false },
+    { "id": "WO-H03", "path": "/images/history/horizontal/world/wo-h03.webp", "status": "accepted", "role": "bridge", "width": 2400, "height": 800, "alpha": false },
+    { "id": "WO-H04", "path": "/images/history/horizontal/world/wo-h04.webp", "status": "accepted", "role": "bridge", "width": 2400, "height": 800, "alpha": false }
+  ]
+}

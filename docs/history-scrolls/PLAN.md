@@ -1,5 +1,11 @@
 # History scrolls: plan
 
+> Claude: also read `CLAUDE_PARALLAX_ADDENDUM.md`. It records the owner's supplied fixed-stage SVG/GSAP scroll reference and the required safe, scoped adaptation for all four pages.
+>
+> India and World also have a separate 12-panel sideways-scroll extension in `HORIZONTAL_SCROLL_HANDOFF.md`, with new bridge art tracked in `HORIZONTAL_ASSET_LEDGER.json`.
+>
+> The owner also requires long vertical companion paintings interleaved with the horizontal journey. Read `MIXED_ORIENTATION_HANDOFF.md` and `VERTICAL_ASSET_LEDGER.json`.
+
 Four illustrated pages in the manner of the Indian miniature, read by scrolling down. Owner brief (9 Nov 2026), built to
 the GPT implementation prompt. GPT's original companion files were not in the repository, so this folder recreates them;
 the prompt's routes, scene ids, art direction and acceptance gates are the source of truth.
