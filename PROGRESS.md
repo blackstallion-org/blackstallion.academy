@@ -71,6 +71,13 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - The experimental `/ride` page and its `components/runway` engine were removed at the owner's request.
 - Motion Lab moved to the bottom of Act II as item 12, so the menu reads 01–23: Act I 01–04, Act II 05–12, Act III 13–23. Page marks and end cards were renumbered to match; `TOTAL_REELS` counts the reels and Motion Lab together, and `nextReel` hands off by position in the reel list.
 
+## Session 12 Nov 2026 · Reel 23 is now the Alexander & Bucephalus exhibition
+
+- `/story/alexander-bucephalus` (reel 23) is now twelve "rooms", each one of the owner's mosaic GIFs hung on the ivory wall beside a museum wall card (numeral, place and date, title, one or two sentences, an optional qualification, source). Copy is in `lib/content/history/alexander-exhibition.ts`, with the GIF selection (19 supplied, 12 used, the exclusions named) at the top; component in `components/sections/story/AlexanderExhibition.tsx`.
+- GIFs became looping MP4s that keep each GIF's own frame timings: 1104 px (`public/video/alexander/<slug>.mp4`, about 1.5 MB each) and native 552 px for phones (`<slug>-sm.mp4`, about 0.55 MB), with first-frame posters in `public/images/alexander/`. A film's source is set only as its room comes near and plays only on screen.
+- Nothing on the pictures: no shade, fade or zoom. GSAP (driven by the site's Lenis scroll) unveils each plate once with a clip curtain and raises the wall-card lines out of masks; layouts alternate left, right, full-width band, a quiet small plate (XI) and a centred coda (XII). Room rail: numerals at the right edge on desktop, a current-room bar with previous and next on phones and tablets. Reduced motion: first-frame stills, no curtains, no rising text.
+- At the owner's request it replaced the eight-scene puppet-rig scroll story on the same URL (the reel-list blurb now says twelve mosaic rooms). That story's content stays in `lib/content/history/alexander.ts`, still used by `/dev/rigs`, the history scripts and the related links; its AL rigs are no longer shown on a public page.
+
 ## Notes for the next session
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).
