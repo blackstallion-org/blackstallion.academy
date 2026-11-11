@@ -10,7 +10,6 @@ import { StoryStrip } from "@/components/sections/home/StoryStrip";
 import { Studbook } from "@/components/sections/home/Studbook";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { HorseFirst } from "@/components/sections/home/HorseFirst";
-import { FirstFilm } from "@/components/sections/home/FirstFilm";
 import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
 
 /**
@@ -49,8 +48,6 @@ export default function Home() {
       {/* 2 Nov 2026: the public colour-palette moodboard (Atelier) is replaced by a photograph and a short story. The colour
           tokens themselves are unchanged (app/globals.css). */}
       <HorseFirst />
-      {/* 9 Nov 2026: the original opening film, kept here after the new film took the top of the page. */}
-      <FirstFilm />
 
       <Intermission act="ledger" line="Now, the decision." />
 

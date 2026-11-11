@@ -167,26 +167,19 @@
 .hs-scene + .hs-scene { margin-top: 0; }
 
 @media (min-width: 1024px) {
-  /* Anthology: the painting is the section's ground; the reading surface alternates sides and the section grows with it. */
-  .hs-anth { min-height: 56.25vw; display: flex; align-items: flex-start; }
-  .hs-anth .hs-art { position: absolute; inset: 0; aspect-ratio: auto; overflow: visible; }
-  .hs-anth .hs-art-clip { position: absolute; inset: 0; overflow: hidden; }
-  .hs-anth .hs-layer-s { left: var(--dx, auto); right: var(--dr, auto); bottom: var(--db); width: var(--dw); }
-  /* The foreground crosses the join into the next scene. */
-  .hs-anth .hs-layer-f { bottom: -7%; }
-  .hs-anth .hs-reading {
-    width: min(31rem, 38vw);
-    margin: clamp(4rem, 9vw, 8rem) clamp(2rem, 5vw, 5rem) clamp(9rem, 14vw, 12rem);
-    box-shadow: 0 0 0 1px var(--hs-rule);
-  }
-  .hs-anth[data-side="right"] { justify-content: flex-end; }
-
-  /* Personal story: a 100svh sticky stage inside a ~160svh section. The stage grows with its text (200% text size), and
-     the pinned travel comes from the spacer after it, so nothing is ever clipped. */
+  /* Every story (anthology and personal) is a painted stage: a 100svh sticky stage inside a ~160svh section. The stage
+     stays put while the layers move at different speeds; the spacer after it is the scroll runway, and the stage is
+     released when the section ends, so nothing is pinned for longer than its own story. The stage grows with its text
+     (200% text size), so nothing is ever clipped. */
+  .hs-pers { --hs-run: 60svh; }
   .hs-pers .hs-stage { position: sticky; top: 0; min-height: max(100svh, 36rem); display: flex; align-items: center; }
-  .hs-pers .hs-run { height: 60svh; }
-  .hs-pers .hs-art { position: absolute; inset: 0; aspect-ratio: auto; }
+  .hs-pers .hs-run { height: var(--hs-run); }
+  .hs-pers .hs-art { position: absolute; inset: 0; aspect-ratio: auto; overflow: visible; }
+  .hs-pers .hs-art-clip { position: absolute; inset: 0; overflow: hidden; }
   .hs-pers .hs-layer-s { left: var(--dx, auto); right: var(--dr, auto); bottom: var(--db); width: var(--dw); max-width: 62svh; }
+  /* The foreground band crosses the join: the next scene starts beneath it, so the eye is carried across. */
+  .hs-pers .hs-layer-f { bottom: -7%; }
+  .hs-scene + .hs-scene { margin-top: -7svh; }
   .hs-pers .hs-reading {
     width: min(27rem, 34vw);
     margin: var(--hs-controls) clamp(2rem, 5vw, 5rem) 2rem;
@@ -195,18 +188,39 @@
   .hs-pers[data-side="right"] .hs-stage { justify-content: flex-end; }
 }
 
+/* A faint sun-and-sky wash over the background plate only, so the characters keep their own pigments. */
+.hs-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  background: linear-gradient(180deg, var(--hs-tint-a, #f0b060), var(--hs-tint-b, #2b3f78));
+}
+.hs[data-world="india"] { --hs-tint-a: #f2a64a; --hs-tint-b: #2b3f78; }
+.hs[data-world="world"] { --hs-tint-a: #e8c26a; --hs-tint-b: #23407c; }
+.hs[data-world="lakshmibai"] { --hs-tint-a: #e0763a; --hs-tint-b: #1b2a5a; }
+.hs[data-world="alexander"] { --hs-tint-a: #ecc873; --hs-tint-b: #3a4a6a; }
+
 /* Reading mode, reduced motion: static flow, every word visible, no sticky stage, no parallax. */
 .hs-run { display: none; }
 @media (min-width: 1024px) { .hs-run { display: block; } }
 .hs[data-reading="static"] .hs-run { display: none; }
 .hs[data-reading="static"] .hs-pers .hs-stage { position: relative; height: auto; min-height: 0; display: block; }
 .hs[data-reading="static"] .hs-pers .hs-art { position: relative; inset: auto; aspect-ratio: 16 / 9; }
+.hs[data-reading="static"] .hs-scene + .hs-scene { margin-top: 0; }
+.hs[data-reading="static"] .hs-pers .hs-layer-f { bottom: -1px; }
+.hs[data-reading="static"] .hs-tint { display: none; }
 .hs[data-reading="static"] .hs-pers .hs-reading { width: auto; max-width: 44rem; margin: 0 auto; box-shadow: none; }
 .hs[data-reading="static"] .hs-layer, .hs[data-reading="static"] .hs-gait { transform: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .hs .hs-run { display: none; }
   .hs .hs-pers .hs-stage { position: relative; height: auto; min-height: 0; display: block; }
   .hs .hs-pers .hs-art { position: relative; inset: auto; aspect-ratio: 16 / 9; }
+  .hs .hs-scene + .hs-scene { margin-top: 0; }
+  .hs .hs-pers .hs-layer-f { bottom: -1px; }
+  .hs .hs-tint { display: none; }
   .hs .hs-pers .hs-reading { width: auto; max-width: 44rem; margin: 0 auto; box-shadow: none; }
   .hs .hs-layer, .hs .hs-gait { transform: none !important; will-change: auto; }
   .hs .hs-relief-canvas { transition: none; }

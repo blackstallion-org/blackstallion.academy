@@ -98,24 +98,31 @@ export function Puppet({ rig, sway = 0 }: { rig?: SceneRig; sway?: number }) {
 
     const ready = async () => {
       try {
-        await img.decode();
-      } catch {
-        /* already decoded or decoding failed; the image element still draws */
+        try {
+          await img.decode();
+        } catch {
+          /* already decoded or decoding failed; the image element still draws */
+        }
+        if (!alive || !img.naturalWidth) return;
+        const aspect = img.naturalWidth / img.naturalHeight;
+        built = build(rig ?? { figures: [] }, aspect);
+        // A swaying foreground spans the full width: it gets no side padding, so it never widens the page.
+        const px = rig ? PAD : 0;
+        box = [-px, -PAD, aspect + px * 2, 1 + PAD * 2];
+        Object.assign(canvas.style, {
+          left: `${(-px / aspect) * 100}%`,
+          width: `${(1 + (2 * px) / aspect) * 100}%`,
+          top: `${-PAD * 100}%`,
+          height: `${(1 + 2 * PAD) * 100}%`,
+        });
+        mesh = createMesh(built, img);
+        resize();
+      } catch (e) {
+        // Anything that goes wrong here (a lost GL context, a blocked image upload) leaves the still painting in place.
+        console.warn("puppet: staying on the still image", e);
+        built = null;
+        mesh = null;
       }
-      if (!alive || !img.naturalWidth) return;
-      const aspect = img.naturalWidth / img.naturalHeight;
-      built = build(rig ?? { figures: [] }, aspect);
-      // A swaying foreground spans the full width: it gets no side padding, so it never widens the page.
-      const px = rig ? PAD : 0;
-      box = [-px, -PAD, aspect + px * 2, 1 + PAD * 2];
-      Object.assign(canvas.style, {
-        left: `${(-px / aspect) * 100}%`,
-        width: `${(1 + (2 * px) / aspect) * 100}%`,
-        top: `${-PAD * 100}%`,
-        height: `${(1 + 2 * PAD) * 100}%`,
-      });
-      mesh = createMesh(built, img);
-      resize();
     };
     if (img.complete) ready();
     else img.addEventListener("load", ready, { once: true });

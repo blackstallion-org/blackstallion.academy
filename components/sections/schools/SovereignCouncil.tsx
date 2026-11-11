@@ -1,5 +1,3 @@
-import { asset } from "@/lib/content/asset";
-import Image from "next/image";
 const seats = [
   { name: "Senior institutional stewardship", role: "Honorary Patron & Senior Governor", initials: "SG", detail: "Proposed senior stewardship seat. The appointment, approved biography, consent and portrait await confirmation." },
   { name: "Civic leadership", role: "Institutional Governance & Civic Leadership", initials: "CL", detail: "Proposed civic governance seat. The appointment, approved biography, consent and portrait await confirmation." },
@@ -9,8 +7,8 @@ const seats = [
 
 /**
  * The Sovereign Council: one large portrait per proposed seat, role and responsibility beneath it.
- * Every portrait is an illustrative placeholder (Unsplash, see public/images/council/SOURCES.md), shown in a warm
- * monochrome so it reads as a placeholder; no name, appointment or endorsement is represented as confirmed.
+ * Until each seat is confirmed it shows a neutral default profile silhouette, not a stock face (owner, 10 Nov 2026), so no
+ * likeness is mistaken for a member. No name, appointment or endorsement is represented as confirmed.
  */
 export function SovereignCouncil() {
   return (
@@ -25,15 +23,13 @@ export function SovereignCouncil() {
           <li key={seat.name}>
             <figure>
               <div className="relative aspect-[4/5] overflow-hidden bg-umber">
-                <Image
-                  src={asset(`/images/council/portrait-${index + 1}.jpg`)}
-                  alt={`Illustrative placeholder portrait for the proposed ${seat.name.toLowerCase()} seat; not a council member`}
-                  fill
-                  sizes="(min-width: 1024px) 23vw, (min-width: 640px) 46vw, 92vw"
-                  className="object-cover [filter:grayscale(1)_sepia(0.28)_contrast(0.96)]"
-                />
+                <svg viewBox="0 0 160 200" className="h-full w-full" role="img" aria-label={`Default profile picture for the proposed ${seat.name.toLowerCase()} seat; member not yet confirmed`}>
+                  <rect width="160" height="200" fill="var(--color-umber)" />
+                  <circle cx="80" cy="78" r="34" fill="var(--color-dust)" fillOpacity="0.55" />
+                  <path d="M18 200c4-44 31-70 62-70s58 26 62 70z" fill="var(--color-dust)" fillOpacity="0.55" />
+                </svg>
               </div>
-              <figcaption className="t-ui mt-3 text-xs text-dust">Illustrative placeholder portrait · seat unconfirmed</figcaption>
+              <figcaption className="t-ui mt-3 text-xs text-dust">Portrait to follow · seat unconfirmed</figcaption>
             </figure>
             <h3 className="t-voice mt-5 text-[1.6rem] leading-snug text-bone">{seat.name}</h3>
             <p className="label mt-3 text-brass">{seat.role}</p>

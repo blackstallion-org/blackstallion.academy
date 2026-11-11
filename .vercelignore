@@ -1,4 +1,9 @@
-docs
+# Docs stay out of deployments, except the asset ledger the history pages import at build time
+# (lib/content/history/assets.ts). Same pattern as scripts/ below: open the folder, then re-include the one file.
+docs/*
+!docs/history-scrolls
+docs/history-scrolls/*
+!docs/history-scrolls/ASSET_LEDGER.json
 # The folder stays out of deployments, except the one script the build itself runs (package.json "prebuild": it copies the LiteRT runtime and fetches the Motion Lab models).
 scripts/*
 !scripts/motion-lab-assets.mjs

@@ -10,21 +10,18 @@ import { LOGO } from "@/lib/content/site";
 import styles from "./Hero.module.css";
 
 /**
- * §1 Hero (order since 2 Nov 2026): who we are and what we do first, then the full-frame opening film, then the Rajasthan
- * desert horse. The doctrine is the first screen after the opening zoom, so it clears the fixed nav itself.
+ * §1 Hero: who we are and what we do first, then the Marwar opening film, then the Rajasthan desert horse. The older original
+ * film (white horse at the stable fence) that used to sit lower on the page was removed at the owner's request (11 Nov 2026).
+ * The doctrine is the first screen after the opening zoom, so it clears the fixed nav itself.
  */
 export function Hero() {
   return (
     <>
       <HeroContentSection />
-      <HeroVideoSection />
+      <HeroFilm />
       <StallionHero />
     </>
   );
-}
-
-function HeroVideoSection() {
-  return <HeroFilm />;
 }
 
 function HeroContentSection() {

@@ -50,6 +50,8 @@ export type Scene = {
 
 export type Chapter = { id: string; numeral: string; title: string; scenes: Scene[] };
 
+export type Photo = { src: string; width: number; height: number; alt: string; caption: string; credit: string; creditHref: string };
+
 export type RelatedLink = { href: string; label: string; blurb: string };
 
 export type HistoryPage = {
@@ -66,6 +68,10 @@ export type HistoryPage = {
   };
   chapters: Chapter[];
   afterword?: { label: string; inscription: string; voice: string; paragraphs: string[] };
+  /** A photograph of a real statue, shown before the afterword: public/images/..., with its licence and photographer. */
+  statue?: Photo;
+  /** A standalone section with a photograph (not a painted scene), shown after the scenes of an anthology. */
+  feature?: { id: string; label: string; inscription: string; voice: string; paragraphs: string[]; qualification?: string; sources: SourceRef[]; photo: Photo };
   related: RelatedLink[];
 };
 

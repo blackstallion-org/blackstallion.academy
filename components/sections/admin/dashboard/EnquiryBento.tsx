@@ -4,16 +4,20 @@ import { useMemo } from "react";
 import { AnalyticsBento } from "@/components/ui/analytics-bento";
 import { aggregate, gateLabel, RANGES, statusName, WEEKDAYS, type OverviewSnapshot } from "@/lib/admin/overview";
 
-/** A repeatable colour per form, from the console palette (branding orange, greys, the red-to-sand gradient stops), so a form keeps its colour between windows and reloads. */
+/**
+ * A repeatable colour per form, from the site's fixed brand colours (CLAUDE.md: chestnut, caramel, leather, antique gold,
+ * charcoal, brass, parchment, ivory), so a form keeps its colour between windows and reloads. Charts take literal colours, so
+ * these are the brand hexes rather than role tokens; they read on both the light and the dark console.
+ */
 const TILE = [
-  { color: "#E85002", ink: "light" as const },
-  { color: "#646464", ink: "light" as const },
-  { color: "#A7A7A7", ink: "dark" as const },
-  { color: "#333333", ink: "light" as const },
-  { color: "#F16001", ink: "light" as const },
-  { color: "#C10801", ink: "light" as const },
-  { color: "#D9C3AB", ink: "dark" as const },
-  { color: "#F9F9F9", ink: "dark" as const },
+  { color: "#78472F", ink: "light" as const },
+  { color: "#B88A62", ink: "dark" as const },
+  { color: "#493126", ink: "light" as const },
+  { color: "#C9A66B", ink: "dark" as const },
+  { color: "#171513", ink: "light" as const },
+  { color: "#7B5636", ink: "light" as const },
+  { color: "#E8DECE", ink: "dark" as const },
+  { color: "#FAF7F0", ink: "dark" as const },
 ];
 
 /**
@@ -70,7 +74,7 @@ export function EnquiryBento({ snapshot, nowMs }: { snapshot: OverviewSnapshot; 
       <AnalyticsBento
         credit
         currency=""
-        colors={{ revenue: ["#E85002", "#F16001"], desktop: ["#646464", "#A7A7A7"], mobile: ["#333333", "#646464"], radar: "#D9C3AB" }}
+        colors={{ revenue: ["#78472F", "#B88A62"], desktop: ["#493126", "#B88A62"], mobile: ["#171513", "#7B5636"], radar: "#C9A66B" }}
         revenue={{
           label: "Enquiries · 30 days",
           value: mid.total,

@@ -44,6 +44,7 @@ export function SceneArt({ scene, priority }: { scene: Scene; priority?: boolean
           <HistoryArt id={scene.layers.B} sizes="100vw" priority={priority} />
           {plate && scene.relief && <ReliefMount id={scene.relief} plate={plate} />}
         </div>
+        <div className="hs-tint" data-hs-tint aria-hidden />
         {map && scene.relief && <ReliefMount id={scene.relief} />}
         <div
           className="hs-layer hs-layer-s"

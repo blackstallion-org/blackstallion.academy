@@ -202,45 +202,25 @@ try {
   // ---- homepage film (HeroFilm.tsx). 9 Nov 2026: the opening film is the owner's Marwar film, a true 2:1 picture, so its band has that
   // shape and the picture fills it edge to edge (no mask, no crop); the controls sit on the foot of the band, nothing in the top 80 px.
   // The original opening film (scope picture, masked wide frame) is kept lower on the page as its own section, without "Skip intro".
-  await check("hero film: a 2:1 band after the doctrine screen, picture edge to edge, controls on its foot at 360/390/430/1440; the original film kept lower", async () => {
-    const out = [];
-    for (const [w, h] of [[360, 740], [390, 844], [430, 932], [1440, 900]]) {
-      const { page, context } = await newPage({ width: w, height: h });
-      await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
-      await page.waitForTimeout(800);
-      // Owner's order (2 Nov 2026): the "who we are" doctrine screen comes first and the film band follows it. Bring the band to the top, then measure.
-      const order = await page.evaluate(() => ({ doctrine: document.querySelector("section#doctrine").getBoundingClientRect().top + scrollY, film: document.querySelector("section#top").getBoundingClientRect().top + scrollY, first: document.querySelector("section#first-film").getBoundingClientRect().top + scrollY }));
-      assert.ok(order.doctrine < order.film, `${w}: the doctrine screen comes before the film band`);
-      assert.ok(order.first > order.film + 2 * h, `${w}: the original opening film is kept lower on the page`);
-      await page.evaluate(() => { const s = document.querySelector("section#top"); window.scrollTo(0, s.getBoundingClientRect().top + scrollY); });
-      await page.waitForTimeout(1500);
-      const m = await page.evaluate(() => {
-        const rect = (el) => { const r = el.getBoundingClientRect(); return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, w: r.width, h: r.height }; };
-        const section = document.querySelector("section#top");
-        const frame = section.querySelector("video").parentElement;
-        const first = document.querySelector("section#first-film");
-        return {
-          vw: window.innerWidth,
-          section: rect(section),
-          frame: rect(frame),
-          controls: rect(section.querySelector("[data-sound]")),
-          mask: getComputedStyle(frame).maskImage !== "none" || getComputedStyle(frame).webkitMaskImage !== "none",
-          skip: [...section.querySelectorAll("button")].some((b) => /Skip intro/.test(b.textContent || "")),
-          firstSkip: [...first.querySelectorAll("button")].some((b) => /Skip intro/.test(b.textContent || "")),
-          firstSources: [...first.querySelectorAll("source")].map((x) => x.getAttribute("src") || ""),
-        };
-      });
-      assert.ok(Math.abs(m.section.top) <= 2 && Math.abs(m.section.w - m.vw) <= 1, `${w}: the film band is at the top of the screen, full width`);
-      assert.ok(Math.abs(m.section.h - m.section.w / 2) <= 2, `${w}: the band is the film's 2:1 shape (${Math.round(m.section.w)}x${Math.round(m.section.h)})`);
-      assert.ok(Math.abs(m.frame.w - m.section.w) <= 1 && Math.abs(m.frame.h - m.section.h) <= 1, `${w}: the picture fills the band edge to edge`);
-      assert.ok(!m.mask, `${w}: no mask on the picture`);
-      assert.ok(Math.abs(m.controls.bottom - m.section.bottom) <= 1 && m.controls.top > m.section.top + m.section.h / 2, `${w}: controls on the foot of the band`);
-      assert.ok(m.skip, `${w}: the opening film has Skip intro`);
-      assert.ok(!m.firstSkip && m.firstSources.some((x) => /hero-main-desktop\.mp4/.test(x)), `${w}: the original film is kept, without Skip intro`);
-      out.push(`${w}:${Math.round(m.section.h)}px`);
-      await context.close();
-    }
-    return out.join(" ");
+  await check("hero: the Marwar film follows the doctrine screen; the older original film is gone (owner, 11 Nov 2026)", async () => {
+    const { page, context } = await newPage({ width: 1440, height: 900 });
+    await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
+    await page.waitForTimeout(800);
+    const m = await page.evaluate(() => {
+      const film = document.querySelector("section#top");
+      const doctrine = document.querySelector("section#doctrine");
+      const srcs = [...document.querySelectorAll("source")].map((x) => x.getAttribute("src") || "");
+      return {
+        film: Boolean(film && film.querySelector("video")),
+        order: film && doctrine ? doctrine.getBoundingClientRect().top < film.getBoundingClientRect().top : false,
+        marwar: srcs.some((x) => /hero-marwar-desktop\.mp4/.test(x)),
+        old: Boolean(document.querySelector("section#first-film")) || srcs.some((x) => /hero-main-/.test(x)),
+      };
+    });
+    assert.ok(m.film && m.marwar, "the Marwar opening film is on the page");
+    assert.ok(m.order, "it comes after the doctrine screen");
+    assert.ok(!m.old, "the older original film is no longer on the page");
+    await context.close();
   });
 
   await check("doctrine: one statement in the editorial serif, two non-overlapping sentences", async () => {

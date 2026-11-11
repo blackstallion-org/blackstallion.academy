@@ -71,6 +71,20 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - The experimental `/ride` page and its `components/runway` engine were removed at the owner's request.
 - Motion Lab moved to the bottom of Act II as item 12, so the menu reads 01–23: Act I 01–04, Act II 05–12, Act III 13–23. Page marks and end cards were renumbered to match; `TOTAL_REELS` counts the reels and Motion Lab together, and `nextReel` hands off by position in the reel list.
 
+## Session 10 Nov 2026 · Last two images and six new scenes
+
+- WO05-S (the steppe archer, now rigged) and JH06-B (Jhansi at night) are generated and accepted, so no scene shows a placeholder.
+- India and the world page grew from seven to ten scenes each, with 13 new images (about 0.5 credit for a character and 1 for a background): India adds the Mughal stables (IN08), Skinner's Horse (IN10) and the Pushkar fair (IN09); the world page adds the heavenly horses of Ferghana (WO08), the riding hall in Vienna (WO09, with its own foreground strip) and the Plains nations (WO10). Each has copy, sources and a caveat, a puppet rig, and the sides now alternate down the page.
+- Cleaning note: IN09-S came with a painted white halo; it was removed by filling inward from the edge through light pixels.
+- Not done: a sideways (horizontal) scroll experience. The new scenes extend the existing vertical scroll.
+
+## Session 10 Nov 2026 · Fixed painted stage on all four history pages
+
+- Implements `docs/history-scrolls` addendum "fixed painted stage": every story on India, World, Lakshmibai and Alexander is a 100svh sticky stage inside a 160svh section (`.hs-stage` + `.hs-run`, `--hs-run: 60svh`), released when its own section ends. The anthologies now use the same structure the personal pages already had; nothing is pinned for longer than its own story.
+- Layer speeds (`HistoryScrollRoot.tsx`, one scoped `gsap.matchMedia()` reverted on unmount): background slowest, foreground band strongest (it carries the eye over the join, the next scene starts 7svh beneath it), a faint soft-light sun-and-sky wash over the background plate only, and a restrained entrance for the character. The old sideways drift of the characters is removed; their own movement is the puppet rig. Phones get a gentler version, with the art in flow above the text.
+- The supplied SVG/GSAP reference files (`references/parallax-scroll/`) were not in the repo, so this follows the written description only.
+- Verified at 1440×900 and 390×844: each stage holds at the top of the viewport through its runway, forward and reverse scroll match, anchors land 128px below the top, browser back restores the scroll position, reduced motion has no pinning, scrub, puppets or weather, and a missing image shows its labelled placeholder with the layout intact.
+
 ## Session 12 Nov 2026 · Reel 23 is now the Alexander & Bucephalus exhibition
 
 - `/story/alexander-bucephalus` (reel 23) is now twelve "rooms", each one of the owner's mosaic GIFs hung on the ivory wall beside a museum wall card (numeral, place and date, title, one or two sentences, an optional qualification, source). Copy is in `lib/content/history/alexander-exhibition.ts`, with the GIF selection (19 supplied, 12 used, the exclusions named) at the top; component in `components/sections/story/AlexanderExhibition.tsx`.

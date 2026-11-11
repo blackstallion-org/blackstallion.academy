@@ -2,8 +2,8 @@
 
 import { motion } from "motion/react";
 import { useId } from "react";
-import { blaze, earLeft, earRight } from "@/components/brand/paths";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { asset } from "@/lib/content/asset";
 import { r3 } from "@/lib/round";
 import { cn } from "@/lib/utils";
 
@@ -20,8 +20,9 @@ type AcademyStampProps = {
 };
 
 /**
- * The academy's registry stamp (R23, 2 Nov 2026): a rubber-stamp roundel, not the brass seal. Two rings, the academy's name on the
- * arcs, the ear monogram, a band carrying one word (SEALED, VERIFIED, SAMPLE) and the year. The ink is uneven (an SVG turbulence
+ * The academy's registry stamp (R23, 2 Nov 2026; official crest since 10 Nov 2026): a rubber-stamp roundel, not the brass seal. Two
+ * rings, the academy's name on the arcs, the official BSAH crest inked as line art (public/brand/bsah-stamp-mark.webp, made from
+ * bsah-logo.webp), a band carrying one word (SEALED, VERIFIED, SAMPLE) and the year. The ink is uneven (an SVG turbulence
  * mask), as a hand-pressed impression is. When `pressed` turns true it comes down once: lifted and turned, a short press, a little
  * squash, then the ink settles. While not pressed it shows only a dotted ring, so a page can say where a stamp will go without
  * claiming it has been given. Reduced motion: the impression appears without travel.
@@ -70,6 +71,9 @@ export function AcademyStamp({ label, pressed, ink = "#8f2a1e", className, title
             <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="1" seed="3" result="warp" />
             <feDisplacementMap in="inked" in2="warp" scale="1.2" xChannelSelector="R" yChannelSelector="G" />
           </filter>
+          <mask id={`crest-${uid}`} maskUnits="userSpaceOnUse" x="36" y="20" width="48" height="48">
+            <image href={asset("/brand/bsah-stamp-mark.webp?v=2")} x="36" y="20" width="48" height="48" preserveAspectRatio="xMidYMid meet" />
+          </mask>
           <path id={`top-${uid}`} d="M17 60 A43 43 0 0 1 103 60" />
           <path id={`bottom-${uid}`} d="M13 60 A47 47 0 0 0 107 60" />
         </defs>
@@ -80,28 +84,24 @@ export function AcademyStamp({ label, pressed, ink = "#8f2a1e", className, title
           {ticks.map((a, i) => (
             <circle key={i} cx={r3(60 + Math.cos(a) * 36.5)} cy={r3(60 + Math.sin(a) * 36.5)} r="0.7" fill="currentColor" />
           ))}
-          <text fill="currentColor" fontSize="8.4" fontWeight="700" letterSpacing="1.6" fontFamily="var(--font-sans), sans-serif">
+          <text fill="currentColor" fontSize="7" fontWeight="700" letterSpacing="0.9" fontFamily="var(--font-sans), sans-serif">
             <textPath href={`#top-${uid}`} startOffset="50%" textAnchor="middle">
               BLACK STALLION ACADEMY
             </textPath>
           </text>
-          <text fill="currentColor" fontSize="7.4" fontWeight="700" letterSpacing="1.4" fontFamily="var(--font-sans), sans-serif">
+          <text fill="currentColor" fontSize="6" fontWeight="700" letterSpacing="0.6" fontFamily="var(--font-sans), sans-serif">
             <textPath href={`#bottom-${uid}`} startOffset="50%" textAnchor="middle">
               ★ REGISTRY OF HORSEMANSHIP ★
             </textPath>
           </text>
-          {/* the ear monogram above the band */}
-          <g transform="translate(47 30) scale(0.42)" fill="currentColor">
-            <path d={earLeft} />
-            <path d={earRight} />
-            <path d={blaze} />
-          </g>
+          {/* the official crest, inked: its line art is a luminance mask, so it takes the stamp's ink colour */}
+          <rect x="36" y="20" width="48" height="48" fill="currentColor" mask={`url(#crest-${uid})`} />
           {/* the band */}
-          <rect x="14" y="54" width="92" height="16" fill="currentColor" />
-          <text x="60" y="65.6" textAnchor="middle" fontSize="10" fontWeight="800" letterSpacing="2.2" fill="#f4eee3" fontFamily="var(--font-sans), sans-serif">
+          <rect x="24" y="68" width="72" height="14" fill="currentColor" />
+          <text x="60" y="78.3" textAnchor="middle" fontSize="9" fontWeight="800" letterSpacing="2.2" fill="#f4eee3" fontFamily="var(--font-sans), sans-serif">
             {label}
           </text>
-          <text x="60" y="84" textAnchor="middle" fontSize="7" fontWeight="700" letterSpacing="2" fill="currentColor" fontFamily="var(--font-sans), sans-serif">
+          <text x="60" y="90" textAnchor="middle" fontSize="6" fontWeight="700" letterSpacing="2" fill="currentColor" fontFamily="var(--font-sans), sans-serif">
             MMXXVI
           </text>
         </g>

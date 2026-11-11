@@ -1,3 +1,4 @@
+import { asset } from "@/lib/content/asset";
 import type { HistoryPage, Scene } from "./types";
 
 const L = (n: string) => ({ B: `IN${n}-B`, S: `IN${n}-S`, F: `IN${n}-F` });
@@ -41,6 +42,22 @@ const scenes: Scene[] = [
     subject: sub("right", "34%"),
   },
   {
+    id: "IN08",
+    anchor: "the-emperors-stables",
+    label: "Mughal India, 1556–1605",
+    title: "The emperor's stables",
+    body: [
+      "Akbar kept great stables at his courts. The Ain-i-Akbari, the imperial register compiled by his minister Abu'l-Fazl around 1595, describes them: the kinds of horse, their feed, their grooms and their branding, with horses from Arabia, Persia and Central Asia named beside India's own breeds.",
+      "Many of the best horses were imported, brought over the mountains through Kabul and Qandahar by merchants. The register shows an empire that managed its horses with the same care as its revenue.",
+    ],
+    interpretation: true,
+    qualification: "The courtyard and the groom are an artistic interpretation drawn from Mughal miniatures; the register's own figures are not repeated here.",
+    sources: [{ label: "Abu'l-Fazl, Ain-i-Akbari, trans. H. Blochmann (1873)" }, { label: "Stephen F. Dale, Indian Merchants and Eurasian Trade, 1600–1750 (1994)" }],
+    layers: { B: "IN08-B", S: "IN08-S", F: "IN05-F" },
+    side: "left",
+    subject: sub("left", "36%"),
+  },
+  {
     id: "IN03",
     anchor: "shivajis-hill-country",
     label: "The Sahyadri, Maharashtra",
@@ -51,8 +68,8 @@ const scenes: Scene[] = [
     ],
     sources: [{ label: "Jadunath Sarkar, Shivaji and His Times" }, { label: "Stewart Gordon, The Marathas 1600–1818 (1993)" }],
     layers: L("03"),
-    side: "left",
-    subject: sub("left", "32%"),
+    side: "right",
+    subject: sub("right", "32%"),
   },
   {
     id: "IN04",
@@ -65,8 +82,23 @@ const scenes: Scene[] = [
     ],
     sources: [{ label: "Stewart Gordon, The Marathas 1600–1818 (1993)" }, { label: "G. S. Sardesai, New History of the Marathas" }],
     layers: L("04"),
+    side: "left",
+    subject: sub("left", "34%"),
+  },
+  {
+    id: "IN10",
+    anchor: "skinners-horse",
+    label: "Hansi, 1803",
+    title: "Skinner's Horse",
+    body: [
+      "In 1803 James Skinner, the Anglo-Indian son of a Scottish officer and a Rajput mother, raised a regiment of irregular cavalry for the East India Company. His troopers wore yellow coats and became known as the Yellow Boys.",
+      "Skinner's Horse survives as the 1st Horse of the Indian Army, now an armoured regiment, one of the oldest cavalry units still serving. Its story shows how Indian horsemen and their ways of riding were carried into a new army.",
+    ],
+    qualification: "Accounts differ on some details of Skinner's early life.",
+    sources: [{ label: "National Army Museum, London: Skinner's Horse" }, { label: "Indian Army, 1st Horse (Skinner's Horse): regimental history" }],
+    layers: { B: "IN10-B", S: "IN10-S", F: "IN04-F" },
     side: "right",
-    subject: sub("right", "34%"),
+    subject: sub("right", "36%"),
   },
   {
     id: "IN05",
@@ -110,26 +142,66 @@ const scenes: Scene[] = [
     side: "left",
     subject: sub("left", "38%", "6%"),
   },
+  {
+    id: "IN09",
+    anchor: "the-pushkar-fair",
+    label: "Rajasthan, today",
+    title: "The Pushkar fair",
+    body: [
+      "Each autumn, around the full moon of the month of Kartik, Pushkar in Rajasthan holds a fair beside its sacred lake. Camels and cattle are the main trade, and horses are brought to be shown, judged and sold, among them Marwaris with their inward-curving ears.",
+      "Breeders, dealers and families come for days, and decorated horses are ridden through the fairground in the evening light. It is one of the places where the breed is still seen, judged and talked about in public.",
+    ],
+    qualification: "This is a present-day view. The fair is often described as very old, but its early history is poorly documented.",
+    sources: [{ label: "Rajasthan Tourism: Pushkar Fair" }, { label: "Indigenous Horse Society of India: Marwari breed notes" }],
+    layers: { B: "IN09-B", S: "IN09-S", F: "IN01-F" },
+    side: "right",
+    subject: sub("right", "34%"),
+  },
 ];
 
 export const india: HistoryPage = {
   route: "/history/india",
   format: "anthology",
-  title: "Seven Roads of the Indian Horse · An Illustrated History",
+  title: "Ten Roads of the Indian Horse · An Illustrated History",
   description:
-    "An illustrated vertical scroll of horsemanship in India: the keepers of Marwar, the Shalihotra tradition, Shivaji's hill country, Bajirao's long roads, Ranjit Singh's stables, Manipur's polo ponies and the riders who reached Haifa.",
+    "An illustrated vertical scroll of horsemanship in India: the keepers of Marwar, the Shalihotra tradition, the Mughal stables, Shivaji's hill country, Bajirao's long roads, Skinner's Horse, Ranjit Singh's stables, Manipur's polo ponies, the riders who reached Haifa and the Pushkar fair.",
   opening: {
     label: "An illustrated history · India",
-    inscription: "Seven roads",
+    inscription: "Ten roads",
     voice: "of the Indian horse.",
-    lede: "From the desert of Marwar to the polo grounds of Imphal, horses carried India's history. Seven scenes, painted in the manner of the miniature, each with its sources.",
+    lede: "From the desert of Marwar to the polo grounds of Imphal, horses carried India's history. Ten scenes, painted in the manner of the miniature, each with its sources.",
     asset: "IN00",
   },
-  chapters: [{ id: "india-scenes", numeral: "", title: "Seven roads", scenes }],
+  chapters: [{ id: "india-scenes", numeral: "", title: "Ten roads", scenes }],
+  feature: {
+    id: "rudrama-devi",
+    label: "Warangal, 1263–1289",
+    inscription: "Rudrama Devi",
+    voice: "of the Kakatiyas.",
+    paragraphs: [
+      "Rudrama Devi ruled the Kakatiya kingdom of the eastern Deccan, from its capital at Warangal, for some twenty-six years in the thirteenth century. She was one of very few women to rule in her own right in medieval India, and her father is said to have named her heir and raised her in the duties of a prince.",
+      "She defended the kingdom against rival powers on its borders, and inscriptions record her in the dress and titles of a king. The Venetian traveller Marco Polo, who passed through the region soon after her reign, praised the ruler of the kingdom for justice and good government. Today she is remembered in Telangana as a warrior queen, and statues across the state show her on horseback.",
+    ],
+    qualification: "Her exact dates, and the story of her death in battle around 1289, rest on a few inscriptions, including one at Chandupatla, and are debated by historians. The horseback image is a modern memorial, not a portrait.",
+    sources: [
+      { label: "Chandupatla inscription (1289)" },
+      { label: "Marco Polo, The Travels, on the kingdom of Mutfili" },
+      { label: "Cynthia Talbot, Precolonial India in Practice (2001)" },
+    ],
+    photo: {
+      src: asset("/images/history/india/rudrama-statue.webp"),
+      width: 1340,
+      height: 1600,
+      alt: "A gilded statue of Rani Rudrama Devi on horseback, one arm raised, on a dark plinth inscribed with her name in Telugu and English",
+      caption: "Rani Rudrama Devi, at Warangal Fort.",
+      credit: "Photograph: Ms Sarah Welch, CC0, via Wikimedia Commons",
+      creditHref: "https://commons.wikimedia.org/wiki/File:Rani_Rudrama_Devi,_Warangal_Fort_Telangana,_India_-_2.jpg",
+    },
+  },
   related: [
     { href: "/story/rani-lakshmibai", label: "Rani Lakshmibai", blurb: "The queen who would not give up Jhansi. A scroll story in eight scenes." },
     { href: "/story/pratap-chetak", label: "Pratap & Chetak", blurb: "Six painted chapters from Mewar, 1576." },
     { href: "/story/alexander-bucephalus", label: "Alexander & Bucephalus", blurb: "From Macedon to the Hydaspes." },
-    { href: "/history/world", label: "Seven roads of the world's horse", blurb: "The companion anthology." },
+    { href: "/history/world", label: "Ten roads of the world's horse", blurb: "The companion anthology." },
   ],
 };
