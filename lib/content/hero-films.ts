@@ -34,15 +34,3 @@ export const OPENING_FILM: HeroFilmSpec = {
   layout: "full",
   startAt: 0,
 };
-
-export const FIRST_FILM: HeroFilmSpec = {
-  id: "first-film",
-  label: "The original opening film",
-  poster: asset("/video/hero-main-poster.webp"),
-  posterMobile: asset("/video/hero-main-poster.webp"),
-  desktop: asset("/video/hero-main-desktop.mp4"),
-  mobile: asset("/video/hero-main-mobile.mp4"),
-  posterAlt: "Marwari stallions in the academy's original opening film",
-  layout: "scope",
-  startAt: 2.8,
-};
