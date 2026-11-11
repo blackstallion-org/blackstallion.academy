@@ -369,13 +369,13 @@
       "id": "JH06-B",
       "role": "B",
       "path": "/images/history/lakshmibai/jh06-b.webp",
-      "width": 2400,
-      "height": 1350,
+      "width": 1672,
+      "height": 941,
       "alpha": false,
       "alt": "The walls of Jhansi fort at night under a crescent moon",
       "focal": "50% 60%",
       "version": 1,
-      "status": "pending",
+      "status": "accepted",
       "prompt": "Indian miniature painting in the Rajput and Mughal manner, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Background plate: Jhansi fort at night seen from below, a tall stone wall and bastion against a deep indigo sky with stars and a crescent moon, a few torches on the wall, the dark plain. Wide landscape, the lower fifth calm and simple so a foreground can overlap it, no people unless described. No text, no lettering, no border, no frame.",
       "generation": {
         "model": "gpt_image_2_6",
@@ -383,7 +383,8 @@
         "resolution": "2k",
         "aspect_ratio": "16:9",
         "background": "opaque"
-      }
+      },
+      "review": "Reviewed 2026-11-10 by GPT: composition matches the approved scene, anatomy/architecture complete, no text; transparent layer alpha inspected on dark display."
     },
     {
       "id": "JH06-S",
@@ -1797,20 +1798,21 @@
       "id": "WO05-S",
       "role": "S",
       "path": "/images/history/world/wo05-s.webp",
-      "width": 1168,
-      "height": 880,
+      "width": 1229,
+      "height": 1280,
       "alpha": true,
-      "alt": "A mounted archer shoots backwards at the gallop",
+      "alt": "A Japanese mounted archer and chestnut horse hold a balanced shooting pose",
       "version": 1,
-      "status": "pending",
-      "prompt": "Persian and Mughal manuscript miniature painting, fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, restrained gold highlights, palette of lapis, malachite green, vermilion, gold and ivory on aged paper. A single cutout subject on a fully transparent background: a steppe mounted archer in a felt cap and belted coat riding a chestnut horse at a gallop, drawing a short recurve bow and shooting backwards over the horse's tail, side view facing right. The complete horse is visible: head, all four legs and hooves, full tail. Nothing cropped. No ground, no shadow, no background, no text.",
+      "status": "accepted",
+      "prompt": "Original manuscript-miniature cutout for the World horse-and-human story, painted with fine contours, opaque-watercolour texture and restrained mineral pigments while preserving Japanese material culture. A Japanese mounted archer in period-informed layered armour and clothing sits in a balanced held training pose on a complete chestnut horse, side view facing right, drawing a long asymmetrical yumi. The horse is calm and anatomically credible, with all four legs, hooves, ears, tack and full tail visible. Truly transparent background; no ground, scenery, lettering, watermark or modern object.",
       "generation": {
         "model": "gpt_image_2_6",
         "quality": "medium",
         "resolution": "1k",
         "aspect_ratio": "4:3",
         "background": "transparent"
-      }
+      },
+      "review": "Reviewed 2026-11-10 by GPT: composition matches the approved scene, anatomy/architecture complete, no text; transparent layer alpha inspected on dark display."
     },
     {
       "id": "WO05-F",

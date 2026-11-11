@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "assets": [
+    { "id": "IN-V01", "story": "IN01", "path": "/images/history/vertical/india/in-v01.webp", "status": "pending" },
+    { "id": "IN-V02", "story": "IN02", "path": "/images/history/vertical/india/in-v02.webp", "status": "pending" },
+    { "id": "IN-V03", "story": "IN03", "path": "/images/history/vertical/india/in-v03.webp", "status": "pending" },
+    { "id": "IN-V04", "story": "IN04", "path": "/images/history/vertical/india/in-v04.webp", "status": "pending" },
+    { "id": "IN-V05", "story": "IN05", "path": "/images/history/vertical/india/in-v05.webp", "status": "pending" },
+    { "id": "IN-V06", "story": "IN06", "path": "/images/history/vertical/india/in-v06.webp", "status": "pending" },
+    { "id": "IN-V07", "story": "IN07", "path": "/images/history/vertical/india/in-v07.webp", "status": "pending" },
+    { "id": "WO-V01", "story": "WO01", "path": "/images/history/vertical/world/wo-v01.webp", "status": "pending" },
+    { "id": "WO-V02", "story": "WO02", "path": "/images/history/vertical/world/wo-v02.webp", "status": "pending" },
+    { "id": "WO-V03", "story": "WO03", "path": "/images/history/vertical/world/wo-v03.webp", "status": "pending" },
+    { "id": "WO-V04", "story": "WO04", "path": "/images/history/vertical/world/wo-v04.webp", "status": "pending" },
+    { "id": "WO-V05", "story": "WO05", "path": "/images/history/vertical/world/wo-v05.webp", "status": "pending" },
+    { "id": "WO-V06", "story": "WO06", "path": "/images/history/vertical/world/wo-v06.webp", "status": "pending" },
+    { "id": "WO-V07", "story": "WO07", "path": "/images/history/vertical/world/wo-v07.webp", "status": "pending" }
+  ]
+}
