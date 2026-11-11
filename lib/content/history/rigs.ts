@@ -1,4 +1,5 @@
 import type { HorsePreset, HorseRig, Limb, P, SceneRig } from "@/components/history-scroll/puppet/types";
+import { PRATAP_RIGS } from "./pratap-rigs";
 
 const limb = (top: P, mid: P, end: P): Limb => ({ top, mid, end });
 type L3 = [P, P, P];
@@ -209,4 +210,12 @@ export const RIGS: Record<string, SceneRig> = {
       { kind: "human", preset: "seated", seed: 362, hip: [0.12, 0.75], neck: [0.28, 0.25], head: [0.3, 0.2], headR: 0.07, torsoR: 0.1, armA: limb([0.38, 0.33], [0.42, 0.38], [0.45, 0.42]) },
     ],
   },
+  // Maharana Pratap and Chetak (rigs marked on the story's own cutouts, see pratap-rigs.ts). PR03, the duel, stays still.
+  PR01: PRATAP_RIGS.bond,
+  PR02: PRATAP_RIGS.mount,
+  PR04: PRATAP_RIGS.charge,
+  PR05: PRATAP_RIGS.carry,
+  PR06: PRATAP_RIGS.leap,
+  PR07: PRATAP_RIGS["chetak-rest-cutout"],
+  PR08: PRATAP_RIGS.bond,
 };

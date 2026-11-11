@@ -78,6 +78,13 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - Nothing on the pictures: no shade, fade or zoom. GSAP (driven by the site's Lenis scroll) unveils each plate once with a clip curtain and raises the wall-card lines out of masks; layouts alternate left, right, full-width band, a quiet small plate (XI) and a centred coda (XII). Room rail: numerals at the right edge on desktop, a current-room bar with previous and next on phones and tablets. Reduced motion: first-frame stills, no curtains, no rising text.
 - At the owner's request it replaced the eight-scene puppet-rig scroll story on the same URL (the reel-list blurb now says twelve mosaic rooms). That story's content stays in `lib/content/history/alexander.ts`, still used by `/dev/rigs`, the history scripts and the related links; its AL rigs are no longer shown on a public page.
 
+## Session 12 Nov 2026 · Pratap & Chetak moves to the Rani Lakshmibai format
+
+- `/story/pratap-chetak` now renders `PersonalStoryPage` like `/story/rani-lakshmibai`: eight painted scenes in six chapters (`lib/content/history/pratap-chetak.ts`), each with the ivory reading card, qualification, sources and skip links, then the afterword and related links. Copy is sourced (Abul Fazl, Badauni, Tod, Shyamaldas, G. N. Sharma) and the Chetak episodes are marked as legend (Blueprint Part 9).
+- Plates PR01–PR08-B (`public/images/history/pratap/`) were composited from the story's own painted bands and scenery, and the foreground strip from its shrub band; the subjects reuse the story's hero cutouts. All 24 entries are in `docs/history-scrolls/ASSET_LEDGER.json`. World profile `pratap` (dust) in `motion.ts`.
+- Puppets: rigs in `lib/content/history/pratap-rigs.ts`, mapped to PR01, 02, 04–08 in `rigs.ts`; PR03 (the duel) stays still because two horses and riders are knotted together.
+- The old sticky-world story (`components/sections/pratap-story/`, `lib/content/pratap.ts`) is no longer routed; it is kept, unchanged, in case the owner wants it back.
+
 ## Notes for the next session
 
 - Run `npm install` on the Mac if dependencies changed (none were added this session).

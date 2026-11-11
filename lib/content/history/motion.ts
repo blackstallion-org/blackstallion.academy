@@ -7,7 +7,7 @@ export type Gait = "gallop" | "canter" | "walk" | "rear" | "still";
 /** dir: the way the subject faces and travels (1 = right). travel: horizontal travel across the scene, in % of the art width. */
 export type SubjectMotion = { gait: Gait; dir: 1 | -1; travel?: number };
 
-export type WorldId = "india" | "world" | "lakshmibai" | "alexander";
+export type WorldId = "india" | "world" | "lakshmibai" | "alexander" | "pratap";
 export type AtmoPreset = "dust" | "wind" | "embers" | "haze";
 
 export type WorldProfile = {
@@ -27,12 +27,14 @@ export const WORLDS: Record<WorldId, WorldProfile> = {
   world: { depth: { B: 5, F: 12 }, push: 0.07, atmo: "wind", colors: ["#f2e9d8", "#c7a15a", "#9fae8c"], wind: 1.6 },
   lakshmibai: { depth: { B: 4, F: 11 }, push: 0.1, atmo: "embers", colors: ["#e0763a", "#a63c32", "#f2b45a"], wind: 0.35 },
   alexander: { depth: { B: 4, F: 9 }, push: 0.06, atmo: "haze", colors: ["#f2e9d8", "#c7a15a", "#e8d3a4"], wind: 0.15 },
+  pratap: { depth: { B: 4, F: 10 }, push: 0.08, atmo: "dust", colors: ["#e3b860", "#d9a45a", "#f4cf7e"], wind: 0.3 },
 };
 
 export function worldFor(route: string): WorldId {
   if (route.includes("india")) return "india";
   if (route.includes("lakshmibai")) return "lakshmibai";
   if (route.includes("alexander")) return "alexander";
+  if (route.includes("pratap")) return "pratap";
   return "world";
 }
 
@@ -56,6 +58,10 @@ export const SUBJECT_MOTION: Record<string, SubjectMotion> = {
   WO05: M("canter"),
   WO06: M("still"),
   WO07: M("still"),
+  PR02: M("walk"),
+  PR04: M("gallop"),
+  PR05: M("walk", -1),
+  PR06: M("gallop"),
   JH01: M("walk", -1),
   JH02: M("gallop"),
   JH03: M("still"),
