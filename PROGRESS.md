@@ -952,3 +952,15 @@ workspace); no live payment, e-mail or signed-in run was possible.
   4. `20261106001700_motion_lab.sql` is not applied, so Motion Lab cloud save is off (local saves work).
   5. Open owner items from PRODUCTION_READINESS.md §5 (staff account, key rotation, branch protection, paid plans, legal sign-off).
   The site's Supabase project is not in the connected Supabase account, so its security advisors could not be run.
+
+## 2026-11-12 · Live database: anonymous privacy hardening applied (owner-approved)
+
+- Applied `supabase/live/migrations/20261023001200_anon_privacy_hardening.sql` to the live project (tgwadczrfbljnepoaqtb)
+  through the Supabase CLI, after the read-only pre-flight in `supabase/live/HARDENING_NOTES.md` §4: columns match the snapshot,
+  no PUBLIC grants, anon inherits no role, 0 existing rows break the new checks, largest burst 1 row per 10 minutes (limit 5),
+  `submit_lead_v2` and `mirror_lead` are SECURITY DEFINER owned by postgres (website leads are exempt from the trigger limit).
+- Verified after: anon can no longer read `equine_fleet.stall_cctv_rtsp_url`, `microchip_iso_id`, `school_hubs.revenue_share_percentage`,
+  `contact_email`, nor any of `achievements` / `session_skills` (REST answers 401 / 42501); safe columns (names, slugs) still read;
+  signed-in reads unchanged; 6 insert-guard triggers on `qr_lead_captures`, `mou_requests`, `executive_appointments`; live health
+  db up; 41/41 routes 200. Rollback: `supabase/live/rollback/20261023001200_anon_privacy_hardening_rollback.sql`.
+- Other apps that read these two tables anonymously with `select=*` now need an explicit column list (HARDENING_NOTES §2).

@@ -1,5 +1,5 @@
 -- Anonymous-access privacy hardening for the LIVE operations project (tgwadczrfbljnepoaqtb). Prepared 23 Oct 2026.
--- NOT APPLIED. Apply only with the owner's explicit approval, after the pre-flight queries in
+-- APPLIED on live 12 Nov 2026 with the owner's approval (pre-flight clean; verified). Originally: apply only with approval, after the pre-flight queries in
 -- supabase/live/HARDENING_NOTES.md. Needs 20261023001000_website_layer.sql (public.consume_rate_limit) first.
 --
 -- PURPOSE: unauthenticated internet users (database role anon) can read sensitive operations data and spam the three
