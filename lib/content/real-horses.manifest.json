@@ -1,0 +1,1602 @@
+{
+ "generated": "2026-11-14",
+ "source_folder": "real marwari horse images/ (originals unedited, git-ignored)",
+ "rights": "Owner confirmed in chat on 14 Nov 2026 that they have permission to publish the unwatermarked photos. Photos carrying a third-party watermark or signature are excluded and nothing was removed from any photo.",
+ "identity": "Galleries are grouped by individual horse only where photos come from one session with matching markings, tack and setting. No names, breed claims, pedigree or ownership are attached; none is an academy fleet record.",
+ "totals": {
+  "originals": 106,
+  "published": 42,
+  "excluded": 64,
+  "galleries": 8,
+  "gallery_images": 20,
+  "collection_images": 22
+ },
+ "galleries": [
+  {
+   "slug": "horse-study-01",
+   "title": "Horse Study 01",
+   "setting": "Painted green backdrop",
+   "note": "One black horse with a broad white blaze and pink muzzle, photographed in a single studio session.",
+   "images": [
+    {
+     "file": "/images/horses/real/horse-study-01/three-quarter-left.webp",
+     "source": "igexport-Ddb2wnllJFB-5.jpg",
+     "sha256": "23908ac372ba65e774ae87855bc3b6d4c5fa1fb69b85e5d11ae0048006789f6f",
+     "view": "three-quarter-left",
+     "label": "Three-quarter, left",
+     "caption": "Head and neck turned toward the lens; the blaze runs from forelock to muzzle.",
+     "alt": "A black horse with a broad white blaze and inward-curving ears against a mottled green backdrop, head turned toward the camera.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1152,
+     "height": 1024,
+     "source_width": 1152,
+     "source_height": 1024,
+     "bytes": 146594
+    },
+    {
+     "file": "/images/horses/real/horse-study-01/front.webp",
+     "source": "igexport-Ddb2wnllJFB-2.jpg",
+     "sha256": "80708fef836e100627377d0d41dca07f834aaeb379006e2bebb75a0c611aeae1",
+     "view": "front",
+     "label": "Front",
+     "caption": "Square to the camera, ears pricked and curled inward.",
+     "alt": "A black horse facing the camera head-on against a green backdrop, ears curving inward until the tips nearly meet.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1184,
+     "height": 1040,
+     "source_width": 1184,
+     "source_height": 1040,
+     "bytes": 213922
+    },
+    {
+     "file": "/images/horses/real/horse-study-01/head-profile-right.webp",
+     "source": "igexport-Ddb2wnllJFB-4.jpg",
+     "sha256": "5ff7ef7ad7f82a6745be4075baadf6c02efdc21b3eaed940bef1a0abdae4e4aa",
+     "view": "head-profile-right",
+     "label": "Head, right profile",
+     "caption": "The right side of the head: eye, cheek and the edge of the blaze.",
+     "alt": "Close right-side profile of a black horse's head with a white blaze and pink muzzle against a green backdrop.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1328,
+     "height": 1168,
+     "source_width": 1328,
+     "source_height": 1168,
+     "bytes": 107368
+    },
+    {
+     "file": "/images/horses/real/horse-study-01/neck-three-quarter-right.webp",
+     "source": "igexport-Ddb2wnllJFB.jpg",
+     "sha256": "d0e5c448e88e879d7c64a794fa1223dc9b0a7d51a26bf639866e96f9cde6684e",
+     "view": "neck-three-quarter-right",
+     "label": "Neck, three-quarter right",
+     "caption": "The arch of the neck from the right, mane falling to the far side.",
+     "alt": "A black horse's head and arched neck seen from the right against a green backdrop.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1088,
+     "height": 976,
+     "source_width": 1088,
+     "source_height": 976,
+     "bytes": 127600
+    }
+   ]
+  },
+  {
+   "slug": "horse-study-02",
+   "title": "Horse Study 02",
+   "setting": "White studio, embroidered saddle cloth",
+   "note": "One black horse in a silver-mounted bridle and gold-fringed saddle cloth, photographed on a rug in a white studio.",
+   "images": [
+    {
+     "file": "/images/horses/real/horse-study-02/side-left.webp",
+     "source": "snapgram.io_uokah86144rw.jpg",
+     "sha256": "39a495ae71e072c7397739e11f9b3b927b7f9f27b60b1634e97ac1ba1305cf06",
+     "view": "side-left",
+     "label": "Side, left",
+     "caption": "Full side view: saddle, fringed cloth and the line of the back.",
+     "alt": "A black horse in a saddle and gold-fringed embroidered saddle cloth standing side-on on a rug in a white studio.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1350,
+     "height": 1800,
+     "source_width": 1440,
+     "source_height": 1920,
+     "bytes": 152450
+    },
+    {
+     "file": "/images/horses/real/horse-study-02/three-quarter-right.webp",
+     "source": "snapgram.io_sc2zrer2n0g0.jpg",
+     "sha256": "fac835f2c2da30b6f213c73b25b9851c8845f124a6d263e6918963f0792ed3ea",
+     "view": "three-quarter-right",
+     "label": "Three-quarter, right",
+     "caption": "Standing square on the rug, reins loose to the floor.",
+     "alt": "The same black horse in saddle and embroidered cloth seen three-quarters from the front in a white studio.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1350,
+     "height": 1800,
+     "source_width": 1440,
+     "source_height": 1920,
+     "bytes": 120086
+    },
+    {
+     "file": "/images/horses/real/horse-study-02/head-front.webp",
+     "source": "snapgram.io_epyoir2nbi3l.jpg",
+     "sha256": "c401f0d1522715a8108d9b8e1e66fc05f6d0636167859b6c793d9a3909a6c9b2",
+     "view": "head-front",
+     "label": "Head, front",
+     "caption": "Silver browband and noseband; plaited forelock.",
+     "alt": "Front view of a black horse's head in a silver-mounted bridle with a plaited forelock against white.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1350,
+     "height": 1800,
+     "source_width": 1440,
+     "source_height": 1920,
+     "bytes": 90542
+    },
+    {
+     "file": "/images/horses/real/horse-study-02/eye-detail.webp",
+     "source": "snapgram.io_x6t67gek4s3i.jpg",
+     "sha256": "ac46de14879deb49bdc8939af7692cdb69e4ebf0a768af78483f979fc2829f3f",
+     "view": "eye-detail",
+     "label": "Eye detail",
+     "caption": "The eye and the silver bridle fittings at close range.",
+     "alt": "Close detail of a black horse's eye and silver bridle buckles.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1350,
+     "height": 1800,
+     "source_width": 1440,
+     "source_height": 1920,
+     "bytes": 123310
+    }
+   ]
+  },
+  {
+   "slug": "horse-study-03",
+   "title": "Horse Study 03",
+   "setting": "Desert sand, red bead necklace",
+   "note": "One black horse with a white face marking, gold pendant and red bead necklace, photographed on open sand.",
+   "images": [
+    {
+     "file": "/images/horses/real/horse-study-03/three-quarter-right.webp",
+     "source": "igexport-Cp_uoQnrK8o-3.webp",
+     "sha256": "46047cebc3f49c2c96e7775a7a70d68877a42bbe87c0f94c1f5017fc02048ff0",
+     "view": "three-quarter-right",
+     "label": "Three-quarter, right",
+     "caption": "Standing on the sand, head raised and turned right.",
+     "alt": "A black horse with a white face marking, a gold pendant and red bead necklace standing on desert sand, head turned right.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 723,
+     "height": 723,
+     "source_width": 723,
+     "source_height": 723,
+     "bytes": 28676
+    },
+    {
+     "file": "/images/horses/real/horse-study-03/front.webp",
+     "source": "igexport-Cp_uoQnrK8o.webp",
+     "sha256": "8274db1c0390ffb8cf138deff60aee9d81fdd0fed1233aa5163f9cf955e2795f",
+     "view": "front",
+     "label": "Front",
+     "caption": "Facing the lens, ears curled inward above the white face.",
+     "alt": "A black horse facing the camera on a desert morning, wearing a gold pendant and red bead necklace.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 735,
+     "height": 735,
+     "source_width": 735,
+     "source_height": 735,
+     "bytes": 16764
+    }
+   ]
+  },
+  {
+   "slug": "horse-study-04",
+   "title": "Horse Study 04",
+   "setting": "Palace courtyard, gold coin necklace",
+   "note": "One black horse in a gold coin necklace and red-tasselled bridle, photographed in a palace courtyard.",
+   "images": [
+    {
+     "file": "/images/horses/real/horse-study-04/side-right-foreleg-raised.webp",
+     "source": "655043770_18002014481901141_3790890925898584209_n.jpg",
+     "sha256": "bd93a31bfd80f0c57f221e8f3fd0635b717a4d4f478f43af8ef9d55584c25699",
+     "view": "side-right-foreleg-raised",
+     "label": "Side, right, foreleg raised",
+     "caption": "A foreleg lifted beside the courtyard steps, rose petals on the ground.",
+     "alt": "A black horse in a gold coin necklace stands side-on by palace steps with one foreleg raised.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 640,
+     "height": 640,
+     "source_width": 640,
+     "source_height": 640,
+     "bytes": 83216
+    },
+    {
+     "file": "/images/horses/real/horse-study-04/head-neck-right.webp",
+     "source": "655951726_18078627215621368_3603954779019632760_n.jpg",
+     "sha256": "df4cf4ef36c3e63b26a9ef4c34a786a14aee0b4dde61e521471c77c20a5f9001",
+     "view": "head-neck-right",
+     "label": "Head and neck, right",
+     "caption": "The coin necklace and red tassel against a painted wall.",
+     "alt": "A black horse's head and neck in a gold coin necklace and red-tasselled bridle before a painted wall.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 640,
+     "height": 640,
+     "source_width": 640,
+     "source_height": 640,
+     "bytes": 42410
+    }
+   ]
+  },
+  {
+   "slug": "horse-study-05",
+   "title": "Horse Study 05",
+   "setting": "Red-pink wall, movement",
+   "note": "One black horse with a small star, photographed in motion along the same red-pink wall.",
+   "images": [
+    {
+     "file": "/images/horses/real/horse-study-05/moving-right-step.webp",
+     "source": "igexport-DfcSnKfmA_q-6.webp",
+     "sha256": "073dd6c0c0c5253303269c807170b04da48de813dcf111cd50534789b0fc22a3",
+     "view": "moving-right-step",
+     "label": "Moving right, onto the step",
+     "caption": "Stepping up onto a stone ledge in front of the arches.",
+     "alt": "A black horse with a white star moving to the right onto a stone ledge in front of a red-pink arched wall.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1080,
+     "height": 1080,
+     "source_width": 1080,
+     "source_height": 1080,
+     "bytes": 97222
+    },
+    {
+     "file": "/images/horses/real/horse-study-05/moving-right.webp",
+     "source": "igexport-DfcSnKfmA_q-8.webp",
+     "sha256": "ae4e29d8815c0d2bd0444249869a384c8724933f0633d63263604de74b4377fb",
+     "view": "moving-right",
+     "label": "Moving right",
+     "caption": "Mid-stride along the wall, a hind sock showing.",
+     "alt": "A black horse with a white star in mid-stride to the right along a red-pink wall, kicking up sand.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1080,
+     "height": 1080,
+     "source_width": 1080,
+     "source_height": 1080,
+     "bytes": 87324
+    }
+   ]
+  },
+  {
+   "slug": "horse-study-06",
+   "title": "Horse Study 06",
+   "setting": "Black and white, paddock fence",
+   "note": "One dark horse with a small star, photographed in black and white by the same paddock fence.",
+   "images": [
+    {
+     "file": "/images/horses/real/horse-study-06/front.webp",
+     "source": "igexport-Dc2k3h2CVx_-2.jpg",
+     "sha256": "be9d2710b7fa381e59c00df260355cec9fabb5baf81bb17c663f154e99216877",
+     "view": "front",
+     "label": "Front",
+     "caption": "Head-on by the fence, the star centred between the eyes.",
+     "alt": "Black-and-white photograph of a dark horse with a small star facing the camera in front of a paddock fence.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1320,
+     "height": 1760,
+     "source_width": 1320,
+     "source_height": 1760,
+     "bytes": 488690
+    },
+    {
+     "file": "/images/horses/real/horse-study-06/three-quarter-right.webp",
+     "source": "igexport-Dc2k3h2CVx_-4.jpg",
+     "sha256": "cbec0e62cf45089e461aadff1366a92aa431539780c9419c16467d940bfc016f",
+     "view": "three-quarter-right",
+     "label": "Three-quarter, right",
+     "caption": "The head turned slightly, ears curled inward.",
+     "alt": "Black-and-white photograph of the same dark horse, head turned slightly to the right, by a paddock fence.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1320,
+     "height": 1760,
+     "source_width": 1320,
+     "source_height": 1760,
+     "bytes": 81396
+    }
+   ]
+  },
+  {
+   "slug": "horse-study-07",
+   "title": "Horse Study 07",
+   "setting": "Lakeside, rope halter",
+   "note": "One dark bay horse with a wide blaze, photographed on a lead by the same lake.",
+   "images": [
+    {
+     "file": "/images/horses/real/horse-study-07/front.webp",
+     "source": "snapgram.io_wclkb2mrkvu2.jpg",
+     "sha256": "c9a5df388f2337aba23c79b1bae4af1cf071052d108828a14d8a0d01de0a082c",
+     "view": "front",
+     "label": "Front",
+     "caption": "Square to the lens on the lead, the lake behind.",
+     "alt": "A dark bay horse with a wide white blaze and pink muzzle facing the camera on a lead rope, a lake behind.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1144,
+     "height": 1525,
+     "source_width": 1144,
+     "source_height": 1525,
+     "bytes": 81152
+    },
+    {
+     "file": "/images/horses/real/horse-study-07/three-quarter-left.webp",
+     "source": "snapgram.io_y9s97ru820jw.jpg",
+     "sha256": "76bfe668139c11713fc9fa39d3a5a90d1532eb13e64565c2cf82c94e5ec8ef81",
+     "view": "three-quarter-left",
+     "label": "Three-quarter, left",
+     "caption": "Head turned left, the neck arched over the halter.",
+     "alt": "The same dark bay horse with a wide white blaze, head turned to the left, a lake behind.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1142,
+     "height": 1522,
+     "source_width": 1142,
+     "source_height": 1522,
+     "bytes": 142606
+    }
+   ]
+  },
+  {
+   "slug": "horse-study-08",
+   "title": "Horse Study 08",
+   "setting": "Pale sky, chain halter",
+   "note": "One dark bay horse with a narrower blaze, photographed on a lead against the same pale sky.",
+   "images": [
+    {
+     "file": "/images/horses/real/horse-study-08/head-front.webp",
+     "source": "snapgram.io_gdts7tdw8ypc.jpg",
+     "sha256": "95a8a31db582ba242aa37d8cfa7948dd038f06e165150b9ff28a9efe2dfaeaa3",
+     "view": "head-front",
+     "label": "Head, front",
+     "caption": "Ears curled inward, eyes on the handler.",
+     "alt": "A dark bay horse with a white blaze and pink muzzle facing forward against a pale sky, lead rope to the left.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1144,
+     "height": 1525,
+     "source_width": 1144,
+     "source_height": 1525,
+     "bytes": 70018
+    },
+    {
+     "file": "/images/horses/real/horse-study-08/head-three-quarter-right.webp",
+     "source": "snapgram.io_sebh9g867lww.jpg",
+     "sha256": "1c9f496109af651100ba6f76d0a26ef8924086b0ccfdb1348c77f70cc4126ddf",
+     "view": "head-three-quarter-right",
+     "label": "Head, three-quarter right",
+     "caption": "The neck arched, the lead running off to the right.",
+     "alt": "The same dark bay horse with a white blaze, head turned slightly, lead rope to the right against a pale sky.",
+     "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+     "width": 1142,
+     "height": 1522,
+     "source_width": 1142,
+     "source_height": 1522,
+     "bytes": 73210
+    }
+   ]
+  }
+ ],
+ "collection": [
+  {
+   "file": "/images/horses/real/collection/chestnut-white-columns.webp",
+   "source": "475078179_18051169445327500_3353036630209406679_n.jpg",
+   "sha256": "59243ceee0049cf9d3905b4e84a3cbd8ae4238be870e46673a60f516c9a4175c",
+   "alt": "A chestnut horse with a blaze and white socks standing between carved white marble columns.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 512,
+   "height": 640,
+   "source_width": 512,
+   "source_height": 640,
+   "bytes": 37688
+  },
+  {
+   "file": "/images/horses/real/collection/bay-blue-steps.webp",
+   "source": "478845553_18051169439327500_7900539700491032707_n.jpg",
+   "sha256": "6db739af8f417041508bb4da8bcd3edfbc211798988ff9857ee8cac1a35f6f2f",
+   "alt": "A dark bay horse in gold tack standing before blue-washed temple steps and a red door.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 512,
+   "height": 640,
+   "source_width": 512,
+   "source_height": 640,
+   "bytes": 66286
+  },
+  {
+   "file": "/images/horses/real/collection/black-head-fresco.webp",
+   "source": "479697795_18051169442327500_129746274539932211_n.jpg",
+   "sha256": "4f766a74d52e4781c846fb81090b83388cc233e77f60448439f2f7572d8ddee8",
+   "alt": "A black horse with a white blaze before a painted fresco wall, ears curled inward.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 512,
+   "height": 640,
+   "source_width": 512,
+   "source_height": 640,
+   "bytes": 32390
+  },
+  {
+   "file": "/images/horses/real/collection/black-between-columns.webp",
+   "source": "479700764_18051169466327500_3802861664986471510_n.jpg",
+   "sha256": "e51a85fda319fb89b3653ddd64d0eda28c458a6db1f49f029686bbdaa843dea8",
+   "alt": "A black horse in a silver necklace standing between carved columns.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 512,
+   "height": 640,
+   "source_width": 512,
+   "source_height": 640,
+   "bytes": 49314
+  },
+  {
+   "file": "/images/horses/real/collection/black-yellow-wall.webp",
+   "source": "654714909_18004970894898080_2607768664120257827_n.jpg",
+   "sha256": "7554454f3bd6af2d11c8db2157480d7250a1fd68ce05861254ada8af8d4d89f7",
+   "alt": "A black horse with white socks, foreleg raised, before an ochre wall.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 640,
+   "height": 640,
+   "source_width": 640,
+   "source_height": 640,
+   "bytes": 39690
+  },
+  {
+   "file": "/images/horses/real/collection/rearing-palms.webp",
+   "source": "900765595_18029222138872648_7508977358709142222_n.jpg",
+   "sha256": "17872568e0050aba7e4d196ebee0db9d71bf5be9085fa3230e7b5b03904efea3",
+   "alt": "A dark bay horse rearing on sand in front of palm trees and a tiled-roof stable.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 484,
+   "height": 640,
+   "source_width": 484,
+   "source_height": 640,
+   "bytes": 42362
+  },
+  {
+   "file": "/images/horses/real/collection/black-dry-scrub.webp",
+   "source": "igexport-C7JQghxr6CA.webp",
+   "sha256": "ba80e2bec65f25c07d5b5a6eab56b66deed147b4ff07562d519f626a6319e620",
+   "alt": "A black horse with a white blaze and socks standing in dry scrubland.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1062,
+   "height": 1062,
+   "source_width": 1062,
+   "source_height": 1062,
+   "bytes": 135726
+  },
+  {
+   "file": "/images/horses/real/collection/mare-and-foal.webp",
+   "source": "igexport-DfCrIWjz_Qx (1).heic",
+   "sha256": "7661cf5262c26ea55d4455165d39d9c4f949599a4d5eb4ba302602725c731fd3",
+   "alt": "A black mare in tasselled tack with her foal in a sandstone fort courtyard.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1440,
+   "height": 1788,
+   "source_width": 1440,
+   "source_height": 1788,
+   "bytes": 194684
+  },
+  {
+   "file": "/images/horses/real/collection/leap-dust.webp",
+   "source": "igexport-DfcSnKfmA_q-3.webp",
+   "sha256": "273dae5b3e5bb6ada68373149965967551d937c22d508ca9e9aab7f6498c92b7",
+   "alt": "A dark horse leaping through golden dust, lit from behind.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1080,
+   "source_width": 1080,
+   "source_height": 1080,
+   "bytes": 46024
+  },
+  {
+   "file": "/images/horses/real/collection/approach-dust.webp",
+   "source": "igexport-DfcSnKfmA_q-7.webp",
+   "sha256": "facaacb1fed01962e6ec093853c2c2db622137c79f8756d8296605ed791e3ea2",
+   "alt": "A dark horse walking toward the camera through hazy dust.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1080,
+   "source_width": 1080,
+   "source_height": 1080,
+   "bytes": 70276
+  },
+  {
+   "file": "/images/horses/real/collection/carpet-narrow-blaze.webp",
+   "source": "snapgram.io_1n6e4si53wua.webp",
+   "sha256": "8d12917b7dca19c4112d09bd9b251c878791ea461d5ad1c91cfbb334108b48b5",
+   "alt": "A black horse with a narrow blaze photographed against a patterned carpet.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1346,
+   "source_width": 1080,
+   "source_height": 1346,
+   "bytes": 224372
+  },
+  {
+   "file": "/images/horses/real/collection/carpet-red-tassels.webp",
+   "source": "snapgram.io_3mkpon6wf9wg.webp",
+   "sha256": "33c756d76f95160736f28377ff64f24a465b313c8a86d83ae223672d944ffb1a",
+   "alt": "A black horse with a broad blaze in a red-tasselled silver necklace against a patterned carpet.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1346,
+   "source_width": 1080,
+   "source_height": 1346,
+   "bytes": 198322
+  },
+  {
+   "file": "/images/horses/real/collection/carpet-pair.webp",
+   "source": "snapgram.io_6ld9gvsz7y72.webp",
+   "sha256": "8f0d6af4cfa60f0a28059ec12f8a1ed461a0ec59cb14259bcd660472215280cb",
+   "alt": "A black horse and a white horse standing side by side against a patterned carpet.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1346,
+   "source_width": 1080,
+   "source_height": 1346,
+   "bytes": 203030
+  },
+  {
+   "file": "/images/horses/real/collection/carpet-broad-blaze.webp",
+   "source": "snapgram.io_ixyik2hyt5dc.webp",
+   "sha256": "291fe11926ce19886edfb8a9eeb8fc5d258ad8ba473b585374755d74188a22a1",
+   "alt": "A black horse with a broad white blaze facing the camera against a patterned carpet.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1346,
+   "source_width": 1080,
+   "source_height": 1346,
+   "bytes": 153802
+  },
+  {
+   "file": "/images/horses/real/collection/carpet-bay-head.webp",
+   "source": "snapgram.io_kcg6gqaldlp9.webp",
+   "sha256": "d9f454e133f0836685a838697bd382795f89e69b04cce7e67438c52b79a31ffe",
+   "alt": "Close portrait of a dark bay horse with a long blaze against a patterned carpet.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1346,
+   "source_width": 1080,
+   "source_height": 1346,
+   "bytes": 180130
+  },
+  {
+   "file": "/images/horses/real/collection/carpet-piebald.webp",
+   "source": "snapgram.io_pezpwb80jwv4.webp",
+   "sha256": "0112a5b89d5bb68100c0b6d554e365fe825c16dbafd38f94fecab68a71502fd0",
+   "alt": "A black-and-white horse with a blaze turning its head against a patterned carpet.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1346,
+   "source_width": 1080,
+   "source_height": 1346,
+   "bytes": 159286
+  },
+  {
+   "file": "/images/horses/real/collection/rearing-dust.webp",
+   "source": "snapgram.io_4urbm09qdqp0.jpg",
+   "sha256": "f00999b3f6e44f487d2b9a187d1f27f7655eb55a0ac60386398e9f6f197c1009",
+   "alt": "A dark horse rearing in warm dust under bare trees.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1350,
+   "height": 1800,
+   "source_width": 1536,
+   "source_height": 2048,
+   "bytes": 165438
+  },
+  {
+   "file": "/images/horses/real/collection/bay-trotting-dust.webp",
+   "source": "snapgram.io_ga9ilsi9jt2q.jpg",
+   "sha256": "a2adc11ab005cd0bf671d494a822160d35706be4ab330235b894f39c72f7fd75",
+   "alt": "A bay horse trotting through golden dust beneath trees.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1350,
+   "height": 1800,
+   "source_width": 1536,
+   "source_height": 2048,
+   "bytes": 132460
+  },
+  {
+   "file": "/images/horses/real/collection/chestnut-going-away.webp",
+   "source": "snapgram.io_jay7np3a34ux.jpg",
+   "sha256": "1e8ee7ececbfb2b4c8cec1203448d5003fa70237754921debb5aade2e507730f",
+   "alt": "A chestnut horse trotting away through misty scrub.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1439,
+   "height": 1800,
+   "source_width": 1440,
+   "source_height": 1801,
+   "bytes": 172722
+  },
+  {
+   "file": "/images/horses/real/collection/bay-garden.webp",
+   "source": "snapgram.io_v0acy8dsjcp8.jpg",
+   "sha256": "7243a2a787f143cc4532a359a2f2337bc5aaac7b104ca3f1e09746e97becece4",
+   "alt": "A glossy bay horse standing side-on on a lawn before a garden hedge.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1163,
+   "height": 1137,
+   "source_width": 1163,
+   "source_height": 1137,
+   "bytes": 193072
+  },
+  {
+   "file": "/images/horses/real/collection/black-green-field.webp",
+   "source": "snapgram.io_ypuxmlvkykg8.jpg",
+   "sha256": "a96cd142e7dde8921ba541689d9ffc1a14435b54f35e7d42eabd5ee029bc20b2",
+   "alt": "A black horse with white socks standing side-on in a green field.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1353,
+   "height": 1800,
+   "source_width": 1600,
+   "source_height": 2129,
+   "bytes": 113570
+  },
+  {
+   "file": "/images/horses/real/collection/stable-door.webp",
+   "source": "igexport-DfcSnKfmA_q.webp",
+   "sha256": "77c24e0641c5c1049103e323f719a78bfbedb675a7191f9bf071ae5871aebac9",
+   "alt": "A dark horse with a gold necklace stepping out of a shadowed doorway.",
+   "edits": "Re-encoded to WebP (q82), metadata stripped; no crop or retouching.",
+   "width": 1080,
+   "height": 1080,
+   "source_width": 1080,
+   "source_height": 1080,
+   "bytes": 36078
+  }
+ ],
+ "originals": [
+  {
+   "source": "475078179_18051169445327500_3353036630209406679_n.jpg",
+   "sha256": "59243ceee0049cf9d3905b4e84a3cbd8ae4238be870e46673a60f516c9a4175c",
+   "width": 512,
+   "height": 640,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (chestnut-white-columns)"
+  },
+  {
+   "source": "478845553_18051169439327500_7900539700491032707_n.jpg",
+   "sha256": "6db739af8f417041508bb4da8bcd3edfbc211798988ff9857ee8cac1a35f6f2f",
+   "width": 512,
+   "height": 640,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (bay-blue-steps)"
+  },
+  {
+   "source": "479697795_18051169442327500_129746274539932211_n.jpg",
+   "sha256": "4f766a74d52e4781c846fb81090b83388cc233e77f60448439f2f7572d8ddee8",
+   "width": 512,
+   "height": 640,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (black-head-fresco)"
+  },
+  {
+   "source": "479700764_18051169466327500_3802861664986471510_n.jpg",
+   "sha256": "e51a85fda319fb89b3653ddd64d0eda28c458a6db1f49f029686bbdaa843dea8",
+   "width": 512,
+   "height": 640,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (black-between-columns)"
+  },
+  {
+   "source": "480072575_18051169457327500_8708034105836023836_n.jpg",
+   "sha256": "2e0f8f1c8f24f56e84ed7f44110d53eaee4bb948dc9f4dde4f6a66cd9513d153",
+   "width": 512,
+   "height": 640,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Alternative crop of the same photograph used in Horse Study 04 (side view); duplicate."
+  },
+  {
+   "source": "480072909_18051169475327500_5585782590601385957_n.jpg",
+   "sha256": "456afa9b5fd21f88839d73c0f0a9b935a846937561b8bbd381ad9fdd337e34f0",
+   "width": 512,
+   "height": 640,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "653397109_17984908247958028_2622112065246996324_n.jpg",
+   "sha256": "61bca287410f4702a245be3451cbdeeaaf316cd3024c61b761c9aebfcd72880b",
+   "width": 640,
+   "height": 640,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Collage of several photographs, not a single image; excluded."
+  },
+  {
+   "source": "654714909_18004970894898080_2607768664120257827_n.jpg",
+   "sha256": "7554454f3bd6af2d11c8db2157480d7250a1fd68ce05861254ada8af8d4d89f7",
+   "width": 640,
+   "height": 640,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (black-yellow-wall)"
+  },
+  {
+   "source": "655043770_18002014481901141_3790890925898584209_n.jpg",
+   "sha256": "bd93a31bfd80f0c57f221e8f3fd0635b717a4d4f478f43af8ef9d55584c25699",
+   "width": 640,
+   "height": 640,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-04 (side-right-foreleg-raised)"
+  },
+  {
+   "source": "655951726_18078627215621368_3603954779019632760_n.jpg",
+   "sha256": "df4cf4ef36c3e63b26a9ef4c34a786a14aee0b4dde61e521471c77c20a5f9001",
+   "width": 640,
+   "height": 640,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-04 (head-neck-right)"
+  },
+  {
+   "source": "900765595_18029222138872648_7508977358709142222_n.jpg",
+   "sha256": "17872568e0050aba7e4d196ebee0db9d71bf5be9085fa3230e7b5b03904efea3",
+   "width": 484,
+   "height": 640,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (rearing-palms)"
+  },
+  {
+   "source": "Dd0g5DfDyQI_0.jpg",
+   "sha256": "36e8c3718ec52b9fa0bb5766ea22258ed4aa4c9e9abd3d7570bcf0f55b326df4",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Screenshot from an image search (lens icon) showing identifiable people; excluded."
+  },
+  {
+   "source": "Dd0g5DfDyQI_1.jpg",
+   "sha256": "f81ca1e805b7c78e81f605673d7db24f48254139e544013a4f537d22459d5138",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Low-resolution crop with a person or tack filling the frame; identity not verifiable."
+  },
+  {
+   "source": "Dd0g5DfDyQI_2.jpg",
+   "sha256": "b055c96712bd0296df77b5501cc238c02012d6a7b348497ccba74b9c8ef48ba1",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Low-resolution crop with a person or tack filling the frame; identity not verifiable."
+  },
+  {
+   "source": "Dd0g5DfDyQI_3.jpg",
+   "sha256": "36a55dd876bc0a3f3a2523dc93f1513307871b321f454db3dbd544a4a1659ff8",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Stock agency watermark (Alamy) and an identifiable person; excluded."
+  },
+  {
+   "source": "Dd0g5DfDyQI_4.jpg",
+   "sha256": "de45f7a1f078dc24dc24cca512bde28ccd126ae368979fbd1321a4ae12f2562c",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Screenshot from an image search (lens icon) showing identifiable people; excluded."
+  },
+  {
+   "source": "igexport-BZCB9kzjnAv.jpg",
+   "sha256": "019cb25921430d047d76d655753d75cbef9bfab4e182f22118536035b220e1af",
+   "width": 732,
+   "height": 915,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "igexport-Bd-cEd2nm_I.jpg",
+   "sha256": "1d0b2752bd7b137bb780fd1a1c8ffacf9401e979aea4393a591e0a6134cdd47f",
+   "width": 960,
+   "height": 701,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "igexport-C7JQghxr6CA.webp",
+   "sha256": "ba80e2bec65f25c07d5b5a6eab56b66deed147b4ff07562d519f626a6319e620",
+   "width": 1062,
+   "height": 1062,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (black-dry-scrub)"
+  },
+  {
+   "source": "igexport-Cp_uoQnrK8o-2.webp",
+   "sha256": "788cadf3d132430f09a3f38bbdeadd014df90cd38b2ba0c3a6665a9a05b45dca",
+   "width": 717,
+   "height": 717,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Remnant of a cropped watermark at the lower left; not removed further, photo excluded."
+  },
+  {
+   "source": "igexport-Cp_uoQnrK8o-3.webp",
+   "sha256": "46047cebc3f49c2c96e7775a7a70d68877a42bbe87c0f94c1f5017fc02048ff0",
+   "width": 723,
+   "height": 723,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-03 (three-quarter-right)"
+  },
+  {
+   "source": "igexport-Cp_uoQnrK8o-4.webp",
+   "sha256": "5226c18a0ca2c6133996e948248699ac7f1d922ca8534dbd03c4a023e4c3df39",
+   "width": 714,
+   "height": 714,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer watermark (\"…photography\" at the lower edge); not removed, photo excluded."
+  },
+  {
+   "source": "igexport-Cp_uoQnrK8o-5.webp",
+   "sha256": "96f31ee36eaa4c0c433437294b92bd0c9cb886e87bb67a55c29cf5096ab4b70f",
+   "width": 736,
+   "height": 736,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer watermark (Gill Photography); not removed, photo excluded."
+  },
+  {
+   "source": "igexport-Cp_uoQnrK8o.webp",
+   "sha256": "8274db1c0390ffb8cf138deff60aee9d81fdd0fed1233aa5163f9cf955e2795f",
+   "width": 735,
+   "height": 735,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-03 (front)"
+  },
+  {
+   "source": "igexport-Dc2k3h2CVx_-2.jpg",
+   "sha256": "be9d2710b7fa381e59c00df260355cec9fabb5baf81bb17c663f154e99216877",
+   "width": 1320,
+   "height": 1760,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-06 (front)"
+  },
+  {
+   "source": "igexport-Dc2k3h2CVx_-3.jpg",
+   "sha256": "b9df213791a28f0a6cdd32b0608f584bf22976cf4735a4d4f752fd4a44eef3a5",
+   "width": 846,
+   "height": 1128,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "igexport-Dc2k3h2CVx_-4.jpg",
+   "sha256": "cbec0e62cf45089e461aadff1366a92aa431539780c9419c16467d940bfc016f",
+   "width": 1320,
+   "height": 1760,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-06 (three-quarter-right)"
+  },
+  {
+   "source": "igexport-Dc2k3h2CVx_.jpg",
+   "sha256": "d7a694f8403e4db7b230a961d2b762342dc9403121d44a97148fe22a2ca07109",
+   "width": 3072,
+   "height": 4096,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "igexport-DdEZxImTE5l.jpg",
+   "sha256": "c54b33e25bdda787dfb17c518717edce57b2996ffd08dfd85b7f394cd198d0be",
+   "width": 3072,
+   "height": 4096,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "igexport-DdLNqEVoh4z.webp",
+   "sha256": "1694a2f42b447210bec12e8ef81441a49dfc85d4b03a4703387870bdb2c488c3",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Scanned print with a date imprint across the lower edge; excluded."
+  },
+  {
+   "source": "igexport-Ddb2wnllJFB-2.jpg",
+   "sha256": "80708fef836e100627377d0d41dca07f834aaeb379006e2bebb75a0c611aeae1",
+   "width": 1184,
+   "height": 1040,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-01 (front)"
+  },
+  {
+   "source": "igexport-Ddb2wnllJFB-3.jpg",
+   "sha256": "e1dd7d6109edc5a15e927e55063bad2e8da4ee2caa510aa6c783d38fc6438020",
+   "width": 896,
+   "height": 784,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Same studio as Horse Study 01, but the blaze and muzzle do not clearly match the other four views; left ungrouped and unpublished."
+  },
+  {
+   "source": "igexport-Ddb2wnllJFB-4.jpg",
+   "sha256": "5ff7ef7ad7f82a6745be4075baadf6c02efdc21b3eaed940bef1a0abdae4e4aa",
+   "width": 1328,
+   "height": 1168,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-01 (head-profile-right)"
+  },
+  {
+   "source": "igexport-Ddb2wnllJFB-5.jpg",
+   "sha256": "23908ac372ba65e774ae87855bc3b6d4c5fa1fb69b85e5d11ae0048006789f6f",
+   "width": 1152,
+   "height": 1024,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-01 (three-quarter-left)"
+  },
+  {
+   "source": "igexport-Ddb2wnllJFB.jpg",
+   "sha256": "d0e5c448e88e879d7c64a794fa1223dc9b0a7d51a26bf639866e96f9cde6684e",
+   "width": 1088,
+   "height": 976,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-01 (neck-three-quarter-right)"
+  },
+  {
+   "source": "igexport-DfCrIWjz_Qx (1).heic",
+   "sha256": "7661cf5262c26ea55d4455165d39d9c4f949599a4d5eb4ba302602725c731fd3",
+   "width": 1440,
+   "height": 1788,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (mare-and-foal)"
+  },
+  {
+   "source": "igexport-DfCrIWjz_Qx.heic",
+   "sha256": "7661cf5262c26ea55d4455165d39d9c4f949599a4d5eb4ba302602725c731fd3",
+   "width": 1440,
+   "height": 1788,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Byte-for-byte duplicate of the mare-and-foal HEIC already published."
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-10.webp",
+   "sha256": "b98f4ef3b538fc1f633443bf4e27a43b339fb5ffac1ca05dd68ecb91e6a1df04",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Identifiable person in the frame and cropping would remove the horse's context; excluded."
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-2.webp",
+   "sha256": "ca503a5c2e1e4733be15f21550ea2f78c6690b4c96f7fb17a19951c10d79f5e6",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-3.webp",
+   "sha256": "273dae5b3e5bb6ada68373149965967551d937c22d508ca9e9aab7f6498c92b7",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (leap-dust)"
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-4.webp",
+   "sha256": "6b57630cf3e98fd180dceb64059c85cc447de1e3958593bf7dafe36eef502bae",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-5.webp",
+   "sha256": "9938fdd2e5e5a2271804045cc61c72838193d7f92f879d721269c17c878503ab",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-6.webp",
+   "sha256": "073dd6c0c0c5253303269c807170b04da48de813dcf111cd50534789b0fc22a3",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-05 (moving-right-step)"
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-7.webp",
+   "sha256": "facaacb1fed01962e6ec093853c2c2db622137c79f8756d8296605ed791e3ea2",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (approach-dust)"
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-8.webp",
+   "sha256": "ae4e29d8815c0d2bd0444249869a384c8724933f0633d63263604de74b4377fb",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-05 (moving-right)"
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q-9.webp",
+   "sha256": "b649c3223006e8a97c64f1c5f14a0de3918b98eeb1f7ac15c3a37a30baf6972e",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Identifiable person in the frame and cropping would remove the horse's context; excluded."
+  },
+  {
+   "source": "igexport-DfcSnKfmA_q.webp",
+   "sha256": "77c24e0641c5c1049103e323f719a78bfbedb675a7191f9bf071ae5871aebac9",
+   "width": 1080,
+   "height": 1080,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (stable-door)"
+  },
+  {
+   "source": "snapgram.io_0addzhh4ru09.jpg",
+   "sha256": "597448f3913c395d5e7758fcca38fbc8cd24d3f44ee27a65b0e3b658921d1fb4",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_0tp1m2xgu4jw.jpg",
+   "sha256": "7ad63e05217d963fbc60c25e96c3e116f54a5e4307f59993be18c1c29d0e3afe",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Collage of several photographs, not a single image; excluded."
+  },
+  {
+   "source": "snapgram.io_1710rnn9r52o.jpg",
+   "sha256": "03d1a69f6b28bbd955918ffabb7aec3f112a10634469135e8011d6748ec23af5",
+   "width": 1440,
+   "height": 1801,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_1gfha79brvvo.jpg",
+   "sha256": "dfe6a55309de66bfd00d0f4b81841ab829c942ec4f62cb840c78fdac893fc37a",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Identifiable person in the frame and cropping would remove the horse's context; excluded."
+  },
+  {
+   "source": "snapgram.io_1n6e4si53wua.webp",
+   "sha256": "8d12917b7dca19c4112d09bd9b251c878791ea461d5ad1c91cfbb334108b48b5",
+   "width": 1080,
+   "height": 1346,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (carpet-narrow-blaze)"
+  },
+  {
+   "source": "snapgram.io_1q1p6xzsgtfo.webp",
+   "sha256": "fb736d8789db2c29d701cba9b4fd607ba56e99b1b82513f378747ae783e6d5c1",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_32rqc2qxv8yp.jpg",
+   "sha256": "8e40ed08854466eb2addd7d880edbcde6c69ee39b8387febe120fb508a332b73",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_3inzrxftg8dr.jpg",
+   "sha256": "f781896d42ce8b6efc34454ac4737da777e510ec5c87ceafa3ad67e032839cf1",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_3mkpon6wf9wg.webp",
+   "sha256": "33c756d76f95160736f28377ff64f24a465b313c8a86d83ae223672d944ffb1a",
+   "width": 1080,
+   "height": 1346,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (carpet-red-tassels)"
+  },
+  {
+   "source": "snapgram.io_449xe6jyjn6v.jpg",
+   "sha256": "08815e66b74d6c11256b3e150106e9469ea2699cacc11773863e6fdfc9cb97c8",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_49nanx6yogse.webp",
+   "sha256": "36f7eb6bd6cabcb7a8da9938376a080f5acf5b14901c01a00b21c790760453a9",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_49td5s7x36kg.jpg",
+   "sha256": "9aed437a138ebe1e7b36e85891a40ba7434eb16438360df2f74da877e2243175",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_4jein51gnmyf.jpg",
+   "sha256": "e83665a379ba42de4b61404d9ca99ca88744dec454f047b48f14228293ebe98d",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_4urbm09qdqp0.jpg",
+   "sha256": "f00999b3f6e44f487d2b9a187d1f27f7655eb55a0ac60386398e9f6f197c1009",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (rearing-dust)"
+  },
+  {
+   "source": "snapgram.io_5j4czxped8w9.webp",
+   "sha256": "3a113f4b5f1909f806f56bc9b1d8b0fe9a93224cb693c8a5843c3aef196245b1",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_6ld9gvsz7y72.webp",
+   "sha256": "8f0d6af4cfa60f0a28059ec12f8a1ed461a0ec59cb14259bcd660472215280cb",
+   "width": 1080,
+   "height": 1346,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (carpet-pair)"
+  },
+  {
+   "source": "snapgram.io_9tsrsg2q4ivi.webp",
+   "sha256": "8a0bdd97418e0a27733bb84a4aa0dfbd4f4bd5a182109cb16e4480403d73e80b",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_cc5gbh67ryfm.webp",
+   "sha256": "69b26093fad3bab53c47a63c4e69da99d27e7f0beb333c4f60d152338ddec5b2",
+   "width": 1080,
+   "height": 1346,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_cexj410v30z7.jpg",
+   "sha256": "4ab858b19e817a923b6bc444d2af9248702f7fb8b1bb41a29fa7277b9eb8173b",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_dhn9ptfl9oql.jpg",
+   "sha256": "947fbcb707ec9f44a13672ee8466d273148c40526d4ef24f07a4e586132e30bd",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_djxutu8bvta0.webp",
+   "sha256": "c1f702c9d1fc9fd2f44bfc7300bf73e48fd4a6ae521b583da13c372be0bcd365",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_dofkils89vf6.jpg",
+   "sha256": "394377467af93ecd47a5bbd5147e909468912809baa3983be45b8dc5227e828f",
+   "width": 1066,
+   "height": 1421,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Same farm sessions as Horse Studies 07 and 08, but this view could not be matched to one of those horses with certainty; unpublished."
+  },
+  {
+   "source": "snapgram.io_duz9in976m1s.jpg",
+   "sha256": "69ed1839dbcdd7aa9e0ad807b4fb2dfae868ab90eef8e2af2b5a2f1998ca1097",
+   "width": 1066,
+   "height": 1421,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Same farm sessions as Horse Studies 07 and 08, but this view could not be matched to one of those horses with certainty; unpublished."
+  },
+  {
+   "source": "snapgram.io_e8xka0cbrhlg.webp",
+   "sha256": "8bc18bd2aaac6101afff214b593fbc913584b1b24bd367624fedafa6bcde0c6b",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_epyoir2nbi3l.jpg",
+   "sha256": "c401f0d1522715a8108d9b8e1e66fc05f6d0636167859b6c793d9a3909a6c9b2",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-02 (head-front)"
+  },
+  {
+   "source": "snapgram.io_ga9ilsi9jt2q.jpg",
+   "sha256": "a2adc11ab005cd0bf671d494a822160d35706be4ab330235b894f39c72f7fd75",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (bay-trotting-dust)"
+  },
+  {
+   "source": "snapgram.io_gdts7tdw8ypc.jpg",
+   "sha256": "95a8a31db582ba242aa37d8cfa7948dd038f06e165150b9ff28a9efe2dfaeaa3",
+   "width": 1144,
+   "height": 1525,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-08 (head-front)"
+  },
+  {
+   "source": "snapgram.io_gs2glbxg6heg.jpg",
+   "sha256": "41ebf7e81c68ccf99fa9faa33975666ecafe649297be8262631e92c24ad3bcc4",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_heaq0p1d5rra.jpg",
+   "sha256": "085f3c85674cfcb0685b21d45c74242e132a0299254ba129bfc9434e4bdd0aaa",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_ixyik2hyt5dc.webp",
+   "sha256": "291fe11926ce19886edfb8a9eeb8fc5d258ad8ba473b585374755d74188a22a1",
+   "width": 1080,
+   "height": 1346,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (carpet-broad-blaze)"
+  },
+  {
+   "source": "snapgram.io_j4s7ksoxsz6x.webp",
+   "sha256": "26f2093123b84df2e52e2c48e635c11886aab3264d348fe800df0aac3437f20b",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_jay7np3a34ux.jpg",
+   "sha256": "1e8ee7ececbfb2b4c8cec1203448d5003fa70237754921debb5aade2e507730f",
+   "width": 1440,
+   "height": 1801,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (chestnut-going-away)"
+  },
+  {
+   "source": "snapgram.io_kcg6gqaldlp9.webp",
+   "sha256": "d9f454e133f0836685a838697bd382795f89e69b04cce7e67438c52b79a31ffe",
+   "width": 1080,
+   "height": 1346,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (carpet-bay-head)"
+  },
+  {
+   "source": "snapgram.io_l8fxyh6qajtp.jpg",
+   "sha256": "876faafa15baa812a4e019d3023189a106e4c6e3b8b883a15b3a8aa3147c6cab",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_lmubnv7m8ncf.jpg",
+   "sha256": "125e5f9a09fe123905a3b7b83bcd8b2bdd80acd9cd820b66c819135706594668",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_mbv7dmxhd5om.jpg",
+   "sha256": "c6ecc48e6faf390d3f6bddbc076ccd28b192192adef0892e83184690e901c349",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_ozjhjm8l481e.jpg",
+   "sha256": "7813a25a4ae4e02d9ee61306203342bd54a8e4ff023dd47b7ce6404798f82b88",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_p35rokfuo4zm.jpg",
+   "sha256": "4dbd1e9e27dc785b040e629ba260b84490286d042e06dad6e71779774768de84",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Collage of several photographs, not a single image; excluded."
+  },
+  {
+   "source": "snapgram.io_pezpwb80jwv4.webp",
+   "sha256": "0112a5b89d5bb68100c0b6d554e365fe825c16dbafd38f94fecab68a71502fd0",
+   "width": 1080,
+   "height": 1346,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (carpet-piebald)"
+  },
+  {
+   "source": "snapgram.io_rnl2ltzx2xs5.jpg",
+   "sha256": "c39d6a67f5c81a432e0b467d55766e0b7ccd08eca5f2421ae8c712d86ee0d0fc",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_rrb03jac49ut.jpg",
+   "sha256": "820ce3b50e23eb7a3a9593604bd76e8c1d319ca077326c29a70920d64cc0af4c",
+   "width": 1536,
+   "height": 2048,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_rtfofdubs2cp.jpg",
+   "sha256": "e562efb0dc758e2c4d238e891a5f0afef1c7ffc41d734917f20e8133d71111b3",
+   "width": 1440,
+   "height": 1919,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_sc2zrer2n0g0.jpg",
+   "sha256": "fac835f2c2da30b6f213c73b25b9851c8845f124a6d263e6918963f0792ed3ea",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-02 (three-quarter-right)"
+  },
+  {
+   "source": "snapgram.io_sebh9g867lww.jpg",
+   "sha256": "1c9f496109af651100ba6f76d0a26ef8924086b0ccfdb1348c77f70cc4126ddf",
+   "width": 1142,
+   "height": 1522,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-08 (head-three-quarter-right)"
+  },
+  {
+   "source": "snapgram.io_sz6cfjwgldsy.webp",
+   "sha256": "b0fc2ee4987dfbf17d3976f235c490a11506d0af875714c942b7bbc7456070ca",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_tetjmttm6dmv.jpg",
+   "sha256": "49def3d808c9ca5674e4077403ea39eed4d39bbd34c2c05faac5da6b2e4f8ad1",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_uokah86144rw.jpg",
+   "sha256": "39a495ae71e072c7397739e11f9b3b927b7f9f27b60b1634e97ac1ba1305cf06",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-02 (side-left)"
+  },
+  {
+   "source": "snapgram.io_v0acy8dsjcp8.jpg",
+   "sha256": "7243a2a787f143cc4532a359a2f2337bc5aaac7b104ca3f1e09746e97becece4",
+   "width": 1163,
+   "height": 1137,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (bay-garden)"
+  },
+  {
+   "source": "snapgram.io_vyn2pv3f2c8s.webp",
+   "sha256": "e941694e20df8d7530498cec6d8dcf89dfe98acdc607d384f615ed0867a3c056",
+   "width": 1080,
+   "height": 1346,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_wclkb2mrkvu2.jpg",
+   "sha256": "c9a5df388f2337aba23c79b1bae4af1cf071052d108828a14d8a0d01de0a082c",
+   "width": 1144,
+   "height": 1525,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-07 (front)"
+  },
+  {
+   "source": "snapgram.io_whttk647dhur.jpg",
+   "sha256": "8ae061d9e9afe5a8cb3278b75cbcef89b557b3ac4441202c5565791bdfdd942d",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_x6t67gek4s3i.jpg",
+   "sha256": "ac46de14879deb49bdc8939af7692cdb69e4ebf0a768af78483f979fc2829f3f",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-02 (eye-detail)"
+  },
+  {
+   "source": "snapgram.io_xrc4nn0epcxw.jpg",
+   "sha256": "ff6697f16441ecc8f8da6d0649b421208dc049cbdfb6f4bb32614d1f71a18996",
+   "width": 1440,
+   "height": 1920,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Photographer signature watermark in a corner; not removed, photo excluded."
+  },
+  {
+   "source": "snapgram.io_y9s97ru820jw.jpg",
+   "sha256": "76bfe668139c11713fc9fa39d3a5a90d1532eb13e64565c2cf82c94e5ec8ef81",
+   "width": 1142,
+   "height": 1522,
+   "decodes": true,
+   "status": "published",
+   "decision": "gallery horse-study-07 (three-quarter-left)"
+  },
+  {
+   "source": "snapgram.io_ykmrlq3n3ohv.jpg",
+   "sha256": "94610b48e207397493a720770aae6453d28d09a4659164265733aa60c9aebcd8",
+   "width": 1440,
+   "height": 1803,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_ypuxmlvkykg8.jpg",
+   "sha256": "a96cd142e7dde8921ba541689d9ffc1a14435b54f35e7d42eabd5ee029bc20b2",
+   "width": 1600,
+   "height": 2129,
+   "decodes": true,
+   "status": "published",
+   "decision": "collection (black-green-field)"
+  },
+  {
+   "source": "snapgram.io_yw4ftkmlk16d.jpg",
+   "sha256": "7860fa1e85fa903f3e43b7486fdcc6d196ed12585e6081a468b41bfeb2559a72",
+   "width": 1066,
+   "height": 1421,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Same farm sessions as Horse Studies 07 and 08, but this view could not be matched to one of those horses with certainty; unpublished."
+  },
+  {
+   "source": "snapgram.io_zk6duv12hm25.jpg",
+   "sha256": "c9c0a9b5a19d97daaff3d5c6b16b65b3f1f951bf247f7886bfceb5486037dbaf",
+   "width": 1440,
+   "height": 1801,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Clean, but not used: a single view of a horse that could not be matched to another photo, or a near-duplicate of a published view."
+  },
+  {
+   "source": "snapgram.io_zq5txy7kt86l.webp",
+   "sha256": "e732b8ec20320b7d5a9538ac3f50914ecc75c5f2eadf172f15181e87473f903b",
+   "width": 1080,
+   "height": 864,
+   "decodes": true,
+   "status": "excluded",
+   "decision": "Third-party photographer watermark (Ekaterina Druz Equine Photography); not removed, photo excluded."
+  }
+ ]
+}
