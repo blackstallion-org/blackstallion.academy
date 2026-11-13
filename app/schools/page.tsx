@@ -9,6 +9,7 @@ import { SovereignCouncil } from "@/components/sections/schools/SovereignCouncil
 import { SealedInvitation } from "@/components/sections/schools/SealedInvitation";
 import { seals } from "@/lib/content/schools";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
+import { SchoolRingProgramme } from "@/components/sections/campaign/CampaignSections";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/schools" },
@@ -21,6 +22,8 @@ export default function SchoolsPage() {
     <>
       <SchoolsTitle />
       <ModelFlow />
+      {/* 14 Nov 2026: the riding ring on campus, the programme's main image (AI illustrations of the concept). */}
+      <SchoolRingProgramme />
       <CitadelConfigurator />
       <CampusExperience />
       <SchoolArenaShowcase />

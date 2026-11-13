@@ -5,6 +5,7 @@ import { Cta } from "@/components/film/Marks";
 import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
 import { CadetAdmissionPortal } from "@/components/sections/parents/CadetAdmissionPortal";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
+import { ParentRingVisit } from "@/components/sections/campaign/CampaignSections";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/parents" },
@@ -18,6 +19,8 @@ export default function ParentsPage() {
       <ParentsTitle />
       <PinnedPhone />
       <ParentVantageGallery />
+      {/* 14 Nov 2026: parents at the riding ring (AI illustrations of the concept). */}
+      <ParentRingVisit />
       <MorningCurtain />
       <HoofPath />
       <Receipt />
