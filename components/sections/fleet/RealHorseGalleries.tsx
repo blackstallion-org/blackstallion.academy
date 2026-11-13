@@ -192,7 +192,7 @@ function Lightbox({ box, returnTo, onIndex, onClose }: { box: NonNullable<Box>; 
       aria-modal="true"
       aria-label={`${box.title}: photograph ${box.index + 1} of ${n}`}
       data-lenis-prevent
-      className="fixed inset-0 z-[90] flex flex-col bg-[color-mix(in_srgb,var(--color-night)_96%,transparent)] tone-dark"
+      className="fixed inset-0 z-[90] flex flex-col bg-night"
       onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
       onTouchEnd={(e) => {
         if (touch.current == null) return;

@@ -103,7 +103,7 @@ export function MarwariJourney() {
       {/* Opening: the title on paper, safely below the fixed nav; the first painting follows it. */}
       <header className={cn("gutter", s.intro)}>
         <p className="label text-brass">{INTRO.kicker}</p>
-        <Headline as="h1" size="poster" animate="mount" inscription={INTRO.inscription} voice={INTRO.voice} className="mt-5 max-w-[16ch]" />
+        <Headline as="h1" size="1" animate="mount" inscription={INTRO.inscription} voice={INTRO.voice} className="mt-5 max-w-[18ch]" />
         <p className="t-story mt-6 max-w-2xl text-lg text-sand">{INTRO.sub}</p>
         <p className="t-ui mt-3 max-w-2xl text-sm text-dust">{INTRO.note}</p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -184,11 +184,22 @@ function ReadingToggle({ reading, setReading, disabled }: { reading: boolean; se
 /** One scene: the three-layer painting and its reading panel. */
 function SceneBlock({ scene, eager }: { scene: JourneyScene; eager?: boolean }) {
   const L = LAYERS[scene.id];
+  // The three layers mount only once the scene is within about a screen of the viewport (the browser's own lazy-loading
+  // distance is several screens on phones, where the scenes are stacked closely). The stage box keeps its size meanwhile.
+  const ref = useRef<HTMLElement>(null);
+  const [near, setNear] = useState(!!eager);
+  useEffect(() => {
+    if (near || !ref.current) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setNear(true); io.disconnect(); } }, { rootMargin: "120% 0px 120% 0px" });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, [near]);
   const hid = `scene-${scene.id}-h`;
   const origin = scene.motion.s?.origin ?? "50% 70%";
   const load = eager ? ({ loading: "eager", fetchPriority: "high" } as const) : ({ loading: "lazy" } as const);
   return (
     <section
+      ref={ref}
       id={`scene-${scene.id}`}
       data-mj-scene={scene.id}
       data-layout={scene.layout}
@@ -202,16 +213,16 @@ function SceneBlock({ scene, eager }: { scene: JourneyScene; eager?: boolean }) 
           <div className={s.stage} data-mj-stage>
             <div className={s.stageInner} data-mj-inner>
               <div className={s.layer} data-mj-layer="b">
-                <Image src={L.b} alt="" fill sizes="100vw" className={s.img} {...load} />
+                {near && <Image src={L.b} alt="" fill sizes="100vw" className={s.img} {...load} />}
               </div>
               <div className={s.layer} data-mj-layer="s" style={{ transformOrigin: origin }}>
                 <div className={s.gait} data-mj-gait>
-                  <Image src={L.s} alt={scene.alt} fill sizes="100vw" className={s.img} {...load} />
+                  {near ? <Image src={L.s} alt={scene.alt} fill sizes="100vw" className={s.img} {...load} /> : <span className="sr-only" role="img" aria-label={scene.alt} />}
                 </div>
               </div>
               {scene.motion.fx && <div className={cn(s.fx, s[`fx-${scene.motion.fx}`])} data-mj-fx aria-hidden />}
               <div className={s.layer} data-mj-layer="f">
-                <Image src={L.f} alt="" fill sizes="100vw" className={s.img} loading="lazy" />
+                {near && <Image src={L.f} alt="" fill sizes="100vw" className={s.img} loading="lazy" />}
               </div>
             </div>
           </div>

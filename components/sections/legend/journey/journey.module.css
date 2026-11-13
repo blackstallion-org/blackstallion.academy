@@ -10,7 +10,7 @@
 /* ------------------------------------------------------------------ opening (clears the fixed nav: 64 px phone, 80 px desktop) */
 .intro {
   padding-top: clamp(6.5rem, 12vh, 9rem);
-  padding-bottom: clamp(2.5rem, 6vh, 4rem);
+  padding-bottom: clamp(1rem, 3vh, 2rem);
 }
 
 .actBand {
@@ -21,8 +21,8 @@
 
 /* ------------------------------------------------------------------ scenes: shared stage box */
 /* Act I is announced in the opening, so its band is a compact rule that keeps the first painting near the fold */
-.actFirst { padding-top: 0.5rem; padding-bottom: 1.25rem; border-top: 0; }
-.actFirst h2, .actFirst p:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.actFirst { padding: 0; border-top: 0; }
+.actFirst p, .actFirst h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .scene { position: relative; }
 .track { position: relative; }
