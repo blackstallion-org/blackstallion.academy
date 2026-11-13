@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { SafetyKineticStage } from "@/components/sections/safety/SafetyKineticStage";
 import { SafetyKitScroll } from "@/components/sections/safety/SafetyKitScroll";
 import { NumberWall, OrdersOfTheDay, People, SafetyTitle, ShieldColumns } from "@/components/sections/safety/SafetyScenes";
@@ -23,7 +22,6 @@ export default function SafetyPage() {
       <SafetyKitScroll />
       <NumberWall />
       <People />
-      <EndCard current={11} />
     </>
   );
 }
