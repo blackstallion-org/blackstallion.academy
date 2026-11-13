@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { MorningCurtain } from "@/components/sections/parents/MorningCurtain";
-import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
 import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
@@ -36,7 +35,6 @@ export default function ParentsPage() {
         </div>
       </section>
       <ReplayHeadline typeface="brush" id="parents-replay" label="The guardian vow" text="You watch them discover who they are." tone="dark" defaultMode="lines" />
-      <EndCard current={10} />
     </>
   );
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
@@ -63,7 +62,6 @@ export default function SchoolsPage() {
         </div>
       </section>
 
-      <EndCard current={13} />
     </>
   );
 }

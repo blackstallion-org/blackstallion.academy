@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { CareLog, CctvGrid, CoatRegistry, FleetTitle, Registry, StallionGallery } from "@/components/sections/fleet/FleetScenes";
 import { BloodlineIndex } from "@/components/sections/fleet/BloodlineIndex";
 import { MarwariPortrait } from "@/components/sections/editorial/ReferencePanels";
@@ -32,7 +31,6 @@ export default function FleetPage() {
       <CctvGrid />
       <CareLog />
       <ReplayHeadline typeface="elegant" id="fleet-replay" label="Beyond the registry" text="No two horses tell the same story." tone="dark" defaultMode="lines" />
-      <EndCard current={8} />
     </>
   );
 }
