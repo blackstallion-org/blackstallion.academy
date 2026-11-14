@@ -1,11 +1,12 @@
 /** Copy for the scenes added 24 Oct 2026 (Blueprint Part 4, S65–S69). */
 
-export const asciiChild = {
-  label: "The same child, on a screen",
-  inscription: "Rendered",
-  voice: "in characters.",
-  body: "On a screen a child becomes a feed of symbols: quick, flat, endlessly refreshed. Move across the picture and it ripples, then settles back into the same posture.",
-  caption: "Moving the pointer sends ripples through the picture. Decorative.",
+/** /why · §1b (14 Nov 2026, owner): one plain photograph of a Marwari in place of the ASCII picture. */
+export const whyPlate = {
+  label: "The same child, beside a horse",
+  inscription: "Nothing to scroll",
+  voice: "only the horse in front of them.",
+  body: "On a screen a child is fed a stream: quick, flat, endlessly refreshed, and nothing in it notices them back. Beside a horse there is one animal, breathing, ears turning to see who has arrived. It cannot be skipped or muted. It waits to be met.",
+  caption: "A black Marwari stallion at rest, the breed's lyre-shaped ears turned forward.",
 };
 
 export const cadetOpening = {

@@ -1124,3 +1124,26 @@ workspace); no live payment, e-mail or signed-in run was possible.
 - Checked at 390, 1024, 1280, 1440, 1536 and 1920: nav and controls never overlap, no horizontal overflow, no page errors.
   Lint and typecheck pass. Not committed.
 - `primaryNav` (another session's seven-link list in the working tree) is left untouched and is not used by this header.
+- [x] **Session 14 Nov 2026 · Owner's visual pass (5 tasks, `docs/prompts/2026-11-14-visual-pass.md` on friendly-wright).**
+  - `/why`: the ASCII ripple section is gone (`AsciiChild`, `components/motion/fx/AsciiRipple.tsx` deleted). In its place
+    `components/sections/why/HorsePlate.tsx`: label, two-voice headline and one plain editorial plate of a black Marwari on a
+    white ground (`kalaPortrait`, grade none, caption below, house `Reveal` only). New copy in `lib/content/fx-scenes.ts`
+    (`whyPlate`): the screen that never notices a child against the horse that turns its ears to them. Light section.
+  - `/curriculum` BondHero: fingertips and muzzle never touch. Re-measured from the cutouts' alpha: at rest (end of the scroll
+    approach and the reduced-motion frame) the gap is 109 px at 1440, 78 px at 1024, 131 px at 1920 and 39 px at 390; the
+    12 px breathing reach leaves at least 27 px on phones. Horse moved left, hand right (and 118vw on phones so the fingers
+    and palm stay in frame); cuff in frame at 1440; head not shrunk.
+  - Theme toggle: the 1fd536e "always dark" pass had deleted `ThemeToggle`, `lib/theme/theme.ts` and the boot script.
+    Restored all three; the toggle sits beside Search in the editorial bar (plain icon, 44 px tall, gold focus ring). To fit
+    on phones: the wordmark steps down below 400 / 380 px and hides below 360 px, the phone Sound button shows on/off only
+    (the mode list is unchanged), "Sound" shows from 1024 px. Measured with the longest Sound label at 360, 390, 414, 768,
+    1024, 1200, 1280 and 1440: nothing overflows. Toggle flips `html[data-theme]` and persists across reloads.
+  - `/schools`: **not done.** Higgsfield balance was 0.25 credits, under the owner's 15-credit floor; no images generated,
+    current campus stills left in place. Needs a credit top-up.
+  - `/contact` GateBondScene: the bronze-looking black model is replaced by `touch-bay-horse.glb` (a living bay head; the
+    model's own fingertips stop well short of the muzzle). Whole model in a wider window (3:2 phones, 16:10 desktop), neck and
+    sleeve fade into the ground. Known: a few stray mane strands at the top-left edge of the model.
+  - Checks: lint 0 errors (touched files clean), typecheck and build pass (the build was run with a free-space guard after
+    the owner freed disk). Screenshotted at 1440 and 390: /why plate (light and dark, reduced motion), /curriculum (rest
+    frame), /contact gate, the tops of /schools, /contact and /curriculum (top 120 px clear of the nav), nav light, dark and
+    keyboard focus on the toggle (2 px outline). `npm test` and the e2e smoke script were not run.
