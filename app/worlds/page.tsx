@@ -5,9 +5,9 @@ import { WORLDS_CREDITS } from "@/lib/content/worlds";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/worlds" },
-  title: "Four Worlds",
+  title: "The Opening",
   description:
-    "One horse, four worlds: a scroll-controlled film that follows a black Marwari from the valley above the academy, into the anatomy that moves him, through the cavalry country of Marwar and out to the future.",
+    "One horse, one lineage: a scroll-controlled film that follows a black Marwari from the valley above the academy into the cavalry country of Marwar, and up into the sky above it.",
 };
 
 export default function WorldsPage() {

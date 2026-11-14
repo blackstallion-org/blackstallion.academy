@@ -4,13 +4,14 @@ import type { Metadata } from "next";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
-import { Monogram } from "@/components/brand/Monogram";
+import { CrestMark } from "@/components/brand/CrestMark";
 import { ModelPlate } from "@/components/3d/ModelPlate";
 import { asset } from "@/lib/content/asset";
-import { Monolith } from "@/components/sections/why/WhyScenes";
+import { Truths } from "@/components/sections/about/Truths";
 import { MandateKineticStage } from "@/components/sections/about/MandateKineticStage";
 import { house, letter, truths } from "@/lib/content/academy";
 import { entity } from "@/lib/content/site";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/about" },
@@ -30,7 +31,7 @@ export default function AboutPage() {
           mode="sway"
           fill={0.95}
           className="h-56 w-56 md:h-72 md:w-72"
-          fallback={<Monogram className="mx-auto h-28 w-28 text-brass md:h-36 md:w-36" />}
+          fallback={<CrestMark size="lg" decorative className="mx-auto h-28 w-28 md:h-36 md:w-36" />}
         />
         <p className="label mt-10 text-brass">Credits · Behind the camera</p>
         <Headline id="about-h" as="h1" size="1" animate="mount" delay={0.8} className="mx-auto mt-4" inscription="Dominus Sui," voice="dominus equi." />
@@ -66,10 +67,11 @@ export default function AboutPage() {
       </section>
 
       {/* §2 · S32 six truths (second use) */}
-      <Monolith label="Six truths we stand behind" lines={truths} />
+      <Truths label="Six truths we stand behind" lines={truths} />
 
       {/* §2a · S69 depth ribbon */}
       <AcademyRibbon />
+      <EditorialGallery page="about" />
 
       {/* §2b · Masked line reveal & sequenced kinetic telemetry stage */}
       <MandateKineticStage />

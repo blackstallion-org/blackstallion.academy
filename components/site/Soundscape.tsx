@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { disposeSoundscape, effectPlaying, IDLE_CALLS, isSoundEffect, playEffect, resumeSoundOnGesture, soundEnabled, stopEffects, type SoundEffect } from "@/lib/audio/engine";
+import { backgroundHorsePlaying, disposeSoundscape, effectPlaying, IDLE_CALLS, isSoundEffect, playBackgroundHorse, playEffect, resumeSoundOnGesture, soundEnabled, stopEffects, type SoundEffect } from "@/lib/audio/engine";
 import { ambienceActive, disposeMixer, getMusicState, musicWanted, pauseAmbience, resumeAmbience, startMusic, stopMusic } from "@/lib/audio/mixer";
 
 /** A horse sound when a link opens another reel (from the seven-sound palette). */
@@ -15,6 +15,8 @@ const JOURNEYS: Record<string, SoundEffect> = {
 /** The idle call: roughly every 15 s while the music plays, jittered so it never ticks like a clock. */
 const IDLE_MIN_MS = 15000;
 const IDLE_SPREAD_MS = 9000;
+/** The background horse sound (owner, 14 Nov 2026): one of the two long snorting recordings every 60 seconds, alternating. */
+const BACKGROUND_HORSE_EVERY_MS = 60000;
 
 /**
  * Lives in the root layout, so it (and the music it starts) survives every client-side navigation.
@@ -61,7 +63,7 @@ export function Soundscape() {
     let last: SoundEffect | null = null;
     const schedule = () => {
       idle = setTimeout(() => {
-        if (getMusicState() === "playing" && !ambienceActive() && !effectPlaying() && !document.hidden) {
+        if (getMusicState() === "playing" && !ambienceActive() && !effectPlaying() && !backgroundHorsePlaying() && !document.hidden) {
           const choices = IDLE_CALLS.filter((c) => c !== last);
           const pick = choices[Math.floor(Math.random() * choices.length)];
           if (playEffect(pick, 0.08)) last = pick;
@@ -71,11 +73,24 @@ export function Soundscape() {
     };
     schedule();
 
+    // Background horse sound: a fixed 60-second beat. A beat that finds sound off, the tab hidden, a film playing or the music-only
+    // mode simply passes; the next one tries again.
+    // A beat that lands on a click sound or an idle call waits for it (up to 8 s) instead of losing the minute.
+    let backgroundCount = 0;
+    let retry: ReturnType<typeof setTimeout> | undefined;
+    const attempt = (left: number) => {
+      if (playBackgroundHorse(backgroundCount)) { backgroundCount++; return; }
+      if (left > 0 && effectPlaying()) retry = setTimeout(() => attempt(left - 1), 1000);
+    };
+    const background = setInterval(() => attempt(8), BACKGROUND_HORSE_EVERY_MS);
+
     document.addEventListener("click", click);
     document.addEventListener("visibilitychange", visibility);
     window.addEventListener("pagehide", pagehide);
     return () => {
       clearTimeout(idle);
+      clearInterval(background);
+      clearTimeout(retry);
       removeGesture();
       document.removeEventListener("click", click);
       document.removeEventListener("visibilitychange", visibility);

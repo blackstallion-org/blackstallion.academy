@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
@@ -8,6 +7,7 @@ import { ClockRing, CurriculumTitle, DisciplineActionGallery, DisciplinePanels, 
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { batches } from "@/lib/content/curriculum";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/curriculum" },
@@ -20,6 +20,7 @@ export default function CurriculumPage() {
     <>
       <CurriculumTitle />
       <Staircase />
+      <EditorialGallery page="curriculum" />
       <PageCurtain page="curriculum" />
       <CodexVault />
       <ClockRing />
@@ -66,7 +67,6 @@ export default function CurriculumPage() {
       <DisciplineActionGallery />
       <DisciplinePanels />
       <ReplayHeadline typeface="heritage" id="curriculum-replay" label="The warrior trait" text="Every drill maps to a character a leader needs." tone="dark" defaultMode="lines" />
-      <EndCard current={7} />
     </>
   );
 }

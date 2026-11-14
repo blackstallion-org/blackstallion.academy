@@ -1,4 +1,9 @@
-# The first-visit opening and the running-horse loader (updated 7 Nov 2026)
+# The first-visit opening and the running-horse loader (updated 14 Nov 2026)
+
+> **14 Nov 2026 (owner):** the intro film is two worlds now: **01 Origins** (the hill, "One horse.") → through the eye → **02 Legacy**
+> (the fort in haze, "Bred in Marwar."), ending as the camera rises into the bright cloud; the bars close and the site fades up
+> (`FILM_SECONDS` 42, `END_SECONDS` 3.4). The cells world (Life) and the space world (Beyond) were deleted with their code and assets.
+> The completion flag is kept in **sessionStorage** (see `lib/opening/intro-boot.ts`), not localStorage as written below.
 
 **Sequence:** running-horse loader (when a load needs one) → the Four Worlds intro film (first visit only) → a slow fade into the home hero → normal smooth
 scrolling. On later visits and reloads the homepage opens directly.

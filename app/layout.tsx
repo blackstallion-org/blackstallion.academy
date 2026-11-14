@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
         {/* Decides before first paint whether the first-visit loader shows. */}
         <script dangerouslySetInnerHTML={{ __html: loaderBootScript }} />
-        {/* Applies the visitor's saved dark mode before first paint (lib/theme/theme.ts). */}
+        {/* Applies the visitor's saved dark mode before first paint (lib/theme/theme.ts); light stays the default. */}
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body className="grain bg-night text-bone">

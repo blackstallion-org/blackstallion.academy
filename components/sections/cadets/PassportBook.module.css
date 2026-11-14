@@ -1,0 +1,270 @@
+/* The Sovereign Cadet Passport as a CSS 3D book (components/sections/cadets/PassportBook.tsx). Sizes are in container units of
+   the book (cqw), so the whole object scales as one piece from phone to desktop. */
+
+.stage {
+  display: grid;
+  place-items: center;
+  perspective: 1800px;
+  perspective-origin: 50% 40%;
+  padding-block: 6vh 10vh;
+}
+
+.book {
+  --w: min(19rem, 42vw);
+  --h: calc(var(--w) * 1.42);
+  --t: calc(var(--w) * 0.075);
+  --navy: #161d2b;
+  position: relative;
+  width: var(--w);
+  height: var(--h);
+  transform-style: preserve-3d;
+  container-type: inline-size;
+  will-change: transform;
+}
+
+.shadowPlane {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(calc(var(--t) / -2 - 3px));
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.shadow {
+  position: absolute;
+  top: 6%;
+  bottom: -4%;
+  left: -100%;
+  width: 200%;
+  transform-origin: 100% 50%;
+  background: rgb(0 0 0 / 0.6);
+  filter: blur(22px);
+  border-radius: 8px;
+}
+
+/* boards */
+.back,
+.front {
+  border-radius: 2px 7px 7px 2px;
+  background:
+    radial-gradient(130% 90% at 28% 18%, #2b3651 0%, var(--navy) 52%, #0d1219 100%);
+}
+.back {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(calc(var(--t) / -2));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.04);
+}
+.spine {
+  position: absolute;
+  top: 0;
+  left: calc(var(--t) / -2);
+  width: var(--t);
+  height: 100%;
+  transform: rotateY(-90deg);
+  background: linear-gradient(90deg, #0b1018, #222c42 45%, #0e131c);
+  border-radius: 3px;
+}
+
+/* the page block: cream paper with fine page lines on the three open edges */
+.edge {
+  position: absolute;
+  background: repeating-linear-gradient(90deg, #efe4cc 0 1px, #d9caa8 1px 2px);
+}
+.fore {
+  top: 3px;
+  left: calc(var(--w) - 3px - var(--t) / 2);
+  width: calc(var(--t) - 2px);
+  height: calc(var(--h) - 6px);
+  transform: rotateY(90deg);
+}
+.head,
+.tail {
+  left: 0;
+  width: calc(var(--w) - 3px);
+  height: calc(var(--t) - 2px);
+  background: repeating-linear-gradient(0deg, #efe4cc 0 1px, #d9caa8 1px 2px);
+}
+.head {
+  top: calc(3px - var(--t) / 2);
+  transform: rotateX(90deg);
+}
+.tail {
+  top: calc(var(--h) - 3px - var(--t) / 2);
+  transform: rotateX(-90deg);
+}
+
+/* the first page (seals) */
+.page {
+  position: absolute;
+  inset: 3px 3px 3px 0;
+  transform: translateZ(calc(var(--t) / 2 - 1px));
+  padding: 7cqw 7cqw 6cqw;
+  display: flex;
+  flex-direction: column;
+  color: #6b5130;
+  border-radius: 0 4px 4px 0;
+  box-shadow: inset 6cqw 0 6cqw -5cqw rgb(60 40 20 / 0.28);
+}
+.seals {
+  margin-top: 4cqw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5cqw 4cqw;
+}
+.seals li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5cqw;
+}
+.seal {
+  display: grid;
+  place-items: center;
+  width: 25cqw;
+  height: 25cqw;
+  border-radius: 999px;
+}
+.sealStruck {
+  background: radial-gradient(circle at 38% 32%, #e8cf98, #b88a52 62%, #8a6238);
+  box-shadow: inset 0 0 0 0.8cqw rgb(90 60 30 / 0.45), 0 1.5cqw 3cqw rgb(60 35 15 / 0.35);
+}
+.sealEmpty {
+  border: 0.7cqw dashed rgb(160 120 80 / 0.55);
+}
+.pageFoot {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2cqw;
+}
+
+/* the cover */
+.hinge {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(calc(var(--t) / 2));
+  transform-style: preserve-3d;
+}
+.cover {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+}
+.front,
+.lining {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 11cqw 8cqw 9cqw;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: inset -0.6cqw 0 1.2cqw rgb(255 255 255 / 0.06), inset 2.4cqw 0 2cqw -1.4cqw rgb(0 0 0 / 0.55);
+}
+/* leather grain */
+.front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.32;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.border {
+  position: absolute;
+  inset: 4cqw;
+  border: 1px solid rgb(214 178 112 / 0.32);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.lining {
+  transform: rotateY(180deg);
+  padding: 7cqw;
+  border-radius: 4px 0 0 4px;
+  box-shadow: inset -6cqw 0 6cqw -5cqw rgb(60 40 20 / 0.28);
+}
+
+/* gold foil */
+.foil {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(100deg, #a7762f 0%, #f3d995 32%, #c3924a 52%, #f6e2a6 72%, #a2722c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: var(--font-serif-display), Georgia, serif;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.title {
+  font-size: 7.6cqw;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+}
+.title span {
+  display: block;
+  margin-top: 1cqw;
+  font-size: 5.8cqw;
+  letter-spacing: 0.12em;
+}
+.crest {
+  position: relative;
+  z-index: 1;
+  margin-block: 6cqw 5cqw;
+  width: 48cqw;
+  aspect-ratio: 1;
+  background: linear-gradient(120deg, #a7762f, #f3d995 40%, #c3924a 60%, #f6e2a6);
+  /* the stamp mark is light line art on dark: a luminance mask keeps only the lines */
+  -webkit-mask: var(--crest) center / contain no-repeat luminance;
+  mask: var(--crest) center / contain no-repeat luminance;
+  -webkit-mask-source-type: luminance;
+  mask-mode: luminance;
+}
+.council {
+  font-size: 3.7cqw;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+}
+.council span {
+  display: block;
+}
+.rule {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+  margin-block: 2.5cqw;
+  color: #d4b06c;
+  font-size: 3cqw;
+}
+.rule i {
+  display: block;
+  width: 14cqw;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4b06c);
+}
+.rule i:last-child {
+  transform: scaleX(-1);
+}
+.bsah {
+  font-size: 11cqw;
+  font-weight: 650;
+  letter-spacing: 0.32em;
+  margin-right: -0.32em;
+}
+.record {
+  margin-top: 1.5cqw;
+  font-size: 3cqw;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}

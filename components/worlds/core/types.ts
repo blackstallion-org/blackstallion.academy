@@ -10,8 +10,10 @@ import type { QualitySettings } from "./quality";
  *
  * Units: metres, +Y up, three.js right-handed. The horse model faces +Z at heading 0.
  */
-export type WorldId = "origins" | "life" | "legacy" | "beyond";
-export const WORLD_ORDER: WorldId[] = ["origins", "life", "legacy", "beyond"];
+/** 14 Nov 2026 (owner): the film is two worlds now. The inner world of cells (Life) and the space world (Beyond) were cut; it
+ * runs from the hill straight into the memory world and ends in the sky above it. */
+export type WorldId = "origins" | "legacy";
+export const WORLD_ORDER: WorldId[] = ["origins", "legacy"];
 
 /** A camera pose: where the lens is, what it looks at, its vertical field of view (degrees) and a roll (radians). */
 export type ShotPose = { pos: THREE.Vector3; look: THREE.Vector3; fov: number; roll: number };

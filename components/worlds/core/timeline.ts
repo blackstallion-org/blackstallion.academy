@@ -10,37 +10,30 @@ export type TransitionMode = "iris" | "dust" | "cloud";
 export type Span = { id: WorldId; start: number; end: number };
 export type Boundary = { from: WorldId; to: WorldId; start: number; end: number; mode: TransitionMode };
 
+/* 14 Nov 2026 (owner): two worlds. Each keeps its own camera path (local p 0..1 is unchanged); only where it sits on the
+   global clock moved. Origins hands over through the eye (iris) into the memory world, which ends rising into the cloud. */
 export const SPANS: Span[] = [
-  { id: "origins", start: 0.0, end: 0.265 },
-  { id: "life", start: 0.235, end: 0.5 },
-  { id: "legacy", start: 0.47, end: 0.745 },
-  { id: "beyond", start: 0.715, end: 1.0 },
+  { id: "origins", start: 0.0, end: 0.5 },
+  { id: "legacy", start: 0.47, end: 1.0 },
 ];
 
 export const BOUNDARIES: Boundary[] = [
-  { from: "origins", to: "life", start: 0.235, end: 0.265, mode: "iris" },
-  { from: "life", to: "legacy", start: 0.47, end: 0.5, mode: "dust" },
-  { from: "legacy", to: "beyond", start: 0.715, end: 0.745, mode: "cloud" },
+  { from: "origins", to: "legacy", start: 0.47, end: 0.5, mode: "iris" },
 ];
 
 /** Story beats the scroll eases onto when the reader stops nearby (the one hero moment of each world, and the final reveal). */
 export const HOLDS: { at: number; label: string }[] = [
   { at: 0.0, label: "Origins" },
-  { at: 0.155, label: "The horse" },
-  { at: 0.37, label: "Life" },
-  { at: 0.64, label: "Legacy" },
-  { at: 0.9, label: "Beyond" },
+  { at: 0.29, label: "The horse" },
+  { at: 0.8, label: "Legacy" },
   { at: 1.0, label: "The academy" },
 ];
 
 /** Where the overlay places each world's title (global progress range in which the card is shown). */
 export const CHAPTERS: { id: WorldId; n: string; title: string; subtitle: string; from: number; to: number }[] = [
-  { id: "origins", n: "01", title: "Origins", subtitle: "The living world", from: 0.0, to: 0.2 },
-  { id: "life", n: "02", title: "Life", subtitle: "The inner world", from: 0.27, to: 0.46 },
-  { id: "legacy", n: "03", title: "Legacy", subtitle: "The memory world", from: 0.505, to: 0.7 },
-  { id: "beyond", n: "04", title: "Beyond", subtitle: "The future world", from: 0.75, to: 0.9 },
+  { id: "origins", n: "01", title: "Origins", subtitle: "The living world", from: 0.0, to: 0.377 },
+  { id: "legacy", n: "02", title: "Legacy", subtitle: "The memory world", from: 0.537, to: 0.913 },
 ];
-
 export type Frame = {
   /** the world drawn as the base image */
   a: { id: WorldId; p: number };

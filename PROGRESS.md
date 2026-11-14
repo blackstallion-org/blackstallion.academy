@@ -952,3 +952,229 @@ workspace); no live payment, e-mail or signed-in run was possible.
   4. `20261106001700_motion_lab.sql` is not applied, so Motion Lab cloud save is off (local saves work).
   5. Open owner items from PRODUCTION_READINESS.md §5 (staff account, key rotation, branch protection, paid plans, legal sign-off).
   The site's Supabase project is not in the connected Supabase account, so its security advisors could not be run.
+
+## 2026-11-14 · Painted /legend journey, real horse galleries, trainer/parent/school campaign, EndCard removed
+
+- **/legend** is one continuous painted Marwari journey (`components/sections/legend/journey/`, content in
+  `lib/content/marwari-journey.ts`): 20 layered paintings in four acts (Land 00 10 02 01 11 · Body 03 12 04 13 14 15 · Service
+  05 06 16 17 07 · Return 08 19 18 09). Background, subject and foreground are separate DOM layers in one 16:9 stage, each with its
+  own scrubbed, reversible GSAP recipe (travel, gait cadence, push to the ears, a one-off leap, colour draining at the cart, studbook
+  reveal, dust/lantern/embers/ripple atmosphere). Panorama/plate scenes hold a sticky stage below the 80 px nav with a still reading
+  panel on the painting's quiet side; detail/inset scenes are two-column folios; phones get painting then text. Reading mode and
+  reduced motion are fully static. Status labels (illustration / reconstruction / folklore / interpretive) and caveats are HTML.
+  Layers mount within ~1 screen of view: 3 painting requests at load on desktop, 6 on phones. WebP derivatives (13 MB) from
+  `scripts/build-marwari-journey.mjs`; PNG masters git-ignored. The 3D museum, `LegendScenes`, `RevivalTimeline`, `lib/museum`
+  and `components/3d/museum` are removed (no other consumers).
+- **EndCard** ("Next reel") removed from all 15 pages and the statue scroll; `components/film/EndCard.tsx` deleted (owner).
+- **/fleet real horses**: 106 owner photos reviewed; 8 individual-horse galleries (20 views, same session + matching markings only)
+  and a separate 22-photo single-photograph collection; 64 excluded (12 Ekaterina Druz, 13 signature, Alamy, Gill Photography and
+  other marks, identifiable people, collages, duplicates, unmatched views). Owner confirmed permission for unwatermarked photos; no
+  watermark removed; edits limited to WebP re-encode + metadata strip. Manifest with exact source names and checksums:
+  `lib/content/real-horses.manifest.json` (`scripts/build-real-horse-gallery.py`). Lightbox: buttons, arrows, Escape, swipe, focus
+  trap/return, deep links `#horse-study-0N`. The fleet portrait now uses a labelled real photograph (not a fleet horse).
+- **Campaign** (AI concept illustrations, labelled): trainer uniform series on /cadets, ring visit on /parents, ring programme with
+  the ring background band on /schools (`components/sections/campaign/CampaignSections.tsx`, `lib/content/campaign.ts`).
+- No real passport/identity photos were found in the workspace; none placed.
+- Checks: typecheck, lint 0 errors, 337/337 unit tests (clean tree), build, e2e 19/19; Playwright screenshots at 1440x900 and
+  390x844 in `scratch/screens-2026-11-14/` (33 images; nav ends at 81/65 px with nothing under it; no horizontal overflow).
+- [x] **14 Nov 2026 · /legend: the horse breathes, per-act atmosphere.** In every one of the 20 painted scenes one horse has
+  idle life on its own clock (not scroll): a feathered copy of the head and upper neck nods 0.9–2° about the withers, a feathered
+  barrel copy breathes 1.4 %, and a light silhouette sweeps the mane through a moving band. The cut-outs hold riders and handlers too,
+  so the whole layer never moves. Coordinates per scene in `lib/content/marwari-journey.ts` (`idle`); rig in `Subject`
+  (`components/sections/legend/journey/MarwariJourney.tsx`). Atmosphere (`ambient`): desert scenes get two depths of dust motes and a
+  horizon haze, battle scenes (05, 06, 16) rising sparks with a low glow, palace and courtyard scenes (03, 04, 08, 18, 19, 09) soft
+  light shafts; 07, 14 and 15 keep only their existing scroll fx. Effects sit in the stage under the reading panel and thin out on
+  its side. All loops are CSS transform/opacity (house curve), pause off screen (`data-live` via IntersectionObserver) and are not
+  rendered in reading mode or reduced motion (plus a CSS guard). The journey CSS now uses the fixed `--color-offwhite` for its light
+  accents, because the always-dark work remaps `--color-ivory` to near-black.
+  Checks: lint 0 errors, typecheck, build pass. Screenshots (own headless Chrome, the shared Playwright profile was busy) at 1440x900
+  and 390x844 with a frame-to-frame diff confirming the nod, breath, motes, sparks and shafts; reduced motion renders only the base
+  layers; nav clear in the top 120 px. Not checked: Safari, a real phone's GPU cost, frame rate.
+- [x] **14 Nov 2026 · Story posters on the four history scrolls.** `/story/pratap-chetak`, `/story/rani-lakshmibai`,
+  `/history/india` and `/history/world` now open on a full-screen film-poster key art (`components/film/StoryPoster.tsx`):
+  100svh, slow Ken Burns push-in (32 s, origin at the subject), `shade-b`/`shade-l` plus a deeper wash of the `--color-night`
+  token, label + two-voice `Headline` (h1) bottom-left, a "Begin ↓" link to the title card, top padding ≥ 120 px, `tone-photo`
+  scope (dark, role tokens only). Reduced motion: still image, text fades only. New optional `opening.poster` (ledger id) in
+  `lib/content/history/types.ts`; when it resolves to accepted art, `HistoryPages.tsx` renders the poster first and the title card
+  below keeps only the lede, reading toggle and contents (the anthology's old opening figure is skipped). Art, all in
+  `docs/history-scrolls/ASSET_LEDGER.json` as role `poster`, accepted with review notes:
+  - `PR-POSTER` (Higgsfield gpt_image_2_6, high) Pratap on Chetak at Haldighati; `JH-POSTER` (medium) the Rani riding from Jhansi fort
+    with her son. Both inspected at full size: anatomy complete, no lettering, lower-left calm.
+  - `IN-POSTER` is a composite of accepted art (IN00 + IN02-S horse doctor + IN07-S Jodhpur Lancer); `WO-POSTER` is WO00 unchanged.
+    Both are **interim**: Higgsfield credits ran out (1.25 left after the second poster). Generate the India and World montages
+    when credits allow and replace the two files at the same paths.
+  - Checks: lint 0 errors, typecheck and `next build` pass (all four routes static). Screenshots of all four routes at 1440×900 and 390×844 (and reduced motion
+    at 390) from the running dev server: one h1 per page, poster label top ≥ 276 px desktop / 526 px phone, nav clear; Begin lands
+    the title card at 128 px; focus ring visible on Begin. `npm test`: 330/337, the 7 failures are outside this change (BondHero
+    asset(), intro film clock, other sessions' new stills, and `media-manifest.json`, which needs `node scripts/media-manifest.mjs`
+    once the in-flight media settles; it will also pick up the four new `poster.webp` files).
+- [x] **14 Nov 2026 · Owner's site pass (dark always, nav, intro cut, sound, crest, tournaments, passport, parents, curriculum).**
+  - Always dark: `<html data-theme="dark">` is static in `app/layout.tsx` (viewport `#171412`, `colorScheme: dark`); the theme toggle
+    and `lib/theme/theme.ts` are deleted.
+  - Nav: the bold two-line wordmark ("Black Stallion / Academy of Horsemanship", `Wordmark layout="bold"`) sits where the page links
+    were; the links live in the Reels menu. Flex layout, so it never sits under a control.
+  - Opening film: two worlds, Origins → (iris) → Legacy, ending as the camera rises into the cloud (`FILM_SECONDS` 42,
+    `END_SECONDS` 3.4). Life (cells) and Beyond (space) are deleted with their code, posters and `public/worlds/beyond/`; /worlds
+    and the Reels entry ("The Opening") follow. Checked live: hill → eye → fort → cloud → dark home.
+  - Sound: `breath.mp3` (four bursts that read as a cough) is deleted; `snort.mp3` is now one 0.9 s snort and plays for every breath
+    cue; `breath` left the idle calls.
+  - Logo: the placeholder ear monogram (`Monogram`, `Crest`, `paths.ts`, `monogram.svg`) is removed; the BSAH crest (`CrestMark`)
+    takes its place on passport seals, verify certificate and seals, the schools invitation and the about fallback. The journal
+    paragraph that described the ear monogram is removed. `SealStamp`: crest 72/120 units (was 54), ring text ~0.65×.
+  - /tournaments: the STPCI medal is the hero (large, centred, warm rim light); the charge photo and streaks are gone. Peg run:
+    the four stills ship locally (`public/media/peg-*.webp/.avif`), so the WebGL dissolve is no longer blocked by CORS (1.8 s,
+    1.2 s fallback fade); the "Speed · Timing" marquee is removed.
+  - /parents: `parentsRail` is the campaign ring-visit still (uniformed instructor and cadet); the lower ring plate shows the
+    courtyard lesson so nothing repeats.
+  - /cadets passport: `PassportBook` (CSS 3D): navy leather board with spine, page block and back board, gold-foil cover with the
+    BSAH crest; scroll tilts it in, opens the cover (identity lining) and strikes the seals. No background photo. Reduced motion:
+    open and still.
+  - /curriculum: `BondHero` on the dark ground with a warm light behind the horse; hand and muzzle close in with scroll (`r()`),
+    reduced motion still. Plain import (no `ssr:false`).
+  - Not done: the owner's royal photos (IMG_4263–4279) are **not placed**. Almost all carry other photographers' watermarks
+    (equine-photo.net, ForestBoys.com, Trojańska-Koch, Kwiatkowski, Hafner), so they need permission first. The gate close-up for
+    the home stallion, photo-real re-edits of the curriculum cutouts and the India/World montage posters wait for Higgsfield
+    credits (0.25 left).
+  - Checks: lint 0 errors, typecheck, build pass; tests 336/337 (the one failure is the uncommitted fleet work:
+    `FleetWorlds.tsx` names the untracked `stallion-facing-left.webp`). Screenshots at 1440×900 and 390×844 of /, the four history
+    pages, /parents, /legend, /cadets, /tournaments, /curriculum, /verify.
+- [x] **14 Nov 2026 · Always-dark theme removed (owner: "not what I meant").** `app/layout.tsx` no longer sets `data-theme="dark"` on `<html>`, and the viewport colour is light again (`#F3EDE2`, `colorScheme: "light"`), so the site returns to the warm ivory default (home, `/legend` and `/about` checked: body `rgb(243, 237, 226)`, ink `rgb(48, 37, 30)`). The dark token set in `app/globals.css` is untouched and still applies to `.tone-photo` sections. The theme toggle (`ThemeToggle`, `lib/theme/theme.ts`) stays deleted, so there is no switch; say if it should come back.
+- [x] **14 Nov 2026 · The owner's royal Marwari photographs placed (owner confirmed the photographers' permission).**
+  - 11 of IMG_4263–4279 → `public/images/royal/*.webp`: Lanczos ~2x upscale with light sharpening (no credits for an AI upscale).
+    Watermarks are untouched. Content and credits are in `lib/content/royal.ts`; names are given where the mark is legible (Hafner
+    Photography, Edyta Trojańska-Koch, Wojtek Kwiatkowski), otherwise "Used with permission".
+  - Home: the first screen is the palace-standing photograph full screen, with crest, h1 and CTAs bottom-left on a gradient and the
+    stats below it on paper. A split plate ("Raised for kings", palace-rearing) follows `Instrument`.
+  - `components/film/RoyalPlate.tsx`, after the owner's "Rider Force" reference: "bleed" (cinema-height photo, words bottom-left on
+    a deep night-token gradient, credit under the words so it never sits on a photographer's corner mark) and "split" (photo
+    beside the words on paper). The title's first letter is a copperplate swash: Pinyon Script, self-hosted, `.t-flourish`, used
+    nowhere else. Settle-in push and a text rise; still under reduced motion.
+  - Placed:
+    - /legend: after the journey, desert rider (bleed) and sunset rear (split).
+    - /fleet: after the portrait, black rearing on sand and white at water (splits).
+    - Single plates: /curriculum two horses (bleed, after the staircase), /parents calm silhouette (split, after the phone),
+      /why head at sunset (bleed, after the ASCII scene), /schools hill stallion (split, after the model flow).
+  - Not used: 4265 and 4267–4268, 4270, 4272, 4275 and 4279 (similar to the ones placed, or too small).
+  - Checks: lint 0 errors, typecheck, build pass; tests 336/337 (the fleet failure as before). Screenshots of every plate at 1440
+    and 390.
+- [x] **14 Nov 2026 · Nav branding matches the owner's reference.** `components/brand/Wordmark.tsx` (`layout="bold"`) and the header block in `components/site/SiteNav.tsx` only. Crest unchanged, then BLACK STALLION (24 px bold serif, 14 px from the crest, no rule before it), one thin vertical rule, then ACADEMY OF HORSEMANSHIP on the same line (27 px bold, copper-brown `text-gold`, light tracking), all vertically centred in the unchanged cream 80 px bar; controls unchanged. Single line from 1400 px (full size) and from 1180 px (18-19 px); below 1180 px the two lines stack and step down, so nothing wraps or touches the controls at 1024, 768 or 390. Measured at 390, 768, 1024, 1180, 1280, 1366, 1440 and 1920 (no overlap, no horizontal scroll). Breakpoints are written in rem because Tailwind orders px `min-[…]` before `md:`. Lint on both files and typecheck pass; production build not re-run.
+- [x] **14 Nov 2026 · Photographs from `real marwari horse images/` removed from the site (owner: "starting over").** The original folder and its 123 files are untouched (still git-ignored). Removed: the `/fleet` real-horse galleries (`components/sections/fleet/RealHorseGalleries.tsx`, `lib/content/real-horses.ts` + `.manifest.json`, `scripts/build-real-horse-gallery.py`, `public/images/horses/real/`, 42 files), the "royal" photo plates and the full-screen photo hero built on IMG_4263-4279 (`components/film/RoyalPlate.tsx`, `lib/content/royal.ts`, `public/images/royal/`, 11 files, the Pinyon Script swash font and `.t-flourish`), the plates on `/`, `/legend`, `/fleet`, `/curriculum`, `/parents`, `/why`, `/schools`, and the "See real Marwari horses" link on `/legend`. Put back as they were before the photos: the home hero (crest hero) and the `/fleet` portrait (its earlier stallion image). Media manifest regenerated (385 files). Painted `/legend` journey, campaign images, cadet and fleet illustrations untouched. Checks: lint 0 errors, typecheck, build pass; 336/337 unit tests (the one failure is another session's untracked `public/images/fleet/stallion-facing-left.webp` named in its modified `FleetWorlds.tsx`); 7 routes at 1440 and 390: no broken images, errors or horizontal overflow. Docs in `docs/marwari-scroll/` (the old briefs) left as history. Nothing committed; the removed files are all in git history.
+- [x] **14 Nov 2026 · Header redesigned to the owner's luxury-editorial reference** (replaces the earlier one-line branding brief). `components/site/SiteNav.tsx`, new `SiteNav.module.css`, `components/brand/Wordmark.tsx` (`bold` = stacked lockup), `components/site/SoundToggle.tsx` (`variant="editorial"`; logic untouched), `lib/content/site.ts` (`primaryNav`, `navSearch`). Top strip: wine-red (mixed from the blood and charcoal tokens, no hex) with INTERSCHOLASTIC CAVALRY HERITAGE • STOIC LEADERSHIP • DISCIPLINE and "Hyderabad | 2026" (from 1180 px). Bar: 40 px crest, BLACK STALLION bold serif over ACADEMY OF HORSEMANSHIP in copper, copper hairline rules, five centred serif links (Academy /about, Cadets /cadets, Training /curriculum, Programs /parents, Heritage /legend; copper line on hover and under the current page), search icon (opens /command), serif Sound toggle, wine "Enrol a Cadet" button, and a compact menu icon that still opens the full Reels menu (staff sign-in lives there). Heights unchanged so no page's top clearance moves: 64 px on phones (strip hidden), 24 px strip + 56 px bar = 80 px from 768 px. The five links show inline from 1200 px; below that they lead the Reels menu (two columns on phones). Checked at 390, 768, 1199, 1200, 1240, 1279, 1280, 1440 (no overlap, no horizontal scroll), keyboard tab order and focus ring, active and hover states, Escape closes the menu. Lint, typecheck, build pass; 336/337 tests (the one failure is another session's untracked `stallion-facing-left.webp`). Not tested: Safari, a real phone.
+- [x] **14 Nov 2026 · Editorial photography galleries on eleven pages (owner's brief).**
+  - Audit of `real marwari horse images/` (123 files): palaces and havelis, desert and sunset silhouettes, carpet and studio
+    portraits, movement (gallop, trot, rearing), training ground on the lead, stable and tack, quiet pairs, black-and-white
+    head studies, adornment and keepers. Left out: three collages (6, 65, 101), two screen captures with app icons (11, 15), one
+    exact duplicate (53) and near-repeats.
+  - 62 photographs, none repeated: `public/images/marwari-editorial/<page>-NN.webp`. White screen-capture borders trimmed, long
+    edge 1300–1800 px (small originals Lanczos-enlarged with light sharpening), WebP q82, 8.8 MB in all. Proportions are kept,
+    and the photographers' marks are untouched.
+  - Content in `lib/content/marwari-editorial.ts`: audit notes, titles, alt text, one attribution line per gallery, and the
+    `photographers` list.
+  - `components/film/EditorialGallery.tsx` follows the /cadets gallery pattern: label, two-voice headline, lede, figures with
+    numeral and serif-italic caption, one credit line. There are no per-photo credits.
+  - One composition per page:
+
+    | Page | Composition |
+    |---|---|
+    | home | folio |
+    | /legend | horizontal film strip at one height, keyboard-scrollable region |
+    | /fleet | studbook, three columns with the middle dropped |
+    | /science | anatomy, the eye tall at the centre |
+    | /safety | ledger, sticky words with an index beside staggered photographs |
+    | /tournaments | wide speed band plus four strides |
+    | /curriculum | stepping cascade |
+    | /parents | pair, then three quiet frames |
+    | /schools | arcade of arched frames |
+    | /why | black-and-white contact sheet, colour on hover |
+    | /about | central plate with details around it |
+
+  - Reveal on entering the viewport. Under reduced motion it is instant; the initial state is fixed so a figure can never stay
+    hidden.
+  - Checks: lint 0 errors, typecheck, `next build` pass. Tests 336/337: the failure is `/images/story/marwari/poster.webp`, the
+    untracked poster from another session's in-progress /legend change. No horizontal overflow at 390 or 1440. Every gallery
+    screenshotted at both widths. Console shows warnings only (pre-existing WebGL and preload).
+  - Not committed: the page files also carry other sessions' uncommitted work (the earlier photo removal, the nav and the /legend
+    poster).
+- [x] **Session 14 Nov 2026 · /legend text on the painted parchment; Thar strip removed.**
+  - Scenes 19 ("The stallion that stayed", right) and 18 ("Each registered horse carries its number", left) set their kicker,
+    heading, story and note inside the painting's blank parchment on screens 1024 px and wider. The box is a `parchment`
+    field on the scene in `lib/content/marwari-journey.ts` (percent of the painting) and is laid out in container-query units
+    against the stage, so it tracks the painting at every width. Figures and horses stay clear. On phones the text stacks
+    below the image as before.
+  - "The Thar, in Pictures" (intro, horizontal strip and its spacing) removed from `/legend`; the `strip` layout is gone from
+    `EditorialGallery`, and the seven unused images (`legend-01…06`, `tournaments-01`) are deleted and out of the media manifest.
+  - Checks: lint 0 errors, typecheck, build. Screenshotted at 1440, 1024 and 390, and with reduced motion.
+
+## 14 Nov 2026 · Header wordmark in the owner's lockup format
+
+- `components/brand/Wordmark.tsx` (layout `bold`, the header's centre word): one line, BLACK STALLION in tracked caps (the
+  larger word, so it reads first), then ACADEMY OF HORSEMANSHIP in bold chestnut (`text-gold`, the house accent). The crest
+  stays in the bar beside it. Sizes step up with the viewport; on phones only BLACK STALLION shows (ACADEMY from 1280 px).
+- Checked at 390, 768, 1024, 1280, 1440 and 1920: no horizontal overflow, and the wordmark keeps 30 px clear of the controls at
+  390 px. Lint and typecheck pass. Not committed.
+
+## 14 Nov 2026 · Header: name beside the crest, page menus restored
+
+- The academy's name now sits directly beside the crest (`Wordmark` layout `bold`, one line). BLACK STALLION is the larger
+  word; ACADEMY OF HORSEMANSHIP shows from 1700 px so the five menu words and the controls still fit on laptops.
+- The five words (Academy, Cadets, Training, Programs, Heritage) open the full-screen mega menus again, three numbered columns
+  each, from `navMenus` in `lib/content/site.ts`. Escape returns focus to the word; a keyboard opening moves focus into the menu.
+  Moving along the bar switches menus. The word for the current section keeps a faint copper rule.
+- Below 1200 px the Reels menu leads with the same five groups as disclosures, then "Ask the Command".
+- Checked at 390, 1024, 1280, 1440, 1536 and 1920: nav and controls never overlap, no horizontal overflow, no page errors.
+  Lint and typecheck pass. Not committed.
+- `primaryNav` (another session's seven-link list in the working tree) is left untouched and is not used by this header.
+- [x] **Session 14 Nov 2026 · Owner's visual pass (5 tasks, `docs/prompts/2026-11-14-visual-pass.md` on friendly-wright).**
+  - `/why`: the ASCII ripple section is gone (`AsciiChild`, `components/motion/fx/AsciiRipple.tsx` deleted). In its place
+    `components/sections/why/HorsePlate.tsx`: label, two-voice headline and one plain editorial plate of a black Marwari on a
+    white ground (`kalaPortrait`, grade none, caption below, house `Reveal` only). New copy in `lib/content/fx-scenes.ts`
+    (`whyPlate`): the screen that never notices a child against the horse that turns its ears to them. Light section.
+  - `/curriculum` BondHero: fingertips and muzzle never touch. Re-measured from the cutouts' alpha: at rest (end of the scroll
+    approach and the reduced-motion frame) the gap is 109 px at 1440, 78 px at 1024, 131 px at 1920 and 39 px at 390; the
+    12 px breathing reach leaves at least 27 px on phones. Horse moved left, hand right (and 118vw on phones so the fingers
+    and palm stay in frame); cuff in frame at 1440; head not shrunk.
+  - Theme toggle: the 1fd536e "always dark" pass had deleted `ThemeToggle`, `lib/theme/theme.ts` and the boot script.
+    Restored all three; the toggle sits beside Search in the editorial bar (plain icon, 44 px tall, gold focus ring). To fit
+    on phones: the wordmark steps down below 400 / 380 px and hides below 360 px, the phone Sound button shows on/off only
+    (the mode list is unchanged), "Sound" shows from 1024 px. Measured with the longest Sound label at 360, 390, 414, 768,
+    1024, 1200, 1280 and 1440: nothing overflows. Toggle flips `html[data-theme]` and persists across reloads.
+  - `/schools`: **not done.** Higgsfield balance was 0.25 credits, under the owner's 15-credit floor; no images generated,
+    current campus stills left in place. Needs a credit top-up.
+  - `/contact` GateBondScene: the bronze-looking black model is replaced by `touch-bay-horse.glb` (a living bay head; the
+    model's own fingertips stop well short of the muzzle). Whole model in a wider window (3:2 phones, 16:10 desktop), neck and
+    sleeve fade into the ground. Known: a few stray mane strands at the top-left edge of the model.
+  - Checks: lint 0 errors (touched files clean), typecheck and build pass (the build was run with a free-space guard after
+    the owner freed disk). Screenshotted at 1440 and 390: /why plate (light and dark, reduced motion), /curriculum (rest
+    frame), /contact gate, the tops of /schools, /contact and /curriculum (top 120 px clear of the nav), nav light, dark and
+    keyboard focus on the toggle (2 px outline). `npm test` and the e2e smoke script were not run.
+
+## 14 Nov 2026 · Branch `nav-mega-menu`: navigation fixed to the owner's rules; visual pass (4 of 5)
+
+- **Branch.** No `nav-mega-menu` branch existed; the mega menu was uncommitted work on `claude/legend-fleet-campaign`. It is
+  committed here as a baseline (with the untracked files it imports: `HomeThresholds`, `desert.ts`, `home-thresholds.ts`, the
+  desert and curriculum images), then the owner's prompt and navigation rules (friendly-wright `caa8489`, `fed9fbe`), then the
+  other session's visual pass (`cb28208`, worktree `gifted-cohen-995b47`) with conflicts resolved in favour of the newer header.
+- **One lockup.** `Wordmark` has one variant, `inline`: BLACK STALLION over ACADEMY OF HORSEMANSHIP, sized in em with a `size`
+  prop (`bar` default, `custom` for the footer). The nav, the Reels menu, the console header and the footer all use it; the
+  footer's hand-typed name is gone. The `bold` one-line variant (which dropped the second line below 1700 px) is deleted.
+- **One numbering.** `lib/content/site.ts`: menus list numbered pages by address only; `menuLink()` takes the number and title
+  from `reels` / `tools` and throws if a numbered page is given a label. Mega menus, the phone groups, `footerNav`, `legalNav`
+  and `primaryNav` build from it. Heritage now reads 01, 03, 04 · 19, 22, 23 · 20, 21 (as the Reels menu); unnumbered pages
+  (About, Enrol, Privacy…) show no number. The "01 / 05" menu counter is gone. The footer list shows numbers and titles
+  ("06 Crisis & Cure", not "Crucible & Cure"); "Painted histories" and "Journal" left the small print.
+- `tests/site-nav.test.mjs`: two new guards (every menu shows a numbered page's own number and title, once per menu; no
+  positional numbering in SiteNav). Browser audit of every menu at 1440 and 390 (five mega menus, five phone groups, Reels,
+  footer): every page once per menu, same number and title as `site.ts`.
+- **Theme toggle** in the bar between the account icon and Sound, at every width. Click → `html[data-theme=dark]` and
+  `localStorage`; survives a reload; the whole page swaps (checked on /curriculum, /why, /contact).
+- **/curriculum hand** (on the head-crop layout): horse 1.5u left, hand 3u right. At rest the fingertips stop 109 px short of
+  the muzzle at 1440 (78 at 1024, 88 at 1280, 131 at 1920). Phones: horse slid left (bridle and tassel in frame), hand at life
+  size (66vw) so fingers, wrist and cuff show: 44 px at 390, 39 at 360.
+- **/why** horse plate and **/contact** bay horse: from `cb28208`, reviewed at 1440 and 390, light and dark.
+  `lib/content/covenant.ts` is unchanged (it is not affected by the gate scene).
+- **/schools: not done.** Higgsfield balance 0.25 credits (floor 15). Needed: 6 campus cards + 4 curtain frames (10 stills,
+  2K, Indian campus, BSAH uniform, helmets, Marwari horses).
+- **Checks:** lint 0 errors (the 1,833 errors `npm run lint` prints are all in the ignored `.claude/worktrees/` checkout),
+  typecheck, `npm test` 343/343. **Not run:** `npm run build` and `node scripts/e2e-smoke.mjs`: the disk had 1.9 GB free (swap
+  grew to 5 GB). The running dev server serves stale server HTML (its watcher stopped after the branch rewrite), so pages show
+  a hydration warning until it is restarted; screenshots were taken from the client-rendered tree.

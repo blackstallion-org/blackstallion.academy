@@ -1,0 +1,542 @@
+/* Reel 01 · The Marwari, one painted journey. Colours are role tokens only (app/globals.css). */
+
+.journey {
+  position: relative;
+  background: var(--color-night);
+  color: var(--color-sand);
+  padding-bottom: 4rem;
+}
+
+/* ------------------------------------------------------------------ opening (clears the fixed nav: 64 px phone, 80 px desktop) */
+.intro {
+  padding-top: clamp(6.5rem, 12vh, 9rem);
+  padding-bottom: clamp(1rem, 3vh, 2rem);
+}
+
+/* after the poster the nav is already cleared by the poster above; this is ordinary section spacing (and the Begin target) */
+.introAfterPoster { padding-top: clamp(3rem, 9vh, 6rem); scroll-margin-top: 6rem; }
+
+.actBand {
+  padding-top: clamp(4rem, 12vh, 8rem);
+  padding-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  border-top: 1px solid color-mix(in srgb, var(--color-brass) 30%, transparent);
+}
+
+/* ------------------------------------------------------------------ scenes: shared stage box */
+/* Act I is announced in the opening, so its band is a compact rule that keeps the first painting near the fold */
+.actFirst { padding: 0; border-top: 0; }
+.actFirst p, .actFirst h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.scene { position: relative; }
+.track { position: relative; }
+.stage {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1672 / 941;
+  width: 100%;
+  background: var(--color-umber);
+}
+.stageInner { position: absolute; inset: 0; will-change: transform; }
+.layer { position: absolute; inset: 0; will-change: transform; }
+.gait { position: absolute; inset: 0; }
+.img { object-fit: cover; }
+
+.read { position: relative; min-width: 0; }
+.panel {
+  padding: 1.5rem clamp(1rem, 4vw, 2rem) 2rem;
+  max-width: 46rem;
+  margin-inline: auto;
+}
+.title { font-size: clamp(1.6rem, 2.2vw + 0.8rem, 2.4rem); line-height: 1.12; }
+.list { margin-top: 1rem; display: grid; gap: 0.6rem; }
+.list > div { border-top: 1px solid color-mix(in srgb, var(--color-brass) 30%, transparent); padding-top: 0.5rem; }
+.status {
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--color-dust);
+}
+.dot { flex: none; width: 0.55rem; height: 0.55rem; border-radius: 999px; background: var(--color-brass); transform: translateY(0.05rem); }
+.dotFolk { background: var(--color-gold); box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-gold) 25%, transparent); }
+.dotRecon { background: transparent; border: 1.5px solid var(--color-brass); }
+
+/* atmosphere over the painting; strength set by scroll (GSAP), hidden when nothing moves */
+.fx { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+.fx-dust {
+  background:
+    radial-gradient(40% 22% at 30% 82%, color-mix(in srgb, var(--color-ember) 70%, var(--color-caramel) 30%) 0%, transparent 70%),
+    radial-gradient(30% 16% at 55% 88%, color-mix(in srgb, var(--color-ember) 55%, var(--color-caramel) 45%) 0%, transparent 70%),
+    radial-gradient(26% 14% at 12% 76%, color-mix(in srgb, var(--color-ember) 60%, var(--color-caramel) 40%) 0%, transparent 75%);
+  filter: blur(6px);
+  mix-blend-mode: soft-light;
+}
+.fx-shimmer {
+  background: linear-gradient(180deg, transparent 38%, color-mix(in srgb, var(--color-ember) 40%, transparent) 50%, transparent 62%);
+  filter: blur(10px);
+  mix-blend-mode: screen;
+}
+.fx-lantern {
+  background:
+    radial-gradient(6% 9% at 21% 22%, color-mix(in srgb, var(--color-antique) 60%, var(--color-offwhite)) 0%, transparent 70%),
+    radial-gradient(6% 9% at 47% 26%, color-mix(in srgb, var(--color-antique) 60%, var(--color-offwhite)) 0%, transparent 70%),
+    radial-gradient(5% 8% at 33% 86%, color-mix(in srgb, var(--color-antique) 75%, var(--color-offwhite)) 0%, transparent 70%),
+    radial-gradient(5% 8% at 63% 88%, color-mix(in srgb, var(--color-antique) 75%, var(--color-offwhite)) 0%, transparent 70%);
+  mix-blend-mode: screen;
+}
+.fx-embers {
+  background:
+    radial-gradient(0.5% 0.9% at 54% 60%, color-mix(in srgb, var(--color-antique) 70%, var(--color-offwhite)) 0%, transparent 100%),
+    radial-gradient(0.4% 0.7% at 57% 52%, var(--color-caramel) 0%, transparent 100%),
+    radial-gradient(0.5% 0.9% at 51% 47%, color-mix(in srgb, var(--color-antique) 55%, var(--color-offwhite)) 0%, transparent 100%),
+    radial-gradient(0.35% 0.6% at 59% 42%, var(--color-caramel) 0%, transparent 100%),
+    radial-gradient(14% 16% at 56% 72%, color-mix(in srgb, var(--color-caramel) 35%, transparent) 0%, transparent 70%);
+  mix-blend-mode: screen;
+}
+.fx-ripple {
+  background: repeating-linear-gradient(176deg, transparent 0 14px, color-mix(in srgb, var(--color-ember) 35%, transparent) 14px 16px);
+  mask-image: linear-gradient(180deg, transparent 62%, black 76%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 62%, black 76%, black 92%, transparent 100%);
+  mix-blend-mode: soft-light;
+}
+.fx-warm {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-antique) 35%, transparent), transparent 55%);
+  mix-blend-mode: soft-light;
+}
+
+/* ------------------------------------------------------------------ idle life and ambient atmosphere (own clock, not scroll)
+   Every loop below is transform or opacity only (individual translate / rotate / scale properties), on its own composited
+   layer. Loops run only while the scene is on screen: the scene sets data-live, which flips --mj-play. Still mode never
+   renders these elements; the reduced-motion block at the end of this section hides them again in case it ever did. */
+.scene { --mj-play: paused; }
+.scene[data-live] { --mj-play: running; }
+
+/* the subject rig: base, breathing barrel, nodding head (see Subject in MarwariJourney.tsx) */
+.rig, .rigBase, .rigBarrel, .rigHead { position: absolute; inset: 0; }
+.rigBase {
+  -webkit-mask-image: radial-gradient(ellipse var(--hrx) var(--hry) at var(--hx) var(--hy), transparent 50%, black 66%);
+  mask-image: radial-gradient(ellipse var(--hrx) var(--hry) at var(--hx) var(--hy), transparent 50%, black 66%);
+}
+.rigHead {
+  -webkit-mask-image: radial-gradient(ellipse var(--hrx) var(--hry) at var(--hx) var(--hy), black 70%, transparent 100%);
+  mask-image: radial-gradient(ellipse var(--hrx) var(--hry) at var(--hx) var(--hy), black 70%, transparent 100%);
+  transform-origin: var(--px) var(--py);
+  will-change: rotate;
+  animation: mj-nod 7.4s var(--ease-citadel) var(--mj-phase, 0s) infinite;
+  animation-play-state: var(--mj-play);
+}
+.rigBarrel {
+  -webkit-mask-image: radial-gradient(ellipse var(--brx) var(--bry) at var(--bx) var(--by), black 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse var(--brx) var(--bry) at var(--bx) var(--by), black 55%, transparent 100%);
+  transform-origin: var(--bx) var(--by);
+  will-change: scale;
+  animation: mj-breathe 4.6s var(--ease-citadel) var(--mj-phase, 0s) infinite;
+  animation-play-state: var(--mj-play);
+}
+/* a slow light across the mane: a narrow band sweeps the head; its child counter-moves so the light stays on the painting */
+.sheen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--sl);
+  width: var(--sw);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 45%, black 55%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 45%, black 55%, transparent);
+  mix-blend-mode: screen;
+  will-change: translate;
+  animation: mj-sheen-band 9.5s var(--ease-citadel) calc(var(--mj-phase, 0s) - 2s) infinite;
+  animation-play-state: var(--mj-play);
+}
+.sheenFill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--fl);
+  width: var(--fw);
+  will-change: translate;
+  animation: mj-sheen-fill 9.5s var(--ease-citadel) calc(var(--mj-phase, 0s) - 2s) infinite;
+  animation-play-state: var(--mj-play);
+}
+.sheenImg { filter: brightness(0) invert(0.92) sepia(0.45); opacity: 0.42; }
+
+@keyframes mj-nod {
+  0%, 100% { rotate: 0deg; }
+  36% { rotate: var(--deg); }
+  60% { rotate: calc(var(--deg) * 0.5); }
+  80% { rotate: calc(var(--deg) * -0.3); }
+}
+@keyframes mj-breathe {
+  0%, 100% { scale: 1; }
+  42% { scale: 1.014; }
+}
+@keyframes mj-sheen-band {
+  0% { translate: 0 0; }
+  48%, 100% { translate: var(--st) 0; }
+}
+@keyframes mj-sheen-fill {
+  0% { translate: 0 0; }
+  48%, 100% { translate: var(--ft) 0; }
+}
+
+/* ambient: shared frame, kept off the reading panel's side of the painting on wide screens */
+.amb { position: absolute; inset: 0; overflow: hidden; pointer-events: none; --k: 1; }
+/* particles are drawn in px; on phones the painting is a third of the size, so the tiles shrink with it */
+@media (max-width: 1023.98px) { .amb { --k: 0.6; } }
+.amb > span, .emberField > span, .shaftField > span { display: block; position: absolute; }
+
+/* desert: heat haze along the horizon (behind the subject) and two depths of drifting dust motes */
+.haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22%;
+  height: 26%;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg, transparent 0 5px, color-mix(in srgb, var(--color-offwhite) 26%, transparent) 5px 6px, transparent 6px 11px);
+  -webkit-mask-image: linear-gradient(180deg, transparent, black 40%, black 60%, transparent);
+  mask-image: linear-gradient(180deg, transparent, black 40%, black 60%, transparent);
+  mix-blend-mode: soft-light;
+  transform-origin: 50% 60%;
+  will-change: translate, scale;
+  animation: mj-haze 3.8s var(--ease-citadel) var(--mj-phase, 0s) infinite alternate;
+  animation-play-state: var(--mj-play);
+}
+.motes { left: 0; top: 0; will-change: translate, opacity; animation-play-state: var(--mj-play); }
+.motesNear {
+  width: calc(100% + calc(260px * var(--k)));
+  height: calc(100% + calc(200px * var(--k)));
+  --mote: color-mix(in srgb, color-mix(in srgb, var(--color-offwhite) 75%, var(--color-antique)) 75%, transparent);
+  background-image:
+    radial-gradient(circle at calc(24px * var(--k)) calc(36px * var(--k)), var(--mote) 0 calc(1.6px * var(--k)), transparent calc(2.8px * var(--k))),
+    radial-gradient(circle at calc(130px * var(--k)) calc(18px * var(--k)), var(--mote) 0 calc(1.2px * var(--k)), transparent calc(2.4px * var(--k))),
+    radial-gradient(circle at calc(204px * var(--k)) calc(122px * var(--k)), var(--mote) 0 calc(2px * var(--k)), transparent calc(3.4px * var(--k))),
+    radial-gradient(circle at calc(70px * var(--k)) calc(152px * var(--k)), var(--mote) 0 calc(1.3px * var(--k)), transparent calc(2.5px * var(--k))),
+    radial-gradient(circle at calc(168px * var(--k)) calc(72px * var(--k)), var(--mote) 0 calc(1px * var(--k)), transparent calc(2px * var(--k))),
+    radial-gradient(circle at calc(238px * var(--k)) calc(180px * var(--k)), var(--mote) 0 calc(1.5px * var(--k)), transparent calc(2.7px * var(--k)));
+  background-size: calc(260px * var(--k)) calc(200px * var(--k));
+  animation: mj-drift-near 34s linear var(--mj-phase, 0s) infinite, mj-twinkle 5.5s ease-in-out var(--mj-phase, 0s) infinite alternate;
+}
+.motesFar {
+  width: calc(100% + calc(360px * var(--k)));
+  height: calc(100% + calc(150px * var(--k)));
+  --mote: color-mix(in srgb, var(--color-offwhite) 50%, transparent);
+  background-image:
+    radial-gradient(circle at calc(20px * var(--k)) calc(30px * var(--k)), var(--mote) 0 calc(0.9px * var(--k)), transparent calc(1.8px * var(--k))),
+    radial-gradient(circle at calc(96px * var(--k)) calc(110px * var(--k)), var(--mote) 0 calc(0.8px * var(--k)), transparent calc(1.6px * var(--k))),
+    radial-gradient(circle at calc(150px * var(--k)) calc(54px * var(--k)), var(--mote) 0 calc(1px * var(--k)), transparent calc(2px * var(--k))),
+    radial-gradient(circle at calc(60px * var(--k)) calc(84px * var(--k)), var(--mote) 0 calc(0.7px * var(--k)), transparent calc(1.5px * var(--k)));
+  background-size: calc(180px * var(--k)) calc(150px * var(--k));
+  animation: mj-drift-far 58s linear var(--mj-phase, 0s) infinite, mj-twinkle 7s ease-in-out calc(var(--mj-phase, 0s) - 3s) infinite alternate;
+}
+@keyframes mj-haze { from { translate: 0 0; scale: 1 1; } to { translate: 0 -0.35rem; scale: 1.015 1.08; } }
+@keyframes mj-drift-near { from { translate: 0 0; } to { translate: calc(-260px * var(--k)) calc(-200px * var(--k)); } }
+@keyframes mj-drift-far { from { translate: 0 0; } to { translate: calc(-360px * var(--k)) calc(-150px * var(--k)); } }
+@keyframes mj-twinkle { from { opacity: 0.45; } to { opacity: 0.95; } }
+
+/* battle: a low warm glow and two depths of sparks rising out of the dust, fading as they climb */
+.emberField {
+  inset: 0;
+  -webkit-mask-image: linear-gradient(0deg, transparent 0%, black 12%, black 55%, transparent 92%);
+  mask-image: linear-gradient(0deg, transparent 0%, black 12%, black 55%, transparent 92%);
+}
+.glow {
+  left: -10%;
+  right: -10%;
+  bottom: -18%;
+  height: 55%;
+  background: radial-gradient(50% 60% at 50% 100%, color-mix(in srgb, var(--color-caramel) 45%, transparent), transparent 72%);
+  will-change: opacity;
+  animation: mj-flicker 2.8s ease-in-out var(--mj-phase, 0s) infinite alternate;
+  animation-play-state: var(--mj-play);
+}
+.sparks { left: 0; top: 0; will-change: translate; animation-play-state: var(--mj-play); }
+.sparksNear {
+  width: 100%;
+  height: calc(100% + calc(260px * var(--k)));
+  /* a hot core inside a darker ember halo, so the sparks read on red sky and bright sand alike */
+  --hot: color-mix(in srgb, var(--color-antique) 40%, var(--color-offwhite));
+  --halo: var(--color-caramel);
+  --rim: color-mix(in srgb, var(--color-chestnut) 55%, transparent);
+  background-image:
+    radial-gradient(circle at calc(40px * var(--k)) calc(50px * var(--k)), var(--hot) 0 calc(2.6px * var(--k)), var(--halo) calc(3.8px * var(--k)), var(--rim) calc(5px * var(--k)), transparent calc(7px * var(--k))),
+    radial-gradient(circle at calc(150px * var(--k)) calc(120px * var(--k)), var(--hot) 0 calc(2px * var(--k)), var(--halo) calc(3px * var(--k)), var(--rim) calc(4.2px * var(--k)), transparent calc(6px * var(--k))),
+    radial-gradient(circle at calc(96px * var(--k)) calc(210px * var(--k)), var(--hot) 0 calc(3px * var(--k)), var(--halo) calc(4.2px * var(--k)), var(--rim) calc(5.6px * var(--k)), transparent calc(7.8px * var(--k))),
+    radial-gradient(circle at calc(186px * var(--k)) calc(30px * var(--k)), var(--hot) 0 calc(1.6px * var(--k)), var(--halo) calc(2.6px * var(--k)), var(--rim) calc(3.6px * var(--k)), transparent calc(5px * var(--k))),
+    radial-gradient(circle at calc(20px * var(--k)) calc(172px * var(--k)), var(--hot) 0 calc(1.8px * var(--k)), var(--halo) calc(2.8px * var(--k)), var(--rim) calc(3.8px * var(--k)), transparent calc(5.4px * var(--k))),
+    radial-gradient(circle at calc(128px * var(--k)) calc(236px * var(--k)), var(--hot) 0 calc(1.4px * var(--k)), var(--halo) calc(2.3px * var(--k)), var(--rim) calc(3.2px * var(--k)), transparent calc(4.6px * var(--k)));
+  background-size: calc(210px * var(--k)) calc(260px * var(--k));
+  animation: mj-rise-near 6.5s linear var(--mj-phase, 0s) infinite;
+}
+.sparksFar {
+  left: calc(-150px * var(--k));
+  width: calc(100% + calc(150px * var(--k)));
+  height: calc(100% + calc(380px * var(--k)));
+  --hot: color-mix(in srgb, var(--color-caramel) 75%, transparent);
+  background-image:
+    radial-gradient(circle at calc(30px * var(--k)) calc(40px * var(--k)), var(--hot) 0 calc(1px * var(--k)), transparent calc(2px * var(--k))),
+    radial-gradient(circle at calc(110px * var(--k)) calc(140px * var(--k)), var(--hot) 0 calc(0.9px * var(--k)), transparent calc(1.8px * var(--k))),
+    radial-gradient(circle at calc(70px * var(--k)) calc(90px * var(--k)), color-mix(in srgb, var(--color-caramel) 60%, transparent) 0 calc(0.8px * var(--k)), transparent calc(1.6px * var(--k)));
+  background-size: calc(150px * var(--k)) calc(190px * var(--k));
+  animation: mj-rise-far 11s linear calc(var(--mj-phase, 0s) - 4s) infinite;
+}
+@keyframes mj-flicker { 0% { opacity: 0.2; } 40% { opacity: 0.38; } 70% { opacity: 0.26; } 100% { opacity: 0.34; } }
+@keyframes mj-rise-near { from { translate: 0 0; } to { translate: 0 calc(-260px * var(--k)); } }
+@keyframes mj-rise-far { from { translate: 0 0; } to { translate: calc(150px * var(--k)) calc(-380px * var(--k)); } }
+
+/* palace: three soft shafts of light falling across the courtyard, slowly brightening and drifting */
+.shaftField {
+  inset: 0;
+  -webkit-mask-image: linear-gradient(180deg, black 0%, black 40%, transparent 92%);
+  mask-image: linear-gradient(180deg, black 0%, black 40%, transparent 92%);
+  mix-blend-mode: screen;
+}
+.shaft {
+  top: -30%;
+  height: 160%;
+  rotate: 24deg;
+  transform-origin: 50% 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-offwhite) 80%, var(--color-antique)) 50%, transparent);
+  opacity: 0.14;
+  will-change: translate, opacity;
+  animation: mj-shaft 11s var(--ease-citadel) var(--mj-phase, 0s) infinite;
+  animation-play-state: var(--mj-play);
+}
+.shaft:nth-child(1) { left: 16%; width: 9%; }
+.shaft:nth-child(2) { left: 36%; width: 14%; animation-duration: 14s; animation-delay: calc(var(--mj-phase, 0s) - 5s); }
+.shaft:nth-child(3) { left: 60%; width: 6%; animation-duration: 9s; animation-delay: calc(var(--mj-phase, 0s) - 2s); }
+@keyframes mj-shaft {
+  0%, 100% { opacity: 0.16; translate: 0 0; }
+  45% { opacity: 0.46; translate: 1.5% 0; }
+}
+
+@media (min-width: 1024px) {
+  .journey[data-mode="story"] .scene[data-side="left"]:is([data-layout="panorama"], [data-layout="plate"]) .amb {
+    -webkit-mask-image: linear-gradient(90deg, color-mix(in srgb, black 15%, transparent) 0 34%, black 56%);
+    mask-image: linear-gradient(90deg, color-mix(in srgb, black 15%, transparent) 0 34%, black 56%);
+  }
+  .journey[data-mode="story"] .scene[data-side="right"]:is([data-layout="panorama"], [data-layout="plate"]) .amb {
+    -webkit-mask-image: linear-gradient(270deg, color-mix(in srgb, black 15%, transparent) 0 34%, black 56%);
+    mask-image: linear-gradient(270deg, color-mix(in srgb, black 15%, transparent) 0 34%, black 56%);
+  }
+}
+
+/* belt and braces: no loops for reduced motion or still mode, and no rig where masks are unsupported */
+.journey[data-mode="static"] :is(.amb, .haze, .rigHead, .rigBarrel) { display: none; }
+.journey[data-mode="static"] .rigBase { -webkit-mask-image: none; mask-image: none; }
+@media (prefers-reduced-motion: reduce) {
+  .amb, .haze, .rigHead, .rigBarrel { display: none; }
+  .rigBase { -webkit-mask-image: none; mask-image: none; }
+}
+@supports not ((mask-image: none) or (-webkit-mask-image: none)) {
+  .rigHead, .rigBarrel, .haze { display: none; }
+}
+
+/* ------------------------------------------------------------------ wide screens, moving story */
+@media (min-width: 1024px) {
+  .journey[data-mode="story"] .scene[data-layout="panorama"] .track { height: 240svh; }
+  .journey[data-mode="story"] .scene[data-layout="plate"] .track { height: 175svh; }
+  .journey[data-mode="story"] .scene[data-layout="panorama"] .sticky,
+  .journey[data-mode="story"] .scene[data-layout="plate"] .sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+  /* the stage starts below the fixed 80 px nav, so nothing of the painting (ears, heads) is ever under it; at 1440 x 900
+     the remaining box is almost exactly the paintings' 16:9 */
+  .journey[data-mode="story"] .scene[data-layout="panorama"] .stage,
+  .journey[data-mode="story"] .scene[data-layout="plate"] .stage {
+    position: absolute;
+    inset: 5rem 0 0 0;
+    aspect-ratio: auto;
+    height: auto;
+  }
+  /* the reading panel holds still on the painting's quiet side, below the nav and clear of the act rail */
+  .journey[data-mode="story"] .scene[data-layout="panorama"] .read,
+  .journey[data-mode="story"] .scene[data-layout="plate"] .read {
+    position: absolute;
+    bottom: clamp(1.5rem, 6vh, 3.5rem);
+    width: min(29rem, 36vw);
+    max-height: calc(100svh - 5rem - 2rem - clamp(1.5rem, 6vh, 3.5rem));
+    overflow: auto;
+  }
+  .journey[data-mode="story"] .scene[data-side="left"] .read { left: 5.5rem; }
+  .journey[data-mode="story"] .scene[data-place="top"] .read { bottom: auto; top: calc(5rem + clamp(1rem, 3vh, 2rem)); }
+  .journey[data-mode="story"] .scene[data-side="right"] .read { right: 2.5rem; }
+  .journey[data-mode="story"] .scene[data-layout="panorama"] .panel,
+  .journey[data-mode="story"] .scene[data-layout="plate"] .panel {
+    margin: 0;
+    padding: 1.4rem 1.6rem 1.5rem;
+    background: var(--color-ember);
+    border: 1px solid color-mix(in srgb, var(--color-brass) 35%, transparent);
+    box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--color-bone) 45%, transparent);
+  }
+
+  /* detail and inset: a two-column spread, the painting framed like a folio */
+  .journey[data-mode="story"] .scene[data-layout="detail"] .sticky,
+  .journey[data-mode="story"] .scene[data-layout="inset"] .sticky {
+    display: grid;
+    align-items: center;
+    gap: clamp(2rem, 4vw, 4rem);
+    padding: clamp(4rem, 12vh, 7rem) clamp(5.5rem, 7vw, 7rem) clamp(4rem, 12vh, 7rem) clamp(5.5rem, 7vw, 7rem);
+  }
+  .journey[data-mode="story"] .scene[data-layout="detail"] .sticky { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); }
+  .journey[data-mode="story"] .scene[data-layout="inset"] .sticky { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .journey[data-mode="story"] .scene[data-side="left"][data-layout="detail"] .sticky { grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); }
+  .journey[data-mode="story"] .scene[data-side="left"][data-layout="detail"] .read,
+  .journey[data-mode="story"] .scene[data-side="left"][data-layout="inset"] .read { order: -1; }
+  .journey[data-mode="story"] .scene[data-layout="detail"] .stage,
+  .journey[data-mode="story"] .scene[data-layout="inset"] .stage {
+    border: 1px solid color-mix(in srgb, var(--color-brass) 45%, transparent);
+    outline: 6px solid var(--color-umber);
+    outline-offset: 0;
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--color-brass) 30%, transparent);
+  }
+  .journey[data-mode="story"] .scene[data-layout="detail"] .panel,
+  .journey[data-mode="story"] .scene[data-layout="inset"] .panel { padding: 0; margin: 0; max-width: none; }
+}
+
+/* ------------------------------------------------------------------ reading mode and reduced motion: static, normal flow */
+.journey[data-mode="static"] .fx { display: none; }
+.journey[data-mode="static"] .stageInner,
+.journey[data-mode="static"] .layer { will-change: auto; }
+@media (min-width: 1024px) {
+  .journey[data-mode="static"] .sticky {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+    padding: 3rem clamp(5.5rem, 7vw, 7rem);
+  }
+  .journey[data-mode="static"] .scene[data-side="left"] .read { order: -1; }
+  .journey[data-mode="static"] .panel { margin: 0; padding: 0; max-width: none; }
+  .journey[data-mode="static"] .scene[data-side="left"] .sticky { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+}
+
+/* ------------------------------------------------------------------ text on the painting's parchment (wide screens)
+   Scenes with a `parchment` box set their heading and text inside the empty parchment of the painting, in both the moving
+   story and reading mode. The painting and the text share one grid cell; container units (cqw = 1% of the painting's
+   width) place and size the text so it stays inside the box at every width. Phones keep the text stacked below. */
+@media (min-width: 1024px) {
+  .journey[data-mode] .scene[data-layout][data-parchment] .sticky {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    align-items: start;
+    container-type: inline-size;
+    padding: clamp(4rem, 12vh, 7rem) clamp(5.5rem, 7vw, 7rem);
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .stage,
+  .journey[data-mode] .scene[data-layout][data-parchment] .read {
+    grid-area: 1 / 1;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .read {
+    position: relative;
+    inset: auto;
+    order: 0;
+    z-index: 2;
+    align-self: start;
+    justify-self: start;
+    /* the paintings are 1672 x 941, so 1% of their height is 0.5628 cqw */
+    margin-left: calc(var(--pm-x) * 1cqw);
+    margin-top: calc(var(--pm-y) * 0.5628cqw);
+    width: calc(var(--pm-w) * 1cqw);
+    max-height: calc(var(--pm-h) * 0.5628cqw);
+    overflow: hidden;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .panel {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .title {
+    font-size: clamp(1.05rem, 2.15cqw, 2rem);
+    line-height: 1.1;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .panel p:not(.status):not(:global(.label)) {
+    font-size: clamp(0.74rem, 1.24cqw, 1.06rem);
+    line-height: 1.5;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .status {
+    margin-top: 0.8em;
+    font-size: clamp(0.66rem, 0.95cqw, 0.8rem);
+  }
+}
+
+/* ------------------------------------------------------------------ wayfinding */
+.rail { display: none; }
+@media (min-width: 1024px) {
+  .rail {
+    display: flex;
+    gap: 0.75rem;
+    position: fixed;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    align-items: stretch;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+  .rail.railShown { opacity: 1; visibility: visible; }
+}
+.railList { display: flex; flex-direction: column; gap: 0.35rem; }
+.railLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  color: var(--color-dust);
+  background: color-mix(in srgb, var(--color-ember) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-brass) 30%, transparent);
+  font-size: 0.8rem;
+}
+.railLink:hover, .railLink:focus-visible { color: var(--color-gold); }
+.railLink:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+.railOn { color: var(--color-gold); border-color: var(--color-gold); }
+.railName {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.4s ease;
+  font-family: var(--font-ui, inherit);
+}
+.railLink:hover .railName, .railLink:focus-visible .railName { max-width: 12rem; }
+.railTrack { width: 2px; background: color-mix(in srgb, var(--color-brass) 25%, transparent); position: relative; overflow: hidden; }
+.railFill { position: absolute; inset: 0; background: var(--color-gold); transform-origin: top; transition: transform 0.2s linear; }
+
+.phoneBar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.55rem 1rem calc(0.55rem + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--color-ember) 94%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--color-brass) 30%, transparent);
+  font-size: 0.7rem;
+  transform: translateY(110%);
+  transition: transform 0.3s ease;
+}
+.phoneBar.railShown { transform: none; }
+@media (min-width: 1024px) { .phoneBar { display: none; } }
+.phoneTrack { height: 2px; background: color-mix(in srgb, var(--color-brass) 25%, transparent); position: relative; overflow: hidden; }
+.phoneFill { position: absolute; inset: 0; background: var(--color-gold); transform-origin: left; transition: transform 0.2s linear; }
+
+.close {
+  padding-top: clamp(4rem, 12vh, 8rem);
+  padding-bottom: 3rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-brass) 30%, transparent);
+}

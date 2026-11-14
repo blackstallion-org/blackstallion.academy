@@ -1,4 +1,5 @@
 import type { MediaKey } from "@/lib/content/media";
+import { desert, druzCredit, type DesertPhoto } from "@/lib/content/desert";
 
 /**
  * The full-screen scroll curtain (components/motion/fx/CurtainChapters.tsx, first used on /parents) on the home page and the seven
@@ -7,7 +8,7 @@ import type { MediaKey } from "@/lib/content/media";
  * no figures, no health claims (Blueprint Part 9). The home curtain uses the four stills no other page uses (28 Oct 2026, owner's request:
  * no /legend photographs on the home page); two of them are atmospheric dust frames until the shoot supplies more. `time` is the small mono kicker on each frame.
  */
-export type CurtainChapter = { image: MediaKey; time: string; title: string; line: string; kicker?: string; cue?: "bow" };
+export type CurtainChapter = { image?: MediaKey; photo?: DesertPhoto; credit?: string; time: string; title: string; line: string; kicker?: string; cue?: "bow" };
 export type CurtainSet = { label: string; chapters: CurtainChapter[] };
 
 export const curtains = {
@@ -16,8 +17,8 @@ export const curtains = {
     chapters: [
       { image: "heroDust", time: "I", title: "Out of the dust.", line: "A Marwari stallion breaks out of a cloud of desert dust: the breed the academy is built around." },
       { image: "riderLance", time: "II", title: "A lance at dusk.", line: "A young rider lowers a tent-pegging lance at the gallop: the skill the curriculum builds toward." },
-      { image: "dustWall", time: "III", title: "Where the dust lifts.", line: "When a session ends, the track dust rises off the sand and the next cadets ride in." },
-      { image: "dustPlume", time: "IV", title: "Then it settles.", line: "A last plume of dust thins out. The lineage is handed on, one cadet at a time." },
+      { photo: desert.rearingAtDawn, credit: druzCredit, time: "III", title: "Where the dust lifts.", line: "When a session ends, the track dust rises off the sand and the next cadets ride in." },
+      { photo: desert.canyonRider, time: "IV", title: "Then it settles.", line: "A last plume of dust thins out. The lineage is handed on, one cadet at a time." },
     ],
   },
   legend: {

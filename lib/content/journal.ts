@@ -58,8 +58,6 @@ export const posts: Post[] = [
       { t: "h", text: "A seal of purity" },
       { t: "p", text: "Breeders in Marwar have a saying that the ears are the first trait to disappear when a Marwari is crossed with another breed. Straighten the curve and you have lost the horse. So the ears became a kind of certificate, read by eye at every horse fair in Rajasthan long before there was a studbook to check." },
       { t: "p", text: "Today the Marwari Horse Society keeps that studbook, with official registration since 2009. The ears are still the first thing anyone looks at." },
-      { t: "h", text: "Our monogram" },
-      { t: "p", text: "When we designed the academy's mark, there was only one place to start. The monogram is two curling ears and a blaze between them. It stands for the same thing the ears have always stood for in Marwar: you can tell what something is made of by what it pays attention to." },
     ],
   },
   {

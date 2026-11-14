@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { EquipmentCrispHeader } from "@/components/sections/equipment/EquipmentCrispHeader";
 import { HorseEquipmentSection } from "@/components/sections/equipment/HorseEquipmentSection";
 import { MaterialsEditorial } from "@/components/sections/editorial/ReferencePanels";
@@ -17,7 +16,6 @@ export default function EquipmentPage() {
       <div className="pt-10">
         <HorseEquipmentSection />
         <MaterialsEditorial />
-        <EndCard current={2} />
       </div>
     </>
   );

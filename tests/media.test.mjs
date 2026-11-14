@@ -21,14 +21,15 @@ test("every media key resolves to a shipped file or a remote URL when local medi
   assert.deepEqual(missing, []);
 });
 
-// The eight stills that exist only on the image provider's CDN are 2K PNG masters of about 7.5 MB each. Until they are
+// The stills that exist only on the image provider's CDN are 2K PNG masters of about 7.5 MB each. Until they are
 // downloaded and shipped as WebP they must go through the provider's resizer (about 0.2 MB), never straight to the master.
+// 14 Nov 2026: the four peg-run stills were shipped locally, which leaves the four academy-day stills on the CDN.
 test("CDN-only stills are requested through the resizer as WebP, not as the PNG master", async () => {
   delete process.env.NEXT_PUBLIC_LOCAL_MEDIA;
   delete process.env.NEXT_PUBLIC_MEDIA_BASE_URL;
   const { media, mediaSrc } = await loadTs("lib/content/media.ts");
   const cdnOnly = Object.keys(media).filter((k) => media[k].file === "" && /^https:\/\//.test(media[k].remote || ""));
-  assert.ok(cdnOnly.length >= 8, `expected the eight new stills, found ${cdnOnly.length}`);
+  assert.ok(cdnOnly.length >= 4, `expected the four academy-day stills, found ${cdnOnly.length}`);
   for (const key of cdnOnly) {
     const src = mediaSrc(key);
     const u = new URL(src);

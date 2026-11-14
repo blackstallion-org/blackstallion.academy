@@ -1,4 +1,7 @@
-# Four Worlds (`/worlds`)
+# Four Worlds (`/worlds`), now two
+
+> **14 Nov 2026 (owner):** Life (cells) and Beyond (space) were cut; the film is Origins → Legacy and ends in the cloud. The
+> sections below that describe Worlds 02 and 04 are history; their code (`scenes/life*`, `scenes/beyond*`) and `public/worlds/beyond/` are deleted.
 
 One horse, four worlds, one continuous camera. A separate route (in the Reels menu as reel 18 "Four Worlds" and in the top bar as "Worlds"), built as an isolated
 module: nothing outside `components/worlds/`, `app/worlds/`, `lib/content/worlds.ts`, `public/worlds/` and

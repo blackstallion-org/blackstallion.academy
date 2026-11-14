@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { MorningCurtain } from "@/components/sections/parents/MorningCurtain";
-import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
 import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
 import { CadetAdmissionPortal } from "@/components/sections/parents/CadetAdmissionPortal";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
+import { ParentRingVisit } from "@/components/sections/campaign/CampaignSections";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/parents" },
@@ -19,6 +20,9 @@ export default function ParentsPage() {
       <ParentsTitle />
       <PinnedPhone />
       <ParentVantageGallery />
+      {/* 14 Nov 2026: parents at the riding ring (AI illustrations of the concept). */}
+      <ParentRingVisit />
+      <EditorialGallery page="parents" />
       <MorningCurtain />
       <HoofPath />
       <Receipt />
@@ -36,7 +40,6 @@ export default function ParentsPage() {
         </div>
       </section>
       <ReplayHeadline typeface="brush" id="parents-replay" label="The guardian vow" text="You watch them discover who they are." tone="dark" defaultMode="lines" />
-      <EndCard current={10} />
     </>
   );
 }

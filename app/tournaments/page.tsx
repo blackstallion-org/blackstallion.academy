@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { CircuitTitle, FixtureBoard, Podium, StandingsLanes, TournamentActionGallery } from "@/components/sections/tournaments/TournamentScenes";
 import { PegRun } from "@/components/sections/tournaments/PegRun";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/tournaments" },
@@ -17,10 +17,10 @@ export default function TournamentsPage() {
       <StandingsLanes />
       <FixtureBoard />
       <PegRun />
+      <EditorialGallery page="tournaments" />
       <TournamentActionGallery />
       <Podium />
       <ReplayHeadline typeface="condensed" id="tournaments-replay" label="The circuit doctrine" text="Victory belongs to the disciplined rein." tone="dark" defaultMode="words" />
-      <EndCard current={15} />
     </>
   );
 }

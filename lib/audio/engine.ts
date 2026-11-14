@@ -17,7 +17,8 @@ export const SOUND_FILES = {
   neigh: asset("/audio/interactions/neigh.mp3"),
   horseCall: asset("/audio/interactions/horse-call.mp3"),
   snort: asset("/audio/interactions/snort.mp3"),
-  breath: asset("/audio/interactions/breath.mp3"),
+  // 14 Nov 2026 (owner): the four-burst breathing clip sounded like a cough; every breath cue is now the one short snort.
+  breath: asset("/audio/interactions/snort.mp3"),
   gallop: asset("/audio/interactions/gallop.mp3"),
   walk: asset("/audio/interactions/walk.mp3"),
   saddle: asset("/audio/interactions/saddle.mp3"),
@@ -28,7 +29,7 @@ export const SOUND_FILES = {
 export type SoundEffect = keyof typeof SOUND_FILES;
 export const HORSE_PALETTE: readonly SoundEffect[] = ["neigh", "horseCall", "snort", "breath", "gallop", "walk", "saddle"];
 /** The occasional idle call while music plays: the quieter, non-alarming members of the palette. */
-export const IDLE_CALLS: readonly SoundEffect[] = ["horseCall", "snort", "breath", "neigh"];
+export const IDLE_CALLS: readonly SoundEffect[] = ["horseCall", "snort", "neigh"];
 const EQUINE = new Set<SoundEffect>(HORSE_PALETTE);
 const LEVELS: Record<SoundEffect, number> = { neigh: 0.08, horseCall: 0.1, snort: 0.12, breath: 0.14, gallop: 0.16, walk: 0.16, saddle: 0.14, leather: 0.16, tack: 0.1, key: 0.08 };
 const KEY = "bsah-sound";
@@ -63,6 +64,7 @@ export function soundEnabled(): boolean {
 }
 
 export function stopEffects(): void {
+  stopBackgroundHorse();
   players.forEach(({ el }) => {
     el.pause();
     try { el.currentTime = 0; } catch { /* Unloaded media has no seek range. */ }
@@ -210,8 +212,69 @@ export function playEffect(name: SoundEffect, volume = LEVELS[name], minGapMs = 
   } catch { return false; }
 }
 
+/**
+ * Background horse sounds (14 Nov 2026, owner): two long snorting recordings that play, one at a time and alternating, once a
+ * minute (components/site/Soundscape.tsx) wherever the sound menu allows horse sounds. They have their own voice, so a 32-second
+ * clip never silences the link and button sounds, and they sit quietly: the music only dips a little while one plays.
+ */
+export const BACKGROUND_HORSE = [asset("/audio/interactions/snorting-short.mp3"), asset("/audio/interactions/snorting-long.mp3")] as const;
+const BACKGROUND_LEVEL = 0.1;
+const BACKGROUND_DUCK = 0.8;
+const background = new Map<number, { el: HTMLAudioElement; gain: GainNode | null }>();
+
+/** True while a background horse sound is sounding (the idle calls wait for it). */
+export function backgroundHorsePlaying(): boolean {
+  return Array.from(background.values()).some(({ el }) => !el.paused && !el.ended);
+}
+
+/** Plays background horse sound number `index` (wrapping) if sound is on and allowed, the tab is visible, no film owns the sound and nothing else is sounding. Returns whether it started. */
+export function playBackgroundHorse(index: number): boolean {
+  if (!effectsAllowed || !soundEnabled() || !unlocked || document.hidden || filmPlaying()) return false;
+  if (backgroundHorsePlaying() || effectPlaying()) return false;
+  const i = ((index % BACKGROUND_HORSE.length) + BACKGROUND_HORSE.length) % BACKGROUND_HORSE.length;
+  try {
+    let entry = background.get(i);
+    if (!entry) {
+      const el = new Audio();
+      el.preload = "none";
+      el.src = BACKGROUND_HORSE[i];
+      el.dataset.bsahBackgroundHorse = String(i);
+      el.hidden = true;
+      el.setAttribute("aria-hidden", "true");
+      document.body.appendChild(el);
+      let gain: GainNode | null = null;
+      const route = effectsBus();
+      if (route) {
+        try {
+          gain = route.context.createGain();
+          route.context.createMediaElementSource(el).connect(gain).connect(route.node);
+        } catch { gain = null; }
+      }
+      el.addEventListener("ended", () => releaseMusic("background-horse"));
+      el.addEventListener("pause", () => releaseMusic("background-horse"));
+      entry = { el, gain };
+      background.set(i, entry);
+    }
+    if (entry.gain) { entry.el.volume = 1; entry.gain.gain.value = BACKGROUND_LEVEL * GRAPH_EFFECT_GAIN; } else entry.el.volume = BACKGROUND_LEVEL;
+    entry.el.currentTime = 0;
+    duckMusic("background-horse", BACKGROUND_DUCK);
+    void entry.el.play().catch(() => { entry?.el.pause(); });
+    return true;
+  } catch { return false; }
+}
+
+function stopBackgroundHorse(): void {
+  background.forEach(({ el }) => {
+    el.pause();
+    try { el.currentTime = 0; } catch { /* Unloaded media has no seek range. */ }
+  });
+  releaseMusic("background-horse");
+}
+
 export function disposeSoundscape(): void {
   stopEffects();
+  background.forEach(({ el }) => { el.removeAttribute("src"); el.load(); el.remove(); });
+  background.clear();
   players.forEach(({ el }) => { el.removeAttribute("src"); el.load(); el.remove(); });
   players.clear();
   unlocked = false;
