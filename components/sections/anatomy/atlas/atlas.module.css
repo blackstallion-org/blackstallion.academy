@@ -1,0 +1,485 @@
+/* Anatomy atlas (AnatomyAtlas.tsx). The illustration palette is set once here as custom properties (artwork colours, not UI
+   tokens); each view swaps what the body is drawn in. The UI around it uses the site's role tokens. */
+
+.section {
+  --atlas-coat: #3a2b21;
+  --atlas-coat-far: #271d16;
+  --atlas-hoof: #2b241f;
+  --atlas-hoof-far: #1f1a16;
+  --atlas-tail: #1c1611;
+  --atlas-ghost: #e2d5be;
+  --atlas-ghost-far: #d8cab1;
+  --atlas-ghost-line: #c4b392;
+  --atlas-bone: #f3ebda;
+  --atlas-bone-far: #dfd2b9;
+  --atlas-bone-line: #8f7b58;
+  --atlas-cart: #dfe5dc;
+  --atlas-m1: #9b4a3b;
+  --atlas-m2: #b05f4a;
+  --atlas-m3: #8a4134;
+  --atlas-m4: #a6674f;
+  --atlas-tendon: #eadcbd;
+  --atlas-lit: #c9a66b;
+  --atlas-ground: #c9b896;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.segment {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-ember);
+}
+.segBtn {
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-sand);
+  transition: background-color 0.3s, color 0.3s;
+}
+.segBtn:hover {
+  color: var(--color-bone);
+}
+.segBtn[aria-pressed="true"] {
+  background: var(--color-gold);
+  color: var(--color-ivory, #f3ede2);
+}
+.segBtn:focus-visible,
+.toggle:focus-visible,
+.chip:focus-visible,
+.round:focus-visible,
+.play:focus-visible,
+.conn:focus-visible,
+.range:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.5rem;
+  padding: 0 0.9rem 0 0.4rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-sand);
+}
+.knob {
+  position: relative;
+  width: 2.1rem;
+  height: 1.25rem;
+  border-radius: 999px;
+  background: var(--color-line);
+  transition: background-color 0.3s;
+}
+.knob::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(1.25rem - 4px);
+  height: calc(1.25rem - 4px);
+  border-radius: 999px;
+  background: var(--color-ember);
+  transition: transform 0.3s;
+}
+.toggle[aria-checked="true"] .knob {
+  background: var(--color-gold);
+}
+.toggle[aria-checked="true"] .knob::after {
+  transform: translateX(0.85rem);
+}
+
+.plate {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 45%, color-mix(in srgb, var(--color-ember) 90%, white 10%), transparent 75%),
+    var(--color-ember);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 790;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.grab {
+  cursor: grab;
+  touch-action: none;
+}
+.grab:active {
+  cursor: grabbing;
+}
+
+/* layers fade in and out between views */
+.layer {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.layer[data-on] {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .layer,
+  .shape {
+    transition: none !important;
+  }
+}
+
+/* body tones swap per view: the coat in the horse-and-rider view, a pale ghost behind the skeleton and the muscles */
+.svg {
+  --coat: var(--atlas-coat);
+  --coat-far: var(--atlas-coat-far);
+  --hoof: var(--atlas-hoof);
+  --hoof-far: var(--atlas-hoof-far);
+  --tail: var(--atlas-tail);
+  --body-line: transparent;
+}
+.svg[data-view="skeleton"],
+.svg[data-view="muscle"] {
+  --coat: var(--atlas-ghost);
+  --coat-far: var(--atlas-ghost-far);
+  --hoof: var(--atlas-ghost-far);
+  --hoof-far: var(--atlas-ghost-far);
+  --tail: var(--atlas-ghost-far);
+  --body-line: var(--atlas-ghost-line);
+}
+.svg[data-view="skeleton"] .l-body,
+.svg[data-view="skeleton"] .l-farBody {
+  opacity: 0.55;
+}
+
+.shape {
+  transition: fill 0.6s, stroke 0.3s, opacity 0.3s;
+}
+.stroke {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.t-coat { fill: var(--coat); stroke: var(--body-line); stroke-width: 0.8; }
+.t-coatFar { fill: var(--coat-far); }
+.t-hoof { fill: var(--hoof); }
+.t-hoofFar { fill: var(--hoof-far); }
+.t-tail { fill: var(--tail); }
+.t-eye { fill: #120e0b; }
+.svg[data-view="skeleton"] .t-eye,
+.svg[data-view="muscle"] .t-eye { fill: var(--atlas-ghost-line); }
+.t-line { stroke: #120e0b; stroke-width: 1.6; }
+.t-bone { fill: var(--atlas-bone); stroke: var(--atlas-bone-line); stroke-width: 0.9; }
+.t-boneFar { fill: var(--atlas-bone-far); stroke: var(--atlas-bone-line); stroke-width: 0.6; opacity: 0.7; }
+.t-boneSoft { fill: color-mix(in srgb, var(--atlas-bone) 70%, transparent); stroke: var(--atlas-bone-line); stroke-width: 0.8; }
+.t-boneLine { stroke: color-mix(in srgb, var(--atlas-bone-line) 70%, var(--atlas-bone)); stroke-width: 4.2; }
+.t-cart { fill: var(--atlas-cart); stroke: var(--atlas-bone-line); stroke-width: 0.6; }
+.t-cartLine { stroke: var(--atlas-cart); stroke-width: 3; }
+.t-hole { fill: color-mix(in srgb, var(--atlas-bone-line) 45%, var(--atlas-bone)); }
+.t-m1, .t-m2, .t-m3, .t-m4 { stroke: color-mix(in srgb, #3b1b14 55%, transparent); stroke-width: 0.9; }
+.t-m1 { fill: var(--atlas-m1); }
+.t-m2 { fill: var(--atlas-m2); }
+.t-m3 { fill: var(--atlas-m3); }
+.t-m4 { fill: var(--atlas-m4); }
+.t-tendon { stroke: var(--atlas-tendon); stroke-width: 4; }
+.t-leather { fill: #7a4b2b; }
+.t-leatherDark { fill: #5b3720; }
+.t-strap { stroke: #4a2e1c; stroke-width: 2.6; }
+.t-metal { stroke: #b6afa3; stroke-width: 2.2; }
+.t-rein { stroke: #5a3a22; stroke-width: 1.8; }
+.t-breeches { fill: #efe8da; stroke: #cfc4b0; stroke-width: 0.8; }
+.t-jacket { fill: #1d2335; }
+.t-skin { fill: #d4a687; }
+.t-helmet { fill: #191c25; }
+.t-boot { fill: #15120f; }
+.t-glove { fill: #2a2420; }
+
+/* the horse and rider view with the skeletons laid over the coat */
+.svg[data-view="rider"] .l-bone[data-on],
+.svg[data-view="rider"] .l-farBone[data-on] {
+  opacity: 0.92;
+}
+
+/* highlighting: the chosen structures turn gold; the others step back */
+.pick {
+  cursor: pointer;
+}
+.svg[data-lit] .l-bone .pick:not(.lit),
+.svg[data-lit] .l-muscle .pick:not(.lit),
+.svg[data-lit] .l-farBone .pick:not(.lit) {
+  opacity: 0.38;
+}
+.lit.t-bone,
+.lit.t-boneFar,
+.lit.t-cart,
+.lit.t-boneSoft {
+  fill: color-mix(in srgb, var(--atlas-lit) 55%, var(--atlas-bone));
+  stroke: color-mix(in srgb, var(--atlas-lit) 80%, black);
+  opacity: 1;
+}
+.lit.t-boneLine,
+.lit.t-cartLine,
+.lit.t-tendon {
+  stroke: var(--atlas-lit);
+}
+.lit.t-m1,
+.lit.t-m2,
+.lit.t-m3,
+.lit.t-m4 {
+  fill: color-mix(in srgb, var(--atlas-lit) 60%, #9b4a3b);
+  stroke: color-mix(in srgb, var(--atlas-lit) 70%, black);
+}
+.lit.t-jacket,
+.lit.t-breeches,
+.lit.t-boot,
+.lit.t-skin {
+  stroke: var(--atlas-lit);
+  stroke-width: 2.4;
+}
+
+.groundLine {
+  stroke: var(--atlas-ground);
+  stroke-width: 1.2;
+}
+.tick {
+  stroke: var(--atlas-ground);
+  stroke-width: 1;
+}
+
+.plumb {
+  stroke: var(--atlas-lit);
+  stroke-width: 1.4;
+  stroke-dasharray: 6 5;
+}
+.cog {
+  fill: color-mix(in srgb, var(--atlas-lit) 25%, transparent);
+  stroke: var(--atlas-lit);
+  stroke-width: 1.4;
+}
+.cogCross {
+  stroke: var(--atlas-lit);
+  stroke-width: 1.2;
+}
+
+.label {
+  cursor: pointer;
+}
+.leader {
+  stroke: var(--color-dust);
+  stroke-width: 0.8;
+}
+.dot {
+  fill: var(--color-ember);
+  stroke: var(--color-bone);
+  stroke-width: 1.1;
+}
+.labelText {
+  font-family: var(--font-serif-display), Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  fill: var(--color-bone);
+  paint-order: stroke;
+  stroke: var(--color-ember);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.labelOn .leader {
+  stroke: var(--atlas-lit);
+  stroke-width: 1.4;
+}
+.labelOn .dot {
+  fill: var(--atlas-lit);
+  stroke: var(--atlas-lit);
+}
+.labelOn .labelText {
+  fill: var(--color-gold);
+}
+@media (max-width: 767px) {
+  .labelText {
+    font-size: 19px;
+  }
+}
+
+.zoom {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+@media (max-width: 767px) {
+  .zoom {
+    position: static;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0 0.5rem 0.5rem;
+  }
+}
+.round {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-ember);
+  color: var(--color-bone);
+  font-size: 1.05rem;
+  transition: border-color 0.3s, color 0.3s;
+}
+.round:hover:not(:disabled) {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+.round:disabled {
+  opacity: 0.4;
+}
+
+.tip {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-ember) 92%, transparent);
+  border: 1px solid var(--color-line);
+  font-family: var(--font-serif-display), Georgia, serif;
+  font-style: italic;
+  color: var(--color-bone);
+  pointer-events: none;
+}
+
+.chip {
+  min-height: 2.25rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: 0.75rem;
+  color: var(--color-sand);
+  transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+}
+.chip:hover,
+.chip[aria-pressed="true"] {
+  border-color: var(--color-gold);
+  color: var(--color-bone);
+}
+.chip[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--color-gold) 14%, transparent);
+}
+
+.movement {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-line);
+}
+.play {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-ivory, #f3ede2);
+  font-size: 0.9rem;
+}
+.play:disabled {
+  opacity: 0.4;
+}
+.range {
+  width: 100%;
+  accent-color: var(--color-gold);
+}
+
+.ffLabel {
+  font-family: var(--font-martian), monospace;
+  font-size: 11px;
+  fill: var(--color-dust);
+}
+.ffTrack {
+  fill: color-mix(in srgb, var(--color-line) 60%, transparent);
+}
+.ffFore {
+  fill: var(--color-gold);
+}
+.ffHind {
+  fill: var(--color-brass);
+}
+.ffHead {
+  stroke: var(--color-bone);
+  stroke-width: 1.5;
+}
+
+.readouts {
+  display: grid;
+  gap: 0.5rem;
+}
+.readouts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-line);
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: 0.8rem;
+}
+.readouts dt {
+  color: var(--color-dust);
+}
+.readouts dd {
+  font-family: var(--font-martian), monospace;
+  color: var(--color-bone);
+}
+
+.card {
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: var(--color-ember);
+}
+.conn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.conn:hover {
+  border-color: var(--color-line);
+}
+.conn[aria-pressed="true"] {
+  border-color: var(--color-gold);
+  background: color-mix(in srgb, var(--color-gold) 12%, transparent);
+}

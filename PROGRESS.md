@@ -1095,3 +1095,91 @@ workspace); no live payment, e-mail or signed-in run was possible.
     screenshotted at both widths. Console shows warnings only (pre-existing WebGL and preload).
   - Not committed: the page files also carry other sessions' uncommitted work (the earlier photo removal, the nav and the /legend
     poster).
+
+## 14 Nov 2026 · /legend poster, closer horse-and-hand crops, mega-menu navigation
+
+- **/legend poster.** The page now opens on the same `StoryPoster` as the painted histories: 100svh, slow push-in, label and
+  two-voice title bottom-left, "Begin ↓". The art is journey painting 01 (the black Marwari galloping through the Thar),
+  flattened, upscaled to 2400×1357 and mirrored so the horse gallops in from the right and the title sits on open desert:
+  `public/images/story/marwari/poster.webp`. Higgsfield had no credits, so there was no new generation; replace the file to
+  change the art. `MarwariJourney` takes `afterPoster`: its opening then drops the kicker and h1 (one h1 per page) and keeps
+  the subtitle, note and reading toggle, as `#journey-start`, the Begin target.
+- **/curriculum (BondHero).** Head and hand are larger and closer. Both are sized and placed in one unit
+  (`--u: min(1vw, 1.6svh)`), so the crop holds at 1280×720, 1440×900 and 1920×1080. The ears clear the nav and the fingertips
+  stop about 25 px from the muzzle. The scroll drift is cut to 1.5vw/2.5vw, so the opening frame is already close. On phones
+  the head fills the stage and the fingers reach the nose. Copy, images and the section are unchanged.
+- **/contact (GateBondScene).** The full bust is gone. The model is one fused mesh (horse and hand together), so the crop draws
+  the square canvas larger than a clipped window and offsets it. The window shows ears to jaw, the muzzle, the fingers and the
+  wrist, and fades out the neck, mane and cuff. The window is 11:10 beside the text on desktop and square, full-bleed above
+  the text on phones. The section is no longer 100svh.
+- **Navigation.**
+  - The header keeps the wine strip, crest and wordmark, sound toggle, search, "Enrol a Cadet" and the reels button.
+  - Its five words (Academy, Cadets, Training, Programs, Heritage) now open a full-screen ivory mega menu under the bar. Each
+    menu has a numbered title, a one-line lead and three columns with section headings. The links are numbered 01–09 in
+    Noto Serif Display italic under thin rules, with a footer (Ask the Command, Enrol a cadet).
+  - The menu data is `navMenus` in `lib/content/site.ts`, which notes the few pages left out on purpose and why.
+  - Behaviour:
+    - The menu opens on click, and moving along the bar switches menus.
+    - Escape closes and returns focus to the word; opening from the keyboard focuses the first link; tabbing out closes it.
+    - Page scroll is locked while a menu is open.
+    - The word you are on keeps a faint copper rule.
+  - Below 1200 px the reels menu leads with the same five menus as disclosures.
+  - Reduced motion: fades only.
+- Checks: lint 0 errors, typecheck and `next build` pass. Screenshots at 390 and 1440 for /legend, /curriculum, /contact and
+  the menus, plus 1280 and 1920 for /curriculum and reduced motion for /legend and the menus. No console errors on the four
+  routes. Keyboard checked. Not committed.
+- [x] **14 Nov 2026 · Header put back to the previous design (owner: "old navigation bar, put back fast").** `components/site/SiteNav.tsx`, `components/site/SoundToggle.tsx`, `components/brand/Wordmark.tsx` and `lib/content/site.ts` restored to their versions in commit `1eee3b7` (crest left, bold two-line BLACK STALLION / ACADEMY OF HORSEMANSHIP centred, profile, sound, enrol, Reels); `SiteNav.module.css` removed. This drops the wine strip, the five header links and the uncommitted mega-menu work by another session; copies of all five files as they were are in the side-session notes folder (`nav-backup-2026-11-14-0908/`). 80 px desktop / 64 px phone unchanged; lint and typecheck pass.
+- [x] **14 Nov 2026 · /curriculum title: horse cropped like the owner's reference, attached to the left edge.** New `public/images/curriculum/marwari-black-head.webp` (602 x 879, transparent; cut from `marwari-black-cutout.webp` at x 760-1362, y 4-883 to match the reference: head and neck, ears near the top, no garlands or chest). `components/sections/curriculum/BondHero.tsx` + `BondHero.module.css`: the horse sits flush on the left edge of the page (neck leaving the frame there), 41 units wide (a unit = 1vw capped by 1.6svh), top never closer than 5.4rem so the ears clear the 80 px nav; the hand moved to stop just short of the muzzle; phones show the head at 74vw with the hand at the right edge. Scroll drift, breathing and reduced-motion behaviour unchanged. Media manifest regenerated (the new file is staged, not committed, because the manifest lists tracked files only). Checked at 1440, 1920, 1024, 390 and reduced motion: no horizontal scroll, no errors. Lint, typecheck, build pass; 337/337 tests. Not tested: Safari, a real phone.
+- [x] **14 Nov 2026 · Home: "Five doors." section (owner: five of the arch photographs, big, editorial).** New `components/sections/home/HomeThresholds.tsx` and `lib/content/home-thresholds.ts`, placed after the Studbook on `/`. Five of the six `/schools` heritage photographs (Indigo, Marble, The gateway, Painted haveli, The steps), two to a row at about 640 px wide each on a 1440 screen (up to about 750 px on very wide ones), the second of each pair dropped like facing pages, the fifth beside a closing line and the credit; one column on phones (full width). "Bougainvillea" is left out because its photographer's mark is the largest. Photographs are shown at their natural proportions, never cropped; the photographers' own marks stay in the pictures (small ones on Marble and Painted haveli) and the credit line names Ekaterina Druz, as on `/schools`. No new image files: it reuses `public/images/marwari-editorial/schools-0N.webp`, so those five now appear on both `/schools` and `/`. Reveal: slight push-in and rise; reduced motion shows them still. Copy is descriptive only (no claim that these are academy horses). Checked at 1440, 390 and reduced motion: all images load, no horizontal scroll, no errors. Lint, typecheck, build pass.
+- [x] **14 Nov 2026 · Home: desert pictures replace the dark dust frames (owner's five images).** Five supplied images processed into `public/images/desert/` (WebP; small originals enlarged with Lanczos and light sharpening; staged, not committed) and described in `lib/content/desert.ts`. On `/`: curtain frame III "Where the dust lifts." is the Druz silhouette (held to the top so the photographer's mark stays; credit line at the foot of the frame), curtain frame IV "Then it settles." is the canyon rider, the wide band under "Four ranks" is the rider at sunset (replacing `legend-ears-2026-11.webp`), and the banner above the Command is the van Alderen and Hafner silhouettes side by side (one on phones), uncropped marks and a credit line under it (replacing `gallop.webp`). `CurtainChapters` can now show a supplied photograph (`photo`, `credit`) as well as a graded still. Frames I and II of the home curtain are unchanged. The wide rider and the canyon rider are paintings or composites, not photographs; Druz (540 px) and Hafner (720 px) originals are small, so they are soft at full width. The old dust and gallop files are still in the repository. Checked at 1440, 390 and reduced motion: all images load, no horizontal scroll, no errors. Lint, typecheck, build pass; 337/337 tests. The first build run failed only because the disk was full (ENOSPC); it passed after freeing space.
+- [x] **14 Nov 2026 · /anatomy: the 3D horse-and-rider exhibit and stride lab replaced by an interactive 2D anatomy atlas.**
+  - Owner's brief named "/instrument"; the reel "The Instrument" is /anatomy, which held the three.js "Two bodies" iframe
+    (`public/anatomy/dual-body.html`) and the embedded WebGL stride lab. Both are replaced by
+    `components/sections/anatomy/atlas/AnatomyAtlas.tsx`. /science's `SomaticMap` used the same iframe and now shows the atlas.
+    /stride keeps its own 3D lab.
+  - Removed: `dual-body.html`, `exhibit.js`/`.css`, `public/anatomy/vendor/{three,marwari,motion.js}` (about 2.5 MB) and
+    `scripts/build-anatomy-vendor.mjs`. The `DualBody` export is gone. `matrix.html` keeps `vendor/gsap.min.js`.
+  - Rig (`lib/anatomy/atlas-rig.ts`), SVG only (no WebGL):
+    - Lateral near-side horse, a 150 cm Marwari at about 2.9 units/cm, on frames: trunk, neck (carried high, lengthened), head,
+      tail, and each limb segment.
+    - Stance: the hoof is planted and moves back at body speed; the column follows the limb's inclination; the fetlock sinks
+      under load; breakover is about the toe; humerus/radius and femur/tibia come from two-bone IK. The pastern lands more
+      upright when a long stride is out of reach.
+    - Swing: forward kinematics, interpolating every segment angle from lift-off to landing plus a flexion wave (carpus or
+      hock folding, elbow and stifle forward).
+    - Gaits: walk four-beat lateral (LH, LF, RH, RF; duty 0.63), trot diagonal pairs with suspension, canter right lead (LH, RH
+      + LF, RF; forehand up in the hind stance), halt.
+    - Body: back bob, canter pitch, head nod.
+    - Rider: pelvis follows the back, upper body near vertical, leg IK to a stirrup, arm IK with the hands following about half
+      the head motion.
+  - Scene (`lib/anatomy/atlas-scene.ts`):
+    - Original drawings, no traced references. Splines through frame landmarks, so outlines and muscles stretch with the motion.
+    - Bones: skull, mandible, C1–C7, T1–T18 with withers spines, 18 rib pairs with costal cartilages, sternum, L1–L6, sacrum,
+      tail; scapula, humerus, radius/ulna with olecranon, carpus, cannon and splints, sesamoids, P1–P3; pelvis, femur, patella,
+      tibia/fibula, tarsus and calcaneus, metatarsus.
+    - 20 superficial muscle groups, plus tendons and the nuchal ligament. Rider body and rider skeleton. Saddle and bridle.
+  - Content (`lib/content/anatomy-atlas.ts`):
+    - A description for every labelled structure (veterinary nomenclature). Acupuncture meridians from one reference were not
+      used.
+    - The three connections (Brain, Heart, Spine) kept from the old exhibit, with focus and highlight.
+    - Gait facts, and a REVIEW list shown on the page under "what an expert should check".
+  - UI:
+    - Views (Skeleton, Muscles, Horse & rider) cross-fade.
+    - Toggles for labels, rider, and skeleton overlay. Labels sit at fixed positions with leaders that follow the anatomy.
+    - Hover and click to highlight; an info card for the selection.
+    - Gait, play/pause, speed (0.25×, 0.5×, real time), and a stride scrubber.
+    - Footfall diagram with playhead; live hoof states.
+    - Rider readouts: saddle rise in mm, hip, knee and elbow angles, heel-to-hip offset. An ear-shoulder-hip-heel line and
+      approximate centre-of-gravity markers.
+    - Zoom (buttons, ctrl/⌘ or pinch, drag to pan, foreleg and hindleg presets, GSAP tweens). A structure index as buttons.
+  - Reduced motion: no autoplay, and instant transitions. Phones open framed on the horse with on-canvas labels off.
+  - Tests: `tests/anatomy-atlas.test.mjs`:
+    - Stance hooves within 1.5 units of the ground and not sliding; swing hooves clear it.
+    - Each gait loops seamlessly; footfall order and suspension are correct.
+    - Every label, connection and shape is wired up.
+  - Checks: lint 0 errors, typecheck, build, tests 341/341. Browser at 1440 and 390: the animation runs; reduced motion holds
+    still until play; a connection zooms and lights its structures; the focus ring is visible; no console errors from the atlas.
+  - Needs expert review (as listed on the page): proportions, joint-angle curves (approximations, not motion capture),
+    simplified superficial muscles, centre-of-gravity and weight-split figures.
+  - Not mine: `BondHero.module.css` has uncommitted edits from another session, and the dev server reported a CSS parse error
+    there.
