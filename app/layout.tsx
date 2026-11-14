@@ -7,7 +7,6 @@ import { Atmosphere } from "@/components/film/Atmosphere";
 import { Loader } from "@/components/motion/Loader";
 import { loaderBootScript } from "@/lib/opening/boot";
 import { introBootScript } from "@/lib/opening/intro-boot";
-import { themeBootScript } from "@/lib/theme/theme";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { SiteParallax } from "@/components/motion/SiteParallax";
@@ -36,20 +35,18 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F3EDE2",
-  colorScheme: "light",
+  themeColor: "#171412",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={fontVariables} suppressHydrationWarning>
+    <html lang="en-IN" data-theme="dark" className={fontVariables} suppressHydrationWarning>
       <head>
         {/* Decides before first paint whether the intro film plays (first visit to the home page per session); it runs first and, when the film plays, marks the loader as seen. */}
         <script dangerouslySetInnerHTML={{ __html: introBootScript }} />
         {/* Decides before first paint whether the first-visit loader shows. */}
         <script dangerouslySetInnerHTML={{ __html: loaderBootScript }} />
-        {/* Applies the visitor's saved dark mode before first paint (lib/theme/theme.ts). */}
-        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body className="grain bg-night text-bone">
         <MotionProvider>

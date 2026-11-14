@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { FilmImage } from "@/components/film/FilmImage";
@@ -13,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { r3 } from "@/lib/round";
 import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
 
-const BondHero = dynamic(() => import("./BondHero"), { ssr: false, loading: () => <div className="h-[85svh] bg-[#f2ece1]" /> });
+import BondHero from "./BondHero";
 
 /** Title card · A quiet close-up leaves the curriculum introduction unobstructed. */
 export function CurriculumTitle() {

@@ -2716,6 +2716,78 @@
       "status": "accepted",
       "prompt": "The story's purple-shrub foreground band (band-fg), tiled mirrored across the width (no new generation).",
       "review": "Reviewed 2026-11-12 by Claude: composite of accepted story art, bands seamless, scenery in its painted place, no text."
+    },
+    {
+      "id": "PR-POSTER",
+      "role": "poster",
+      "path": "/images/history/pratap/poster.webp",
+      "width": 2400,
+      "height": 1357,
+      "alpha": false,
+      "alt": "Maharana Pratap rides the grey stallion Chetak at full stretch, lance levelled, toward the dust of the Haldighati battle line; a hill fort on the ridge and a small memorial pavilion by a stream at dusk",
+      "focal": "66% 50%",
+      "version": 1,
+      "status": "accepted",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "background": "opaque",
+        "quality": "high",
+        "job_id": "1e54a275-8772-4bc3-9aae-9285e09f3983"
+      },
+      "prompt": "Indian miniature painting in the Rajput and Mughal manner, matching the style of the reference plates: fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Key-art poster for the legend of Maharana Pratap and his horse Chetak at the battle of Haldighati, 1576, telling the whole story in one frame: Pratap on the blue-grey Chetak in a great leap in the right-centre foreground; behind them the battle line with banners, horsemen and a war elephant in ochre dust; the Aravalli hills with a hill fort; on the far left a stream and a small memorial chhatri at dusk. The lower-left quarter calm and dark for a title. References: PR03-B and the story's charge cutout. No text, no lettering, no border, no frame.",
+      "review": "Reviewed 2026-11-14 by Claude: matches the Pratap story palette and miniature manner; Chetak has one head, two ears, four legs with hooves and a full tail; rider, lance and shield read cleanly; lower-left calm; no text. Chetak is told as legend on the page."
+    },
+    {
+      "id": "JH-POSTER",
+      "role": "poster",
+      "path": "/images/history/lakshmibai/poster.webp",
+      "width": 2400,
+      "height": 1357,
+      "alpha": false,
+      "alt": "Rani Lakshmibai gallops a dark bay horse below the fort of Jhansi at night, sword raised, her son seated behind her under a shawl; smoke and torchlight on the ramparts, a crescent moon",
+      "focal": "70% 50%",
+      "version": 1,
+      "status": "accepted",
+      "generation": {
+        "model": "gpt_image_2_6",
+        "resolution": "2k",
+        "aspect_ratio": "16:9",
+        "background": "opaque",
+        "quality": "medium",
+        "job_id": "168f4552-69d6-4f07-b88d-d7aa0620ffa6"
+      },
+      "prompt": "Indian miniature painting in the Rajput and Mughal manner, matching the style of the reference plates: fine ink contours, opaque watercolour gouache surfaces, layered elevated perspective, painted textile patterns, restrained gold highlights, palette of indigo, malachite green, vermilion, gold and ivory on aged paper. Key-art poster for the story of Rani Lakshmibai of Jhansi, 1858: the Rani on a dark bay horse at a gallop, sword raised, her son behind her under a shawl, in the right-centre foreground; Jhansi fort on its granite hill above the walled town with torchlight and stylised grey smoke, nothing graphic; indigo sky with a crescent moon. The lower-left quarter calm for a title. References: JH01-B and JH06-S. No text, no lettering, no border, no frame.",
+      "review": "Reviewed 2026-11-14 by Claude: matches JH01-B (same fort, town and tank) and the scroll palette; horse has one head, two ears, four legs with hooves and a full tail; the boy and the Rani read clearly; smoke stays stylised; no text (gateway checked at full size); lower-left calm."
+    },
+    {
+      "id": "IN-POSTER",
+      "role": "poster",
+      "path": "/images/history/india/poster.webp",
+      "width": 2400,
+      "height": 1357,
+      "alpha": false,
+      "alt": "A painted panorama of India's horses: Rajput riders on the desert road below a fort, a horse doctor and his apprentice examining a chestnut horse on a green hill, horses grazing by a river, and a Jodhpur Lancer leaping the river at the gallop",
+      "focal": "70% 58%",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Composited on 2026-11-14 from accepted India art, no new generation: the opening plate IN00 with the subject cutouts IN02-S (the horse doctor, Shalihotra tradition) at 330 px wide on the hill by the chhatri and IN07-S (Jodhpur Lancer, Haifa 1918) at 560 px wide leaping the river, each with a soft contact shadow. Interim until a dedicated Higgsfield montage can be generated (credits ran out on 2026-11-14).",
+      "review": "Reviewed 2026-11-14 by Claude: both cutouts sit in the landscape at its own scale and light, no halos at the edges, anatomy as in their accepted masters; lower-left is the existing desert riders, held by the poster gradients; no text."
+    },
+    {
+      "id": "WO-POSTER",
+      "role": "poster",
+      "path": "/images/history/world/poster.webp",
+      "width": 2400,
+      "height": 1357,
+      "alpha": false,
+      "alt": "A painted panorama of the world's horses: Greek islands and temples, a camel and horse caravan across the desert, a palace below snow mountains, steppe riders and a running herd",
+      "focal": "80% 60%",
+      "version": 1,
+      "status": "accepted",
+      "prompt": "Interim: the accepted opening plate WO00, re-encoded at 2400 px as the poster. Compositing a foreground rider (WO05-S) was tried and rejected because it hid the herd. Replace with a dedicated Higgsfield montage when credits allow (credits ran out on 2026-11-14).",
+      "review": "Reviewed 2026-11-14 by Claude: same image as the accepted WO00 (Persian and Mughal manuscript manner, horses anatomically complete, no text); used as the poster until a dedicated montage is generated."
     }
   ]
 }

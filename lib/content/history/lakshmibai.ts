@@ -134,6 +134,7 @@ export const lakshmibai: HistoryPage = {
     inscription: "Rani Lakshmibai",
     voice: "who would not give up Jhansi.",
     lede: "A queen, a city and the year that made her a legend. Scroll to unroll the painting, or read the story straight through.",
+    poster: "JH-POSTER",
   },
   chapters: [
     { id: "chapter-the-rider", numeral: "I", title: "The rider", scenes: scenes.slice(0, 2) },

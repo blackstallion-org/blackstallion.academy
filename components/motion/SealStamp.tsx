@@ -97,11 +97,12 @@ export function SealStamp({
             <stop offset="55%" stopColor="#C9A66B" />
             <stop offset="100%" stopColor="#8A6A3E" />
           </radialGradient>
-          <mask id={`seal-crest-${uid}`} maskUnits="userSpaceOnUse" x="33" y="33" width="54" height="54">
-            <image href={asset("/brand/bsah-stamp-mark.webp?v=2")} x="33" y="33" width="54" height="54" preserveAspectRatio="xMidYMid meet" />
+          {/* 14 Nov 2026 (owner): the crest larger (72 of the 120 units, was 54) and the ring text smaller. */}
+          <mask id={`seal-crest-${uid}`} maskUnits="userSpaceOnUse" x="24" y="24" width="72" height="72">
+            <image href={asset("/brand/bsah-stamp-mark.webp?v=2")} x="24" y="24" width="72" height="72" preserveAspectRatio="xMidYMid meet" />
           </mask>
-          <path id={`seal-top-${uid}`} d="M18 60 A42 42 0 0 1 102 60" />
-          <path id={`seal-bottom-${uid}`} d="M14 60 A46 46 0 0 0 106 60" />
+          <path id={`seal-top-${uid}`} d="M15.5 60 A44.5 44.5 0 0 1 104.5 60" />
+          <path id={`seal-bottom-${uid}`} d="M16 60 A44 44 0 0 0 104 60" />
         </defs>
 
         {/* Beaded rim */}
@@ -115,22 +116,22 @@ export function SealStamp({
 
         {/* Engraving (debossed into the brass) */}
         <g fill="none" stroke="#2A1D15" strokeOpacity="0.55">
-          <circle cx="60" cy="60" r="49" strokeWidth="1.2" />
-          <circle cx="60" cy="60" r="33" strokeWidth="0.9" />
+          <circle cx="60" cy="60" r="51" strokeWidth="1.1" />
+          <circle cx="60" cy="60" r="41.5" strokeWidth="0.9" />
         </g>
         <g fill="#2A1D15" fillOpacity="0.62" className="t-inscribe">
-          <text fontSize="10" letterSpacing="3" textAnchor="middle">
+          <text fontSize="6.4" letterSpacing="1.9" textAnchor="middle">
             <textPath href={`#seal-top-${uid}`} startOffset="50%">
               {label}
             </textPath>
           </text>
-          <text fontSize="7" letterSpacing="2.4" textAnchor="middle">
+          <text fontSize="4.8" letterSpacing="1.6" textAnchor="middle">
             <textPath href={`#seal-bottom-${uid}`} startOffset="50%" dominantBaseline="hanging">
               BSAH · STPCI
             </textPath>
           </text>
           {/* the official BSAH crest, engraved */}
-          <rect x="33" y="33" width="54" height="54" mask={`url(#seal-crest-${uid})`} />
+          <rect x="24" y="24" width="72" height="72" mask={`url(#seal-crest-${uid})`} />
         </g>
       </motion.svg>
     </motion.div>

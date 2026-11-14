@@ -977,3 +977,64 @@ workspace); no live payment, e-mail or signed-in run was possible.
 - No real passport/identity photos were found in the workspace; none placed.
 - Checks: typecheck, lint 0 errors, 337/337 unit tests (clean tree), build, e2e 19/19; Playwright screenshots at 1440x900 and
   390x844 in `scratch/screens-2026-11-14/` (33 images; nav ends at 81/65 px with nothing under it; no horizontal overflow).
+- [x] **14 Nov 2026 · /legend: the horse breathes, per-act atmosphere.** In every one of the 20 painted scenes one horse has
+  idle life on its own clock (not scroll): a feathered copy of the head and upper neck nods 0.9–2° about the withers, a feathered
+  barrel copy breathes 1.4 %, and a light silhouette sweeps the mane through a moving band. The cut-outs hold riders and handlers too,
+  so the whole layer never moves. Coordinates per scene in `lib/content/marwari-journey.ts` (`idle`); rig in `Subject`
+  (`components/sections/legend/journey/MarwariJourney.tsx`). Atmosphere (`ambient`): desert scenes get two depths of dust motes and a
+  horizon haze, battle scenes (05, 06, 16) rising sparks with a low glow, palace and courtyard scenes (03, 04, 08, 18, 19, 09) soft
+  light shafts; 07, 14 and 15 keep only their existing scroll fx. Effects sit in the stage under the reading panel and thin out on
+  its side. All loops are CSS transform/opacity (house curve), pause off screen (`data-live` via IntersectionObserver) and are not
+  rendered in reading mode or reduced motion (plus a CSS guard). The journey CSS now uses the fixed `--color-offwhite` for its light
+  accents, because the always-dark work remaps `--color-ivory` to near-black.
+  Checks: lint 0 errors, typecheck, build pass. Screenshots (own headless Chrome, the shared Playwright profile was busy) at 1440x900
+  and 390x844 with a frame-to-frame diff confirming the nod, breath, motes, sparks and shafts; reduced motion renders only the base
+  layers; nav clear in the top 120 px. Not checked: Safari, a real phone's GPU cost, frame rate.
+- [x] **14 Nov 2026 · Story posters on the four history scrolls.** `/story/pratap-chetak`, `/story/rani-lakshmibai`,
+  `/history/india` and `/history/world` now open on a full-screen film-poster key art (`components/film/StoryPoster.tsx`):
+  100svh, slow Ken Burns push-in (32 s, origin at the subject), `shade-b`/`shade-l` plus a deeper wash of the `--color-night`
+  token, label + two-voice `Headline` (h1) bottom-left, a "Begin ↓" link to the title card, top padding ≥ 120 px, `tone-photo`
+  scope (dark, role tokens only). Reduced motion: still image, text fades only. New optional `opening.poster` (ledger id) in
+  `lib/content/history/types.ts`; when it resolves to accepted art, `HistoryPages.tsx` renders the poster first and the title card
+  below keeps only the lede, reading toggle and contents (the anthology's old opening figure is skipped). Art, all in
+  `docs/history-scrolls/ASSET_LEDGER.json` as role `poster`, accepted with review notes:
+  - `PR-POSTER` (Higgsfield gpt_image_2_6, high) Pratap on Chetak at Haldighati; `JH-POSTER` (medium) the Rani riding from Jhansi fort
+    with her son. Both inspected at full size: anatomy complete, no lettering, lower-left calm.
+  - `IN-POSTER` is a composite of accepted art (IN00 + IN02-S horse doctor + IN07-S Jodhpur Lancer); `WO-POSTER` is WO00 unchanged.
+    Both are **interim**: Higgsfield credits ran out (1.25 left after the second poster). Generate the India and World montages
+    when credits allow and replace the two files at the same paths.
+  - Checks: lint 0 errors, typecheck and `next build` pass (all four routes static). Screenshots of all four routes at 1440×900 and 390×844 (and reduced motion
+    at 390) from the running dev server: one h1 per page, poster label top ≥ 276 px desktop / 526 px phone, nav clear; Begin lands
+    the title card at 128 px; focus ring visible on Begin. `npm test`: 330/337, the 7 failures are outside this change (BondHero
+    asset(), intro film clock, other sessions' new stills, and `media-manifest.json`, which needs `node scripts/media-manifest.mjs`
+    once the in-flight media settles; it will also pick up the four new `poster.webp` files).
+- [x] **14 Nov 2026 · Owner's site pass (dark always, nav, intro cut, sound, crest, tournaments, passport, parents, curriculum).**
+  - Always dark: `<html data-theme="dark">` is static in `app/layout.tsx` (viewport `#171412`, `colorScheme: dark`); the theme toggle
+    and `lib/theme/theme.ts` are deleted.
+  - Nav: the bold two-line wordmark ("Black Stallion / Academy of Horsemanship", `Wordmark layout="bold"`) sits where the page links
+    were; the links live in the Reels menu. Flex layout, so it never sits under a control.
+  - Opening film: two worlds, Origins → (iris) → Legacy, ending as the camera rises into the cloud (`FILM_SECONDS` 42,
+    `END_SECONDS` 3.4). Life (cells) and Beyond (space) are deleted with their code, posters and `public/worlds/beyond/`; /worlds
+    and the Reels entry ("The Opening") follow. Checked live: hill → eye → fort → cloud → dark home.
+  - Sound: `breath.mp3` (four bursts that read as a cough) is deleted; `snort.mp3` is now one 0.9 s snort and plays for every breath
+    cue; `breath` left the idle calls.
+  - Logo: the placeholder ear monogram (`Monogram`, `Crest`, `paths.ts`, `monogram.svg`) is removed; the BSAH crest (`CrestMark`)
+    takes its place on passport seals, verify certificate and seals, the schools invitation and the about fallback. The journal
+    paragraph that described the ear monogram is removed. `SealStamp`: crest 72/120 units (was 54), ring text ~0.65×.
+  - /tournaments: the STPCI medal is the hero (large, centred, warm rim light); the charge photo and streaks are gone. Peg run:
+    the four stills ship locally (`public/media/peg-*.webp/.avif`), so the WebGL dissolve is no longer blocked by CORS (1.8 s,
+    1.2 s fallback fade); the "Speed · Timing" marquee is removed.
+  - /parents: `parentsRail` is the campaign ring-visit still (uniformed instructor and cadet); the lower ring plate shows the
+    courtyard lesson so nothing repeats.
+  - /cadets passport: `PassportBook` (CSS 3D): navy leather board with spine, page block and back board, gold-foil cover with the
+    BSAH crest; scroll tilts it in, opens the cover (identity lining) and strikes the seals. No background photo. Reduced motion:
+    open and still.
+  - /curriculum: `BondHero` on the dark ground with a warm light behind the horse; hand and muzzle close in with scroll (`r()`),
+    reduced motion still. Plain import (no `ssr:false`).
+  - Not done: the owner's royal photos (IMG_4263–4279) are **not placed**. Almost all carry other photographers' watermarks
+    (equine-photo.net, ForestBoys.com, Trojańska-Koch, Kwiatkowski, Hafner), so they need permission first. The gate close-up for
+    the home stallion, photo-real re-edits of the curriculum cutouts and the India/World montage posters wait for Higgsfield
+    credits (0.25 left).
+  - Checks: lint 0 errors, typecheck, build pass; tests 336/337 (the one failure is the uncommitted fleet work:
+    `FleetWorlds.tsx` names the untracked `stallion-facing-left.webp`). Screenshots at 1440×900 and 390×844 of /, the four history
+    pages, /parents, /legend, /cadets, /tournaments, /curriculum, /verify.

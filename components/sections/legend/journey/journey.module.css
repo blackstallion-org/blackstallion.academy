@@ -77,17 +77,17 @@
 }
 .fx-lantern {
   background:
-    radial-gradient(6% 9% at 21% 22%, color-mix(in srgb, var(--color-antique) 60%, var(--color-ivory)) 0%, transparent 70%),
-    radial-gradient(6% 9% at 47% 26%, color-mix(in srgb, var(--color-antique) 60%, var(--color-ivory)) 0%, transparent 70%),
-    radial-gradient(5% 8% at 33% 86%, color-mix(in srgb, var(--color-antique) 75%, var(--color-ivory)) 0%, transparent 70%),
-    radial-gradient(5% 8% at 63% 88%, color-mix(in srgb, var(--color-antique) 75%, var(--color-ivory)) 0%, transparent 70%);
+    radial-gradient(6% 9% at 21% 22%, color-mix(in srgb, var(--color-antique) 60%, var(--color-offwhite)) 0%, transparent 70%),
+    radial-gradient(6% 9% at 47% 26%, color-mix(in srgb, var(--color-antique) 60%, var(--color-offwhite)) 0%, transparent 70%),
+    radial-gradient(5% 8% at 33% 86%, color-mix(in srgb, var(--color-antique) 75%, var(--color-offwhite)) 0%, transparent 70%),
+    radial-gradient(5% 8% at 63% 88%, color-mix(in srgb, var(--color-antique) 75%, var(--color-offwhite)) 0%, transparent 70%);
   mix-blend-mode: screen;
 }
 .fx-embers {
   background:
-    radial-gradient(0.5% 0.9% at 54% 60%, color-mix(in srgb, var(--color-antique) 70%, var(--color-ivory)) 0%, transparent 100%),
+    radial-gradient(0.5% 0.9% at 54% 60%, color-mix(in srgb, var(--color-antique) 70%, var(--color-offwhite)) 0%, transparent 100%),
     radial-gradient(0.4% 0.7% at 57% 52%, var(--color-caramel) 0%, transparent 100%),
-    radial-gradient(0.5% 0.9% at 51% 47%, color-mix(in srgb, var(--color-antique) 55%, var(--color-ivory)) 0%, transparent 100%),
+    radial-gradient(0.5% 0.9% at 51% 47%, color-mix(in srgb, var(--color-antique) 55%, var(--color-offwhite)) 0%, transparent 100%),
     radial-gradient(0.35% 0.6% at 59% 42%, var(--color-caramel) 0%, transparent 100%),
     radial-gradient(14% 16% at 56% 72%, color-mix(in srgb, var(--color-caramel) 35%, transparent) 0%, transparent 70%);
   mix-blend-mode: screen;
@@ -101,6 +101,234 @@
 .fx-warm {
   background: linear-gradient(180deg, color-mix(in srgb, var(--color-antique) 35%, transparent), transparent 55%);
   mix-blend-mode: soft-light;
+}
+
+/* ------------------------------------------------------------------ idle life and ambient atmosphere (own clock, not scroll)
+   Every loop below is transform or opacity only (individual translate / rotate / scale properties), on its own composited
+   layer. Loops run only while the scene is on screen: the scene sets data-live, which flips --mj-play. Still mode never
+   renders these elements; the reduced-motion block at the end of this section hides them again in case it ever did. */
+.scene { --mj-play: paused; }
+.scene[data-live] { --mj-play: running; }
+
+/* the subject rig: base, breathing barrel, nodding head (see Subject in MarwariJourney.tsx) */
+.rig, .rigBase, .rigBarrel, .rigHead { position: absolute; inset: 0; }
+.rigBase {
+  -webkit-mask-image: radial-gradient(ellipse var(--hrx) var(--hry) at var(--hx) var(--hy), transparent 50%, black 66%);
+  mask-image: radial-gradient(ellipse var(--hrx) var(--hry) at var(--hx) var(--hy), transparent 50%, black 66%);
+}
+.rigHead {
+  -webkit-mask-image: radial-gradient(ellipse var(--hrx) var(--hry) at var(--hx) var(--hy), black 70%, transparent 100%);
+  mask-image: radial-gradient(ellipse var(--hrx) var(--hry) at var(--hx) var(--hy), black 70%, transparent 100%);
+  transform-origin: var(--px) var(--py);
+  will-change: rotate;
+  animation: mj-nod 7.4s var(--ease-citadel) var(--mj-phase, 0s) infinite;
+  animation-play-state: var(--mj-play);
+}
+.rigBarrel {
+  -webkit-mask-image: radial-gradient(ellipse var(--brx) var(--bry) at var(--bx) var(--by), black 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse var(--brx) var(--bry) at var(--bx) var(--by), black 55%, transparent 100%);
+  transform-origin: var(--bx) var(--by);
+  will-change: scale;
+  animation: mj-breathe 4.6s var(--ease-citadel) var(--mj-phase, 0s) infinite;
+  animation-play-state: var(--mj-play);
+}
+/* a slow light across the mane: a narrow band sweeps the head; its child counter-moves so the light stays on the painting */
+.sheen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--sl);
+  width: var(--sw);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 45%, black 55%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 45%, black 55%, transparent);
+  mix-blend-mode: screen;
+  will-change: translate;
+  animation: mj-sheen-band 9.5s var(--ease-citadel) calc(var(--mj-phase, 0s) - 2s) infinite;
+  animation-play-state: var(--mj-play);
+}
+.sheenFill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--fl);
+  width: var(--fw);
+  will-change: translate;
+  animation: mj-sheen-fill 9.5s var(--ease-citadel) calc(var(--mj-phase, 0s) - 2s) infinite;
+  animation-play-state: var(--mj-play);
+}
+.sheenImg { filter: brightness(0) invert(0.92) sepia(0.45); opacity: 0.42; }
+
+@keyframes mj-nod {
+  0%, 100% { rotate: 0deg; }
+  36% { rotate: var(--deg); }
+  60% { rotate: calc(var(--deg) * 0.5); }
+  80% { rotate: calc(var(--deg) * -0.3); }
+}
+@keyframes mj-breathe {
+  0%, 100% { scale: 1; }
+  42% { scale: 1.014; }
+}
+@keyframes mj-sheen-band {
+  0% { translate: 0 0; }
+  48%, 100% { translate: var(--st) 0; }
+}
+@keyframes mj-sheen-fill {
+  0% { translate: 0 0; }
+  48%, 100% { translate: var(--ft) 0; }
+}
+
+/* ambient: shared frame, kept off the reading panel's side of the painting on wide screens */
+.amb { position: absolute; inset: 0; overflow: hidden; pointer-events: none; --k: 1; }
+/* particles are drawn in px; on phones the painting is a third of the size, so the tiles shrink with it */
+@media (max-width: 1023.98px) { .amb { --k: 0.6; } }
+.amb > span, .emberField > span, .shaftField > span { display: block; position: absolute; }
+
+/* desert: heat haze along the horizon (behind the subject) and two depths of drifting dust motes */
+.haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22%;
+  height: 26%;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg, transparent 0 5px, color-mix(in srgb, var(--color-offwhite) 26%, transparent) 5px 6px, transparent 6px 11px);
+  -webkit-mask-image: linear-gradient(180deg, transparent, black 40%, black 60%, transparent);
+  mask-image: linear-gradient(180deg, transparent, black 40%, black 60%, transparent);
+  mix-blend-mode: soft-light;
+  transform-origin: 50% 60%;
+  will-change: translate, scale;
+  animation: mj-haze 3.8s var(--ease-citadel) var(--mj-phase, 0s) infinite alternate;
+  animation-play-state: var(--mj-play);
+}
+.motes { left: 0; top: 0; will-change: translate, opacity; animation-play-state: var(--mj-play); }
+.motesNear {
+  width: calc(100% + calc(260px * var(--k)));
+  height: calc(100% + calc(200px * var(--k)));
+  --mote: color-mix(in srgb, color-mix(in srgb, var(--color-offwhite) 75%, var(--color-antique)) 75%, transparent);
+  background-image:
+    radial-gradient(circle at calc(24px * var(--k)) calc(36px * var(--k)), var(--mote) 0 calc(1.6px * var(--k)), transparent calc(2.8px * var(--k))),
+    radial-gradient(circle at calc(130px * var(--k)) calc(18px * var(--k)), var(--mote) 0 calc(1.2px * var(--k)), transparent calc(2.4px * var(--k))),
+    radial-gradient(circle at calc(204px * var(--k)) calc(122px * var(--k)), var(--mote) 0 calc(2px * var(--k)), transparent calc(3.4px * var(--k))),
+    radial-gradient(circle at calc(70px * var(--k)) calc(152px * var(--k)), var(--mote) 0 calc(1.3px * var(--k)), transparent calc(2.5px * var(--k))),
+    radial-gradient(circle at calc(168px * var(--k)) calc(72px * var(--k)), var(--mote) 0 calc(1px * var(--k)), transparent calc(2px * var(--k))),
+    radial-gradient(circle at calc(238px * var(--k)) calc(180px * var(--k)), var(--mote) 0 calc(1.5px * var(--k)), transparent calc(2.7px * var(--k)));
+  background-size: calc(260px * var(--k)) calc(200px * var(--k));
+  animation: mj-drift-near 34s linear var(--mj-phase, 0s) infinite, mj-twinkle 5.5s ease-in-out var(--mj-phase, 0s) infinite alternate;
+}
+.motesFar {
+  width: calc(100% + calc(360px * var(--k)));
+  height: calc(100% + calc(150px * var(--k)));
+  --mote: color-mix(in srgb, var(--color-offwhite) 50%, transparent);
+  background-image:
+    radial-gradient(circle at calc(20px * var(--k)) calc(30px * var(--k)), var(--mote) 0 calc(0.9px * var(--k)), transparent calc(1.8px * var(--k))),
+    radial-gradient(circle at calc(96px * var(--k)) calc(110px * var(--k)), var(--mote) 0 calc(0.8px * var(--k)), transparent calc(1.6px * var(--k))),
+    radial-gradient(circle at calc(150px * var(--k)) calc(54px * var(--k)), var(--mote) 0 calc(1px * var(--k)), transparent calc(2px * var(--k))),
+    radial-gradient(circle at calc(60px * var(--k)) calc(84px * var(--k)), var(--mote) 0 calc(0.7px * var(--k)), transparent calc(1.5px * var(--k)));
+  background-size: calc(180px * var(--k)) calc(150px * var(--k));
+  animation: mj-drift-far 58s linear var(--mj-phase, 0s) infinite, mj-twinkle 7s ease-in-out calc(var(--mj-phase, 0s) - 3s) infinite alternate;
+}
+@keyframes mj-haze { from { translate: 0 0; scale: 1 1; } to { translate: 0 -0.35rem; scale: 1.015 1.08; } }
+@keyframes mj-drift-near { from { translate: 0 0; } to { translate: calc(-260px * var(--k)) calc(-200px * var(--k)); } }
+@keyframes mj-drift-far { from { translate: 0 0; } to { translate: calc(-360px * var(--k)) calc(-150px * var(--k)); } }
+@keyframes mj-twinkle { from { opacity: 0.45; } to { opacity: 0.95; } }
+
+/* battle: a low warm glow and two depths of sparks rising out of the dust, fading as they climb */
+.emberField {
+  inset: 0;
+  -webkit-mask-image: linear-gradient(0deg, transparent 0%, black 12%, black 55%, transparent 92%);
+  mask-image: linear-gradient(0deg, transparent 0%, black 12%, black 55%, transparent 92%);
+}
+.glow {
+  left: -10%;
+  right: -10%;
+  bottom: -18%;
+  height: 55%;
+  background: radial-gradient(50% 60% at 50% 100%, color-mix(in srgb, var(--color-caramel) 45%, transparent), transparent 72%);
+  will-change: opacity;
+  animation: mj-flicker 2.8s ease-in-out var(--mj-phase, 0s) infinite alternate;
+  animation-play-state: var(--mj-play);
+}
+.sparks { left: 0; top: 0; will-change: translate; animation-play-state: var(--mj-play); }
+.sparksNear {
+  width: 100%;
+  height: calc(100% + calc(260px * var(--k)));
+  /* a hot core inside a darker ember halo, so the sparks read on red sky and bright sand alike */
+  --hot: color-mix(in srgb, var(--color-antique) 40%, var(--color-offwhite));
+  --halo: var(--color-caramel);
+  --rim: color-mix(in srgb, var(--color-chestnut) 55%, transparent);
+  background-image:
+    radial-gradient(circle at calc(40px * var(--k)) calc(50px * var(--k)), var(--hot) 0 calc(2.6px * var(--k)), var(--halo) calc(3.8px * var(--k)), var(--rim) calc(5px * var(--k)), transparent calc(7px * var(--k))),
+    radial-gradient(circle at calc(150px * var(--k)) calc(120px * var(--k)), var(--hot) 0 calc(2px * var(--k)), var(--halo) calc(3px * var(--k)), var(--rim) calc(4.2px * var(--k)), transparent calc(6px * var(--k))),
+    radial-gradient(circle at calc(96px * var(--k)) calc(210px * var(--k)), var(--hot) 0 calc(3px * var(--k)), var(--halo) calc(4.2px * var(--k)), var(--rim) calc(5.6px * var(--k)), transparent calc(7.8px * var(--k))),
+    radial-gradient(circle at calc(186px * var(--k)) calc(30px * var(--k)), var(--hot) 0 calc(1.6px * var(--k)), var(--halo) calc(2.6px * var(--k)), var(--rim) calc(3.6px * var(--k)), transparent calc(5px * var(--k))),
+    radial-gradient(circle at calc(20px * var(--k)) calc(172px * var(--k)), var(--hot) 0 calc(1.8px * var(--k)), var(--halo) calc(2.8px * var(--k)), var(--rim) calc(3.8px * var(--k)), transparent calc(5.4px * var(--k))),
+    radial-gradient(circle at calc(128px * var(--k)) calc(236px * var(--k)), var(--hot) 0 calc(1.4px * var(--k)), var(--halo) calc(2.3px * var(--k)), var(--rim) calc(3.2px * var(--k)), transparent calc(4.6px * var(--k)));
+  background-size: calc(210px * var(--k)) calc(260px * var(--k));
+  animation: mj-rise-near 6.5s linear var(--mj-phase, 0s) infinite;
+}
+.sparksFar {
+  left: calc(-150px * var(--k));
+  width: calc(100% + calc(150px * var(--k)));
+  height: calc(100% + calc(380px * var(--k)));
+  --hot: color-mix(in srgb, var(--color-caramel) 75%, transparent);
+  background-image:
+    radial-gradient(circle at calc(30px * var(--k)) calc(40px * var(--k)), var(--hot) 0 calc(1px * var(--k)), transparent calc(2px * var(--k))),
+    radial-gradient(circle at calc(110px * var(--k)) calc(140px * var(--k)), var(--hot) 0 calc(0.9px * var(--k)), transparent calc(1.8px * var(--k))),
+    radial-gradient(circle at calc(70px * var(--k)) calc(90px * var(--k)), color-mix(in srgb, var(--color-caramel) 60%, transparent) 0 calc(0.8px * var(--k)), transparent calc(1.6px * var(--k)));
+  background-size: calc(150px * var(--k)) calc(190px * var(--k));
+  animation: mj-rise-far 11s linear calc(var(--mj-phase, 0s) - 4s) infinite;
+}
+@keyframes mj-flicker { 0% { opacity: 0.2; } 40% { opacity: 0.38; } 70% { opacity: 0.26; } 100% { opacity: 0.34; } }
+@keyframes mj-rise-near { from { translate: 0 0; } to { translate: 0 calc(-260px * var(--k)); } }
+@keyframes mj-rise-far { from { translate: 0 0; } to { translate: calc(150px * var(--k)) calc(-380px * var(--k)); } }
+
+/* palace: three soft shafts of light falling across the courtyard, slowly brightening and drifting */
+.shaftField {
+  inset: 0;
+  -webkit-mask-image: linear-gradient(180deg, black 0%, black 40%, transparent 92%);
+  mask-image: linear-gradient(180deg, black 0%, black 40%, transparent 92%);
+  mix-blend-mode: screen;
+}
+.shaft {
+  top: -30%;
+  height: 160%;
+  rotate: 24deg;
+  transform-origin: 50% 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-offwhite) 80%, var(--color-antique)) 50%, transparent);
+  opacity: 0.14;
+  will-change: translate, opacity;
+  animation: mj-shaft 11s var(--ease-citadel) var(--mj-phase, 0s) infinite;
+  animation-play-state: var(--mj-play);
+}
+.shaft:nth-child(1) { left: 16%; width: 9%; }
+.shaft:nth-child(2) { left: 36%; width: 14%; animation-duration: 14s; animation-delay: calc(var(--mj-phase, 0s) - 5s); }
+.shaft:nth-child(3) { left: 60%; width: 6%; animation-duration: 9s; animation-delay: calc(var(--mj-phase, 0s) - 2s); }
+@keyframes mj-shaft {
+  0%, 100% { opacity: 0.16; translate: 0 0; }
+  45% { opacity: 0.46; translate: 1.5% 0; }
+}
+
+@media (min-width: 1024px) {
+  .journey[data-mode="story"] .scene[data-side="left"]:is([data-layout="panorama"], [data-layout="plate"]) .amb {
+    -webkit-mask-image: linear-gradient(90deg, color-mix(in srgb, black 15%, transparent) 0 34%, black 56%);
+    mask-image: linear-gradient(90deg, color-mix(in srgb, black 15%, transparent) 0 34%, black 56%);
+  }
+  .journey[data-mode="story"] .scene[data-side="right"]:is([data-layout="panorama"], [data-layout="plate"]) .amb {
+    -webkit-mask-image: linear-gradient(270deg, color-mix(in srgb, black 15%, transparent) 0 34%, black 56%);
+    mask-image: linear-gradient(270deg, color-mix(in srgb, black 15%, transparent) 0 34%, black 56%);
+  }
+}
+
+/* belt and braces: no loops for reduced motion or still mode, and no rig where masks are unsupported */
+.journey[data-mode="static"] :is(.amb, .haze, .rigHead, .rigBarrel) { display: none; }
+.journey[data-mode="static"] .rigBase { -webkit-mask-image: none; mask-image: none; }
+@media (prefers-reduced-motion: reduce) {
+  .amb, .haze, .rigHead, .rigBarrel { display: none; }
+  .rigBase { -webkit-mask-image: none; mask-image: none; }
+}
+@supports not ((mask-image: none) or (-webkit-mask-image: none)) {
+  .rigHead, .rigBarrel, .haze { display: none; }
 }
 
 /* ------------------------------------------------------------------ wide screens, moving story */

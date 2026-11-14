@@ -5,7 +5,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
-import { Monogram } from "@/components/brand/Monogram";
+import { CrestMark } from "@/components/brand/CrestMark";
 import { ModelPlate } from "@/components/3d/ModelPlate";
 import { asset } from "@/lib/content/asset";
 import { useReducedMotion } from "@/lib/motion/reduced";
@@ -69,7 +69,7 @@ export function SealedInvitation() {
             className="overflow-hidden"
           >
             <div className="flex flex-col items-center rounded-[2px] bg-[#f4eee3] px-[8%] py-8 text-center text-[#2a1a10] shadow-[0_6px_24px_rgb(0_0_0/0.25)]">
-              <Monogram className="h-7 w-7 text-[#8a5a2b]" />
+              <CrestMark decorative className="h-9 w-9" />
               <p className="mt-3 font-sans text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-[#6b4a2e]">The Black Stallion Academy of Horsemanship</p>
               <p className="t-voice mt-3 text-[clamp(1.05rem,2.4vw,1.45rem)] leading-snug">requests the pleasure of presenting a riding campus to your school</p>
               <p className="mt-3 font-sans text-[0.58rem] uppercase tracking-[0.18em] text-[#6b4a2e]">A proposal · nothing is signed until your board agrees</p>
@@ -88,7 +88,7 @@ function FlatEnvelope() {
       <div className="absolute inset-0 rounded-[3px] bg-[linear-gradient(170deg,#6a221d,#4a1410)] shadow-[0_30px_70px_rgb(0_0_0/0.45)]" />
       <div className="absolute inset-0 [clip-path:polygon(0_0,50%_54%,100%_0,100%_0.8%,50%_55.2%,0_0.8%)] bg-[#2a0a08]/45" />
       <div className="absolute left-1/2 top-[54%] grid h-[4.6rem] w-[4.6rem] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-[radial-gradient(circle_at_38%_32%,#d9a95a,#a8732f_45%,#6d4618_100%)] shadow-[0_6px_14px_rgb(0_0_0/0.45),inset_0_-3px_6px_rgb(0_0_0/0.35)]">
-        <Monogram className="h-8 w-8 text-[#4f3210]" />
+        <CrestMark decorative className="h-10 w-10" />
       </div>
     </div>
   );

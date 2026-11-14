@@ -38,6 +38,31 @@ export type Motion = {
   special?: "leap" | "fade-colour" | "reveal" | "breathe";
 };
 
+/** A point or a radius pair, in percent of the 16:9 stage (x of the width, y of the height). */
+type Pt = [number, number];
+
+/**
+ * Idle life for one horse in the subject cut-out, running on its own clock (not scroll) while the scene is on screen.
+ * The cut-out also holds riders and handlers, so nothing moves the whole layer: a feathered copy of the head and upper neck
+ * nods about the withers (with a slow sheen across the mane), and a feathered copy of the barrel breathes.
+ */
+export type Idle = {
+  /** head and upper neck: ellipse centre and radii */
+  head: { at: Pt; r: Pt };
+  /** the withers, where the neck meets the back: the nod's pivot */
+  pivot: Pt;
+  /** nod amplitude in degrees (default 1.5); the sign sets the direction */
+  deg?: number;
+  /** ribcage: ellipse centre and radii; breathes about 1.4 % */
+  barrel?: { at: Pt; r: Pt };
+};
+
+/**
+ * Atmosphere that loops on its own clock over the painting, by act: dust motes and heat haze in the desert, rising sparks
+ * in battle, soft light shafts in palace courtyards. It sits under the reading panel and thins out on the panel's side.
+ */
+export type Ambient = "desert" | "battle" | "palace";
+
 export type JourneyScene = {
   id: string;
   act: ActId;
@@ -58,6 +83,8 @@ export type JourneyScene = {
   caveat?: string;
   alt: string;
   motion: Motion;
+  idle?: Idle;
+  ambient?: Ambient;
 };
 
 export type ActId = "land" | "body" | "service" | "return";
@@ -99,6 +126,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "A black Marwari horse in festival tack walks beside its handler across green ground at dawn, a hill fort behind them.",
     motion: { s: { x: [-5, 2] }, b: { scale: [1.05, 1] }, f: { x: [5, -9] } },
+    idle: { head: { at: [60, 17], r: [8, 17] }, pivot: [50, 32], deg: 1.5, barrel: { at: [36, 51], r: [13, 10] } },
+    ambient: "desert",
   },
   {
     id: "10", act: "land", layout: "panorama", side: "left",
@@ -116,6 +145,8 @@ export const SCENES: JourneyScene[] = [
     caveat: "Travellers and horses on a trade road; the painting does not show the breed's ancestry.",
     alt: "Travellers on horseback and on foot gather on a trade road through the desert, a royal parasol over the riders.",
     motion: { s: { x: [6, -8], scale: [1.02, 0.95] }, b: { x: [0, -2] }, f: { x: [4, -6] } },
+    idle: { head: { at: [74, 40], r: [5, 11] }, pivot: [79, 51], deg: -2 },
+    ambient: "desert",
   },
   {
     id: "02", act: "land", layout: "panorama", side: "left",
@@ -128,6 +159,8 @@ export const SCENES: JourneyScene[] = [
     caveat: "An evocation of the move into Marwar, not a picture of a witnessed event.",
     alt: "A small party of Rathore riders on bay, black and white horses approaches a hill fort across an arid plain.",
     motion: { s: { x: [-8, 4], y: [2, -1] }, b: { scale: [1.02, 1] }, f: { x: [3, -5] } },
+    idle: { head: { at: [93, 47], r: [4, 9] }, pivot: [88, 52], deg: 2 },
+    ambient: "desert",
   },
   {
     id: "01", act: "land", layout: "panorama", side: "right",
@@ -139,6 +172,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "A black Marwari stallion gallops through deep desert sand, dust rising from its hooves, a fort on the ridge behind.",
     motion: { s: { x: [-14, 10], cadence: { n: 2, amp: 2.4 } }, b: { x: [1, -1] }, f: { x: [8, -12] }, fx: "dust" },
+    idle: { head: { at: [50, 26], r: [8, 15] }, pivot: [38, 36], deg: 1.5, barrel: { at: [27, 53], r: [10, 9] } },
+    ambient: "desert",
   },
   {
     id: "11", act: "land", layout: "detail", side: "right",
@@ -150,6 +185,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "A black horse lowers its head to drink at a stone desert well while a man draws water beside it.",
     motion: { s: { y: [1.2, 0] }, b: { scale: [1.03, 1] }, fx: "shimmer" },
+    idle: { head: { at: [34, 66], r: [7, 14] }, pivot: [24, 45], deg: -1.8, barrel: { at: [15, 57], r: [10, 8] } },
+    ambient: "desert",
   },
 
   // ---------------------------------------------------------------- II · Body and culture
@@ -168,6 +205,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "A breeder in a sandstone stable courtyard holds the head of a black horse to examine it.",
     motion: { special: "breathe", b: { scale: [1.02, 1] } },
+    idle: { head: { at: [34, 23], r: [8, 15] }, pivot: [44, 32], deg: -1.4, barrel: { at: [55, 49], r: [11, 9] } },
+    ambient: "palace",
   },
   {
     id: "12", act: "body", layout: "detail", side: "left",
@@ -177,6 +216,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "Close view of a dark horse's shoulder and raised foreleg, the hoof lifting from deep sand.",
     motion: { s: { x: [-4, 0], scale: [1, 1.04], origin: "60% 70%" }, f: { x: [10, -6], hold: true } },
+    idle: { head: { at: [60, 21], r: [9, 15] }, pivot: [75, 30], deg: -1.2, barrel: { at: [85, 49], r: [9, 10] } },
+    ambient: "desert",
   },
   {
     id: "04", act: "body", layout: "plate", side: "left",
@@ -190,6 +231,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "Portrait of a black Marwari's head in a jewelled bridle, its ears curving inward until the tips meet.",
     motion: { push: { scale: [1, 1.06], origin: "64% 12%" }, f: { y: [0, 4] } },
+    idle: { head: { at: [60, 45], r: [24, 44] }, pivot: [91, 98], deg: 0.9 },
+    ambient: "palace",
   },
   {
     id: "13", act: "body", layout: "panorama", side: "right",
@@ -199,6 +242,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "A rider in yellow on a bay horse moves at an easy amble along a desert road, a pavilion behind.",
     motion: { s: { x: [-10, 7], cadence: { n: 4, amp: 0.6 } }, f: { x: [5, -7] } },
+    idle: { head: { at: [47, 29], r: [6, 14] }, pivot: [39, 35], deg: 1.5, barrel: { at: [20, 55], r: [9, 7] } },
+    ambient: "desert",
   },
   {
     id: "14", act: "body", layout: "panorama", side: "left",
@@ -211,6 +256,7 @@ export const SCENES: JourneyScene[] = [
     caveat: "A tradition painted as an imagined procession, not a record of any one wedding.",
     alt: "A night wedding procession: a groom on a white horse under a parasol, musicians and lantern bearers around him.",
     motion: { s: { x: [-3, 3], cadence: { n: 5, amp: 0.7 } }, f: { x: [2, -3] }, fx: "lantern" },
+    idle: { head: { at: [53, 43], r: [5, 13] }, pivot: [60, 49], deg: -1.6, barrel: { at: [67, 64], r: [7, 6] } },
   },
   {
     id: "15", act: "body", layout: "detail", side: "right",
@@ -223,6 +269,7 @@ export const SCENES: JourneyScene[] = [
     status: "folklore",
     alt: "A bard plays a string instrument by a campfire for a seated listener, a black horse standing behind them.",
     motion: { f: { x: [3, -3], y: [0, -2] }, fx: "embers" },
+    idle: { head: { at: [44, 18], r: [5, 12] }, pivot: [38, 28], deg: 1.4 },
   },
 
   // ---------------------------------------------------------------- III · Service and loss
@@ -237,6 +284,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "Marwari cavalry with banners and parasols advances through desert dust, a fort on the horizon.",
     motion: { s: { x: [10, -12] }, b: { x: [-1, 1] }, f: { x: [-6, 10] }, fx: "dust" },
+    idle: { head: { at: [27, 47], r: [5, 10] }, pivot: [21, 55], deg: 1.8 },
+    ambient: "battle",
   },
   {
     id: "06", act: "service", layout: "plate", side: "left",
@@ -248,6 +297,8 @@ export const SCENES: JourneyScene[] = [
     status: "folklore",
     alt: "A grey horse carries a rider through a shallow stream at dusk, a white palace on the hill behind.",
     motion: { s: { x: [5, -5] }, f: { x: [-3, 3] }, fx: "ripple" },
+    idle: { head: { at: [54, 45], r: [5, 11] }, pivot: [62, 45], deg: -1.6, barrel: { at: [77, 64], r: [9, 6] } },
+    ambient: "battle",
   },
   {
     id: "16", act: "service", layout: "inset", side: "left",
@@ -259,6 +310,8 @@ export const SCENES: JourneyScene[] = [
     status: "folklore",
     alt: "A white horse and rider leap from a fortress wall toward the plain below, figures watching from the battlements.",
     motion: { special: "leap", f: { y: [0, 3] } },
+    idle: { head: { at: [47, 27], r: [5, 11] }, pivot: [54, 36], deg: -1.6, barrel: { at: [62, 51], r: [8, 6] } },
+    ambient: "battle",
   },
   {
     id: "17", act: "service", layout: "panorama", side: "right",
@@ -271,6 +324,8 @@ export const SCENES: JourneyScene[] = [
     caveat: "An imagined period parade; it shows no particular unit, place or battle.",
     alt: "Mounted lancers in khaki with pennants ride in file past a red sandstone wall.",
     motion: { s: { x: [-7, 5] }, f: { x: [4, -5] } },
+    idle: { head: { at: [68, 42], r: [4.5, 11] }, pivot: [63, 55], deg: 1.8 },
+    ambient: "desert",
   },
   {
     id: "07", act: "service", layout: "plate", side: "right",
@@ -283,6 +338,7 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "A pale horse pulls a cart of sacks and fodder past an empty sandstone stable.",
     motion: { s: { x: [3, -3] }, special: "fade-colour" },
+    idle: { head: { at: [55, 57], r: [5, 10] }, pivot: [46, 60], deg: 1.2, barrel: { at: [42, 68], r: [5, 4] } },
   },
 
   // ---------------------------------------------------------------- IV · The return
@@ -301,6 +357,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "A breeder tends a grey foal while bay and black horses feed at a trough in a stud courtyard.",
     motion: { s: { y: [1.5, 0] }, f: { y: [3, -3] }, fx: "warm" },
+    idle: { head: { at: [31, 10], r: [6, 12] }, pivot: [41, 28], deg: -1.4, barrel: { at: [60, 49], r: [9, 7] } },
+    ambient: "palace",
   },
   {
     id: "19", act: "return", layout: "detail", side: "left",
@@ -312,6 +370,8 @@ export const SCENES: JourneyScene[] = [
     status: "interpretive",
     alt: "A kneeling nobleman greets a chestnut colt while a man holds a black stallion beside a pavilion.",
     motion: { push: { scale: [1, 1.05], origin: "62% 58%" } },
+    idle: { head: { at: [34, 15], r: [6, 14] }, pivot: [43, 30], deg: -1.4 },
+    ambient: "palace",
   },
   {
     id: "18", act: "return", layout: "detail", side: "left",
@@ -324,6 +384,8 @@ export const SCENES: JourneyScene[] = [
     caveat: "The studbook in the painting is left blank on purpose.",
     alt: "A horse keeper sits with an open blank studbook between a bay and a black horse.",
     motion: { special: "reveal", s: { scale: [1.03, 1] } },
+    idle: { head: { at: [75, 34], r: [5, 13] }, pivot: [83, 40], deg: -1.4, barrel: { at: [88, 51], r: [6, 6] } },
+    ambient: "palace",
   },
   {
     id: "09", act: "return", layout: "plate", side: "right",
@@ -335,6 +397,8 @@ export const SCENES: JourneyScene[] = [
     status: "illustration",
     alt: "A present-day cadet in riding uniform stands at dawn facing a black Marwari, holding its reins.",
     motion: { s: { y: [2, 0] }, b: { scale: [1.03, 1] } },
+    idle: { head: { at: [37, 30], r: [6, 13] }, pivot: [28, 36], deg: 1.4, barrel: { at: [20, 53], r: [9, 8] } },
+    ambient: "palace",
   },
 ];
 

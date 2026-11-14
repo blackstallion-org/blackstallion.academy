@@ -301,7 +301,7 @@ export function MorphGallery({ items, index, duration = 1500, noiseScale = 3.5, 
           onError={(e) => {
             e.currentTarget.style.visibility = "hidden";
           }}
-          className="absolute inset-0 block h-full w-full object-cover transition-opacity duration-700 motion-reduce:transition-none"
+          className="absolute inset-0 block h-full w-full object-cover transition-opacity duration-[1200ms] ease-in-out motion-reduce:transition-none"
           style={{ opacity: i === index && (failed || !ready) ? 1 : 0 }}
         />
       ))}

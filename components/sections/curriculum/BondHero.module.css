@@ -1,0 +1,154 @@
+.scene {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  min-height: max(680px, 95svh);
+  background: var(--color-night);
+}
+
+/* a warm stable light behind the horse's head, so the black coat separates from the dark ground */
+.glow {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    radial-gradient(42% 52% at 34% 50%, rgb(201 166 107 / 0.26), transparent 70%),
+    radial-gradient(30% 36% at 60% 60%, rgb(184 138 98 / 0.14), transparent 72%);
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 7%;
+  background: linear-gradient(transparent, var(--color-night));
+}
+
+.horseWrap,
+.handWrap {
+  position: absolute;
+  inset: 0;
+}
+
+.horse,
+.hand {
+  position: absolute;
+  height: auto;
+  max-width: none;
+  user-select: none;
+}
+
+.horse {
+  z-index: 1;
+  width: min(78vw, 1120px);
+  left: -9%;
+  bottom: -16%;
+  transform-origin: 36% 72%;
+  animation: horseBreath 7s ease-in-out infinite;
+  /* a warm rim on the coat, and a touch more contrast so the cutout sits in the light like a photograph */
+  filter: drop-shadow(0 0 1px rgb(232 200 140 / 0.55)) drop-shadow(-14px -6px 40px rgb(201 166 107 / 0.22)) contrast(1.06);
+}
+
+.hand {
+  z-index: 2;
+  width: min(51vw, 750px);
+  left: 59%;
+  bottom: 4%;
+  transform-origin: 100% 65%;
+  animation: handReach 5.5s ease-in-out infinite;
+  filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.5)) saturate(0.92);
+}
+
+.copy {
+  position: relative;
+  z-index: 4;
+  width: min(28rem, 31vw);
+  margin-left: auto;
+  margin-right: max(6.5vw, 3rem);
+  padding-top: clamp(8.5rem, 20vh, 14rem);
+}
+
+.heading {
+  margin-top: .55rem;
+  color: var(--color-bone);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2.25rem, 3.1vw, 3.4rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+
+.description {
+  max-width: 34ch;
+  margin-top: 1rem;
+  color: var(--color-sand);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  line-height: 1.55;
+}
+
+@keyframes horseBreath {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.004); }
+}
+
+@keyframes handReach {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  50% { transform: translate(-12px, -6px) rotate(-1deg); }
+}
+
+@media (max-width: 767px) {
+  .scene {
+    min-height: 0;
+    padding-top: 6rem;
+  }
+
+  .stage {
+    position: relative;
+    height: min(69svh, 560px);
+    min-height: 430px;
+  }
+
+  .horse {
+    width: 150vw;
+    left: -57vw;
+    bottom: -5%;
+  }
+
+  .hand {
+    width: 112vw;
+    left: 73%;
+    bottom: 12%;
+  }
+
+  .copy {
+    width: auto;
+    max-width: 31rem;
+    margin: 0;
+    padding: 1rem 1.5rem 4rem;
+  }
+
+  .heading {
+    font-size: clamp(2.15rem, 9vw, 3rem);
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .horse,
+  .hand { animation: none; }
+}

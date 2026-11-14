@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Headline } from "@/components/film/Headline";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
-import { ACTS, INTRO, LAYERS, SCENES, SOURCES, STATUS_LABEL, type JourneyScene, type Motion } from "@/lib/content/marwari-journey";
+import { ACTS, INTRO, LAYERS, SCENES, SOURCES, STATUS_LABEL, type Ambient, type Idle, type JourneyScene, type Motion } from "@/lib/content/marwari-journey";
 import s from "./journey.module.css";
 
 /**
@@ -18,6 +18,8 @@ import s from "./journey.module.css";
  * different rates by scroll. Every move is a scrubbed GSAP timeline, so scrolling back reverses it. On wide screens the
  * panorama and plate scenes hold the painting in a sticky stage while the reading panel stays still on the painting's quiet
  * side; detail and inset scenes sit in a two-column spread. On phones every scene is the painting followed by its text.
+ * Two loops run on their own clock, not scroll, and only while their scene is on screen: idle life for one horse per painting
+ * (head nod about the withers, breathing barrel, mane sheen; see Subject) and per-act atmosphere (see AmbientLayer).
  * Reading mode and reduced motion turn every move off and lay the whole story out in normal flow.
  * Motion is scoped to this component (one gsap.matchMedia, reverted on unmount); the site's root Lenis already drives
  * ScrollTrigger, so no second smooth-scroll instance is created.
@@ -144,7 +146,7 @@ export function MarwariJourney() {
               <p className="t-story mt-3 max-w-xl text-sand">{a.line}</p>
             </section>
             {SCENES.filter((x) => x.act === a.id).map((scene) => (
-              <SceneBlock key={scene.id} scene={scene} eager={scene.id === "00"} />
+              <SceneBlock key={scene.id} scene={scene} eager={scene.id === "00"} still={still} />
             ))}
           </div>
         ))}
@@ -182,7 +184,7 @@ function ReadingToggle({ reading, setReading, disabled }: { reading: boolean; se
 }
 
 /** One scene: the three-layer painting and its reading panel. */
-function SceneBlock({ scene, eager }: { scene: JourneyScene; eager?: boolean }) {
+function SceneBlock({ scene, eager, still }: { scene: JourneyScene; eager?: boolean; still: boolean }) {
   const L = LAYERS[scene.id];
   // The three layers mount only once the scene is within about a screen of the viewport (the browser's own lazy-loading
   // distance is several screens on phones, where the scenes are stacked closely). The stage box keeps its size meanwhile.
@@ -194,9 +196,18 @@ function SceneBlock({ scene, eager }: { scene: JourneyScene; eager?: boolean }) 
     io.observe(ref.current);
     return () => io.disconnect();
   }, [near]);
+  // The idle and ambient loops run only while the scene is actually on screen (CSS reads data-live); off screen they pause.
+  const [live, setLive] = useState(false);
+  useEffect(() => {
+    if (still || !ref.current) return;
+    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { rootMargin: "0px" });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, [still]);
   const hid = `scene-${scene.id}-h`;
   const origin = scene.motion.s?.origin ?? "50% 70%";
   const load = eager ? ({ loading: "eager", fetchPriority: "high" } as const) : ({ loading: "lazy" } as const);
+  const moving = !still;
   return (
     <section
       ref={ref}
@@ -205,8 +216,10 @@ function SceneBlock({ scene, eager }: { scene: JourneyScene; eager?: boolean }) 
       data-layout={scene.layout}
       data-side={scene.side}
       data-place={scene.place ?? "bottom"}
+      data-live={moving && live ? "" : undefined}
       aria-labelledby={hid}
       className={s.scene}
+      style={{ "--mj-phase": `${-(Number(scene.id) % 7) * 1.1}s` } as CSSProperties}
     >
       <div className={s.track}>
         <div className={s.sticky}>
@@ -215,15 +228,21 @@ function SceneBlock({ scene, eager }: { scene: JourneyScene; eager?: boolean }) 
               <div className={s.layer} data-mj-layer="b">
                 {near && <Image src={L.b} alt="" fill sizes="100vw" className={s.img} {...load} />}
               </div>
+              {near && moving && scene.ambient === "desert" && <div className={s.haze} aria-hidden />}
               <div className={s.layer} data-mj-layer="s" style={{ transformOrigin: origin }}>
                 <div className={s.gait} data-mj-gait>
-                  {near ? <Image src={L.s} alt={scene.alt} fill sizes="100vw" className={s.img} {...load} /> : <span className="sr-only" role="img" aria-label={scene.alt} />}
+                  {near ? (
+                    <Subject src={L.s} alt={scene.alt} load={load} idle={moving ? scene.idle : undefined} />
+                  ) : (
+                    <span className="sr-only" role="img" aria-label={scene.alt} />
+                  )}
                 </div>
               </div>
               {scene.motion.fx && <div className={cn(s.fx, s[`fx-${scene.motion.fx}`])} data-mj-fx aria-hidden />}
               <div className={s.layer} data-mj-layer="f">
                 {near && <Image src={L.f} alt="" fill sizes="100vw" className={s.img} loading="lazy" />}
               </div>
+              {near && moving && scene.ambient && <AmbientLayer kind={scene.ambient} />}
             </div>
           </div>
           <div className={s.read}>
@@ -261,6 +280,95 @@ function SceneBlock({ scene, eager }: { scene: JourneyScene; eager?: boolean }) 
         </div>
       </div>
     </section>
+  );
+}
+
+type Load = { loading: "eager"; fetchPriority: "high" } | { loading: "lazy" };
+
+/**
+ * The subject cut-out. With an idle rig it is drawn as up to four copies of the same image (one request, one decode):
+ * the base with the head's core hidden; a feathered barrel copy that breathes (scale only grows, so it always covers the
+ * base beneath it); a feathered head-and-neck copy that nods about the withers, whose solid core spans the base's hidden
+ * core so the alpha never thins at the seam; and inside the head, a light silhouette seen through a narrow band that
+ * sweeps across the mane. All moves are CSS transforms on composited layers; none of this exists in still mode.
+ */
+function Subject({ src, alt, load, idle }: { src: string; alt: string; load: Load; idle?: Idle }) {
+  if (!idle) return <Image src={src} alt={alt} fill sizes="100vw" className={s.img} {...load} />;
+  const pc = (v: number) => `${v}%`;
+  // The sheen band: a strip about the head's width that starts just left of the head and ends just right of it. Its child
+  // is a stage-sized copy that counter-moves, so the light silhouette stays registered to the painting as the band passes.
+  const [hx] = idle.head.at;
+  const hr = idle.head.r[0];
+  const bw = Math.min(14, Math.max(3, hr * 0.8));
+  const bl = hx - hr * 1.2 - bw;
+  const travel = hr * 2.4 + bw;
+  const vars = {
+    "--sl": pc(bl),
+    "--sw": pc(bw),
+    "--st": pc((travel / bw) * 100),
+    "--fl": pc((-bl / bw) * 100),
+    "--fw": pc((100 / bw) * 100),
+    "--ft": pc(-travel),
+    "--hx": pc(idle.head.at[0]),
+    "--hy": pc(idle.head.at[1]),
+    "--hrx": pc(idle.head.r[0]),
+    "--hry": pc(idle.head.r[1]),
+    "--px": pc(idle.pivot[0]),
+    "--py": pc(idle.pivot[1]),
+    "--deg": `${idle.deg ?? 1.5}deg`,
+    ...(idle.barrel && {
+      "--bx": pc(idle.barrel.at[0]),
+      "--by": pc(idle.barrel.at[1]),
+      "--brx": pc(idle.barrel.r[0]),
+      "--bry": pc(idle.barrel.r[1]),
+    }),
+  } as CSSProperties;
+  const copy = (cls?: string) => <Image src={src} alt="" fill sizes="100vw" className={cn(s.img, cls)} {...load} />;
+  return (
+    <div className={s.rig} style={vars}>
+      <div className={s.rigBase}>
+        <Image src={src} alt={alt} fill sizes="100vw" className={s.img} {...load} />
+      </div>
+      {idle.barrel && (
+        <div className={s.rigBarrel} aria-hidden>
+          {copy()}
+        </div>
+      )}
+      <div className={s.rigHead} aria-hidden>
+        {copy()}
+        <div className={s.sheen}>
+          <div className={s.sheenFill}>{copy(s.sheenImg)}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Looping atmosphere over the painting (see Ambient in lib/content/marwari-journey.ts); purely decorative. */
+function AmbientLayer({ kind }: { kind: Ambient }) {
+  return (
+    <div className={s.amb} data-kind={kind} aria-hidden>
+      {kind === "desert" && (
+        <>
+          <span className={cn(s.motes, s.motesNear)} />
+          <span className={cn(s.motes, s.motesFar)} />
+        </>
+      )}
+      {kind === "battle" && (
+        <span className={s.emberField}>
+          <span className={s.glow} />
+          <span className={cn(s.sparks, s.sparksNear)} />
+          <span className={cn(s.sparks, s.sparksFar)} />
+        </span>
+      )}
+      {kind === "palace" && (
+        <span className={s.shaftField}>
+          <span className={s.shaft} />
+          <span className={s.shaft} />
+          <span className={s.shaft} />
+        </span>
+      )}
+    </div>
   );
 }
 

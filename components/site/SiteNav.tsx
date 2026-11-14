@@ -9,9 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
-import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { AnimatedMenuText } from "@/components/ui/animated-menu";
-import { acts, corridors, isConsolePath, navCta, primaryNav, reelFor, reels, TOTAL_REELS, tools, type Act } from "@/lib/content/site";
+import { acts, corridors, isConsolePath, navCta, reels, tools, type Act } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +18,6 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
  * Global navigation. Hides while scrolling down, returns on the way up.
- * The reel counter tells the visitor where they are in the film.
  */
 export function SiteNav() {
   // The staff console has its own header (app/admin/AdminShell.tsx); the film's bar and reels menu stay on the public site.
@@ -28,19 +26,12 @@ export function SiteNav() {
 }
 
 function PublicNav() {
-  const pathname = usePathname();
-  const reel = reelFor(pathname);
   const [hidden, setHidden] = useState(false);
-  const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
-  /* Over dark hero scenes (fleet, science, why, schools, cadets, statue, lithos, equipment, and the marble-to-living-horse openings of anatomy, curriculum and parents; not /command, whose cream film keeps the bar ivory), the bar reads light-on-dark; everywhere else it is ivory and ink. */
-  const isDarkHero = ["/fleet", "/science", "/why", "/schools", "/cadets", "/statue", "/lithos", "/equipment", "/anatomy", "/curriculum", "/parents"].includes(pathname);
-  const overFilm = isDarkHero && !solid;
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
-    setSolid(y > 40);
     setHidden(y > 240 && y > prev && !open);
   });
 
@@ -49,43 +40,29 @@ function PublicNav() {
       <motion.header
         className={cn(
           "no-print fixed inset-x-0 top-0 z-[60] transition-colors duration-500",
-          overFilm && "tone-dark",
           // A solid brand surface with a hairline rule in every state, so the bar stays legible over light sections.
           "border-b border-line/60 bg-night",
         )}
         animate={{ y: hidden ? "-110%" : "0%" }}
         transition={{ duration: 0.6, ease: ease.citadel }}
       >
-        <div className="gutter flex h-16 items-center justify-between gap-6 md:h-20">
-          <div className="flex min-w-0 items-center gap-4">
-            <Link href="/" className="flex shrink-0 items-center gap-2.5 whitespace-nowrap sm:gap-3" aria-label="The Black Stallion Academy of Horsemanship, home">
-              {/* Crest a quarter larger (2 Nov 2026): 52 px inside the 64 px phone bar, 60 px inside the 80 px desktop bar. */}
-              <CrestMark className="h-[3.25rem] w-[3.25rem] md:h-[3.75rem] md:w-[3.75rem]" decorative />
-              <Wordmark layout="inline" className="hidden min-[360px]:inline-flex" />
+        {/* 14 Nov 2026 (owner): the crest, then the academy's name in bold where the page links used to be (the links are
+            in the Reels menu), then the controls. Flex, not absolute centring, so the name can never sit under a control. */}
+        <div className="gutter flex h-16 items-center justify-between gap-3 md:h-20 md:gap-6">
+          <Link href="/" className="flex shrink-0 items-center" aria-label="The Black Stallion Academy of Horsemanship, home">
+            {/* Crest a quarter larger (2 Nov 2026): 52 px inside the 64 px phone bar, 60 px inside the 80 px desktop bar. */}
+            <CrestMark className="h-[3.25rem] w-[3.25rem] md:h-[3.75rem] md:w-[3.75rem]" decorative />
+          </Link>
+          <div className="flex min-w-0 flex-1 justify-start md:justify-center">
+            <Link
+              href="/"
+              tabIndex={-1}
+              aria-hidden
+              className="hidden min-w-0 transition-colors hover:text-gold min-[340px]:inline-flex"
+            >
+              <Wordmark layout="bold" />
             </Link>
-            {reel && (
-              // Only where the primary links leave room (from 1536 px); between 1280 and 1440 px it made the bar wrap.
-              <span className="label hidden min-w-0 items-center gap-2 whitespace-nowrap border-l border-line pl-4 text-dust 2xl:flex">
-                <span className="font-mono tracking-[0.1em] text-gold">
-                  {pad(reel.n)}/{TOTAL_REELS}
-                </span>
-                <span className="truncate">{reel.title}</span>
-              </span>
-            )}
           </div>
-
-          <nav aria-label="Primary" className="hidden min-[1440px]:block">
-            <ul className="flex items-center gap-3.5 whitespace-nowrap 2xl:gap-8">
-              {primaryNav.map((item) => {
-                const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                return (
-                  <li key={item.href}>
-                    <TopNavLink href={item.href} label={item.label} active={active} />
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
 
           <div className="flex items-center gap-1 sm:gap-3">
             <Link
@@ -96,7 +73,6 @@ function PublicNav() {
             >
               <UserRound size={18} strokeWidth={1.5} aria-hidden />
             </Link>
-            <ThemeToggle />
             <SoundToggle />
             <Link
               href={navCta.href}
@@ -288,24 +264,6 @@ function ReelLink({ href, onClose, active, n, title, children }: { href: string;
         </AnimatedMenuText>
       </div>
       {children}
-    </Link>
-  );
-}
-
-/** Desktop primary link with the same letter roll (hover and focus). */
-function TopNavLink({ href, label, active }: { href: string; label: string; active: boolean }) {
-  const [hot, setHot] = useState(false);
-  return (
-    <Link
-      href={href}
-      aria-current={active ? "page" : undefined}
-      onMouseEnter={() => setHot(true)}
-      onMouseLeave={() => setHot(false)}
-      onFocus={() => setHot(true)}
-      onBlur={() => setHot(false)}
-      className={cn("label block border-b py-1 transition-colors hover:text-gold", active ? "border-current text-gold" : "border-transparent text-sand")}
-    >
-      <AnimatedMenuText center active={hot}>{label}</AnimatedMenuText>
     </Link>
   );
 }

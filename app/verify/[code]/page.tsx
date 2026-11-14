@@ -3,8 +3,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { QrSeal } from "@/components/brand/QrSeal";
 import { Suspense } from "react";
-import { Crest } from "@/components/brand/Crest";
-import { Monogram } from "@/components/brand/Monogram";
+import { CrestMark } from "@/components/brand/CrestMark";
 import { Label } from "@/components/film/Marks";
 import { PrintButton } from "@/components/sections/verify/PrintButton";
 import { Verifier } from "@/components/sections/verify/Verifier";
@@ -75,7 +74,7 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
                 return (
                   <li key={rk.id} className="flex flex-col items-center gap-2">
                     <span className={has ? "grid h-14 w-14 place-items-center rounded-full border-2 border-gold bg-gold/15" : "grid h-14 w-14 place-items-center rounded-full border border-dashed border-line"}>
-                      {has ? <Monogram className="h-7 w-7 text-gold" /> : <span className="font-mono text-xs text-dust">{rk.numeral}</span>}
+                      {has ? <CrestMark decorative className="h-8 w-8" /> : <span className="font-mono text-xs text-dust">{rk.numeral}</span>}
                     </span>
                     <span className="label text-[0.6rem] text-dust">{rk.name.replace("Cadet ", "").replace("Sovereign ", "")}</span>
                   </li>
@@ -110,7 +109,7 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
         </div>
         <article className="parchment print-doc relative mx-auto max-w-4xl overflow-hidden px-8 py-12 text-center md:px-20 md:py-16">
           <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 opacity-[0.08]">
-            <Crest className="h-full w-full text-[#6b5130]" simple />
+            <CrestMark size="lg" className="h-full w-full" />
           </span>
           <div className="relative">
             <p className="label text-[#6b5130]">The Black Stallion Academy of Horsemanship · School Tent Pegging Council of India</p>
@@ -121,7 +120,7 @@ async function Record({ params }: { params: Promise<{ code: string }> }) {
               has earned the rank of <strong>{c.rankName}</strong> with <strong>{c.hours} logged riding hours</strong> at {c.hubName}.
             </p>
             <div className="mx-auto mt-10 grid h-28 w-28 place-items-center rounded-full bg-[radial-gradient(circle_at_40%_35%,#e6cd94,#c9a66b_55%,#8a6a3e)] shadow-[0_6px_18px_rgb(0_0_0/0.35)]">
-              <Monogram className="h-12 w-12 text-[#3b2a12]" />
+              <CrestMark decorative className="h-14 w-14" />
             </div>
             <div className="mt-12 grid grid-cols-2 gap-10 text-sm">
               <div className="border-t border-ink/40 pt-2">

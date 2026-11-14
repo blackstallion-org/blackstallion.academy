@@ -33,13 +33,15 @@ function StatuePhoto({ photo, priority }: { photo: Photo; priority?: boolean }) 
   );
 }
 import { SceneArt, SceneReading } from "./Scene";
+import { StoryPoster } from "@/components/film/StoryPoster";
 import "./history-scroll.css";
 
 const SHARED = ["SH01", "SH02", "SH03"];
 
 const allScenes = (page: HistoryPage) => page.chapters.flatMap((c) => c.scenes);
 const pageAssetIds = (page: HistoryPage) => [
-  ...(page.opening.asset ? [page.opening.asset] : []),
+  ...(page.opening.poster ? [page.opening.poster] : []),
+  ...(page.opening.asset && !page.opening.poster ? [page.opening.asset] : []),
   ...allScenes(page).flatMap((s) => [s.layers.B, s.layers.S, s.layers.F]),
   ...SHARED,
 ];
@@ -49,16 +51,51 @@ function grainUrl() {
   return g.ready ? asset(g.path) : undefined;
 }
 
-function Title({ page, children }: { page: HistoryPage; children?: React.ReactNode }) {
+const TITLE_ID = "story-title";
+
+/** The page's key art as a full-screen poster, when its ledger entry is accepted art; otherwise the text title card leads. */
+function posterFor(page: HistoryPage) {
+  if (!page.opening.poster) return null;
+  const a = historyAsset(page.opening.poster);
+  return a.ready ? a : null;
+}
+
+function Poster({ page }: { page: HistoryPage }) {
+  const a = posterFor(page);
+  if (!a) return null;
   return (
-    <header className="hs-title gutter">
+    <StoryPoster
+      src={asset(a.path)}
+      alt={a.alt}
+      width={a.width}
+      height={a.height}
+      focal={a.focal}
+      label={page.opening.label}
+      inscription={page.opening.inscription}
+      voice={page.opening.voice}
+      beginId={TITLE_ID}
+    />
+  );
+}
+
+/** Title card. After a poster it drops the label and headline (the poster carries them) and keeps the lede and contents. */
+function Title({ page, children }: { page: HistoryPage; children?: React.ReactNode }) {
+  const afterPoster = Boolean(posterFor(page));
+  return (
+    <header id={TITLE_ID} className={`hs-title gutter${afterPoster ? " hs-title--after-poster" : ""}`}>
       <div className="mx-auto max-w-6xl">
-        <p className="hs-label">{page.opening.label}</p>
-        <h1 className="hs-h1 mt-5 max-w-[14ch]">
-          {page.opening.inscription}
-          <span className="hs-voice">{page.opening.voice}</span>
-        </h1>
-        <p className="hs-lede mt-7 max-w-[40rem]">{page.opening.lede}</p>
+        {afterPoster ? (
+          <p className="hs-lede max-w-[40rem]">{page.opening.lede}</p>
+        ) : (
+          <>
+            <p className="hs-label">{page.opening.label}</p>
+            <h1 className="hs-h1 mt-5 max-w-[14ch]">
+              {page.opening.inscription}
+              <span className="hs-voice">{page.opening.voice}</span>
+            </h1>
+            <p className="hs-lede mt-7 max-w-[40rem]">{page.opening.lede}</p>
+          </>
+        )}
         {children}
       </div>
     </header>
@@ -122,10 +159,11 @@ export function AnthologyPage({ page }: { page: HistoryPage }) {
   const scenes = allScenes(page);
   return (
     <HistoryScrollRoot grain={grainUrl()} world={worldFor(page.route)}>
+      <Poster page={page} />
       <Title page={page}>
         <ChapterIndex items={scenes.map((s, i) => ({ href: `#${s.anchor}`, num: String(i + 1).padStart(2, "0"), label: s.title }))} />
       </Title>
-      {page.opening.asset && (
+      {page.opening.asset && !posterFor(page) && (
         <figure className="gutter pb-[clamp(3rem,8vh,6rem)]">
           <div className="hs-frame mx-auto max-w-7xl overflow-hidden">
             <HistoryArt id={page.opening.asset} sizes="(min-width: 1280px) 1280px, 92vw" priority className="h-auto w-full" />
@@ -202,6 +240,7 @@ export function PersonalStoryPage({ page }: { page: HistoryPage }) {
   const order = new Map(page.chapters.flatMap((c) => c.scenes).map((sc, i) => [sc.id, i]));
   return (
     <HistoryScrollRoot grain={grainUrl()} world={worldFor(page.route)}>
+      <Poster page={page} />
       <Title page={page}>
         <div className="hs-controls mt-8">
           <ReadingToggle />

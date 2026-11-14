@@ -54,7 +54,6 @@ export const pegIntro = {
   note: "Lance up to 9 ft · peg a few cm wide · about 80 m from start to finish line. Distances indicative.",
 };
 
-export const pegVirtues = ["Speed · Timing · Control · Precision", "Seat · Eye · Hand · Nerve"];
 
 /**
  * A cadet's morning in four chapters (Parents, S68 Curtain day). Times are SAMPLE, laid on the published Dawn Patrol

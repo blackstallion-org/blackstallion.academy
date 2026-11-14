@@ -137,6 +137,7 @@ export const pratapChetak: HistoryPage = {
     inscription: "Maharana Pratap and Chetak",
     voice: "a bond through the storm.",
     lede: "A ruler of the hills, his horse, and the day at Haldighati that made them a legend. Scroll to unroll the painting, or read the story straight through.",
+    poster: "PR-POSTER",
   },
   chapters: [
     { id: "chapter-the-bond", numeral: "I", title: "The bond", scenes: scenes.slice(0, 1) },

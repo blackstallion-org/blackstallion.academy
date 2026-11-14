@@ -1,57 +1,60 @@
 "use client";
 
+import Image from "next/image";
 import { useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { Label } from "@/components/film/Marks";
-import { ModelPlate } from "@/components/3d/ModelPlate";
 import { asset } from "@/lib/content/asset";
+import { r } from "@/components/film/range";
+import { useReducedMotion } from "@/lib/motion/reduced";
+import styles from "./BondHero.module.css";
 
+/**
+ * Curriculum title (14 Nov 2026, owner): the black Marwari cutout and the cadet's reaching hand on the dark ground, lit from
+ * behind so the black coat reads. As the scene scrolls, hand and muzzle drift toward each other and stop just short of touching:
+ * the stillness before the command. Both layers also breathe on a slow loop. Reduced motion: the closing position, still.
+ */
 export default function BondHero() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const horseX = useTransform(scrollYProgress, r(0, 0.7), reduced ? ["0vw", "0vw"] : ["-5vw", "0vw"]);
+  const handX = useTransform(scrollYProgress, r(0, 0.7), reduced ? ["0vw", "0vw"] : ["7vw", "0vw"]);
+  const glow = useTransform(scrollYProgress, r(0, 0.7), reduced ? [1, 1] : [0.7, 1]);
 
   return (
-    <section
-      ref={sectionRef}
-      aria-label="A quiet approach between horse and hand"
-      data-parallax-skip
-      className="relative w-full overflow-hidden bg-[#f2ece1] select-none lg:h-[95svh] lg:min-h-[640px]"
-    >
-      {/* The supplied bay Marwari and a cadet's hand (touch-bay-horse.glb, 4 Nov 2026). Phones: a stage under the fixed nav (h-16) with the copy below it.
-          Wide screens: from 112 px down (clear of the nav and its safe zone) to the foot of the section; the neck fades out at the bottom. */}
-      <ModelPlate
-        src={asset("/models/touch-bay-horse.glb")}
-        label="A bay Marwari stallion's head with a white blaze, and a cadet's hand reaching toward its muzzle"
-        mode="still"
-        yaw={-14}
-        fill={1.1}
-        fallback={<div className="h-full w-full bg-[#f2ece1]" />}
-        className="relative z-0 mt-16 h-[52svh] min-h-[320px] [mask-image:linear-gradient(to_top,transparent_0,#000_22%)] lg:absolute lg:-left-[17%] lg:-right-[4%] lg:bottom-0 lg:top-20 lg:mt-0 lg:h-auto lg:min-h-0"
-      />
-
-      {/* The whole head now shows, so on wide screens the copy sits in the clear space at the upper right, away from the head and the hand. */}
-      <div className="gutter pointer-events-none relative z-10 pb-10 pt-3 lg:absolute lg:inset-0 lg:flex lg:flex-col lg:items-end lg:justify-start lg:pb-0 lg:pt-36">
-        <div className="max-w-[19rem] sm:max-w-[22rem] lg:max-w-[22rem] xl:max-w-[25rem]">
-          <Label className="text-[#a66b26]">Phase 01 · The Covenant</Label>
-          <h2
-            className="mt-2 font-serif text-2xl sm:text-3xl lg:text-[2.1rem] font-light text-[#231710] leading-[1.12] tracking-tight"
-            style={{
-              fontFamily: 'var(--font-display)',
-            }}
-          >
-            The stillness before the command.
-          </h2>
-          <p className="mt-2 text-xs sm:text-sm text-[#4d3c33] font-normal leading-relaxed max-w-[34ch]">
-            Every great partnership begins in silence. Before the saddle is cinched or the reins are gathered, the cadet learns the discipline of touch.
-          </p>
-
-        </div>
+    <section ref={ref} aria-label="A cadet approaches a black Marwari horse" data-parallax-skip className={styles.scene}>
+      <div className={styles.stage} aria-hidden="true">
+        <motion.span className={styles.glow} style={{ opacity: glow }} />
+        <motion.div className={styles.horseWrap} style={{ x: horseX }}>
+          <Image
+            src={asset("/images/curriculum/marwari-black-cutout.webp")}
+            alt=""
+            width={1402}
+            height={1122}
+            priority
+            sizes="(max-width: 767px) 150vw, 80vw"
+            className={styles.horse}
+          />
+        </motion.div>
+        <motion.div className={styles.handWrap} style={{ x: handX }}>
+          <Image
+            src={asset("/images/curriculum/cadet-reaching-hand.webp")}
+            alt=""
+            width={2172}
+            height={724}
+            sizes="(max-width: 767px) 112vw, 55vw"
+            className={styles.hand}
+          />
+        </motion.div>
       </div>
-
-      {/* Editorial subtle edge gradient fade */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-[#f2ece1] to-transparent opacity-40"
-      />
+      <div className={styles.copy}>
+        <Label className="text-gold">Phase 01 · The Covenant</Label>
+        <h2 className={styles.heading}>The stillness before the command.</h2>
+        <p className={styles.description}>
+          Every great partnership begins in silence. Before the saddle is cinched or the reins are gathered, the cadet learns the discipline of touch.
+        </p>
+      </div>
     </section>
   );
 }
-
