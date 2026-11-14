@@ -2,6 +2,24 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
+ * "One conversation. Two bodies." — the single shared anatomy exhibit (homepage + /anatomy).
+ * The light three.js exhibit lives in a same-origin iframe (public/anatomy/dual-body.html) so its
+ * scripts and styles stay isolated from the site's animation and CSS systems. The frame reports its
+ * content height; this wrapper tells it when it is on screen so it can stop rendering offscreen.
+ */
+export function DualBody() {
+  return (
+    <AnatomyFrame
+      src="/anatomy/dual-body.html"
+      id="horse-rider-study"
+      label="One conversation. Two bodies."
+      title="One conversation. Two bodies. Interactive Marwari horse and cadet rider anatomy"
+      className="relative bg-umber pt-24 md:pt-28"
+    />
+  );
+}
+
+/**
  * "What twenty minutes does to a child." — the brain, spine, muscle and heart plate (public/anatomy/matrix.html), the supplied
  * 2D animation put back on /anatomy (1 Nov 2026). Same frame, same height message; no three.js, so the visibility message is ignored.
  * The frame is #EBE5D7, the backdrop colour of the rider photograph inside it, so the picture has no visible edge.

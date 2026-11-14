@@ -6,8 +6,8 @@ import { Label } from "@/components/film/Marks";
 import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
 import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anatomy/AnatomyScenes";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
-import { MatrixPlate } from "@/components/sections/anatomy/DualBody";
-import { AnatomyAtlas } from "@/components/sections/anatomy/atlas/AnatomyAtlas";
+import { DualBody, MatrixPlate } from "@/components/sections/anatomy/DualBody";
+import { StrideExperience } from "@/components/stride/StrideExperience";
 import { breedStandard } from "@/lib/content/anatomy";
 
 export const metadata: Metadata = {
@@ -32,9 +32,9 @@ export default function AnatomyPage() {
         <SpecimenPlate mode="full" className="mt-12" />
       </section>
 
-      {/* 14 Nov 2026 (owner): the 3D horse-and-rider exhibit and the embedded WebGL stride lab are replaced by one interactive
-          2D anatomy atlas (skeleton, muscles, horse and rider; walk, trot and canter). /stride keeps its own 3D lab. */}
-      <AnatomyAtlas />
+      {/* Explore the horse and rider together, followed by their movement through a stride. */}
+      <DualBody />
+      <StrideExperience embedded />
 
       {/* §1c · the brain, spine, muscle and heart plate (the supplied 2D animation, back on this page) */}
       <MatrixPlate />
