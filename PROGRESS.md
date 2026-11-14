@@ -1187,3 +1187,13 @@ workspace); no live payment, e-mail or signed-in run was possible.
   - **Watermarked and low-res photos replaced** with 1920×1080 stills from the owner's film (`lib/content/film-stills.ts`, `public/images/film/`): Command banner (two watermarked photos → one palace-courtyard image), Four Ranks band (citadel gate), home curtain III and IV. `lib/content/desert.ts` and `public/images/desert/` deleted; credit lines for van Alderen, Hafner and Druz no longer needed.
   - Removed the dangling `public/video/bsah-pan-india-hub.mp4` symlink (its target was already deleted; nothing referenced it) which broke `next build`.
   - Checked: typecheck, lint, build; `npm test` 341/342 (the one failure predates this session: `hero-films.ts` names untracked `hero-rider-lesson*` files). Intro, home film, Command, Four Ranks and `/worlds` screenshotted at 1440 and 390; reduced motion and keyboard focus checked.
+  - **Verification pass (same day).** An independent code review plus browser checks found and fixed: dead `/worlds` hand-over cover and
+    `INTRO_REVEAL_KEY`; 45 orphaned 3D files (`public/worlds`, 9.5 MB) and `four-worlds.mp3` removed; `.MOV` masters ignored by git and
+    Vercel; chapter labels no longer an `aria-live` region (a looping film re-announced them forever); sound toggles have one stable
+    name plus `aria-pressed`; chapter seek is a group, not a nav landmark, and disabled on failure; the intro's 12 s load limit no
+    longer removes the film after the visitor has had to press Play; keyboard Skip now hands focus to `#doctrine` (it was left on
+    `<body>` because `#main` was still inert); `/worlds` poster eager with high priority; phones fetch only phone posters. A regression
+    from that last change (a paused video with no poster painted black over the picture) was caught on screen and fixed: the video
+    stays transparent until its first frame. Retested: intro end-to-end, Skip by click / Enter / Escape, blocked autoplay, loop wrap,
+    reduced motion at 390, dark theme, no page errors on `/` and `/worlds`. Served image sizes measured at 2× DPR: nothing on the home
+    page is upscaled (minimum 1.13× its CSS size; the film stills 1.2–1.33×, limited by the 1080p master).
