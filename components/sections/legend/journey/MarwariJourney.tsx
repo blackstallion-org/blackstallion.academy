@@ -359,17 +359,17 @@ function Subject({ src, alt, load, idle }: { src: string; alt: string; load: Loa
 function AmbientLayer({ kind }: { kind: Ambient }) {
   return (
     <div className={s.amb} data-kind={kind} aria-hidden>
-      {kind === "desert" && (
-        <>
-          <span className={cn(s.motes, s.motesNear)} />
-          <span className={cn(s.motes, s.motesFar)} />
-        </>
-      )}
       {kind === "battle" && (
         <span className={s.emberField}>
           <span className={s.glow} />
-          <span className={cn(s.sparks, s.sparksNear)} />
-          <span className={cn(s.sparks, s.sparksFar)} />
+        </span>
+      )}
+      {(kind === "desert" || kind === "battle") && (
+        <span className={s.sandField}>
+          <span className={s.veil} />
+          <span className={s.ribbons} />
+          <span className={cn(s.sand, s.sandFar)} />
+          <span className={cn(s.sand, s.sandNear)} />
         </span>
       )}
       {kind === "palace" && (

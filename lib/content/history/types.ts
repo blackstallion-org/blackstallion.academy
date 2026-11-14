@@ -50,7 +50,7 @@ export type Scene = {
 
 export type Chapter = { id: string; numeral: string; title: string; scenes: Scene[] };
 
-export type Photo = { src: string; width: number; height: number; alt: string; caption: string; credit: string; creditHref: string };
+export type Photo = { src: string; width: number; height: number; alt: string; caption: string; credit: string; creditHref?: string };
 
 export type RelatedLink = { href: string; label: string; blurb: string };
 

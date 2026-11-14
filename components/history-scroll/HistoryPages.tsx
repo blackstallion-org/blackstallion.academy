@@ -8,7 +8,7 @@ import { worldFor } from "@/lib/content/history/motion";
 import Image from "next/image";
 import type { Photo } from "@/lib/content/history/types";
 
-/** A photograph of a real monument: credited and linked to its licence page, never treated as painted art. */
+/** A monument plate. Third-party photographs link to their licence; original BSAH plates use an unlinked credit. */
 function StatuePhoto({ photo, priority }: { photo: Photo; priority?: boolean }) {
   return (
     <figure className="mx-auto max-w-3xl">
@@ -25,9 +25,13 @@ function StatuePhoto({ photo, priority }: { photo: Photo; priority?: boolean }) 
       </div>
       <figcaption className="mt-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
         <span className="hs-voice text-lg">{photo.caption}</span>
-        <a className="hs-link font-[family-name:var(--font-sans)] text-[0.78rem]" href={photo.creditHref} rel="noopener noreferrer" target="_blank">
-          {photo.credit}
-        </a>
+        {photo.creditHref ? (
+          <a className="hs-link font-[family-name:var(--font-sans)] text-[0.78rem]" href={photo.creditHref} rel="noopener noreferrer" target="_blank">
+            {photo.credit}
+          </a>
+        ) : (
+          <span className="font-[family-name:var(--font-sans)] text-[0.78rem] text-dust">{photo.credit}</span>
+        )}
       </figcaption>
     </figure>
   );
