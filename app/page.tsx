@@ -34,7 +34,7 @@ export default function Home() {
     <HomeTypography>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationJsonLd).replace(/</g, "\\u003c") }} />
       {/* Zone A · Hook. Order (owner, 2 Nov 2026): the opening zoom (Loader) → who we are and what we do → the hero film →
-          the Rajasthan desert horse (StallionHero) → the rest. "Bronze and Time" was removed from here the same day. */}
+          the Marwar Journey film (JourneyFilm, 15 Nov 2026; it replaced the 3D desert horse) → the rest. "Bronze and Time" was removed from here the same day. */}
       <Hero />
       <div data-home-story><StoryStrip /></div>
       <FirstRideEditorial />

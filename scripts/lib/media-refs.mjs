@@ -93,8 +93,8 @@ export function listPublicMedia(root) {
 }
 
 /**
- * Files under a media folder that stay on this site on purpose: the media bucket does not serve JSON, and the film engine reads
- * its gait table from here (components/stallion-film/locomotion.ts). They are neither uploaded nor flagged.
+ * Files under a media folder that stay on this site on purpose: the media bucket does not serve JSON, and the gait table (the
+ * Marwari's authored footfalls, read by the stride lab's notes) stays here. They are neither uploaded nor flagged.
  */
 export const SITE_ONLY = new Set(["/models/marwari-gaits.json"]);
 

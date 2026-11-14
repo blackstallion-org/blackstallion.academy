@@ -6,7 +6,6 @@ import vm from "node:vm";
 import { loadTs } from "./helpers/load-ts.mjs";
 
 const { buildIntroBootScript, INTRO_SEEN_KEY, markIntroSeen } = await loadTs("lib/opening/intro-boot.ts");
-const { progressAt, timeAt, FILM_SECONDS } = await loadTs("components/worlds/core/director.ts");
 
 function visit({ path = "/", search = "", seen = false, seenInSession = false, noLocalStorage = false, reduced = false, connection = {} } = {}) {
   const dataset = {};
@@ -50,18 +49,6 @@ test("?intro plays it again, but not against reduced motion", () => {
   assert.equal(visit({ seenInSession: true, search: "?intro" }).dataset.bsahIntro, "1");
   assert.equal(visit({ seenInSession: true, search: "?a=1&intro" }).dataset.bsahIntro, "1");
   assert.equal(visit({ seenInSession: true, search: "?intro", reduced: true }).dataset.bsahIntro, undefined);
-});
-
-test("the film clock: monotonic, reaches 1 at the end, slows on each world's hero moment", () => {
-  let last = -1;
-  for (let t = 0; t <= FILM_SECONDS; t += 0.5) { const p = progressAt(t); assert.ok(p >= last); last = p; }
-  assert.equal(progressAt(FILM_SECONDS), 1);
-  assert.equal(progressAt(0), 0);
-  const speed = (p) => (progressAt(timeAt(p) + 0.5) - progressAt(timeAt(p) - 0.5));
-  // 14 Nov 2026: two worlds (Origins, Legacy), one hero moment each
-  for (const hold of [0.29, 0.8]) assert.ok(speed(hold) < Math.max(speed(hold - 0.07), speed(hold + 0.07)) * 0.97, `slower at ${hold}`);
-  // never faster than the camera path's own comfortable limit
-  for (let p = 0.02; p < 0.98; p += 0.01) assert.ok(speed(p) < 0.05, `speed at ${p}`);
 });
 
 test("markIntroSeen remembers the intro for this visit only (sessionStorage, never localStorage)", () => {

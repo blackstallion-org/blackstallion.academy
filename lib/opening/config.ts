@@ -4,7 +4,7 @@
  *   NEXT_PUBLIC_LOADER_HORSE=pixel   the earlier pixel horse in the loader, instead of the running-rider GIF
  *
  * The horse-zoom opening that used to follow the loader was removed (7 Nov 2026): the first-visit opening is now the Four Worlds
- * intro film (lib/opening/intro-boot.ts, components/worlds/WorldsIntro.tsx). See docs/OPENING.md.
+ * intro film (lib/opening/intro-boot.ts, components/opening/OpeningIntro.tsx). See docs/OPENING.md.
  */
 export type LoaderHorse = "silhouette" | "pixel";
 

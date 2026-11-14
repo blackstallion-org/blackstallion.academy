@@ -22,7 +22,7 @@ export function Loader() {
   const fallback = useRef<ReturnType<typeof setTimeout> | null>(null);
   const readyFrames = useRef<number[]>([]);
   const settle = () => setLoad((current) => current.phase === "running" ? { ...current, phase: "settling" } : current);
-  // When the horse has settled, the loader simply fades. The first-visit opening is the intro film (components/worlds/WorldsIntro.tsx).
+  // When the horse has settled, the loader simply fades. The first-visit opening is the intro film (components/opening/OpeningIntro.tsx).
   const finishSettling = useCallback(() => setLoad((current) => current.phase === "settling" ? { ...current, phase: "fading" } : current), []);
 
   useEffect(() => {

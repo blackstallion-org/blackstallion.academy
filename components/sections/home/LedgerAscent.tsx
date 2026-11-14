@@ -8,7 +8,7 @@ import { Label } from "@/components/film/Marks";
 import { pillars, ranks } from "@/lib/content/curriculum";
 import { ledger } from "@/lib/content/home";
 import { cn } from "@/lib/utils";
-import { desert } from "@/lib/content/desert";
+import { filmStills } from "@/lib/content/film-stills";
 
 /**
  * §7 · The ledger, simplified: one full-width instruction photograph, the four ranks as a selectable row beneath it,
@@ -42,7 +42,7 @@ export function LedgerAscent() {
       </div>
 
       <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]">
-        <Image src={desert.riderAtSunset.src} alt={desert.riderAtSunset.alt} fill sizes="100vw" className="object-cover" style={{ objectPosition: desert.riderAtSunset.position }} />
+        <Image src={filmStills.citadelGate.src} alt={filmStills.citadelGate.alt} fill sizes="100vw" className="object-cover" style={{ objectPosition: filmStills.citadelGate.position }} />
       </div>
 
       <div className="gutter py-[clamp(3rem,8vh,6rem)]">
