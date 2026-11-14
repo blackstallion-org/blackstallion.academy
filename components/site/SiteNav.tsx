@@ -9,8 +9,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { AnimatedMenuText } from "@/components/ui/animated-menu";
-import { acts, corridors, isConsolePath, menuHolds, navCta, navMenus, reels, tools, type Act, type NavMenu } from "@/lib/content/site";
+import { acts, corridors, isConsolePath, menuHolds, navCta, navMenus, reels, tools, type Act, type NavMenu, type NavMenuLink } from "@/lib/content/site";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -67,13 +68,14 @@ function PublicNav() {
         animate={{ y: hidden ? "-110%" : "0%" }}
         transition={{ duration: 0.6, ease: ease.citadel }}
       >
-        {/* The crest and the academy's name sit together on the left (the name is one line, close to the crest); the five
-            words open the full-screen menus beside it; the controls stay on the right. */}
+        {/* The crest and the whole lockup (BLACK STALLION over ACADEMY OF HORSEMANSHIP) are one link home; the five words open
+            the full-screen menus beside it; the controls stay on the right. */}
         <div className="gutter flex h-16 items-center gap-3 md:h-20 md:gap-4">
           <Link href="/" className="flex shrink-0 items-center gap-2.5 md:gap-3" aria-label="The Black Stallion Academy of Horsemanship, home">
             {/* Crest a quarter larger (2 Nov 2026): 52 px inside the 64 px phone bar, 60 px inside the 80 px desktop bar. */}
             <CrestMark className="h-[3.25rem] w-[3.25rem] md:h-[3.75rem] md:w-[3.75rem]" decorative />
-            <Wordmark layout="bold" className="hidden min-[340px]:inline-flex" />
+            {/* Below 340 px the crest stands alone (the lockup would push the controls off the bar); it never loses its second line. */}
+            <Wordmark layout="inline" className="hidden min-[340px]:inline-flex" />
           </Link>
 
           <nav aria-label="Primary" className="hidden min-w-0 flex-1 items-center gap-[clamp(0.9rem,1.7vw,2rem)] pl-[clamp(0.75rem,2.2vw,2.5rem)] min-[75rem]:flex">
@@ -132,6 +134,7 @@ function PublicNav() {
             >
               <UserRound size={18} strokeWidth={1.5} aria-hidden />
             </Link>
+            <ThemeToggle />
             <SoundToggle />
             <Link
               href={navCta.href}
@@ -168,8 +171,17 @@ function PublicNav() {
   );
 }
 
-/** Where each column's numbering starts, so a menu's links read 01 to 09 across its three columns. */
-const columnStarts = (menu: NavMenu) => menu.columns.map((_, c) => menu.columns.slice(0, c).reduce((n, col) => n + col.links.length, 0));
+/**
+ * A link's number cell: a numbered page shows its own reel number (the same as in the Reels menu and the footer); a page
+ * outside the reels shows none. Menus never count their own links.
+ */
+function LinkNumber({ link, className }: { link: NavMenuLink; className: string }) {
+  return (
+    <span aria-hidden={link.n === undefined} className={cn("shrink-0 font-mono text-gold/80", className)}>
+      {link.n === undefined ? "" : pad(link.n)}
+    </span>
+  );
+}
 
 /**
  * The header's full-screen editorial mega menu: the ivory page drawn down under the bar, the menu's title and one line, then
@@ -182,7 +194,6 @@ function MegaMenu({ menu, index, focusFirst, onClose }: { menu: NavMenu; index: 
   const lenis = useLenis();
   const reduced = useReducedMotion();
   const panel = useRef<HTMLDivElement>(null);
-  const starts = columnStarts(menu);
 
   useEffect(() => {
     lenis?.stop();
@@ -233,10 +244,7 @@ function MegaMenu({ menu, index, focusFirst, onClose }: { menu: NavMenu; index: 
         >
           <div className="flex items-start justify-between gap-10 border-b border-line pb-7">
             <div>
-              <p className="label text-brass">
-                {pad(index + 1)} <span aria-hidden className="text-dust">/</span> {pad(navMenus.length)}
-              </p>
-              <h2 className="t-inscribe mt-4 text-[clamp(2.1rem,3.3vw,3.25rem)] leading-none text-bone">{menu.label}</h2>
+              <h2 className="t-inscribe text-[clamp(2.1rem,3.3vw,3.25rem)] leading-none text-bone">{menu.label}</h2>
               <p className="t-story mt-4 max-w-[46ch] text-lg italic text-sand">{menu.lead}</p>
             </div>
             <button
@@ -261,7 +269,7 @@ function MegaMenu({ menu, index, focusFirst, onClose }: { menu: NavMenu; index: 
                   {col.heading}
                 </h3>
                 <ul>
-                  {col.links.map((l, k) => {
+                  {col.links.map((l) => {
                     const here = pathname === l.href;
                     return (
                       <li key={l.href}>
@@ -271,7 +279,7 @@ function MegaMenu({ menu, index, focusFirst, onClose }: { menu: NavMenu; index: 
                           aria-current={here ? "page" : undefined}
                           className="group/link flex items-baseline gap-5 border-b border-line py-[clamp(0.85rem,1.9vh,1.25rem)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
                         >
-                          <span className="w-6 shrink-0 font-mono text-xs text-gold/80">{pad(starts[c] + k + 1)}</span>
+                          <LinkNumber link={l} className="w-6 text-xs" />
                           <span
                             className={cn(
                               "t-voice min-w-0 flex-1 text-[clamp(1.45rem,2.05vw,2.05rem)] leading-[1.15] transition-[color,transform] duration-500 ease-[var(--ease-citadel)] group-hover/link:translate-x-1.5 group-hover/link:text-gold group-focus-visible/link:text-gold motion-reduce:transition-none motion-reduce:group-hover/link:translate-x-0",
@@ -314,7 +322,6 @@ function MenuGroup({ menu, onClose }: { menu: NavMenu; onClose: () => void }) {
   const pathname = usePathname();
   const [shown, setShown] = useState(() => menuHolds(menu, pathname));
   const reduced = useReducedMotion();
-  const starts = columnStarts(menu);
   const id = `menu-group-${menu.label.toLowerCase()}`;
   const holds = menuHolds(menu, pathname);
   return (
@@ -345,7 +352,7 @@ function MenuGroup({ menu, onClose }: { menu: NavMenu; onClose: () => void }) {
                 <div key={col.heading}>
                   <p className="label border-b border-line pb-2 text-brass">{col.heading}</p>
                   <ul>
-                    {col.links.map((l, k) => (
+                    {col.links.map((l) => (
                       <li key={l.href}>
                         <Link
                           href={l.href}
@@ -353,7 +360,7 @@ function MenuGroup({ menu, onClose }: { menu: NavMenu; onClose: () => void }) {
                           aria-current={pathname === l.href ? "page" : undefined}
                           className="flex min-h-12 items-baseline gap-4 border-b border-line py-2.5 text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold aria-[current=page]:text-gold"
                         >
-                          <span className="w-5 shrink-0 font-mono text-[0.68rem] text-gold/80">{pad(starts[c] + k + 1)}</span>
+                          <LinkNumber link={l} className="w-5 text-[0.68rem]" />
                           <span className="t-voice text-[1.2rem] leading-snug">{l.label}</span>
                         </Link>
                       </li>

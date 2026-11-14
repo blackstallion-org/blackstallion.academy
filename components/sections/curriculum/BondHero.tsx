@@ -44,7 +44,7 @@ export default function BondHero() {
             alt=""
             width={2172}
             height={724}
-            sizes="(max-width: 767px) 140vw, 76vw"
+            sizes="(max-width: 767px) 66vw, 76vw"
             className={styles.hand}
           />
         </motion.div>

@@ -1147,3 +1147,34 @@ workspace); no live payment, e-mail or signed-in run was possible.
     the owner freed disk). Screenshotted at 1440 and 390: /why plate (light and dark, reduced motion), /curriculum (rest
     frame), /contact gate, the tops of /schools, /contact and /curriculum (top 120 px clear of the nav), nav light, dark and
     keyboard focus on the toggle (2 px outline). `npm test` and the e2e smoke script were not run.
+
+## 14 Nov 2026 · Branch `nav-mega-menu`: navigation fixed to the owner's rules; visual pass (4 of 5)
+
+- **Branch.** No `nav-mega-menu` branch existed; the mega menu was uncommitted work on `claude/legend-fleet-campaign`. It is
+  committed here as a baseline (with the untracked files it imports: `HomeThresholds`, `desert.ts`, `home-thresholds.ts`, the
+  desert and curriculum images), then the owner's prompt and navigation rules (friendly-wright `caa8489`, `fed9fbe`), then the
+  other session's visual pass (`cb28208`, worktree `gifted-cohen-995b47`) with conflicts resolved in favour of the newer header.
+- **One lockup.** `Wordmark` has one variant, `inline`: BLACK STALLION over ACADEMY OF HORSEMANSHIP, sized in em with a `size`
+  prop (`bar` default, `custom` for the footer). The nav, the Reels menu, the console header and the footer all use it; the
+  footer's hand-typed name is gone. The `bold` one-line variant (which dropped the second line below 1700 px) is deleted.
+- **One numbering.** `lib/content/site.ts`: menus list numbered pages by address only; `menuLink()` takes the number and title
+  from `reels` / `tools` and throws if a numbered page is given a label. Mega menus, the phone groups, `footerNav`, `legalNav`
+  and `primaryNav` build from it. Heritage now reads 01, 03, 04 · 19, 22, 23 · 20, 21 (as the Reels menu); unnumbered pages
+  (About, Enrol, Privacy…) show no number. The "01 / 05" menu counter is gone. The footer list shows numbers and titles
+  ("06 Crisis & Cure", not "Crucible & Cure"); "Painted histories" and "Journal" left the small print.
+- `tests/site-nav.test.mjs`: two new guards (every menu shows a numbered page's own number and title, once per menu; no
+  positional numbering in SiteNav). Browser audit of every menu at 1440 and 390 (five mega menus, five phone groups, Reels,
+  footer): every page once per menu, same number and title as `site.ts`.
+- **Theme toggle** in the bar between the account icon and Sound, at every width. Click → `html[data-theme=dark]` and
+  `localStorage`; survives a reload; the whole page swaps (checked on /curriculum, /why, /contact).
+- **/curriculum hand** (on the head-crop layout): horse 1.5u left, hand 3u right. At rest the fingertips stop 109 px short of
+  the muzzle at 1440 (78 at 1024, 88 at 1280, 131 at 1920). Phones: horse slid left (bridle and tassel in frame), hand at life
+  size (66vw) so fingers, wrist and cuff show: 44 px at 390, 39 at 360.
+- **/why** horse plate and **/contact** bay horse: from `cb28208`, reviewed at 1440 and 390, light and dark.
+  `lib/content/covenant.ts` is unchanged (it is not affected by the gate scene).
+- **/schools: not done.** Higgsfield balance 0.25 credits (floor 15). Needed: 6 campus cards + 4 curtain frames (10 stills,
+  2K, Indian campus, BSAH uniform, helmets, Marwari horses).
+- **Checks:** lint 0 errors (the 1,833 errors `npm run lint` prints are all in the ignored `.claude/worktrees/` checkout),
+  typecheck, `npm test` 343/343. **Not run:** `npm run build` and `node scripts/e2e-smoke.mjs`: the disk had 1.9 GB free (swap
+  grew to 5 GB). The running dev server serves stale server HTML (its watcher stopped after the branch rewrite), so pages show
+  a hydration warning until it is restarted; screenshots were taken from the client-rendered tree.

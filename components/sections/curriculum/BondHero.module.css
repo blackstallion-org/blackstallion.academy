@@ -51,13 +51,15 @@
 
 /* 14 Nov 2026 (owner's reference crop): head and neck only, attached flush to the left edge of the page, the neck leaving the
    frame there. Horse and hand are sized and placed in one unit, --u (1vw, capped by the viewport height), so the framing holds on
-   short and very wide screens: ears clear of the 80 px nav, and the fingertips stop a hand's breadth from the muzzle. */
+   short and very wide screens: ears clear of the 80 px nav. Visual pass (14 Nov 2026, owner): the hand is offered and not yet
+   taken, so at rest the fingertips stop about a hand's breadth (7.5u, ~110 px at 1440) short of the muzzle, and the 12 px
+   breathing reach never closes it. The horse moved left (the neck leaves the frame) rather than shrinking. */
 .stage { --u: min(1vw, 1.6svh); }
 
 .horse {
   z-index: 1;
   width: calc(var(--u) * 41);
-  left: calc(var(--u) * -0.3);
+  left: calc(var(--u) * -1.8);
   top: max(calc(var(--u) * 5.9), 5.4rem); /* never closer than the nav's 80 px plus a margin */
   transform-origin: 0% 60%;
   animation: horseBreath 7s ease-in-out infinite;
@@ -68,7 +70,7 @@
 .hand {
   z-index: 2;
   width: calc(var(--u) * 72.4);
-  left: calc(var(--u) * 39.2);
+  left: calc(var(--u) * 42.2);
   top: calc(var(--u) * 43.4);
   transform-origin: 100% 65%;
   animation: handReach 5.5s ease-in-out infinite;
@@ -125,16 +127,18 @@
     min-height: 420px;
   }
 
+  /* Phones: the horse slides left (only neck leaves the frame; the bridle and its tassel stay in) and the hand is drawn at
+     life size beside the head, so fingers, wrist and cuff all fit, a clear gap short of the muzzle. */
   .horse {
     width: 74vw;
-    left: -0.5vw;
+    left: -15vw;
     top: 1.25rem;
     bottom: auto;
   }
 
   .hand {
-    width: 140vw;
-    left: 64.4vw;
+    width: 66vw;
+    left: 65vw;
     top: 62%;
     bottom: auto;
   }

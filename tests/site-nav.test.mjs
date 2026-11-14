@@ -39,3 +39,31 @@ test("site chrome draws the brand with <Wordmark />, never by hand", async () =>
     assert.equal(visible, null, `${f} types the brand name instead of using <Wordmark />`);
   }
 });
+
+test("every menu shows a numbered page with its own number and title, once per menu", () => {
+  const byHref = new Map([...site.reels, ...site.tools].map((r) => [r.href, r]));
+  const menus = [
+    ...site.navMenus.map((m) => ({ name: `${m.label} menu`, links: m.columns.flatMap((c) => c.links) })),
+    { name: "footer", links: site.footerNav },
+    { name: "footer small print", links: site.legalNav },
+    { name: "primaryNav", links: site.primaryNav },
+  ];
+  for (const { name, links } of menus) {
+    const hrefs = links.map((l) => l.href);
+    assert.equal(new Set(hrefs).size, hrefs.length, `${name} lists a page twice`);
+    for (const l of links) {
+      const page = byHref.get(l.href);
+      if (page) {
+        assert.equal(l.n, page.n, `${name}: ${l.href} shows number ${l.n}, not ${page.n}`);
+        assert.equal(l.label, page.title, `${name}: ${l.href} is titled "${l.label}", not "${page.title}"`);
+      } else {
+        assert.equal(l.n, undefined, `${name}: ${l.href} is not a numbered page but carries a number`);
+      }
+    }
+  }
+});
+
+test("menus never count their own links", async () => {
+  const src = await readFile(path.join(root, "components/site/SiteNav.tsx"), "utf8");
+  assert.doesNotMatch(src, /starts\[c\]\s*\+\s*k|columnStarts/, "SiteNav numbers menu links by position");
+});
