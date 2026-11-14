@@ -27,7 +27,7 @@ function HorseIcon({ size = 20, className }: { size?: number | string; className
 /**
  * Top-right sound menu. Nothing plays until the visitor picks an option, and the choice is shown on the button.
  */
-export function SoundToggle() {
+export function SoundToggle({ variant = "label" }: { variant?: "label" | "editorial" }) {
   const on = useSyncExternalStore(subscribeSound, soundEnabled, () => false);
   const music = useSyncExternalStore<MusicState>(subscribeMusic, getMusicState, () => "waiting");
   const mode = useSyncExternalStore<SoundMode>(subscribeSoundMode, getSoundMode, () => "none");
@@ -61,10 +61,23 @@ export function SoundToggle() {
         aria-expanded={open}
         aria-label={`Sound: ${label.toLowerCase()}. Choose what plays.`}
         title="Choose what plays"
-        className="label flex min-h-11 items-center gap-2 px-2 py-2.5 text-sand hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+        className={
+          variant === "editorial"
+            ? "t-story flex min-h-11 items-center gap-2 px-2 py-2.5 text-[1rem] leading-none text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            : "label flex min-h-11 items-center gap-2 px-2 py-2.5 text-sand hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+        }
       >
-        <span className="hidden sm:inline">Sound</span>
-        <span className="font-mono tracking-[0.1em] text-gold">{label}</span>
+        {variant === "editorial" ? (
+          <>
+            <span className="hidden md:inline min-[75rem]:hidden xl:inline">Sound</span>
+            <span className="capitalize">{label.toLowerCase()}</span>
+          </>
+        ) : (
+          <>
+            <span className="hidden sm:inline">Sound</span>
+            <span className="font-mono tracking-[0.1em] text-gold">{label}</span>
+          </>
+        )}
         <span aria-hidden className="relative flex h-3 w-3.5 items-end justify-between">
           {playing ? (
             [0, 1, 2].map((i) => (

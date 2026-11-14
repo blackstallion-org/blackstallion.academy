@@ -7,6 +7,7 @@ import { ComparisonLedger, ScienceTitle } from "@/components/sections/science/Sc
 import { claims, comparison, statusColor } from "@/lib/content/science";
 import { cn } from "@/lib/utils";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/science" },
@@ -29,6 +30,7 @@ export default function SciencePage() {
         </Link>
       </section>
       <PageCurtain page="science" />
+      <EditorialGallery page="science" />
 
       <ComparisonLedger cols={comparison.cols} rows={comparison.rows} note={comparison.note} />
 

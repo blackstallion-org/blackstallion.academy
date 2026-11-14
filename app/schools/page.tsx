@@ -1,4 +1,3 @@
-import { RoyalPlate } from "@/components/film/RoyalPlate";
 import type { Metadata } from "next";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
@@ -11,6 +10,7 @@ import { SealedInvitation } from "@/components/sections/schools/SealedInvitation
 import { seals } from "@/lib/content/schools";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { SchoolRingProgramme } from "@/components/sections/campaign/CampaignSections";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/schools" },
@@ -23,7 +23,7 @@ export default function SchoolsPage() {
     <>
       <SchoolsTitle />
       <ModelFlow />
-      <RoyalPlate id="schoolsHill" layout="split" flip />
+      <EditorialGallery page="schools" />
       {/* 14 Nov 2026: the riding ring on campus, the programme's main image (AI illustrations of the concept). */}
       <SchoolRingProgramme />
       <CitadelConfigurator />

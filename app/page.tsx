@@ -1,4 +1,3 @@
-import { RoyalPlate } from "@/components/film/RoyalPlate";
 import { HomeTypography, HomeAct as Intermission } from "@/components/sections/home/HomeTypography";
 import { CrisisCure } from "@/components/sections/home/CrisisCure";
 import { Doors } from "@/components/sections/home/Doors";
@@ -12,6 +11,7 @@ import { Studbook } from "@/components/sections/home/Studbook";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { HorseFirst } from "@/components/sections/home/HorseFirst";
 import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 /**
  * R00 · The Trailer. Fifteen sections in three zones (Blueprint Part 6, home).
@@ -38,8 +38,7 @@ export default function Home() {
       <div data-home-story><StoryStrip /></div>
       <FirstRideEditorial />
       <Instrument />
-      {/* 14 Nov 2026: the owner's royal photographs (used with permission) */}
-      <RoyalPlate id="homeInterlude" layout="split" flip />
+      <EditorialGallery page="home" />
 
       <Intermission act="citadel" line="Now, the proof." />
 

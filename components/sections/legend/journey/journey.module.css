@@ -13,6 +13,9 @@
   padding-bottom: clamp(1rem, 3vh, 2rem);
 }
 
+/* after the poster the nav is already cleared by the poster above; this is ordinary section spacing (and the Begin target) */
+.introAfterPoster { padding-top: clamp(3rem, 9vh, 6rem); scroll-margin-top: 6rem; }
+
 .actBand {
   padding-top: clamp(4rem, 12vh, 8rem);
   padding-bottom: clamp(1.5rem, 4vh, 2.5rem);

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { UserRound } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useLenis } from "lenis/react";
@@ -10,9 +10,10 @@ import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
 import { AnimatedMenuText } from "@/components/ui/animated-menu";
-import { acts, corridors, isConsolePath, navCta, reels, tools, type Act } from "@/lib/content/site";
+import { acts, corridors, isConsolePath, navCta, navSearch, primaryNav, reels, tools, type Act } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import nav from "./SiteNav.module.css";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -28,6 +29,7 @@ export function SiteNav() {
 function PublicNav() {
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (y) => {
@@ -38,63 +40,88 @@ function PublicNav() {
   return (
     <>
       <motion.header
-        className={cn(
-          "no-print fixed inset-x-0 top-0 z-[60] transition-colors duration-500",
-          // A solid brand surface with a hairline rule in every state, so the bar stays legible over light sections.
-          "border-b border-line/60 bg-night",
-        )}
+        className="no-print fixed inset-x-0 top-0 z-[60]"
         animate={{ y: hidden ? "-110%" : "0%" }}
         transition={{ duration: 0.6, ease: ease.citadel }}
       >
-        {/* 14 Nov 2026 (owner): the crest, then the academy's name in bold where the page links used to be (the links are
-            in the Reels menu), then the controls. Flex, not absolute centring, so the name can never sit under a control. */}
-        <div className="gutter flex h-16 items-center justify-between gap-3 md:h-20 md:gap-6">
-          <Link href="/" className="flex shrink-0 items-center" aria-label="The Black Stallion Academy of Horsemanship, home">
-            {/* Crest a quarter larger (2 Nov 2026): 52 px inside the 64 px phone bar, 60 px inside the 80 px desktop bar. */}
-            <CrestMark className="h-[3.25rem] w-[3.25rem] md:h-[3.75rem] md:w-[3.75rem]" decorative />
-          </Link>
-          <div className="flex min-w-0 flex-1 justify-start md:justify-center">
-            <Link
-              href="/"
-              tabIndex={-1}
-              aria-hidden
-              className="hidden min-w-0 transition-colors hover:text-gold min-[340px]:inline-flex"
-            >
-              <Wordmark layout="bold" />
-            </Link>
+        {/* 14 Nov 2026 (owner's reference). Heights are unchanged so no page's top clearance moves: phones 64 px (the strip is
+            hidden), from 768 px a 24 px wine strip over a 56 px bar = 80 px. */}
+        <div className={cn(nav.strip, nav.stripLine, "hidden h-6 items-center md:flex")}>
+          <div className="gutter relative flex w-full items-center justify-center">
+            <p className="t-inscribe whitespace-nowrap text-[0.6rem] leading-none tracking-[0.28em] min-[75rem]:text-[0.66rem] min-[85rem]:text-[0.72rem] min-[85rem]:tracking-[0.3em]">
+              Interscholastic Cavalry Heritage <span aria-hidden className="mx-[0.9em] text-antique">•</span> Stoic Leadership{" "}
+              <span aria-hidden className="mx-[0.9em] text-antique">•</span> Discipline
+            </p>
+            <p className="t-story absolute right-[max(16px,4vw)] hidden whitespace-nowrap text-[0.78rem] leading-none text-offwhite/85 min-[1180px]:block">
+              Hyderabad <span aria-hidden className="mx-1 opacity-60">|</span> 2026
+            </p>
           </div>
+        </div>
+        <div className="border-b border-copper/30 bg-night">
+          <div className="gutter flex h-16 items-center gap-3 md:h-14 md:gap-5">
+            <Link href="/" className="flex shrink-0 items-center gap-2.5 md:gap-3" aria-label="The Black Stallion Academy of Horsemanship, home">
+              <CrestMark className="h-10 w-10 md:h-10 md:w-10" decorative />
+              <Wordmark layout="bold" className="hidden min-[340px]:inline-flex" />
+            </Link>
 
-          <div className="flex items-center gap-1 sm:gap-3">
-            <Link
-              href="/admin/login"
-              aria-label="Staff sign-in"
-              title="Staff sign-in"
-              className="hidden h-11 w-11 shrink-0 place-items-center rounded-full border border-line text-bone transition-colors hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:grid"
-            >
-              <UserRound size={18} strokeWidth={1.5} aria-hidden />
-            </Link>
-            <SoundToggle />
-            <Link
-              href={navCta.href}
-              className="label hidden whitespace-nowrap border border-line/45 px-4 py-2.5 text-bone transition-colors hover:border-gold hover:text-gold md:inline-block"
-            >
-              {navCta.label}
-            </Link>
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              aria-expanded={open}
-              aria-controls="site-menu"
-              aria-label="Reels: all pages"
-              className="label flex min-h-11 items-center gap-3 px-2 py-2.5 text-bone hover:text-gold"
-            >
-              {/* Phones show the menu mark only, so the full academy name fits beside the crest. */}
-              <span className="hidden sm:inline">Reels</span>
-              <span aria-hidden className="flex flex-col gap-[5px]">
-                <span className="block h-px w-6 bg-current" />
-                <span className="block h-px w-4 self-end bg-current" />
-              </span>
-            </button>
+            <span aria-hidden className="mx-1 hidden h-8 w-px shrink-0 bg-copper/35 min-[75rem]:block xl:mx-3" />
+
+            <nav aria-label="Primary" className="hidden min-w-0 flex-1 items-center justify-evenly min-[75rem]:flex">
+              {primaryNav.map((l) => {
+                const here = pathname === l.href || pathname.startsWith(`${l.href}/`);
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    aria-current={here ? "page" : undefined}
+                    className={cn(
+                      nav.link,
+                      "t-story flex h-14 items-center whitespace-nowrap px-1 text-[1.02rem] leading-none text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-gold min-[85rem]:text-[1.1rem]",
+                    )}
+                  >
+                    {l.label}
+                  </Link>
+                );
+              })}
+            </nav>
+            <div className="min-w-0 flex-1 min-[75rem]:hidden" />
+
+            <span aria-hidden className="mx-1 hidden h-8 w-px shrink-0 bg-copper/35 min-[75rem]:block xl:mx-3" />
+
+            <div className="flex shrink-0 items-center gap-0.5 sm:gap-1.5">
+              <Link
+                href={navSearch.href}
+                aria-label={navSearch.label}
+                title={navSearch.label}
+                className="hidden h-11 w-11 place-items-center text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold md:grid"
+              >
+                <Search size={19} strokeWidth={1.6} aria-hidden />
+              </Link>
+              <SoundToggle variant="editorial" />
+              <Link
+                href={navCta.href}
+                className={cn(
+                  nav.enrol,
+                  "t-story ml-1 hidden items-center gap-2 whitespace-nowrap px-4 py-2.5 text-[1rem] leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold md:inline-flex xl:px-5",
+                )}
+              >
+                Enrol a Cadet
+                <ArrowRight size={16} strokeWidth={1.6} aria-hidden />
+              </Link>
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                aria-expanded={open}
+                aria-controls="site-menu"
+                aria-label="Reels: all pages"
+                className="grid h-11 w-11 place-items-center text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              >
+                <span aria-hidden className="flex flex-col gap-[5px]">
+                  <span className="block h-px w-6 bg-current" />
+                  <span className="block h-px w-4 self-end bg-current" />
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </motion.header>
@@ -166,6 +193,25 @@ function Menu({ onClose }: { onClose: () => void }) {
           Close ✕
         </button>
       </div>
+
+      {/* Below 1200 px the header bar has no room for the five links, so they lead the menu. */}
+      <nav aria-label="Primary" className="gutter pt-4 min-[75rem]:hidden">
+        <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-3">
+          {[...primaryNav, { label: "Search", href: navSearch.href }].map((l) => (
+            <li key={l.href}>
+              <Link
+                href={l.href}
+                onClick={onClose}
+                aria-current={pathname === l.href || pathname.startsWith(`${l.href}/`) ? "page" : undefined}
+                className="t-story flex min-h-12 items-center justify-between border-b border-line text-[1.25rem] text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold aria-[current=page]:text-gold"
+              >
+                {l.label}
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden className="text-copper" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       {/* The reels in their three acts, side by side (the original structure; the parchment ground and the colours are the 31 Oct ones). */}
       <div className="gutter grid gap-12 pb-12 pt-6 md:grid-cols-3 md:gap-10 md:pt-12">

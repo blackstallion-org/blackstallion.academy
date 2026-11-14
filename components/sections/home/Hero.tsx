@@ -1,9 +1,7 @@
 "use client";
 
 
-import Image from "next/image";
 import { Fragment } from "react";
-import { royal } from "@/lib/content/royal";
 import { HeroFilm } from "./HeroFilm";
 import { StallionHero } from "./StallionHero";
 import { Cta } from "@/components/film/Marks";
@@ -26,52 +24,49 @@ export function Hero() {
   );
 }
 
-/**
- * 14 Nov 2026 (owner): the first screen is a full-screen photograph, a Marwari stallion before a palace pavilion (the owner's
- * royal photographs, used with permission), with who we are set over it; the three figures follow on the paper below.
- */
 function HeroContentSection() {
-  const photo = royal.palaceStanding;
   return (
     <section id="doctrine" tabIndex={-1} aria-label="Who we are" className={styles.hero}>
-      <div className={styles.poster}>
-        <Image src={photo.src} alt={photo.alt} fill priority sizes="100vw" className={styles.photo} style={{ objectPosition: photo.focus }} />
-        <div aria-hidden className={styles.shade} />
-        <div className={styles.content}>
-          {/* A plain picture: next/image refuses the ?v= cache key on a local file. The logo is the BSAH crest (4 Nov 2026 update). */}
-          {/* eslint-disable-next-line @next/next/no-img-element -- see the note above */}
-          <img src={LOGO.lg} alt="The Black Stallion Academy of Horsemanship crest" width={900} height={900} fetchPriority="high" className={styles.crest} />
-          <h1 className={styles.statement}>
-            {hero.statement.map((sentence, index) => {
-              const words = sentence.split(" ");
-              return (
-                <span key={sentence} className={index === 1 ? styles.emphasis : undefined}>
-                  {words.map((word, w) => (
-                    <Fragment key={w}>
-                      <span className={styles.word} style={{ animationDelay: `${0.2 + index * 0.9 + w * 0.12}s` }}>{word}</span>
-                      {w < words.length - 1 ? " " : null}
-                    </Fragment>
-                  ))}
-                </span>
-              );
-            })}
-          </h1>
-          <p className={styles.intro}>{hero.sub}</p>
-          <div className={styles.actions}>
-            <Cta href={hero.ctas[0].href} variant="solid" className={styles.primary}>{hero.ctas[0].label}</Cta>
-            <Cta href={hero.ctas[1].href} className={styles.secondary}>{hero.ctas[1].label}</Cta>
-          </div>
+      <div className={styles.content}>
+        {/* A plain picture: next/image refuses the ?v= cache key on a local file. The logo is the BSAH crest (4 Nov 2026 update). */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- see the note above */}
+        <img
+          src={LOGO.lg}
+          alt="The Black Stallion Academy of Horsemanship crest"
+          width={900}
+          height={900}
+          fetchPriority="high"
+          className={styles.crest}
+        />
+        <h1 className={styles.statement}>
+          {hero.statement.map((sentence, index) => {
+            const words = sentence.split(" ");
+            return (
+              <span key={sentence} className={index === 1 ? styles.emphasis : undefined}>
+                {words.map((word, w) => (
+                  <Fragment key={w}>
+                    <span className={styles.word} style={{ animationDelay: `${0.2 + index * 0.9 + w * 0.12}s` }}>{word}</span>
+                    {w < words.length - 1 ? " " : null}
+                  </Fragment>
+                ))}
+              </span>
+            );
+          })}
+        </h1>
+        <p className={styles.intro}>{hero.sub}</p>
+        <div className={styles.actions}>
+          <Cta href={hero.ctas[0].href} variant="solid" className={styles.primary}>{hero.ctas[0].label}</Cta>
+          <Cta href={hero.ctas[1].href} className={styles.secondary}>{hero.ctas[1].label}</Cta>
         </div>
-        <p className={styles.credit}>Photograph · {photo.credit}</p>
+        <dl className={styles.stats} aria-label="Academy at a glance">
+          {hero.stats.map((stat) => (
+            <div key={stat.value}>
+              <dt>{stat.label}</dt>
+              <dd>{stat.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
-      <dl className={styles.stats} aria-label="Academy at a glance">
-        {hero.stats.map((stat) => (
-          <div key={stat.value}>
-            <dt>{stat.label}</dt>
-            <dd>{stat.value}</dd>
-          </div>
-        ))}
-      </dl>
     </section>
   );
 }

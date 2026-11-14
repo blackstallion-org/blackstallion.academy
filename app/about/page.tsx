@@ -11,6 +11,7 @@ import { Monolith } from "@/components/sections/why/WhyScenes";
 import { MandateKineticStage } from "@/components/sections/about/MandateKineticStage";
 import { house, letter, truths } from "@/lib/content/academy";
 import { entity } from "@/lib/content/site";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/about" },
@@ -70,6 +71,7 @@ export default function AboutPage() {
 
       {/* §2a · S69 depth ribbon */}
       <AcademyRibbon />
+      <EditorialGallery page="about" />
 
       {/* §2b · Masked line reveal & sequenced kinetic telemetry stage */}
       <MandateKineticStage />

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { RoyalPlate } from "@/components/film/RoyalPlate";
 import { MarwariJourney } from "@/components/sections/legend/journey/MarwariJourney";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
+import { StoryPoster } from "@/components/film/StoryPoster";
+import { INTRO } from "@/lib/content/marwari-journey";
+import { asset } from "@/lib/content/asset";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/legend" },
@@ -9,16 +12,27 @@ export const metadata: Metadata = {
 };
 
 /**
- * Reel 01 · The Marwari. One continuous painted journey in four acts (14 Nov 2026, owner's brief
- * docs/marwari-scroll/CLAUDE_IMPLEMENTATION_PROMPT.md); it replaces the 3D museum opening and the earlier fragmented page.
+ * Reel 01 · The Marwari. Opens on a full-screen story poster, like the painted histories (14 Nov 2026, owner), then one
+ * continuous painted journey in four acts (docs/marwari-scroll/CLAUDE_IMPLEMENTATION_PROMPT.md). The poster is painting 01
+ * of the journey (the black Marwari galloping through the Thar), flattened, upscaled and mirrored so the horse gallops in from the right and the title has the quiet desert; replace the file to change it.
  */
 export default function LegendPage() {
   return (
     <>
-      <MarwariJourney />
-      {/* 14 Nov 2026: two of the owner's royal photographs (used with permission) close the journey */}
-      <RoyalPlate id="legendRider" />
-      <RoyalPlate id="legendRear" layout="split" />
+      <StoryPoster
+        src={asset("/images/story/marwari/poster.webp")}
+        alt="A Rajasthani-style painting: a black Marwari stallion in an embroidered saddle cloth gallops through deep desert sand under a red sky, a fort on the ridge behind."
+        width={2400}
+        height={1357}
+        focal="48% 45%"
+        label={INTRO.kicker}
+        inscription={INTRO.inscription}
+        voice={INTRO.voice}
+        beginId="journey-start"
+        headingId="legend-title"
+      />
+      <MarwariJourney afterPoster />
+      <EditorialGallery page="legend" />
     </>
   );
 }

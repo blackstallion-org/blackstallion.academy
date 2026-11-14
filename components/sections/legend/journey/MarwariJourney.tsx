@@ -24,7 +24,11 @@ import s from "./journey.module.css";
  * Motion is scoped to this component (one gsap.matchMedia, reverted on unmount); the site's root Lenis already drives
  * ScrollTrigger, so no second smooth-scroll instance is created.
  */
-export function MarwariJourney() {
+/**
+ * `afterPoster`: the page opens on a StoryPoster that already carries the h1, label and "Begin" link, so the opening here
+ * keeps only the subtitle, the note and the reading toggle (one h1 per page), with id `journey-start` for "Begin".
+ */
+export function MarwariJourney({ afterPoster = false }: { afterPoster?: boolean } = {}) {
   const root = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const [reading, setReading] = useState(false);
@@ -103,10 +107,14 @@ export function MarwariJourney() {
   return (
     <div ref={root} className={s.journey} data-mode={still ? "static" : "story"} data-parallax-skip>
       {/* Opening: the title on paper, safely below the fixed nav; the first painting follows it. */}
-      <header className={cn("gutter", s.intro)}>
-        <p className="label text-brass">{INTRO.kicker}</p>
-        <Headline as="h1" size="1" animate="mount" inscription={INTRO.inscription} voice={INTRO.voice} className="mt-5 max-w-[18ch]" />
-        <p className="t-story mt-6 max-w-2xl text-lg text-sand">{INTRO.sub}</p>
+      <header id="journey-start" className={cn("gutter", s.intro, afterPoster && s.introAfterPoster)}>
+        {!afterPoster && (
+          <>
+            <p className="label text-brass">{INTRO.kicker}</p>
+            <Headline as="h1" size="1" animate="mount" inscription={INTRO.inscription} voice={INTRO.voice} className="mt-5 max-w-[18ch]" />
+          </>
+        )}
+        <p className={cn("t-story max-w-2xl text-lg text-sand", !afterPoster && "mt-6")}>{INTRO.sub}</p>
         <p className="t-ui mt-3 max-w-2xl text-sm text-dust">{INTRO.note}</p>
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <a href="#act-land" className="label inline-flex min-h-11 items-center rounded-full bg-gold px-5 text-ivory hover:bg-bone focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
@@ -158,9 +166,6 @@ export function MarwariJourney() {
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/lore" className="label inline-flex min-h-11 items-center rounded-full border border-brass/60 px-5 text-bone hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
             The lore of the bards →
-          </Link>
-          <Link href="/fleet#real-horses" className="label inline-flex min-h-11 items-center rounded-full border border-brass/60 px-5 text-bone hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
-            See real Marwari horses →
           </Link>
         </div>
         <p className="t-ui mt-10 max-w-3xl text-xs text-dust">{SOURCES}</p>

@@ -1,4 +1,3 @@
-import { RoyalPlate } from "@/components/film/RoyalPlate";
 import type { Metadata } from "next";
 import { AsciiChild } from "@/components/sections/why/AsciiChild";
 import { BreathCue } from "@/components/film/BreathCue";
@@ -6,6 +5,7 @@ import { BigSlider, Glass, Monolith, SovereignCrucible, TrainList, WhyTitle } fr
 import { why } from "@/lib/content/science";
 import { entity } from "@/lib/content/site";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/why" },
@@ -19,7 +19,7 @@ export default function WhyPage() {
       <WhyTitle />
       <Glass />
       <AsciiChild />
-      <RoyalPlate id="whyHead" />
+      <EditorialGallery page="why" />
       <BreathCue />
       <SovereignCrucible />
       <BigSlider />

@@ -76,15 +76,17 @@ export function reelByHref(href: string): Reel {
   return r;
 }
 
+/** The five links in the header bar (14 Nov 2026). Every page stays reachable from the Reels menu. */
 export const primaryNav = [
-  { label: "Legend", href: "/legend" },
-  { label: "Worlds", href: "/worlds" },
-  { label: "Curriculum", href: "/curriculum" },
-  { label: "Parents", href: "/parents" },
-  { label: "Schools", href: "/schools" },
-  { label: "Circuit", href: "/tournaments" },
-  { label: "Verify", href: "/verify" },
+  { label: "Academy", href: "/about" },
+  { label: "Cadets", href: "/cadets" },
+  { label: "Training", href: "/curriculum" },
+  { label: "Programs", href: "/parents" },
+  { label: "Heritage", href: "/legend" },
 ];
+
+/** The header's search icon opens the Command, the page that answers questions about fees, safety, curriculum and campuses. */
+export const navSearch = { label: "Search the academy: ask the Command", href: "/command" };
 
 export const navCta = { label: "Enrol a cadet", href: "/contact?gate=parents" };
 

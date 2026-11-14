@@ -9,16 +9,12 @@ type WordmarkProps = {
 /** PLACEHOLDER wordmark set in Kalnia (inscription voice) until the final logotype arrives. */
 export function Wordmark({ className, layout = "stacked" }: WordmarkProps) {
   if (layout === "bold") {
-    // 14 Nov 2026 (owner): the academy's full name, in bold, takes the place of the nav links (which live in the Reels
-    // menu). Two lines that never wrap; sized down on phones so the 64 px bar keeps room for the controls.
+    // 14 Nov 2026 (owner's reference): the nav lockup. BLACK STALLION in bold display serif, ACADEMY OF HORSEMANSHIP beneath in
+    // copper, tracked out to the same width. Two lines that never wrap; sizes step down so the phone bar keeps room for controls.
     return (
-      <span className={cn("inline-flex flex-col justify-center whitespace-nowrap leading-none text-bone", className)}>
-        <span className="t-inscribe text-[0.9rem] font-[700] tracking-[0.1em] min-[400px]:text-[1rem] md:text-[1.3rem] xl:text-[1.5rem]">
-          Black Stallion
-        </span>
-        <span className="label mt-[0.4em] text-[0.5rem] font-[750] tracking-[0.16em] text-gold min-[400px]:text-[0.56rem] md:text-[0.66rem] md:tracking-[0.3em] xl:text-[0.72rem]">
-          Academy of Horsemanship
-        </span>
+      <span className={cn("inline-flex flex-col justify-center whitespace-nowrap leading-none", className)}>
+        <span className="t-inscribe text-[1.02rem] font-[700] tracking-[0.05em] text-bone min-[400px]:text-[1.12rem] md:text-[1.3rem]">Black Stallion</span>
+        <span className="t-inscribe mt-[0.34em] text-[0.5rem] font-[600] tracking-[0.205em] text-gold min-[400px]:text-[0.54rem] md:text-[0.6rem]">Academy of Horsemanship</span>
       </span>
     );
   }

@@ -2324,6 +2324,3 @@ html[data-theme="dark"] :is(.bg-\[\#f3ede2\], .bg-\[\#f4eee3\]) { background-col
 /* The footer film is ink drawn on paper (multiplied onto the cream); on the dark page it is inverted to light lines. */
 html[data-theme="dark"] .footer-meridian__video { filter: invert(1) hue-rotate(180deg); mix-blend-mode: screen; }
 html[data-theme="dark"] .footer-meridian { border-top-color: var(--color-line); }
-
-/* 14 Nov 2026 (owner's "Rider Force" reference): the copperplate swash initial on photo plates (components/film/RoyalPlate.tsx). */
-.t-flourish { font-family: var(--font-flourish), "Snell Roundhand", cursive; font-weight: 400; font-style: normal; letter-spacing: 0; line-height: 0.8; }

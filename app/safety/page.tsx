@@ -3,6 +3,7 @@ import { SafetyKineticStage } from "@/components/sections/safety/SafetyKineticSt
 import { SafetyKitScroll } from "@/components/sections/safety/SafetyKitScroll";
 import { NumberWall, OrdersOfTheDay, People, SafetyTitle, ShieldColumns } from "@/components/sections/safety/SafetyScenes";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/safety" },
@@ -15,6 +16,7 @@ export default function SafetyPage() {
     <>
       <SafetyTitle />
       <ShieldColumns />
+      <EditorialGallery page="safety" />
       <OrdersOfTheDay />
       <PageCurtain page="safety" />
       <SafetyKineticStage />

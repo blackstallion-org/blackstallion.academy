@@ -11,15 +11,15 @@ import styles from "./BondHero.module.css";
 
 /**
  * Curriculum title (14 Nov 2026, owner): the black Marwari cutout and the cadet's reaching hand on the dark ground, lit from
- * behind so the black coat reads. As the scene scrolls, hand and muzzle drift toward each other and stop just short of touching:
+ * behind so the black coat reads. As the scene scrolls, hand and muzzle drift the last few centimetres toward each other and stop just short of touching:
  * the stillness before the command. Both layers also breathe on a slow loop. Reduced motion: the closing position, still.
  */
 export default function BondHero() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const horseX = useTransform(scrollYProgress, r(0, 0.7), reduced ? ["0vw", "0vw"] : ["-5vw", "0vw"]);
-  const handX = useTransform(scrollYProgress, r(0, 0.7), reduced ? ["0vw", "0vw"] : ["7vw", "0vw"]);
+  const horseX = useTransform(scrollYProgress, r(0, 0.7), reduced ? ["0vw", "0vw"] : ["-1.5vw", "0vw"]);
+  const handX = useTransform(scrollYProgress, r(0, 0.7), reduced ? ["0vw", "0vw"] : ["2.5vw", "0vw"]);
   const glow = useTransform(scrollYProgress, r(0, 0.7), reduced ? [1, 1] : [0.7, 1]);
 
   return (
@@ -33,7 +33,7 @@ export default function BondHero() {
             width={1402}
             height={1122}
             priority
-            sizes="(max-width: 767px) 150vw, 80vw"
+            sizes="(max-width: 767px) 190vw, 90vw"
             className={styles.horse}
           />
         </motion.div>
@@ -43,7 +43,7 @@ export default function BondHero() {
             alt=""
             width={2172}
             height={724}
-            sizes="(max-width: 767px) 112vw, 55vw"
+            sizes="(max-width: 767px) 140vw, 76vw"
             className={styles.hand}
           />
         </motion.div>

@@ -1057,3 +1057,41 @@ workspace); no live payment, e-mail or signed-in run was possible.
   - Not used: 4265 and 4267–4268, 4270, 4272, 4275 and 4279 (similar to the ones placed, or too small).
   - Checks: lint 0 errors, typecheck, build pass; tests 336/337 (the fleet failure as before). Screenshots of every plate at 1440
     and 390.
+- [x] **14 Nov 2026 · Nav branding matches the owner's reference.** `components/brand/Wordmark.tsx` (`layout="bold"`) and the header block in `components/site/SiteNav.tsx` only. Crest unchanged, then BLACK STALLION (24 px bold serif, 14 px from the crest, no rule before it), one thin vertical rule, then ACADEMY OF HORSEMANSHIP on the same line (27 px bold, copper-brown `text-gold`, light tracking), all vertically centred in the unchanged cream 80 px bar; controls unchanged. Single line from 1400 px (full size) and from 1180 px (18-19 px); below 1180 px the two lines stack and step down, so nothing wraps or touches the controls at 1024, 768 or 390. Measured at 390, 768, 1024, 1180, 1280, 1366, 1440 and 1920 (no overlap, no horizontal scroll). Breakpoints are written in rem because Tailwind orders px `min-[…]` before `md:`. Lint on both files and typecheck pass; production build not re-run.
+- [x] **14 Nov 2026 · Photographs from `real marwari horse images/` removed from the site (owner: "starting over").** The original folder and its 123 files are untouched (still git-ignored). Removed: the `/fleet` real-horse galleries (`components/sections/fleet/RealHorseGalleries.tsx`, `lib/content/real-horses.ts` + `.manifest.json`, `scripts/build-real-horse-gallery.py`, `public/images/horses/real/`, 42 files), the "royal" photo plates and the full-screen photo hero built on IMG_4263-4279 (`components/film/RoyalPlate.tsx`, `lib/content/royal.ts`, `public/images/royal/`, 11 files, the Pinyon Script swash font and `.t-flourish`), the plates on `/`, `/legend`, `/fleet`, `/curriculum`, `/parents`, `/why`, `/schools`, and the "See real Marwari horses" link on `/legend`. Put back as they were before the photos: the home hero (crest hero) and the `/fleet` portrait (its earlier stallion image). Media manifest regenerated (385 files). Painted `/legend` journey, campaign images, cadet and fleet illustrations untouched. Checks: lint 0 errors, typecheck, build pass; 336/337 unit tests (the one failure is another session's untracked `public/images/fleet/stallion-facing-left.webp` named in its modified `FleetWorlds.tsx`); 7 routes at 1440 and 390: no broken images, errors or horizontal overflow. Docs in `docs/marwari-scroll/` (the old briefs) left as history. Nothing committed; the removed files are all in git history.
+- [x] **14 Nov 2026 · Header redesigned to the owner's luxury-editorial reference** (replaces the earlier one-line branding brief). `components/site/SiteNav.tsx`, new `SiteNav.module.css`, `components/brand/Wordmark.tsx` (`bold` = stacked lockup), `components/site/SoundToggle.tsx` (`variant="editorial"`; logic untouched), `lib/content/site.ts` (`primaryNav`, `navSearch`). Top strip: wine-red (mixed from the blood and charcoal tokens, no hex) with INTERSCHOLASTIC CAVALRY HERITAGE • STOIC LEADERSHIP • DISCIPLINE and "Hyderabad | 2026" (from 1180 px). Bar: 40 px crest, BLACK STALLION bold serif over ACADEMY OF HORSEMANSHIP in copper, copper hairline rules, five centred serif links (Academy /about, Cadets /cadets, Training /curriculum, Programs /parents, Heritage /legend; copper line on hover and under the current page), search icon (opens /command), serif Sound toggle, wine "Enrol a Cadet" button, and a compact menu icon that still opens the full Reels menu (staff sign-in lives there). Heights unchanged so no page's top clearance moves: 64 px on phones (strip hidden), 24 px strip + 56 px bar = 80 px from 768 px. The five links show inline from 1200 px; below that they lead the Reels menu (two columns on phones). Checked at 390, 768, 1199, 1200, 1240, 1279, 1280, 1440 (no overlap, no horizontal scroll), keyboard tab order and focus ring, active and hover states, Escape closes the menu. Lint, typecheck, build pass; 336/337 tests (the one failure is another session's untracked `stallion-facing-left.webp`). Not tested: Safari, a real phone.
+- [x] **14 Nov 2026 · Editorial photography galleries on eleven pages (owner's brief).**
+  - Audit of `real marwari horse images/` (123 files): palaces and havelis, desert and sunset silhouettes, carpet and studio
+    portraits, movement (gallop, trot, rearing), training ground on the lead, stable and tack, quiet pairs, black-and-white
+    head studies, adornment and keepers. Left out: three collages (6, 65, 101), two screen captures with app icons (11, 15), one
+    exact duplicate (53) and near-repeats.
+  - 62 photographs, none repeated: `public/images/marwari-editorial/<page>-NN.webp`. White screen-capture borders trimmed, long
+    edge 1300–1800 px (small originals Lanczos-enlarged with light sharpening), WebP q82, 8.8 MB in all. Proportions are kept,
+    and the photographers' marks are untouched.
+  - Content in `lib/content/marwari-editorial.ts`: audit notes, titles, alt text, one attribution line per gallery, and the
+    `photographers` list.
+  - `components/film/EditorialGallery.tsx` follows the /cadets gallery pattern: label, two-voice headline, lede, figures with
+    numeral and serif-italic caption, one credit line. There are no per-photo credits.
+  - One composition per page:
+
+    | Page | Composition |
+    |---|---|
+    | home | folio |
+    | /legend | horizontal film strip at one height, keyboard-scrollable region |
+    | /fleet | studbook, three columns with the middle dropped |
+    | /science | anatomy, the eye tall at the centre |
+    | /safety | ledger, sticky words with an index beside staggered photographs |
+    | /tournaments | wide speed band plus four strides |
+    | /curriculum | stepping cascade |
+    | /parents | pair, then three quiet frames |
+    | /schools | arcade of arched frames |
+    | /why | black-and-white contact sheet, colour on hover |
+    | /about | central plate with details around it |
+
+  - Reveal on entering the viewport. Under reduced motion it is instant; the initial state is fixed so a figure can never stay
+    hidden.
+  - Checks: lint 0 errors, typecheck, `next build` pass. Tests 336/337: the failure is `/images/story/marwari/poster.webp`, the
+    untracked poster from another session's in-progress /legend change. No horizontal overflow at 390 or 1440. Every gallery
+    screenshotted at both widths. Console shows warnings only (pre-existing WebGL and preload).
+  - Not committed: the page files also carry other sessions' uncommitted work (the earlier photo removal, the nav and the /legend
+    poster).

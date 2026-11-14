@@ -85,14 +85,4 @@ export const rupee = localFont({
   declarations: [{ prop: "unicode-range", value: "U+20B9" }],
 });
 
-/** 14 Nov 2026 (owner's "Rider Force" reference): a copperplate script used only for the swash initial on photo plates (.t-flourish). */
-export const pinyon = localFont({
-  src: "../app/fonts/pinyon-script-latin-400-normal.woff2",
-  weight: "400",
-  variable: "--font-flourish",
-  display: "swap",
-  preload: false,
-  fallback: ["Snell Roundhand", "cursive"],
-});
-
-export const fontVariables = [serifDisplay, jakarta, kalnia, newsreader, mona, martian, rupee, pinyon].map((f) => f.variable).join(" ");
+export const fontVariables = [serifDisplay, jakarta, kalnia, newsreader, mona, martian, rupee].map((f) => f.variable).join(" ");
