@@ -9,11 +9,11 @@ import { asset } from "@/lib/content/asset";
  * canvas larger than the window and offsetting it (the canvas stays square, so the model's own fit is unchanged). The
  * percentages place model x -0.22..0.42 and y 0..0.585 (ears to jaw, fingers and wrist) in the wide window, and x -0.2..0.38
  * in the square phone window.
- * The neck and the mane fade out at the cut edges, so the head sits in the ivory ground and is not boxed.
+ * The neck, the mane and the cuff fade out at the cut edges, so the head sits in the ivory ground and is not boxed.
  */
 const fade = {
-  maskImage: "linear-gradient(to right, transparent 0, #000 16%), linear-gradient(to top, transparent 0, #000 12%)",
-  WebkitMaskImage: "linear-gradient(to right, transparent 0, #000 16%), linear-gradient(to top, transparent 0, #000 12%)",
+  maskImage: "linear-gradient(to right, transparent 0, #000 16%, #000 90%, transparent 100%), linear-gradient(to top, transparent 0, #000 12%)",
+  WebkitMaskImage: "linear-gradient(to right, transparent 0, #000 16%, #000 90%, transparent 100%), linear-gradient(to top, transparent 0, #000 12%)",
   maskComposite: "intersect",
   WebkitMaskComposite: "source-in",
 } as const;

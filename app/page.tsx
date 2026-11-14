@@ -8,6 +8,7 @@ import { Instrument } from "@/components/sections/home/Instrument";
 import { LedgerAscent } from "@/components/sections/home/LedgerAscent";
 import { StoryStrip } from "@/components/sections/home/StoryStrip";
 import { Studbook } from "@/components/sections/home/Studbook";
+import { HomeThresholds } from "@/components/sections/home/HomeThresholds";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { HorseFirst } from "@/components/sections/home/HorseFirst";
 import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
@@ -47,6 +48,8 @@ export default function Home() {
       <Doors />
       <LedgerAscent />
       <Studbook />
+      {/* 14 Nov 2026 (owner): five heritage photographs, big (lib/content/home-thresholds.ts) */}
+      <HomeThresholds />
       {/* 2 Nov 2026: the public colour-palette moodboard (Atelier) is replaced by a photograph and a short story. The colour
           tokens themselves are unchanged (app/globals.css). */}
       <HorseFirst />

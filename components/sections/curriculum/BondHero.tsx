@@ -10,7 +10,8 @@ import { useReducedMotion } from "@/lib/motion/reduced";
 import styles from "./BondHero.module.css";
 
 /**
- * Curriculum title (14 Nov 2026, owner): the black Marwari cutout and the cadet's reaching hand on the dark ground, lit from
+ * Curriculum title (14 Nov 2026, owner): the black Marwari cropped to head and neck (marwari-black-head.webp, cut from the full
+ * cutout to the owner's reference crop), attached flush to the left edge of the page, with the cadet's reaching hand, lit from
  * behind so the black coat reads. As the scene scrolls, hand and muzzle drift the last few centimetres toward each other and stop just short of touching:
  * the stillness before the command. Both layers also breathe on a slow loop. Reduced motion: the closing position, still.
  */
@@ -28,12 +29,12 @@ export default function BondHero() {
         <motion.span className={styles.glow} style={{ opacity: glow }} />
         <motion.div className={styles.horseWrap} style={{ x: horseX }}>
           <Image
-            src={asset("/images/curriculum/marwari-black-cutout.webp")}
+            src={asset("/images/curriculum/marwari-black-head.webp")}
             alt=""
-            width={1402}
-            height={1122}
+            width={602}
+            height={879}
             priority
-            sizes="(max-width: 767px) 190vw, 90vw"
+            sizes="(max-width: 767px) 76vw, 38vw"
             className={styles.horse}
           />
         </motion.div>

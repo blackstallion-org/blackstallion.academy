@@ -76,19 +76,148 @@ export function reelByHref(href: string): Reel {
   return r;
 }
 
-/** The five links in the header bar (14 Nov 2026). Every page stays reachable from the Reels menu. */
 export const primaryNav = [
-  { label: "Academy", href: "/about" },
-  { label: "Cadets", href: "/cadets" },
-  { label: "Training", href: "/curriculum" },
-  { label: "Programs", href: "/parents" },
-  { label: "Heritage", href: "/legend" },
+  { label: "Legend", href: "/legend" },
+  { label: "Worlds", href: "/worlds" },
+  { label: "Curriculum", href: "/curriculum" },
+  { label: "Parents", href: "/parents" },
+  { label: "Schools", href: "/schools" },
+  { label: "Circuit", href: "/tournaments" },
+  { label: "Verify", href: "/verify" },
 ];
 
-/** The header's search icon opens the Command, the page that answers questions about fees, safety, curriculum and campuses. */
-export const navSearch = { label: "Search the academy: ask the Command", href: "/command" };
-
 export const navCta = { label: "Enrol a cadet", href: "/contact?gate=parents" };
+
+export type NavMenuLink = { label: string; href: string };
+type NavMenuColumn = { heading: string; links: NavMenuLink[] };
+export type NavMenu = {
+  /** The word in the header bar. */
+  label: string;
+  /** One line under the menu's title. */
+  lead: string;
+  /** Exactly three columns, so every menu has the same balance. */
+  columns: [NavMenuColumn, NavMenuColumn, NavMenuColumn];
+};
+
+/**
+ * The header's full-screen mega menus: one per header word, three columns each, the links numbered across the menu. Every
+ * public page appears at least once. Left out on purpose: /stills and /worlds/credits (production pages, noindex), /schools/access
+ * (a private invitation), /sovereign (the school dashboard behind sign-in), /login, /lithos (the same monument as /statue, its
+ * canonical address), and the detail pages under /journal, /schools, /tournaments and /verify.
+ */
+export const navMenus: NavMenu[] = [
+  {
+    label: "Academy",
+    lead: "Who we are, why the saddle, and how a child is kept safe.",
+    columns: [
+      { heading: "The Mandate", links: [
+        { label: "The Mandate", href: "/about" },
+        { label: "Crisis & Cure", href: "/why" },
+        { label: "The Matrix", href: "/science" },
+      ] },
+      { heading: "Safeguards", links: [
+        { label: "The Shield", href: "/safety" },
+        { label: "The Command", href: "/command" },
+        { label: "Privacy notice", href: "/privacy" },
+      ] },
+      { heading: "The Record", links: [
+        { label: "The Chronicle", href: "/journal" },
+        { label: "Gallery", href: "/gallery" },
+        { label: "The Gate", href: "/contact" },
+      ] },
+    ],
+  },
+  {
+    label: "Cadets",
+    lead: "The corps, its passports and its circuit, and how a child joins it.",
+    columns: [
+      { heading: "The Corps", links: [
+        { label: "The Hall of Valour", href: "/cadets" },
+        { label: "The Seal", href: "/verify" },
+        { label: "Your riding journey", href: "/account" },
+      ] },
+      { heading: "The Circuit", links: [
+        { label: "The Circuit", href: "/tournaments" },
+        { label: "Horse Shoes & Equipment", href: "/equipment" },
+        { label: "Motion Lab", href: "/motion-lab" },
+      ] },
+      { heading: "Join the Corps", links: [
+        { label: "Enrol a cadet", href: "/enroll" },
+        { label: "Your applications", href: "/enroll/status" },
+        { label: "Register", href: "/register" },
+      ] },
+    ],
+  },
+  {
+    label: "Training",
+    lead: "Four ranks, the horse a cadet rides, and the arena that holds them.",
+    columns: [
+      { heading: "The Curriculum", links: [
+        { label: "The Ledger", href: "/curriculum" },
+        { label: "The Matrix", href: "/science" },
+        { label: "The Science of the Stride", href: "/stride" },
+      ] },
+      { heading: "The Horse", links: [
+        { label: "The Instrument", href: "/anatomy" },
+        { label: "The Studbook", href: "/fleet" },
+        { label: "Horse Shoes & Equipment", href: "/equipment" },
+      ] },
+      { heading: "The Arena", links: [
+        { label: "The Shield", href: "/safety" },
+        { label: "Motion Lab", href: "/motion-lab" },
+        { label: "The Circuit", href: "/tournaments" },
+      ] },
+    ],
+  },
+  {
+    label: "Programs",
+    lead: "For parents, for school boards, and for those who would serve with us.",
+    columns: [
+      { heading: "For Parents", links: [
+        { label: "The Guardian", href: "/parents" },
+        { label: "Enrol a cadet", href: "/enroll" },
+        { label: "The Command", href: "/command" },
+      ] },
+      { heading: "For Schools", links: [
+        { label: "The Citadel", href: "/schools" },
+        { label: "Draft MOU", href: "/schools/mou" },
+        { label: "Schools & institutions", href: "/schools/apply" },
+      ] },
+      { heading: "Serve with Us", links: [
+        { label: "Partners & sponsors", href: "/partners/apply" },
+        { label: "Instructors & staff", href: "/careers/apply" },
+        { label: "The Gate", href: "/contact" },
+      ] },
+    ],
+  },
+  {
+    label: "Heritage",
+    lead: "Eight hundred years of the Marwari, and the riders who made it a legend.",
+    columns: [
+      { heading: "The Marwari", links: [
+        { label: "The Marwari", href: "/legend" },
+        { label: "The Opening", href: "/worlds" },
+        { label: "The 3D Monument", href: "/statue" },
+      ] },
+      { heading: "Painted Histories", links: [
+        { label: "Pratap & Chetak", href: "/story/pratap-chetak" },
+        { label: "Rani Lakshmibai", href: "/story/rani-lakshmibai" },
+        { label: "Alexander & Bucephalus", href: "/story/alexander-bucephalus" },
+      ] },
+      { heading: "The Archive", links: [
+        { label: "Horses of India", href: "/history/india" },
+        { label: "Horses of the World", href: "/history/world" },
+        { label: "Lore of the Bards", href: "/lore" },
+      ] },
+    ],
+  },
+];
+
+/** Whether a path is one of a menu's pages (or below one), for the header's "you are here" mark. */
+export function menuHolds(menu: NavMenu, pathname: string): boolean {
+  const p = pathname === "/lithos" ? "/statue" : pathname;
+  return menu.columns.some((c) => c.links.some((l) => p === l.href || p.startsWith(`${l.href}/`)));
+}
 
 export const entity = {
   parent: "Vicarius Infinitum Holdings Pvt Ltd",

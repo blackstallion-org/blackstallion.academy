@@ -8,7 +8,7 @@ import { Label } from "@/components/film/Marks";
 import { pillars, ranks } from "@/lib/content/curriculum";
 import { ledger } from "@/lib/content/home";
 import { cn } from "@/lib/utils";
-import { asset } from "@/lib/content/asset";
+import { desert } from "@/lib/content/desert";
 
 /**
  * §7 · The ledger, simplified: one full-width instruction photograph, the four ranks as a selectable row beneath it,
@@ -42,14 +42,7 @@ export function LedgerAscent() {
       </div>
 
       <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]">
-        <Image
-          src={asset("/media/legend-ears-2026-11.webp")}
-          alt="A black Marwari stallion with lyre-curved ears, lit gold by the evening sun over the Thar"
-          fill
-          sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: "60% 38%" }}
-        />
+        <Image src={desert.riderAtSunset.src} alt={desert.riderAtSunset.alt} fill sizes="100vw" className="object-cover" style={{ objectPosition: desert.riderAtSunset.position }} />
       </div>
 
       <div className="gutter py-[clamp(3rem,8vh,6rem)]">

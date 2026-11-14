@@ -1104,3 +1104,23 @@ workspace); no live payment, e-mail or signed-in run was possible.
   - "The Thar, in Pictures" (intro, horizontal strip and its spacing) removed from `/legend`; the `strip` layout is gone from
     `EditorialGallery`, and the seven unused images (`legend-01…06`, `tournaments-01`) are deleted and out of the media manifest.
   - Checks: lint 0 errors, typecheck, build. Screenshotted at 1440, 1024 and 390, and with reduced motion.
+
+## 14 Nov 2026 · Header wordmark in the owner's lockup format
+
+- `components/brand/Wordmark.tsx` (layout `bold`, the header's centre word): one line, BLACK STALLION in tracked caps (the
+  larger word, so it reads first), then ACADEMY OF HORSEMANSHIP in bold chestnut (`text-gold`, the house accent). The crest
+  stays in the bar beside it. Sizes step up with the viewport; on phones only BLACK STALLION shows (ACADEMY from 1280 px).
+- Checked at 390, 768, 1024, 1280, 1440 and 1920: no horizontal overflow, and the wordmark keeps 30 px clear of the controls at
+  390 px. Lint and typecheck pass. Not committed.
+
+## 14 Nov 2026 · Header: name beside the crest, page menus restored
+
+- The academy's name now sits directly beside the crest (`Wordmark` layout `bold`, one line). BLACK STALLION is the larger
+  word; ACADEMY OF HORSEMANSHIP shows from 1700 px so the five menu words and the controls still fit on laptops.
+- The five words (Academy, Cadets, Training, Programs, Heritage) open the full-screen mega menus again, three numbered columns
+  each, from `navMenus` in `lib/content/site.ts`. Escape returns focus to the word; a keyboard opening moves focus into the menu.
+  Moving along the bar switches menus. The word for the current section keeps a faint copper rule.
+- Below 1200 px the Reels menu leads with the same five groups as disclosures, then "Ask the Command".
+- Checked at 390, 1024, 1280, 1440, 1536 and 1920: nav and controls never overlap, no horizontal overflow, no page errors.
+  Lint and typecheck pass. Not committed.
+- `primaryNav` (another session's seven-link list in the working tree) is left untouched and is not used by this header.

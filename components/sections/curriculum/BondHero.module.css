@@ -49,17 +49,17 @@
   user-select: none;
 }
 
-/* 14 Nov 2026 (owner): a closer crop. Head and hand are sized and placed in one unit, --u (1vw, capped by the viewport
-   height), so the framing holds on short and very wide screens: the head fills the left half, ears clear of the nav, and the
-   fingertips stop a hand's breadth from the muzzle. */
+/* 14 Nov 2026 (owner's reference crop): head and neck only, attached flush to the left edge of the page, the neck leaving the
+   frame there. Horse and hand are sized and placed in one unit, --u (1vw, capped by the viewport height), so the framing holds on
+   short and very wide screens: ears clear of the 80 px nav, and the fingertips stop a hand's breadth from the muzzle. */
 .stage { --u: min(1vw, 1.6svh); }
 
 .horse {
   z-index: 1;
-  width: calc(var(--u) * 86.7);
-  left: calc(var(--u) * -25.4);
-  top: calc(var(--u) * 5.5);
-  transform-origin: 36% 72%;
+  width: calc(var(--u) * 41);
+  left: calc(var(--u) * -0.3);
+  top: max(calc(var(--u) * 5.9), 5.4rem); /* never closer than the nav's 80 px plus a margin */
+  transform-origin: 0% 60%;
   animation: horseBreath 7s ease-in-out infinite;
   /* a warm rim on the coat, and a touch more contrast so the cutout sits in the light like a photograph */
   filter: drop-shadow(0 0 1px rgb(232 200 140 / 0.55)) drop-shadow(-14px -6px 40px rgb(201 166 107 / 0.22)) contrast(1.06);
@@ -68,8 +68,8 @@
 .hand {
   z-index: 2;
   width: calc(var(--u) * 72.4);
-  left: calc(var(--u) * 52.8);
-  top: calc(var(--u) * 40.2);
+  left: calc(var(--u) * 39.2);
+  top: calc(var(--u) * 43.4);
   transform-origin: 100% 65%;
   animation: handReach 5.5s ease-in-out infinite;
   filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.5)) saturate(0.92);
@@ -126,9 +126,9 @@
   }
 
   .horse {
-    width: 190vw;
-    left: -109vw;
-    top: 8%;
+    width: 74vw;
+    left: -0.5vw;
+    top: 1.25rem;
     bottom: auto;
   }
 

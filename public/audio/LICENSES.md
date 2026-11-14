@@ -28,6 +28,8 @@ in the same sense as the Higgsfield imagery. The previous track, "Windswept" (Ke
 | `gallop.mp3` | hoofbeats | "horses galloping sound effect 359255" (pwlpl, supplied by the owner) | Pixabay content licence (as supplied) |
 | `walk.mp3` | hoofbeats | "Horse Clip Clopping Downhill (stereo)", swiftoid, https://freesound.org/people/swiftoid/sounds/182504/ | CC0 1.0 |
 | `saddle.mp3` | interaction | "R12-63-Sitting Down on Horse Saddle.wav", craigsmith, https://freesound.org/people/craigsmith/sounds/481831/ | CC0 1.0 |
+| `snorting-short.mp3` | background (every 60 s) | "Horse Snorting.mp3", supplied by the owner on 14 Nov 2026 (11.3 s) | **Not verified.** Supplied file, no source page or licence given; the owner should confirm the source and licence before a public launch. Loudness-normalised to about -18 LUFS with short fades; otherwise untouched |
+| `snorting-long.mp3` | background (every 60 s) | "horse sound snorting.mp3", supplied by the owner on 14 Nov 2026 (31.8 s) | **Not verified.** As above |
 
 `leather.wav`, `tack.wav` (synthetic UI accents) and `../bsah_keystroke.wav` are original, generated locally.
 Retired on 2 Nov 2026 and no longer requested by the site: `chariot.mp3`, `herd.mp3`, `desert-chase.mp3`, `../bsah_ambient_432hz_drone.mp3`.

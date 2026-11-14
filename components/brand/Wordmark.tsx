@@ -9,12 +9,17 @@ type WordmarkProps = {
 /** PLACEHOLDER wordmark set in Kalnia (inscription voice) until the final logotype arrives. */
 export function Wordmark({ className, layout = "stacked" }: WordmarkProps) {
   if (layout === "bold") {
-    // 14 Nov 2026 (owner's reference): the nav lockup. BLACK STALLION in bold display serif, ACADEMY OF HORSEMANSHIP beneath in
-    // copper, tracked out to the same width. Two lines that never wrap; sizes step down so the phone bar keeps room for controls.
+    // The header lockup (14 Nov 2026, owner's reference): one line, the crest sits beside it in the nav. BLACK STALLION is the
+    // larger word; the academy's name follows in bold chestnut caps. Below 1700 px only BLACK STALLION shows, so the bar keeps
+    // room for the five menu words and the controls. Sizes step up with the viewport; nothing wraps.
     return (
-      <span className={cn("inline-flex flex-col justify-center whitespace-nowrap leading-none", className)}>
-        <span className="t-inscribe text-[1.02rem] font-[700] tracking-[0.05em] text-bone min-[400px]:text-[1.12rem] md:text-[1.3rem]">Black Stallion</span>
-        <span className="t-inscribe mt-[0.34em] text-[0.5rem] font-[600] tracking-[0.205em] text-gold min-[400px]:text-[0.54rem] md:text-[0.6rem]">Academy of Horsemanship</span>
+      <span className={cn("inline-flex items-baseline gap-x-[0.85em] whitespace-nowrap leading-none text-bone", className)}>
+        <span className="t-inscribe text-[1.05rem] font-[500] tracking-[0.09em] min-[400px]:text-[1.15rem] sm:text-[1.36rem] min-[1024px]:text-[1.5rem] min-[1536px]:text-[1.7rem]">
+          Black Stallion
+        </span>
+        <span className="t-inscribe hidden font-[700] tracking-[0.02em] text-gold min-[1700px]:inline min-[1700px]:text-[1.15rem]">
+          Academy of Horsemanship
+        </span>
       </span>
     );
   }
