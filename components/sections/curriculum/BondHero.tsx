@@ -11,7 +11,7 @@ import styles from "./BondHero.module.css";
 
 /**
  * Curriculum title (14 Nov 2026, owner): the black Marwari cutout and the cadet's reaching hand on the dark ground, lit from
- * behind so the black coat reads. As the scene scrolls, hand and muzzle drift the last few centimetres toward each other and stop just short of touching:
+ * behind so the black coat reads. As the scene scrolls, hand and muzzle drift toward each other and stop a clear hand-width apart (never touching; see BondHero.module.css):
  * the stillness before the command. Both layers also breathe on a slow loop. Reduced motion: the closing position, still.
  */
 export default function BondHero() {
@@ -43,7 +43,7 @@ export default function BondHero() {
             alt=""
             width={2172}
             height={724}
-            sizes="(max-width: 767px) 140vw, 76vw"
+            sizes="(max-width: 767px) 118vw, 76vw"
             className={styles.hand}
           />
         </motion.div>

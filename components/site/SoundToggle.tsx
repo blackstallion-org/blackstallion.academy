@@ -63,14 +63,16 @@ export function SoundToggle({ variant = "label" }: { variant?: "label" | "editor
         title="Choose what plays"
         className={
           variant === "editorial"
-            ? "t-story flex min-h-11 items-center gap-2 px-2 py-2.5 text-[1rem] leading-none text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            ? "t-story flex min-h-11 items-center gap-1.5 px-1 py-2.5 sm:gap-2 sm:px-2 text-[1rem] leading-none text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             : "label flex min-h-11 items-center gap-2 px-2 py-2.5 text-sand hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
         }
       >
         {variant === "editorial" ? (
           <>
-            <span className="hidden md:inline min-[75rem]:hidden xl:inline">Sound</span>
-            <span className="capitalize">{label.toLowerCase()}</span>
+            <span className="hidden lg:inline min-[75rem]:hidden xl:inline">Sound</span>
+            {/* phones show on/off only (the mode is in the menu below), so the bar keeps room for the theme switch */}
+            <span className="capitalize md:hidden">{on ? "on" : "off"}</span>
+            <span className="hidden capitalize md:inline">{label.toLowerCase()}</span>
           </>
         ) : (
           <>

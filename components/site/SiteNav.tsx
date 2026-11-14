@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { CrestMark } from "@/components/brand/CrestMark";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { AnimatedMenuText } from "@/components/ui/animated-menu";
 import { acts, corridors, isConsolePath, navCta, navSearch, primaryNav, reels, tools, type Act } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
@@ -58,10 +59,10 @@ function PublicNav() {
           </div>
         </div>
         <div className="border-b border-copper/30 bg-night">
-          <div className="gutter flex h-16 items-center gap-3 md:h-14 md:gap-5">
-            <Link href="/" className="flex shrink-0 items-center gap-2.5 md:gap-3" aria-label="The Black Stallion Academy of Horsemanship, home">
+          <div className="gutter flex h-16 items-center gap-2 sm:gap-3 md:h-14 md:gap-5">
+            <Link href="/" className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3" aria-label="The Black Stallion Academy of Horsemanship, home">
               <CrestMark className="h-10 w-10 md:h-10 md:w-10" decorative />
-              <Wordmark layout="bold" className="hidden min-[340px]:inline-flex" />
+              <Wordmark layout="bold" className="hidden min-[360px]:inline-flex" />
             </Link>
 
             <span aria-hidden className="mx-1 hidden h-8 w-px shrink-0 bg-copper/35 min-[75rem]:block xl:mx-3" />
@@ -97,6 +98,7 @@ function PublicNav() {
               >
                 <Search size={19} strokeWidth={1.6} aria-hidden />
               </Link>
+              <ThemeToggle />
               <SoundToggle variant="editorial" />
               <Link
                 href={navCta.href}
@@ -114,7 +116,7 @@ function PublicNav() {
                 aria-expanded={open}
                 aria-controls="site-menu"
                 aria-label="Reels: all pages"
-                className="grid h-11 w-11 place-items-center text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+                className="grid h-11 w-10 place-items-center sm:w-11 text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
               >
                 <span aria-hidden className="flex flex-col gap-[5px]">
                   <span className="block h-px w-6 bg-current" />

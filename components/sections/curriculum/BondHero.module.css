@@ -50,14 +50,17 @@
 }
 
 /* 14 Nov 2026 (owner): a closer crop. Head and hand are sized and placed in one unit, --u (1vw, capped by the viewport
-   height), so the framing holds on short and very wide screens: the head fills the left half, ears clear of the nav, and the
-   fingertips stop a hand's breadth from the muzzle. */
+   height), so the framing holds on short and very wide screens: the head fills the left half, ears clear of the nav.
+   Visual pass (14 Nov 2026, owner): the hand is offered, not taken. Measured from the cutouts' alpha (muzzle tip at
+   x 1354/1402 of the head, fingertip at x 112/2172 of the hand), the fingertips now stop ~7.5 u short of the muzzle at
+   the end of the scroll approach (the resting CSS position, also the reduced-motion frame); the 12 px breathing reach
+   leaves ~6.5 u. Earlier in the scroll the gap is wider still. Don't move these four numbers without re-measuring. */
 .stage { --u: min(1vw, 1.6svh); }
 
 .horse {
   z-index: 1;
   width: calc(var(--u) * 86.7);
-  left: calc(var(--u) * -25.4);
+  left: calc(var(--u) * -29.4);
   top: calc(var(--u) * 5.5);
   transform-origin: 36% 72%;
   animation: horseBreath 7s ease-in-out infinite;
@@ -68,7 +71,7 @@
 .hand {
   z-index: 2;
   width: calc(var(--u) * 72.4);
-  left: calc(var(--u) * 52.8);
+  left: calc(var(--u) * 58.2);
   top: calc(var(--u) * 40.2);
   transform-origin: 100% 65%;
   animation: handReach 5.5s ease-in-out infinite;
@@ -125,17 +128,19 @@
     min-height: 420px;
   }
 
+  /* phones: the same rule, about 10vw of air between fingertip and muzzle; the hand is a little smaller so the fingers
+     and part of the palm stay in frame */
   .horse {
     width: 190vw;
-    left: -109vw;
+    left: -116vw;
     top: 8%;
     bottom: auto;
   }
 
   .hand {
-    width: 140vw;
-    left: 64.4vw;
-    top: 62%;
+    width: 118vw;
+    left: 71.3vw;
+    top: 64%;
     bottom: auto;
   }
 
