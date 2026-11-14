@@ -8,9 +8,15 @@
   container-type: inline-size;
   overflow: hidden;
   aspect-ratio: 3 / 2;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, black 16%, black 80%, transparent 97%), linear-gradient(to top, transparent 0, black 9%);
+  /* Eased stops, not a straight ramp: a straight ramp shows its first step as an edge on the black neck. The sleeve picture
+     ends at 93.8% of the frame, so the right-hand fade is finished before that. */
+  --gate-fade:
+    linear-gradient(to right, transparent 0, rgb(0 0 0 / 0.06) 3%, rgb(0 0 0 / 0.28) 7%, rgb(0 0 0 / 0.68) 12%, black 18%,
+      black 71%, rgb(0 0 0 / 0.68) 78%, rgb(0 0 0 / 0.28) 84.5%, rgb(0 0 0 / 0.06) 89.5%, transparent 93%),
+    linear-gradient(to top, transparent 0, black 9%);
+  -webkit-mask-image: var(--gate-fade);
   -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to right, transparent 0, black 16%, black 80%, transparent 97%), linear-gradient(to top, transparent 0, black 9%);
+  mask-image: var(--gate-fade);
   mask-composite: intersect;
 }
 @media (min-width: 1024px) { .frame { aspect-ratio: 16 / 10; } }

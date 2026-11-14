@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
  * Choosing a point moves the camera in: the film box is translated and scaled (it keeps playing), clamped so it always fills the
  * stage. The markers live in an unscaled layer whose translate moves on the same curve and clock, so they stay on the horse and
  * stay crisp. "Whole horse", Escape, the active point again or the empty stage go back. Reduced motion: a still frame and no zoom.
+ * The buttons are above the markers and drop to the bottom corner when the chosen point would sit under them (ears, small stage).
  */
 
 export type FilmPoint = { id: string; name: string; title: string; x: number; y: number };
@@ -113,6 +114,14 @@ export function StudioFilm({
     tx = fit(tx, W - left0 - s * fw, -left0);
     ty = fit(ty, H - top0 - s * fh, -top0);
   }
+  // The buttons sit in the top-right corner. On a small stage a point near the top of the horse (the ears) lands under them
+  // when the camera is in, so they move to the bottom-right for that view.
+  const activeX = active ? left0 + tx + s * (active.x / 100) * fw : 0;
+  const activeY = active ? top0 + ty + s * (active.y / 100) * fh : 0;
+  const controlsW = W >= 600 ? 420 : 280; // three buttons from sm up, two on a phone
+  const controlsLow = zoomed && activeY < 96 && activeX > W - controlsW;
+  /** A point that is not the chosen one and would show from behind the buttons while the camera is in. */
+  const underControls = (x: number, y: number) => zoomed && x > W - controlsW && (controlsLow ? y > H - 88 : y < 88);
   const feather = fw < W - 1 && !zoomed;
   const mask = feather ? "linear-gradient(90deg, transparent 0, black 7%, black 93%, transparent 100%)" : "none";
   const transition = reduced ? "none" : MOVE;
@@ -165,7 +174,7 @@ export function StudioFilm({
             const x = left0 + tx + s * (p.x / 100) * fw;
             const y = top0 + ty + s * (p.y / 100) * fh;
             const on = p.id === activeId;
-            const hidden = x < 0 || x > W || y < 0 || y > H;
+            const hidden = x < 0 || x > W || y < 0 || y > H || (!on && underControls(x, y));
             return (
               <li key={p.id} className="absolute left-0 top-0" style={{ transform: `translate(${x}px, ${y}px)`, transition, visibility: hidden ? "hidden" : undefined }}>
                 <button
@@ -203,7 +212,7 @@ export function StudioFilm({
       </p>
 
       {/* controls */}
-      <div className="absolute right-4 top-4 z-20 flex flex-wrap items-center justify-end gap-2">
+      <div className={cn("absolute right-4 z-30 flex flex-wrap items-center justify-end gap-2", controlsLow ? "bottom-4" : "top-4")}>
         {zoomed && (
           <button type="button" onClick={() => onSelect("overview")} className="label min-h-11 rounded-full border border-gold/60 bg-black/60 px-4 text-[0.62rem] text-gold backdrop-blur-sm transition-colors hover:bg-gold hover:text-night focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
             Whole horse

@@ -249,7 +249,8 @@ export function EarStudy({ className }: { className?: string }) {
       <div
         ref={stage}
         className="relative aspect-[4/5] w-full overflow-hidden bg-black sm:aspect-[16/9]"
-        style={{ touchAction: "pan-y" }}
+        // true black, as the owner asked: the theme's `black` token is charcoal, and the film's own ground is #000
+        style={{ touchAction: "pan-y", backgroundColor: "#000" }}
       >
         {/* the rest pose as a plain picture: shown until the canvas has drawn, and if scripts never run */}
         {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -1244,3 +1244,29 @@ workspace); no live payment, e-mail or signed-in run was possible.
   uncommitted `lib/content/hero-films.ts` naming an untracked `hero-rider-lesson-poster.jpg`. Screenshots at 1440 and 390: plate,
   zoom (film still playing), ear states, exhibit, Cadets/Training menus, /curriculum, /contact, home plate; reduced motion
   (film paused, no zoom, ears jump); focus ring on the film markers. Not tested: Safari, a real phone.
+
+### Verification pass, same day (owner asked for an independent recheck)
+
+Rebuilt and retested everything above on a production build (`next start`) at 390, 768, 1024 and 1440 px. Three faults found and fixed:
+
+- **Studio film, small screens:** with the camera in on the ears, the chosen point sat on top of "Whole horse" and blocked
+  the tap (390 and 768 px). The buttons now sit above the markers and move to the bottom corner when the chosen point would
+  be under them; a neighbouring point that would show from behind the buttons is hidden while the camera is in. Retest: a
+  real click on "Whole horse" works for all six points at all four widths.
+- **Ear study ground:** the stage's CSS ground was the theme's `black` token (charcoal #171513) under a canvas that paints
+  #000. The stage is now #000 itself (the one place a literal black is used, at the owner's request).
+- **/contact gate picture:** the neck and the sleeve ended in a visible straight edge. The frame's fade now uses eased stops
+  and finishes before the sleeve picture ends.
+
+Also: `.claude/**` added to the ESLint ignores (an agent worktree copy of the repo was being linted: 1,833 errors, none in
+site code), and an unused variable and a stale comment removed from `SiteNav.tsx`.
+
+Confirmed unchanged and passing: film loops, plays through zoom, pauses; six points on the horse; ear study follows the
+pointer (left, right, above), relaxes, answers touch and the four buttons; reduced motion (film still, no zoom, ears jump,
+no idle flicks, no gate animation); focus rings on every new control; exhibit uses only the three site faces and has no
+removed items; mega menus and phone groups show no numbers, the Reels index runs 01 upward in order; /why has no
+sanctuary section; /legend "The working hoof" and "The leap from the wall" have text beside the painting at 1100 and
+1440 px. The shipped film was compared frame-for-frame with the original cropped at x = 240 (mean difference 3.7 of 255),
+so the Gemini mark at x 1704-1774 is outside it. `npm run lint` 0 errors, `npm run typecheck` and `npm run build` pass.
+`npm test`: one failure, `/video/hero-rider-lesson-poster.jpg` missing from the media manifest, from the hero-film work in
+progress in another session. Not tested: Safari and a real phone.

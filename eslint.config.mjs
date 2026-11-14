@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
     ".vercel/**",
     "next-env.d.ts",
     "bsah-platform/**",
+    ".claude/**", // Agent worktrees are whole copies of the repo (with build output); lint the real tree only.
     "scripts/**",
     "scratch/**", // Local capture experiments are not application source.
     "public/motion-lab/wasm/**", // Third-party LiteRT runtime copied from node_modules by scripts/motion-lab-assets.mjs (git-ignored).

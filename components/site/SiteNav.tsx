@@ -305,7 +305,7 @@ function MegaMenu({ menu, index, focusFirst, onClose }: { menu: NavMenu; index: 
   );
 }
 
-/** One group of the phone menu: the header word as a disclosure, opening onto its three numbered columns. */
+/** One group of the phone menu: the header word as a disclosure, opening onto its three columns of titles (no numbers, as in the mega menus). */
 function MenuGroup({ menu, onClose }: { menu: NavMenu; onClose: () => void }) {
   const pathname = usePathname();
   const [shown, setShown] = useState(() => menuHolds(menu, pathname));
@@ -336,7 +336,7 @@ function MenuGroup({ menu, onClose }: { menu: NavMenu; onClose: () => void }) {
           >
             <p className="t-story pb-2 italic text-sand">{menu.lead}</p>
             <div className="grid gap-x-8 gap-y-6 pb-6 pt-3 sm:grid-cols-3">
-              {menu.columns.map((col, c) => (
+              {menu.columns.map((col) => (
                 <div key={col.heading}>
                   <p className="label border-b border-line pb-2 text-brass">{col.heading}</p>
                   <ul>
