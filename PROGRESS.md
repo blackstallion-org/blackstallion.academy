@@ -1270,3 +1270,19 @@ sanctuary section; /legend "The working hoof" and "The leap from the wall" have 
 so the Gemini mark at x 1704-1774 is outside it. `npm run lint` 0 errors, `npm run typecheck` and `npm run build` pass.
 `npm test`: one failure, `/video/hero-rider-lesson-poster.jpg` missing from the media manifest, from the hero-film work in
 progress in another session. Not tested: Safari and a real phone.
+- [x] **Session 15 Nov 2026 · The Movement Laboratory replaces the 3D stride lab.**
+  - New `components/sections/stride/MovementLab.tsx` (content in `lib/content/movement-lab.ts`) after the owner's "Movement Laboratory"
+    reference, in the house palette and faces (the reference's Cormorant / Inter / JetBrains and dark theme are not used). On `/stride`
+    (h1) and `/anatomy` (h2). `components/stride` (the WebGL stage) is removed; `lib/stride` stays (tested).
+  - Centre: the owner's film `Horse_and_rider_walking_video_c9663dac_1080p.mp4` replaces the reference's embedded image. Its ✦
+    generator mark removed (`delogo`); frames 26–208 kept (six strides, found by frame comparison) with a stride-matched 10-frame
+    crossfade, so the loop is seamless (seam difference 2.4 vs 2.0 frame-to-frame); audio dropped; `stride-lab.mp4` 2.7 MB,
+    `-mobile` 1.3 MB.
+  - Over the film, synced to its clock: the spine's wave, the rider's seat trace and posture line, forelimb and hind pendulums with
+    live ELBOW/KNEE goniometer badges, hoof-contact ripples per footfall, six numbered part markers (buttons). Show modes, five camera
+    views (three-quarter and drag tilt the stage; behind/front/above draw a plan over the dimmed film), play/pause, ±1 frame, 0.25–1×,
+    the 102°/108° reference pose, a stride slider, five stage cards and footfall bars with playheads.
+  - Figures are the stride model's, labelled "Illustrative … not measured on this film"; tempo and seat rate restated for the film
+    (about 48 strides and 95 seat cycles a minute).
+  - Checked: typecheck, lint, build, `npm test` 343/343; 1440 and 390 screenshots, no horizontal overflow, no page errors; hotspot
+    spacing ≥ 32 px at 390; controls, pose, stepping, speed and part selection exercised in the browser.
