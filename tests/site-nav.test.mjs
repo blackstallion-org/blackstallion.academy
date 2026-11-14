@@ -67,3 +67,10 @@ test("menus never count their own links", async () => {
   const src = await readFile(path.join(root, "components/site/SiteNav.tsx"), "utf8");
   assert.doesNotMatch(src, /starts\[c\]\s*\+\s*k|columnStarts/, "SiteNav numbers menu links by position");
 });
+
+test("the subject menus (desktop mega menus and phone groups) list titles only", async () => {
+  // Owner, 15 Nov 2026: the menus group pages by subject, so reel numbers jumped (09, 14 | 12, 15) and some rows had none.
+  // Numbers belong to the Reels menu, the footer and each page's reel mark.
+  const src = await readFile(path.join(root, "components/site/SiteNav.tsx"), "utf8");
+  assert.doesNotMatch(src, /LinkNumber|pad\(l\.n\)|pad\(link\.n\)/, "a subject menu draws reel numbers again");
+});

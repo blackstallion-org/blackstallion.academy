@@ -1,0 +1,58 @@
+/* /contact gate (15 Nov 2026, owner): the curriculum's black Marwari head and the cadet's offered hand, placed in the gate's frame.
+   Everything is sized in cqw (1% of the frame's width) so the pair keeps its proportions at every width. Measured from the
+   cutouts: muzzle at 98.5% x 71.8% of the head, fingertips at 5.2% x 19.9% of the hand; at rest the fingertips stop about
+   7cqw short of the muzzle, level with it. The cut neck (left), the sleeve (right) and the foot of the frame fade into the ground (a frame mask: a mask and a filter on one
+   image would draw a box). */
+.frame {
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 16%, black 80%, transparent 97%), linear-gradient(to top, transparent 0, black 9%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, black 16%, black 80%, transparent 97%), linear-gradient(to top, transparent 0, black 9%);
+  mask-composite: intersect;
+}
+@media (min-width: 1024px) { .frame { aspect-ratio: 16 / 10; } }
+
+/* a warm light behind the head so the black coat separates from the ground */
+.glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40% 55% at 30% 50%, color-mix(in srgb, var(--color-antique) 26%, transparent), transparent 70%),
+    radial-gradient(28% 34% at 62% 74%, color-mix(in srgb, var(--color-caramel) 14%, transparent), transparent 72%);
+}
+
+.horse, .hand { position: absolute; height: auto; max-width: none; user-select: none; }
+
+.horse {
+  width: 45cqw;
+  left: -3cqw;
+  top: 2cqw;
+  transform-origin: 0% 60%;
+  animation: gateBreath 7s ease-in-out infinite;
+  filter: drop-shadow(0 0 1px color-mix(in srgb, var(--color-antique) 55%, transparent))
+    drop-shadow(-12px -6px 36px color-mix(in srgb, var(--color-antique) 22%, transparent)) contrast(1.06);
+}
+
+.hand {
+  width: 48cqw;
+  left: 45.8cqw;
+  top: 45.3cqw;
+  transform-origin: 100% 65%;
+  animation: gateReach 5.5s ease-in-out infinite;
+  filter: drop-shadow(0 14px 24px color-mix(in srgb, var(--color-charcoal) 40%, transparent)) saturate(0.92);
+}
+
+@keyframes gateBreath {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-0.35cqw) scale(1.004); }
+}
+@keyframes gateReach {
+  0%, 100% { transform: translate(0, 0) rotate(0); }
+  50% { transform: translate(-0.6cqw, -0.3cqw) rotate(-1deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .horse, .hand { animation: none; }
+}

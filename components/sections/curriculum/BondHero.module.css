@@ -3,7 +3,7 @@
   isolation: isolate;
   overflow: hidden;
   width: 100%;
-  min-height: max(680px, 95svh);
+  min-height: max(720px, 108svh);
   background: var(--color-night);
 }
 
@@ -13,8 +13,8 @@
   z-index: 0;
   inset: 0;
   background:
-    radial-gradient(42% 52% at 34% 50%, rgb(201 166 107 / 0.26), transparent 70%),
-    radial-gradient(30% 36% at 60% 60%, rgb(184 138 98 / 0.14), transparent 72%);
+    radial-gradient(42% 52% at 30% 48%, color-mix(in srgb, var(--color-antique) 26%, transparent), transparent 70%),
+    radial-gradient(30% 36% at 56% 58%, color-mix(in srgb, var(--color-caramel) 14%, transparent), transparent 72%);
 }
 
 .stage {
@@ -41,6 +41,12 @@
   inset: 0;
 }
 
+/* the cut end of the sleeve dissolves to the right (on the layer, not the image: a mask and a filter on one image draw a box) */
+.handWrap {
+  -webkit-mask-image: linear-gradient(to right, black 76%, transparent 94%);
+  mask-image: linear-gradient(to right, black 76%, transparent 94%);
+}
+
 .horse,
 .hand {
   position: absolute;
@@ -53,28 +59,33 @@
    frame there. Horse and hand are sized and placed in one unit, --u (1vw, capped by the viewport height), so the framing holds on
    short and very wide screens: ears clear of the 80 px nav. Visual pass (14 Nov 2026, owner): the hand is offered and not yet
    taken, so at rest the fingertips stop about a hand's breadth (7.5u, ~110 px at 1440) short of the muzzle, and the 12 px
-   breathing reach never closes it. The horse moved left (the neck leaves the frame) rather than shrinking. */
+   breathing reach never closes it. The horse moved left (the neck leaves the frame) rather than shrinking.
+   15 Nov 2026 (owner): the head larger (41u to 45u) and set higher, the hand smaller (72.4u to 46u) and lifted so wrist and
+   cuff end above the section's bottom fade; the scene is taller (108svh) to hold them, the cut sleeve dissolves to the right.
+   Measured from the cutouts: muzzle at 98.5% x 71.8% of the head, fingertips at 5.2% x 19.9% of the hand, so at rest the
+   fingertips stop 7.3u short of the muzzle (about 105 px at 1440), level with it. */
 .stage { --u: min(1vw, 1.6svh); }
 
 .horse {
   z-index: 1;
-  width: calc(var(--u) * 41);
-  left: calc(var(--u) * -1.8);
-  top: max(calc(var(--u) * 5.9), 5.4rem); /* never closer than the nav's 80 px plus a margin */
+  width: calc(var(--u) * 45);
+  left: calc(var(--u) * -2.2);
+  top: max(calc(var(--u) * 5), 4.75rem); /* the ears (2.8% down the cutout) stay clear of the nav's 80 px */
   transform-origin: 0% 60%;
   animation: horseBreath 7s ease-in-out infinite;
   /* a warm rim on the coat, and a touch more contrast so the cutout sits in the light like a photograph */
-  filter: drop-shadow(0 0 1px rgb(232 200 140 / 0.55)) drop-shadow(-14px -6px 40px rgb(201 166 107 / 0.22)) contrast(1.06);
+  filter: drop-shadow(0 0 1px color-mix(in srgb, var(--color-antique) 55%, transparent))
+    drop-shadow(-14px -6px 40px color-mix(in srgb, var(--color-antique) 22%, transparent)) contrast(1.06);
 }
 
 .hand {
   z-index: 2;
-  width: calc(var(--u) * 72.4);
-  left: calc(var(--u) * 42.2);
-  top: calc(var(--u) * 43.4);
+  width: calc(var(--u) * 46);
+  left: calc(var(--u) * 47);
+  top: calc(var(--u) * 48.4);
   transform-origin: 100% 65%;
   animation: handReach 5.5s ease-in-out infinite;
-  filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.5)) saturate(0.92);
+  filter: drop-shadow(0 18px 30px color-mix(in srgb, var(--color-charcoal) 45%, transparent)) saturate(0.92);
 }
 
 .copy {
@@ -137,11 +148,13 @@
   }
 
   .hand {
-    width: 66vw;
+    width: 56vw;
     left: 65vw;
-    top: 62%;
+    top: 58%;
     bottom: auto;
   }
+
+  .handWrap { -webkit-mask-image: none; mask-image: none; }
 
   .copy {
     width: auto;

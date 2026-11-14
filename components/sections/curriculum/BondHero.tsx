@@ -34,7 +34,7 @@ export default function BondHero() {
             width={602}
             height={879}
             priority
-            sizes="(max-width: 767px) 76vw, 38vw"
+            sizes="(max-width: 767px) 76vw, 46vw"
             className={styles.horse}
           />
         </motion.div>
@@ -44,7 +44,7 @@ export default function BondHero() {
             alt=""
             width={2172}
             height={724}
-            sizes="(max-width: 767px) 66vw, 76vw"
+            sizes="(max-width: 767px) 56vw, 48vw"
             className={styles.hand}
           />
         </motion.div>

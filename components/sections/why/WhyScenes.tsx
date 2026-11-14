@@ -2,13 +2,12 @@
 
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
-import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
+import { motion } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Hoof, Label, ReelMark } from "@/components/film/Marks";
-import { r } from "@/components/film/range";
 import { Reveal } from "@/components/film/Reveal";
 import { CompareSlider } from "@/components/sections/shared/CompareSlider";
 import { entity } from "@/lib/content/site";
@@ -171,59 +170,6 @@ export function BigSlider() {
         ))}
       </div>
     </section>
-  );
-}
-
-/** §3 · S32 The Sanctuary of Unpowered Truth · The Human & Horse Bond */
-export function Monolith({ lines, coda, label }: { lines: string[]; coda?: string; label?: string }) {
-  const textRef = useRef<HTMLParagraphElement>(null);
-  const reduced = useReducedMotion();
-  // The words light up as the paragraph itself crosses the screen. (The section is far taller than the text, because
-  // of the plates below it, so tracking the section left the last lines grey while they were being read.) Every word
-  // is fully dark by the time the whole paragraph fits on screen (its foot reaching the bottom edge), and stays dark.
-  const { scrollYProgress } = useScroll({ target: textRef, offset: ["start 0.92", "end 1"] });
-  const words = lines.join(" ¶ ").split(" ");
-
-  // 4 Nov 2026 (owner): the text is set to the height of the photograph beside it (two equal columns, the picture
-  // stretches to the text), instead of a poster-size paragraph that ran past the frame. Captions and the second plate are gone.
-  return (
-    <section aria-label={label ?? "The sanctuary of unpowered truth"} className="gutter relative py-[clamp(5rem,12vh,9rem)]">
-      <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-16">
-        <div className="flex flex-col justify-center">
-          <Label>{label ?? "The sanctuary of unpowered truth"}</Label>
-          <p ref={textRef} className="t-voice mt-8 text-[clamp(1.6rem,2.6vw,2.6rem)] leading-[1.18] text-bone">
-            {words.map((w, k) =>
-              w === "¶" ? (
-                <span key={k} className="block h-5" />
-              ) : (
-                <Word
-                  key={k}
-                  progress={scrollYProgress}
-                  reduced={reduced}
-                  // Words light in sequence over the first 80% of the travel, so the whole text holds at full ink for the last tenth.
-                  range={[(k / words.length) * 0.8, ((k + 1) / words.length) * 0.8 + 0.1]}
-                >
-                  {w}
-                </Word>
-              ),
-            )}
-          </p>
-          {coda && <p className="t-story mt-8 text-lg italic text-gold">{coda}</p>}
-        </div>
-        <div className="relative aspect-[4/5] overflow-hidden lg:aspect-auto lg:min-h-[30rem]">
-          <FilmImage name="currGroundcare" grade="none" position="50% 40%" sizes="(min-width: 1024px) 46vw, 100vw" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Word({ children, progress, range, reduced }: { children: string; progress: MotionValue<number>; range: [number, number]; reduced: boolean }) {
-  const opacity = useTransform(progress, r(...range), [0.4, 1]);
-  return (
-    <motion.span className="mr-[0.25em] inline-block text-bone" style={{ opacity: reduced ? 1 : opacity }}>
-      {children}
-    </motion.span>
   );
 }
 

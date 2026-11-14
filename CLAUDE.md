@@ -64,11 +64,13 @@ Never publish the "No" rows of the claims ledger (Blueprint Part 9): no "40% cor
   (`components/brand`). Never the top line alone, never typed by hand, never a second variant. If space is tight, shrink it;
   do not drop the second line.
 - **One source of truth for every menu.** The primary bar, any dropdown or mega-menu (Academy, Cadets, Training, Programs,
-  Heritage…), the Reels index and the footer all build from `lib/content/site.ts`. A page's number and title are the same
-  everywhere: its `reels[].n` / `tools[].n` and `title`. No menu numbers its own group 01, 02, 03 or retitles a page.
+  Heritage…), the Reels index and the footer all build from `lib/content/site.ts`. A page's title is the same everywhere.
+  Numbers appear only where the film order is shown (the Reels index, the footer, reel marks and end cards) and are always
+  the page's `reels[].n` / `tools[].n`. The subject menus (mega menus and phone groups) list titles only, since grouping by
+  subject makes reel numbers jump (owner, 15 Nov 2026). No menu numbers its own group 01, 02, 03 or retitles a page.
 - **Change pages in one place.** Adding, renaming, moving or removing a page means editing `site.ts` only; then open every
-  menu (bar, each dropdown, Reels, footer) at 1440 and 390 px and check the page appears once, with the same number and
-  title in each. `tests/site-nav.test.mjs` fails if reel numbers repeat or skip.
+  menu (bar, each dropdown, Reels, footer) at 1440 and 390 px and check the page appears once, with the same title in each
+  (and the same number wherever numbers show). `tests/site-nav.test.mjs` fails if reel numbers repeat or skip.
 
 ## Code conventions
 

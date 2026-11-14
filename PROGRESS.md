@@ -1197,3 +1197,50 @@ workspace); no live payment, e-mail or signed-in run was possible.
     stays transparent until its first frame. Retested: intro end-to-end, Skip by click / Enter / Escape, blocked autoplay, loop wrap,
     reduced motion at 390, dark theme, no page errors on `/` and `/worlds`. Served image sizes measured at 2× DPR: nothing on the home
     page is upscaled (minimum 1.13× its CSS size; the film stills 1.2–1.33×, limited by the 1080p master).
+
+## 15 Nov 2026 · Owner's visual pass: two horse films, the exhibit rebalanced, menus, /why, /curriculum, /contact
+
+- **/anatomy ears (`EarStudy.tsx`, rewritten, no three.js).** The supplied clip `Black_horse_ears_animating_…mp4` (10 s, seen
+  from the saddle) was measured frame by frame: frames 33-108 are one unbroken path through every state (rest → left ear out →
+  both out → right out → both pricked → rest; first and last frame under a pixel apart). They are stored as 76 head-cropped stills
+  (`public/video/ears/ear-00…75.webp`, 2.3 MB, loaded rest-first); the crop leaves the Gemini mark outside the picture. A canvas
+  scrubs a playhead along that circle toward a target, blending neighbouring frames, so each ear turns only as the real horse
+  turned it; nothing moves the whole picture. Mouse left/right of the head turns that ear, above it both prick, still for 1.8 s →
+  the ears relax, leave → rest plus small real flicks; touch does the same, gentler, without blocking scroll; the four buttons
+  (Ahead, To the left, The rider, Two at once) hold until the pointer moves over the picture. Black stage. Reduced motion: no
+  tracking or flicks, buttons jump to their frame.
+- **/anatomy and home specimen plate (`StudioFilm.tsx`, new; `Anatomy3DHorse.tsx` deleted).** The studio clip is cut to a centred
+  4:3 (x 240-1680 of 1920, so the Gemini mark at x 1704-1774 is cropped out, not blurred), no audio, the last 0.75 s dissolved
+  into the first for a seamless loop: `public/video/specimen-stallion.mp4` (2.8 MB), `-mobile.mp4` (0.65 MB), `-poster.webp`.
+  The six points have film coordinates (`hotspots[].film` in `lib/content/anatomy.ts`). Choosing a point zooms the film box 2.2×
+  toward it (clamped so the stage is always covered, aimed left of the detail panel on the home plate) while the film keeps
+  playing; markers sit in an unscaled layer on the same transition so they stay on the horse. "Whole horse", Escape, the point
+  again or the empty stage go back; Pause/Play and Full screen kept; Stand/Walk/Trot and orbit removed. Switch reads "Studio
+  film / Archive plate". Stage is `.tone-photo` (`.tone-dark` is light since 4 Nov). Reduced motion: still poster, no zoom.
+- **"One conversation. Two bodies." (`public/anatomy/dual-body.html`).** The owner's attached "Movement Laboratory" HTML was used
+  as a layout reference only (owner chose this): stage column 2.5fr between two 15rem columns, so the horse plate is 848-868 px
+  wide at 1440 (was ~668, about +30%); the point detail card moved under the stage. Google Fonts (Cormorant, Inter, JetBrains
+  Mono: banned faces) replaced by the self-hosted Noto Serif Display, Plus Jakarta Sans and Newsreader (Newsreader copied to
+  `public/anatomy/fonts/`). Every exhibit hex mapped to the role-token values, in the markup, script and compiled
+  `exhibit-tailwind.css` together (the arbitrary-value class names still match); the three systems are chestnut, caramel and the
+  war-beat red instead of blue, amber and scarlet; no glass or blur. Removed: the top "lab bar" (its layer chips duplicated VIEW),
+  "2D WEBP ASSETS", the file-name chip, the regenerated-assets strip and its download modal (file 1.6 MB → 0.67 MB). The frame now
+  reports its height to `DualBody` on every change. Note: this file also carries an earlier session's uncommitted rewrite, now
+  committed with it.
+- **Menus: titles only (owner chose this).** Mega menus and phone groups no longer show reel numbers (grouping by subject made them
+  read 09, 14 | 12, 15 with gaps). Numbers stay in the Reels menu, footer, reel marks and end cards. `CLAUDE.md` navigation rule
+  and `tests/site-nav.test.mjs` updated (new guard).
+- **/why:** "The sanctuary of unpowered truth" section removed (`Monolith`, `Word`). `why.sanctuary` copy left in
+  `lib/content/science.ts`, unused.
+- **/curriculum hero:** head 41u → 45u and higher, hand 72.4u → 46u and lifted, scene 95svh → 108svh so wrist and cuff end above
+  the bottom fade; fingertips level with and ~7u short of the muzzle (measured from the cutouts' alpha). Sleeve end dissolves on
+  the hand layer (a mask on the filtered image drew a box). Hard-coded rgb() → token color-mix.
+- **/contact gate:** the 3D bay model replaced by the curriculum's black head and hand (`GateBondScene.module.css`, sized in cqw,
+  same fingertip gap); `covenant.ts` keeps its own models.
+- **/legend text under the paintings:** cause was `.read { left: 5.5rem }` applying to the two-column detail/inset scenes. Another
+  session's uncommitted edit to `journey.module.css` already scopes it; measured no overlap at 1024-2560 px, story and reading
+  mode. Not edited or committed here.
+- **Checks:** typecheck, lint (0 errors; warnings pre-existing), build pass. `npm test` 342/343: the failure is another session's
+  uncommitted `lib/content/hero-films.ts` naming an untracked `hero-rider-lesson-poster.jpg`. Screenshots at 1440 and 390: plate,
+  zoom (film still playing), ear states, exhibit, Cadets/Training menus, /curriculum, /contact, home plate; reduced motion
+  (film paused, no zoom, ears jump); focus ring on the film markers. Not tested: Safari, a real phone.
