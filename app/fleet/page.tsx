@@ -1,3 +1,4 @@
+import { RoyalPlate } from "@/components/film/RoyalPlate";
 import type { Metadata } from "next";
 import { CareLog, CctvGrid, CoatRegistry, FleetTitle, Registry, StallionGallery } from "@/components/sections/fleet/FleetScenes";
 import { BloodlineIndex } from "@/components/sections/fleet/BloodlineIndex";
@@ -22,6 +23,8 @@ export default function FleetPage() {
       {/* 14 Nov 2026: real photographs, one gallery per verified horse (lib/content/real-horses.manifest.json). */}
       <RealHorseGalleries horses={REAL_HORSES} collection={REAL_COLLECTION} note={REAL_HORSE_NOTE} />
       <MarwariPortrait />
+      <RoyalPlate id="fleetBlack" layout="split" />
+      <RoyalPlate id="fleetWhite" layout="split" flip />
       <PageCurtain page="fleet" />
       <Registry />
       <StallionGallery />

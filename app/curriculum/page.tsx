@@ -1,3 +1,4 @@
+import { RoyalPlate } from "@/components/film/RoyalPlate";
 import type { Metadata } from "next";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
@@ -19,6 +20,7 @@ export default function CurriculumPage() {
     <>
       <CurriculumTitle />
       <Staircase />
+      <RoyalPlate id="curriculumBond" />
       <PageCurtain page="curriculum" />
       <CodexVault />
       <ClockRing />

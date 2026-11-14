@@ -1,3 +1,4 @@
+import { RoyalPlate } from "@/components/film/RoyalPlate";
 import type { Metadata } from "next";
 import { Headline } from "@/components/film/Headline";
 import { Cta, Label } from "@/components/film/Marks";
@@ -22,6 +23,7 @@ export default function SchoolsPage() {
     <>
       <SchoolsTitle />
       <ModelFlow />
+      <RoyalPlate id="schoolsHill" layout="split" flip />
       {/* 14 Nov 2026: the riding ring on campus, the programme's main image (AI illustrations of the concept). */}
       <SchoolRingProgramme />
       <CitadelConfigurator />

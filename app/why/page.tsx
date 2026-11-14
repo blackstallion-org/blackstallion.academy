@@ -1,3 +1,4 @@
+import { RoyalPlate } from "@/components/film/RoyalPlate";
 import type { Metadata } from "next";
 import { AsciiChild } from "@/components/sections/why/AsciiChild";
 import { BreathCue } from "@/components/film/BreathCue";
@@ -18,6 +19,7 @@ export default function WhyPage() {
       <WhyTitle />
       <Glass />
       <AsciiChild />
+      <RoyalPlate id="whyHead" />
       <BreathCue />
       <SovereignCrucible />
       <BigSlider />

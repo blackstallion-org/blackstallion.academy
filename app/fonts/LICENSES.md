@@ -34,3 +34,6 @@ Replaces the condensed blackletter display voice (Pirata One) and the condensed 
 | plus-jakarta-sans-latin-wght-{normal,italic}.woff2 | Plus Jakarta Sans (variable: wght 200–800) | Labels, navigation, buttons, controls and supporting UI text | @fontsource-variable/plus-jakarta-sans 5.3.0 · `plus-jakarta-sans-LICENSE.txt` |
 
 Newsreader stays as the long-form reading serif and Martian Mono for codes. Kalnia, Mona Sans and the reference display faces stay in the repository but are no longer preloaded or referenced by the type tokens.
+
+
+| pinyon-script-latin-400-normal.woff2 | Pinyon Script 400 (SIL OFL 1.1, Nicole Fally) | Swash initial on the royal photo plates only (`.t-flourish`, 14 Nov 2026) | @fontsource/pinyon-script |

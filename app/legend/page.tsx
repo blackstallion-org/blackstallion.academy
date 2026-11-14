@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RoyalPlate } from "@/components/film/RoyalPlate";
 import { MarwariJourney } from "@/components/sections/legend/journey/MarwariJourney";
 
 export const metadata: Metadata = {
@@ -12,5 +13,12 @@ export const metadata: Metadata = {
  * docs/marwari-scroll/CLAUDE_IMPLEMENTATION_PROMPT.md); it replaces the 3D museum opening and the earlier fragmented page.
  */
 export default function LegendPage() {
-  return <MarwariJourney />;
+  return (
+    <>
+      <MarwariJourney />
+      {/* 14 Nov 2026: two of the owner's royal photographs (used with permission) close the journey */}
+      <RoyalPlate id="legendRider" />
+      <RoyalPlate id="legendRear" layout="split" />
+    </>
+  );
 }

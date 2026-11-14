@@ -1,3 +1,4 @@
+import { RoyalPlate } from "@/components/film/RoyalPlate";
 import type { Metadata } from "next";
 import { MorningCurtain } from "@/components/sections/parents/MorningCurtain";
 import { Headline } from "@/components/film/Headline";
@@ -18,6 +19,7 @@ export default function ParentsPage() {
     <>
       <ParentsTitle />
       <PinnedPhone />
+      <RoyalPlate id="parentsCalm" layout="split" />
       <ParentVantageGallery />
       {/* 14 Nov 2026: parents at the riding ring (AI illustrations of the concept). */}
       <ParentRingVisit />

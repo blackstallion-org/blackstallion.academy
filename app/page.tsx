@@ -1,3 +1,4 @@
+import { RoyalPlate } from "@/components/film/RoyalPlate";
 import { HomeTypography, HomeAct as Intermission } from "@/components/sections/home/HomeTypography";
 import { CrisisCure } from "@/components/sections/home/CrisisCure";
 import { Doors } from "@/components/sections/home/Doors";
@@ -37,6 +38,8 @@ export default function Home() {
       <div data-home-story><StoryStrip /></div>
       <FirstRideEditorial />
       <Instrument />
+      {/* 14 Nov 2026: the owner's royal photographs (used with permission) */}
+      <RoyalPlate id="homeInterlude" layout="split" flip />
 
       <Intermission act="citadel" line="Now, the proof." />
 

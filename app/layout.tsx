@@ -35,13 +35,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#171412",
-  colorScheme: "dark",
+  themeColor: "#F3EDE2",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" data-theme="dark" className={fontVariables} suppressHydrationWarning>
+    <html lang="en-IN" className={fontVariables} suppressHydrationWarning>
       <head>
         {/* Decides before first paint whether the intro film plays (first visit to the home page per session); it runs first and, when the film plays, marks the loader as seen. */}
         <script dangerouslySetInnerHTML={{ __html: introBootScript }} />

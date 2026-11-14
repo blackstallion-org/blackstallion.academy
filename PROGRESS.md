@@ -1038,3 +1038,22 @@ workspace); no live payment, e-mail or signed-in run was possible.
   - Checks: lint 0 errors, typecheck, build pass; tests 336/337 (the one failure is the uncommitted fleet work:
     `FleetWorlds.tsx` names the untracked `stallion-facing-left.webp`). Screenshots at 1440×900 and 390×844 of /, the four history
     pages, /parents, /legend, /cadets, /tournaments, /curriculum, /verify.
+- [x] **14 Nov 2026 · Always-dark theme removed (owner: "not what I meant").** `app/layout.tsx` no longer sets `data-theme="dark"` on `<html>`, and the viewport colour is light again (`#F3EDE2`, `colorScheme: "light"`), so the site returns to the warm ivory default (home, `/legend` and `/about` checked: body `rgb(243, 237, 226)`, ink `rgb(48, 37, 30)`). The dark token set in `app/globals.css` is untouched and still applies to `.tone-photo` sections. The theme toggle (`ThemeToggle`, `lib/theme/theme.ts`) stays deleted, so there is no switch; say if it should come back.
+- [x] **14 Nov 2026 · The owner's royal Marwari photographs placed (owner confirmed the photographers' permission).**
+  - 11 of IMG_4263–4279 → `public/images/royal/*.webp`: Lanczos ~2x upscale with light sharpening (no credits for an AI upscale).
+    Watermarks are untouched. Content and credits are in `lib/content/royal.ts`; names are given where the mark is legible (Hafner
+    Photography, Edyta Trojańska-Koch, Wojtek Kwiatkowski), otherwise "Used with permission".
+  - Home: the first screen is the palace-standing photograph full screen, with crest, h1 and CTAs bottom-left on a gradient and the
+    stats below it on paper. A split plate ("Raised for kings", palace-rearing) follows `Instrument`.
+  - `components/film/RoyalPlate.tsx`, after the owner's "Rider Force" reference: "bleed" (cinema-height photo, words bottom-left on
+    a deep night-token gradient, credit under the words so it never sits on a photographer's corner mark) and "split" (photo
+    beside the words on paper). The title's first letter is a copperplate swash: Pinyon Script, self-hosted, `.t-flourish`, used
+    nowhere else. Settle-in push and a text rise; still under reduced motion.
+  - Placed:
+    - /legend: after the journey, desert rider (bleed) and sunset rear (split).
+    - /fleet: after the portrait, black rearing on sand and white at water (splits).
+    - Single plates: /curriculum two horses (bleed, after the staircase), /parents calm silhouette (split, after the phone),
+      /why head at sunset (bleed, after the ASCII scene), /schools hill stallion (split, after the model flow).
+  - Not used: 4265 and 4267–4268, 4270, 4272, 4275 and 4279 (similar to the ones placed, or too small).
+  - Checks: lint 0 errors, typecheck, build pass; tests 336/337 (the fleet failure as before). Screenshots of every plate at 1440
+    and 390.
