@@ -7,7 +7,7 @@ import { Reveal } from "@/components/film/Reveal";
 import { Monogram } from "@/components/brand/Monogram";
 import { ModelPlate } from "@/components/3d/ModelPlate";
 import { asset } from "@/lib/content/asset";
-import { Monolith } from "@/components/sections/why/WhyScenes";
+import { Truths } from "@/components/sections/about/Truths";
 import { MandateKineticStage } from "@/components/sections/about/MandateKineticStage";
 import { house, letter, truths } from "@/lib/content/academy";
 import { entity } from "@/lib/content/site";
@@ -66,7 +66,7 @@ export default function AboutPage() {
       </section>
 
       {/* §2 · S32 six truths (second use) */}
-      <Monolith label="Six truths we stand behind" lines={truths} />
+      <Truths label="Six truths we stand behind" lines={truths} />
 
       {/* §2a · S69 depth ribbon */}
       <AcademyRibbon />
