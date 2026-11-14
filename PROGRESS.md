@@ -1095,3 +1095,12 @@ workspace); no live payment, e-mail or signed-in run was possible.
     screenshotted at both widths. Console shows warnings only (pre-existing WebGL and preload).
   - Not committed: the page files also carry other sessions' uncommitted work (the earlier photo removal, the nav and the /legend
     poster).
+- [x] **Session 14 Nov 2026 · /legend text on the painted parchment; Thar strip removed.**
+  - Scenes 19 ("The stallion that stayed", right) and 18 ("Each registered horse carries its number", left) set their kicker,
+    heading, story and note inside the painting's blank parchment on screens 1024 px and wider. The box is a `parchment`
+    field on the scene in `lib/content/marwari-journey.ts` (percent of the painting) and is laid out in container-query units
+    against the stage, so it tracks the painting at every width. Figures and horses stay clear. On phones the text stacks
+    below the image as before.
+  - "The Thar, in Pictures" (intro, horizontal strip and its spacing) removed from `/legend`; the `strip` layout is gone from
+    `EditorialGallery`, and the seven unused images (`legend-01…06`, `tournaments-01`) are deleted and out of the media manifest.
+  - Checks: lint 0 errors, typecheck, build. Screenshotted at 1440, 1024 and 390, and with reduced motion.

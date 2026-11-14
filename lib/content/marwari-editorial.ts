@@ -3,11 +3,10 @@ import { asset } from "./asset";
 /**
  * Editorial photography galleries (14 Nov 2026, owner's brief): photographs of Marwari horses from the owner's folder
  * "real marwari horse images" (123 files, used with the photographers' permission as confirmed by the owner), audited and
- * distributed by theme across eleven pages, one composition per page, no photograph used twice.
+ * distributed by theme across ten pages, one composition per page (the /legend strip was removed on 14 Nov 2026 at the owner's request), no photograph used twice.
  *
  * Audit, by environment and subject:
  * - palaces, havelis and carved doors (Rajasthan architecture): home, schools, about
- * - desert, dunes and sunset silhouettes: legend
  * - studio portraits on carpets and painted backdrops: fleet
  * - movement: gallop, trot, rearing in dust: science (the body at work), tournaments (speed)
  * - training ground, horses on the lead in fields: curriculum
@@ -25,7 +24,7 @@ import { asset } from "./asset";
  */
 export type EditorialPhoto = { src: string; width: number; height: number; alt: string; title: string; note?: string; focus?: string };
 
-export type EditorialLayout = "folio" | "strip" | "studbook" | "anatomy" | "ledger" | "band" | "cascade" | "pair" | "arcade" | "contact" | "plate";
+export type EditorialLayout = "folio" | "studbook" | "anatomy" | "ledger" | "band" | "cascade" | "pair" | "arcade" | "contact" | "plate";
 
 export type EditorialGallery = {
   id: string;
@@ -76,24 +75,6 @@ export const editorialGalleries = {
       f("home-05", 1152, 1152, "Ochre and gold", "A black Marwari steps out against an ochre wall, a silver and gold collar at its throat."),
     ],
     credit: `${PERMISSION} Including Hafner Photography.`,
-  },
-  legend: {
-    id: "desert-strip",
-    layout: "strip",
-    label: "The Thar, in pictures",
-    inscription: "Out of",
-    voice: "the land of death.",
-    lede: "Heat, distance and the long evening light of Marwar. Scroll along the strip.",
-    photos: [
-      f("legend-01", 1300, 538, "Across the plain", "A lone rider gallops across a dusty plain beneath jagged mountains at sunset, cloak streaming."),
-      f("legend-02", 1080, 1350, "The canyon", "A tiny rider crosses a vast sand canyon in an orange haze."),
-      f("legend-03", 972, 644, "Fire on the horizon", "A Marwari rears in silhouette against a red and violet dawn."),
-      f("legend-04", 1300, 1040, "Unbroken", "A horse rears on a ridge in silhouette, a lone acacia beside it, against an orange sky."),
-      f("legend-05", 1300, 985, "Blue hour", "A Marwari walks in silhouette under a dark tree against a violet dusk and distant hills."),
-      f("legend-06", 1300, 939, "On the dune", "A black Marwari canters along the crest of a sand dune under a clear blue sky."),
-      f("tournaments-01", 1440, 1801, "Into the light", "A chestnut Marwari gallops away through golden dust and low sun."),
-    ],
-    credit: `${PERMISSION} Including Ekaterina Druz, Wojtek Kwiatkowski and van Alderen.`,
   },
   fleet: {
     id: "studbook-portraits",

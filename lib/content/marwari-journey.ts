@@ -78,6 +78,11 @@ export type JourneyScene = {
   /** a pull line set apart from the body */
   pull?: string;
   link?: { href: string; label: string };
+  /**
+   * The painting's empty parchment, as a box in percent of the painting (x, y from the top-left, w, h). On wide screens the
+   * heading and text are set inside it, on the painting; on phones they stack below the image as usual.
+   */
+  parchment?: { x: number; y: number; w: number; h: number };
   status: Status;
   /** extra caveat for the painting, shown with the status */
   caveat?: string;
@@ -361,7 +366,8 @@ export const SCENES: JourneyScene[] = [
     ambient: "palace",
   },
   {
-    id: "19", act: "return", layout: "detail", side: "left",
+    id: "19", act: "return", layout: "detail", side: "right",
+    parchment: { x: 69, y: 16, w: 27, h: 64 },
     kicker: "As told in Marwar",
     title: "The stallion that stayed.",
     body: [
@@ -375,6 +381,7 @@ export const SCENES: JourneyScene[] = [
   },
   {
     id: "18", act: "return", layout: "detail", side: "left",
+    parchment: { x: 4, y: 9, w: 25, h: 62 },
     kicker: "A register",
     title: "Each registered horse carries its number.",
     body: [

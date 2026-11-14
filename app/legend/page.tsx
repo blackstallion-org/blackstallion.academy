@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { MarwariJourney } from "@/components/sections/legend/journey/MarwariJourney";
-import { EditorialGallery } from "@/components/film/EditorialGallery";
 import { StoryPoster } from "@/components/film/StoryPoster";
 import { INTRO } from "@/lib/content/marwari-journey";
 import { asset } from "@/lib/content/asset";
@@ -32,7 +31,6 @@ export default function LegendPage() {
         headingId="legend-title"
       />
       <MarwariJourney afterPoster />
-      <EditorialGallery page="legend" />
     </>
   );
 }

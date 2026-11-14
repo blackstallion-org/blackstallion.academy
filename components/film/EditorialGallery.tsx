@@ -60,7 +60,7 @@ export function EditorialGallery({ page, className }: { page: EditorialPage; cla
   return (
     <section id={g.id} aria-labelledby={headingId} className={cn("bg-night py-20 md:py-28", className)}>
       <div className="gutter">{header}</div>
-      <div className={cn("mt-14", g.layout !== "strip" && "gutter")}>{compose(g.layout, g.photos)}</div>
+      <div className="gutter mt-14">{compose(g.layout, g.photos)}</div>
       <div className="gutter">{credit}</div>
     </section>
   );
@@ -80,21 +80,6 @@ function compose(layout: string, photos: EditorialPhoto[]): ReactNode {
           {fig(2, "md:col-span-4", "(min-width: 768px) 33vw, 100vw")}
           {fig(3, "md:col-span-6 md:col-start-6 md:mt-40", "(min-width: 768px) 50vw, 100vw")}
           {fig(4, "md:col-span-3 md:col-start-9", "(min-width: 768px) 25vw, 100vw")}
-        </div>
-      );
-    case "strip":
-      // legend: a film strip of the desert, each frame at one height so the photographs keep their shapes
-      return (
-        <div
-          role="region"
-          aria-label="Photographs of the Thar, scroll sideways"
-          tabIndex={0}
-          data-lenis-prevent-wheel
-          className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 [scrollbar-width:thin] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-        >
-          {photos.map((p, i) => (
-            <Figure key={p.src} photo={p} n={i} sizes="70vw" frame="height" className="shrink-0 snap-start first:ml-[max(1.5rem,5vw)] last:mr-[max(1.5rem,5vw)]" />
-          ))}
         </div>
       );
     case "studbook": {
@@ -191,7 +176,7 @@ function compose(layout: string, photos: EditorialPhoto[]): ReactNode {
   }
 }
 
-type Frame = "height" | "band" | "arch" | "contact";
+type Frame = "band" | "arch" | "contact";
 
 function Figure({ photo, n, className, sizes, frame }: { photo: EditorialPhoto; n: number; className?: string; sizes: string; frame?: Frame }) {
   const reduced = useReducedMotion();
@@ -219,8 +204,6 @@ function Figure({ photo, n, className, sizes, frame }: { photo: EditorialPhoto; 
         />
       </div>
     );
-  } else if (frame === "height") {
-    picture = <Image src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} sizes={sizes} className="h-[clamp(280px,62vh,620px)] w-auto max-w-none" />;
   } else {
     picture = <Image src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} sizes={sizes} className="h-auto w-full" />;
   }

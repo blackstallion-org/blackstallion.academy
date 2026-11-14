@@ -416,6 +416,59 @@
   .journey[data-mode="static"] .scene[data-side="left"] .sticky { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
 }
 
+/* ------------------------------------------------------------------ text on the painting's parchment (wide screens)
+   Scenes with a `parchment` box set their heading and text inside the empty parchment of the painting, in both the moving
+   story and reading mode. The painting and the text share one grid cell; container units (cqw = 1% of the painting's
+   width) place and size the text so it stays inside the box at every width. Phones keep the text stacked below. */
+@media (min-width: 1024px) {
+  .journey[data-mode] .scene[data-layout][data-parchment] .sticky {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    align-items: start;
+    container-type: inline-size;
+    padding: clamp(4rem, 12vh, 7rem) clamp(5.5rem, 7vw, 7rem);
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .stage,
+  .journey[data-mode] .scene[data-layout][data-parchment] .read {
+    grid-area: 1 / 1;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .read {
+    position: relative;
+    inset: auto;
+    order: 0;
+    z-index: 2;
+    align-self: start;
+    justify-self: start;
+    /* the paintings are 1672 x 941, so 1% of their height is 0.5628 cqw */
+    margin-left: calc(var(--pm-x) * 1cqw);
+    margin-top: calc(var(--pm-y) * 0.5628cqw);
+    width: calc(var(--pm-w) * 1cqw);
+    max-height: calc(var(--pm-h) * 0.5628cqw);
+    overflow: hidden;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .panel {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .title {
+    font-size: clamp(1.05rem, 2.15cqw, 2rem);
+    line-height: 1.1;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .panel p:not(.status):not(:global(.label)) {
+    font-size: clamp(0.74rem, 1.24cqw, 1.06rem);
+    line-height: 1.5;
+  }
+  .journey[data-mode] .scene[data-layout][data-parchment] .status {
+    margin-top: 0.8em;
+    font-size: clamp(0.66rem, 0.95cqw, 0.8rem);
+  }
+}
+
 /* ------------------------------------------------------------------ wayfinding */
 .rail { display: none; }
 @media (min-width: 1024px) {

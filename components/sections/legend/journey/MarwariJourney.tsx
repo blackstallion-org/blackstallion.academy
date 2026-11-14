@@ -221,10 +221,16 @@ function SceneBlock({ scene, eager, still }: { scene: JourneyScene; eager?: bool
       data-layout={scene.layout}
       data-side={scene.side}
       data-place={scene.place ?? "bottom"}
+      data-parchment={scene.parchment ? "" : undefined}
       data-live={moving && live ? "" : undefined}
       aria-labelledby={hid}
       className={s.scene}
-      style={{ "--mj-phase": `${-(Number(scene.id) % 7) * 1.1}s` } as CSSProperties}
+      style={
+        {
+          "--mj-phase": `${-(Number(scene.id) % 7) * 1.1}s`,
+          ...(scene.parchment && { "--pm-x": scene.parchment.x, "--pm-y": scene.parchment.y, "--pm-w": scene.parchment.w, "--pm-h": scene.parchment.h }),
+        } as CSSProperties
+      }
     >
       <div className={s.track}>
         <div className={s.sticky}>
