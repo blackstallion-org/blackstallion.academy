@@ -33,6 +33,9 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
   const [state, setState] = useState<Playback>("idle");
   const [muted, setMuted] = useState(true);
   const [chapter, setChapter] = useState(0);
+  // The <video> stays transparent until its first frame plays, so the device-sized poster underneath shows meanwhile (a video with
+  // metadata but no frame paints black); it then crossfades in and keeps its last frame when paused.
+  const [hasFrame, setHasFrame] = useState(false);
   const reduced = useReducedMotion();
   const lenis = useLenis();
 
@@ -124,18 +127,18 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
     >
       <picture className="absolute inset-0">
         <source media="(max-width: 767px)" srcSet={film.posterMobile} />
-        <img src={film.poster} alt="" loading="lazy" className="h-full w-full object-cover" />
+        {/* Above the fold on /worlds (the h1): fetched at once there; lazily under the home page's opening screens. */}
+        <img src={film.poster} alt="" loading={headingAs === "h1" ? "eager" : "lazy"} fetchPriority={headingAs === "h1" ? "high" : "auto"} className="h-full w-full object-cover" />
       </picture>
       <video
         ref={videoRef}
-        className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-1000", state === "failed" ? "opacity-0" : "opacity-100")}
+        className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-1000", hasFrame && state !== "failed" ? "opacity-100" : "opacity-0")}
         muted
         loop
         playsInline
         preload="metadata"
-        poster={film.poster}
         aria-label={`${film.label}: ${film.posterAlt}`}
-        onPlaying={() => setState("playing")}
+        onPlaying={() => { setHasFrame(true); setState("playing"); }}
         onPause={() => setState((s) => (s === "failed" ? s : "paused"))}
         // React also reports a <source> whose media query does not match as an error on the video: only a real failure counts.
         onError={(e) => { const v = e.currentTarget; if (v.error || v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) setState("failed"); }}
@@ -153,18 +156,19 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
       <div className="no-print gutter absolute inset-x-0 bottom-0 z-10 pb-6 pt-24 md:pb-10">
         <p className="label text-brass">
           A film · {film.label}
-          <span className="ml-3 text-sand" aria-live="polite">{current.n} · {current.title}</span>
+          <span className="ml-3 text-sand">{current.n} · {current.title}</span>
         </p>
         <Headline id="journey-film-h" as={headingAs} size="2" className="mt-3 max-w-[18ch]" inscription={film.inscription} voice={film.voice} />
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 md:mt-8">
-          <nav aria-label="Film chapters">
+          <div role="group" aria-label="Film chapters">
             <ol className="flex flex-wrap items-center gap-2">
               {film.chapters.map((c, i) => (
                 <li key={c.n}>
                   <button
                     type="button"
                     onClick={() => seekTo(c.at)}
+                    disabled={state === "failed"}
                     aria-current={chapter === i ? "step" : undefined}
                     aria-label={`Chapter ${c.n}: ${c.title}`}
                     className={cn("label min-h-11 rounded-full px-4", DARK, RING, chapter === i && "border-gold text-gold")}
@@ -174,7 +178,7 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
                 </li>
               ))}
             </ol>
-          </nav>
+          </div>
 
           <div className="flex items-center gap-3">
             <button type="button" onClick={skip} className={cn("label min-h-11 px-2 text-sand underline-offset-4 hover:text-gold hover:underline", RING)}>
@@ -185,7 +189,7 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
               disabled={state === "failed"}
               onClick={toggleSound}
               aria-pressed={!muted}
-              aria-label={muted ? `Turn on the sound of ${film.label}` : `Turn off the sound of ${film.label}`}
+              aria-label={`${film.label} sound`}
               className={cn("grid h-12 w-12 place-items-center rounded-full disabled:opacity-40", DARK, RING)}
             >
               {muted ? <VolumeX size={18} strokeWidth={1.4} aria-hidden /> : <Volume2 size={18} strokeWidth={1.4} aria-hidden />}

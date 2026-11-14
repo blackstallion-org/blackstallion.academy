@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { useLenis } from "lenis/react";
-import { INTRO_REVEAL_KEY, markIntroSeen } from "@/lib/opening/intro-boot";
+import { markIntroSeen } from "@/lib/opening/intro-boot";
 
 import { IntroFilm } from "./IntroFilm";
 
@@ -11,22 +11,18 @@ const EVENT = "bsah:intro-state";
 const subscribe = (cb: () => void) => { window.addEventListener(EVENT, cb); return () => window.removeEventListener(EVENT, cb); };
 /** "1" while the film plays, "reveal" while it fades and the page shows beneath it; either way the film is on screen. */
 const markerOn = () => !!document.documentElement.dataset.bsahIntro;
-const revealPending = () => { try { return sessionStorage.getItem(INTRO_REVEAL_KEY) === "1"; } catch { return false; } };
 const never = () => false;
-const noSubscribe = () => () => {};
 
 /**
  * The introduction. Lives in the root layout. On the first visit to the home page in a browser session (decided before first paint
  * by lib/opening/intro-boot.ts) it lays the film over the page, holds the page still underneath while it plays, and lets go when the
  * film has faded out. Since 15 Nov 2026 the film is the owner's Marwar Journey video (components/opening/IntroFilm.tsx); the
- * real-time 3D "Four Worlds" engine it replaces has been removed.
- * When the film ends on /worlds, the homepage it hands over to comes up from black instead (INTRO_REVEAL_KEY).
+ * real-time 3D "Four Worlds" engine it replaces has been removed. When the film is gone, focus lands on the first screen (#doctrine),
+ * so a keyboard visitor who pressed Skip is not left on <body>.
  */
 export function OpeningIntro() {
   const playing = useSyncExternalStore(subscribe, markerOn, never);
-  const reveal = useSyncExternalStore(noSubscribe, revealPending, never);
   const lenis = useLenis();
-  const cover = useRef<HTMLDivElement>(null);
 
   // the page underneath stays still and unreachable while the film plays
   useEffect(() => {
@@ -41,7 +37,17 @@ export function OpeningIntro() {
     const top = () => { if (window.scrollY !== 0) window.scrollTo(0, 0); };
     top();
     window.addEventListener("scroll", top);
-    return () => { window.removeEventListener("scroll", top); history.scrollRestoration = previous; main?.removeAttribute("inert"); lenis?.start(); };
+    return () => {
+      window.removeEventListener("scroll", top);
+      history.scrollRestoration = previous;
+      main?.removeAttribute("inert");
+      lenis?.start();
+      // the film has gone (not just a re-run of this effect): hand focus to the first screen if it was on the film's controls or
+      // nowhere, now that the page is no longer inert, so a keyboard visitor who pressed Skip is not left on <body>
+      if (document.documentElement.dataset.bsahIntro) return;
+      const active = document.activeElement;
+      if (!active || active === document.body || active.closest("[data-intro-film]")) document.getElementById("doctrine")?.focus({ preventScroll: true });
+    };
   }, [playing, lenis]);
 
   // the film has ended and starts to fade: the page beneath it is shown now, so the film dissolves into the home hero instead of into black
@@ -60,20 +66,10 @@ export function OpeningIntro() {
     window.dispatchEvent(new Event("bsah:loader-gone"));
   }, []);
 
-  // handed over from /worlds: a black cover that fades up to show the homepage
-  useEffect(() => {
-    const el = cover.current;
-    if (!reveal || !el) return;
-    try { sessionStorage.removeItem(INTRO_REVEAL_KEY); } catch {}
-    const a = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 2400, delay: 200, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" });
-    a.onfinish = () => { el.style.display = "none"; window.dispatchEvent(new Event("bsah:loader-gone")); };
-    return () => a.cancel();
-  }, [reveal]);
 
   return (
     <>
       {playing && <IntroFilm onDone={done} onReveal={reveal_} />}
-      {reveal && <div ref={cover} aria-hidden style={{ position: "fixed", inset: 0, zIndex: 200, background: "#000", pointerEvents: "none" }} />}
     </>
   );
 }

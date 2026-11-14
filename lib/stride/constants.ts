@@ -42,7 +42,7 @@ export const TORSO_SHARE = [1, 0.55, 0.34, 0.2, 0.12] as const;
 export const STANCE_CLEARANCE_M = 0.025;
 export const ARRIVING_MPS = 0.5;
 export const PLANTED_MPS = 0.15;
-/** The toe point is the hoof bone's tail, 0.14 m along the bone; the sole is 0.019 m below it (components/stallion-film/locomotion.ts). */
+/** The toe point is the hoof bone's tail, 0.14 m along the bone; the sole is 0.019 m below it (as in the retired home-page 3D film, removed 15 Nov 2026). */
 export const HOOF_LENGTH_M = 0.14;
 export const SOLE_TO_TOE_M = 0.019;
 

@@ -18,6 +18,10 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
   const video = useRef<HTMLVideoElement>(null);
   const progress = useRef<HTMLSpanElement>(null);
   const finished = useRef(false);
+  /** the load-limit timer; cleared once the visitor has to (or chooses to) press play, so the film never vanishes under their hand */
+  const giveUp = useRef(0);
+  // phones get the phone poster (the component only renders in the browser, after the intro marker is set)
+  const [poster] = useState(() => (typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches ? film.posterMobile : film.poster));
   const [playing, setPlaying] = useState(false);
   const [blocked, setBlocked] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -44,9 +48,9 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
     if (!v) return;
     const key = (e: KeyboardEvent) => { if (e.key === "Escape") skip(); };
     window.addEventListener("keydown", key);
-    v.play().catch(() => setBlocked(true));
-    const giveUp = window.setTimeout(() => { if (v.readyState < 2) { finished.current = true; onDone(); } }, LOAD_LIMIT);
-    return () => { window.removeEventListener("keydown", key); window.clearTimeout(giveUp); v.pause(); };
+    giveUp.current = window.setTimeout(() => { if (v.readyState < 2 && !finished.current) { finished.current = true; onDone(); } }, LOAD_LIMIT);
+    v.play().catch(() => { window.clearTimeout(giveUp.current); setBlocked(true); });
+    return () => { window.removeEventListener("keydown", key); window.clearTimeout(giveUp.current); v.pause(); };
   }, [skip, onDone]);
 
   const onTime = () => {
@@ -61,6 +65,7 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
   const togglePlay = () => {
     const v = video.current;
     if (!v) return;
+    window.clearTimeout(giveUp.current);
     if (v.paused) v.play().then(() => setBlocked(false)).catch(() => setBlocked(true));
     else v.pause();
   };
@@ -72,14 +77,14 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
   };
 
   return (
-    <div className={`${styles.root} tone-photo`} data-reveal={reveal || undefined} role="region" aria-label={`Introduction film: ${film.label}`}>
+    <div className={`${styles.root} tone-photo`} data-reveal={reveal || undefined} data-intro-film role="region" aria-label={`Introduction film: ${film.label}`}>
       <video
         ref={video}
         className={styles.video}
         muted
         playsInline
         preload="auto"
-        poster={film.poster}
+        poster={poster}
         aria-label={film.posterAlt}
         onPlaying={() => { setPlaying(true); setBlocked(false); }}
         onPause={() => setPlaying(false)}
@@ -101,7 +106,6 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
           <span className={styles.captionTitle}>{c.title}</span>
         </p>
       ))}
-      <p className="sr-only" aria-live="polite">{chapter >= 0 ? `Chapter ${film.chapters[chapter].n}: ${film.chapters[chapter].title}` : ""}</p>
 
       {blocked && (
         <button type="button" className={styles.bigPlay} onClick={togglePlay} aria-label="Play the introduction film">
@@ -112,7 +116,7 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
       <div className={styles.controls}>
         <button type="button" className={styles.skip} onClick={skip}>Skip intro <span aria-hidden>→</span></button>
         <div className={styles.buttons}>
-          <button type="button" className={styles.round} onClick={toggleSound} aria-pressed={!muted} aria-label={muted ? "Turn the film's sound on" : "Turn the film's sound off"}>
+          <button type="button" className={styles.round} onClick={toggleSound} aria-pressed={!muted} aria-label="Film sound">
             {muted ? <VolumeX size={18} strokeWidth={1.4} aria-hidden /> : <Volume2 size={18} strokeWidth={1.4} aria-hidden />}
           </button>
           <button type="button" className={`${styles.round} ${styles.play}`} onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"}>

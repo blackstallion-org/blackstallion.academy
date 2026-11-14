@@ -22,7 +22,7 @@ export const MUSIC = {
 
 /** Linear bus ceilings. Music sits well under speech level; effects keep their own per-cue caps in engine.ts. */
 const MUSIC_LEVEL = 0.32;
-/** A page may lend the music bus its own short, looping track (the Four Worlds film): it plays instead of the open-range recording and a little fuller. */
+/** A page may lend the music bus its own short, looping track (nothing uses this since the Four Worlds film was removed on 15 Nov 2026; kept for a future film page): it plays instead of the open-range recording and a little fuller. */
 const TRACK_LEVEL = 0.5;
 let currentSrc: string = MUSIC.src;
 let musicLevel = MUSIC_LEVEL;

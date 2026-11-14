@@ -1,4 +1,11 @@
-# The first-visit opening and the running-horse loader (updated 14 Nov 2026)
+# The first-visit opening and the running-horse loader (updated 15 Nov 2026)
+
+> **15 Nov 2026 (owner):** the 3D Four Worlds intro is gone (code in `components/worlds` and assets in `public/worlds` deleted). The intro
+> is now the owner's 30-second **Marwar Journey** film (`components/opening/IntroFilm.tsx`, mounted by `OpeningIntro.tsx`), played once,
+> muted until the visitor turns the sound on, with Skip intro / Escape, Sound and a dark Play/Pause. It fades over 2.8 s into the home page,
+> then focus lands on `#doctrine`. If the film has no frame within 12 s (and the visitor has not pressed play), or errors, the page is
+> shown at once. `/worlds` now plays the same film as a looping page (`JourneyFilm`); the "rise from black" hand-over is removed.
+> The notes below about Four Worlds are history.
 
 > **14 Nov 2026 (owner):** the intro film is two worlds now: **01 Origins** (the hill, "One horse.") → through the eye → **02 Legacy**
 > (the fort in haze, "Bred in Marwar."), ending as the camera rises into the bright cloud; the bars close and the site fades up
@@ -11,7 +18,7 @@ scrolling. On later visits and reloads the homepage opens directly.
 | Piece | What the visitor sees | Where |
 | --- | --- | --- |
 | **Loader** | On a first load in a session, or a click to another section: the running rider on the page's ivory while it loads, then a short fade. **No zoom** (the old horse-zoom opening was removed 7 Nov 2026). | `components/motion/Loader.tsx`, `RunningHorse.tsx`, `public/opening/loader.gif` |
-| **Intro film** | A visitor's first visit to `/`: the Four Worlds film plays by itself (no scrolling needed). At its end the page appears beneath it and the film fades over 2.8 s into the home hero. | `components/worlds/WorldsIntro.tsx`, `FourWorlds.tsx`, `lib/opening/intro-boot.ts` |
+| **Intro film** | A visitor's first visit to `/`: the Four Worlds film plays by itself (no scrolling needed). At its end the page appears beneath it and the film fades over 2.8 s into the home hero. | `components/opening/OpeningIntro.tsx`, `IntroFilm.tsx`, `lib/opening/intro-boot.ts` |
 
 ## Remembering that it was seen
 
@@ -23,7 +30,7 @@ scrolling. On later visits and reloads the homepage opens directly.
 
 ## The fade into the hero
 
-The boot script hides the page under the film only while `<html data-bsah-intro="1">`. When the film ends, `WorldsIntro` sets the marker to `"reveal"`:
+The boot script hides the page under the film only while `<html data-bsah-intro="1">`. When the film ends, `OpeningIntro` sets the marker to `"reveal"`:
 the page becomes visible beneath the film, the hero film is told to start (`bsah:loader-gone`), and the film's stage fades from opaque to clear
 (`.root` opacity transition, 2.8 s). The marker is removed and scrolling returns (`done`) after 3 s. No cut to black, no zoom, no layout jump.
 
