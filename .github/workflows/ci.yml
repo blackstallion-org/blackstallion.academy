@@ -48,7 +48,9 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
 
   database:
-    runs-on: ubuntu-latest
+    # Pinned (15 Nov 2026): ubuntu-latest moved to a release whose archive has no postgresql-16, and the scripts below use the
+    # Postgres 16 binaries (/usr/lib/postgresql/16/bin). 24.04 carries them.
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0, pinned by commit (security audit F-14)
