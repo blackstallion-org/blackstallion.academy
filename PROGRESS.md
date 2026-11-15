@@ -1286,3 +1286,7 @@ progress in another session. Not tested: Safari and a real phone.
     (about 48 strides and 95 seat cycles a minute).
   - Checked: typecheck, lint, build, `npm test` 343/343; 1440 and 390 screenshots, no horizontal overflow, no page errors; hotspot
     spacing ≥ 32 px at 390; controls, pose, stepping, speed and part selection exercised in the browser.
+- [x] **15 Nov 2026 · Owner's pass: sharper home pictures, the Marwar Journey film to the middle.** The Four Ranks band and home curtain
+  frames III and IV use 2752 px originals (gallop, dustPlume, legendBahadur) instead of soft 1080p film stills (removed). The film moved
+  from under the opening film to the page's midpoint (after the Studbook), 115 svh tall on desktop, with a smaller headline and chapter
+  buttons; the opening film's Skip now lands on the story strip. Typecheck, lint, build, `npm test` 343/343; screenshotted at 1440.

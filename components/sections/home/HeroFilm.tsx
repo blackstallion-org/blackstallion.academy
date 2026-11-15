@@ -101,8 +101,8 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     userPaused.current = true;
     videoRef.current?.pause();
     setState("skipped");
-    // Skipping lands on the Marwar Journey film that follows this one.
-    const target = document.getElementById("stallion") ?? document.getElementById("doctrine");
+    // Skipping lands on the story that follows the film.
+    const target = document.querySelector<HTMLElement>("[data-home-story]") ?? document.getElementById("doctrine");
     if (!target) return;
     if (lenis && !reduced) lenis.scrollTo(target, { immediate: true });
     else target.scrollIntoView({ behavior: "instant" });

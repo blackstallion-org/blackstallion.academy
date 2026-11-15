@@ -19,12 +19,8 @@ const still = (name: string, alt: string, position: string): FilmStill => ({
 });
 
 export const filmStills = {
-  /** the wide band under "Four ranks" (LedgerAscent) */
-  citadelGate: still("citadel-gate", "A black Marwari walks across a stone forecourt toward a carved palace gate, a rider waiting in the arch.", "62% 58%"),
-  /** curtain frame III, "Where the dust lifts." */
-  dustLifts: still("dust-lifts", "A black Marwari with a white blaze canters toward the camera across the dunes, sand lifting behind it.", "38% 50%"),
-  /** curtain frame IV, "Then it settles." */
-  duneSettles: still("dune-settles", "A black Marwari stands still on the crest of a dune, its hoofprints in the sand behind it.", "30% 50%"),
+  // 15 Nov 2026 (owner): the Four Ranks band and curtain frames III and IV now use 2752 px originals (gallop, dustPlume, legendBahadur);
+  // 1080p film stills looked soft at full screen.
   /** the Command banner: one large picture above the terminal */
   palaceCourtyard: still("palace-courtyard", "A dark bay Marwari in ceremonial tack trots across the chequered floor of a palace courtyard.", "34% 0%"),
 };

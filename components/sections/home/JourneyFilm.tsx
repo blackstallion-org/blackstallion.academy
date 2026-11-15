@@ -123,7 +123,7 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
       aria-labelledby="journey-film-h"
       data-playback={state}
       data-parallax-skip
-      className="tone-photo relative h-[100svh] min-h-[36rem] w-full overflow-hidden bg-night outline-none"
+      className="tone-photo relative h-[100svh] min-h-[40rem] w-full overflow-hidden bg-night outline-none md:h-[115svh]"
     >
       <picture className="absolute inset-0">
         <source media="(max-width: 767px)" srcSet={film.posterMobile} />
@@ -158,7 +158,7 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
           A film · {film.label}
           <span className="ml-3 text-sand">{current.n} · {current.title}</span>
         </p>
-        <Headline id="journey-film-h" as={headingAs} size="2" className="mt-3 max-w-[18ch]" inscription={film.inscription} voice={film.voice} />
+        <Headline id="journey-film-h" as={headingAs} size="3" className="mt-2 max-w-[22ch]" inscriptionClassName="text-[0.95rem] md:text-[1.1rem]" voiceClassName="text-[clamp(1.6rem,3.2vw,2.75rem)]" inscription={film.inscription} voice={film.voice} />
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 md:mt-8">
           <div role="group" aria-label="Film chapters">
@@ -171,7 +171,7 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
                     disabled={state === "failed"}
                     aria-current={chapter === i ? "step" : undefined}
                     aria-label={`Chapter ${c.n}: ${c.title}`}
-                    className={cn("label min-h-11 rounded-full px-4", DARK, RING, chapter === i && "border-gold text-gold")}
+                    className={cn("label min-h-11 rounded-full px-3.5 text-[0.62rem]", DARK, RING, chapter === i && "border-gold text-gold")}
                   >
                     {c.n}<span className="hidden md:inline"> · {c.title}</span>
                   </button>

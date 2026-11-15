@@ -3,7 +3,6 @@
 
 import { Fragment } from "react";
 import { HeroFilm } from "./HeroFilm";
-import { JourneyFilm } from "./JourneyFilm";
 import { Cta } from "@/components/film/Marks";
 import { hero } from "@/lib/content/home";
 import { LOGO } from "@/lib/content/site";
@@ -20,7 +19,6 @@ export function Hero() {
     <>
       <HeroContentSection />
       <HeroFilm />
-      <JourneyFilm />
     </>
   );
 }
