@@ -1,5 +1,4 @@
 import type { MediaKey } from "@/lib/content/media";
-import type { FilmStill } from "@/lib/content/film-stills";
 
 /**
  * The full-screen scroll curtain (components/motion/fx/CurtainChapters.tsx, first used on /parents) on the home page and the seven
@@ -8,7 +7,7 @@ import type { FilmStill } from "@/lib/content/film-stills";
  * no figures, no health claims (Blueprint Part 9). The home curtain uses the four stills no other page uses (28 Oct 2026, owner's request:
  * no /legend photographs on the home page); two of them are atmospheric dust frames until the shoot supplies more. `time` is the small mono kicker on each frame.
  */
-export type CurtainChapter = { image?: MediaKey; photo?: FilmStill; credit?: string; time: string; title: string; line: string; kicker?: string; cue?: "bow" };
+export type CurtainChapter = { image?: MediaKey; photo?: { src: string; alt: string; position: string }; credit?: string; time: string; title: string; line: string; kicker?: string; cue?: "bow" };
 export type CurtainSet = { label: string; chapters: CurtainChapter[] };
 
 export const curtains = {

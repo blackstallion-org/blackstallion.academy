@@ -117,14 +117,6 @@ export const LAB_STANCE: Record<"LH" | "LF" | "RH" | "RF", [number, number][]> =
   RF: [[0.75, 1], [0, 0.37]],
 };
 
-export const LAB_STAGES = [
-  { pct: 0, label: "left hind" },
-  { pct: 25, label: "left fore" },
-  { pct: 50, label: "right hind" },
-  { pct: 75, label: "right fore" },
-  { pct: 100, label: "end of stride" },
-];
-
 /** anatomical landmarks on the film (film pixels), read from the frame grid; the legs move, so only the body's are fixed */
 export const LAB_LANDMARKS = {
   croup: { x: 600, y: 427 }, lumbar: { x: 760, y: 392 }, withers: { x: 1087, y: 353 }, crest: { x: 1222, y: 252 }, poll: { x: 1333, y: 200 },

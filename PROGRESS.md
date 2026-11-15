@@ -1290,3 +1290,20 @@ progress in another session. Not tested: Safari and a real phone.
   frames III and IV use 2752 px originals (gallop, dustPlume, legendBahadur) instead of soft 1080p film stills (removed). The film moved
   from under the opening film to the page's midpoint (after the Studbook), 115 svh tall on desktop, with a smaller headline and chapter
   buttons; the opening film's Skip now lands on the story strip. Typecheck, lint, build, `npm test` 343/343; screenshotted at 1440.
+- [x] **15 Nov 2026 · Owner's pass: one control in the Movement Laboratory, a still and sharp Command banner.**
+  - **Command banner shook while scrolling.** Cause (measured, not guessed): `.teaser:hover .teaserHero img` zoomed the picture 2 % over
+    2.4 s, so a cursor resting on the page made it swell and settle as the section passed under it (document-relative top moved ~7 px,
+    width 1441 to 1469 px). Hover zoom and transition removed; over 344 frames of wheel scrolling under a resting cursor the picture's
+    top, width and height are now each one constant value. The soft 1080p palace-courtyard frame is replaced by the 2752 px
+    `scienceRider` original (rider and bay Marwari, clear and bright), square crop on phones so the whole horse shows.
+    `lib/content/film-stills.ts` and `public/images/film/` deleted (nothing left to use them); `FilmStill` type inlined in `curtains.ts`.
+  - **Movement Laboratory: buttons folded into one.** The header transport (play, ±1f, three speeds, pose, readout), the Show (4) and
+    Camera (5) grids, the six-button Parts list, the "View" button and the five stride-stage cards with their mini drawings are gone.
+    What is left: one play button, **one "View" menu** (Show, Camera, Speed, frame step, hold the 102°/108° pose; real radio buttons,
+    Escape or a tap outside closes it, it opens on the side with more room and never under the nav), the six numbered markers on the
+    film, a plain "Part 01 to 06" row, and the footfall chart, which is now the only scrubber (`input[type=range]` laid over it:
+    drag, arrow keys, PageUp/Down). Film is the hero; analysis panel and figures unchanged in content. Angle tags on the film are
+    hidden on stages under ~610 px (the numbers are in the readout and cards).
+  - Checked at 1440 and 390: no horizontal overflow, no page errors, menu inside the viewport and gutters, keyboard scrub and menu
+    open/close with focus returning to the View button, visible focus ring on the chart, reduced motion (film waits paused on its
+    first frame), `/anatomy` shares the lab and renders.

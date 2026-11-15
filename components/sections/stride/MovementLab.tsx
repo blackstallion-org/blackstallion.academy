@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
-import { Pause, Play } from "lucide-react";
+import { Pause, Play, SlidersHorizontal } from "lucide-react";
 import { Headline } from "@/components/film/Headline";
 import {
-  LAB_CAVEAT, LAB_FILM as FILM, LAB_LANDINGS, LAB_LANDMARKS as L, LAB_PARTS, LAB_PLANTED, LAB_STAGES, LAB_STANCE, LAB_TABLE, LAB_TEMPO,
+  LAB_CAVEAT, LAB_FILM as FILM, LAB_LANDINGS, LAB_LANDMARKS as L, LAB_PARTS, LAB_PLANTED, LAB_STANCE, LAB_TABLE, LAB_TEMPO,
   type PartId,
 } from "@/lib/content/movement-lab";
 import { useReducedMotion } from "@/lib/motion/reduced";
@@ -26,7 +26,6 @@ const REF_PHASE = 0.48; // the canonical pose: elbow 102°, knee 108°
 const TAU = Math.PI * 2;
 
 const RING = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
-const PILL = cn("min-h-11 border border-line px-3 text-left text-[0.78rem] text-sand transition-colors duration-300 hover:border-brass hover:text-bone aria-pressed:border-gold aria-pressed:bg-gold/10 aria-pressed:text-gold", RING);
 const KICKER = "label flex items-center justify-between gap-3 border-b border-line pb-2 text-[0.68rem] text-brass";
 
 /** Where the film is in the stride, 0..1. */
@@ -79,6 +78,10 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   const [camera, setCamera] = useState<Camera>("side");
   const [part, setPart] = useState<PartId>("03");
   const [yaw, setYaw] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuFit, setMenuFit] = useState({ up: true, max: 480 });
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const userPaused = useRef(false);
   const state = useRef({ locked, show, camera, part });
   useEffect(() => { state.current = { locked, show, camera, part }; }, [locked, show, camera, part]);
@@ -151,9 +154,8 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
       text("pct", `${pct}% of the stride`);
       const slider = out.slider as HTMLInputElement | null;
       if (slider && document.activeElement !== slider) { slider.value = String(phase * 100); slider.setAttribute("aria-valuetext", `${pct}% of the stride`); }
-      for (const h of ["LH", "LF", "RH", "RF"]) { const el = out[`play-${h}`] as HTMLElement | null; if (el) el.style.left = `${phase * 100}%`; }
-      const nearest = LAB_STAGES.reduce((best, s, i) => (Math.abs(s.pct - pct) < Math.abs(LAB_STAGES[best].pct - pct) ? i : best), 0);
-      LAB_STAGES.forEach((_, i) => out[`stage-${i}`]?.setAttribute("data-near", String(i === nearest)));
+      const playhead = out.playhead as HTMLElement | null;
+      if (playhead) playhead.style.left = `${phase * 100}%`;
       const en = (b.elbow - 102) / 35;
       out.svgElbowLine?.setAttribute("x2", (105 - en * 16).toFixed(1)); out.svgElbowLine?.setAttribute("y2", (54 + en * 22).toFixed(1));
       out.svgElbowTip?.setAttribute("cx", (105 - en * 16).toFixed(1)); out.svgElbowTip?.setAttribute("cy", (54 + en * 22).toFixed(1));
@@ -237,8 +239,11 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
       const swing = lock ? 0 : Math.sin((phase - REF_PHASE) * TAU) * 0.3;
       const tip = pendulum(ctx, L.elbow.x, L.elbow.y, 300, swing, C, true);
       [L.shoulder, L.elbow, L.hip].forEach((p) => { ctx.fillStyle = C.night; ctx.beginPath(); ctx.arc(p.x, p.y, 8 * C.u, 0, TAU); ctx.fill(); ctx.strokeStyle = C.gold; ctx.lineWidth = (3) * C.u; ctx.stroke(); });
-      badge(ctx, L.elbow.x - 150 - 90 * C.u, L.elbow.y + 6, `ELBOW ${b.elbow}°`, C, mono);
-      badge(ctx, tip.x + 26, tip.y - 70, `KNEE ${b.knee}°`, C, mono);
+      // the angle tags need room: on a small stage the numbers are in the readout and the cards beside it instead
+      if (C.u < 1.8) {
+        badge(ctx, L.elbow.x - 150 - 90 * C.u, L.elbow.y + 6, `ELBOW ${b.elbow}°`, C, mono);
+        badge(ctx, tip.x + 26, tip.y - 70, `KNEE ${b.knee}°`, C, mono);
+      }
       ctx.restore();
 
       // 5 · hoof contact: a ripple under every planted hoof, strongest mid-stance
@@ -262,6 +267,27 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
     io.observe(section);
     return () => { io.disconnect(); ro.disconnect(); cancelAnimationFrame(raf); };
   }, []);
+
+  // the one settings menu: Escape or a tap outside closes it (a scroll gesture ends in pointercancel, so scrolling never closes it)
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { setMenuOpen(false); menuButtonRef.current?.focus(); } };
+    const onUp = (e: PointerEvent) => { if (!menuRef.current?.contains(e.target as Node)) setMenuOpen(false); };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerup", onUp);
+    return () => { document.removeEventListener("keydown", onKey); document.removeEventListener("pointerup", onUp); };
+  }, [menuOpen]);
+  // opens on whichever side of the button has more room (the fixed nav takes the top 80 px), and scrolls inside itself if it must
+  const toggleMenu = () => {
+    if (!menuOpen) {
+      const r = menuButtonRef.current?.getBoundingClientRect();
+      if (r) {
+        const above = r.top - 96, below = window.innerHeight - r.bottom - 16;
+        setMenuFit({ up: above >= below, max: Math.max(220, Math.min(520, Math.max(above, below))) });
+      }
+    }
+    setMenuOpen((open) => !open);
+  };
 
   const togglePlay = () => {
     const v = videoRef.current;
@@ -299,84 +325,27 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   const turn = camera === "three-quarter" ? -18 + yaw : camera === "side" ? yaw : 0;
   const schematic = camera === "behind" || camera === "front" || camera === "above";
   const info = LAB_PARTS.find((p) => p.id === part) ?? LAB_PARTS[2];
+  const camLabel = CAMERAS.find((c) => c.id === camera)?.label ?? "Side";
+  const showLabel = SHOWS.find((x) => x.id === show)?.label ?? "Horse and rider";
 
   return (
     <section ref={sectionRef} id="movement-lab" aria-labelledby="movement-lab-h" data-parallax-skip className="bg-night pb-[clamp(4rem,10vh,7rem)] pt-24 text-bone md:pt-28">
-      <div className="gutter mx-auto flex max-w-[1600px] flex-col gap-4">
-        {/* the title and the transport */}
-        <header className="plate flex flex-wrap items-end justify-between gap-x-8 gap-y-5 px-5 py-5 md:px-6">
+      <div className="gutter mx-auto flex max-w-[1500px] flex-col gap-8 md:gap-10">
+        {/* the title: no controls up here */}
+        <header className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
           <div>
             <p className="label text-[0.68rem] text-brass">BSAH · Scientific motion study</p>
             <Headline id="movement-lab-h" as={headingAs} size="3" className="mt-2" inscription="Movement laboratory" voice="horse and rider biomechanics." />
-            <p className="mt-3 flex flex-wrap gap-x-2 font-mono text-[0.7rem] uppercase tracking-[0.14em] text-dust">
-              <span>Gait analysis</span><span aria-hidden className="text-gold">·</span><span>Motion</span><span aria-hidden className="text-gold">·</span><span>Synchrony</span><span aria-hidden className="text-gold">·</span><span className="text-brass">Four-beat walk, about 48 strides a minute</span>
-            </p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <p className="flex min-h-9 items-center gap-2 border border-gold/40 px-3 font-mono text-[0.7rem] text-gold">
-              <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full bg-gold", playing && !reduced && "animate-pulse")} /> Seat about 95 cycles a minute
-            </p>
-            <div role="group" aria-label="Playback" className="flex flex-wrap items-center gap-1.5 border border-line p-1.5">
-              <button type="button" onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"} className={cn("grid h-11 w-11 place-items-center rounded-full border border-gold/50 text-bone transition-colors hover:border-gold hover:text-gold", RING)}>
-                {playing ? <Pause size={17} strokeWidth={1.5} aria-hidden /> : <Play size={17} strokeWidth={1.5} aria-hidden />}
-              </button>
-              <button type="button" onClick={() => step(-1)} aria-label="Back one frame" className={cn(PILL, "font-mono")}>−1f</button>
-              <button type="button" onClick={() => step(1)} aria-label="Forward one frame" className={cn(PILL, "font-mono")}>+1f</button>
-              {SPEEDS.map((v) => (
-                <button key={v} type="button" onClick={() => setSpeed(v)} aria-pressed={speed === v} aria-label={`Speed ${v} times`} className={cn(PILL, "font-mono")}>{v === 1 ? "1.0" : v}×</button>
-              ))}
-              <button type="button" onClick={refPose} aria-pressed={locked} className={cn(PILL, "font-mono")}>102°/108° pose</button>
-              <p data-lab="frame" className="min-w-[13rem] px-2 font-mono text-[0.7rem] text-sand">Frame 12 of 24 · 2 hooves down: LH LF</p>
-            </div>
-          </div>
+          <p className="font-mono text-[0.7rem] uppercase leading-relaxed tracking-[0.08em] text-dust md:text-right md:tracking-[0.14em]">
+            <span className="block">Four-beat walk · about 48 strides a minute</span>
+            <span className="block">Rider&apos;s seat: about 95 cycles a minute</span>
+          </p>
         </header>
 
-        <div className="grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[230px_minmax(0,1fr)_310px]">
-          {/* controls */}
-          <aside aria-label="Laboratory controls" className="plate flex flex-col gap-5 p-4">
-            <p className={KICKER}><span>Laboratory controls</span><span className="shrink-0 whitespace-nowrap font-mono">01 / UI</span></p>
-            <p className="t-story border-l-2 border-gold pl-3 text-[0.92rem] italic text-sand">Play it, slow it, step through it frame by frame, change the view, and touch a part of the horse or the rider.</p>
-            <fieldset>
-              <legend className="label mb-2 text-[0.66rem] text-dust">Show</legend>
-              <div className="grid grid-cols-2 gap-1.5">
-                {SHOWS.map((s) => <button key={s.id} type="button" onClick={() => setShow(s.id)} aria-pressed={show === s.id} className={PILL}>{s.label}</button>)}
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend className="label mb-2 text-[0.66rem] text-dust">Camera</legend>
-              <div className="grid grid-cols-3 gap-1.5 lg:grid-cols-2">
-                {CAMERAS.map((c) => <button key={c.id} type="button" onClick={() => { setCamera(c.id); setYaw(0); }} aria-pressed={camera === c.id} className={PILL}>{c.label}</button>)}
-              </div>
-              <p className="mt-2 font-mono text-[0.66rem] text-dust">Drag the film to turn the view. The wheel never zooms.</p>
-            </fieldset>
-            <fieldset>
-              <legend className="label mb-2 text-[0.66rem] text-dust">Parts to look at</legend>
-              <ul className="flex flex-col gap-1.5">
-                {LAB_PARTS.map((p) => (
-                  <li key={p.id}>
-                    <button type="button" onClick={() => setPart(p.id)} aria-pressed={part === p.id} className={cn(PILL, "flex w-full items-center justify-between gap-3")}>
-                      <span className="flex items-center gap-2.5"><span className="font-mono text-[0.7rem] text-gold">{p.id}</span>{p.name}</span>
-                      <span aria-hidden className={cn("h-1.5 w-1.5 rounded-full border border-gold", part === p.id && "bg-gold")} />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </fieldset>
-          </aside>
-
-          {/* the film, with the stride drawn over it */}
-          <figure className="plate order-first flex min-w-0 flex-col self-start overflow-hidden lg:order-none">
-            <figcaption className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 font-mono text-[0.66rem] text-sand">
-              <span className="flex flex-wrap gap-x-4 gap-y-1">
-                <span className="flex items-center gap-1.5"><span aria-hidden className="h-[3px] w-4 bg-gold" />Horse spine curve</span>
-                <span className="flex items-center gap-1.5"><span aria-hidden className="h-[3px] w-4 bg-caramel" />Rider pelvis curve</span>
-                <span className="flex items-center gap-1.5"><span aria-hidden className="h-[3px] w-4 border-b border-dashed border-gold" />Limb pendulum and joint angles</span>
-                <span className="flex items-center gap-1.5"><span aria-hidden className="h-2 w-4 rounded-[50%] border border-gold" />Hoof contact</span>
-              </span>
-              <button type="button" onClick={() => setYaw(0)} className={cn("min-h-9 border border-line px-3 text-gold hover:border-gold", RING)}>
-                View: {CAMERAS.find((c) => c.id === camera)?.label} ({Math.round(turn)}°)
-              </button>
-            </figcaption>
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] xl:grid-cols-[minmax(0,1fr)_24rem]">
+          {/* the film, with the stride drawn over it, and one quiet control strip under it */}
+          <figure className="plate flex min-w-0 flex-col self-start">
             <div
               ref={stageRef}
               className={cn("tone-photo relative aspect-video w-full touch-pan-y select-none overflow-hidden bg-night", !reduced && "cursor-grab active:cursor-grabbing")}
@@ -398,33 +367,103 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
                 {!schematic && LAB_PARTS.map((p) => (
                   <button
                     key={p.id} type="button" onClick={() => setPart(p.id)} aria-pressed={part === p.id} aria-label={`${p.id} ${p.name}`}
-                    className={cn("absolute grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border font-mono text-[0.62rem] transition-colors sm:h-8 sm:w-8", part === p.id ? "border-bone bg-gold text-night" : "border-gold bg-night/85 text-gold hover:bg-gold/20", RING)}
+                    className={cn("absolute grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border font-mono text-[0.62rem] transition-colors before:absolute sm:h-8 sm:w-8 before:-inset-2 before:content-['']", part === p.id ? "border-bone bg-gold text-night" : "border-gold/80 bg-night/70 text-gold hover:bg-gold/20", RING)}
                     style={{ left: `${(p.at.x / FILM.width) * 100}%`, top: `${(p.at.y / FILM.height) * 100}%` }}
                   >{p.id}</button>
                 ))}
               </div>
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3 font-mono text-[0.68rem] text-dust">
-              <dl className="flex flex-wrap gap-x-5 gap-y-1">
-                {[["Elbow (RF)", "elbow", "102°"], ["Knee (RF)", "knee", "108°"], ["Back pitch", "pitch", "+1.18°"], ["Seat lateral", "lat", "+3.0 mm"]].map(([k, key, v]) => (
-                  <div key={key} className="flex gap-1.5"><dt>{k}:</dt><dd data-lab={key} className="font-semibold text-gold">{v}</dd></div>
+
+            <div className="flex flex-col gap-5 px-4 pb-5 pt-4 md:px-6">
+              {/* one row: play, where we are in the stride, and the one View menu */}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <button type="button" onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"} className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/60 text-bone transition-colors hover:border-gold hover:text-gold", RING)}>
+                  {playing ? <Pause size={17} strokeWidth={1.5} aria-hidden /> : <Play size={17} strokeWidth={1.5} aria-hidden className="translate-x-[1px]" />}
+                </button>
+                <div className="min-w-0 flex-1 font-mono text-[0.7rem] leading-snug">
+                  <p data-lab="pct" className="font-semibold text-gold">48% of the stride</p>
+                  <p data-lab="frame" className="text-sand">Frame 12 of 24 · 2 hooves down: LH LF</p>
+                </div>
+                <div ref={menuRef} className="relative">
+                  <button
+                    ref={menuButtonRef} type="button" onClick={toggleMenu} aria-expanded={menuOpen} aria-controls="lab-view-menu"
+                    className={cn("inline-flex min-h-11 items-center gap-2 px-1 font-mono text-[0.72rem] text-sand transition-colors hover:text-gold aria-expanded:text-gold", RING)}
+                  >
+                    <SlidersHorizontal size={16} strokeWidth={1.5} aria-hidden /> View
+                    <span className="hidden text-dust md:inline">· {camLabel} · {showLabel} · {speed === 1 ? "1.0" : speed}×</span>
+                  </button>
+                  {menuOpen && (
+                    <div id="lab-view-menu" role="group" aria-label="View and playback settings" className={cn("plate absolute right-0 z-20 flex w-[min(26rem,calc(100vw-4.5rem))] flex-col gap-3 overflow-y-auto overscroll-contain bg-ember p-4", menuFit.up ? "bottom-full mb-2" : "top-full mt-2")} style={{ maxHeight: menuFit.max }}>
+                      <Choice inline legend="Show" name="lab-show" value={show} options={SHOWS} onChange={setShow} />
+                      <Choice inline legend="Camera" name="lab-camera" value={camera} options={CAMERAS} onChange={(c) => { setCamera(c); setYaw(0); }} />
+                      <Choice inline legend="Speed" name="lab-speed" value={String(speed)} options={SPEEDS.map((v) => ({ id: String(v), label: `${v === 1 ? "1.0" : v}×` }))} onChange={(v) => setSpeed(Number(v) as (typeof SPEEDS)[number])} />
+                      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-3 font-mono text-[0.74rem]">
+                        <button type="button" onClick={() => step(-1)} className={cn("min-h-9 text-sand hover:text-gold", RING)}>‹ Back a frame</button>
+                        <button type="button" onClick={() => step(1)} className={cn("min-h-9 text-sand hover:text-gold", RING)}>Forward a frame ›</button>
+                        <label className="flex min-h-9 cursor-pointer items-center gap-2 text-sand">
+                          <input type="checkbox" checked={locked} onChange={refPose} className="h-4 w-4 accent-[var(--color-gold)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" />
+                          Hold the 102° / 108° pose
+                        </label>
+                      </div>
+                      {!reduced && <p className="font-mono text-[0.66rem] text-dust">Drag the film to turn the view. The wheel never zooms.</p>}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* the footfall chart is also the scrubber: press or drag anywhere on it */}
+              <div className="grid grid-cols-[2rem_1fr] gap-x-3">
+                <div aria-hidden className="flex flex-col gap-2 self-start text-right font-mono text-[0.66rem] font-semibold text-gold">
+                  {(Object.keys(LAB_STANCE) as Hoof[]).map((h) => <span key={h} className="flex h-2.5 items-center justify-end">{h}</span>)}
+                </div>
+                <div>
+                  <div
+                    className="relative has-[input:focus-visible]:outline has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-4 has-[input:focus-visible]:outline-gold"
+                    role="img" aria-label="Footfall bars: left hind on the ground from 0 to 62% of the stride, left fore from 25 to 87%, right hind from 50% to 12% of the next, right fore from 75% to 37% of the next."
+                  >
+                    <div className="flex flex-col gap-2">
+                      {(Object.keys(LAB_STANCE) as Hoof[]).map((h) => (
+                        <span key={h} className="relative h-2.5 overflow-hidden rounded-full bg-bone/10">
+                          {LAB_STANCE[h].map(([a, b]) => <span key={a} className="absolute inset-y-0 rounded-full bg-gradient-to-r from-caramel to-gold" style={{ left: `${a * 100}%`, width: `${(b - a) * 100}%` }} />)}
+                        </span>
+                      ))}
+                    </div>
+                    <span data-lab="playhead" aria-hidden className="pointer-events-none absolute -inset-y-1.5 w-0.5 -translate-x-1/2 bg-bone" style={{ left: "48%" }}>
+                      <span className="absolute -top-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-bone" />
+                    </span>
+                    <input
+                      data-lab="slider" type="range" min={0} max={100} step={0.5} defaultValue={48}
+                      aria-label="Point in the stride"
+                      onChange={(e) => scrub(Number(e.currentTarget.value))}
+                      onPointerDown={() => { userPaused.current = true; videoRef.current?.pause(); }}
+                      className="absolute -inset-y-3 left-0 h-[calc(100%+1.5rem)] w-full cursor-ew-resize opacity-0"
+                    />
+                  </div>
+                  <p aria-hidden className="mt-2 flex justify-between font-mono text-[0.6rem] uppercase tracking-[0.06em] text-dust">
+                    <span>0 · LH lands</span><span>25 · LF</span><span>50 · RH</span><span>75 · RF</span><span>100</span>
+                  </p>
+                </div>
+              </div>
+
+              <dl className="flex flex-wrap gap-x-6 gap-y-1 border-t border-line pt-3 font-mono text-[0.68rem] text-dust">
+                {[["Elbow", "elbow", "102°"], ["Knee", "knee", "108°"], ["Back pitch", "pitch", "+1.18°"], ["Seat lateral", "lat", "+3.0 mm"]].map(([k, key, v]) => (
+                  <div key={key} className="flex gap-1.5"><dt>{k}</dt><dd data-lab={key} className="font-semibold text-gold">{v}</dd></div>
                 ))}
+                <p className="basis-full text-[0.64rem] italic">{LAB_CAVEAT}</p>
               </dl>
-              <p>{LAB_CAVEAT}</p>
             </div>
           </figure>
 
           {/* the selected part */}
-          <aside aria-label="Biomechanical analysis" className="plate flex flex-col gap-4 p-4 lg:col-span-2 xl:col-span-1">
-            <p className={KICKER}><span>Biomechanical analysis</span><span className="shrink-0 whitespace-nowrap font-mono">{info.id}</span></p>
-            <div className="flex items-baseline justify-between gap-3">
+          <aside aria-label="Biomechanical analysis" className="plate flex flex-col gap-4 p-5 md:p-6">
+            <Choice legend="Part" name="lab-part" value={part} options={LAB_PARTS.map((p) => ({ id: p.id, label: p.id }))} onChange={setPart} compact />
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
               <h3 className="t-inscribe text-[1.6rem] leading-tight text-bone">{info.name}</h3>
-              <span className="border border-gold/40 px-2 py-0.5 font-mono text-[0.62rem] text-gold">{info.badge}</span>
+              <span className="font-mono text-[0.66rem] uppercase tracking-[0.1em] text-gold">{info.badge}</span>
             </div>
             <p className="t-voice text-[1.15rem] leading-snug text-gold">{info.lead}</p>
             {info.body.map((t) => <p key={t} className="t-story text-[0.92rem] leading-relaxed text-sand">{t}</p>)}
-            <p className="label text-[0.66rem] text-dust">Key angles and range over the stride</p>
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-3">
               <AngleCard name="Elbow angle" range="Range: 102° to 137°" lab="cardElbow" value="102°">
                 <svg viewBox="0 0 140 86" className="h-full w-full" aria-hidden>
                   <path d="M 52 46 L 106 54 A 54 54 0 0 1 88 78 Z" fill="color-mix(in srgb, var(--color-gold) 14%, transparent)" stroke="var(--color-gold)" strokeOpacity="0.4" strokeDasharray="2 2" />
@@ -454,16 +493,13 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
                 </svg>
               </AngleCard>
             </div>
-            <div className="border border-gold/30 bg-gold/5 p-3">
-              <p className="label text-[0.64rem] text-gold">Selected focus · {info.id} {info.name}</p>
-              <p className="mt-1.5 text-[0.84rem] leading-relaxed text-sand">{info.focus}</p>
-            </div>
+            <p className="border-l-2 border-gold pl-3 text-[0.86rem] leading-relaxed text-sand">{info.focus}</p>
           </aside>
         </div>
 
         {/* the figures */}
-        <div className="grid gap-4 lg:grid-cols-[1.35fr_0.75fr_1fr]">
-          <div className="plate min-w-0 p-4">
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_0.75fr_1fr]">
+          <div className="plate min-w-0 p-5">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h3 className="t-voice text-[1.35rem] text-bone">Numbers from the stride model</h3>
               <p className="font-mono text-[0.64rem] text-brass">{LAB_TABLE.caption}</p>
@@ -492,7 +528,7 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
               </table>
             </div>
           </div>
-          <div className="plate flex flex-col gap-3 p-4">
+          <div className="plate flex flex-col gap-3 p-5">
             <p className={KICKER}><span>Tempo and rhythm</span><span className="shrink-0 whitespace-nowrap font-mono">Cadence</span></p>
             {LAB_TEMPO.map((t) => (
               <div key={t.label} className="border-l-2 border-gold py-1 pl-3">
@@ -502,7 +538,7 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
               </div>
             ))}
           </div>
-          <div className="plate flex flex-col gap-3 p-4">
+          <div className="plate flex flex-col gap-3 p-5">
             <p className={KICKER}><span>Hoof and stride mechanics</span><span className="shrink-0 whitespace-nowrap font-mono">Ground contact</span></p>
             <p className="label text-[0.62rem] text-dust">Landing order · a quarter of a stride apart</p>
             <ol className="grid grid-cols-4 gap-1.5">
@@ -525,53 +561,25 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
             </div>
           </div>
         </div>
-
-        {/* the stride timeline */}
-        <div className="plate flex flex-col gap-4 p-4 md:p-5">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <h3 className="t-voice text-[1.25rem] text-bone">Stride timeline: when each hoof is on the ground over one stride</h3>
-            <label className="flex min-w-[16rem] flex-1 items-center gap-3 md:max-w-[32rem]">
-              <span data-lab="pct" className="w-[9.5rem] shrink-0 font-mono text-[0.7rem] text-gold">48% of the stride</span>
-              <input
-                data-lab="slider"
-                type="range" min={0} max={100} step={0.5} defaultValue={48}
-                aria-label="Point in the stride"
-                onChange={(e) => scrub(Number(e.currentTarget.value))}
-                onPointerDown={() => { userPaused.current = true; videoRef.current?.pause(); }}
-                className={cn("h-11 w-full cursor-pointer accent-[var(--color-gold)]", RING)}
-              />
-            </label>
-          </div>
-          <div className="grid grid-cols-5 gap-1.5 sm:gap-2.5">
-            {LAB_STAGES.map((s, i) => (
-              <button
-                key={s.pct} data-lab={`stage-${i}`} type="button" data-near={i === 2}
-                onClick={() => scrub(s.pct >= 100 ? 99.5 : s.pct)}
-                className={cn("group flex min-h-11 flex-col gap-1 border border-line p-1.5 text-left transition-colors hover:border-gold data-[near=true]:border-gold data-[near=true]:bg-gold/10 sm:p-2.5", RING)}
-                aria-label={`Go to ${s.pct}% of the stride: ${s.label}`}
-              >
-                <span className="flex items-baseline justify-between gap-1">
-                  <span className="font-mono text-[0.72rem] font-semibold text-gold">{s.pct}%</span>
-                  <span className="hidden font-mono text-[0.6rem] uppercase tracking-[0.06em] text-bone sm:inline">{s.label}</span>
-                </span>
-                <MiniStride phase={s.pct / 100} />
-              </button>
-            ))}
-          </div>
-          <div className="grid grid-cols-[2.5rem_1fr] items-center gap-x-3 gap-y-2" role="img" aria-label="Footfall bars: left hind on the ground from 0 to 62% of the stride, left fore from 25 to 87%, right hind from 50% to 12% of the next, right fore from 75% to 37% of the next.">
-            {(Object.keys(LAB_STANCE) as Hoof[]).map((h) => (
-              <div key={h} className="contents">
-                <span className="text-right font-mono text-[0.68rem] font-semibold text-gold">{h}</span>
-                <span className="relative h-3 overflow-hidden rounded-full border border-line bg-bone/5">
-                  {LAB_STANCE[h].map(([a, b]) => <span key={a} className="absolute inset-y-0 rounded-full bg-gradient-to-r from-caramel to-gold" style={{ left: `${a * 100}%`, width: `${(b - a) * 100}%` }} />)}
-                  <span data-lab={`play-${h}`} className="absolute -inset-y-0.5 w-0.5 bg-bone" style={{ left: "48%" }} />
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
+  );
+}
+
+/** A group of choices drawn as plain words (the chosen one underlined in gold): real radio buttons underneath, so the arrow keys work. */
+function Choice<T extends string>({ legend, name, value, options, onChange, compact, inline }: { legend: string; name: string; value: T; options: { id: T; label: string }[]; onChange: (v: T) => void; compact?: boolean; inline?: boolean }) {
+  return (
+    <fieldset className={cn(compact && "flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-line pb-3", inline && "grid grid-cols-[4.2rem_1fr] items-start gap-x-2")}>
+      <legend className={cn("label text-[0.62rem] text-dust", compact ? "float-left mr-1" : inline ? "float-left w-[4.2rem] pt-2.5" : "mb-1")}>{legend}</legend>
+      <div className={cn("flex flex-wrap gap-x-1 gap-y-0.5", inline && "col-start-2")}>
+        {options.map((o) => (
+          <label key={o.id} className="relative cursor-pointer">
+            <input type="radio" name={name} value={o.id} checked={value === o.id} onChange={() => onChange(o.id)} className="peer sr-only" />
+            <span className="block min-h-9 border-b-2 border-transparent px-2 py-1.5 font-mono text-[0.78rem] text-sand transition-colors hover:text-bone peer-checked:border-gold peer-checked:text-gold peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold">{o.label}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }
 
@@ -585,26 +593,6 @@ function AngleCard({ name, range, value, lab, children }: { name: string; range:
       <p className="font-mono text-[0.6rem] text-caramel">{range}</p>
       <div className="h-[5.5rem] border border-line/60">{children}</div>
     </div>
-  );
-}
-
-/** A small horse and rider at one point of the stride, for the timeline cards. */
-function MiniStride({ phase }: { phase: number }) {
-  const rad = phase * TAU;
-  const lh = Math.sin(rad) * 10, lf = Math.sin(rad - Math.PI / 2) * 10, rh = Math.sin(rad - Math.PI) * 10, rf = Math.sin(rad - Math.PI * 1.5) * 10;
-  const lift = Math.max(0, Math.cos(rad - Math.PI * 0.9)) * 9;
-  return (
-    <svg viewBox="0 0 120 52" className="hidden h-12 w-full sm:block" aria-hidden>
-      <line x1="10" y1="47" x2="110" y2="47" stroke="var(--color-gold)" strokeOpacity="0.3" />
-      <line x1="42" y1="27" x2={38 + lh} y2="46" stroke="var(--color-caramel)" strokeWidth="2" strokeLinecap="round" />
-      <line x1="45" y1="27" x2={44 + rh} y2="46" stroke="var(--color-gold)" strokeWidth="2.2" strokeLinecap="round" />
-      <line x1="74" y1="26" x2={72 + lf} y2="46" stroke="var(--color-caramel)" strokeWidth="2" strokeLinecap="round" />
-      <polyline points={`77,26 ${84 + rf * 0.5},${35 - lift * 0.6} ${80 + rf},${46 - lift}`} fill="none" stroke="var(--color-gold)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M 38 25 Q 58 27, 77 24 Q 85 15, 89 9 L 95 16 Q 86 24, 78 29 Q 58 31, 38 29 Z" fill="var(--color-gold)" opacity="0.85" />
-      <path d="M 38 25 Q 27 32, 22 43" fill="none" stroke="var(--color-caramel)" strokeWidth="2" strokeLinecap="round" />
-      <circle cx="59" cy="8" r="2.6" fill="var(--color-bone)" />
-      <path d="M 59 11 L 58 24 L 64 31" fill="none" stroke="var(--color-bone)" strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
   );
 }
 

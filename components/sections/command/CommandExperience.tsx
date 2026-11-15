@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Terminal } from "./Terminal";
 import { knowledge } from "@/lib/content/command";
 import { command } from "@/lib/content/home";
 import styles from "./CommandExperience.module.css";
-import { filmStills } from "@/lib/content/film-stills";
+import { FilmImage } from "@/components/film/FilmImage";
 
 export function CommandExperience() {
   return (
@@ -24,10 +23,10 @@ export function CommandExperience() {
 export function CommandTeaser() {
   return <section id="home-command" aria-labelledby="command-h" className={styles.teaser} data-parallax-skip>
     <figure className={styles.teaserBackground}>
-      {/* 15 Nov 2026 (owner): one large, clean still from the Marwar Journey film replaces the two watermarked desert photographs.
-          A full 1920 px frame, shown at its own 16:9 shape on wide screens and a calmer crop on phones; never stretched. */}
+      {/* 15 Nov 2026 (owner): one large, sharp original (2752 px) replaces the soft 1080p film frame, and the picture is held still:
+          it used to zoom 2% on hover, so a cursor resting on the page made it swell and settle as the section scrolled past. */}
       <div className={styles.teaserHero}>
-        <Image src={filmStills.palaceCourtyard.src} alt={filmStills.palaceCourtyard.alt} fill sizes="100vw" quality={88} style={{ objectPosition: filmStills.palaceCourtyard.position }} />
+        <FilmImage name="scienceRider" sizes="100vw" position="62% 50%" />
       </div>
     </figure>
     <div className={styles.teaserIntro}>
