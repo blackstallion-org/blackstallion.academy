@@ -6,6 +6,7 @@ import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, Sta
 import { CadetAdmissionPortal } from "@/components/sections/parents/CadetAdmissionPortal";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { ParentRingVisit } from "@/components/sections/campaign/CampaignSections";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/parents" },
@@ -21,6 +22,7 @@ export default function ParentsPage() {
       <ParentVantageGallery />
       {/* 14 Nov 2026: parents at the riding ring (AI illustrations of the concept). */}
       <ParentRingVisit />
+      <EditorialGallery page="parents" />
       <MorningCurtain />
       <HoofPath />
       <Receipt />

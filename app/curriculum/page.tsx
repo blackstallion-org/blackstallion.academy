@@ -7,6 +7,7 @@ import { ClockRing, CurriculumTitle, DisciplineActionGallery, DisciplinePanels, 
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { batches } from "@/lib/content/curriculum";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/curriculum" },
@@ -19,6 +20,7 @@ export default function CurriculumPage() {
     <>
       <CurriculumTitle />
       <Staircase />
+      <EditorialGallery page="curriculum" />
       <PageCurtain page="curriculum" />
       <CodexVault />
       <ClockRing />

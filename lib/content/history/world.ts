@@ -169,6 +169,7 @@ export const world: HistoryPage = {
     voice: "of the world's horse.",
     lede: "Across three thousand years and four continents, people learned what horses need. Ten scenes, painted in the manner of the miniature, each with its sources.",
     asset: "WO00",
+    poster: "WO-POSTER",
   },
   chapters: [{ id: "world-scenes", numeral: "", title: "Ten roads", scenes }],
   related: [

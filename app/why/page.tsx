@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { AsciiChild } from "@/components/sections/why/AsciiChild";
+import { HorsePlate } from "@/components/sections/why/HorsePlate";
 import { BreathCue } from "@/components/film/BreathCue";
 import { BigSlider, Glass, Monolith, SovereignCrucible, TrainList, WhyTitle } from "@/components/sections/why/WhyScenes";
 import { why } from "@/lib/content/science";
 import { entity } from "@/lib/content/site";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/why" },
@@ -17,7 +18,8 @@ export default function WhyPage() {
     <>
       <WhyTitle />
       <Glass />
-      <AsciiChild />
+      <HorsePlate />
+      <EditorialGallery page="why" />
       <BreathCue />
       <SovereignCrucible />
       <BigSlider />

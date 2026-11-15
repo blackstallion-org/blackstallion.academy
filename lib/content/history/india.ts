@@ -171,6 +171,7 @@ export const india: HistoryPage = {
     voice: "of the Indian horse.",
     lede: "From the desert of Marwar to the polo grounds of Imphal, horses carried India's history. Ten scenes, painted in the manner of the miniature, each with its sources.",
     asset: "IN00",
+    poster: "IN-POSTER",
   },
   chapters: [{ id: "india-scenes", numeral: "", title: "Ten roads", scenes }],
   feature: {

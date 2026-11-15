@@ -28,7 +28,7 @@ export const reels: Reel[] = [
   { n: 1, href: "/legend", act: "legend", title: "The Marwari", inscription: "The land", voice: "of death.", blurb: "Eight hundred years of the horse that would not leave the field.", image: "duneSilhouette" },
   { n: 2, href: "/anatomy", act: "legend", title: "The Instrument", inscription: "The", voice: "instrument.", blurb: "Several hundred kilograms that read you first.", image: "anatomyProfile" },
   { n: 3, href: "/statue", act: "legend", title: "The 3D Monument", inscription: "Cast in bronze.", voice: "Built to endure.", blurb: "Six chapters around the academy's bronze of a cadet and a Marwari.", image: "curriculumHeroStatue" },
-  { n: 4, href: "/worlds", act: "legend", title: "Four Worlds", inscription: "One horse.", voice: "Four worlds.", blurb: "A scroll-controlled film: the valley, the anatomy, the cavalry country and the future, with one black Marwari.", image: "duneSilhouette" },
+  { n: 4, href: "/worlds", act: "legend", title: "The Opening", inscription: "One horse.", voice: "One lineage.", blurb: "A scroll-controlled film: the valley above the academy, then the cavalry country of Marwar, with one black Marwari.", image: "duneSilhouette" },
   { n: 5, href: "/science", act: "citadel", title: "The Matrix", inscription: "What the saddle", voice: "does to a child.", blurb: "Four systems, one twenty-minute session.", image: "scienceRider" },
   { n: 6, href: "/why", act: "citadel", title: "Crisis & Cure", inscription: "Digital fragility", voice: "is a choice.", blurb: "Character is forged in the arena.", image: "whyCure" },
   { n: 7, href: "/curriculum", act: "citadel", title: "The Ledger", inscription: "Four ranks.", voice: "Thirteen pillars.", blurb: "An athletic curriculum that builds character.", image: "currLedger" },
@@ -76,17 +76,141 @@ export function reelByHref(href: string): Reel {
   return r;
 }
 
-export const primaryNav = [
-  { label: "Legend", href: "/legend" },
-  { label: "Worlds", href: "/worlds" },
-  { label: "Curriculum", href: "/curriculum" },
-  { label: "Parents", href: "/parents" },
-  { label: "Schools", href: "/schools" },
-  { label: "Circuit", href: "/tournaments" },
-  { label: "Verify", href: "/verify" },
-];
+/** A numbered page (a reel or a working page): the one number and the one title every menu shows for it. */
+export type NumberedPage = { n: number; href: string; title: string };
+
+/** Every numbered page, in menu order. The only place a page's number and title come from. */
+export const numberedPages: NumberedPage[] = [...reels, ...tools]
+  .map(({ n, href, title }) => ({ n, href, title }))
+  .sort((a, b) => a.n - b.n);
+
+/** The numbered page at an address, if it is one. */
+export function numberedPage(href: string): NumberedPage | undefined {
+  return numberedPages.find((p) => p.href === href);
+}
+
+/**
+ * A menu entry as written below: a numbered page by its address alone (its number and title are looked up, never typed), or
+ * a page outside the reels (sign-up forms, privacy, the gallery) with its own label and no number.
+ */
+type MenuEntry = string | { label: string; href: string };
+
+/** A menu link as the menus draw it: `n` is set only for numbered pages. */
+export type NavMenuLink = { label: string; href: string; n?: number };
+
+function menuLink(entry: MenuEntry): NavMenuLink {
+  if (typeof entry === "string") {
+    const page = numberedPage(entry);
+    if (!page) throw new Error(`Menu entry ${entry} is not a numbered page: give it a label`);
+    return { label: page.title, href: page.href, n: page.n };
+  }
+  // A numbered page written with a label would retitle it in one menu only (owner's rule, CLAUDE.md → Navigation).
+  if (numberedPage(entry.href)) throw new Error(`Menu entry ${entry.href} is a numbered page: list it by its address only`);
+  return { label: entry.label, href: entry.href };
+}
+
+const links = (entries: MenuEntry[]) => entries.map(menuLink);
+
+export const primaryNav: NavMenuLink[] = links(["/legend", "/worlds", "/curriculum", "/parents", "/schools", "/tournaments", "/verify"]);
 
 export const navCta = { label: "Enrol a cadet", href: "/contact?gate=parents" };
+
+type NavMenuColumn = { heading: string; links: NavMenuLink[] };
+export type NavMenu = {
+  /** The word in the header bar. */
+  label: string;
+  /** One line under the menu's title. */
+  lead: string;
+  /** Exactly three columns, so every menu has the same balance. */
+  columns: [NavMenuColumn, NavMenuColumn, NavMenuColumn];
+};
+
+const column = (heading: string, entries: MenuEntry[]): NavMenuColumn => ({ heading, links: links(entries) });
+
+/**
+ * The header's full-screen mega menus: one per header word, three columns each. A numbered page shows its own number and
+ * title (from `reels` / `tools`), the same as in the Reels menu and the footer; the menus never number their links 01, 02,
+ * 03 themselves. Every public page appears at least once. Left out on purpose: /stills and /worlds/credits (production pages,
+ * noindex), /schools/access (a private invitation), /sovereign (the school dashboard behind sign-in), /login, /lithos (the
+ * same monument as /statue, its canonical address), and the detail pages under /journal, /schools, /tournaments and /verify.
+ */
+export const navMenus: NavMenu[] = [
+  {
+    label: "Academy",
+    lead: "Who we are, why the saddle, and how a child is kept safe.",
+    columns: [
+      column("The Mandate", [{ label: "The Mandate", href: "/about" }, "/science", "/why"]),
+      column("Safeguards", ["/safety", "/command", { label: "Privacy notice", href: "/privacy" }]),
+      column("The Record", ["/journal", "/contact", { label: "Gallery", href: "/gallery" }]),
+    ],
+  },
+  {
+    label: "Cadets",
+    lead: "The corps, its passports and its circuit, and how a child joins it.",
+    columns: [
+      column("The Corps", ["/cadets", "/verify", { label: "Your riding journey", href: "/account" }]),
+      column("The Circuit", ["/motion-lab", "/tournaments", { label: "Horse Shoes & Equipment", href: "/equipment" }]),
+      column("Join the Corps", [
+        { label: "Enrol a cadet", href: "/enroll" },
+        { label: "Your applications", href: "/enroll/status" },
+        { label: "Register", href: "/register" },
+      ]),
+    ],
+  },
+  {
+    label: "Training",
+    lead: "Four ranks, the horse a cadet rides, and the arena that holds them.",
+    columns: [
+      column("The Curriculum", ["/science", "/curriculum", { label: "The Science of the Stride", href: "/stride" }]),
+      column("The Horse", ["/anatomy", "/fleet", { label: "Horse Shoes & Equipment", href: "/equipment" }]),
+      column("The Arena", ["/safety", "/motion-lab", "/tournaments"]),
+    ],
+  },
+  {
+    label: "Programs",
+    lead: "For parents, for school boards, and for those who would serve with us.",
+    columns: [
+      column("For Parents", ["/parents", "/command", { label: "Enrol a cadet", href: "/enroll" }]),
+      column("For Schools", ["/schools", { label: "Draft MOU", href: "/schools/mou" }, { label: "Schools & institutions", href: "/schools/apply" }]),
+      column("Serve with Us", ["/contact", { label: "Partners & sponsors", href: "/partners/apply" }, { label: "Instructors & staff", href: "/careers/apply" }]),
+    ],
+  },
+  {
+    label: "Heritage",
+    lead: "Eight hundred years of the Marwari, and the riders who made it a legend.",
+    columns: [
+      column("The Marwari", ["/legend", "/statue", "/worlds"]),
+      column("Painted Histories", ["/story/pratap-chetak", "/story/rani-lakshmibai", "/story/alexander-bucephalus"]),
+      column("The Archive", ["/history/india", "/history/world", { label: "Lore of the Bards", href: "/lore" }]),
+    ],
+  },
+];
+
+/** Whether a path is one of a menu's pages (or below one), for the header's "you are here" mark. */
+export function menuHolds(menu: NavMenu, pathname: string): boolean {
+  const p = pathname === "/lithos" ? "/statue" : pathname;
+  return menu.columns.some((c) => c.links.some((l) => p === l.href || p.startsWith(`${l.href}/`)));
+}
+
+/** The footer's page list: numbered pages only, shown with their own number and title. */
+export const footerNav: NavMenuLink[] = links([
+  "/legend",
+  "/anatomy",
+  "/statue",
+  "/science",
+  "/why",
+  "/curriculum",
+  "/fleet",
+  "/cadets",
+  "/parents",
+  "/motion-lab",
+  "/schools",
+  "/tournaments",
+  "/command",
+  "/journal",
+  "/contact",
+  "/history/india",
+]).sort((a, b) => (a.n ?? 0) - (b.n ?? 0));
 
 export const entity = {
   parent: "Vicarius Infinitum Holdings Pvt Ltd",
@@ -104,15 +228,13 @@ export const corridors = [
   { id: "partners", title: "Regional partners", email: "partners@blackstallion.academy" },
 ] as const;
 
-export const legalNav = [
+/** The footer's small print: pages outside the reels (numbered pages belong in `footerNav`). */
+export const legalNav: NavMenuLink[] = links([
   { label: "About", href: "/about" },
   { label: "Lore of the Bards", href: "/lore" },
-  { label: "Painted histories", href: "/history/india" },
-  { label: "Journal", href: "/journal" },
-  { label: "The Command", href: "/command" },
   { label: "Privacy", href: "/privacy" },
   { label: "Film credits", href: "/worlds/credits" },
-];
+]);
 
 /** Application screens (the staff console, its sign-in, and the dev preview of its overview): no public nav or footer. */
 export const isConsolePath = (pathname: string) => pathname.startsWith("/admin") || pathname.startsWith("/dev/admin-dashboard");

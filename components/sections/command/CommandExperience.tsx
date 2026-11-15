@@ -5,7 +5,7 @@ import { Terminal } from "./Terminal";
 import { knowledge } from "@/lib/content/command";
 import { command } from "@/lib/content/home";
 import styles from "./CommandExperience.module.css";
-import { asset } from "@/lib/content/asset";
+import { desert, desertCredit } from "@/lib/content/desert";
 
 export function CommandExperience() {
   return (
@@ -23,7 +23,14 @@ export function CommandExperience() {
 /** Homepage presentation follows the supplied split-screen information reference. */
 export function CommandTeaser() {
   return <section id="home-command" aria-labelledby="command-h" className={styles.teaser} data-parallax-skip>
-    <div className={styles.teaserBackground} aria-hidden><Image src={asset("/media/gallop.webp")} alt="" fill sizes="100vw" style={{ objectPosition: "30% 22%" }} /></div>
+    <figure className={styles.teaserBackground}>
+      {/* 14 Nov 2026 (owner): two desert silhouettes replace the sepia gallop; the second is left out on phones. Natural proportions, marks kept. */}
+      <div className={styles.teaserPair}>
+        <span><Image src={desert.dustSilhouette.src} alt={desert.dustSilhouette.alt} fill sizes="(min-width: 801px) 50vw, 100vw" style={{ objectPosition: desert.dustSilhouette.position }} /></span>
+        <span className={styles.teaserSecond}><Image src={desert.palaceRearing.src} alt={desert.palaceRearing.alt} fill sizes="50vw" style={{ objectPosition: desert.palaceRearing.position }} /></span>
+      </div>
+      <figcaption className={styles.teaserCredit}>{desertCredit}</figcaption>
+    </figure>
     <div className={styles.teaserIntro}>
       <p className={styles.eyebrow}>Reel 14 / The Command</p>
       <h2 id="command-h">{command.inscription}<br /><span>{command.voice}</span></h2>

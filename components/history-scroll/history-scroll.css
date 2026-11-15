@@ -280,3 +280,10 @@
 .hs-map-labels[data-ready="true"] { opacity: 1; }
 @media (max-width: 1023px) { .hs-map-label small { display: none; } .hs-map-label { font-size: 0.56rem; padding: 0 0.2rem; } }
 .hs-map-label small { display: block; font-family: var(--font-mono); font-weight: 400; font-size: 0.58rem; color: var(--hs-vermilion); }
+
+/* ------------------------------------------------------------------ title card after the full-screen story poster */
+/* The poster (components/film/StoryPoster) already clears the fixed nav and carries the headline; the card below keeps
+   the lede, reading toggle and contents, and is the target of the poster's "Begin" link. */
+.hs-title--after-poster {
+  padding-top: clamp(3rem, 9vh, 6rem);
+}

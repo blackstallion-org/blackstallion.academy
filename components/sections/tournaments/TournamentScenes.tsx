@@ -17,53 +17,44 @@ import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
 
-/** Title card · T13 charge. Signature: speed streaks rake across the frame as the title lands. */
+/**
+ * Title card (14 Nov 2026, owner): the council's bronze medal is the hero, large and centred on the dark ground with a warm rim
+ * light behind it; the charge photograph and the speed streaks are gone. The medal sways slowly (the flat seal is its fallback).
+ */
 export function CircuitTitle() {
   return (
-    <section aria-labelledby="circuit-title" className="editorial-scene">
-<div className="tone-photo editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
-      <motion.div className="absolute inset-x-0 bottom-0 top-16 md:top-20" initial={{ x: "4%" }} animate={{ x: "0%" }} transition={{ duration: 2.4, ease: ease.citadel }}>
-        <FilmImage name="bgCharge" priority bleed />
-      </motion.div>
-      <div aria-hidden className="widget-hud absolute inset-0 overflow-hidden">
-        {Array.from({ length: 9 }, (_, i) => (
-          <motion.span
-            key={i}
-            className="absolute h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent"
-            style={{ top: `${12 + i * 9}%`, width: `${30 + (i % 3) * 15}%` }}
-            initial={{ left: "110%" }}
-            animate={{ left: "-60%" }}
-            transition={{ duration: 1.1 + (i % 4) * 0.25, delay: 0.2 + i * 0.08, ease: "easeIn", repeat: 0 }}
+    <section aria-labelledby="circuit-title" className="relative overflow-hidden bg-night">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{ background: "radial-gradient(ellipse 42% 46% at 50% 44%, color-mix(in srgb, var(--color-gold) 20%, transparent), transparent 72%)" }}
+      />
+      <div className="gutter relative flex min-h-[100svh] flex-col items-center justify-center gap-6 pb-[7vh] pt-28 text-center md:gap-8 md:pt-32">
+        <motion.figure
+          className="relative"
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.8, ease: ease.citadel }}
+        >
+          <ModelPlate
+            src={asset("/models/stpci-medal.glb")}
+            label="The School Tent Pegging Council of India's bronze medal, turning slowly"
+            mode="sway"
+            fill={0.96}
+            className="h-[min(46svh,82vw)] w-[min(46svh,82vw)]"
+            fallback={<Image src="/brand/stpci-medal.webp" alt="" width={720} height={745} priority className="h-full w-full object-contain" />}
           />
-        ))}
+        </motion.figure>
+        <Headline id="circuit-title" as="h1" size="2" animate="mount" delay={0.5} className="text-center" inscription="Lances down." voice="Zones on the circuit." />
+        <p className="label text-dust">Sanctioned by the School Tent Pegging Council of India</p>
       </div>
-      <div aria-hidden className="absolute inset-0 shade-b" />
-      <div className="gutter relative flex min-h-[100svh] flex-col justify-end pb-[8vh]">
-        
-        <Headline id="circuit-title" as="h1" size="poster" animate="mount" delay={0.4} className="mt-6" inscription="Lances down." voice="Zones on the circuit." />
-        
+      <div className="editorial-details gutter flex flex-wrap items-center justify-between gap-x-12 gap-y-8 pb-16">
+        <div className="min-w-0 max-w-2xl">
+          <ReelMark n={15} act="ledger" />
+          <ScrollRevealText className="t-story mt-6 text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText>
+        </div>
       </div>
-    </div>
-{/* The circuit is the council's: its seal stands beside the line that names it (supplied artwork, background removed). */}
-<div className="tone-light editorial-details gutter flex flex-wrap items-center justify-between gap-x-12 gap-y-8">
-  <div className="min-w-0 max-w-2xl">
-    <ReelMark n={15} act="ledger" />
-    <ScrollRevealText className="t-story mt-6 text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText>
-  </div>
-  <figure className="flex shrink-0 items-center gap-5">
-    {/* The supplied bronze medal (4 Nov 2026), swaying slowly; the flat picture of the seal stays under it as the fallback. */}
-    <ModelPlate
-      src={asset("/models/stpci-medal.glb")}
-      label="The School Tent Pegging Council of India's bronze medal, turning slowly"
-      mode="sway"
-      fill={0.96}
-      className="h-32 w-32 shrink-0 md:h-40 md:w-40"
-      fallback={<Image src="/brand/stpci-medal.webp" alt="" width={720} height={745} className="h-full w-full object-contain" />}
-    />
-    <figcaption className="label max-w-[12rem] leading-relaxed text-dust">Sanctioned by the School Tent Pegging Council of India</figcaption>
-  </figure>
-</div>
-</section>
+    </section>
   );
 }
 

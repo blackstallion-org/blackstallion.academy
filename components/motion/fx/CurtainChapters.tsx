@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useMotionValueEvent, type MotionValue } from "motion/react";
@@ -17,7 +18,10 @@ import type { MediaKey } from "@/lib/content/media";
  * screen readers, so no chapter depends on the scroll position to be read.
  */
 export type Chapter = {
-  image: MediaKey;
+  /** One of the site's graded stills, or a supplied photograph (`photo`, drawn as it is, with a credit line). */
+  image?: MediaKey;
+  photo?: { src: string; alt: string; position: string };
+  credit?: string;
   time: string;
   title: string;
   line: string;
@@ -50,7 +54,11 @@ type CurtainChaptersProps = {
 function Frame({ c, i, total, timeNote }: { c: Chapter; i: number; total: number; timeNote?: string }) {
   return (
     <>
-      <FilmImage name={c.image} grade="deep" sizes="100vw" />
+      {c.photo ? (
+        <Image src={c.photo.src} alt="" fill sizes="100vw" className="object-cover [filter:var(--grade-deep)]" style={{ objectPosition: c.photo.position }} />
+      ) : c.image ? (
+        <FilmImage name={c.image} grade="deep" sizes="100vw" />
+      ) : null}
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(0deg,rgb(var(--shade-rgb)/0.74)_0%,rgb(var(--shade-rgb)/0.5)_36%,rgb(var(--shade-rgb)/0)_72%)]" />
       <div className="gutter absolute inset-x-0 bottom-0 pb-[12vh]">
         <p className="label text-sand">
@@ -71,6 +79,9 @@ function Frame({ c, i, total, timeNote }: { c: Chapter; i: number; total: number
         </h3>
         <p className="t-story mt-4 max-w-xl text-lede text-sand">{c.line}</p>
       </div>
+      {c.credit ? (
+        <p className="absolute bottom-3 right-[max(16px,4vw)] max-w-[min(28rem,62vw)] text-right text-[0.62rem] leading-snug text-sand/80">{c.credit}</p>
+      ) : null}
     </>
   );
 }

@@ -23,11 +23,13 @@ in the same sense as the Higgsfield imagery. The previous track, "Windswept" (Ke
 | --- | --- | --- | --- |
 | `neigh.mp3` | call | Mixkit "Scared horse neighing" (supplied by the owner, 19 Oct 2026) | Mixkit free licence (as supplied; see README) |
 | `horse-call.mp3` | call | "081739_horse" (freesound_community, supplied by the owner) | Pixabay content licence (as supplied) |
-| `snort.mp3` | breath | Mixkit "Horse stallion snore" (supplied by the owner) | Mixkit free licence (as supplied) |
-| `breath.mp3` | breath | "Horse Breathing.wav", metaepitome, https://freesound.org/people/metaepitome/sounds/275388/ | CC0 1.0 |
+| `snort.mp3` | breath | Mixkit "Horse stallion snore" (supplied by the owner), trimmed to one 0.9 s snort on 14 Nov 2026; it also plays for every breath cue | Mixkit free licence (as supplied) |
+| ~~`breath.mp3`~~ | retired 14 Nov 2026 | "Horse Breathing.wav", metaepitome (its four bursts read as a cough) | CC0 1.0 |
 | `gallop.mp3` | hoofbeats | "horses galloping sound effect 359255" (pwlpl, supplied by the owner) | Pixabay content licence (as supplied) |
 | `walk.mp3` | hoofbeats | "Horse Clip Clopping Downhill (stereo)", swiftoid, https://freesound.org/people/swiftoid/sounds/182504/ | CC0 1.0 |
 | `saddle.mp3` | interaction | "R12-63-Sitting Down on Horse Saddle.wav", craigsmith, https://freesound.org/people/craigsmith/sounds/481831/ | CC0 1.0 |
+| `snorting-short.mp3` | background (every 60 s) | "Horse Snorting.mp3", supplied by the owner on 14 Nov 2026 (11.3 s) | **Not verified.** Supplied file, no source page or licence given; the owner should confirm the source and licence before a public launch. Loudness-normalised to about -18 LUFS with short fades; otherwise untouched |
+| `snorting-long.mp3` | background (every 60 s) | "horse sound snorting.mp3", supplied by the owner on 14 Nov 2026 (31.8 s) | **Not verified.** As above |
 
 `leather.wav`, `tack.wav` (synthetic UI accents) and `../bsah_keystroke.wav` are original, generated locally.
 Retired on 2 Nov 2026 and no longer requested by the site: `chariot.mp3`, `herd.mp3`, `desert-chase.mp3`, `../bsah_ambient_432hz_drone.mp3`.

@@ -59,5 +59,21 @@
     "source": "Original synthetic UI foley; generated locally, no third-party material",
     "durationSeconds": 0.22,
     "bytes": 19448
+  },
+  {
+    "name": "snorting-short",
+    "source": "Horse Snorting.mp3",
+    "startSeconds": 0,
+    "durationSeconds": 11.337,
+    "bytes": 136503,
+    "note": "background horse sound, every 60 s; loudness-normalised to -18 LUFS, fades, stereo 96 kbps"
+  },
+  {
+    "name": "snorting-long",
+    "source": "horse sound snorting.mp3",
+    "startSeconds": 0,
+    "durationSeconds": 31.843,
+    "bytes": 382576,
+    "note": "background horse sound, every 60 s; loudness-normalised to -18 LUFS, fades, stereo 96 kbps"
   }
 ]

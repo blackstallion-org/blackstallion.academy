@@ -37,3 +37,12 @@ Seven MP3s: 1.386–3.2 seconds, 96 kbps mono/44.1 kHz, loudness target −18 LU
 ## Retained legacy assets
 
 `bsah_ambient_432hz_drone.mp3`, `bsah_stallion_breath.wav`, and `bsah_keystroke.wav` remain intact. Originally synthesized on 11 October 2026; source generation script: docs/qa/make_audio.py. The ambient file no longer loops. Existing `breath` calls now use the recorded snort. The legacy key effect remains available in the engine but terminal typing no longer calls it.
+
+## Background horse sounds (14 Nov 2026)
+
+`interactions/snorting-short.mp3` (11.3 s) and `snorting-long.mp3` (31.8 s), supplied by the owner, play one at a time, alternating
+(short first), on a fixed 60-second beat from `components/site/Soundscape.tsx` (`playBackgroundHorse` in `lib/audio/engine.ts`).
+They play wherever the sound menu allows horse sounds ("The website's sound" and "Horse sounds"; not "Open-range music" or "Off"),
+only after the visitor's first gesture, never in a hidden tab, over an unmuted film, or while another effect is sounding; a beat that
+finds any of those simply passes. They have their own voice (a long clip never blocks the click sounds), sit at a low level and dip the
+music to 80 % while they play; the idle calls wait for them. Turning sound off stops them at once.

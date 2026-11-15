@@ -35,7 +35,8 @@ export const parentVisit = {
   inscription: "WATCH THEM",
   voice: "learn in the ring.",
   lede: "How a visit could look: parents at the fence while their child rides at a walk under an instructor’s eye, then a few minutes at the stable while the horse is prepared.",
-  ring: { src: c("parent-riding-ring-visit"), width: 1672, height: 941, title: "At the ring fence", alt: "Two parents watch from a timber fence as their daughter rides a black horse at a walk in a sand ring, an instructor beside her.", position: "40% 50%" } as CampaignImage,
+  // 14 Nov 2026: the ring-fence still is now the /parents title photo, so this plate shows the courtyard lesson instead of repeating it.
+  ring: { src: c("trainer-courtyard-lesson"), width: 1672, height: 941, title: "In the courtyard", alt: "An adult instructor leads a black horse and teaches a small group of cadets in a sandstone courtyard." } as CampaignImage,
   stable: { src: c("parent-stable-visit"), width: 1752, height: 897, title: "At the stable", alt: "Parents watch their daughter in riding uniform stroke a black horse's nose in a stable courtyard while an instructor holds it." } as CampaignImage,
 };
 

@@ -1,58 +1,43 @@
 /**
- * Copy for /worlds, the Four Worlds journey (components/worlds). One idea per world; no claims from the "No" rows of the
- * claims ledger. World 02 is an illustration: its light is storytelling, not a measurement, and the page says so.
+ * Copy for /worlds and the opening film (components/worlds). One idea per world; no claims from the "No" rows of the claims
+ * ledger. 14 Nov 2026 (owner): two worlds, the hill and the memory of Marwar; the cells (Life) and space (Beyond) were cut.
  */
 export type WorldCopy = { inscription: string; voice: string; line: string; note?: string };
 
-export const WORLD_COPY: Record<"origins" | "life" | "legacy" | "beyond", WorldCopy> = {
+export const WORLD_COPY: Record<"origins" | "legacy", WorldCopy> = {
   origins: {
     inscription: "One horse",
     voice: "small against the world.",
     line: "A black Marwari on the hill above the academy. Scroll, and follow him.",
-  },
-  life: {
-    inscription: "Muscle, bone, breath",
-    voice: "the horse within the horse.",
-    line: "Every stride is bone and muscle working together. A rider learns to feel it before they can name it.",
-    note: "Illustration. The anatomy follows the academy's Marwari model; the light is storytelling, not a measurement.",
   },
   legacy: {
     inscription: "Bred in Marwar",
     voice: "for the cavalry.",
     line: "The breed was raised by the horsemen of Marwar, in western Rajasthan, and rode with its cavalry for centuries.",
   },
-  beyond: {
-    inscription: "The same horse",
-    voice: "a new century.",
-    line: "What the horse teaches does not change: balance, patience, trust.",
-  },
 };
 
 /** What the film shows on screen: one short line per world (the full copy above is for the static version). */
-export const WORLD_SWISS: Record<"origins" | "life" | "legacy" | "beyond", { line: string; note?: string }> = {
+export const WORLD_SWISS: Record<"origins" | "legacy", { line: string; note?: string }> = {
   origins: { line: "One horse, small against the world." },
-  life: { line: "Muscle, bone, breath.", note: "Illustration, not a measurement." },
   legacy: { line: "Bred in Marwar for the cavalry." },
-  beyond: { line: "The same horse, a new century." },
 };
 
 /**
- * The intro film (components/worlds): one large headline and one short sentence per world. Plain statements about the horse, the
- * breed and the academy's own model; World 02 says it is an illustration (its light is storytelling, not a measurement).
+ * The intro film (components/worlds): one large headline and one short sentence per world. Plain statements about the horse and
+ * the breed.
  */
-export const INTRO_COPY: Record<"origins" | "life" | "legacy" | "beyond", { headline: string; line: string }> = {
+export const INTRO_COPY: Record<"origins" | "legacy", { headline: string; line: string }> = {
   origins: { headline: "One horse.", line: "A black Marwari on the hill above the academy." },
-  life: { headline: "Muscle, bone, breath.", line: "The horse within the horse, illustrated." },
   legacy: { headline: "Bred in Marwar.", line: "Raised by the horsemen of Rajasthan to ride with the cavalry." },
-  beyond: { headline: "A new century.", line: "What the horse teaches does not change: balance, patience, trust." },
 };
 
-/** Required by the CC BY 4.0 licence of the planet textures; the CC0 sources are credited as a courtesy. */
+/** The CC0 sources are credited as a courtesy. */
 export const WORLDS_CREDITS =
-  "Four Worlds is rendered live in your browser. Planet and moon textures: Solar System Scope (solarsystemscope.com), CC BY 4.0, based on NASA imagery. Skies, ground textures and a boulder scan: Poly Haven and ambientCG (CC0). Terrain, academy, fort, riders, orbital platform and stars: built for BSAH in Blender. Horse and anatomy: the academy's own Marwari model.";
+  "The opening film is rendered live in your browser. Skies, ground textures and a boulder scan: Poly Haven and ambientCG (CC0). Terrain, academy, fort and riders: built for BSAH in Blender. Horse: the academy's own Marwari model.";
 
 export const WORLDS_FINAL = {
-  inscription: "One horse. Four worlds.",
+  inscription: "One horse. One lineage.",
   voice: "an 800-year lineage, handed to your child.",
   sub: "An 800-year lineage, handed to your child.",
   primary: { label: "Enrol a cadet", href: "/enroll" },

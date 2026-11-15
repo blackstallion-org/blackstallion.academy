@@ -5,10 +5,9 @@ import Image from "next/image";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import Link from "next/link";
-import { motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "motion/react";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
-import { useRef, useState } from "react";
-import { Monogram } from "@/components/brand/Monogram";
+import { useRef } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
 import { Arrow, Label, ReelMark } from "@/components/film/Marks";
@@ -18,7 +17,7 @@ import { Reveal } from "@/components/film/Reveal";
 import { creed, day, passport, reels, spotlights, uniform } from "@/lib/content/academy";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
-import { QrSeal } from "@/components/brand/QrSeal";
+import { PassportBook } from "@/components/sections/cadets/PassportBook";
 import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
 import { asset } from "@/lib/content/asset";
 /** Title card: the Hall of Valour opens on the cadet still (Higgsfield placeholder art), the headline beside it. */
@@ -126,66 +125,16 @@ export function PassportObject() {
 function PassportFrame({ progress, open = false }: { progress?: MotionValue<number>; open?: boolean }) {
   const { scrollYProgress } = useScroll();
   const p = progress ?? scrollYProgress;
-  const rotate = useTransform(p, r(0.1, 0.55), [open ? -178 : 0, -178]);
-  const pagesOpacity = useTransform(p, r(0.35, 0.6), [open ? 1 : 0, 1]);
-  const [stage, setStage] = useState(open ? 3 : 0);
-  useMotionValueEvent(p, "change", (v) => setStage(v < 0.55 ? 0 : v < 0.7 ? 1 : v < 0.85 ? 2 : 3));
-  const seals = ["Squire", "Rider", "Knight", "Lancer"];
-
+  // 14 Nov 2026 (owner): no photograph behind the passport; the book itself is the object (PassportBook, CSS 3D).
   return (
     <div className={cn("relative flex h-full items-center", open && "min-h-[100svh] py-24")}>
-      <FilmImage name="bgPassport" grade="deep" className="opacity-85" />
-      <div className="gutter relative grid w-full gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center">
+      <div className="gutter relative grid w-full gap-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-center lg:gap-12">
         <div>
           <Label>The passport</Label>
           <Headline className="mt-4" inscription={passport.inscription} voice={passport.voice} />
           <ScrollRevealText className="t-story mt-6 max-w-md text-sand">{passport.body}</ScrollRevealText>
         </div>
-        <div className="mx-auto w-full max-w-[34rem] [perspective:1800px]">
-          <div className="relative ml-[50%] aspect-[3/4] w-1/2">
-            {/* Inner right page */}
-            <motion.div className="parchment absolute inset-0 p-4 sm:p-6" style={{ opacity: pagesOpacity }}>
-              <p className="label text-[#6b5130]">Seals</p>
-              <ul className="mt-3 grid grid-cols-2 gap-3">
-                {seals.map((s, i) => (
-                  <li key={s} className="flex flex-col items-center">
-                    <motion.span
-                      className={cn("grid h-12 w-12 place-items-center rounded-full border-2 sm:h-16 sm:w-16", i < 3 ? "border-caramel bg-caramel/60" : "border-dashed border-caramel/50")}
-                      animate={{ scale: i < 3 && stage > i ? 1 : i < 3 ? 1.3 : 1, opacity: i < 3 ? (stage > i ? 1 : 0) : 1 }}
-                      transition={{ duration: 0.35, ease: ease.citadel }}
-                    >
-                      {i < 3 && <Monogram className="h-6 w-6 text-[#3b2a12] sm:h-8 sm:w-8" />}
-                    </motion.span>
-                    <span className="label mt-1 text-[0.55rem] text-[#6b5130]">{s}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-3 flex items-end justify-between gap-2">
-                <p className="font-mono text-[0.6rem] text-[#3b2a12] sm:text-xs">HOURS · 48</p>
-                <QrSeal code="BSAH-2026-HYD-042" label="QR seal" className="w-14 text-[#3b2a12] sm:w-20" />
-              </div>
-            </motion.div>
-            {/* Cover, hinged on the left edge; the back of the cover is the identity page */}
-            <motion.div className="absolute inset-0 origin-left [transform-style:preserve-3d]" style={{ rotateY: rotate }}>
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 border border-antique/70 bg-[linear-gradient(135deg,#493126,#2a1d15)] shadow-[0_30px_60px_rgb(0_0_0/0.6)] [backface-visibility:hidden]">
-                <Monogram className="h-14 w-14 text-gold" />
-                <p className="t-inscribe text-center text-[0.7rem] tracking-[0.18em] text-gold/90">
-                  Sovereign
-                  <br />
-                  Passport
-                </p>
-                <p className="label text-[0.5rem] text-brass/70">BSAH · STPCI</p>
-              </div>
-              <div className="parchment absolute inset-0 p-4 [backface-visibility:hidden] [transform:rotateY(180deg)] sm:p-6">
-                <p className="label text-[#6b5130]">Identity</p>
-                <p className="t-voice mt-3 text-lg text-ink sm:text-2xl">Cadet Alpha</p>
-                <p className="t-ui mt-1 text-xs text-[#5a4526]">Zone 01A · Financial District Hub</p>
-                <p className="font-mono mt-6 text-[0.55rem] text-[#3b2a12] sm:text-xs">BSAH-2026-HYD-042</p>
-                <p className="t-ui mt-1 text-[0.6rem] text-[#5a4526]">Sample record</p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+        <PassportBook progress={p} open={open} />
       </div>
     </div>
   );

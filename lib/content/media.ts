@@ -90,7 +90,8 @@ export const media = {
   cadetZayd: m("cadet-zayd.png", "hf_20261009_140621_9304b554-87e1-40ee-ba27-2a2c0b351aac.png", "A teenage cadet holding a tent-pegging lance at dusk", "50% 30%"),
   cadetAnanya: m("cadet-ananya.png", "hf_20261009_141028_766382f0-05ba-42d5-957b-b8622aa7aae8.png", "A teenage girl cadet holding a recurve bow", "50% 30%"),
   cadetRohan: m("cadet-rohan.png", "hf_20261009_141028_3f4df039-307f-4ce9-a666-0190a88bd61d.png", "A young cadet cantering a bay Marwari"),
-  parentsRail: m("parents-rail.png", "hf_20261009_141028_a5ee9a0d-cae2-46a3-a5d5-f9de6fb56dde.png", "Parents at an arena rail watching their child ride at dusk"),
+  /* 14 Nov 2026 (owner): the instructor in the ring now wears the academy uniform; the campaign's ring-visit still replaces the old dusk rail. */
+  parentsRail: m("parents-rail-uniform.webp", null, "Parents at the arena rail watch their daughter, in the academy's navy riding uniform, ride a black horse while a uniformed instructor walks beside her", "40% 50%"),
   safetyKit: m("safety-kit.png", "hf_20261009_141027_b1ce5c16-1801-4553-acc9-4f1ae667c666.png", "A riding helmet, gloves, vest and chaps on a wooden bench"),
   safetyInstructor: m("safety-instructor.png", "hf_20261009_141351_e69b0e16-1d9e-4dd5-85b0-15829cb72991.png", "A former cavalry instructor fastening a cadet's helmet"),
   safetyVet: m("safety-vet.png", "hf_20261009_141351_8460100f-8409-461f-83f6-b3cd555c58f1.png", "A veterinarian examining a Marwari's hoof"),
@@ -103,13 +104,15 @@ export const media = {
   journalReins: m("journal-reins.png", "hf_20261009_141653_ed15a453-da1c-4f1a-9507-25f09b028615.png", "Gloved hands holding leather reins lightly"),
   contactGate: m("contact-gate.png", "hf_20261009_142018_b4e92a4f-3602-4c04-85ce-1c80dfda6af5.png", "A studded Rajput fort gate at night between two lanterns"),
 
-  /* Session 24 Oct 2026: peg-run stages and the academy day. CDN-only until localised: run
+  /* 14 Nov 2026: the four peg-run stages are shipped as local WebP (public/media/peg-*.webp, 1920 px), so the WebGL morph between
+     them is no longer blocked by the CDN's CORS and the run dissolves smoothly instead of snapping.
+     Session 24 Oct 2026: peg-run stages and the academy day. CDN-only until localised: run
      `sh scripts/fetch-media.sh` on the Mac, convert to WebP (scripts/fetch-media.sh prints the command),
      then swap `cdnOnly(...)` for `m("<file>.png", ...)` so deployments ship the WebP copy. */
-  pegApproach: cdnOnly("hf_20261023_203352_e8ba0198-d482-4933-a75b-6b1277dffe5f.png", "A cadet gallops a dark bay Marwari down the tent-pegging lane, lance upright, the peg far ahead"),
-  pegAlign: cdnOnly("hf_20261023_203028_a192fbb2-a4f6-4bcd-b77c-9c126cc488a4.png", "Cadets at the gallop lower their lances toward the peg", "55% 50%"),
-  pegLift: cdnOnly("hf_20261023_203028_999c71d9-6310-441e-8b1f-0612814875d5.png", "A lance point lifts a wooden peg out of the sand in a burst of dust"),
-  pegCarry: cdnOnly("hf_20261023_203352_3ddac800-53eb-477e-b08b-e1e7de08d11f.png", "A cadet rides past the line with the peg carried high on the lance", "60% 50%"),
+  pegApproach: m("peg-approach.webp", "hf_20261023_203352_e8ba0198-d482-4933-a75b-6b1277dffe5f.png", "A cadet gallops a dark bay Marwari down the tent-pegging lane, lance upright, the peg far ahead"),
+  pegAlign: m("peg-align.webp", "hf_20261023_203028_a192fbb2-a4f6-4bcd-b77c-9c126cc488a4.png", "Cadets at the gallop lower their lances toward the peg", "55% 50%"),
+  pegLift: m("peg-lift.webp", "hf_20261023_203028_999c71d9-6310-441e-8b1f-0612814875d5.png", "A lance point lifts a wooden peg out of the sand in a burst of dust"),
+  pegCarry: m("peg-carry.webp", "hf_20261023_203352_3ddac800-53eb-477e-b08b-e1e7de08d11f.png", "A cadet rides past the line with the peg carried high on the lance", "60% 50%"),
   dayTack: cdnOnly("hf_20261023_203352_a7760386-3847-4ed6-bc9f-3d7efe70d9da.png", "A girl cadet tightens the girth on a bay Marwari at dawn", "55% 40%"),
   dayWalk: cdnOnly("hf_20261023_203351_4fc9f9c0-0a42-440b-aa8b-4af5cc6777cc.png", "Cadets lead their horses along a sandy path to the arena in the early morning"),
   dayBrief: cdnOnly("hf_20261023_203029_e66b7be6-0324-4bc9-b409-5bc170280fea.png", "A former cavalry instructor points down the lane while cadets stand by their horses", "45% 40%"),

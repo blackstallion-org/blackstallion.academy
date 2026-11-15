@@ -11,7 +11,7 @@ import { WorldsScrollOverlay, type ScrollOverlayHandle } from "./WorldsScrollOve
 import styles from "./four-worlds-scroll.module.css";
 
 /**
- * /worlds: one scroll-scrubbed camera through four worlds. The section is tall (its height is the length of the film); the
+ * /worlds: one scroll-scrubbed camera through two worlds (the hill, then Marwar; 14 Nov 2026). The section is tall (its height is the length of the film); the
  * stage inside it is sticky, and ScrollTrigger turns the section's scroll position into one progress value (0..1) that the
  * engine plays. The engine (three.js, the horse, every world) is a separate chunk, loaded only when WebGL 2 is available and
  * the visitor has not asked for reduced motion; otherwise the page shows the static version (four stills and the same copy).
@@ -119,7 +119,7 @@ function WorldsStage({ mobile }: { mobile: boolean }) {
 
   if (failed) return <WorldsFallback reason="error" />;
   return (
-    <section ref={section} className={`${styles.film} tone-photo`} aria-label="Four Worlds: a scroll-controlled film">
+    <section ref={section} className={`${styles.film} tone-photo`} aria-label="The opening: a scroll-controlled film">
       <div className={styles.stage}>
         <canvas ref={canvas} className={styles.canvas} aria-hidden />
         {/* the first frame of the film, a still rendered from the real scene, stands in until the engine has drawn its own */}

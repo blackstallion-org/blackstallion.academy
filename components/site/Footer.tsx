@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { corridors, entity, hidesFooter, legalNav, LOGO } from "@/lib/content/site";
+import { Wordmark } from "@/components/brand/Wordmark";
+import { corridors, entity, footerNav, hidesFooter, legalNav, LOGO } from "@/lib/content/site";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
@@ -12,23 +13,6 @@ import { MUSIC } from "@/lib/audio/mixer";
 
 /** A 76 kB still that only matters once the footer is about to be seen (it sits ~23,000 px down the home page). */
 const FOOTER_POSTER = asset("/video/footer-ambient-poster.webp");
-
-const navLinks = [
-  { href: "/legend", label: "The Legend" },
-  { href: "/anatomy", label: "The Instrument" },
-  { href: "/statue", label: "3D Monument" },
-  { href: "/motion-lab", label: "Motion Lab" },
-  { href: "/science", label: "Science & Matrix" },
-  { href: "/why", label: "Crucible & Cure" },
-  { href: "/curriculum", label: "Curriculum" },
-  { href: "/fleet", label: "The Studbook" },
-  { href: "/schools", label: "For Schools" },
-  { href: "/cadets", label: "Cadets" },
-  { href: "/parents", label: "Parents" },
-  { href: "/tournaments", label: "The Circuit" },
-  { href: "/command", label: "The Command" },
-  { href: "/contact", label: "The Gate" },
-];
 
 const COPYRIGHT_YEAR = 2026;
 
@@ -126,8 +110,9 @@ function PublicFooter() {
         </div>
 
         <p className="footer-meridian__brand">
-          <Link href="/" aria-label="The Black Stallion Academy of Horsemanship Home">
-            The Black Stallion Academy<span className="footer-meridian__brand-sub">of Horsemanship</span>
+          {/* The one lockup (CLAUDE.md → Navigation), scaled up; the crest is the seal above. */}
+          <Link href="/" aria-label="The Black Stallion Academy of Horsemanship, home">
+            <Wordmark layout="inline" size="custom" className="items-center text-[clamp(1.5rem,3.2vw,2.6rem)]" />
           </Link>
         </p>
 
@@ -135,12 +120,15 @@ function PublicFooter() {
           <em>{entity.motto}.</em> {entity.mottoEn}. The interscholastic equestrian leadership academy and national circuit.
         </p>
 
-        {/* Global horizontal navigation with animated underline hover */}
+        {/* The main pages with their own reel numbers and titles (lib/content/site.ts → footerNav), the same as every menu. */}
         <nav className="footer-meridian__nav" aria-label="Footer Navigation">
           <ul>
-            {navLinks.map((link) => (
+            {footerNav.map((link) => (
               <li key={link.href}>
-                <Link href={link.href}>{link.label}</Link>
+                <Link href={link.href}>
+                  <span className="mr-1.5 font-mono text-[0.72em] text-gold/80">{String(link.n).padStart(2, "0")}</span>
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>

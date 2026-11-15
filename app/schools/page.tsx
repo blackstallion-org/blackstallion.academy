@@ -10,6 +10,7 @@ import { SealedInvitation } from "@/components/sections/schools/SealedInvitation
 import { seals } from "@/lib/content/schools";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { SchoolRingProgramme } from "@/components/sections/campaign/CampaignSections";
+import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/schools" },
@@ -22,6 +23,7 @@ export default function SchoolsPage() {
     <>
       <SchoolsTitle />
       <ModelFlow />
+      <EditorialGallery page="schools" />
       {/* 14 Nov 2026: the riding ring on campus, the programme's main image (AI illustrations of the concept). */}
       <SchoolRingProgramme />
       <CitadelConfigurator />

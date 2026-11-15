@@ -99,7 +99,7 @@ export function WorldsScrollOverlay({ ref, status }: { ref?: Ref<ScrollOverlayHa
       <div ref={top} className={`${styles.bar} ${styles.barTop}`} style={{ transform: "scaleY(1)" }} aria-hidden />
       <div ref={bottom} className={`${styles.bar} ${styles.barBottom}`} style={{ transform: "scaleY(1)" }} aria-hidden />
 
-      <ol className="sr-only" aria-label="The four worlds">
+      <ol className="sr-only" aria-label="The two worlds">
         {CHAPTERS.map((c) => (
           <li key={c.id}>{c.n} {c.title}. {WORLD_SWISS[c.id].line}</li>
         ))}

@@ -12,9 +12,7 @@ import type { ShotPose, World, WorldContext, WorldId } from "./types";
 /** Each world's code is its own chunk, fetched the first time it is needed. */
 const FACTORIES: Record<WorldId, () => Promise<() => World>> = {
   origins: () => import("../scenes/origins").then((m) => m.createOrigins),
-  life: () => import("../scenes/life").then((m) => m.createLife),
   legacy: () => import("../scenes/legacy").then((m) => m.createLegacy),
-  beyond: () => import("../scenes/beyond").then((m) => m.createBeyond),
 };
 
 /** film progress per second at most (1 = the whole film); how hard the camera pulls toward the scroll position; how quickly its speed eases */

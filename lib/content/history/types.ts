@@ -9,7 +9,7 @@ export type AssetStatus = "pending" | "candidate" | "accepted" | "rejected";
 /** One master image in docs/history-scrolls/ASSET_LEDGER.json. */
 export type AssetSpec = {
   id: string;
-  role: LayerRole | "opening" | "shared";
+  role: LayerRole | "opening" | "shared" | "poster";
   path: string;
   width: number;
   height: number;
@@ -65,6 +65,8 @@ export type HistoryPage = {
     voice: string;
     lede: string;
     asset?: string;
+    /** Ledger id of the full-screen key art that opens the page (components/film/StoryPoster); the title card follows. */
+    poster?: string;
   };
   chapters: Chapter[];
   afterword?: { label: string; inscription: string; voice: string; paragraphs: string[] };

@@ -5,10 +5,9 @@ import { motion } from "motion/react";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { MorphGallery } from "@/components/motion/fx/MorphGallery";
-import { VelocityMarquee } from "@/components/motion/fx/VelocityMarquee";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import { mediaSrc } from "@/lib/content/media";
-import { pegIntro, pegStages, pegVirtues } from "@/lib/content/peg";
+import { pegIntro, pegStages } from "@/lib/content/peg";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -17,9 +16,9 @@ import { cn } from "@/lib/utils";
  * §3 · S63 Peg run (replaces the static S59 course diagram; the diagram survives as the lane strip).
  * One run in four stages. Signature moment: each stage dissolves into the next through drifting noise
  * (MorphGallery) while the rider mark travels down the lane. Play runs the four stages once.
- * Coda: the four virtues drift past, quickening with the scroll (VelocityMarquee).
+ * 14 Nov 2026 (owner): the virtues marquee after the run was removed; the stills ship locally, so the morph runs every time (1.8 s).
  */
-const STEP_MS = 2600;
+const STEP_MS = 3200;
 
 export function PegRun() {
   const [index, setIndex] = useState(0);
@@ -72,7 +71,7 @@ export function PegRun() {
 
       <div className="gutter mt-12 grid gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.55fr)]">
         <figure className="relative">
-          <MorphGallery items={items} index={index} className="aspect-[16/9] w-full border border-line" />
+          <MorphGallery items={items} index={index} duration={1800} edge={0.22} className="aspect-[16/9] w-full border border-line" />
           {/* Announced only while the run plays by itself; a chosen tab already exposes its panel. */}
           <figcaption className="sr-only" aria-live={playing ? "polite" : "off"}>
             Stage {stage.n}, {stage.name}: {stage.text}
@@ -130,8 +129,6 @@ export function PegRun() {
           </button>
         </div>
       </div>
-
-      <VelocityMarquee rows={pegVirtues} className="mt-[clamp(4rem,10vh,8rem)] text-bone" rowClassName="t-inscribe py-1 text-[clamp(2.5rem,8vw,7.5rem)] leading-none" />
     </section>
   );
 }

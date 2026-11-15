@@ -5,21 +5,19 @@ import styles from "./four-worlds.module.css";
 
 const ALT: Record<string, string> = {
   origins: "A black Marwari horse on a grassy hill above a green valley, a river and the academy at golden hour.",
-  life: "A translucent horse drawn in light, its skeleton and muscles glowing gold among living cells.",
   legacy: "The black Marwari in the desert below a Rajasthan hill fort, a cavalry column in the haze.",
-  beyond: "The black Marwari on a gold-lit platform in orbit, a planet and its rings behind.",
 };
 
 /**
- * The Four Worlds without the 3D engine: shown for reduced motion, when WebGL 2 is not available, or if the engine fails.
+ * The opening film without the 3D engine: shown for reduced motion, when WebGL 2 is not available, or if the engine fails.
  * The stills are frames rendered from the real scenes (public/worlds/posters), set in the same Swiss type as the film.
  */
 export function WorldsFallback({ reason }: { reason: "reduced" | "webgl" | "error" }) {
   return (
-    <section className={`${styles.fallback} tone-photo`} aria-label="Four Worlds">
+    <section className={`${styles.fallback} tone-photo`} aria-label="The opening">
       {reason !== "reduced" && (
         <p className={styles.fallbackNote}>
-          {reason === "webgl" ? "Your browser cannot show the 3D film, so here are its four worlds as stills." : "The 3D film could not start, so here are its four worlds as stills."}
+          {reason === "webgl" ? "Your browser cannot show the 3D film, so here are its two worlds as stills." : "The 3D film could not start, so here are its two worlds as stills."}
         </p>
       )}
       {CHAPTERS.map((c) => {
