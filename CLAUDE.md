@@ -57,6 +57,19 @@ All imagery is Higgsfield placeholder art keyed in `lib/content/media.ts` (promp
 
 Never publish the "No" rows of the claims ledger (Blueprint Part 9): no "40% cortisol", "300+ muscles", "permanently reverses tech-neck", "zero joint impact". Flag sample data as SAMPLE in code and on the page.
 
+### Navigation (owner's standing rules, 14 Nov 2026: do not repeat these mistakes)
+
+- **One brand lockup, always whole.** Wherever the brand appears in a nav, menu, drawer or footer it is the crest plus
+  `BLACK STALLION` with `ACADEMY OF HORSEMANSHIP` under it, as one link to `/`, rendered by `<Wordmark />`
+  (`components/brand`). Never the top line alone, never typed by hand, never a second variant. If space is tight, shrink it;
+  do not drop the second line.
+- **One source of truth for every menu.** The primary bar, any dropdown or mega-menu (Academy, Cadets, Training, Programs,
+  Heritage…), the Reels index and the footer all build from `lib/content/site.ts`. A page's number and title are the same
+  everywhere: its `reels[].n` / `tools[].n` and `title`. No menu numbers its own group 01, 02, 03 or retitles a page.
+- **Change pages in one place.** Adding, renaming, moving or removing a page means editing `site.ts` only; then open every
+  menu (bar, each dropdown, Reels, footer) at 1440 and 390 px and check the page appears once, with the same number and
+  title in each. `tests/site-nav.test.mjs` fails if reel numbers repeat or skip.
+
 ## Code conventions
 
 - Server Components by default; `"use client"` only for state, effects or motion. Never import non-component values from a `"use client"` file into a Server Component; shared data lives in `lib/content/`.
