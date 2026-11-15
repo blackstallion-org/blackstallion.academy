@@ -14,7 +14,7 @@ import { SiteParallax } from "@/components/motion/SiteParallax";
 import { Footer } from "@/components/site/Footer";
 import { SiteNav } from "@/components/site/SiteNav";
 import { Soundscape } from "@/components/site/Soundscape";
-import { WorldsIntro } from "@/components/worlds/WorldsIntro";
+import { OpeningIntro } from "@/components/opening/OpeningIntro";
 import { fontVariables } from "@/lib/fonts";
 import Script from "next/script";
 
@@ -61,7 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               Skip to content
             </a>
             <Loader />
-            <WorldsIntro />
+            <OpeningIntro />
             <SiteNav />
             <Soundscape />
             <Atmosphere />

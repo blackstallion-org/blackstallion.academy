@@ -1,7 +1,5 @@
 /** localStorage key meaning "this browser has seen the intro film to its end (or skipped it)". Remembered for this visit only (sessionStorage); ?intro plays it again. */
 export const INTRO_SEEN_KEY = "bsah-intro-seen";
-/** sessionStorage key set when the film ends on /worlds and hands over to the homepage (the homepage then fades up from black). */
-export const INTRO_REVEAL_KEY = "bsah-intro-reveal";
 
 /** Remembers that the intro has been seen. localStorage when the browser allows it, else this session only. Safe to call anywhere. */
 export function markIntroSeen(): void {
@@ -15,7 +13,7 @@ export function markIntroSeen(): void {
  * film is laid over it), and marks the loader as already seen so the running horse does not play in front of the film. It leaves
  * everything alone when the visitor asks for reduced motion, has data saver on or a very slow connection, or adds ?nointro (?intro
  * plays it again). The component that plays the film moves the marker to "reveal" when the film starts to fade (the page then shows
- * beneath it) and removes it when the film cannot play (no WebGL 2) or has gone. Completion is stored by markIntroSeen(), not here,
+ * beneath it) and removes it when the film cannot play (it fails to load in time or errors) or has gone. Completion is stored by markIntroSeen(), not here,
  * so a visit that is closed halfway through plays again next time.
  */
 export function buildIntroBootScript(): string {

@@ -143,13 +143,12 @@ export const lakshmibai: HistoryPage = {
     { id: "chapter-the-memory", numeral: "IV", title: "The road and the memory", scenes: scenes.slice(6, 8) },
   ],
   statue: {
-    src: asset("/images/story/lakshmibai/statue.webp"),
+    src: asset("/images/story/lakshmibai/statue-original.webp"),
     width: 1200,
     height: 1600,
-    alt: "A bronze statue of Rani Lakshmibai on a rearing horse, sword raised, on a stone plinth against a blue sky in Shimla",
-    caption: "Rani Lakshmibai, in bronze, at Shimla.",
-    credit: "Photograph: Slyronit, CC BY-SA 4.0, via Wikimedia Commons",
-    creditHref: "https://commons.wikimedia.org/wiki/File:Rani_Lakshmibai_Statue,_Shimla.jpg",
+    alt: "An original bronze monument plate of Rani Lakshmibai on a rearing horse, sword raised, against a clear Himalayan sky",
+    caption: "Rani Lakshmibai, remembered in bronze.",
+    credit: "Original image commissioned for BSAH.",
   },
   afterword: {
     label: "Afterword",

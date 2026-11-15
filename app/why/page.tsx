@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { HorsePlate } from "@/components/sections/why/HorsePlate";
 import { BreathCue } from "@/components/film/BreathCue";
-import { BigSlider, Glass, Monolith, SovereignCrucible, TrainList, WhyTitle } from "@/components/sections/why/WhyScenes";
-import { why } from "@/lib/content/science";
-import { entity } from "@/lib/content/site";
+import { BigSlider, Glass, SovereignCrucible, TrainList, WhyTitle } from "@/components/sections/why/WhyScenes";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { EditorialGallery } from "@/components/film/EditorialGallery";
 
@@ -23,7 +21,6 @@ export default function WhyPage() {
       <BreathCue />
       <SovereignCrucible />
       <BigSlider />
-      <Monolith lines={why.sanctuary} coda={`${entity.motto}.`} label="The sanctuary of unpowered truth" />
       <TrainList />
       <ReplayHeadline typeface="condensed" id="why-replay" label="The sovereign truth" text="A horse cannot be deceived by an algorithm." tone="dark" defaultMode="words" />
     </>

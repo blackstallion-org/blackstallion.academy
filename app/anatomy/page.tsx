@@ -7,7 +7,7 @@ import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
 import { EarDial, ScaleBalance, AnatomyTitle } from "@/components/sections/anatomy/AnatomyScenes";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { DualBody, MatrixPlate } from "@/components/sections/anatomy/DualBody";
-import { StrideExperience } from "@/components/stride/StrideExperience";
+import { MovementLab } from "@/components/sections/stride/MovementLab";
 import { breedStandard } from "@/lib/content/anatomy";
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export default function AnatomyPage() {
 
       {/* Explore the horse and rider together, followed by their movement through a stride. */}
       <DualBody />
-      <StrideExperience embedded />
+      <MovementLab />
 
       {/* §1c · the brain, spine, muscle and heart plate (the supplied 2D animation, back on this page) */}
       <MatrixPlate />

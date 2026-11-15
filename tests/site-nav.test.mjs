@@ -38,7 +38,7 @@ test("site chrome draws the brand with <Wordmark />, never by hand", async () =>
     const visible = src.replace(/(aria-label|alt|title|label)=\{?["'`][^"'`]*["'`]\}?/g, "").match(/>\s*Black Stallion\b/gi);
     assert.equal(visible, null, `${f} types the brand name instead of using <Wordmark />`);
   }
-}); nav-mega-menu
+});
 
 test("every menu shows a numbered page with its own number and title, once per menu", () => {
   const byHref = new Map([...site.reels, ...site.tools].map((r) => [r.href, r]));
@@ -66,4 +66,11 @@ test("every menu shows a numbered page with its own number and title, once per m
 test("menus never count their own links", async () => {
   const src = await readFile(path.join(root, "components/site/SiteNav.tsx"), "utf8");
   assert.doesNotMatch(src, /starts\[c\]\s*\+\s*k|columnStarts/, "SiteNav numbers menu links by position");
-}); main
+});
+
+test("the subject menus (desktop mega menus and phone groups) list titles only", async () => {
+  // Owner, 15 Nov 2026: the menus group pages by subject, so reel numbers jumped (09, 14 | 12, 15) and some rows had none.
+  // Numbers belong to the Reels menu, the footer and each page's reel mark.
+  const src = await readFile(path.join(root, "components/site/SiteNav.tsx"), "utf8");
+  assert.doesNotMatch(src, /LinkNumber|pad\(l\.n\)|pad\(link\.n\)/, "a subject menu draws reel numbers again");
+});

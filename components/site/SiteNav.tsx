@@ -11,7 +11,7 @@ import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { AnimatedMenuText } from "@/components/ui/animated-menu";
-import { acts, corridors, isConsolePath, menuHolds, navCta, navMenus, reels, tools, type Act, type NavMenu, type NavMenuLink } from "@/lib/content/site";
+import { acts, corridors, isConsolePath, menuHolds, navCta, navMenus, reels, tools, type Act, type NavMenu } from "@/lib/content/site";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -172,20 +172,9 @@ function PublicNav() {
 }
 
 /**
- * A link's number cell: a numbered page shows its own reel number (the same as in the Reels menu and the footer); a page
- * outside the reels shows none. Menus never count their own links.
- */
-function LinkNumber({ link, className }: { link: NavMenuLink; className: string }) {
-  return (
-    <span aria-hidden={link.n === undefined} className={cn("shrink-0 font-mono text-gold/80", className)}>
-      {link.n === undefined ? "" : pad(link.n)}
-    </span>
-  );
-}
-
-/**
  * The header's full-screen editorial mega menu: the ivory page drawn down under the bar, the menu's title and one line, then
- * three columns of numbered italic links under thin rules. The bar stays above it, so moving along the five words switches
+ * three columns of italic page titles under thin rules (no numbers: the menus group pages by subject, so reel numbers
+ * would jump about; the numbers live in the Reels menu, the footer and each page's reel mark). The bar stays above it, so moving along the five words switches
  * menus in place. Escape closes and returns focus to the word; a keyboard opening moves focus to the first link; tabbing out
  * closes it. Reduced motion: a plain fade.
  */
@@ -279,7 +268,6 @@ function MegaMenu({ menu, index, focusFirst, onClose }: { menu: NavMenu; index: 
                           aria-current={here ? "page" : undefined}
                           className="group/link flex items-baseline gap-5 border-b border-line py-[clamp(0.85rem,1.9vh,1.25rem)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
                         >
-                          <LinkNumber link={l} className="w-6 text-xs" />
                           <span
                             className={cn(
                               "t-voice min-w-0 flex-1 text-[clamp(1.45rem,2.05vw,2.05rem)] leading-[1.15] transition-[color,transform] duration-500 ease-[var(--ease-citadel)] group-hover/link:translate-x-1.5 group-hover/link:text-gold group-focus-visible/link:text-gold motion-reduce:transition-none motion-reduce:group-hover/link:translate-x-0",
@@ -317,7 +305,7 @@ function MegaMenu({ menu, index, focusFirst, onClose }: { menu: NavMenu; index: 
   );
 }
 
-/** One group of the phone menu: the header word as a disclosure, opening onto its three numbered columns. */
+/** One group of the phone menu: the header word as a disclosure, opening onto its three columns of titles (no numbers, as in the mega menus). */
 function MenuGroup({ menu, onClose }: { menu: NavMenu; onClose: () => void }) {
   const pathname = usePathname();
   const [shown, setShown] = useState(() => menuHolds(menu, pathname));
@@ -348,7 +336,7 @@ function MenuGroup({ menu, onClose }: { menu: NavMenu; onClose: () => void }) {
           >
             <p className="t-story pb-2 italic text-sand">{menu.lead}</p>
             <div className="grid gap-x-8 gap-y-6 pb-6 pt-3 sm:grid-cols-3">
-              {menu.columns.map((col, c) => (
+              {menu.columns.map((col) => (
                 <div key={col.heading}>
                   <p className="label border-b border-line pb-2 text-brass">{col.heading}</p>
                   <ul>
@@ -360,7 +348,6 @@ function MenuGroup({ menu, onClose }: { menu: NavMenu; onClose: () => void }) {
                           aria-current={pathname === l.href ? "page" : undefined}
                           className="flex min-h-12 items-baseline gap-4 border-b border-line py-2.5 text-bone transition-colors hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold aria-[current=page]:text-gold"
                         >
-                          <LinkNumber link={l} className="w-5 text-[0.68rem]" />
                           <span className="t-voice text-[1.2rem] leading-snug">{l.label}</span>
                         </Link>
                       </li>

@@ -3,8 +3,8 @@ import { asset } from "./asset";
 /**
  * The two films the home page plays in HeroFilm. Every path is already wrapped in asset(), so the player uses them as they are.
  *
- *  - OPENING_FILM: the owner's Marwar film (9 Nov 2026), 65 s, a true 2:1 picture with its own title card and sound. It is the
- *    first film under the doctrine screen, so the frame fills the band edge to edge (no baked bars to crop).
+ *  - OPENING_FILM: the owner's current hero film, prepared as a browser-friendly 2:1 picture with sound. It is the
+ *    first film under the doctrine screen, so the frame fills the band edge to edge.
  *  - FIRST_FILM: the original opening film (Marwari stallions), kept further down the home page. It is a scope picture inside
  *    16:9 files with black bars baked in, so it keeps its wide, masked frame and starts on its title card at 2.8 s.
  */
@@ -26,11 +26,11 @@ export type HeroFilmSpec = {
 export const OPENING_FILM: HeroFilmSpec = {
   id: "top",
   label: "Opening Film",
-  poster: asset("/video/hero-marwar-poster.webp"),
-  posterMobile: asset("/video/hero-marwar-poster-mobile.webp"),
-  desktop: asset("/video/hero-marwar-desktop.mp4"),
-  mobile: asset("/video/hero-marwar-mobile.mp4"),
-  posterAlt: "The Marwar: the title card of the academy's opening film over a desert sunset",
+  poster: asset("/video/hero-rider-lesson-poster.jpg"),
+  posterMobile: asset("/video/hero-rider-lesson-poster-mobile.jpg"),
+  desktop: asset("/video/hero-rider-lesson.mp4"),
+  mobile: asset("/video/hero-rider-lesson-mobile.mp4"),
+  posterAlt: "A black horse in silhouette against a warm sunlit background",
   layout: "full",
   startAt: 0,
 };

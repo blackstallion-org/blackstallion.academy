@@ -13,12 +13,14 @@ export type Hotspot = {
   metric: string;
   x: number;
   y: number;
+  /** Position on the studio film (public/video/specimen-stallion.mp4, 4:3, horse facing left): % of its width and height. */
+  film: { x: number; y: number };
   layers: { equine: string; rider: string; builds: string; legend: string };
 };
 
 export const hotspots: Hotspot[] = [
   {
-    id: "ears", name: "Ears", title: "180° of Attention", x: 71, y: 10, metric: "180° Independent Acoustic Swivel",
+    id: "ears", name: "Ears", title: "180° of Attention", x: 71, y: 10, film: { x: 27.5, y: 7 }, metric: "180° Independent Acoustic Swivel",
     short: "The lyre-shaped ears swivel independently toward sound and movement. A horse that is listening is a horse that is paying attention, and its ears show it first.", trains: "Composure & Active Environmental Reading",
     layers: {
       equine: "Lyre-shaped ears turn through 180° and track sound independently.",
@@ -28,7 +30,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "neck", name: "Neck", title: "The Crest", x: 62, y: 19, metric: "Cervical Biomechanical Lever",
+    id: "neck", name: "Neck", title: "The Crest", x: 62, y: 19, film: { x: 39, y: 22 }, metric: "Cervical Biomechanical Lever",
     short: "High-carried and muscularly dense, the neck is a dynamic counterweight across shifting sand, teaching subtle balance shifts over brute force.", trains: "Poise & Dynamic Weight Distribution",
     layers: {
       equine: "High-carried, arching and muscularly dense: a dynamic counterweight engineered for rapid weight shifts across shifting dunes.",
@@ -38,7 +40,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "saddle", name: "Saddle", title: "The Moving Floor", x: 47, y: 29, metric: "Pelvic Kinematics: 3D Core Realignment",
+    id: "saddle", name: "Saddle", title: "The Moving Floor", x: 47, y: 29, film: { x: 57, y: 33 }, metric: "Pelvic Kinematics: 3D Core Realignment",
     short: "At a walk the horse moves your pelvis in three dimensions, close to the pattern of human walking.", trains: "Core and balance",
     layers: {
       equine: "The back carries the stride straight into the rider's seat.",
@@ -48,7 +50,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "flank", name: "Flank", title: "Legs that steer", x: 39, y: 46, metric: "MICRO-PRESSURE STEERING INTERFACE",
+    id: "flank", name: "Flank", title: "Legs that steer", x: 39, y: 46, film: { x: 55, y: 50 }, metric: "MICRO-PRESSURE STEERING INTERFACE",
     short: "The lightest leg pressure turns the horse. Hands stay free for the lance.", trains: "Precision without force",
     layers: {
       equine: "Sensitive skin and muscle answer the lightest leg pressure.",
@@ -58,7 +60,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "reins", name: "Reins", title: "Ten Grams", x: 74, y: 30, metric: "LIGHT-CONTACT INTERFACE",
+    id: "reins", name: "Reins", title: "Ten Grams", x: 74, y: 30, film: { x: 22, y: 30 }, metric: "LIGHT-CONTACT INTERFACE",
     short: "The lightest steady contact is the whole conversation with a horse of several hundred kilograms. Shouting does nothing.", trains: "Precise communication",
     layers: {
       equine: "A mouth that answers very light, steady contact.",
@@ -68,7 +70,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "hoof", name: "Hoof", title: "Desert Feet", x: 58, y: 89, metric: "DESERT-BRED SUSPENSION & CADENCE",
+    id: "hoof", name: "Hoof", title: "Desert Feet", x: 58, y: 89, film: { x: 44, y: 92 }, metric: "DESERT-BRED SUSPENSION & CADENCE",
     short: "Hard, upright hooves bred to lift clean out of sand.", trains: "Rhythm and timing",
     layers: {
       equine: "The fetlock flexes like a spring; desert hooves are hard and upright.",
@@ -87,8 +89,8 @@ export const layerNames = [
 ] as const;
 
 /**
- * The home plate's detail panel: five nodes on the 3D stallion (Reel 02 · The Instrument).
- * `id` matches a `hotspots` id and a region in components/sections/anatomy/Anatomy3DHorse.tsx.
+ * The home plate's detail panel: five nodes on the studio film (Reel 02 · The Instrument).
+ * `id` matches a `hotspots` id and a point on the studio film (components/sections/anatomy/StudioFilm.tsx).
  * Wording follows the claims ledger (Blueprint Part 9): ears, "about a hundred" pelvic moves, one cited trial,
  * "upright, stacked posture", "deep core, back and inner-thigh muscles", "low impact on knees and ankles".
  * Folklore sits only in `legend`, which the panel labels as told. No figures beyond the ledger's (no BPM, no gram tensions).

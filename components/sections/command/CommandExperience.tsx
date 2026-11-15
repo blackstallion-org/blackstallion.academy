@@ -1,11 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Terminal } from "./Terminal";
 import { knowledge } from "@/lib/content/command";
 import { command } from "@/lib/content/home";
 import styles from "./CommandExperience.module.css";
-import { desert, desertCredit } from "@/lib/content/desert";
+import { FilmImage } from "@/components/film/FilmImage";
 
 export function CommandExperience() {
   return (
@@ -24,12 +23,11 @@ export function CommandExperience() {
 export function CommandTeaser() {
   return <section id="home-command" aria-labelledby="command-h" className={styles.teaser} data-parallax-skip>
     <figure className={styles.teaserBackground}>
-      {/* 14 Nov 2026 (owner): two desert silhouettes replace the sepia gallop; the second is left out on phones. Natural proportions, marks kept. */}
-      <div className={styles.teaserPair}>
-        <span><Image src={desert.dustSilhouette.src} alt={desert.dustSilhouette.alt} fill sizes="(min-width: 801px) 50vw, 100vw" style={{ objectPosition: desert.dustSilhouette.position }} /></span>
-        <span className={styles.teaserSecond}><Image src={desert.palaceRearing.src} alt={desert.palaceRearing.alt} fill sizes="50vw" style={{ objectPosition: desert.palaceRearing.position }} /></span>
+      {/* 15 Nov 2026 (owner): one large, sharp original (2400 px) replaces the soft 1080p film frame, and the picture is held still:
+          it used to zoom 2% on hover, so a cursor resting on the page made it swell and settle as the section scrolled past. */}
+      <div className={styles.teaserHero}>
+        <FilmImage name="bondField" sizes="100vw" position="68% 45%" />
       </div>
-      <figcaption className={styles.teaserCredit}>{desertCredit}</figcaption>
     </figure>
     <div className={styles.teaserIntro}>
       <p className={styles.eyebrow}>Reel 14 / The Command</p>

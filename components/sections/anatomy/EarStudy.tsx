@@ -1,236 +1,272 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
-import { HERO_MODEL, addLights, createTimer, daylight, disposeObject, loadMarwari, releaseRenderer, type Marwari } from "@/components/3d/marwari";
-import { createStudioEnv } from "@/components/3d/studio";
+import { asset } from "@/lib/content/asset";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
 
 /**
- * The ear study (2 Nov 2026, R12): the academy's canonical rigged Marwari (marwari-hero.glb, the horse of the home film), framed on
- * the head. Each ear is its own bone and turns about its own long axis, the way a horse swivels the opening of the ear toward a sound;
- * the clip `Ear_Rotate` in the model uses the same axis (+Y on the left ear, -Y on the right). The visitor chooses what the horse is
- * listening to (buttons, so keyboard and touch work), or, with a mouse, moves the pointer around the head as a sound source.
- * Small idle flicks keep the ears alive. Reduced motion: no idle flicks or breathing; a choice moves the ears straight to their pose.
+ * The ear study (15 Nov 2026, owner): real footage of a black Marwari's ears, seen from the saddle, replaces the 3D head.
  *
- * Copy stays with what is observable: each ear turns on its own. No angles or ranges are claimed.
+ * Frames 33-108 of the supplied 10 s clip (public/video/Black_horse_ears_animating_…mp4) were cut to the head, which leaves the
+ * Gemini mark in the bottom-right corner outside the picture, and saved as 76 stills (public/video/ears/ear-00…75.webp). That one
+ * unbroken stretch of film holds every state, measured frame by frame:
+ *   0 rest (tips curved in until they almost meet) → 25 left ear swivelled fully out → 35-39 left coming back, right starting
+ *   → 48 both out → 57 right out, left forward → 66 both pricked (alert) → 75 rest again.
+ * Frames 0 and 75 are the same pose (under a pixel apart), so the path is a circle. A canvas plays a playhead along it, forward
+ * or back by the shorter way, toward a target set by the visitor: the ears only ever take poses the horse really took, in the
+ * order it took them, so each ear turns on its own and nothing moves the whole picture. Between stills the two nearest frames
+ * are blended, so the motion is smooth at any speed.
+ *
+ * Mouse: pointer to the left of the head turns the left ear toward it, to the right the right ear (the right-hand path pricks
+ * both ears first, then turns the right one), above the head both ears prick; still for a moment and the ears relax to rest;
+ * leave and the horse returns to rest with small real flicks now and then. Touch: the same, gentler, without blocking scroll.
+ * Buttons choose a sound source (keyboard and touch). Reduced motion: no flicks and no tracking; a choice shows its frame at once.
  */
 
-type Source = "ahead" | "left" | "behind" | "split";
-const SOURCES: { id: Source; label: string; line: string }[] = [
-  { id: "ahead", label: "Ahead", line: "Both ears forward: something in front has its full attention." },
-  { id: "left", label: "To the left", line: "The left ear turns to the instructor's voice; the right stays on the path ahead." },
-  { id: "behind", label: "The rider", line: "Both ears swivel back toward the rider in the saddle." },
-  { id: "split", label: "Two at once", line: "One ear forward, one back: it listens to two things at the same time." },
+const FRAMES = 76;
+const LOOP = 75; // frame 75 is frame 0 again
+const frameUrl = (i: number) => asset(`/video/ears/ear-${String(i).padStart(2, "0")}.webp`);
+/** The stills' size (head crop of the 1080p clip). */
+const FW = 720;
+const FH = 762;
+
+type Source = "ahead" | "left" | "rider" | "split";
+const SOURCES: { id: Source; label: string; line: string; at: number }[] = [
+  { id: "ahead", label: "Ahead", at: 66, line: "Both ears pricked forward: something in front has its full attention." },
+  { id: "left", label: "To the left", at: 25, line: "The left ear swivels out toward the instructor's voice; the right stays on the path ahead." },
+  { id: "rider", label: "The rider", at: 48, line: "Both ears turn out and back, toward the rider in the saddle." },
+  { id: "split", label: "Two at once", at: 57, line: "One ear forward, one turned out: it listens to two things at the same time." },
 ];
-/** Ear turn per source, 0 = forward, 1 = fully swivelled out and back. [left, right] */
-const POSE: Record<Source, [number, number]> = { ahead: [0, 0], left: [0.85, 0.08], behind: [0.75, 0.75], split: [0.05, 0.85] };
-/** Largest swivel in radians (within what the model's own Ear_Rotate clip already does, plus a margin). */
-const MAX_TURN = 1.2;
-const AXIS_L = new THREE.Vector3(0, 1, 0);
-const AXIS_R = new THREE.Vector3(0, -1, 0);
-/** The sculpt hooks its ear tips inward more than a living Marwari: ease the tip bones out (radians about local X and Z). */
-const TIP = { x: 0, z: 0 }; // 3 Nov 2026: the crescent ears no longer over-hook, so the study's old -0.3 tip ease is gone (kept as a dev control)
-/** Camera direction from the head (x: toward the horse's left, y: up, z: in front) and how much room around it. */
-const VIEW = { x: 0.42, y: 0.08, fit: 1.3 };
+const REST_LINE = "At rest, a Marwari's ears curve inward until the tips almost meet.";
+const FOLLOW_LINE = "The ear nearer your pointer turns toward it; above the head, both prick up.";
+
+const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+/** Signed shortest distance from a to b on the circle. */
+const towards = (a: number, b: number) => ((((b - a) % LOOP) + LOOP * 1.5) % LOOP) - LOOP / 2;
+const wrap = (p: number) => ((p % LOOP) + LOOP) % LOOP;
+
+/** Where the ears should be for a point relative to the head (nx, ny in -1..1), at a strength 0..1. */
+function poseFor(nx: number, ny: number, strength: number) {
+  const side = clamp((Math.abs(nx) - 0.12) / 0.75, 0, 1) ** 0.85 * strength;
+  const up = clamp((-ny - 0.2) / 0.6, 0, 1) * strength;
+  if (side < 0.3 && up > 0) return wrap(LOOP - 9 * up); // pricked: the first half of the right-hand path
+  if (nx < 0) return 25 * side; // the left ear swivels out
+  return wrap(LOOP - 18 * side); // pricked, then the right ear swivels out
+}
 
 export function EarStudy({ className }: { className?: string }) {
-  const host = useRef<HTMLDivElement>(null);
-  const [source, setSource] = useState<Source>("ahead");
-  const [status, setStatus] = useState<"loading" | "ready" | "failed">("loading");
+  const stage = useRef<HTMLDivElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
-  const target = useRef<[number, number]>(POSE.ahead);
-  const pointer = useRef<{ x: number; y: number; at: number } | null>(null);
-  const kick = useRef<() => void>(() => {});
-
-  useEffect(() => { target.current = POSE[source]; pointer.current = null; kick.current(); }, [source]);
+  const [source, setSource] = useState<Source | null>(null);
+  const [following, setFollowing] = useState(false);
+  const [ready, setReady] = useState(false);
+  const engine = useRef<{ setTarget: (t: number, speed?: number) => void } | null>(null);
+  /** The chosen source, readable from the animation loop. */
+  const sourceRef = useRef<Source | null>(null);
 
   useEffect(() => {
-    const container = host.current;
-    if (!container) return;
+    const host = stage.current;
+    const cv = canvas.current;
+    const ctx = cv?.getContext("2d");
+    if (!host || !cv || !ctx) return;
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let disposed = false;
-    let renderer: THREE.WebGLRenderer;
-    try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
-    } catch {
-      queueMicrotask(() => setStatus("failed")); // not synchronously inside the effect
-      return;
-    }
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(26, 1, 0.05, 20);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    container.appendChild(renderer.domElement);
-    renderer.domElement.style.display = "block";
-    renderer.domElement.setAttribute("aria-hidden", "true");
-
-    let env: THREE.WebGLRenderTarget | null = null;
-    try { env = createStudioEnv(renderer); scene.environment = env.texture; scene.environmentIntensity = 0.45; } catch { /* lights alone */ }
-    const light = daylight(17.2); // late-afternoon gold on the rim, a near-white key: the hour of the ear still on /legend
-    const rig = addLights(scene);
-    rig(light);
-    renderer.toneMappingExposure = light.exposure;
-
-    let horse: Marwari | null = null;
-    let mixer: THREE.AnimationMixer | null = null;
-    const turn: [number, number] = [0, 0];
-    const flick: [number, number] = [0, 0];
-    let nextFlick = 2;
-    const q = new THREE.Quaternion();
-    const timer = createTimer();
     let raf = 0;
-    let visible = true;
-    let lookAt = new THREE.Vector3();
+    let visible = false;
+    let pos = 0;
+    let target = 0;
+    let maxSpeed = 30; // frames a second (the film runs at 24)
+    let drawn = -1;
+    let lastInput = 0; // when the visitor last moved the pointer or a finger (0 = not following)
+    let nextFlick = performance.now() + 4000;
+    let flickBack = 0;
+    let last = performance.now();
+    const imgs: (HTMLImageElement | null)[] = Array(FRAMES).fill(null);
 
-    const resize = () => {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      renderer.setSize(w, h, false);
-      renderer.domElement.style.width = "100%";
-      renderer.domElement.style.height = "100%";
-      camera.aspect = w / Math.max(1, h);
-      camera.updateProjectionMatrix();
+    const size = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = Math.round(host.clientWidth * dpr);
+      const h = Math.round(host.clientHeight * dpr);
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; drawn = -1; }
     };
-    resize();
-    const ro = new ResizeObserver(() => { resize(); kick.current(); });
-    ro.observe(container);
+    const nearestLoaded = (i: number) => {
+      if (imgs[i]) return imgs[i];
+      for (let d = 1; d < FRAMES; d++) {
+        const a = imgs[i - d] ?? null;
+        if (a) return a;
+        const b = imgs[i + d] ?? null;
+        if (b) return b;
+      }
+      return null;
+    };
+    const draw = () => {
+      const p = wrap(pos);
+      const i = Math.floor(p);
+      const t = p - i;
+      const a = nearestLoaded(i);
+      if (!a) return;
+      const b = t > 0.02 ? imgs[i + 1] : null;
+      const s = Math.min(cv.width / FW, cv.height / FH);
+      const w = FW * s;
+      const h = FH * s;
+      const x = (cv.width - w) / 2;
+      const y = cv.height - h;
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(a, x, y, w, h);
+      if (b) { ctx.globalAlpha = t; ctx.drawImage(b, x, y, w, h); ctx.globalAlpha = 1; }
+      drawn = p;
+    };
 
-    const frame = () => {
+    const tick = (now: number) => {
       raf = 0;
-      if (disposed || !horse) return;
-      const dt = Math.min(0.05, timer.delta());
-      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (mixer && !still) mixer.update(dt);
-      // where the ears want to be: the chosen source, or the pointer as a moving sound source
-      let want: [number, number] = target.current;
-      const p = pointer.current;
-      if (p && performance.now() - p.at < 4000) {
-        // pointer left of the head (x < 0) pulls the horse's left ear out; behind the head (y high) pulls both back
-        const left = THREE.MathUtils.clamp(-p.x * 1.2, 0, 1);
-        const right = THREE.MathUtils.clamp(p.x * 1.2, 0, 1);
-        const back = THREE.MathUtils.clamp(p.y * 0.6, 0, 0.6);
-        want = [Math.max(left, back), Math.max(right, back)];
-      }
+      if (disposed || !visible) return;
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
       if (!still) {
-        nextFlick -= dt;
-        if (nextFlick <= 0) {
-          const side = Math.random() < 0.5 ? 0 : 1;
-          flick[side] = (Math.random() * 0.25 + 0.1) * (Math.random() < 0.5 ? 1 : -1);
-          nextFlick = 2.5 + Math.random() * 3.5;
+        // a still pointer lets the ears relax; with nobody there, an occasional small real flick keeps the horse alive
+        if (lastInput && now - lastInput > 1800) { lastInput = 0; target = 0; maxSpeed = 10; setFollowing(false); }
+        if (!lastInput && sourceRef.current === null) {
+          if (flickBack && now > flickBack) { flickBack = 0; target = 0; maxSpeed = 16; }
+          else if (!flickBack && now > nextFlick && Math.abs(towards(pos, 0)) < 0.5) {
+            target = Math.random() < 0.5 ? 3 + Math.random() * 3 : wrap(LOOP - 3 - Math.random() * 4);
+            maxSpeed = 18;
+            flickBack = now + 700 + Math.random() * 500;
+            nextFlick = now + 5000 + Math.random() * 4000;
+          }
         }
-        for (const i of [0, 1] as const) {
-          flick[i] *= Math.pow(0.08, dt); // a flick decays in about a second
-          turn[i] += (want[i] - turn[i]) * (1 - Math.pow(0.002, dt)); // ears move quickly but not instantly
-        }
-      } else {
-        turn[0] = want[0];
-        turn[1] = want[1];
-      }
-      const L = horse.bones.Ear_L;
-      const R = horse.bones.Ear_R;
-      if (L) L.quaternion.multiply(q.setFromAxisAngle(AXIS_L, THREE.MathUtils.clamp(turn[0] + flick[0], -0.2, 1) * MAX_TURN));
-      if (R) R.quaternion.multiply(q.setFromAxisAngle(AXIS_R, THREE.MathUtils.clamp(turn[1] + flick[1], -0.2, 1) * MAX_TURN));
-      const TL = horse.bones.Ear_Tip_L;
-      const TR = horse.bones.Ear_Tip_R;
-      const tipL = new THREE.Quaternion().setFromEuler(new THREE.Euler(TIP.x, 0, TIP.z));
-      const tipR = new THREE.Quaternion().setFromEuler(new THREE.Euler(TIP.x, 0, -TIP.z));
-      if (TL) TL.quaternion.multiply(tipL);
-      if (TR) TR.quaternion.multiply(tipR);
-      horse.root.updateMatrixWorld(true);
-      camera.lookAt(lookAt);
-      renderer.render(scene, camera);
-      if (TL) TL.quaternion.multiply(tipL.invert());
-      if (TR) TR.quaternion.multiply(tipR.invert());
-      // undo this frame's ear turn so the next mixer update starts from the clip pose (no accumulation)
-      if (L) L.quaternion.multiply(q.setFromAxisAngle(AXIS_L, -THREE.MathUtils.clamp(turn[0] + flick[0], -0.2, 1) * MAX_TURN));
-      if (R) R.quaternion.multiply(q.setFromAxisAngle(AXIS_R, -THREE.MathUtils.clamp(turn[1] + flick[1], -0.2, 1) * MAX_TURN));
-      const settling = Math.abs(want[0] - turn[0]) + Math.abs(want[1] - turn[1]) > 0.002;
-      if (visible && (!still || settling)) raf = requestAnimationFrame(frame);
+        const d = towards(pos, target);
+        if (Math.abs(d) > 0.002) {
+          const v = clamp(Math.abs(d) * 5, 2, maxSpeed) * dt;
+          pos = wrap(pos + Math.sign(d) * Math.min(Math.abs(d), v));
+        } else pos = target;
+      } else pos = target;
+      size();
+      if (Math.abs(wrap(pos) - drawn) > 0.001) draw();
+      raf = requestAnimationFrame(tick);
     };
-    kick.current = () => { if (!raf && visible) raf = requestAnimationFrame(frame); };
+    const kick = () => { if (!raf && visible && !disposed) { last = performance.now(); raf = requestAnimationFrame(tick); } };
 
-    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) { timer.delta(); kick.current(); } else if (raf) { cancelAnimationFrame(raf); raf = 0; } });
-    io.observe(container);
-
-    const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") return;
-      const r = container.getBoundingClientRect();
-      pointer.current = { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: ((e.clientY - r.top) / r.height) * 2 - 1, at: performance.now() };
-      kick.current();
+    engine.current = {
+      setTarget: (t, speed = 30) => { target = wrap(t); maxSpeed = speed; lastInput = 0; flickBack = 0; if (still) { pos = target; drawn = -1; } kick(); },
     };
-    container.addEventListener("pointermove", onMove);
 
-    const { promise, dispose: disposeLoader } = loadMarwari(HERO_MODEL);
-    promise.then((m) => {
-      if (disposed) return disposeObject(m.root);
-      horse = m;
-      m.ears.enabled = false; // the study poses the ears itself, from the visitor's choice
-      scene.add(m.root);
-      // A close-up of the face: the rim would turn the forelock and the crest pale, so the hair keeps a quieter sheen here.
-      m.hair.sheen.value *= 0.3;
-      mixer = new THREE.AnimationMixer(m.root);
-      for (const name of ["Idle_Breathing", "Blink", "Mane_Sway"]) {
-        const clip = m.clips.get(name);
-        if (clip) mixer.clipAction(clip).play().setEffectiveWeight(name === "Mane_Sway" ? 0.5 : 1);
+    // stills: the rest pose first, then the rest of the path
+    const load = (i: number) => new Promise<void>((resolve) => {
+      const im = new Image();
+      im.decoding = "async";
+      im.onload = () => { imgs[i] = im; resolve(); };
+      im.onerror = () => resolve();
+      im.src = frameUrl(i);
+    });
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      load(0).then(() => {
+        if (disposed) return;
+        imgs[LOOP] = imgs[LOOP] ?? imgs[0];
+        setReady(true);
+        drawn = -1;
+        kick();
+        const order = Array.from({ length: FRAMES - 1 }, (_, k) => k + 1);
+        let next = 0;
+        const worker = async () => { while (!disposed && next < order.length) { await load(order[next++]); drawn = -1; kick(); } };
+        void Promise.all([worker(), worker(), worker(), worker()]);
+      });
+    };
+
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) { start(); kick(); } else if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    }, { rootMargin: "300px" });
+    io.observe(host);
+    const ro = new ResizeObserver(() => { drawn = -1; kick(); });
+    ro.observe(host);
+
+    // the visitor's pointer anywhere over the section is a sound source; the head sits in the upper half of the stage
+    const zone = host.closest("section") ?? host;
+    const rel = (x: number, y: number) => {
+      const r = host.getBoundingClientRect();
+      return { nx: (x - (r.left + r.width / 2)) / (r.width / 2), ny: (y - (r.top + r.height * 0.4)) / (r.height / 2) };
+    };
+    const follow = (x: number, y: number, strength: number) => {
+      if (still) return;
+      // a chosen source holds until the visitor moves over the picture itself (not just anywhere in the section)
+      if (sourceRef.current !== null) {
+        const r = host.getBoundingClientRect();
+        if (x < r.left || x > r.right || y < r.top || y > r.bottom) return;
       }
-      mixer.update(0);
-      m.root.updateMatrixWorld(true);
-      // frame the whole head (muzzle to ear tips): three-quarter front from the horse's left, at eye level
-      const head = m.bones.Head.getWorldPosition(new THREE.Vector3());
-      const tipL = m.bones.Ear_Tip_L?.getWorldPosition(new THREE.Vector3()) ?? head;
-      const tipR = m.bones.Ear_Tip_R?.getWorldPosition(new THREE.Vector3()) ?? head;
-      const ears = tipL.clone().add(tipR).multiplyScalar(0.5);
-      // The muzzle in model space, as measured for the same rig by the anatomy viewer (Anatomy3DHorse MUZZLE_REST).
-      let muzzle = m.root.localToWorld(new THREE.Vector3(0.016, 1.62, 1.27));
-      if (muzzle.distanceTo(head) > 1.2 || muzzle.distanceTo(head) < 0.2) muzzle = head.clone().add(new THREE.Vector3(0, -0.35, 0.45));
-      lookAt = ears.clone().lerp(muzzle, 0.4);
-      const span = ears.distanceTo(muzzle);
-      const dist = (span / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)))) * VIEW.fit;
-      camera.position.copy(lookAt).add(new THREE.Vector3(VIEW.x, VIEW.y, 1).normalize().multiplyScalar(dist));
-      camera.lookAt(lookAt);
-      setStatus("ready");
-      timer.delta();
-      kick.current();
-      if (process.env.NODE_ENV !== "production") (window as unknown as { __earStudy?: unknown }).__earStudy = {
-        ears: m.ears,
-        setPose: (l: number, r: number) => { target.current = [l, r]; kick.current(); },
-        setTip: (x: number, z: number) => { TIP.x = x; TIP.z = z; kick.current(); },
-        // development only: orbit the camera round the head (azimuth 0 = in front of the horse, degrees; distance as a share of the framed one)
-        view: (az: number, el = 8, dist = 0.6) => {
-          const a = THREE.MathUtils.degToRad(az), e = THREE.MathUtils.degToRad(el);
-          const mid = tipL.clone().add(tipR).multiplyScalar(0.5).add(new THREE.Vector3(0, -0.04, 0));
-          lookAt.copy(mid);
-          camera.position.set(mid.x + dist * Math.sin(a) * Math.cos(e), mid.y + dist * Math.sin(e), mid.z + dist * Math.cos(a) * Math.cos(e));
-          kick.current();
-        },
-      };
-    }).catch(() => { if (!disposed) setStatus("failed"); }).finally(disposeLoader);
+      const { nx, ny } = rel(x, y);
+      target = poseFor(nx, ny, strength);
+      maxSpeed = 30;
+      lastInput = performance.now();
+      flickBack = 0;
+      if (sourceRef.current !== null) { sourceRef.current = null; setSource(null); }
+      setFollowing(true);
+      kick();
+    };
+    const onMove = (e: PointerEvent) => { if (e.pointerType === "mouse") follow(e.clientX, e.clientY, 1); };
+    const onLeave = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse" || still || sourceRef.current !== null) return;
+      lastInput = 0; target = 0; maxSpeed = 16; setFollowing(false); kick();
+    };
+    const onTouch = (e: TouchEvent) => { const t = e.touches[0]; if (t) follow(t.clientX, t.clientY, 0.6); };
+    const onTouchEnd = () => { if (lastInput) lastInput = performance.now() - 800; };
+    zone.addEventListener("pointermove", onMove as EventListener);
+    zone.addEventListener("pointerleave", onLeave as EventListener);
+    host.addEventListener("touchstart", onTouch, { passive: true });
+    host.addEventListener("touchmove", onTouch, { passive: true });
+    host.addEventListener("touchend", onTouchEnd, { passive: true });
 
     return () => {
       disposed = true;
       if (raf) cancelAnimationFrame(raf);
       io.disconnect();
       ro.disconnect();
-      container.removeEventListener("pointermove", onMove);
-      mixer?.stopAllAction();
-      if (horse) disposeObject(horse.root);
-      env?.dispose();
-      renderer.domElement.remove();
-      releaseRenderer(renderer);
+      zone.removeEventListener("pointermove", onMove as EventListener);
+      zone.removeEventListener("pointerleave", onLeave as EventListener);
+      host.removeEventListener("touchstart", onTouch);
+      host.removeEventListener("touchmove", onTouch);
+      host.removeEventListener("touchend", onTouchEnd);
+      engine.current = null;
     };
   }, []);
 
-  const current = SOURCES.find((s) => s.id === source)!;
+  const choose = (s: Source) => {
+    setSource(s);
+    setFollowing(false);
+    sourceRef.current = s;
+    engine.current?.setTarget(SOURCES.find((x) => x.id === s)!.at, 26);
+  };
+
+  const line = source ? SOURCES.find((s) => s.id === source)!.line : following ? FOLLOW_LINE : REST_LINE;
   return (
     <div className={cn("relative", className)}>
-      <div ref={host} className="relative aspect-[4/5] w-full overflow-hidden bg-[radial-gradient(ellipse_at_45%_30%,#8a725f,#4a3a2e_55%,#231b16_100%)] sm:aspect-[16/11]">
-        {status !== "ready" && (
-          <p className="label absolute inset-0 grid place-items-center text-sand" role="status">
-            {status === "failed" ? "The 3D study needs WebGL. The ears turn independently: see the photograph on The Legend." : "Loading the stallion…"}
-          </p>
-        )}
+      <div
+        ref={stage}
+        className="relative aspect-[4/5] w-full overflow-hidden bg-black sm:aspect-[16/9]"
+        // true black, as the owner asked: the theme's `black` token is charcoal, and the film's own ground is #000
+        style={{ touchAction: "pan-y", backgroundColor: "#000" }}
+      >
+        {/* the rest pose as a plain picture: shown until the canvas has drawn, and if scripts never run */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={frameUrl(0)}
+          alt=""
+          aria-hidden
+          className={cn("absolute bottom-0 left-1/2 h-full max-w-none -translate-x-1/2 object-contain transition-opacity duration-500", ready && "opacity-0")}
+          style={{ aspectRatio: `${FW} / ${FH}`, maxHeight: "100%", width: "auto" }}
+        />
+        <canvas
+          ref={canvas}
+          role="img"
+          aria-label="Filmed from the saddle: a black Marwari's two inward-curving ears. Each ear turns on its own toward the chosen sound."
+          className={cn("absolute inset-0 block h-full w-full transition-opacity duration-500", ready ? "opacity-100" : "opacity-0")}
+        />
       </div>
       <fieldset className="mt-5">
         <legend className="label text-dust">What is the horse listening to?</legend>
@@ -242,7 +278,7 @@ export function EarStudy({ className }: { className?: string }) {
               role="radio"
               aria-checked={source === s.id}
               data-sound="off"
-              onClick={() => setSource(s.id)}
+              onClick={() => choose(s.id)}
               className={cn(
                 "label min-h-11 border px-4 py-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
                 source === s.id ? "border-gold bg-gold text-night" : "border-line text-sand hover:border-gold hover:text-bone",
@@ -252,8 +288,8 @@ export function EarStudy({ className }: { className?: string }) {
             </button>
           ))}
         </div>
-        <p className="t-story mt-4 min-h-[3.5rem] text-sand" aria-live="polite">{current.line}</p>
-        <p className="label mt-1 hidden text-dust md:block">{reduced ? "" : "Or move your pointer around the head."}</p>
+        <p className="t-story mt-4 min-h-[3.5rem] text-sand" aria-live="polite">{line}</p>
+        <p className="label mt-1 text-dust">{reduced ? "" : <><span className="hidden md:inline">Or move your pointer around the head.</span><span className="md:hidden">Or touch the picture.</span></>}</p>
       </fieldset>
     </div>
   );

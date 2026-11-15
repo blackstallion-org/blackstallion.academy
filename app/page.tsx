@@ -13,6 +13,7 @@ import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { HorseFirst } from "@/components/sections/home/HorseFirst";
 import { FirstRideEditorial } from "@/components/sections/editorial/ReferencePanels";
 import { EditorialGallery } from "@/components/film/EditorialGallery";
+import { JourneyFilm } from "@/components/sections/home/JourneyFilm";
 
 /**
  * R00 · The Trailer. Fifteen sections in three zones (Blueprint Part 6, home).
@@ -34,7 +35,7 @@ export default function Home() {
     <HomeTypography>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organisationJsonLd).replace(/</g, "\\u003c") }} />
       {/* Zone A · Hook. Order (owner, 2 Nov 2026): the opening zoom (Loader) → who we are and what we do → the hero film →
-          the Rajasthan desert horse (StallionHero) → the rest. "Bronze and Time" was removed from here the same day. */}
+          the rest (15 Nov 2026: the Marwar Journey film moved to the middle of the page, after the Studbook). "Bronze and Time" was removed from here the same day. */}
       <Hero />
       <div data-home-story><StoryStrip /></div>
       <FirstRideEditorial />
@@ -48,6 +49,8 @@ export default function Home() {
       <Doors />
       <LedgerAscent />
       <Studbook />
+      {/* 15 Nov 2026 (owner): the Marwar Journey film, full screen, at the middle of the page */}
+      <JourneyFilm />
       {/* 14 Nov 2026 (owner): five heritage photographs, big (lib/content/home-thresholds.ts) */}
       <HomeThresholds />
       {/* 2 Nov 2026: the public colour-palette moodboard (Atelier) is replaced by a photograph and a short story. The colour

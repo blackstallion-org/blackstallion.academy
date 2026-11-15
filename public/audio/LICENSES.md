@@ -17,6 +17,28 @@ The original is kept outside the repo.
 Before a public launch the owner should obtain written permission or a licence file from the channel; until then this is a placeholder
 in the same sense as the Higgsfield imagery. The previous track, "Windswept" (Kevin MacLeod, CC BY 4.0), was removed on 3 Nov 2026.
 
+## Opening trailer score (home page, first visit of a session)
+
+| File | Work | Licence | Credit shown |
+| --- | --- | --- | --- |
+| `music/opening-trailer.mp3` | "Epic Indian Orchestral Fusion" by vjgalaxy, https://pixabay.com/music/india-epic-indian-orchestral-fusion-570933/ (downloaded 15 Nov 2026, 3:37, 256 kbps) | Pixabay Content License (https://pixabay.com/service/license-summary/): free for commercial and non-commercial use, no attribution required; the track page shows "Free for use under the Pixabay Content License" | Title and artist in the site footer |
+
+Cut with ffmpeg: 25.4 s from 0:02.85, loudnorm (about -15 LUFS integrated), volume ducked to 20 % between 13.3 s and 17.6 s for the
+trailer's quiet beat, 0.5 s fade in, 2 s fade out, 128 kbps stereo (400 KB). Nothing was time-stretched or re-composed.
+A third Pixabay-licensed candidate was downloaded and not used: "Indian - Epic Indian" (HitsLab, 540948). "India Epic Cinematic
+Music" (414595) became the Marwar Journey film's soundtrack (below).
+
+## Marwar Journey film soundtrack (`video/marwar-journey*.mp4`, home page and /worlds)
+
+| Part | Source | Licence |
+| --- | --- | --- |
+| Music | "India Epic Cinematic Music" by u_hlhpc1qr1p, https://pixabay.com/music/india-india-epic-cinematic-music-414595/ (downloaded 15 Nov 2026), 0:03 to 0:33 | Pixabay Content License: free for commercial use, no attribution required |
+| Gallop bed, neigh | `ambience/cavalry-gallop.mp3`, `interactions/neigh.mp3` (see the tables below) | as listed below |
+
+Mixed with ffmpeg on 15 Nov 2026 (music loudnorm to -18 LUFS, 0.6 s fade in, 2 s fade out; gallop bed at 32 % for 0 to 19.6 s; neigh
+at 22.9 s; limiter), AAC 160 kb/s, about -16.6 LUFS, remuxed onto both cuts (picture not re-encoded). It replaces the earlier bed built
+on "Open Range", whose licence is unverified.
+
 ## Horse palette (seven sounds, `interactions/`)
 
 | File | Role | Source | Licence |

@@ -104,8 +104,8 @@ export function ScaleBalance() {
 }
 
 /**
- * §3 · S26: the ears. 2 Nov 2026 (R12): the looping ear film is gone (it served only as a movement reference); in its place the
- * canonical 3D Marwari's head, whose two ear bones turn independently toward a chosen sound (EarStudy).
+ * §3 · S26: the ears. 15 Nov 2026 (owner): real footage of a black Marwari's ears, seen from the saddle, replaces the 3D head.
+ * EarStudy scrubs the film's own frames toward the chosen sound or the visitor's pointer, so each ear turns on its own.
  */
 export function EarDial() {
   return (

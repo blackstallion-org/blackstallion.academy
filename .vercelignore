@@ -16,6 +16,9 @@ CLAUDE.md
 node_modules
 hf_*.mp4
 public/video/hf_*
+# camera/editor masters (e.g. the Marwar Journey .MOV): the web cuts are the .mp4 files
+public/video/*.MOV
+public/video/*.mov
 public/media/*.mp4
 *.pdf
 Claude outputs

@@ -1,0 +1,106 @@
+/* The opening trailer over the home page. Colours are role tokens (.tone-photo: warm black, ivory ink, antique gold). */
+
+.root {
+  --gutter: clamp(1rem, 4vw, 4rem);
+  /* letterbox: about 2.39:1 on wide screens, never more than 12 % of the height (phones keep most of the picture) */
+  --bar: min(12svh, max(2.5rem, calc((100svh - 100vw / 2.39) / 2)));
+  /* each painting is an exact 16:9 box (1672 x 941) at least as large as the screen */
+  --pw: max(100vw, calc(100svh * 1672 / 941));
+  --ph: calc(var(--pw) * 941 / 1672);
+  position: fixed; inset: 0; z-index: 200; visibility: visible; contain: layout paint; overflow: hidden;
+  background: var(--color-night); color: var(--color-bone);
+  transition: opacity 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.root[data-reveal] { opacity: 0; pointer-events: none; }
+
+/* ---------------------------------------------------------------- the paintings */
+.shot { position: absolute; inset: 0; visibility: hidden; opacity: 0; }
+.frame {
+  position: absolute;
+  width: var(--pw); height: var(--ph);
+  left: calc((100vw - var(--pw)) * var(--fx, 0.5));
+  top: calc((100svh - var(--ph)) * var(--fy, 0.5));
+  will-change: transform;
+}
+.camera { position: absolute; inset: 0; will-change: transform, filter; }
+
+.vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 50%, transparent 55%, rgb(var(--shade-rgb) / 0.55) 100%),
+    linear-gradient(0deg, rgb(var(--shade-rgb) / 0.75) 0%, rgb(var(--shade-rgb) / 0) 38%);
+}
+.grain { position: absolute; inset: 0; pointer-events: none; }
+.dip { position: absolute; inset: 0; background: var(--color-night); opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* ---------------------------------------------------------------- letterbox */
+.bar { position: absolute; left: 0; right: 0; height: var(--bar); background: var(--color-night); transform: scaleY(0); }
+.barTop { top: 0; transform-origin: top; }
+.barBottom { bottom: 0; transform-origin: bottom; }
+
+/* ---------------------------------------------------------------- type */
+.open {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; white-space: nowrap;
+  font-family: var(--font-sans); font-size: clamp(0.72rem, 0.6rem + 0.35vw, 0.92rem); font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--color-gold); opacity: 0; visibility: hidden;
+}
+
+/* the title cards: centred in the lower third of the picture, above the bottom bar */
+.card {
+  position: absolute; left: var(--gutter); right: var(--gutter);
+  bottom: calc(var(--bar) + clamp(1.5rem, 6svh, 4rem));
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.35rem; isolation: isolate;
+  visibility: hidden; opacity: 0;
+  text-shadow: 0 2px 28px rgb(0 0 0 / 0.65), 0 0 2px rgb(0 0 0 / 0.4);
+}
+/* a soft dark field behind every card, so the type reads on bright painting (it travels with the card's opacity) */
+.card::before {
+  content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; translate: -50% -50%;
+  width: min(62rem, 120%); height: calc(100% + clamp(4rem, 12svh, 8rem));
+  background: radial-gradient(50% 50% at 50% 50%, rgb(var(--shade-rgb) / 0.84) 0%, rgb(var(--shade-rgb) / 0.62) 45%, rgb(var(--shade-rgb) / 0) 100%);
+  pointer-events: none;
+}
+.cardFinal::before { display: none; }
+/* the last painting dims under the end card */
+.endShade { position: absolute; inset: 0; background: rgb(var(--shade-rgb) / 0.66); opacity: 0; visibility: hidden; pointer-events: none; }
+.mask { display: block; overflow: hidden; padding-block: 0.08em; }
+.mask > span { display: block; }
+.inscription { font-size: clamp(0.9rem, 0.62rem + 0.7vw, 1.2rem); letter-spacing: 0.26em; color: var(--color-bone); }
+.voice { font-size: clamp(2.1rem, 1.2rem + 3.6vw, 4.6rem); line-height: 1.02; color: var(--color-gold); }
+.blood { color: var(--color-blood); }
+.cardFinal { bottom: auto; top: 50%; translate: 0 -50%; }
+.cardFinal .voice { font-size: clamp(2.4rem, 1.2rem + 4.6vw, 5.6rem); }
+.brand { display: inline-flex; align-items: center; gap: 0.9rem; margin-top: clamp(1rem, 3svh, 2rem); opacity: 0; visibility: hidden; }
+
+/* ---------------------------------------------------------------- controls: inside the bottom bar, never in the top 80 px */
+.controls {
+  position: absolute; left: var(--gutter); right: var(--gutter);
+  bottom: max(0.5rem, env(safe-area-inset-bottom)); min-height: calc(var(--bar) - 0.75rem);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1rem;
+}
+.left { display: flex; align-items: center; gap: 1.25rem; min-width: 0; }
+.skip {
+  display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px; padding: 0 0.25rem; background: none; border: 0; cursor: pointer;
+  color: var(--color-bone); font-family: var(--font-sans); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  opacity: 0.85; transition: opacity 0.3s, color 0.3s;
+}
+.skip:hover { opacity: 1; color: var(--color-gold); }
+.note { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-dust); }
+.buttons { display: flex; align-items: center; gap: 0.75rem; }
+.round {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; cursor: pointer;
+  color: var(--color-bone); background: rgb(var(--shade-rgb) / 0.55); border: 1px solid color-mix(in srgb, var(--color-gold) 35%, transparent);
+  transition: color 0.5s, border-color 0.5s, background 0.5s;
+}
+.round:hover { color: var(--color-gold); border-color: var(--color-gold); }
+.round:disabled { opacity: 0.4; cursor: default; }
+.play { width: 52px; height: 52px; }
+.skip:focus-visible, .round:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+
+.track { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgb(var(--shade-rgb) / 0.5); }
+.track > span { position: absolute; inset: 0; transform-origin: left; transform: scaleX(0); background: var(--color-gold); }
+
+@media (max-width: 767px) {
+  .note { display: none; }
+  .card { gap: 0.2rem; }
+}

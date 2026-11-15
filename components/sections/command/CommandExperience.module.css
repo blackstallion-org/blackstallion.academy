@@ -79,7 +79,7 @@
 @media (max-width: 500px) { .dossier { grid-template-columns: 1fr; } .dossierPanel:first-child { grid-column: auto; } }
 
 /* The terminal and its reading column have an opaque canvas. */
-.teaserBackground{position:relative;inset:auto;grid-column:1/-1;margin:0;opacity:1;z-index:0}.teaserPair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.5rem,1.2vw,1.1rem);height:clamp(260px,40vw,520px)}.teaserPair>span{position:relative;overflow:hidden;display:block}.teaserCredit{margin-top:.75rem;font:400 .72rem/1.5 var(--font-serif);color:#6f5b4b}@media (max-width:800px){.teaserPair{grid-template-columns:1fr}.teaserPair>.teaserSecond{display:none}}.teaser{padding-top:0;row-gap:3rem}.teaserIntro>p:not(.eyebrow){line-height:1.7}.teaserIntro>a{font-size:.8rem}.panelLabel{font-size:.7rem}.eyebrow{font-size:.7rem}
+.teaserBackground{position:relative;inset:auto;grid-column:1/-1;margin:0;opacity:1;z-index:0}.teaserBackground{margin-inline:calc(-1 * clamp(1.25rem, 5vw, 6rem))}.teaserHero{position:relative;overflow:hidden;aspect-ratio:16/9;max-height:min(86svh,980px);width:100%}.teaserHero img{object-fit:cover}.teaserHero::after{content:"";position:absolute;inset:auto 0 0 0;height:22%;background:linear-gradient(0deg,var(--color-night),transparent);pointer-events:none}@media (max-width:800px){.teaserBackground{margin-inline:-1rem}.teaserHero{aspect-ratio:1/1}}.teaser{padding-top:0;row-gap:3rem}.teaserIntro>p:not(.eyebrow){line-height:1.7}.teaserIntro>a{font-size:.8rem}.panelLabel{font-size:.7rem}.eyebrow{font-size:.7rem}
 
 .page .eyebrow{text-align:center;margin-bottom:1.5rem}.page .workspace{display:block;margin-top:0}.page .main{max-width:980px}
 
@@ -92,4 +92,11 @@
 :global(html[data-theme="dark"]) .dossierPanel { background: #1f1b17; border-color: rgb(201 166 107 / .2); box-shadow: none; }
 :global(html[data-theme="dark"]) .prices { border-color: rgb(201 166 107 / .2); }
 :global(html[data-theme="dark"]) .textLink { color: #e9dcc0; }
-:global(html[data-theme="dark"]) .teaserBackground { opacity: .18; }
+:global(html[data-theme="dark"]) .teaserBackground { opacity: 1; }
+
+/* The teaser's reading column hard-codes light-theme browns; on the dark page they were almost invisible (about 1.6:1), so they take the role tokens, which swap per theme. */
+:global(html[data-theme="dark"]) .teaserIntro h2 > span { color: var(--color-gold); }
+:global(html[data-theme="dark"]) .teaserIntro > p:not(.eyebrow) { color: var(--color-sand); }
+:global(html[data-theme="dark"]) .teaserIntro > a { color: var(--color-bone); border-bottom-color: var(--color-gold); }
+:global(html[data-theme="dark"]) .folio { color: var(--color-dust); }
+:global(html[data-theme="dark"]) .folio > p { border-left-color: var(--color-line); }

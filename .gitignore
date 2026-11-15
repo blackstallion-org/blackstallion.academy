@@ -52,6 +52,9 @@ next-env.d.ts
 
 # large local video files (not source)
 /public/video/hf_*
+# camera/editor masters (e.g. the Marwar Journey .MOV): the web cuts are the .mp4 files
+/public/video/*.MOV
+/public/video/*.mov
 /_to_delete/
 !.env.example
 

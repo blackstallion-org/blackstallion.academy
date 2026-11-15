@@ -1,14 +1,13 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { pillars, ranks } from "@/lib/content/curriculum";
 import { ledger } from "@/lib/content/home";
 import { cn } from "@/lib/utils";
-import { desert } from "@/lib/content/desert";
+import { FilmImage } from "@/components/film/FilmImage";
 
 /**
  * §7 · The ledger, simplified: one full-width instruction photograph, the four ranks as a selectable row beneath it,
@@ -42,7 +41,7 @@ export function LedgerAscent() {
       </div>
 
       <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]">
-        <Image src={desert.riderAtSunset.src} alt={desert.riderAtSunset.alt} fill sizes="100vw" className="object-cover" style={{ objectPosition: desert.riderAtSunset.position }} />
+        <FilmImage name="gallop" sizes="100vw" grade="film" />  {/* 15 Nov 2026 (owner): the 2752 px original replaces the soft film still */}
       </div>
 
       <div className="gutter py-[clamp(3rem,8vh,6rem)]">

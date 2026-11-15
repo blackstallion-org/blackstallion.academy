@@ -1178,3 +1178,171 @@ workspace); no live payment, e-mail or signed-in run was possible.
   typecheck, `npm test` 343/343. **Not run:** `npm run build` and `node scripts/e2e-smoke.mjs`: the disk had 1.9 GB free (swap
   grew to 5 GB). The running dev server serves stale server HTML (its watcher stopped after the branch rewrite), so pages show
   a hydration warning until it is restarted; screenshots were taken from the client-rendered tree.
+- [x] **Session 15 Nov 2026 · The Marwar Journey film replaces the 3D films; clean stills.**
+  - Owner's film (`public/video/copy_B784F36E-….MOV`, 30 s, 1080p60 HEVC, silent track) cut for the web: `marwar-journey.mp4` (1920×1080, 13 MB) and `-mobile.mp4` (1280×720, 5.8 MB), H.264 two-pass, faststart, 0.5 s fade up / 0.7 s fade down to charcoal so the loop dips instead of cutting. Soundtrack mixed in (−18 LUFS): the site's cowboy track (open-range, 5:00–5:30) with gallop, neigh, call, snort, village bed and war-drum bed cued to the shots (`lib/content/journey-film.ts`).
+  - **Removed** the real-time 3D films and their renderers: `components/worlds` (Four Worlds intro + `/worlds` scroll film: valley, low-poly horse, legacy cavalry/desert scenes), `components/stallion-film` + `components/hero` + `StallionHero` (desert → village → campus pinned film on the home page).
+  - **Intro** (`components/opening/IntroFilm.tsx`, mounted by `OpeningIntro` in the root layout; same boot script and session rules): plays the film once, muted, with Skip intro / Escape, Sound, a dark round Play/Pause, chapter captions; fades into the home page at the end.
+  - **Home §1b + `/worlds`** (`components/sections/home/JourneyFilm.tsx`): full-screen looping film, two-voice headline, four chapter marks that seek, Sound, Play/Pause, Skip the film. Pauses off screen; reduced motion / Data Saver: poster until the visitor presses play.
+  - Fixed: React reports a `<source>` whose media query does not match as an error on the `<video>`; both players now fail only on a real media error.
+  - **Watermarked and low-res photos replaced** with 1920×1080 stills from the owner's film (`lib/content/film-stills.ts`, `public/images/film/`): Command banner (two watermarked photos → one palace-courtyard image), Four Ranks band (citadel gate), home curtain III and IV. `lib/content/desert.ts` and `public/images/desert/` deleted; credit lines for van Alderen, Hafner and Druz no longer needed.
+  - Removed the dangling `public/video/bsah-pan-india-hub.mp4` symlink (its target was already deleted; nothing referenced it) which broke `next build`.
+  - Checked: typecheck, lint, build; `npm test` 341/342 (the one failure predates this session: `hero-films.ts` names untracked `hero-rider-lesson*` files). Intro, home film, Command, Four Ranks and `/worlds` screenshotted at 1440 and 390; reduced motion and keyboard focus checked.
+  - **Verification pass (same day).** An independent code review plus browser checks found and fixed: dead `/worlds` hand-over cover and
+    `INTRO_REVEAL_KEY`; 45 orphaned 3D files (`public/worlds`, 9.5 MB) and `four-worlds.mp3` removed; `.MOV` masters ignored by git and
+    Vercel; chapter labels no longer an `aria-live` region (a looping film re-announced them forever); sound toggles have one stable
+    name plus `aria-pressed`; chapter seek is a group, not a nav landmark, and disabled on failure; the intro's 12 s load limit no
+    longer removes the film after the visitor has had to press Play; keyboard Skip now hands focus to `#doctrine` (it was left on
+    `<body>` because `#main` was still inert); `/worlds` poster eager with high priority; phones fetch only phone posters. A regression
+    from that last change (a paused video with no poster painted black over the picture) was caught on screen and fixed: the video
+    stays transparent until its first frame. Retested: intro end-to-end, Skip by click / Enter / Escape, blocked autoplay, loop wrap,
+    reduced motion at 390, dark theme, no page errors on `/` and `/worlds`. Served image sizes measured at 2× DPR: nothing on the home
+    page is upscaled (minimum 1.13× its CSS size; the film stills 1.2–1.33×, limited by the 1080p master).
+
+## 15 Nov 2026 · Owner's visual pass: two horse films, the exhibit rebalanced, menus, /why, /curriculum, /contact
+
+- **/anatomy ears (`EarStudy.tsx`, rewritten, no three.js).** The supplied clip `Black_horse_ears_animating_…mp4` (10 s, seen
+  from the saddle) was measured frame by frame: frames 33-108 are one unbroken path through every state (rest → left ear out →
+  both out → right out → both pricked → rest; first and last frame under a pixel apart). They are stored as 76 head-cropped stills
+  (`public/video/ears/ear-00…75.webp`, 2.3 MB, loaded rest-first); the crop leaves the Gemini mark outside the picture. A canvas
+  scrubs a playhead along that circle toward a target, blending neighbouring frames, so each ear turns only as the real horse
+  turned it; nothing moves the whole picture. Mouse left/right of the head turns that ear, above it both prick, still for 1.8 s →
+  the ears relax, leave → rest plus small real flicks; touch does the same, gentler, without blocking scroll; the four buttons
+  (Ahead, To the left, The rider, Two at once) hold until the pointer moves over the picture. Black stage. Reduced motion: no
+  tracking or flicks, buttons jump to their frame.
+- **/anatomy and home specimen plate (`StudioFilm.tsx`, new; `Anatomy3DHorse.tsx` deleted).** The studio clip is cut to a centred
+  4:3 (x 240-1680 of 1920, so the Gemini mark at x 1704-1774 is cropped out, not blurred), no audio, the last 0.75 s dissolved
+  into the first for a seamless loop: `public/video/specimen-stallion.mp4` (2.8 MB), `-mobile.mp4` (0.65 MB), `-poster.webp`.
+  The six points have film coordinates (`hotspots[].film` in `lib/content/anatomy.ts`). Choosing a point zooms the film box 2.2×
+  toward it (clamped so the stage is always covered, aimed left of the detail panel on the home plate) while the film keeps
+  playing; markers sit in an unscaled layer on the same transition so they stay on the horse. "Whole horse", Escape, the point
+  again or the empty stage go back; Pause/Play and Full screen kept; Stand/Walk/Trot and orbit removed. Switch reads "Studio
+  film / Archive plate". Stage is `.tone-photo` (`.tone-dark` is light since 4 Nov). Reduced motion: still poster, no zoom.
+- **"One conversation. Two bodies." (`public/anatomy/dual-body.html`).** The owner's attached "Movement Laboratory" HTML was used
+  as a layout reference only (owner chose this): stage column 2.5fr between two 15rem columns, so the horse plate is 848-868 px
+  wide at 1440 (was ~668, about +30%); the point detail card moved under the stage. Google Fonts (Cormorant, Inter, JetBrains
+  Mono: banned faces) replaced by the self-hosted Noto Serif Display, Plus Jakarta Sans and Newsreader (Newsreader copied to
+  `public/anatomy/fonts/`). Every exhibit hex mapped to the role-token values, in the markup, script and compiled
+  `exhibit-tailwind.css` together (the arbitrary-value class names still match); the three systems are chestnut, caramel and the
+  war-beat red instead of blue, amber and scarlet; no glass or blur. Removed: the top "lab bar" (its layer chips duplicated VIEW),
+  "2D WEBP ASSETS", the file-name chip, the regenerated-assets strip and its download modal (file 1.6 MB → 0.67 MB). The frame now
+  reports its height to `DualBody` on every change. Note: this file also carries an earlier session's uncommitted rewrite, now
+  committed with it.
+- **Menus: titles only (owner chose this).** Mega menus and phone groups no longer show reel numbers (grouping by subject made them
+  read 09, 14 | 12, 15 with gaps). Numbers stay in the Reels menu, footer, reel marks and end cards. `CLAUDE.md` navigation rule
+  and `tests/site-nav.test.mjs` updated (new guard).
+- **/why:** "The sanctuary of unpowered truth" section removed (`Monolith`, `Word`). `why.sanctuary` copy left in
+  `lib/content/science.ts`, unused.
+- **/curriculum hero:** head 41u → 45u and higher, hand 72.4u → 46u and lifted, scene 95svh → 108svh so wrist and cuff end above
+  the bottom fade; fingertips level with and ~7u short of the muzzle (measured from the cutouts' alpha). Sleeve end dissolves on
+  the hand layer (a mask on the filtered image drew a box). Hard-coded rgb() → token color-mix.
+- **/contact gate:** the 3D bay model replaced by the curriculum's black head and hand (`GateBondScene.module.css`, sized in cqw,
+  same fingertip gap); `covenant.ts` keeps its own models.
+- **/legend text under the paintings:** cause was `.read { left: 5.5rem }` applying to the two-column detail/inset scenes. Another
+  session's uncommitted edit to `journey.module.css` already scopes it; measured no overlap at 1024-2560 px, story and reading
+  mode. Not edited or committed here.
+- **Checks:** typecheck, lint (0 errors; warnings pre-existing), build pass. `npm test` 342/343: the failure is another session's
+  uncommitted `lib/content/hero-films.ts` naming an untracked `hero-rider-lesson-poster.jpg`. Screenshots at 1440 and 390: plate,
+  zoom (film still playing), ear states, exhibit, Cadets/Training menus, /curriculum, /contact, home plate; reduced motion
+  (film paused, no zoom, ears jump); focus ring on the film markers. Not tested: Safari, a real phone.
+
+### Verification pass, same day (owner asked for an independent recheck)
+
+Rebuilt and retested everything above on a production build (`next start`) at 390, 768, 1024 and 1440 px. Three faults found and fixed:
+
+- **Studio film, small screens:** with the camera in on the ears, the chosen point sat on top of "Whole horse" and blocked
+  the tap (390 and 768 px). The buttons now sit above the markers and move to the bottom corner when the chosen point would
+  be under them; a neighbouring point that would show from behind the buttons is hidden while the camera is in. Retest: a
+  real click on "Whole horse" works for all six points at all four widths.
+- **Ear study ground:** the stage's CSS ground was the theme's `black` token (charcoal #171513) under a canvas that paints
+  #000. The stage is now #000 itself (the one place a literal black is used, at the owner's request).
+- **/contact gate picture:** the neck and the sleeve ended in a visible straight edge. The frame's fade now uses eased stops
+  and finishes before the sleeve picture ends.
+
+Also: `.claude/**` added to the ESLint ignores (an agent worktree copy of the repo was being linted: 1,833 errors, none in
+site code), and an unused variable and a stale comment removed from `SiteNav.tsx`.
+
+Confirmed unchanged and passing: film loops, plays through zoom, pauses; six points on the horse; ear study follows the
+pointer (left, right, above), relaxes, answers touch and the four buttons; reduced motion (film still, no zoom, ears jump,
+no idle flicks, no gate animation); focus rings on every new control; exhibit uses only the three site faces and has no
+removed items; mega menus and phone groups show no numbers, the Reels index runs 01 upward in order; /why has no
+sanctuary section; /legend "The working hoof" and "The leap from the wall" have text beside the painting at 1100 and
+1440 px. The shipped film was compared frame-for-frame with the original cropped at x = 240 (mean difference 3.7 of 255),
+so the Gemini mark at x 1704-1774 is outside it. `npm run lint` 0 errors, `npm run typecheck` and `npm run build` pass.
+`npm test`: one failure, `/video/hero-rider-lesson-poster.jpg` missing from the media manifest, from the hero-film work in
+progress in another session. Not tested: Safari and a real phone.
+- [x] **Session 15 Nov 2026 · The Movement Laboratory replaces the 3D stride lab.**
+  - New `components/sections/stride/MovementLab.tsx` (content in `lib/content/movement-lab.ts`) after the owner's "Movement Laboratory"
+    reference, in the house palette and faces (the reference's Cormorant / Inter / JetBrains and dark theme are not used). On `/stride`
+    (h1) and `/anatomy` (h2). `components/stride` (the WebGL stage) is removed; `lib/stride` stays (tested).
+  - Centre: the owner's film `Horse_and_rider_walking_video_c9663dac_1080p.mp4` replaces the reference's embedded image. Its ✦
+    generator mark removed (`delogo`); frames 26–208 kept (six strides, found by frame comparison) with a stride-matched 10-frame
+    crossfade, so the loop is seamless (seam difference 2.4 vs 2.0 frame-to-frame); audio dropped; `stride-lab.mp4` 2.7 MB,
+    `-mobile` 1.3 MB.
+  - Over the film, synced to its clock: the spine's wave, the rider's seat trace and posture line, forelimb and hind pendulums with
+    live ELBOW/KNEE goniometer badges, hoof-contact ripples per footfall, six numbered part markers (buttons). Show modes, five camera
+    views (three-quarter and drag tilt the stage; behind/front/above draw a plan over the dimmed film), play/pause, ±1 frame, 0.25–1×,
+    the 102°/108° reference pose, a stride slider, five stage cards and footfall bars with playheads.
+  - Figures are the stride model's, labelled "Illustrative … not measured on this film"; tempo and seat rate restated for the film
+    (about 48 strides and 95 seat cycles a minute).
+  - Checked: typecheck, lint, build, `npm test` 343/343; 1440 and 390 screenshots, no horizontal overflow, no page errors; hotspot
+    spacing ≥ 32 px at 390; controls, pose, stepping, speed and part selection exercised in the browser.
+- [x] **15 Nov 2026 · Owner's pass: sharper home pictures, the Marwar Journey film to the middle.** The Four Ranks band and home curtain
+  frames III and IV use 2752 px originals (gallop, dustPlume, legendBahadur) instead of soft 1080p film stills (removed). The film moved
+  from under the opening film to the page's midpoint (after the Studbook), 115 svh tall on desktop, with a smaller headline and chapter
+  buttons; the opening film's Skip now lands on the story strip. Typecheck, lint, build, `npm test` 343/343; screenshotted at 1440.
+- [x] **15 Nov 2026 · Owner's pass: one control in the Movement Laboratory, a still and sharp Command banner.**
+  - **Command banner shook while scrolling.** Cause (measured, not guessed): `.teaser:hover .teaserHero img` zoomed the picture 2 % over
+    2.4 s, so a cursor resting on the page made it swell and settle as the section passed under it (document-relative top moved ~7 px,
+    width 1441 to 1469 px). Hover zoom and transition removed; over 344 frames of wheel scrolling under a resting cursor the picture's
+    top, width and height are now each one constant value. The soft 1080p palace-courtyard frame is replaced by the `bondField`
+    original (a cadet and a bay Marwari forehead to forehead; 2400 px shipped, 2752 px master), square crop on phones. It was first
+    the `scienceRider` photo, which is also /science's reel picture, so it was swapped for one that only /about uses (at half width).
+    Phone at 3×: 1200 px served for a 1170 px need. Desktop at 2×: the shipped 2400 px WebP is about 1.2× enlarged on a retina
+    screen at 1440 wide (the 2752 px master would not be); acceptable for a soft-focus close-up, replace the file for more.
+    `lib/content/film-stills.ts` and `public/images/film/` deleted (nothing left to use them); `FilmStill` type inlined in `curtains.ts`.
+  - **Movement Laboratory: buttons folded into one.** The header transport (play, ±1f, three speeds, pose, readout), the Show (4) and
+    Camera (5) grids, the six-button Parts list, the "View" button and the five stride-stage cards with their mini drawings are gone.
+    What is left: one play button, **one "View" menu** (Show, Camera, Speed, frame step, hold the 102°/108° pose; real radio buttons,
+    Escape or a tap outside closes it, it opens on the side with more room and never under the nav), the six numbered markers on the
+    film, a plain "Part 01 to 06" row, and the footfall chart, which is now the only scrubber (`input[type=range]` laid over it:
+    drag, arrow keys, PageUp/Down). Film is the hero; analysis panel and figures unchanged in content. Angle tags on the film are
+    hidden on stages under ~610 px (the numbers are in the readout and cards).
+  - Checked at 1440 and 390: no horizontal overflow, no page errors, menu inside the viewport and gutters, keyboard scrub and menu
+    open/close with focus returning to the View button, visible focus ring on the chart, reduced motion (film waits paused on its
+    first frame), `/anatomy` shares the lab and renders.
+  - **Dark theme** (previously unchecked): the lab is fine; the Command teaser's reading column used light-theme browns that sat at
+    about 1.6:1 on the dark page. It now takes the role tokens (headline voice 8.0:1, body 9.3:1, link 15.5:1, folio 6.4:1); light
+    theme unchanged (6.6 / 9.0 / 10.3 / 4.6).
+- [x] **15 Nov 2026 · /legend: the ivory wash removed, the old card back (owner).** The 15 Nov "paper fade" on panorama and plate scenes
+  (`.sticky::after` gradient plus card-less text, which also showed a ghost of the painting under the text) is reverted to the earlier
+  format: the painting in full colour with the solid reading card on its quiet side. CSS only, desktop (≥1024 px); phones were unaffected.
+  Checked scenes 00 (plate) and 10 (panorama) at 1440.
+- [x] **15 Nov 2026 · Opening trailer: the Marwari in seven paintings (owner's brief), in place of the video intro.**
+  - `components/opening/PaintedTrailer.tsx` + `painted-trailer.module.css`, data in `lib/content/opening-trailer.ts`. About 25 s, first
+    visit of a session on `/` only (same boot rules as before: never under reduced motion, Data Saver or 2G; `?intro` / `?nointro`).
+    Cold open on black → 01 Marwar, 1193 → 04 Bred by law → 05 They rode into every *war* (the page's one blood word, whip-pan and
+    shake) → 16 In the legends, it leapt → dip to black, 07 Then the world forgot it (colour drains to sepia, music ducks) → 08 One
+    line refused to end → dissolve to 09 An 800-year lineage, handed to your child, with crest and lockup; the bars open and it fades
+    over the home page.
+  - Each painting is its three /legend layers in an exact 16:9 box sized to cover the screen and anchored per shot (so phones keep
+    the subject and the idle rig stays registered); one GSAP timeline on the clock moves the layers at different depths. Letterbox
+    bars (≤ 12 % of the height), film grain, vignette, cards on a soft dark field. Skip / Escape, Sound, Pause; focus to `#doctrine`.
+  - `Subject`, `AmbientLayer` and `build` moved from `MarwariJourney.tsx` into `components/sections/legend/journey/layers.tsx`
+    (shared, /legend unchanged); `Subject` gained `sheen` (off in the trailer: at phone crops the band's edge read as a seam).
+  - Score: 25.4 s cut from "Epic Indian Orchestral Fusion" by vjgalaxy (Pixabay Content License), synced to the timeline (measured
+    drift 0.07 to 0.11 s, also after pause/resume); site music ducked while it plays. Licence in `public/audio/LICENSES.md`, credit in
+    the footer. Not done: horse effects on the cuts, and a one-tap "start with sound" when the nav sound was already on.
+  - `HeroFilm` now holds while the trailer plays (it could start muted under it before). `IntroFilm.tsx` and its CSS deleted; the
+    Marwar Journey video stays mid-page (`JourneyFilm`).
+  - Checked: 1440 and 390 frame by frame, no horizontal overflow, no page errors; Skip by Enter and Escape, focus lands on
+    `#doctrine`, `#main` no longer inert; second visit, reduced motion and `?nointro` show no trailer. `tests/opening-trailer.test.mjs`
+    (shot order, length, layers on disk, cards, claims, score); `npm test` 347/347.
+- [x] **15 Nov 2026 · Owner's pass: a horse in curtain III, a song and fewer buttons on the Marwar Journey film, mosaic prompts.**
+  - Home curtain frame III ("Where the dust lifts.") now shows `rearing` (a Marwari rearing in dust; not otherwise on the home page)
+    instead of the plain dust cloud; the line describes the picture.
+  - `JourneyFilm` (home mid-page and /worlds): the four chapter pills and "Skip the film" removed; Play/Pause and Sound only (the
+    chapter still shows in the label). New soundtrack on both cuts: "India Epic Cinematic Music" (Pixabay Content License) with the
+    gallop bed and a neigh, replacing the bed built on the unverified "Open Range" track (`lib/content/journey-film.ts`,
+    `public/audio/LICENSES.md`, footer credit).
+  - `docs/prompts/mosaic-opening.md`: an eight-shot storyboard with image and motion prompts in the terracotta tile-relief style of
+    the eye clip, for generating a second opening.

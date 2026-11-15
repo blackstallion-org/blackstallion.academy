@@ -7,7 +7,7 @@ import { HOOF_LENGTH_M, LIMBS, type Limb } from "./constants";
  * the stance sweep), so on the hoof mesh a point that is on the floor drifts 6 to 11 cm across it during the stance. This layer holds
  * the toe at the place it landed, in the ground's frame, and solves the leg back to it with a small damped CCD (hinge joints about
  * the body's lateral axis, a little abduction at the top joint, joint limits, the hoof kept at its authored orientation so the heel
- * still rises and the hoof still rolls). The CCD is the one in components/stallion-film/footlock.ts, kept here as a stateless
+ * still rises and the hoof still rolls). The CCD is the one from the retired home-page 3D film (removed 15 Nov 2026), kept here as a stateless
  * function of the stride phase so that scrubbing, stepping and playing give the same pose; it leaves the shoulder blade alone so the
  * rider's seat is untouched. Weight ramps in over the first part of the stance and out before lift-off, so the swing is the clip's own.
  */

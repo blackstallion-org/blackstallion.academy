@@ -61,7 +61,8 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
       if (video.readyState >= 2 || failed.current) window.clearInterval(watchdog);
     }, 200);
     // The film starts when the loader (and the opening zoom) has gone, so none of it plays unseen behind the overlay.
-    const holding = () => !!document.querySelector(".bsah-loader");
+    // hold while the running-horse loader is up or the opening trailer is still playing over the page ("reveal" = it is fading out)
+    const holding = () => !!document.querySelector(".bsah-loader") || document.documentElement.dataset.bsahIntro === "1";
     const sync = () => {
       if (holding()) video.pause();
       else if (document.hidden || !inView.current || userPaused.current || preference.matches || saveData) video.pause();
@@ -101,8 +102,8 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     userPaused.current = true;
     videoRef.current?.pause();
     setState("skipped");
-    // Skipping lands on the animated stallion that follows the film.
-    const target = document.getElementById("stallion") ?? document.getElementById("doctrine");
+    // Skipping lands on the story that follows the film.
+    const target = document.querySelector<HTMLElement>("[data-home-story]") ?? document.getElementById("doctrine");
     if (!target) return;
     if (lenis && !reduced) lenis.scrollTo(target, { immediate: true });
     else target.scrollIntoView({ behavior: "instant" });
