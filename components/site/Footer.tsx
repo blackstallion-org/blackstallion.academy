@@ -10,7 +10,7 @@ import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { asset } from "@/lib/content/asset";
 import { MUSIC } from "@/lib/audio/mixer";
-import { TRAILER_MUSIC } from "@/lib/content/opening-trailer";
+import { introFilm } from "@/lib/content/intro-film";
 import { journeyFilm } from "@/lib/content/journey-film";
 
 /** A 76 kB still that only matters once the footer is about to be seen (it sits ~23,000 px down the home page). */
@@ -156,7 +156,7 @@ function PublicFooter() {
           </p>
           {/* Music credit (public/audio/LICENSES.md). */}
           <p className="mt-2 opacity-80">
-            Music: “{MUSIC.title}” by {MUSIC.author}.{TRAILER_MUSIC && <> Opening trailer: “{TRAILER_MUSIC.title}” by {TRAILER_MUSIC.author} ({TRAILER_MUSIC.licence}).</>} {journeyFilm.label}: “{journeyFilm.music.title}” by {journeyFilm.music.author} ({journeyFilm.music.licence}). Field recordings: Freesound contributors (CC0).
+            Music: “{MUSIC.title}” by {MUSIC.author}. Opening film: “{introFilm.music.title}”, {introFilm.music.credit}. {journeyFilm.label}: “{journeyFilm.music.title}” by {journeyFilm.music.author} ({journeyFilm.music.licence}). Field recordings: Freesound contributors (CC0).
           </p>
           <div className="footer-meridian__legal">
             {legalNav.map((l) => (
