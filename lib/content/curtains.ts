@@ -16,7 +16,7 @@ export const curtains = {
     chapters: [
       { image: "heroDust", time: "I", title: "Out of the dust.", line: "A Marwari stallion breaks out of a cloud of desert dust: the breed the academy is built around." },
       { image: "riderLance", time: "II", title: "A lance at dusk.", line: "A young rider lowers a tent-pegging lance at the gallop: the skill the curriculum builds toward." },
-      { image: "dustPlume", time: "III", title: "Where the dust lifts.", line: "When a session ends, the track dust rises off the sand and the next cadets ride in." },
+      { image: "rearing", time: "III", title: "Where the dust lifts.", line: "A Marwari rears in the track dust at the end of a session, before the next cadets ride in." },
       { image: "legendBahadur", time: "IV", title: "Then it settles.", line: "A last plume of dust thins out. The lineage is handed on, one cadet at a time." },
     ],
   },

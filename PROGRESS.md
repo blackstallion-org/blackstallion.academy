@@ -1337,3 +1337,12 @@ progress in another session. Not tested: Safari and a real phone.
   - Checked: 1440 and 390 frame by frame, no horizontal overflow, no page errors; Skip by Enter and Escape, focus lands on
     `#doctrine`, `#main` no longer inert; second visit, reduced motion and `?nointro` show no trailer. `tests/opening-trailer.test.mjs`
     (shot order, length, layers on disk, cards, claims, score); `npm test` 347/347.
+- [x] **15 Nov 2026 · Owner's pass: a horse in curtain III, a song and fewer buttons on the Marwar Journey film, mosaic prompts.**
+  - Home curtain frame III ("Where the dust lifts.") now shows `rearing` (a Marwari rearing in dust; not otherwise on the home page)
+    instead of the plain dust cloud; the line describes the picture.
+  - `JourneyFilm` (home mid-page and /worlds): the four chapter pills and "Skip the film" removed; Play/Pause and Sound only (the
+    chapter still shows in the label). New soundtrack on both cuts: "India Epic Cinematic Music" (Pixabay Content License) with the
+    gallop bed and a neigh, replacing the bed built on the unverified "Open Range" track (`lib/content/journey-film.ts`,
+    `public/audio/LICENSES.md`, footer credit).
+  - `docs/prompts/mosaic-opening.md`: an eight-shot storyboard with image and motion prompts in the terracotta tile-relief style of
+    the eye clip, for generating a second opening.

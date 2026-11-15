@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useLenis } from "lenis/react";
 import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { Headline } from "@/components/film/Headline";
 import { journeyFilm as film } from "@/lib/content/journey-film";
-import { useReducedMotion } from "@/lib/motion/reduced";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { cn } from "@/lib/utils";
 
@@ -19,8 +17,8 @@ const DARK = "border border-gold/35 bg-[rgb(var(--shade-rgb)/0.55)] text-bone ba
  * §1b The Marwar Journey (15 Nov 2026): the owner's film, full screen, looping, in place of the real-time 3D stallion film.
  *
  * Plays muted (browsers block sound without a gesture) as soon as the loader has gone and the frame is on screen; pauses off screen
- * and in a hidden tab. A dark Play/Pause button, a Sound toggle, four chapter marks that seek, a hairline progress and "Skip the
- * film" (to the story that follows) sit on the foot of the frame, never in the top 80 px that belongs to the nav.
+ * and in a hidden tab. A dark Play/Pause button and a Sound toggle (nothing else, owner 15 Nov 2026) and a hairline progress sit on
+ * the foot of the frame, never in the top 80 px that belongs to the nav.
  * Reduced motion or Data Saver: the poster only, until the visitor presses play.
  */
 export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; headingAs?: "h1" | "h2" } = {}) {
@@ -36,8 +34,6 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
   // The <video> stays transparent until its first frame plays, so the device-sized poster underneath shows meanwhile (a video with
   // metadata but no frame paints black); it then crossfades in and keeps its last frame when paused.
   const [hasFrame, setHasFrame] = useState(false);
-  const reduced = useReducedMotion();
-  const lenis = useLenis();
 
   useEffect(() => {
     const video = videoRef.current;
@@ -95,23 +91,6 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
     // Turning the sound on is a request to watch: start it if it was waiting on its poster.
     if (!video.muted && video.paused) play();
   };
-  const seekTo = (at: number) => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.currentTime = at;
-    onTime();
-    if (video.paused) play();
-  };
-  const skip = () => {
-    const video = videoRef.current;
-    if (video) { userPaused.current = true; video.pause(); }
-    const section = sectionRef.current;
-    const target = (section?.nextElementSibling as HTMLElement | null) ?? null;
-    if (!target) return;
-    if (lenis && !reduced) lenis.scrollTo(target, { duration: 1.4 });
-    else target.scrollIntoView({ behavior: reduced ? "instant" : "smooth" });
-  };
-
   const playing = state === "playing";
   const current = film.chapters[chapter];
 
@@ -160,50 +139,28 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
         </p>
         <Headline id="journey-film-h" as={headingAs} size="3" className="mt-2 max-w-[22ch]" inscriptionClassName="text-[0.95rem] md:text-[1.1rem]" voiceClassName="text-[clamp(1.6rem,3.2vw,2.75rem)]" inscription={film.inscription} voice={film.voice} />
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 md:mt-8">
-          <div role="group" aria-label="Film chapters">
-            <ol className="flex flex-wrap items-center gap-2">
-              {film.chapters.map((c, i) => (
-                <li key={c.n}>
-                  <button
-                    type="button"
-                    onClick={() => seekTo(c.at)}
-                    disabled={state === "failed"}
-                    aria-current={chapter === i ? "step" : undefined}
-                    aria-label={`Chapter ${c.n}: ${c.title}`}
-                    className={cn("label min-h-11 rounded-full px-3.5 text-[0.62rem]", DARK, RING, chapter === i && "border-gold text-gold")}
-                  >
-                    {c.n}<span className="hidden md:inline"> · {c.title}</span>
-                  </button>
-                </li>
-              ))}
-            </ol>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button type="button" onClick={skip} className={cn("label min-h-11 px-2 text-sand underline-offset-4 hover:text-gold hover:underline", RING)}>
-              Skip the film ↓
-            </button>
-            <button
-              type="button"
-              disabled={state === "failed"}
-              onClick={toggleSound}
-              aria-pressed={!muted}
-              aria-label={`${film.label} sound`}
-              className={cn("grid h-12 w-12 place-items-center rounded-full disabled:opacity-40", DARK, RING)}
-            >
-              {muted ? <VolumeX size={18} strokeWidth={1.4} aria-hidden /> : <Volume2 size={18} strokeWidth={1.4} aria-hidden />}
-            </button>
-            <button
-              type="button"
-              disabled={state === "failed"}
-              onClick={togglePlay}
-              aria-label={playing ? `Pause ${film.label}` : `Play ${film.label}`}
-              className={cn("grid h-14 w-14 place-items-center rounded-full disabled:opacity-40 md:h-16 md:w-16", DARK, RING)}
-            >
-              {playing ? <Pause size={20} strokeWidth={1.4} aria-hidden /> : <Play size={20} strokeWidth={1.4} aria-hidden className="translate-x-[1px]" />}
-            </button>
-          </div>
+        {/* 15 Nov 2026 (owner): fewer buttons. The chapter pills and "Skip the film" are gone; the chapter shows in the label above,
+            and the film keeps one Sound and one Play/Pause. */}
+        <div className="mt-6 flex items-center gap-3 md:mt-8">
+          <button
+            type="button"
+            disabled={state === "failed"}
+            onClick={togglePlay}
+            aria-label={playing ? `Pause ${film.label}` : `Play ${film.label}`}
+            className={cn("grid h-14 w-14 place-items-center rounded-full disabled:opacity-40 md:h-16 md:w-16", DARK, RING)}
+          >
+            {playing ? <Pause size={20} strokeWidth={1.4} aria-hidden /> : <Play size={20} strokeWidth={1.4} aria-hidden className="translate-x-[1px]" />}
+          </button>
+          <button
+            type="button"
+            disabled={state === "failed"}
+            onClick={toggleSound}
+            aria-pressed={!muted}
+            aria-label={`${film.label} sound`}
+            className={cn("grid h-12 w-12 place-items-center rounded-full disabled:opacity-40", DARK, RING)}
+          >
+            {muted ? <VolumeX size={18} strokeWidth={1.4} aria-hidden /> : <Volume2 size={18} strokeWidth={1.4} aria-hidden />}
+          </button>
         </div>
         {state === "failed" ? <p role="status" className="mt-4 text-sm text-sand">The film is unavailable. The story continues below.</p> : null}
       </div>
