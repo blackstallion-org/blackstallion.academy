@@ -1313,3 +1313,7 @@ progress in another session. Not tested: Safari and a real phone.
   - **Dark theme** (previously unchecked): the lab is fine; the Command teaser's reading column used light-theme browns that sat at
     about 1.6:1 on the dark page. It now takes the role tokens (headline voice 8.0:1, body 9.3:1, link 15.5:1, folio 6.4:1); light
     theme unchanged (6.6 / 9.0 / 10.3 / 4.6).
+- [x] **15 Nov 2026 · /legend: the ivory wash removed, the old card back (owner).** The 15 Nov "paper fade" on panorama and plate scenes
+  (`.sticky::after` gradient plus card-less text, which also showed a ghost of the painting under the text) is reverted to the earlier
+  format: the painting in full colour with the solid reading card on its quiet side. CSS only, desktop (≥1024 px); phones were unaffected.
+  Checked scenes 00 (plate) and 10 (panorama) at 1440.
