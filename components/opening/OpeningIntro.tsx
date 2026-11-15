@@ -4,7 +4,7 @@ import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { useLenis } from "lenis/react";
 import { markIntroSeen } from "@/lib/opening/intro-boot";
 
-import { IntroFilm } from "./IntroFilm";
+import { PaintedTrailer } from "./PaintedTrailer";
 
 /** the page tells the stores below when the intro marker on <html> changes */
 const EVENT = "bsah:intro-state";
@@ -16,8 +16,8 @@ const never = () => false;
 /**
  * The introduction. Lives in the root layout. On the first visit to the home page in a browser session (decided before first paint
  * by lib/opening/intro-boot.ts) it lays the film over the page, holds the page still underneath while it plays, and lets go when the
- * film has faded out. Since 15 Nov 2026 the film is the owner's Marwar Journey video (components/opening/IntroFilm.tsx); the
- * real-time 3D "Four Worlds" engine it replaces has been removed. When the film is gone, focus lands on the first screen (#doctrine),
+ * film has faded out. Since 15 Nov 2026 the film is a 25 s trailer cut from the painted Marwari journey
+ * (components/opening/PaintedTrailer.tsx); the Marwar Journey video it replaced stays mid-page on the home page. When the film is gone, focus lands on the first screen (#doctrine),
  * so a keyboard visitor who pressed Skip is not left on <body>.
  */
 export function OpeningIntro() {
@@ -69,7 +69,7 @@ export function OpeningIntro() {
 
   return (
     <>
-      {playing && <IntroFilm onDone={done} onReveal={reveal_} />}
+      {playing && <PaintedTrailer onDone={done} onReveal={reveal_} />}
     </>
   );
 }

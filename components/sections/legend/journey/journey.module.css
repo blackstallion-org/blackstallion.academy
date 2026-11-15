@@ -380,9 +380,9 @@
     max-height: calc(100svh - 5rem - 2rem - clamp(1.5rem, 6vh, 3.5rem));
     overflow: auto;
   }
-  .journey[data-mode="story"] .scene[data-side="left"] .read { left: 5.5rem; }
-  .journey[data-mode="story"] .scene[data-place="top"] .read { bottom: auto; top: calc(5rem + clamp(1rem, 3vh, 2rem)); }
-  .journey[data-mode="story"] .scene[data-side="right"] .read { right: 2.5rem; }
+  .journey[data-mode="story"] .scene:is([data-layout="panorama"], [data-layout="plate"])[data-side="left"] .read { left: 5.5rem; }
+  .journey[data-mode="story"] .scene:is([data-layout="panorama"], [data-layout="plate"])[data-place="top"] .read { bottom: auto; top: calc(5rem + clamp(1rem, 3vh, 2rem)); }
+  .journey[data-mode="story"] .scene:is([data-layout="panorama"], [data-layout="plate"])[data-side="right"] .read { right: 2.5rem; }
   .journey[data-mode="story"] .scene[data-layout="panorama"] .panel,
   .journey[data-mode="story"] .scene[data-layout="plate"] .panel {
     margin: 0;

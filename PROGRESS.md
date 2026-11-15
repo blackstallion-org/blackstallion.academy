@@ -1317,3 +1317,23 @@ progress in another session. Not tested: Safari and a real phone.
   (`.sticky::after` gradient plus card-less text, which also showed a ghost of the painting under the text) is reverted to the earlier
   format: the painting in full colour with the solid reading card on its quiet side. CSS only, desktop (≥1024 px); phones were unaffected.
   Checked scenes 00 (plate) and 10 (panorama) at 1440.
+- [x] **15 Nov 2026 · Opening trailer: the Marwari in seven paintings (owner's brief), in place of the video intro.**
+  - `components/opening/PaintedTrailer.tsx` + `painted-trailer.module.css`, data in `lib/content/opening-trailer.ts`. About 25 s, first
+    visit of a session on `/` only (same boot rules as before: never under reduced motion, Data Saver or 2G; `?intro` / `?nointro`).
+    Cold open on black → 01 Marwar, 1193 → 04 Bred by law → 05 They rode into every *war* (the page's one blood word, whip-pan and
+    shake) → 16 In the legends, it leapt → dip to black, 07 Then the world forgot it (colour drains to sepia, music ducks) → 08 One
+    line refused to end → dissolve to 09 An 800-year lineage, handed to your child, with crest and lockup; the bars open and it fades
+    over the home page.
+  - Each painting is its three /legend layers in an exact 16:9 box sized to cover the screen and anchored per shot (so phones keep
+    the subject and the idle rig stays registered); one GSAP timeline on the clock moves the layers at different depths. Letterbox
+    bars (≤ 12 % of the height), film grain, vignette, cards on a soft dark field. Skip / Escape, Sound, Pause; focus to `#doctrine`.
+  - `Subject`, `AmbientLayer` and `build` moved from `MarwariJourney.tsx` into `components/sections/legend/journey/layers.tsx`
+    (shared, /legend unchanged); `Subject` gained `sheen` (off in the trailer: at phone crops the band's edge read as a seam).
+  - Score: 25.4 s cut from "Epic Indian Orchestral Fusion" by vjgalaxy (Pixabay Content License), synced to the timeline (measured
+    drift 0.07 to 0.11 s, also after pause/resume); site music ducked while it plays. Licence in `public/audio/LICENSES.md`, credit in
+    the footer. Not done: horse effects on the cuts, and a one-tap "start with sound" when the nav sound was already on.
+  - `HeroFilm` now holds while the trailer plays (it could start muted under it before). `IntroFilm.tsx` and its CSS deleted; the
+    Marwar Journey video stays mid-page (`JourneyFilm`).
+  - Checked: 1440 and 390 frame by frame, no horizontal overflow, no page errors; Skip by Enter and Escape, focus lands on
+    `#doctrine`, `#main` no longer inert; second visit, reduced motion and `?nointro` show no trailer. `tests/opening-trailer.test.mjs`
+    (shot order, length, layers on disk, cards, claims, score); `npm test` 347/347.
