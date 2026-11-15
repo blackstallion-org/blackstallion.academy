@@ -93,3 +93,10 @@
 :global(html[data-theme="dark"]) .prices { border-color: rgb(201 166 107 / .2); }
 :global(html[data-theme="dark"]) .textLink { color: #e9dcc0; }
 :global(html[data-theme="dark"]) .teaserBackground { opacity: 1; }
+
+/* The teaser's reading column hard-codes light-theme browns; on the dark page they were almost invisible (about 1.6:1), so they take the role tokens, which swap per theme. */
+:global(html[data-theme="dark"]) .teaserIntro h2 > span { color: var(--color-gold); }
+:global(html[data-theme="dark"]) .teaserIntro > p:not(.eyebrow) { color: var(--color-sand); }
+:global(html[data-theme="dark"]) .teaserIntro > a { color: var(--color-bone); border-bottom-color: var(--color-gold); }
+:global(html[data-theme="dark"]) .folio { color: var(--color-dust); }
+:global(html[data-theme="dark"]) .folio > p { border-left-color: var(--color-line); }

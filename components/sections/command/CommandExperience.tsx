@@ -23,10 +23,10 @@ export function CommandExperience() {
 export function CommandTeaser() {
   return <section id="home-command" aria-labelledby="command-h" className={styles.teaser} data-parallax-skip>
     <figure className={styles.teaserBackground}>
-      {/* 15 Nov 2026 (owner): one large, sharp original (2752 px) replaces the soft 1080p film frame, and the picture is held still:
+      {/* 15 Nov 2026 (owner): one large, sharp original (2400 px) replaces the soft 1080p film frame, and the picture is held still:
           it used to zoom 2% on hover, so a cursor resting on the page made it swell and settle as the section scrolled past. */}
       <div className={styles.teaserHero}>
-        <FilmImage name="scienceRider" sizes="100vw" position="62% 50%" />
+        <FilmImage name="bondField" sizes="100vw" position="68% 45%" />
       </div>
     </figure>
     <div className={styles.teaserIntro}>

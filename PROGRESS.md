@@ -1294,8 +1294,11 @@ progress in another session. Not tested: Safari and a real phone.
   - **Command banner shook while scrolling.** Cause (measured, not guessed): `.teaser:hover .teaserHero img` zoomed the picture 2 % over
     2.4 s, so a cursor resting on the page made it swell and settle as the section passed under it (document-relative top moved ~7 px,
     width 1441 to 1469 px). Hover zoom and transition removed; over 344 frames of wheel scrolling under a resting cursor the picture's
-    top, width and height are now each one constant value. The soft 1080p palace-courtyard frame is replaced by the 2752 px
-    `scienceRider` original (rider and bay Marwari, clear and bright), square crop on phones so the whole horse shows.
+    top, width and height are now each one constant value. The soft 1080p palace-courtyard frame is replaced by the `bondField`
+    original (a cadet and a bay Marwari forehead to forehead; 2400 px shipped, 2752 px master), square crop on phones. It was first
+    the `scienceRider` photo, which is also /science's reel picture, so it was swapped for one that only /about uses (at half width).
+    Phone at 3×: 1200 px served for a 1170 px need. Desktop at 2×: the shipped 2400 px WebP is about 1.2× enlarged on a retina
+    screen at 1440 wide (the 2752 px master would not be); acceptable for a soft-focus close-up, replace the file for more.
     `lib/content/film-stills.ts` and `public/images/film/` deleted (nothing left to use them); `FilmStill` type inlined in `curtains.ts`.
   - **Movement Laboratory: buttons folded into one.** The header transport (play, ±1f, three speeds, pose, readout), the Show (4) and
     Camera (5) grids, the six-button Parts list, the "View" button and the five stride-stage cards with their mini drawings are gone.
@@ -1307,3 +1310,6 @@ progress in another session. Not tested: Safari and a real phone.
   - Checked at 1440 and 390: no horizontal overflow, no page errors, menu inside the viewport and gutters, keyboard scrub and menu
     open/close with focus returning to the View button, visible focus ring on the chart, reduced motion (film waits paused on its
     first frame), `/anatomy` shares the lab and renders.
+  - **Dark theme** (previously unchecked): the lab is fine; the Command teaser's reading column used light-theme browns that sat at
+    about 1.6:1 on the dark page. It now takes the role tokens (headline voice 8.0:1, body 9.3:1, link 15.5:1, folio 6.4:1); light
+    theme unchanged (6.6 / 9.0 / 10.3 / 4.6).
