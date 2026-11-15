@@ -952,3 +952,28 @@ workspace); no live payment, e-mail or signed-in run was possible.
   4. `20261106001700_motion_lab.sql` is not applied, so Motion Lab cloud save is off (local saves work).
   5. Open owner items from PRODUCTION_READINESS.md §5 (staff account, key rotation, branch protection, paid plans, legal sign-off).
   The site's Supabase project is not in the connected Supabase account, so its security advisors could not be run.
+
+## 2026-11-14 · Painted /legend journey, real horse galleries, trainer/parent/school campaign, EndCard removed
+
+- **/legend** is one continuous painted Marwari journey (`components/sections/legend/journey/`, content in
+  `lib/content/marwari-journey.ts`): 20 layered paintings in four acts (Land 00 10 02 01 11 · Body 03 12 04 13 14 15 · Service
+  05 06 16 17 07 · Return 08 19 18 09). Background, subject and foreground are separate DOM layers in one 16:9 stage, each with its
+  own scrubbed, reversible GSAP recipe (travel, gait cadence, push to the ears, a one-off leap, colour draining at the cart, studbook
+  reveal, dust/lantern/embers/ripple atmosphere). Panorama/plate scenes hold a sticky stage below the 80 px nav with a still reading
+  panel on the painting's quiet side; detail/inset scenes are two-column folios; phones get painting then text. Reading mode and
+  reduced motion are fully static. Status labels (illustration / reconstruction / folklore / interpretive) and caveats are HTML.
+  Layers mount within ~1 screen of view: 3 painting requests at load on desktop, 6 on phones. WebP derivatives (13 MB) from
+  `scripts/build-marwari-journey.mjs`; PNG masters git-ignored. The 3D museum, `LegendScenes`, `RevivalTimeline`, `lib/museum`
+  and `components/3d/museum` are removed (no other consumers).
+- **EndCard** ("Next reel") removed from all 15 pages and the statue scroll; `components/film/EndCard.tsx` deleted (owner).
+- **/fleet real horses**: 106 owner photos reviewed; 8 individual-horse galleries (20 views, same session + matching markings only)
+  and a separate 22-photo single-photograph collection; 64 excluded (12 Ekaterina Druz, 13 signature, Alamy, Gill Photography and
+  other marks, identifiable people, collages, duplicates, unmatched views). Owner confirmed permission for unwatermarked photos; no
+  watermark removed; edits limited to WebP re-encode + metadata strip. Manifest with exact source names and checksums:
+  `lib/content/real-horses.manifest.json` (`scripts/build-real-horse-gallery.py`). Lightbox: buttons, arrows, Escape, swipe, focus
+  trap/return, deep links `#horse-study-0N`. The fleet portrait now uses a labelled real photograph (not a fleet horse).
+- **Campaign** (AI concept illustrations, labelled): trainer uniform series on /cadets, ring visit on /parents, ring programme with
+  the ring background band on /schools (`components/sections/campaign/CampaignSections.tsx`, `lib/content/campaign.ts`).
+- No real passport/identity photos were found in the workspace; none placed.
+- Checks: typecheck, lint 0 errors, 337/337 unit tests (clean tree), build, e2e 19/19; Playwright screenshots at 1440x900 and
+  390x844 in `scratch/screens-2026-11-14/` (33 images; nav ends at 81/65 px with nothing under it; no horizontal overflow).

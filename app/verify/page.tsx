@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Chain, Privacy, VerifyTitle } from "@/components/sections/verify/VerifyScenes";
@@ -26,7 +25,6 @@ export default function VerifyPage() {
 
       <Privacy />
 
-      <EndCard current={14} />
     </>
   );
 }

@@ -12,7 +12,6 @@ import { useReducedMotion } from "@/lib/motion/reduced";
 import { FilmImage } from "@/components/film/FilmImage";
 import { EditorialScrollSync } from "@/components/motion/EditorialMotion";
 import styles from "./StatueEditorial.module.css";
-import { EndCard } from "@/components/film/EndCard";
 import { cn } from "@/lib/utils";
 
 // Register ScrollTrigger safely
@@ -657,8 +656,6 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false, m
         </div>
       </div>
 
-      {/* Hand visitor to Next Reel (04 · The Matrix) */}
-      <EndCard current={3} />
     </div>
   );
 }

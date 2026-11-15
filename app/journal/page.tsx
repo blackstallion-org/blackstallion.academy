@@ -1,7 +1,6 @@
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { EndCard } from "@/components/film/EndCard";
 import { FilmImage } from "@/components/film/FilmImage";
 import { TitleLoopVideo } from "@/components/film/TitleLoopVideo";
 import { asset } from "@/lib/content/asset";
@@ -84,7 +83,6 @@ export default function JournalPage() {
         </ol>
       </section>
 
-      <EndCard current={17} />
     </>
   );
 }

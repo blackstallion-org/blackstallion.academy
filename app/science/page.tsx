@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { EndCard } from "@/components/film/EndCard";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
@@ -64,7 +63,6 @@ export default function SciencePage() {
         </div>
       </section>
 
-      <EndCard current={5} />
     </>
   );
 }

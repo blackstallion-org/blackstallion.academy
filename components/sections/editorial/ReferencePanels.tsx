@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./ReferencePanels.module.css";
 import { asset } from "@/lib/content/asset";
+import { realPhoto } from "@/lib/content/real-horses";
 
 const firstRide = [
   {
@@ -119,6 +120,7 @@ export function MarwariInterlude() {
  * lineage line above it and the route to the legend below. No overlay, no reveal effect.
  */
 export function MarwariPortrait() {
+  const portrait = realPhoto("horse-study-01", 0);
   return (
     <section aria-labelledby="marwari-portrait-h" className="relative bg-night" data-parallax-skip>
       <div className="gutter pb-10 pt-[clamp(5rem,12vh,9rem)] md:pb-14">
@@ -131,15 +133,17 @@ export function MarwariPortrait() {
         </p>
       </div>
       <div className="relative aspect-[4/5] w-full sm:aspect-[4/3]">
+        {/* 14 Nov 2026: a real photograph (Horse Study 01) replaces the AI stallion; it is not an academy fleet horse. */}
         <Image
-          src={asset("/images/academy-uniforms/stallion-reference.webp")}
-          alt="A black Marwari stallion in a sandstone stable, lit by warm golden light"
+          src={portrait.src}
+          alt={portrait.alt}
           fill
           sizes="100vw"
           className="object-cover"
-          style={{ objectPosition: "78% 40%" }}
+          style={{ objectPosition: "50% 30%" }}
         />
       </div>
+      <p className="gutter t-ui pt-3 text-xs text-dust">Real photograph, Horse Study 01 (see the galleries above). Not an academy fleet horse.</p>
       <div className="gutter py-8 md:py-10">
         <Link href="/legend" className="label inline-block border-b border-line pb-1 text-sand transition-colors hover:border-gold hover:text-bone">
           Explore Marwari Legend

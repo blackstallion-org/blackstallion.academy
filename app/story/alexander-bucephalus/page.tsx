@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { AlexanderExhibition } from "@/components/sections/story/AlexanderExhibition";
 import { alexander } from "@/lib/content/history/alexander";
 import { exhibition, rooms } from "@/lib/content/history/alexander-exhibition";
@@ -15,7 +14,6 @@ export default function Page() {
   return (
     <>
       <AlexanderExhibition reel={{ n: 23, act: "ledger" }} intro={exhibition} rooms={rooms} related={alexander.related} />
-      <EndCard current={23} />
     </>
   );
 }

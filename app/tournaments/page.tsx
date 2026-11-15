@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { CircuitTitle, FixtureBoard, Podium, StandingsLanes, TournamentActionGallery } from "@/components/sections/tournaments/TournamentScenes";
 import { PegRun } from "@/components/sections/tournaments/PegRun";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
@@ -20,7 +19,6 @@ export default function TournamentsPage() {
       <TournamentActionGallery />
       <Podium />
       <ReplayHeadline typeface="condensed" id="tournaments-replay" label="The circuit doctrine" text="Victory belongs to the disciplined rein." tone="dark" defaultMode="words" />
-      <EndCard current={15} />
     </>
   );
 }

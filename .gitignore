@@ -70,3 +70,11 @@ next-env.d.ts
 
 # Motion Lab validation footage (Wikimedia Commons, see test-media/SOURCES.md)
 /test-media/
+
+# Layered Marwari scroll paintings: PNG masters (~100 MB) stay local; the site uses the WebP derivatives in
+# public/images/story/marwari/journey/ (scripts/build-marwari-journey.mjs).
+/public/images/story/marwari/mw*.png
+# Trainer/parent campaign PNG masters stay local; the site uses the WebP derivatives beside them.
+/public/images/campaign/trainer-parent/*.png
+# Owner's original horse photographs (third-party sources, kept unedited); published derivatives live in public/images/horses/real/.
+/real marwari horse images/

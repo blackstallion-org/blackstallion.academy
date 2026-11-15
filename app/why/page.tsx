@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { AsciiChild } from "@/components/sections/why/AsciiChild";
 import { BreathCue } from "@/components/film/BreathCue";
-import { EndCard } from "@/components/film/EndCard";
 import { BigSlider, Glass, Monolith, SovereignCrucible, TrainList, WhyTitle } from "@/components/sections/why/WhyScenes";
 import { why } from "@/lib/content/science";
 import { entity } from "@/lib/content/site";
@@ -25,7 +24,6 @@ export default function WhyPage() {
       <Monolith lines={why.sanctuary} coda={`${entity.motto}.`} label="The sanctuary of unpowered truth" />
       <TrainList />
       <ReplayHeadline typeface="condensed" id="why-replay" label="The sovereign truth" text="A horse cannot be deceived by an algorithm." tone="dark" defaultMode="words" />
-      <EndCard current={6} />
     </>
   );
 }

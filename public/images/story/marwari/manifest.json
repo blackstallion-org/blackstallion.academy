@@ -1,0 +1,487 @@
+{
+  "format": "layered Marwari scroll art",
+  "canvas": "16:9 nominal; transparent exports can be 0–2 pixels narrower and should share one CSS stage box",
+  "notes": "B is opaque; S and F have genuine alpha. Scenes 06, 14, 15, 16 and 19 are folklore or interpretive imagery. The paintings are not historical records. Generated masters are approximately 1672 x 941, not 4K.",
+  "scenes": [
+    {
+      "scene": "00",
+      "title": "The bond",
+      "layers": {
+        "B": {
+          "file": "mw00-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw00-s.png",
+          "width": 1671,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw00-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "01",
+      "title": "Born in the Thar",
+      "layers": {
+        "B": {
+          "file": "mw01-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw01-s.png",
+          "width": 1670,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw01-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "02",
+      "title": "Driven into Marwar",
+      "layers": {
+        "B": {
+          "file": "mw02-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw02-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw02-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "03",
+      "title": "Bred for survival",
+      "layers": {
+        "B": {
+          "file": "mw03-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw03-s.png",
+          "width": 1671,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw03-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "04",
+      "title": "The ears",
+      "layers": {
+        "B": {
+          "file": "mw04-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw04-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw04-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "05",
+      "title": "Three reasons",
+      "layers": {
+        "B": {
+          "file": "mw05-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw05-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw05-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "06",
+      "title": "The ballads",
+      "layers": {
+        "B": {
+          "file": "mw06-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw06-s.png",
+          "width": 1670,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw06-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "07",
+      "title": "From royalty to the cart",
+      "layers": {
+        "B": {
+          "file": "mw07-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw07-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw07-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "08",
+      "title": "The revival",
+      "layers": {
+        "B": {
+          "file": "mw08-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw08-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw08-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "09",
+      "title": "Every cadet rides one",
+      "layers": {
+        "B": {
+          "file": "mw09-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw09-s.png",
+          "width": 1671,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw09-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "10",
+      "title": "Origin routes",
+      "layers": {
+        "B": {
+          "file": "mw10-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw10-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw10-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "11",
+      "title": "Desert well",
+      "layers": {
+        "B": {
+          "file": "mw11-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw11-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw11-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "12",
+      "title": "The working hoof",
+      "layers": {
+        "B": {
+          "file": "mw12-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw12-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw12-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "13",
+      "title": "The revaal gait",
+      "layers": {
+        "B": {
+          "file": "mw13-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw13-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw13-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "14",
+      "title": "Nachni wedding",
+      "layers": {
+        "B": {
+          "file": "mw14-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw14-s.png",
+          "width": 1671,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw14-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "15",
+      "title": "The bards",
+      "layers": {
+        "B": {
+          "file": "mw15-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw15-s.png",
+          "width": 1671,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw15-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "16",
+      "title": "The wall leap",
+      "layers": {
+        "B": {
+          "file": "mw16-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw16-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw16-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "17",
+      "title": "Marwar Lancers",
+      "layers": {
+        "B": {
+          "file": "mw17-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw17-s.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw17-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "18",
+      "title": "The register",
+      "layers": {
+        "B": {
+          "file": "mw18-b.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw18-s.png",
+          "width": 1671,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw18-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    },
+    {
+      "scene": "19",
+      "title": "The stallion that stayed",
+      "layers": {
+        "B": {
+          "file": "mw19-b.png",
+          "width": 1671,
+          "height": 941,
+          "transparent": false
+        },
+        "S": {
+          "file": "mw19-s.png",
+          "width": 1671,
+          "height": 941,
+          "transparent": true
+        },
+        "F": {
+          "file": "mw19-f.png",
+          "width": 1672,
+          "height": 941,
+          "transparent": true
+        }
+      }
+    }
+  ]
+}

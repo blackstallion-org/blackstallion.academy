@@ -1,7 +1,6 @@
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import { EditorialScrollSync } from "@/components/motion/EditorialMotion";
 import type { Metadata } from "next";
-import { EndCard } from "@/components/film/EndCard";
 import { EditorialHeadline as Headline } from "@/components/motion/EditorialMotion";
 import { Label } from "@/components/film/Marks";
 import { EditorialReveal as Reveal } from "@/components/motion/EditorialMotion";
@@ -65,7 +64,6 @@ export default function AnatomyPage() {
         </div>
       </section>
 
-      <EndCard current={2} />
     </>
   );
 }
