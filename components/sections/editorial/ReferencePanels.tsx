@@ -69,7 +69,8 @@ export function FirstRideEditorial() {
 }
 
 const materials = [
-  { image: asset("/images/legend/legend-sand.png"), alt: "Light-coated Marwari horse", name: "Ivory", color: "#e2d3c2" },
+  // the shipped WebP of the same still (0.5 MB); the 7.3 MB PNG master went through the image optimiser on every cold request (17 Nov 2026 audit)
+  { image: asset("/media/legend-sand.webp"), alt: "Light-coated Marwari horse", name: "Ivory", color: "#e2d3c2" },
   { image: asset("/images/equipment/stable-bridles.webp"), alt: "Leather bridles in the stable", name: "Chestnut", color: "#844628" },
   { image: asset("/images/equipment/horseshoe-farrier.webp"), alt: "Farrier at work with a horseshoe", name: "Sage", color: "#78735b" },
   { image: asset("/images/equipment/traditional-saddle.webp"), alt: "Traditional riding saddle", name: "Leather", color: "#271c17" },
