@@ -1346,3 +1346,12 @@ progress in another session. Not tested: Safari and a real phone.
     `public/audio/LICENSES.md`, footer credit).
   - `docs/prompts/mosaic-opening.md`: an eight-shot storyboard with image and motion prompts in the terracotta tile-relief style of
     the eye clip, for generating a second opening.
+- [x] **16 Nov 2026 · Reel 24: `/history/marwar`, "Marwar: The Horse, the Crown & the Empire" (the British-era page), built and in the menus.**
+  - The data, fact-checks and images came from an earlier session that ran out of disk before the page was written. Now:
+    `app/history/marwar/page.tsx` → `components/sections/marwar-history/MarwarStory.tsx` (+ `ArchiveViewer.tsx`, `marwar.css`).
+    Seven chapters, painted plates (breathing subject, light parallax), the 1818 treaty on parchment, 14 archive plates in mounts
+    opening a full-record viewer (zoom, pan, ← →, Esc), the Linghem strip, the stallion film labelled "AI-generated film", credits
+    index, gaps, sources, next-reel strip. Every picture names its kind. Reel 24 in `site.ts`, Heritage → The Archive, sitemap,
+    cross-links from `/history/india` and `/story/rani-lakshmibai`. Media paths written out in `asset()`; manifest: this page's files.
+  - Checked: typecheck, lint, 347/347 tests, production build, 1440 px title and chapter 01. Chapter rail fixed after review (it
+    overlapped the chapter numbers and sat on paintings). Open: BnF plates 008–011 and IWM 006 shown with credits pending clearance.

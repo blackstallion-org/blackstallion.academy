@@ -1,0 +1,243 @@
+/* /history/marwar: "Marwar: The Horse, the Crown & the Empire" (reel 24).
+   Role tokens only (light ivory canvas; the dark acts take .tone-dark). Painted plates are exact 1672 × 941 boxes so the
+   subject layers stay registered; archive photographs sit in ivory mounts and open in the viewer. */
+
+.mw { --gutter: clamp(1rem, 5vw, 5rem); --plate-ratio: 1672 / 941; background: var(--color-night); color: var(--color-sand); }
+.mw-wrap { width: min(78rem, 100% - 2 * var(--gutter)); margin-inline: auto; }
+/* where the chapter rail shows, the text keeps clear of it */
+@media (min-width: 1280px) { .mw-wrap { width: min(74rem, 100% - 2 * 9rem); } }
+
+/* ---------------------------------------------------------------- title */
+.mw-title {
+  position: relative; min-height: 100svh; display: grid; align-content: center; overflow: hidden;
+  padding-block: clamp(6.5rem, 14vh, 9rem) clamp(4rem, 10vh, 6rem);
+}
+.mw-title .ms-drift { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mw-title-inner { position: relative; display: grid; gap: clamp(1rem, 2.5vh, 1.75rem); justify-items: start; }
+.mw-monument {
+  font-family: var(--font-display); font-weight: 400; text-transform: uppercase; letter-spacing: 0.18em; line-height: 0.9;
+  font-size: clamp(3.4rem, 1rem + 12vw, 13rem); color: var(--color-bone); margin: 0; margin-inline-start: -0.06em;
+}
+.mw-title-voice { font-family: var(--font-display); font-style: italic; font-size: clamp(1.6rem, 1rem + 2.6vw, 3.4rem); line-height: 1.05; color: var(--color-gold); margin: 0; }
+.mw-title-lede { max-width: 40rem; font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem); line-height: 1.55; color: var(--color-sand); margin: 0; }
+.mw-title-note { max-width: 36rem; font-size: 0.9rem; line-height: 1.55; color: var(--color-dust); font-style: italic; margin: 0; }
+.mw-legend { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 0; padding: 0; list-style: none; }
+
+/* the three kinds of picture, always named */
+.mw-tag {
+  display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--color-brass); white-space: nowrap;
+}
+.mw-tag::before { content: ""; width: 0.55rem; height: 0.55rem; border: 1px solid currentColor; }
+.mw-tag[data-kind="photograph"]::before { background: currentColor; }
+.mw-tag[data-kind="painting"]::before { border-radius: 999px; }
+.mw-tag[data-kind="reconstruction"]::before { transform: rotate(45deg); }
+.mw-tag[data-kind="film"]::before { border-radius: 2px; border-style: dashed; }
+
+/* ---------------------------------------------------------------- chapters */
+.mw-ch { position: relative; padding-block: clamp(5rem, 13vh, 9rem); scroll-margin-top: 5rem; }
+.mw-ch + .mw-ch { border-top: 1px solid var(--color-line); }
+.mw-ch.tone-dark + .mw-ch, .mw-ch + .mw-ch.tone-dark { border-top: 0; }
+.mw-head { display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) { .mw-head { grid-template-columns: 13rem minmax(0, 1fr); } }
+.mw-meta { display: flex; flex-direction: column; gap: 0.5rem; }
+.mw-n { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.16em; color: var(--color-gold); }
+.mw-when { font-family: var(--font-sans); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-brass); }
+.mw-lede { max-width: 44rem; margin: 1.5rem 0 0; font-size: clamp(1.1rem, 1rem + 0.45vw, 1.35rem); line-height: 1.55; color: var(--color-bone); }
+.mw-body { max-width: 42rem; margin: 1rem 0 0; font-size: 1.02rem; line-height: 1.7; color: var(--color-sand); }
+.mw-quote {
+  margin: clamp(3rem, 8vh, 5rem) auto 0; max-width: 46rem; text-align: center; font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.6rem, 1.1rem + 2vw, 2.8rem); line-height: 1.15; color: var(--color-gold);
+}
+.mw-quote .mw-blood { color: var(--color-blood); }
+.mw-block { margin-top: clamp(2.5rem, 7vh, 4.5rem); }
+
+/* ---------------------------------------------------------------- painted plates */
+.mw-stage { position: relative; margin: clamp(2.5rem, 7vh, 4.5rem) 0 0; }
+.mw-stage-view { position: relative; overflow: hidden; height: min(72svh, calc(100vw * 941 / 1672)); background: var(--color-umber); }
+@media (min-width: 768px) { .mw-stage-view { height: auto; aspect-ratio: var(--plate-ratio); } }
+/* the 16:9 plate box: as wide as the view, or wider on phones (anchored on the scene's focal point) */
+.mw-plate {
+  position: absolute; top: 0; height: 100%; aspect-ratio: var(--plate-ratio);
+  width: max(100%, calc(min(72svh, 100vw * 941 / 1672) * 1672 / 941)); left: calc((100% - max(100%, calc(min(72svh, 100vw * 941 / 1672) * 1672 / 941))) * var(--fx, 0.5));
+}
+@media (min-width: 768px) { .mw-plate { width: 100%; left: 0; } }
+.mw-layer { position: absolute; inset: 0; will-change: transform; }
+.mw-layer img { object-fit: cover; }
+.mw-subject { position: absolute; will-change: transform; }
+.mw-subject img { width: 100%; height: auto; display: block; }
+/* the horse breathes: a slow rise of the ribcage, scaled from the hooves, transform only */
+.mw-breathe { transform-origin: 50% 100%; animation: mw-breathe 4.5s ease-in-out infinite alternate; }
+@keyframes mw-breathe { from { transform: scaleY(1) translateY(0); } to { transform: scaleY(1.006) translateY(-1px); } }
+.mw-stage[data-inset] .mw-stage-view { height: auto; aspect-ratio: var(--plate-ratio); }
+.mw-stage[data-inset] .mw-plate { width: 100%; left: 0; }
+.mw-caption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 1.25rem; padding: 0.9rem var(--gutter) 0; font-size: 0.86rem; line-height: 1.5; color: var(--color-dust); font-style: italic; }
+.mw-stage[data-inset] .mw-caption { padding-inline: 0; }
+
+/* chapter 01: hotspots on the plate, their text below it */
+.mw-spot {
+  position: absolute; translate: -50% -50%; width: 44px; height: 44px; border-radius: 999px; border: 0; background: none; cursor: pointer;
+  display: grid; place-items: center;
+}
+.mw-spot::before {
+  content: ""; width: 16px; height: 16px; border-radius: 999px; background: color-mix(in srgb, var(--color-ivory) 85%, transparent);
+  border: 2px solid var(--color-gold); box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-ivory) 25%, transparent); transition: transform 0.4s;
+}
+.mw-spot[aria-expanded="true"]::before, .mw-spot:hover::before { transform: scale(1.25); background: var(--color-gold); }
+.mw-spots-text { display: grid; gap: 0.75rem 2rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
+@media (min-width: 768px) { .mw-spots-text { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.mw-spots-text li { border-top: 1px solid var(--color-line); padding-top: 0.75rem; opacity: 0.55; transition: opacity 0.4s; }
+.mw-spots-text li[data-on] { opacity: 1; }
+.mw-spots-text b { display: block; font-family: var(--font-sans); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-gold); margin-bottom: 0.3rem; }
+
+/* ---------------------------------------------------------------- archive prints */
+.mw-print { margin: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.mw-print-open {
+  display: block; width: 100%; padding: clamp(0.6rem, 1.4vw, 1.1rem); border: 1px solid var(--color-sandline); cursor: zoom-in;
+  background: var(--color-offwhite); box-shadow: 0 1px 0 var(--color-sandline), 0 18px 40px -24px rgb(36 26 19 / 0.45);
+  transition: box-shadow 0.5s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mw-print-open:hover { transform: translateY(-3px); box-shadow: 0 1px 0 var(--color-sandline), 0 26px 50px -24px rgb(36 26 19 / 0.55); }
+.mw-print-open img { display: block; width: 100%; height: auto; }
+.mw-print[data-kind="photograph"] .mw-print-open img { filter: grayscale(1) contrast(1.03); }
+.mw-plate-line { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-brass); }
+.mw-print-title { font-family: var(--font-display); font-style: italic; font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem); line-height: 1.25; color: var(--color-bone); }
+.mw-print-credit { font-size: 0.8rem; line-height: 1.45; color: var(--color-dust); }
+.mw-print figcaption { display: grid; gap: 0.3rem; }
+
+.mw-sheet { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); align-items: start; }
+@media (min-width: 900px) {
+  .mw-sheet { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .mw-sheet > :nth-child(1) { grid-column: 1 / span 5; grid-row: span 2; }
+  .mw-sheet > :nth-child(2) { grid-column: 7 / span 6; }
+  .mw-sheet > :nth-child(3) { grid-column: 6 / span 4; margin-top: 2rem; }
+  .mw-sheet > :nth-child(4) { grid-column: 10 / span 3; margin-top: 5rem; }
+}
+.mw-pair { display: grid; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; }
+@media (min-width: 900px) { .mw-pair { grid-template-columns: 5fr 7fr; } }
+
+/* chapter 02: the treaty on parchment */
+.mw-treaty { padding: clamp(1.5rem, 4vw, 3rem); max-width: 50rem; }
+.mw-treaty h3 { margin: 0; font-family: var(--font-display); font-weight: 400; text-transform: uppercase; letter-spacing: 0.14em; font-size: clamp(0.95rem, 0.85rem + 0.4vw, 1.2rem); }
+.mw-treaty-dated { margin: 0.4rem 0 1.5rem; font-style: italic; opacity: 0.8; }
+.mw-treaty ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
+.mw-treaty li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 0.75rem; }
+.mw-treaty .mw-art { font-family: var(--font-mono); font-size: 0.8rem; padding-top: 0.25rem; }
+.mw-treaty p { margin: 0; line-height: 1.6; }
+.mw-treaty .mw-art-note { margin-top: 0.35rem; font-size: 0.86rem; font-style: italic; opacity: 0.8; }
+.mw-treaty-source { margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.85; }
+.mw-treaty-source a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* chapter 04: Sir Pratap Singh in dates */
+.mw-dates { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--color-line); }
+.mw-dates li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--color-line); font-size: 0.95rem; line-height: 1.5; }
+.mw-dates b { font-family: var(--font-mono); font-weight: 400; color: var(--color-gold); }
+
+/* chapter 05: the Linghem filmstrip (native swipe, snap) */
+.mw-strip-legend { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1rem; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-brass); }
+.mw-strip {
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(78vw, 30rem); gap: clamp(1rem, 2.5vw, 2rem); overflow-x: auto;
+  scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding: 1rem var(--gutter) 1.5rem; margin-top: 1rem;
+  scrollbar-width: thin; scrollbar-color: var(--color-brass) transparent;
+}
+.mw-strip > * { scroll-snap-align: start; }
+.mw-strip:focus-visible { outline: 2px solid var(--color-gold); outline-offset: -2px; }
+.mw-date { font-family: var(--font-mono); font-size: clamp(2.6rem, 1.4rem + 6vw, 7rem); letter-spacing: 0.04em; color: var(--color-bone); line-height: 1; margin: 0; }
+.mw-date-cap { margin: 0.6rem 0 0; font-size: 0.9rem; color: var(--color-dust); }
+
+/* chapter 06: the years in type */
+.mw-years { display: grid; gap: 1.5rem 3rem; margin-top: clamp(2.5rem, 7vh, 4rem); }
+@media (min-width: 768px) { .mw-years { grid-template-columns: 1fr 1fr; } }
+.mw-year b { display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(4rem, 2rem + 9vw, 10rem); line-height: 0.9; color: var(--color-bone); letter-spacing: 0.02em; }
+.mw-year span { display: block; margin-top: 0.5rem; max-width: 26rem; color: var(--color-sand); }
+
+/* chapter 07: the film */
+.mw-film { margin: clamp(2.5rem, 7vh, 4.5rem) 0 0; }
+.mw-film-view { position: relative; aspect-ratio: 16 / 9; background: var(--color-umber); overflow: hidden; }
+.mw-film-view video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mw-film-play {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 72px; height: 72px; border-radius: 999px; display: grid; place-items: center;
+  color: var(--color-bone); background: rgb(var(--shade-rgb, 23 21 19) / 0.55); border: 1px solid var(--color-gold); cursor: pointer;
+}
+.mw-bridge { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 1.5rem; margin-top: 2rem; }
+
+/* ---------------------------------------------------------------- credits */
+.mw-index { width: 100%; border-collapse: collapse; font-size: 0.86rem; line-height: 1.45; }
+.mw-index th { text-align: left; font-family: var(--font-sans); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-brass); padding: 0 1rem 0.75rem 0; border-bottom: 1px solid var(--color-line); }
+.mw-index td { vertical-align: top; padding: 0.85rem 1rem 0.85rem 0; border-bottom: 1px solid var(--color-line); color: var(--color-sand); }
+.mw-index td:first-child { font-family: var(--font-mono); color: var(--color-gold); white-space: nowrap; }
+.mw-index a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; }
+.mw-index-scroll { overflow-x: auto; }
+@media (max-width: 767px) {
+  .mw-index thead { display: none; }
+  .mw-index tr { display: grid; grid-template-columns: 3rem minmax(0, 1fr); padding: 0.75rem 0; border-bottom: 1px solid var(--color-line); }
+  .mw-index td { border: 0; padding: 0.15rem 0; grid-column: 2; }
+  .mw-index td:first-child { grid-column: 1; grid-row: 1 / span 5; }
+}
+.mw-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; font-size: 0.9rem; line-height: 1.55; }
+.mw-list a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; }
+.mw-credits-grid { display: grid; gap: 2.5rem 4rem; margin-top: 3rem; }
+@media (min-width: 900px) { .mw-credits-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.mw-h3 { font-family: var(--font-sans); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-brass); margin: 0 0 1rem; }
+
+/* closing strip */
+.mw-next { display: grid; gap: 2rem; align-items: end; }
+@media (min-width: 900px) { .mw-next { grid-template-columns: 1fr 1fr; } }
+.mw-next a.mw-next-reel { display: block; color: inherit; }
+.mw-next a.mw-next-reel:hover .t-voice { color: var(--color-bone); }
+
+/* ---------------------------------------------------------------- the chapter rail */
+.mw-rail {
+  position: fixed; left: clamp(0.5rem, 1.2vw, 1.25rem); top: 50%; translate: 0 -50%; z-index: 40; display: none;
+  list-style: none; margin: 0; padding: 0; transition: opacity 0.5s;
+}
+.mw-rail[data-hidden] { opacity: 0; pointer-events: none; }
+@media (min-width: 1280px) { .mw-rail { display: grid; gap: 0.15rem; } }
+.mw-rail a {
+  display: flex; align-items: center; gap: 0.6rem; min-height: 32px; padding: 0 0.4rem; font-family: var(--font-mono); font-size: 0.66rem;
+  letter-spacing: 0.1em; color: var(--color-dust); text-decoration: none; transition: color 0.4s;
+}
+.mw-rail a::before { content: ""; width: 14px; height: 1px; background: currentColor; transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+.mw-rail a[aria-current="true"] { color: var(--color-gold); }
+.mw-rail a[aria-current="true"]::before { width: 28px; }
+.mw-rail a:hover { color: var(--color-bone); }
+.mw-rail-band { margin-top: 0.4rem; padding-left: 0.4rem; font-family: var(--font-sans); font-weight: 600; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-brass); }
+/* phones and tablets: a hairline of seven ticks at the foot of the screen */
+.mw-ticks { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; height: 3px; pointer-events: none; transition: opacity 0.5s; }
+.mw-ticks[data-hidden] { opacity: 0; }
+.mw-ticks span { background: color-mix(in srgb, var(--color-brass) 25%, transparent); transition: background 0.5s; }
+.mw-ticks span[data-on] { background: var(--color-gold); }
+@media (min-width: 1280px) { .mw-ticks { display: none; } }
+
+.mw a:focus-visible, .mw button:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+
+/* ---------------------------------------------------------------- the viewer */
+.mw-viewer { position: fixed; inset: 0; z-index: 300; display: grid; grid-template-rows: minmax(0, 1fr) auto; background: var(--color-night); color: var(--color-bone); }
+@media (min-width: 1024px) { .mw-viewer { grid-template-columns: minmax(0, 1fr) 24rem; grid-template-rows: 1fr; } }
+.mw-viewer-stage { position: relative; overflow: hidden; touch-action: pan-y; user-select: none; }
+.mw-viewer-stage[data-zoomed] { touch-action: none; cursor: grab; }
+.mw-viewer-stage[data-zoomed]:active { cursor: grabbing; }
+.mw-viewer-img { position: absolute; inset: clamp(4.5rem, 9vh, 6rem) clamp(1rem, 4vw, 3rem) clamp(4.5rem, 9vh, 5.5rem); transform-origin: 50% 50%; transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.mw-viewer-stage[data-dragging] .mw-viewer-img { transition: none; }
+.mw-viewer-img img { object-fit: contain; }
+.mw-viewer-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; padding: 0.9rem 1rem max(0.9rem, env(safe-area-inset-bottom)); }
+.mw-viewer-top { position: absolute; top: clamp(1rem, 2.5vh, 1.5rem); right: clamp(1rem, 2vw, 1.5rem); left: clamp(1rem, 2vw, 1.5rem); display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.mw-round {
+  display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0 0.6rem; border-radius: 999px; cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem;
+  color: var(--color-bone); background: var(--color-ember); border: 1px solid var(--color-line); transition: color 0.3s, border-color 0.3s;
+}
+.mw-round:hover { color: var(--color-gold); border-color: var(--color-gold); }
+.mw-round:disabled { opacity: 0.35; cursor: default; }
+.mw-viewer-meta { overflow-y: auto; padding: 1.25rem clamp(1rem, 4vw, 2rem) max(1.5rem, env(safe-area-inset-bottom)); border-top: 1px solid var(--color-line); max-height: 38svh; font-size: 0.88rem; line-height: 1.55; }
+@media (min-width: 1024px) { .mw-viewer-meta { max-height: none; border-top: 0; border-left: 1px solid var(--color-line); padding-top: clamp(5rem, 10vh, 7rem); } }
+.mw-viewer-meta h2 { margin: 0.5rem 0 1rem; font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 1.5rem; line-height: 1.2; color: var(--color-bone); }
+.mw-viewer-meta dl { display: grid; gap: 0.7rem; margin: 0; }
+.mw-viewer-meta dt { font-family: var(--font-sans); font-weight: 600; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-brass); }
+.mw-viewer-meta dd { margin: 0.1rem 0 0; color: var(--color-sand); }
+.mw-viewer-meta a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-breathe { animation: none; }
+  .mw-print-open, .mw-viewer-img { transition: none; }
+  .mw-print-open:hover { transform: none; }
+}

@@ -47,11 +47,12 @@ export const reels: Reel[] = [
   { n: 21, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
   { n: 22, href: "/story/rani-lakshmibai", act: "ledger", title: "Rani Lakshmibai", inscription: "Jhansi will not", voice: "be surrendered.", blurb: "Four chapters, painted: the queen who rode out of a besieged fort.", image: "bgCharge" },
   { n: 23, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Twelve mosaic rooms: a boy, a horse no one could ride, and a city named for it on the Hydaspes.", image: "duneSilhouette" },
+  { n: 24, href: "/history/marwar", act: "ledger", title: "Marwar", inscription: "The horse,", voice: "the crown & the empire.", blurb: "Seven chapters: the Rathore horsemen, the 1818 treaty, the Jodhpur Lancers at Haifa, and the horse that outlived the Empire.", image: "duneSilhouette" },
 ];
 
 /**
  * Working pages that sit in the menu beside the reels without being part of the film: they have no reel mark and no end
- * card. The menu numbers them with the reels (so a reel mark reads "REEL n / 23"), after the reels of their act.
+ * card. The menu numbers them with the reels (so a reel mark reads "REEL n / 24"), after the reels of their act.
  */
 export const tools = [
   { n: 12, href: "/motion-lab", act: "citadel" as Act, title: "Motion Lab", badge: "3D page" },
@@ -181,7 +182,7 @@ export const navMenus: NavMenu[] = [
     columns: [
       column("The Marwari", ["/legend", "/statue", "/worlds"]),
       column("Painted Histories", ["/story/pratap-chetak", "/story/rani-lakshmibai", "/story/alexander-bucephalus"]),
-      column("The Archive", ["/history/india", "/history/world", { label: "Lore of the Bards", href: "/lore" }]),
+      column("The Archive", ["/history/marwar", "/history/india", "/history/world", { label: "Lore of the Bards", href: "/lore" }]),
     ],
   },
 ];

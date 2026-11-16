@@ -4,12 +4,14 @@ import { useEffect, useRef } from "react";
 
 /**
  * Drifting dust over a chapter: small warm motes on a 2D canvas, a few dozen at most, paused whenever the chapter is not
- * on screen. It is not mounted under reduced motion. Only transform-free canvas drawing, so it never touches layout.
+ * on screen or the tab is hidden, and never drawn under reduced motion. Only canvas drawing, so it never touches layout.
+ * `rgb` is the mote colour as "r, g, b"; `density` scales the count.
  */
-export function DriftCanvas() {
+export function DriftCanvas({ className = "ms-drift", rgb = "243, 214, 160", density = 1 }: { className?: string; rgb?: string; density?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -17,7 +19,7 @@ export function DriftCanvas() {
 
     type Mote = { x: number; y: number; r: number; vx: number; vy: number; a: number; ph: number };
     const mobile = window.matchMedia("(max-width: 639px)").matches;
-    const count = mobile ? 24 : 56;
+    const count = Math.round((mobile ? 24 : 56) * density);
     let w = 0;
     let h = 0;
     let motes: Mote[] = [];
@@ -64,14 +66,14 @@ export function DriftCanvas() {
         const alpha = m.a * (0.6 + 0.4 * Math.sin(clock * 0.9 + m.ph));
         ctx.beginPath();
         ctx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(243, 214, 160, ${alpha.toFixed(3)})`;
+        ctx.fillStyle = `rgba(${rgb}, ${alpha.toFixed(3)})`;
         ctx.fill();
       }
-      if (visible) raf = requestAnimationFrame(draw);
+      if (visible && !document.hidden) raf = requestAnimationFrame(draw);
     };
 
     const kick = () => {
-      if (!raf && visible) {
+      if (!raf && visible && !document.hidden) {
         last = performance.now();
         raf = requestAnimationFrame(draw);
       }
@@ -85,14 +87,16 @@ export function DriftCanvas() {
       kick();
     });
     io.observe(canvas);
+    document.addEventListener("visibilitychange", kick);
 
     return () => {
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
       ro.disconnect();
       io.disconnect();
+      document.removeEventListener("visibilitychange", kick);
     };
-  }, []);
+  }, [rgb, density]);
 
-  return <canvas ref={ref} className="ms-drift" aria-hidden="true" />;
+  return <canvas ref={ref} className={className} aria-hidden="true" />;
 }

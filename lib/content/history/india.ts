@@ -200,6 +200,7 @@ export const india: HistoryPage = {
     },
   },
   related: [
+    { href: "/history/marwar", label: "Marwar: the horse, the crown & the empire", blurb: "The keepers of Marwar, in seven chapters: the 1818 treaty, the Jodhpur Lancers, and the horse that outlived the Empire." },
     { href: "/story/rani-lakshmibai", label: "Rani Lakshmibai", blurb: "The queen who would not give up Jhansi. A scroll story in eight scenes." },
     { href: "/story/pratap-chetak", label: "Pratap & Chetak", blurb: "Six painted chapters from Mewar, 1576." },
     { href: "/story/alexander-bucephalus", label: "Alexander & Bucephalus", blurb: "From Macedon to the Hydaspes." },

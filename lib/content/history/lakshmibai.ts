@@ -165,5 +165,6 @@ export const lakshmibai: HistoryPage = {
     { href: "/story/pratap-chetak", label: "Pratap & Chetak", blurb: "Six painted chapters from Mewar, 1576." },
     { href: "/story/alexander-bucephalus", label: "Alexander & Bucephalus", blurb: "A horse nobody could settle, and the boy who did." },
     { href: "/history/india", label: "Seven roads of the Indian horse", blurb: "From Marwar to Haifa." },
+    { href: "/history/marwar", label: "Marwar: the horse, the crown & the empire", blurb: "The 1818 treaty, the Jodhpur Lancers, and the horse that outlived the Empire." },
   ],
 };

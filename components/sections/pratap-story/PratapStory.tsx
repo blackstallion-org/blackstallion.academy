@@ -5,7 +5,7 @@
 import { useEffect, useRef, type CSSProperties } from "react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { asset } from "@/lib/content/asset";
-import { DriftCanvas } from "@/components/sections/marwari-story/DriftCanvas";
+import { DriftCanvas } from "@/components/film/DriftCanvas";
 import { SCENES, SCENE_TOTAL, SKY, type LayerSpec, type StoryScene } from "./story-data";
 import "./pratap.css";
 
