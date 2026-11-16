@@ -137,7 +137,10 @@ export function JourneyFilm({ id = film.id, headingAs = "h2" }: { id?: string; h
           A film · {film.label}
           <span className="ml-3 text-sand">{current.n} · {current.title}</span>
         </p>
-        <Headline id="journey-film-h" as={headingAs} size="3" className="mt-2 max-w-[22ch]" inscriptionClassName="text-[0.95rem] md:text-[1.1rem]" voiceClassName="text-[clamp(1.6rem,3.2vw,2.75rem)]" inscription={film.inscription} voice={film.voice} />
+        {/* 17 Nov 2026 (owner: remove "From the desert / to the citadel gate."): no words over the film; the heading stays for screen readers. */}
+        <div className="sr-only">
+          <Headline id="journey-film-h" as={headingAs} size="3" inscription={film.inscription} voice={film.voice} />
+        </div>
 
         {/* 15 Nov 2026 (owner): fewer buttons. The chapter pills and "Skip the film" are gone; the chapter shows in the label above,
             and the film keeps one Sound and one Play/Pause. */}

@@ -41,7 +41,7 @@ export function LedgerAscent() {
       </div>
 
       <div className="relative aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]">
-        <FilmImage name="gallop" sizes="100vw" grade="film" />  {/* 15 Nov 2026 (owner): the 2752 px original replaces the soft film still */}
+        <FilmImage name="ledgerBond" sizes="100vw" grade="none" />  {/* 17 Nov 2026 (owner): the painting of the rider and his horse replaces the herd (gallop) */}
       </div>
 
       <div className="gutter py-[clamp(3rem,8vh,6rem)]">

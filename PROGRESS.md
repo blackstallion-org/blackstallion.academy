@@ -1509,3 +1509,8 @@ progress in another session. Not tested: Safari and a real phone.
   - **/anatomy hero, root cause of the cropped ears (17 Nov, later):** `SiteParallax` was enlarging the photo 10% and shifting it up. The hero
     section now carries `data-parallax-skip`, so the whole photograph shows (ears, hooves) edge to edge with no band and no fade; the earlier
     dark band and top blend were removed.
+- [x] **17 Nov 2026 (later) · Journey film and ledger band, owner's follow-ups.** Film: the gate clip's first 4 s now run at half speed
+  (frame-interpolated) so the arch and the BSAH sign read for ~4 s, its last 2 s trimmed; 30.8 s; `marwar-journey-v3*` (v2 removed); the
+  words "From the desert / to the citadel gate." no longer show over the film (screen-reader heading only); chapter label stays.
+  Home ledger band (the herd image slot): the owner's painting of a rider resting his face on his horse (`ledgerBond`, `ledger-bond.*`);
+  the sunset herd (`gallop`) stays on disk and in media.ts, unused.

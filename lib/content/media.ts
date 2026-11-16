@@ -40,6 +40,9 @@ export const media = {
   /* ---------------------------------------------------- first set (9 Oct 2026) */
   heroDust: m("hero-dust.png", "hf_20261009_002316_a9ac0234-9080-4a64-8d92-cf0705055f6b.png", "A Marwari stallion emerging from a towering cloud of golden dust", "62% 45%"),
   rearing: m("rearing.png", "hf_20261009_002317_1504aa62-05a7-47df-9bf5-fbb2b0c78ecc.png", "A Marwari stallion rearing against a molten gold sky"),
+  // 17 Nov 2026 (owner: "add this at" the home ledger band): a painting of a rider resting his face against his horse's neck, a hill fort
+  // glowing behind them. Replaces `gallop` (the sunset herd, file kept) in LedgerAscent.
+  ledgerBond: m("ledger-bond.png", null, "A painting: a Rajput rider in an orange turban rests his face against his horse's neck, a hill fort glowing on a ridge behind them", "50% 38%"),
   gallop: m("gallop.png", "hf_20261009_002435_48940254-f4cb-49fe-9236-d84b15570955.png", "A Marwari stallion at full gallop across desert sand"),
   eye: m("eye.png", "hf_20261009_002317_26761800-94f0-40d6-a6b2-a35941ddc7e0.png", "Close-up of a Marwari's eye and inward-curving ear"),
   riderLance: m("rider-lance.png", "hf_20261009_002435_480a7609-4bd8-46c6-83b4-8c740f8aaf4b.png", "A young rider lowering a tent-pegging lance at a gallop at dusk"),
