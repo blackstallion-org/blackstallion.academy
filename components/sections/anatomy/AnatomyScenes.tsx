@@ -4,8 +4,7 @@ import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
-import { TitleLoopVideo } from "@/components/film/TitleLoopVideo";
-import { asset } from "@/lib/content/asset";
+import { FilmImage } from "@/components/film/FilmImage";
 import { EditorialHeadline as Headline } from "@/components/motion/EditorialMotion";
 import { ReelMark } from "@/components/film/Marks";
 import { EarStudy } from "./EarStudy";
@@ -18,42 +17,38 @@ const catalogue: [string, string][] = [
   ["Plate", "02 · Marwari"],
   ["Species", "Equus ferus caballus"],
   ["Subject", "Stallion"],
-  ["Coat", "Black, white blaze"],
+  ["Coat", "Black, small star"],
   ["Catalogue", "BSAH-0912"],
 ];
-
-/** The /anatomy hero film (the 10 s studio clip that was on the specimen plate until 17 Nov 2026). */
-const STUDIO = {
-  src: asset("/video/stallion-studio.mp4"),
-  phone: asset("/video/stallion-studio-mobile.mp4"),
-  poster: asset("/video/stallion-studio-poster.webp"),
-};
 
 function AnatomyTitleText() {
   return (
     <>
       <p className="label text-brass">Plate 02 · The Marwari</p>
       <Headline id="anatomy-h" as="h1" size="2" technique="lines" className="mt-5 whitespace-nowrap [&_.t-inscribe]:tracking-[0.32em]" inscription="The" voice="instrument." />
-      <p className="t-story mt-6 max-w-sm text-lg leading-relaxed text-sand">A black Marwari stallion, studied whole: the body a cadet learns to read.</p>
+      {/* on wide screens the line steps right of the croup and tail, into the empty studio */}
+      <p className="t-story mt-6 max-w-sm text-lg leading-relaxed text-sand lg:ml-[42%] lg:max-w-[16rem]">A black Marwari stallion, studied whole: the body a cadet learns to read.</p>
     </>
   );
 }
 
 /**
- * Title card · T3 specimen plate (17 Nov 2026, owner: "keep it full screen", no background effect): the black Marwari studio film
- * plays edge to edge at its own proportions, so the whole horse shows and nothing is cropped, below the 64/80 px nav. The title
- * takes the dark studio above the horse's back on wide screens (held by shade-r) and sits under the film on phones and tablets.
- * Reduced motion and Data Saver show the poster still (TitleLoopVideo). Catalogue lines follow on the page ground.
+ * Title card · T3 specimen plate (17 Nov 2026, owner: "keep it full screen", no background effect; then "black horse image, not
+ * the video"): the owner's studio photograph of the black Marwari (anatomyProfile) edge to edge at its own proportions, so the whole
+ * horse shows and nothing is cropped, below the 64/80 px nav. The title takes the dark studio to the right on wide screens (held by
+ * shade-r) and sits under the photograph on phones and tablets. Catalogue lines follow on the page ground.
  */
 export function AnatomyTitle() {
   const reduced = useReducedMotion();
   return (
     <section aria-labelledby="anatomy-h" className="editorial-scene">
-      {/* 17 Nov 2026 (owner): the 10 s studio film, edge to edge, no feathered edges or backdrop. The box has the film's own
-          proportions (1440 x 984) so the whole horse shows, ears to hooves, and it starts below the fixed bar. */}
-      <div className="tone-photo relative bg-night pt-16 md:pt-20">
-        <div className="relative aspect-[1440/984] w-full overflow-hidden">
-          <TitleLoopVideo src={STUDIO.src} phoneSrc={STUDIO.phone} poster={STUDIO.poster} />
+      {/* 17 Nov 2026 (owner): one still of the black stallion (not the film), edge to edge, no feathered edges or backdrop. The box
+          has the photograph's own proportions (1663 x 946) so the whole horse shows, ears to hooves, below the fixed bar. */}
+      {/* 17 Nov 2026 (owner: "the ears are cropped"): the photo's ears sit 3% below its top edge, which put them against the bar. A dark
+            band of studio ground (4.5vw) sits above the photo and the photo's top 5% blends into it, so the ears clear the bar. */}
+      <div className="tone-photo relative bg-night pt-[calc(4rem+4.5vw)] md:pt-[calc(5rem+4.5vw)]">
+        <div className="relative aspect-[1663/946] w-full overflow-hidden [mask-image:linear-gradient(180deg,transparent_0,black_5%)]">
+          <FilmImage name="anatomyProfile" priority sizes="100vw" grade="none" />
           <div aria-hidden className="shade-r absolute inset-0 hidden lg:block" />
           <motion.div
             className="gutter relative z-10 hidden h-full lg:grid lg:grid-cols-12"
@@ -61,7 +56,7 @@ export function AnatomyTitle() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           >
-            <div className="col-span-4 col-start-9 pt-[6%]">
+            <div className="col-span-4 col-start-9 pt-[4%]">
               <AnatomyTitleText />
             </div>
           </motion.div>

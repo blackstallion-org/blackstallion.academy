@@ -1501,3 +1501,8 @@ progress in another session. Not tested: Safari and a real phone.
     motion), /worlds, /about, /tournaments, /schools, /journal (scrolled), /director, /history/marwar, Alexander, /safety, /command: nav
     clear, no overflow, no console errors; Reels menu shows Director 07, Rani 20, no Opening. Next.js printed a security-upgrade notice
     on build (not run; owner to decide).
+- [x] **17 Nov 2026 (later) · /anatomy hero and reel order, owner's follow-ups.** The hero is the owner's black stallion photograph (anatomyProfile)
+  edge to edge, not the film (the film's unused files left the manifest); the ears sat against the nav, so a 4.5vw band of studio ground now
+  sits above the photo, blending into its top 5%; the line under the title steps right of the croup. Reels: The Traditional Lore moved
+  beside Marwar (18 Marwar, **19 The Traditional Lore**, 20 Rani Lakshmibai, 21 Pratap & Chetak, 22 India, 23 World, 24 Alexander); numbers
+  come from `reelNo()`, so every mark follows. The Heritage mega menu keeps the owner's order of histories (titles only).

@@ -29,7 +29,7 @@ export type Reel = {
  * principles). Act I is the horse. Act II answers a parent's questions in the order they come: the problem, the method, the
  * programme, who leads it, the horses, safety, the cadets, the parent's view, then the Motion Lab (12, in `tools`). Act III is the
  * decision (school offer, operations, competition, the passport seal, the gate) and then the archive: the land (Marwar), the
- * people (Pratap, Rani, India, the world, Alexander) and the folklore. /worlds (The Opening) left the menus the same day; the
+ * folklore (the Traditional Lore, 19, beside Marwar, owner 17 Nov) and the people (Rani Lakshmibai 20, Pratap, India, the world, Alexander). /worlds (The Opening) left the menus the same day; the
  * page stays at its address. The Director became a reel (07).
  */
 export const reels: Reel[] = [
@@ -50,12 +50,12 @@ export const reels: Reel[] = [
   { n: 16, href: "/verify", act: "ledger", title: "The Seal", inscription: "Every hour", voice: "sealed in brass.", blurb: "Verify a cadet's passport.", image: "bgPassport" },
   { n: 17, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
   { n: 18, href: "/history/marwar", act: "ledger", title: "Marwar", inscription: "The horse,", voice: "the crown & the empire.", blurb: "Seven chapters: the Rathore horsemen, the 1818 treaty, the Jodhpur Lancers at Haifa, and the horse that outlived the Empire.", image: "duneSilhouette" },
-  { n: 19, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
+  { n: 19, href: "/journal", act: "ledger", title: "The Traditional Lore", inscription: "The traditional", voice: "lore.", blurb: "The black horse, the whorls, the Nukra and the dancers: Marwar's folklore, told as folklore.", image: "journalReins" },
   { n: 20, href: "/story/rani-lakshmibai", act: "ledger", title: "Rani Lakshmibai", inscription: "Jhansi will not", voice: "be surrendered.", blurb: "Four chapters, painted: the queen who rode out of a besieged fort.", image: "bgCharge" },
-  { n: 21, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
-  { n: 22, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
-  { n: 23, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Twelve mosaic rooms: a boy, a horse no one could ride, and a city named for it on the Hydaspes.", image: "duneSilhouette" },
-  { n: 24, href: "/journal", act: "ledger", title: "The Traditional Lore", inscription: "The traditional", voice: "lore.", blurb: "The black horse, the whorls, the Nukra and the dancers: Marwar's folklore, told as folklore.", image: "journalReins" },
+  { n: 21, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
+  { n: 22, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
+  { n: 23, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
+  { n: 24, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Twelve mosaic rooms: a boy, a horse no one could ride, and a city named for it on the Hydaspes.", image: "duneSilhouette" },
 ];
 
 /**
