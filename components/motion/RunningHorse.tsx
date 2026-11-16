@@ -35,6 +35,7 @@ export function RunningHorse({ settling, onSettled }: { settling: boolean; onSet
   // Show the horse only once its silhouette has arrived: a mask that has not loaded would otherwise show bare rectangles.
   useEffect(() => {
     const probe = new Image();
+    probe.crossOrigin = "anonymous"; // same request mode as the CSS mask and the preload, so all three share one download
     probe.onload = probe.onerror = () => setReady(true);
     probe.src = LOADER_IMAGE;
     return () => { probe.onload = probe.onerror = null; };

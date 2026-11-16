@@ -17,7 +17,9 @@ export function buildLoaderBootScript({ sessionKey, horse }: { sessionKey: strin
     `var d=document.documentElement,s=sessionStorage;`,
     `if(s.getItem("${sessionKey}")||matchMedia("(prefers-reduced-motion: reduce)").matches||location.search.indexOf("noload")!==-1){d.dataset.bsahLoaded="1"}`,
     `else{`,
-    `var l=document.createElement("link");l.rel="preload";l.as="${horse === "pixel" ? "script" : "image"}";l.href="${horse === "pixel" ? "/animations/pixel-horse.js" : LOADER_IMAGE}";document.head.appendChild(l)`,
+    // the silhouette is used as a CSS mask, which browsers always fetch in CORS mode: the preload must match (crossOrigin), or the
+    // browser ignores it and downloads the file twice (17 Nov 2026 audit, Chrome "credentials mode does not match" warning)
+    `var l=document.createElement("link");l.rel="preload";l.as="${horse === "pixel" ? "script" : "image"}";${horse === "pixel" ? "" : `l.crossOrigin="anonymous";`}l.href="${horse === "pixel" ? "/animations/pixel-horse.js" : LOADER_IMAGE}";document.head.appendChild(l)`,
     `}`,
     `}catch(e){}`,
   ].join("");
