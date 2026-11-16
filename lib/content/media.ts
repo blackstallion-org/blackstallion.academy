@@ -72,8 +72,8 @@ export const media = {
   legendFall: m("legend-fall.png", "hf_20261009_134450_fded19b4-ef5f-47e2-ad72-61dfcc13a8d8.png", "A thin Marwari harnessed to a village cart, 1950s"),
   legendRevival: m("legend-revival.png", "hf_20261009_134452_071b671c-3a71-467c-b01b-41fdd53c797c.png", "A herd of Marwari horses galloping across Rajasthan at golden hour"),
   legendToday: m("legend-today.png", "hf_20261009_134451_6575fc93-f93a-4d03-91fc-2a48c3788c1e.png", "A young cadet touching the curled ear of a Marwari stallion at dawn"),
-  /* 16 Nov 2026 (owner): the photorealistic black Marwari from the studio film replaces the dark bay plate (frame at 0.9 s, cropped to x 0–1680 to clear the generator mark). */
-  anatomyProfile: m("anatomy-black-stallion.webp", null, "A black Marwari stallion with a white blaze and white hind socks stands in side profile in a dark studio", "45% 50%"),
+  /* 17 Nov 2026 (owner): the owner's studio portrait of a black Marwari stallion (1663 x 946) replaces the white-blaze film frame. */
+  anatomyProfile: m("anatomy-black-stallion.webp", null, "A black Marwari stallion with a small white star and inward-curving ears stands in side profile in a dark brown studio", "45% 50%"),
   scienceRider: m("science-rider.png", "hf_20261009_134843_2997d278-9f94-43e0-854d-6c3eb7a2a9dc.png", "A young rider at sitting trot with an upright, stacked spine"),
   whyCrisis: m("why-crisis.png", "hf_20261009_134843_16f45299-ccbc-40e7-96ca-4e98043950f5.png", "A boy hunched over a glowing phone in a dark room"),
   whyCure: m("why-cure.png", "hf_20261009_134844_7b2cb2d5-6500-480c-adde-9f8228400906.png", "A boy in cadet uniform sitting tall on a Marwari at golden hour", "32% 50%"),
@@ -102,6 +102,8 @@ export const media = {
   safetyInstructor: m("safety-instructor.png", "hf_20261009_141351_e69b0e16-1d9e-4dd5-85b0-15829cb72991.png", "A former cavalry instructor fastening a cadet's helmet"),
   safetyVet: m("safety-vet.png", "hf_20261009_141351_8460100f-8409-461f-83f6-b3cd555c58f1.png", "A veterinarian examining a Marwari's hoof"),
   schoolAerial: m("school-aerial.png", null, "Aerial view of a school campus with a new riding arena at dusk"),
+  /* 17 Nov 2026 (owner): an Indian cadet on a school campus for the home "Campus Partnership" door (output/imagegen/bsah-2026-masters/tournament-04-gallop). */
+  schoolPartnership: m("school-partnership.png", null, "A cadet in a helmet and white shirt gallops a bay Marwari across a school arena, the school buildings and a stand of students behind", "22% 55%"),
   schoolArenaNight: m("school-arena-night.png", null, "Three cadets ride at a walk in a floodlit school arena at dusk while an instructor watches from the centre"),
   schoolCircuitHub: m("school-circuit-hub.webp", null, "Aerial view of a school riding arena with a covered spectator stand, a warm-up track and horse trailers"),
   schoolStables: m("school-stables.webp", null, "Horses look out over the half-doors of a stone and timber stable block on a school campus", "35% 50%"),

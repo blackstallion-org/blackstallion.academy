@@ -1,15 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { corridors, entity, footerNav, hidesFooter, legalNav, LOGO } from "@/lib/content/site";
-import { useReducedMotion } from "@/lib/motion/reduced";
-import { ease } from "@/lib/motion/tokens";
-import { asset } from "@/lib/content/asset";
 import { MUSIC } from "@/lib/audio/mixer";
 import { introFilm } from "@/lib/content/intro-film";
 import { journeyFilm } from "@/lib/content/journey-film";
@@ -17,11 +12,8 @@ import { journeyFilm } from "@/lib/content/journey-film";
 const COPYRIGHT_YEAR = 2026;
 
 /**
- * The site footer (16 Nov 2026, owner's brief: the stone-bridge film felt unrelated and was replaced). It opens with a quiet
- * heritage band printed on the page's own ivory, so the section above runs straight into it: a black Marwari stallion in
- * profile (a transparent cut-out, no box), the academy's motto in the two-voice headline, a brass hairline. Restrained motion:
- * the horse and the words settle in once as the band enters view; reduced motion shows them at rest. Then the seals, the one
- * lockup, the numbered pages, the three corridors and the small print, unchanged.
+ * The site footer: the two seals, the one lockup, the numbered pages, the three corridors and the small print. The heritage
+ * band (stallion and motto) that opened it was removed on 17 Nov 2026 at the owner's request, as it repeated on every page.
  */
 export function Footer() {
   // The staff console (sign-in, dashboard, every /admin page) and the member account are applications, not pages of the film: no public footer.
@@ -30,45 +22,8 @@ export function Footer() {
 }
 
 function PublicFooter() {
-  const band = useRef<HTMLDivElement>(null);
-  const seen = useInView(band, { once: true, amount: 0.35 });
-  const reduced = useReducedMotion();
-  const settle = (delay: number) => ({
-    initial: reduced ? false : ({ opacity: 0, y: 14 } as const),
-    animate: seen || reduced ? { opacity: 1, y: 0 } : undefined,
-    transition: { duration: 1.6, ease: ease.citadel, delay },
-  });
-
   return (
     <footer className="footer-meridian no-print" aria-label="Site Footer">
-      {/* Heritage band: the horse and the motto, on the page's own ground. */}
-      <div ref={band} className="footer-meridian__heritage gutter">
-        <div className="mx-auto grid max-w-6xl items-end gap-6 md:grid-cols-12 md:gap-10">
-          <motion.figure {...settle(0)} className="relative md:col-span-7">
-            <div aria-hidden className="footer-meridian__ground" />
-            <Image
-              src={asset("/images/fleet/stallion-facing-left.webp")}
-              alt="A black Marwari stallion with a white blaze, standing in profile"
-              width={1536}
-              height={1024}
-              sizes="(min-width: 768px) 56vw, 92vw"
-              loading="lazy"
-              className="relative h-auto w-full"
-            />
-          </motion.figure>
-          <div className="pb-[clamp(1rem,5vw,4rem)] text-center md:col-span-5 md:text-left">
-            <motion.p {...settle(0.25)} className="label text-brass">{entity.motto}</motion.p>
-            <motion.p {...settle(0.4)} className="mt-4 text-[clamp(1.9rem,3.6vw,3.1rem)] leading-[1.08]">
-              <span className="t-inscribe block text-[0.62em] tracking-[0.2em] text-bone">Master of oneself,</span>
-              <span className="t-voice block text-gold">master of the horse.</span>
-            </motion.p>
-            <motion.p {...settle(0.55)} className="t-story mx-auto mt-5 max-w-sm text-sand md:mx-0">
-              Eight hundred years of the Marwari, handed to your child.
-            </motion.p>
-          </div>
-        </div>
-      </div>
-
       {/* Content block: brand emblem, wordmark, tagline, nav and legal copy */}
       <div className="footer-meridian__content">
         {/* The two seals as supplied (backgrounds removed, nothing redrawn): the academy and its governing council. */}

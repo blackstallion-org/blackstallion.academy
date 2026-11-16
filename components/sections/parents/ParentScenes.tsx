@@ -2,14 +2,13 @@
 
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
-import { AnimatePresence, motion, useInView, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "motion/react";
+import { AnimatePresence, motion, useInView, useScroll, useTransform } from "motion/react";
 import { useId, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
-import { Hoof, Label, StatusDot } from "@/components/film/Marks";
-import { PinnedScene } from "@/components/film/PinnedScene";
+import { Hoof, Label } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
-import { admissions, faq, fees, phoneSteps } from "@/lib/content/academy";
+import { admissions, faq, fees } from "@/lib/content/academy";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { inr, total } from "@/lib/content/pricing";
@@ -43,129 +42,18 @@ export function ParentsTitle() {
   );
 }
 
-/** §1 · S47 pinned phone. Signature: the phone's screen changes as each promise scrolls by. */
-export function PinnedPhone() {
-  return (
-    <PinnedScene length={4} label="The parent app" reducedFallback={<PhoneFrame active={0} all />}>
-      {(p) => <PhoneDriver progress={p} />}
-    </PinnedScene>
-  );
-}
-
-function PhoneDriver({ progress }: { progress: MotionValue<number> }) {
-  const [i, setI] = useState(0);
-  useMotionValueEvent(progress, "change", (v) => setI(Math.min(phoneSteps.length - 1, Math.floor(v * phoneSteps.length * 0.999))));
-  return <PhoneFrame active={i} />;
-}
-
-function Screen({ id }: { id: string }) {
-  if (id === "log")
-    return (
-      <div className="flex h-full flex-col gap-3 p-4">
-        <p className="label text-dust">Today · session log</p>
-        <div className="rounded-2xl bg-umber p-4">
-          <p className="label text-brass">Tuesday · 45 min</p>
-          <p className="t-ui mt-1 text-sm text-bone">Rising trot, two-point, halts on the line</p>
-          <p className="t-ui mt-2 text-xs text-dust">Instructor: steady hands; heels down on the left rein.</p>
-        </div>
-        <div className="rounded-2xl bg-umber/70 p-4">
-          <p className="label text-brass">Safety observation</p>
-          <p className="t-ui mt-1 text-xs text-sand">None recorded</p>
-        </div>
-        <div className="rounded-2xl bg-umber/50 p-4">
-          <p className="label text-brass">Attendance</p>
-          <p className="t-ui mt-1 text-xs text-sand">11 of 12 sessions this month</p>
-        </div>
-        <p className="font-mono mt-auto text-[0.55rem] tracking-[0.12em] text-dust">SAMPLE DATA</p>
-      </div>
-    );
-  if (id === "gate")
-    return (
-      <div className="flex h-full flex-col justify-center gap-3 p-4">
-        <p className="label text-dust">Now</p>
-        <div className="rounded-2xl bg-umber p-4">
-          <p className="label text-brass">BSAH · Gate</p>
-          <p className="t-ui mt-1 text-sm text-bone">Bravo checked in at 15:52</p>
-          <p className="t-ui text-xs text-dust">Zone 01A Hub · passport scanned</p>
-        </div>
-        <div className="rounded-2xl bg-umber/60 p-4 opacity-60">
-          <p className="label text-brass">BSAH · Session</p>
-          <p className="t-ui mt-1 text-sm text-bone">Mounted session started</p>
-        </div>
-      </div>
-    );
-  if (id === "reel")
-    return (
-      <div className="relative h-full">
-        <FilmImage name="cadetRohan" />
-        <svg viewBox="0 0 100 200" className="absolute inset-0 h-full w-full" aria-hidden>
-          <path d="M52 60 L52 100 M52 72 L42 92 M52 100 L44 130" fill="none" stroke="var(--color-gold)" strokeWidth="0.8" />
-        </svg>
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-night p-3">
-          <p className="t-ui text-xs text-bone">First canter without stirrups</p>
-          <p className="font-mono text-[0.6rem] text-gold">0:10</p>
-        </div>
-      </div>
-    );
-  return (
-    <div className="flex h-full flex-col justify-center p-5">
-      <p className="label text-brass">Sovereign Passport</p>
-      <p className="t-voice mt-2 text-2xl text-bone">Cadet Rider</p>
-      <p className="font-mono mt-4 text-3xl text-gold">24 hrs</p>
-      <div className="mt-3 h-1 w-full bg-line/20">
-        <div className="h-full w-[80%] bg-gold" />
-      </div>
-      <p className="t-ui mt-2 text-xs text-dust">Next seal at 30 hrs</p>
-    </div>
-  );
-}
-
-function PhoneFrame({ active, all = false }: { active: number; all?: boolean }) {
-  const step = phoneSteps[active];
-  return (
-    <div className={cn("gutter grid h-full items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)]", all && "py-24")}>
-      <div>
-        <Label>In your pocket</Label>
-        <ol className="mt-8 flex flex-col">
-          {phoneSteps.map((s, k) => (
-            <li key={s.id} className={cn("border-l-2 py-4 pl-6 transition-colors duration-500", k === active || all ? "border-gold" : "border-line")}>
-              <p className={cn("label", k === active || all ? "text-gold" : "text-dust")}>{s.label}</p>
-              <p className={cn("t-voice mt-1 text-xl transition-colors md:text-2xl", k === active || all ? "text-bone" : "text-sand/40")}>{s.title}</p>
-              {(k === active || all) && <p className="mt-2 max-w-md text-sand">{s.text}</p>}
-            </li>
-          ))}
-        </ol>
-      </div>
-      {!all && (
-        <div className="tone-photo relative mx-auto hidden h-[600px] w-[300px] rounded-[46px] border border-line bg-charcoal p-3 shadow-[0_40px_100px_-20px_rgb(73_49_38/0.55)] md:block">
-          <div className="relative h-full w-full overflow-hidden rounded-[36px] bg-night">
-            <div aria-hidden className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-black" />
-            <div className="t-ui absolute inset-x-0 top-12 z-10 flex items-center justify-between px-5 text-[0.65rem] text-dust">
-              <span>BSAH Guardian</span>
-              <StatusDot status="live" />
-            </div>
-            <AnimatePresence mode="wait">
-              <motion.div key={step.id} className="absolute inset-x-0 bottom-0 top-20" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5, ease: ease.citadel }}>
-                <Screen id={step.id} />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
 /** §1b · Cinematic Forward-Zoom Guardian Vantage Gallery */
 export function ParentVantageGallery() {
   const slides: ReelSlide[] = [
     {
       id: "rail",
-      imageKey: "parentsRail",
+      // 17 Nov 2026: the pavilion still, so the gallery no longer opens on the hero's own photograph (the phone section between them was removed).
+      imageKey: "bgPavilion",
       subtitle: "REEL 01 · PAVILION VANTAGE",
       titleLine1: "ARENA",
       titleLine2: "RAIL",
-      alt: "Parents at the arena rail watching cadets ride at dusk",
+      alt: "Families watch a riding lesson from a shaded pavilion beside a school arena",
+      shade: true,
       caption: "Direct viewing deck along the arena perimeter. Watch your cadet establish cadence under the instructor's direct eye.",
       align: "left",
     },

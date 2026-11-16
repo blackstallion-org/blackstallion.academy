@@ -6,8 +6,8 @@ Generation prompts used these subjects:
 
 | Asset | Prompt subject |
 | --- | --- |
-| `trainer-standing-with-horse.png` | Fictional adult Indian trainer in proposed navy/gold instructor uniform, full length beside black horse under sandstone arch |
-| `trainer-uniform-detail.png` | Fictional adult instructor at ring fence, detailed uniform tailoring and boots |
+| ~~`trainer-standing-with-horse.png`~~ (removed 17 Nov 2026: instructors wear olive) | Fictional adult Indian trainer in proposed navy/gold instructor uniform, full length beside black horse under sandstone arch |
+| ~~`trainer-uniform-detail.png`~~ (removed 17 Nov 2026) | Fictional adult instructor at ring fence, detailed uniform tailoring and boots |
 | `trainer-riding-ring-lesson.png` | Adult instructor guiding a cadet on a walking horse in fenced sand arena |
 | `trainer-courtyard-lesson.png` | Adult instructor teaching a small cadet group with a horse in sandstone courtyard |
 | `parent-riding-ring-visit.png` | Fictional parents watching their daughter ride at a walking pace in fenced ring |

@@ -1449,3 +1449,22 @@ progress in another session. Not tested: Safari and a real phone.
     and the two navy instructor portraits on /cadets. Backups of every overwritten file: scratchpad `backup-images-1116`.
   - **Open:** no olive edit exists of the two /cadets portraits or of school-horse-care (Higgsfield 0.25 credits); /cadets copy still
     describes the navy uniform; parentsRail and the ring background keep palace arcades; pegLift is the older dark frame.
+- **17 Nov 2026 · owner corrections: images, removals, spine and heart.**
+  - **Images:** home "Campus Partnership" door ← new key `schoolPartnership` (bsah-2026-masters/tournament-04-gallop, an Indian cadet on
+    a school campus); /anatomy hero `anatomyProfile` ← the owner's studio black stallion (1663×946, small star; catalogue "Black, small
+    star"); /curriculum and /contact head ← the owner's plain-bridle cutout, placed so the muzzle keeps the hand's anchor (98.5% / 71.8%),
+    neck feathered; /schools campus band `RING_BACKGROUND` ← masters schools-02-regulation-arena (modern school, no palace); /safety stable
+    gallery ← masters safety-01…05 (`safety-bsah-0*.webp`: Marwaris in plain working tack, olive groom) with an honest credit line;
+    /parents gallery slide 1 ← `bgPavilion` (the hero photo now sits directly above it) with an opt-in `shade` gradient on CinematicStoryReel.
+    Originals backed up in `output/imagegen/bsah-2026-originals/1117/`.
+  - **Already on disk before this pass:** the sepia gallop and the European-riders arena the owner screenshotted were replaced in eb2ba71;
+    the dev server's optimised-image cache (`.next/dev/cache/images`) was stale and has been cleared.
+  - **Removed:** the footer heritage band (stallion + motto) on every page; MovementLab Three-quarter and Behind views (and their still
+    and disabled-option code; `lab-three-quarter*` deleted, `lab-behind` dropped from KNOWN_ABSENT); the /history/marwar AI stallion film
+    (+ legend tag, credit, CSS, `stallion-portrait*`); /parents "In your pocket" phone (`PinnedPhone`, `phoneSteps`); the two navy
+    instructor portraits on /cadets (instructors wear olive; headline "THE INSTRUCTOR in olive.", lede rewritten).
+  - **/anatomy rider plate:** spine re-registered to C1 (757,388), C7, T7, T12, L3, S1, coccyx (622,828): the S-curve just inside the back;
+    heart moved from the back to the chest (base at the 3rd costal cartilage, apex forward and down), dimmed where the near arm covers it;
+    callouts, focus rings, masks and the two thumbnails updated.
+  - **Checks:** lint (0 errors), typecheck, 348/348 tests, `npm run build`; 9 routes + /contact at 1440×900 and 390×844 on the production
+    build with the nav-clearance check clean; section close-ups of every change; spine/heart at 1440, 768, 390; reduced motion on /anatomy.

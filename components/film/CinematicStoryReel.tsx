@@ -19,6 +19,8 @@ export interface ReelSlide {
   alt: string;
   align?: "left" | "right";
   caption?: string;
+  /** a side gradient (shade-l / shade-r) behind the title, for a bright photograph that would not hold white type */
+  shade?: boolean;
 }
 
 export interface CinematicStoryReelProps {
@@ -410,6 +412,8 @@ export function CinematicStoryReel({
                 className="slide-bg absolute inset-0 w-full h-full object-cover will-change-transform"
                 style={{ transform: "scale(1.0)" }}
               />
+
+              {slide.shade && <div aria-hidden className={`absolute inset-0 z-[1] pointer-events-none ${isLeft ? "shade-l" : "shade-r"}`} />}
 
               {/* Vertically Centered Text Container */}
               <div

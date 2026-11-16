@@ -51,7 +51,7 @@ const DOORS: Door[] = [
     chip: "We are a school",
     title: "The Campus Partnership",
     tagline: "Your school builds the riding arena; BSAH runs the equestrian programme, training and management.",
-    image: "schoolArenaNight",
+    image: "schoolPartnership",
     href: "/schools",
     cta: "Enter as a school",
     paths: [

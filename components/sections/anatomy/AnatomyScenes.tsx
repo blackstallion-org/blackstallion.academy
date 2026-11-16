@@ -16,7 +16,7 @@ const catalogue: [string, string][] = [
   ["Plate", "02 · Marwari"],
   ["Species", "Equus ferus caballus"],
   ["Subject", "Stallion"],
-  ["Coat", "Black, white blaze"],
+  ["Coat", "Black, small star"],
   ["Catalogue", "BSAH-0912"],
 ];
 
@@ -33,12 +33,12 @@ export function AnatomyTitle() {
       <div className="tone-photo relative overflow-hidden bg-night [background-image:radial-gradient(ellipse_78%_92%_at_36%_50%,color-mix(in_oklab,var(--color-ember)_86%,var(--color-copper)_14%)_0%,color-mix(in_oklab,var(--color-ember)_70%,var(--color-night))_45%,var(--color-night)_88%)]">
         <div className="gutter grid min-h-[100svh] content-center items-center gap-8 pb-14 pt-24 md:pt-28 lg:grid-cols-12 lg:gap-6 lg:pb-16">
           <motion.figure
-            className="relative mx-auto w-full lg:col-span-8 lg:max-w-[calc((100svh-9rem)*1680/1080)]"
+            className="relative mx-auto w-full lg:col-span-8 lg:max-w-[calc((100svh-9rem)*1663/946)]"
             initial={reduced ? false : { opacity: 0, scale: 1.015 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative aspect-[1680/1080] w-full [mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent_0,black_8%,black_92%,transparent_100%),linear-gradient(180deg,transparent_0,black_2.5%,black_96.5%,transparent_100%)]">
+            <div className="relative aspect-[1663/946] w-full [mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent_0,black_8%,black_92%,transparent_100%),linear-gradient(180deg,transparent_0,black_2.5%,black_96.5%,transparent_100%)]">
               <FilmImage name="anatomyProfile" priority sizes="(min-width: 1024px) 66vw, 100vw" grade="none" />
             </div>
           </motion.figure>

@@ -15,8 +15,8 @@ function Plate({ img, sizes, className, eager }: { img: CampaignImage; sizes: st
 }
 
 /**
- * /cadets · the instructor's uniform, in the same editorial series as the cadets' UniformGallery: two portraits, then
- * the trainer at work in the riding ring, then a courtyard lesson.
+ * /cadets · the instructor's uniform, in the same editorial series as the cadets' UniformGallery. Olive only (owner, 17 Nov
+ * 2026): the trainer at work in the riding ring, then a courtyard lesson.
  */
 export function TrainerUniformGallery() {
   return (
@@ -26,23 +26,13 @@ export function TrainerUniformGallery() {
         <Headline id="trainer-uniform-h" inscription={trainer.inscription} voice={trainer.voice} size="3" className="mt-3" />
         <p className="mt-6 max-w-2xl text-lede leading-relaxed text-sand">{trainer.lede}</p>
 
-        <div className="mt-12 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.6fr)] lg:items-end">
-          {trainer.portraits.map((p) => (
-            <figure key={p.src}>
-              <div className="relative aspect-[3/4] overflow-hidden bg-umber">
-                <Image src={p.src} alt={p.alt} fill sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" className="object-cover" style={{ objectPosition: p.position }} />
-              </div>
-              <figcaption className="t-voice mt-4 text-xl text-bone">{p.title}</figcaption>
-            </figure>
-          ))}
-          <Plate img={trainer.ring} sizes="(min-width: 1024px) 36vw, 100vw" className="sm:col-span-2 lg:col-span-1" />
-        </div>
+        <Plate img={trainer.ring} sizes="(min-width: 1024px) 80vw, 100vw" className="mt-12 lg:w-4/5" />
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-center">
-          <Plate img={trainer.courtyard} sizes="(min-width: 1024px) 56vw, 100vw" />
-          <p className="t-story max-w-md text-sand">
-            The same tunic in the courtyard: an instructor leads the horse while a small group of cadets watches how the lead is held.
+        <div className="mt-14 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:items-center">
+          <p className="t-story max-w-md text-sand lg:order-first">
+            The same uniform in the courtyard: an instructor leads the horse while a small group of cadets watches how the lead is held.
           </p>
+          <Plate img={trainer.courtyard} sizes="(min-width: 1024px) 56vw, 100vw" />
         </div>
 
         <p className="mt-10 text-sm text-dust">{trainer.note}</p>

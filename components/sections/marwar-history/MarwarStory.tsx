@@ -4,13 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import { Play } from "lucide-react";
 import { DriftCanvas } from "@/components/film/DriftCanvas";
 import { Headline } from "@/components/film/Headline";
 import { Cta, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { archive, archiveGaps, reconstructions, type ArchiveItem } from "@/lib/content/history/marwar-archive";
-import { archiveSrc, chapters, hotspots, legacyFilm, page, pratapDates, scenes, sources, treaty, type ChapterId, type PlateScene } from "@/lib/content/history/marwar";
+import { archiveSrc, chapters, hotspots, page, pratapDates, scenes, sources, treaty, type ChapterId, type PlateScene } from "@/lib/content/history/marwar";
 import { nextReel } from "@/lib/content/site";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
@@ -148,7 +147,6 @@ export function MarwarStory() {
       </Chapter>
 
       <Chapter id="legacy" dark after={<Bridge />}>
-        <Film />
         <Stage scene={scenes.legacy} />
       </Chapter>
 
@@ -179,7 +177,6 @@ function Title() {
           <li className="mw-tag" data-kind="reconstruction">Artistic reconstruction</li>
           <li className="mw-tag" data-kind="painting">Period painting</li>
           <li className="mw-tag" data-kind="photograph">Archive photograph</li>
-          <li className="mw-tag" data-kind="film">AI-generated film</li>
         </ul>
       </div>
     </section>
@@ -317,54 +314,6 @@ function Treaty() {
   );
 }
 
-/* ------------------------------------------------------------------ chapter 07: the film */
-function Film() {
-  const ref = useRef<HTMLVideoElement>(null);
-  const reduced = useReducedMotion();
-  const [playing, setPlaying] = useState(false);
-  const [chosen, setChosen] = useState(false);
-
-  // plays only while on screen and the tab is visible; never on its own under reduced motion
-  useEffect(() => {
-    const v = ref.current;
-    if (!v || (reduced && !chosen)) return;
-    let seen = false;
-    const sync = () => { if (seen && !document.hidden) v.play().catch(() => undefined); else v.pause(); };
-    const io = new IntersectionObserver(([e]) => { seen = e.isIntersecting; sync(); }, { threshold: 0.35 });
-    io.observe(v);
-    document.addEventListener("visibilitychange", sync);
-    return () => { io.disconnect(); document.removeEventListener("visibilitychange", sync); v.pause(); };
-  }, [reduced, chosen]);
-
-  return (
-    <figure className="mw-film mw-wrap">
-      <div className="mw-film-view">
-        <video
-          ref={ref}
-          src={legacyFilm.src}
-          poster={legacyFilm.poster}
-          muted
-          loop
-          playsInline
-          preload="none"
-          aria-label={legacyFilm.alt}
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
-        />
-        {reduced && !playing && (
-          <button type="button" className="mw-film-play" onClick={() => { setChosen(true); ref.current?.play().catch(() => undefined); }} aria-label="Play the film">
-            <Play size={26} strokeWidth={1.3} aria-hidden />
-          </button>
-        )}
-      </div>
-      <figcaption className="mw-caption px-0">
-        <span className="mw-tag" data-kind="film">{legacyFilm.label} · 2026</span>
-        <span>Not footage of a particular horse.</span>
-      </figcaption>
-    </figure>
-  );
-}
-
 function Bridge() {
   return (
     <div className="mw-bridge">
@@ -447,7 +396,7 @@ function Closing() {
 
 /* ------------------------------------------------------------------ the chapter rail */
 function Rail({ active }: { active: ChapterId | null }) {
-  // the rail never sits on a picture: it steps aside while a painting, the film or the photo strip crosses the middle of the screen
+  // the rail never sits on a picture: it steps aside while a painting or the photo strip crosses the middle of the screen
   const [covered, setCovered] = useState(false);
   useEffect(() => {
     const on = new Set<Element>();

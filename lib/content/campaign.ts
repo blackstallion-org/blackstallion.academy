@@ -3,7 +3,8 @@ import { asset } from "./asset";
 /**
  * Trainer, parent and school campaign images (public/images/campaign/trainer-parent/, ASSET_NOTES.md; 14 Nov 2026).
  * 16 Nov 2026: the ring, courtyard and school-ring files are the olive-khaki instructor set (output/imagegen/instructor-uniform-v2,
- * school-campus-v2); the two portraits are still the navy proposal (no olive edit of them exists yet).
+ * school-campus-v2). 17 Nov 2026 (owner): instructors wear olive only, so the two navy portraits were removed; the campus band
+ * is output/imagegen/bsah-2026-masters/schools-02-regulation-arena (a modern school, not a palace).
  * All nine are AI-generated concept illustrations with fictional people and horses. They are never presented as academy
  * staff, families, cadets, facilities or fleet horses, and no face here is an identity photograph.
  */
@@ -14,22 +15,18 @@ export const CAMPAIGN_NOTE = "AI-generated illustrations of the academy concept.
 export type CampaignImage = { src: string; width: number; height: number; alt: string; title?: string; position?: string };
 
 export const RING_BACKGROUND: CampaignImage = {
-  src: c("horse-riding-ring-background"), width: 1774, height: 887,
-  alt: "A wide sand riding ring with a timber fence at golden hour, sandstone academy buildings and one horse in the distance.",
+  src: c("horse-riding-ring-background"), width: 1672, height: 941,
+  alt: "Two helmeted cadets ride bay horses around a fenced sand arena on a modern school campus at dusk while an instructor in olive watches from the rail; stables and school buildings stand behind.",
 };
 
 export const trainer = {
   label: "The instructor’s uniform",
   inscription: "THE INSTRUCTOR",
-  voice: "in the same navy.",
-  lede: "A proposed uniform for the academy’s instructors: the cadets’ midnight navy, a longer tunic with restrained gold trim, cream breeches and tall black boots. Shown in the ring, where the teaching happens.",
-  portraits: [
-    { src: c("trainer-standing-with-horse"), width: 1084, height: 1451, title: "Full length", alt: "An adult instructor in a proposed navy and gold tunic, cream breeches and black boots stands beside a black horse under a sandstone arch.", position: "50% 30%" },
-    { src: c("trainer-uniform-detail"), width: 1024, height: 1536, title: "Tailoring and boots", alt: "An adult instructor leaning on the ring fence shows the proposed tunic's gold-trimmed collar, buttons, breeches and tall boots.", position: "50% 25%" },
-  ] as CampaignImage[],
+  voice: "in olive.",
+  lede: "A proposed uniform for the academy’s instructors: olive khaki shirt and trousers, plain epaulettes, a dark belt and an olive beret, with no badges, ranks or medals. Shown in the ring, where the teaching happens.",
   ring: { src: c("trainer-riding-ring-lesson"), width: 1672, height: 941, title: "In the ring", alt: "An instructor in an olive uniform and beret watches two cadets ride at a walk in a floodlit school arena at dusk." } as CampaignImage,
   courtyard: { src: c("trainer-courtyard-lesson"), width: 1672, height: 941, title: "Teaching a small group", alt: "An instructor in an olive uniform and beret leads a black horse and talks with parents and helmeted cadets on a shaded campus walkway." } as CampaignImage,
-  note: "Illustrations of a proposed instructor uniform, not photographs of academy staff. This is a photo series, not a 3D model.",
+  note: "Illustrations of a proposed instructor uniform, not photographs of academy staff.",
 };
 
 export const parentVisit = {

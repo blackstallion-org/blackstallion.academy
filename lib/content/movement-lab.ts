@@ -52,19 +52,13 @@ export const LAB_JOINT_NOTE = "Educational simulation: illustrates how the joint
 /* Camera views                                                                                                                    */
 /* ------------------------------------------------------------------------------------------------------------------------------ */
 
-export type Camera = "side" | "three-quarter" | "behind" | "front" | "above";
+export type Camera = "side" | "front" | "above";
 
 export type CameraMedia = {
   label: string;
-  /**
-   * false until the footage exists: the option stays in the menu, disabled, with `pendingNote`. To enable a view, drop its files
-   * at the paths below and flip this to true (and `kind` to "video" if it is a film).
-   */
-  available: boolean;
-  kind: "video" | "still";
-  /** desktop: 1920 × 1080; mobile: 1280 × 720. Every view is framed alike: the horse centred, about the same size. */
+  /** desktop: 1920 × 1080; mobile: 1280 × 720. Every view is a looping film, framed alike: the horse centred, about the same size. */
   src: { desktop: string; mobile: string };
-  /** a video's first frame (a still uses its own image) */
+  /** the film's first frame */
   poster: string;
   alt: string;
   objectPosition: string;
@@ -72,24 +66,21 @@ export type CameraMedia = {
   caption: string;
   /** the measured overlay and part markers are drawn only where the landmarks were placed: the side film */
   overlay: boolean;
-  pendingNote?: string;
 };
 
-export const CAMERA_ORDER: Camera[] = ["side", "three-quarter", "behind", "front", "above"];
+export const CAMERA_ORDER: Camera[] = ["side", "front", "above"];
 
 /**
  * Front and above: the owner's generated clips (public/video/stills/Horse_and_rider_walking_animation_08123068_1080p.mp4 and
  * ~/Downloads/Horse_and_rider_top-down_view_9e02613f_1080p.mp4). ✦ mark removed (delogo), audio dropped, scaled (front 0.9,
  * above 0.7) so the horse is centred and about the size it is in the side film, edges feathered into a blurred copy of the
  * same frame; seamless loops cut at gait-matched frames (front 81→269, above 79→261) with a 14-frame (0.58 s) crossfade of the
- * tail into the head. H.264 yuv420p, CRF 23/24, faststart. Three-quarter: the academy photograph
- * public/images/academy-uniforms/navy-mounted.webp, unretouched, centred on a blurred, darkened band of its own background.
+ * tail into the head. H.264 yuv420p, CRF 23/24, faststart. The three-quarter and behind views were removed on 17 Nov 2026 at the
+ * owner's request: no footage was generated for them.
  */
 export const CAMERA_MEDIA: Record<Camera, CameraMedia> = {
   side: {
     label: "Side",
-    available: true,
-    kind: "video",
     src: { desktop: LAB_FILM.desktop, mobile: LAB_FILM.mobile },
     poster: LAB_FILM.poster,
     alt: LAB_FILM.alt,
@@ -97,33 +88,8 @@ export const CAMERA_MEDIA: Record<Camera, CameraMedia> = {
     caption: "Side · the stride drawn over the film is an educational simulation, timed to the film's measured stride.",
     overlay: true,
   },
-  "three-quarter": {
-    label: "Three-quarter",
-    available: true,
-    kind: "still",
-    src: { desktop: asset("/video/lab/lab-three-quarter.webp"), mobile: asset("/video/lab/lab-three-quarter-mobile.webp") },
-    poster: asset("/video/lab/lab-three-quarter.webp"),
-    alt: "A cadet in the academy's navy uniform and black helmet rides a black horse across a dusty arena, seen from the front and side at once.",
-    objectPosition: "50% 50%",
-    caption: "Three-quarter · a photograph: a cadet on a black horse, seen from the front and side at once.",
-    overlay: false,
-  },
-  behind: {
-    label: "Behind",
-    available: false,
-    kind: "still",
-    src: { desktop: asset("/video/lab/lab-behind.webp"), mobile: asset("/video/lab/lab-behind-mobile.webp") },
-    poster: asset("/video/lab/lab-behind.webp"),
-    alt: "A horse and rider seen from behind.",
-    objectPosition: "50% 50%",
-    caption: "Behind · the hindquarters and the rider's seat, seen from behind.",
-    overlay: false,
-    pendingNote: "Footage to follow",
-  },
   front: {
     label: "Front",
-    available: true,
-    kind: "video",
     src: { desktop: asset("/video/lab/lab-front.mp4"), mobile: asset("/video/lab/lab-front-mobile.mp4") },
     poster: asset("/video/lab/lab-front-poster.jpg"),
     alt: "A dark bay horse and its rider walk towards the camera across a dark reflective floor, gold light waves behind them.",
@@ -133,8 +99,6 @@ export const CAMERA_MEDIA: Record<Camera, CameraMedia> = {
   },
   above: {
     label: "Above",
-    available: true,
-    kind: "video",
     src: { desktop: asset("/video/lab/lab-above.mp4"), mobile: asset("/video/lab/lab-above-mobile.mp4") },
     poster: asset("/video/lab/lab-above-poster.jpg"),
     alt: "Seen from directly overhead, a dark horse and its rider walk from right to left over a dark floor laced with gold light.",

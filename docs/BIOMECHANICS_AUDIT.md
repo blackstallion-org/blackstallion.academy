@@ -55,8 +55,8 @@ fabricated precision, gone from the page.
 | 30 | Limb pendulums | `sin(φ·2π)` (hind) and `sin((φ − 0.48)·2π)` (fore), unrelated to the footfall table | Corrected (still a simulation) | Driven by the stance timing: each limb sweeps back while its hoof is down and swings forward in the air; the fore folds at the carpus in the swing |
 | 31 | Topline bob, seat trace | Formulae, two cycles a stride | Illustrative | Kept: two rises a stride matches the published pattern; amplitudes are drawing values, not data |
 | 32 | Hoof ripples under LH / RH / LF / RF | Fixed x positions | Illustrative | Kept on the side film only; spacing is schematic, not the hooves' tracked positions |
-| 33 | Three-quarter view | The side film turned with CSS `rotateY(−18°)` | Removed | A real photograph (a cadet on a black horse), captioned as one |
-| 34 | Behind / Front / Above views | The side film dimmed to 20 % under a canvas sketch with captions "(14.0 / 15.7 mm)", "(ELBOW 102° / KNEE 108°)" | Removed | Front and Above: looping footage. Behind: disabled, "Footage to follow". The overlay draws only on Side |
+| 33 | Three-quarter view | The side film turned with CSS `rotateY(−18°)` | Removed | 16 Nov: a real photograph (a cadet on a black horse), captioned as one. 17 Nov (owner): the view is removed; no footage was generated for it |
+| 34 | Behind / Front / Above views | The side film dimmed to 20 % under a canvas sketch with captions "(14.0 / 15.7 mm)", "(ELBOW 102° / KNEE 108°)" | Removed | Front and Above: looping footage. Behind: removed 17 Nov (owner), no footage was generated. The overlay draws only on Side |
 | 35 | Caveat "Illustrative: from the academy's stride model, not measured on this film" | `LAB_CAVEAT` | Corrected | States what is measured (the period), what is typical (footfall timing) and what is simulated (the drawing). A "Simulation · not tracked" tag sits on the side film |
 
 ## What would make the numbers real

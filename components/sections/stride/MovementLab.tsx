@@ -13,14 +13,12 @@ import { cn } from "@/lib/utils";
 
 type Show = "both" | "horse" | "rider" | "skeleton";
 type Hoof = keyof typeof LAB_STANCE;
-type Option<T extends string> = { id: T; label: string; disabled?: boolean; note?: string };
+type Option<T extends string> = { id: T; label: string };
 
 const SHOWS: Option<Show>[] = [
   { id: "both", label: "Horse and rider" }, { id: "horse", label: "Horse" }, { id: "rider", label: "Rider" }, { id: "skeleton", label: "Skeleton" },
 ];
-const CAMERAS: Option<Camera>[] = CAMERA_ORDER.map((id) => ({
-  id, label: CAMERA_MEDIA[id].label, disabled: !CAMERA_MEDIA[id].available, note: CAMERA_MEDIA[id].pendingNote,
-}));
+const CAMERAS: Option<Camera>[] = CAMERA_ORDER.map((id) => ({ id, label: CAMERA_MEDIA[id].label }));
 const SPEEDS = [0.25, 0.5, 1] as const;
 const REF_PHASE = 0.5; // the held pose: half a stride, as the right hind lands (by the stride convention)
 const TAU = Math.PI * 2;
@@ -67,7 +65,7 @@ function stance(hoof: Hoof, phase: number) {
 }
 
 /**
- * The Movement Laboratory: five camera views of a horse and rider walking (side, three-quarter, behind, front, above), the stride
+ * The Movement Laboratory: three camera views of a horse and rider walking (side, front, above), the stride
  * drawn over the side film (the topline's wave, the rider's seat, the limb pendulums, hoof-contact ripples, six numbered parts),
  * and the controls and figures around it. Only the stride period is measured from the film; the drawing is an educational
  * simulation timed to it, the footfall timing is the typical walk, and the figures beneath are published findings (sources in
@@ -87,12 +85,10 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   const [show, setShow] = useState<Show>("both");
   const [camera, setCamera] = useState<Camera>("side");
   const [part, setPart] = useState<PartId>("03");
-  const [hint, setHint] = useState<Camera | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuFit, setMenuFit] = useState({ up: true, max: 480 });
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const hintTimer = useRef<number | undefined>(undefined);
   const userPaused = useRef(false);
   const inView = useRef(false);
   const state = useRef({ locked, show, camera, part });
@@ -162,7 +158,7 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
 
       // the stride clock and footfall timeline belong to the side film; the other views are separate footage
       if (cam !== "side") {
-        text("pct", CAMERA_MEDIA[cam].kind === "video" ? "Looping footage" : "Still photograph");
+        text("pct", "Looping footage");
         text("support", "The stride timeline follows the side film.");
         return;
       }
@@ -330,26 +326,19 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
 
   // switch the view: the old film pauses and fades out, the new one fades in and plays if the lab is playing
   const chooseCamera = (next: Camera) => {
-    if (!CAMERA_MEDIA[next].available || next === state.current.camera) return;
+    if (next === state.current.camera) return;
     state.current = { ...state.current, camera: next, locked: false };
     setCamera(next); setLocked(false); setPlaying(false);
     Object.entries(videos.current).forEach(([id, v]) => { if (v && id !== next) v.pause(); });
     const v = videos.current[next];
     if (v && inView.current && !reduced && !userPaused.current) v.play().catch(() => {});
   };
-  // a disabled view (no footage yet) says so on hover or tap, and to screen readers through its description
-  useEffect(() => () => window.clearTimeout(hintTimer.current), []);
-  const peek = (id: Camera | null) => {
-    window.clearTimeout(hintTimer.current);
-    setHint(id);
-    if (id) hintTimer.current = window.setTimeout(() => setHint(null), 2600);
-  };
 
   const view = CAMERA_MEDIA[camera];
   const side = camera === "side";
   const info = LAB_PARTS.find((p) => p.id === part) ?? LAB_PARTS[2];
   const showLabel = SHOWS.find((x) => x.id === show)?.label ?? "Horse and rider";
-  const menuNote = hint ? `${CAMERA_MEDIA[hint].label}: ${CAMERA_MEDIA[hint].pendingNote ?? "not available yet"}.` : !side ? "Show, the drawn stride and the timeline apply to the side film." : "";
+  const menuNote = !side ? "Show, the drawn stride and the timeline apply to the side film." : "";
 
   return (
     <section ref={sectionRef} id="movement-lab" aria-labelledby="movement-lab-h" data-parallax-skip className="bg-night pb-[clamp(4rem,10vh,7rem)] pt-24 text-bone md:pt-28">
@@ -370,32 +359,23 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
           {/* the views, crossfading; the side film carries the drawn stride; one quiet control strip under it */}
           <figure className="plate flex min-w-0 flex-col self-start">
             <div ref={stageRef} className="tone-photo relative aspect-video w-full select-none overflow-hidden bg-night">
-              {CAMERA_ORDER.filter((id) => CAMERA_MEDIA[id].available).map((id) => {
+              {CAMERA_ORDER.map((id) => {
                 const m = CAMERA_MEDIA[id];
                 const on = id === camera;
                 return (
                   <div key={id} inert={!on} className={cn("absolute inset-0", FADE, reduced && "transition-none", on ? "opacity-100" : "pointer-events-none opacity-0")}>
-                    {m.kind === "video" ? (
-                      <video
-                        ref={(el) => { videos.current[id] = el; }}
-                        className="absolute inset-0 h-full w-full object-cover"
-                        style={{ objectPosition: m.objectPosition }}
-                        muted loop playsInline preload={id === "side" ? "metadata" : "none"} poster={m.poster}
-                        aria-label={m.alt}
-                        onPlay={() => { if (state.current.camera === id) setPlaying(true); }}
-                        onPause={() => { if (state.current.camera === id) setPlaying(false); }}
-                      >
-                        <source media="(max-width: 767px)" src={m.src.mobile} type="video/mp4" />
-                        <source src={m.src.desktop} type="video/mp4" />
-                      </video>
-                    ) : (
-                      // eslint-disable-next-line @next/next/no-img-element -- a fixed 16:9 plate inside the stage; srcSet covers phone and desktop
-                      <img
-                        src={m.src.desktop} srcSet={`${m.src.mobile} 1280w, ${m.src.desktop} 1920w`} sizes="(min-width: 1024px) 70vw, 100vw"
-                        alt={m.alt} loading="lazy" decoding="async" draggable={false}
-                        className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: m.objectPosition }}
-                      />
-                    )}
+                    <video
+                      ref={(el) => { videos.current[id] = el; }}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      style={{ objectPosition: m.objectPosition }}
+                      muted loop playsInline preload={id === "side" ? "metadata" : "none"} poster={m.poster}
+                      aria-label={m.alt}
+                      onPlay={() => { if (state.current.camera === id) setPlaying(true); }}
+                      onPause={() => { if (state.current.camera === id) setPlaying(false); }}
+                    >
+                      <source media="(max-width: 767px)" src={m.src.mobile} type="video/mp4" />
+                      <source src={m.src.desktop} type="video/mp4" />
+                    </video>
                     {id === "side" && (
                       <>
                         <canvas ref={canvasRef} aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" />
@@ -420,9 +400,9 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
               {/* one row: play, where we are in the stride, and the one View menu */}
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <button
-                  type="button" onClick={togglePlay} disabled={view.kind !== "video"}
-                  aria-label={view.kind !== "video" ? "A still photograph: nothing to play" : playing ? "Pause the film" : "Play the film"}
-                  className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/60 text-bone transition-colors hover:border-gold hover:text-gold disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-gold/60 disabled:hover:text-bone", RING)}
+                  type="button" onClick={togglePlay}
+                  aria-label={playing ? "Pause the film" : "Play the film"}
+                  className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/60 text-bone transition-colors hover:border-gold hover:text-gold", RING)}
                 >
                   {playing ? <Pause size={17} strokeWidth={1.5} aria-hidden /> : <Play size={17} strokeWidth={1.5} aria-hidden className="translate-x-[1px]" />}
                 </button>
@@ -441,12 +421,12 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
                   {menuOpen && (
                     <div id="lab-view-menu" role="group" aria-label="View and playback settings" className={cn("plate absolute right-0 z-20 flex w-[min(26rem,calc(100vw-4.5rem))] flex-col gap-3 overflow-y-auto overscroll-contain bg-ember p-4", menuFit.up ? "bottom-full mb-2" : "top-full mt-2")} style={{ maxHeight: menuFit.max }}>
                       <Choice inline legend="Show" name="lab-show" value={show} options={SHOWS} onChange={setShow} />
-                      <Choice inline legend="Camera" name="lab-camera" value={camera} options={CAMERAS} onChange={chooseCamera} onPeek={peek} />
+                      <Choice inline legend="Camera" name="lab-camera" value={camera} options={CAMERAS} onChange={chooseCamera} />
                       <p aria-live="polite" className="min-h-[1rem] pl-[4.7rem] font-mono text-[0.64rem] text-dust">{menuNote}</p>
                       <Choice inline legend="Speed" name="lab-speed" value={String(speed)} options={SPEEDS.map((v) => ({ id: String(v), label: `${v === 1 ? "1.0" : v}×` }))} onChange={(v) => setSpeed(Number(v) as (typeof SPEEDS)[number])} />
                       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-3 font-mono text-[0.74rem]">
-                        <button type="button" disabled={view.kind !== "video"} onClick={() => step(-1)} className={cn("min-h-9 text-sand hover:text-gold disabled:cursor-not-allowed disabled:opacity-40", RING)}>‹ Back a frame</button>
-                        <button type="button" disabled={view.kind !== "video"} onClick={() => step(1)} className={cn("min-h-9 text-sand hover:text-gold disabled:cursor-not-allowed disabled:opacity-40", RING)}>Forward a frame ›</button>
+                        <button type="button" onClick={() => step(-1)} className={cn("min-h-9 text-sand hover:text-gold", RING)}>‹ Back a frame</button>
+                        <button type="button" onClick={() => step(1)} className={cn("min-h-9 text-sand hover:text-gold", RING)}>Forward a frame ›</button>
                         <label className={cn("flex min-h-9 items-center gap-2 text-sand", side ? "cursor-pointer" : "cursor-not-allowed opacity-40")}>
                           <input type="checkbox" checked={locked} disabled={!side} onChange={refPose} className="h-4 w-4 accent-[var(--color-gold)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" />
                           Hold at half a stride
@@ -611,28 +591,17 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
 
 /**
  * A group of choices drawn as plain words (the chosen one underlined in gold): real radio buttons underneath, so the arrow keys
- * work. A disabled option stays visible, is skipped by the arrow keys, carries its note as its description, and reports a hover
- * or tap through `onPeek` so the group can show the note.
+ * work.
  */
-function Choice<T extends string>({ legend, name, value, options, onChange, onPeek, compact, inline }: { legend: string; name: string; value: T; options: Option<T>[]; onChange: (v: T) => void; onPeek?: (v: T | null) => void; compact?: boolean; inline?: boolean }) {
+function Choice<T extends string>({ legend, name, value, options, onChange, compact, inline }: { legend: string; name: string; value: T; options: Option<T>[]; onChange: (v: T) => void; compact?: boolean; inline?: boolean }) {
   return (
     <fieldset className={cn(compact && "flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-line pb-3", inline && "grid grid-cols-[4.2rem_1fr] items-start gap-x-2")}>
       <legend className={cn("label text-[0.62rem] text-dust", compact ? "float-left mr-1" : inline ? "float-left w-[4.2rem] pt-2.5" : "mb-1")}>{legend}</legend>
       <div className={cn("flex flex-wrap gap-x-1 gap-y-0.5", inline && "col-start-2")}>
         {options.map((o) => (
-          <label
-            key={o.id}
-            className={cn("relative", o.disabled ? "cursor-not-allowed" : "cursor-pointer")}
-            onClick={o.disabled ? () => onPeek?.(o.id) : undefined}
-            onPointerEnter={o.disabled ? () => onPeek?.(o.id) : undefined}
-            onPointerLeave={o.disabled ? () => onPeek?.(null) : undefined}
-          >
-            <input
-              type="radio" name={name} value={o.id} checked={value === o.id} disabled={o.disabled} onChange={() => onChange(o.id)}
-              aria-describedby={o.note ? `${name}-${o.id}-note` : undefined} className="peer sr-only"
-            />
-            <span className={cn("block min-h-9 border-b-2 border-transparent px-2 py-1.5 font-mono text-[0.78rem] transition-colors peer-checked:border-gold peer-checked:text-gold peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold", o.disabled ? "text-dust/60 line-through decoration-dust/40" : "text-sand hover:text-bone")}>{o.label}</span>
-            {o.note && <span id={`${name}-${o.id}-note`} hidden>{o.note}</span>}
+          <label key={o.id} className="relative cursor-pointer">
+            <input type="radio" name={name} value={o.id} checked={value === o.id} onChange={() => onChange(o.id)} className="peer sr-only" />
+            <span className={cn("block min-h-9 border-b-2 border-transparent px-2 py-1.5 font-mono text-[0.78rem] transition-colors peer-checked:border-gold peer-checked:text-gold peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold text-sand hover:text-bone")}>{o.label}</span>
           </label>
         ))}
       </div>

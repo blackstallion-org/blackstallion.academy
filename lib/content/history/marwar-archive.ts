@@ -404,7 +404,6 @@ export const reconstructions = [
   { id: "scene-03", title: "Lancers on the Haifa road", made: "Generated illustration in the Rajput miniature manner, 2026" },
   { id: "scene-04", title: "A Rajput officer on a palace terrace", made: "Generated illustration in the Rajput miniature manner, 2026. Not a portrait." },
   { id: "scene-05", title: "A Marwari stallion in a stable court", made: "Generated illustration in the Rajput miniature manner, 2026" },
-  { id: "film-01", title: "A black Marwari stallion, studio", made: "AI-generated film, 2026. Not footage of a particular horse." },
 ];
 
 export const archiveById = (id: string): ArchiveItem => {

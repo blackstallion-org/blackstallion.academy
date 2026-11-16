@@ -59,13 +59,6 @@ export const reels: { title: string; who: string; image: MediaKey; track?: boole
 
 /* ------------------------------------------------------------------ R08 · Parents */
 
-export const phoneSteps = [
-  { id: "log", label: "Session log", title: "Tuesday · 45 min · rising trot and two-point.", text: "Every session is written up the same day: what was ridden, what was learned, and any safety observation from the instructor." },
-  { id: "gate", label: "Gate alert", title: "Bravo checked in at 15:52 · Zone 01A Hub.", text: "The moment the passport is scanned at the stable gate, you know your child has arrived." },
-  { id: "reel", label: "Milestone reel", title: "Today: first canter without stirrups · 0:10.", text: "After each milestone, a ten-second reel lands on your phone, with a posture overlay." },
-  { id: "passport", label: "Passport", title: "Cadet Rider · 24 hrs · next seal at 30 hrs.", text: "Rank, hours and the next seal, the same record a university can verify." },
-];
-
 export const admissions = [
   { title: "Enquire", text: "Fill the form, or scan the flyer at your school." },
   { title: "Visit the hub", text: "Meet the instructor and the stallions." },

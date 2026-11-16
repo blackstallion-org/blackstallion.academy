@@ -166,7 +166,6 @@ const exportData = {
     reels: academy.reels,
   }),
   parents_and_guardian: sanitize({
-    phone_features: academy.phoneSteps,
     admissions_steps: academy.admissions,
     faq: academy.faq,
   }),

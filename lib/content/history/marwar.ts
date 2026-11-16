@@ -287,10 +287,3 @@ export const archiveSrc: Record<string, string> = {
   "104": asset("/images/history/marwar/archive/104.webp"),
 };
 
-/** Chapter 07: the stallion film. AI-generated (labelled so on the page), muted, plays only in view. */
-export const legacyFilm = {
-  src: asset("/video/marwar/stallion-portrait.mp4"),
-  poster: asset("/video/marwar/stallion-portrait-poster.webp"),
-  label: "AI-generated film",
-  alt: "A black Marwari stallion in a dark studio, turning its head; its inward-curving ears catch the light.",
-};

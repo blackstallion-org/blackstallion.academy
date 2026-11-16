@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { MorningCurtain } from "@/components/sections/parents/MorningCurtain";
 import { Headline } from "@/components/film/Headline";
 import { Cta } from "@/components/film/Marks";
-import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
+import { HoofPath, ParentsTitle, ParentVantageGallery, Receipt, StandingOrders } from "@/components/sections/parents/ParentScenes";
 import { CadetAdmissionPortal } from "@/components/sections/parents/CadetAdmissionPortal";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { ParentRingVisit } from "@/components/sections/campaign/CampaignSections";
@@ -17,7 +17,6 @@ export default function ParentsPage() {
   return (
     <>
       <ParentsTitle />
-      <PinnedPhone />
       <ParentVantageGallery />
       {/* 14 Nov 2026: parents at the riding ring (AI illustrations of the concept). */}
       <ParentRingVisit />

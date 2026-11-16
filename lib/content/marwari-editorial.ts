@@ -117,13 +117,15 @@ export const editorialGalleries = {
     voice: "before every ride.",
     lede: "Safety is a habit kept in quiet places: a clean stall, a checked girth, a fitted bridle, a horse that knows the hand that leads it.",
     photos: [
-      f("safety-01", 1300, 1300, "The stall at dusk", "A black Marwari in a leaf-pattern necklace looks out of a dark stable."),
-      f("safety-03", 1350, 1800, "The saddle cloth", "A close view of an embroidered black and gold saddle cloth with a fringed edge."),
-      f("safety-02-original", 1300, 1300, "Over the door", "A chestnut Marwari with a blaze leans its head over a stable half-door."),
-      f("safety-04", 1350, 1800, "The bridle", "A black Marwari in a silver-studded bridle faces the camera against white."),
-      f("safety-05", 1350, 1800, "Tacked up", "A black Marwari stands saddled and bridled on a carpet against a white studio wall."),
+      /* 17 Nov 2026 (owner): Marwaris in plain working tack on a modern stable yard replace the third-party show-tack photographs
+         (output/imagegen/bsah-2026-masters/safety-01..05). */
+      f("safety-bsah-01", 1254, 1254, "The stall at dusk", "A bay Marwari in plain leather tack looks out of an open stall on a modern stable yard at dusk."),
+      f("safety-bsah-02", 1086, 1448, "The saddle cloth", "A close view of a plain brown leather saddle on a quilted dark saddle pad, girth and stirrup on a bay Marwari."),
+      f("safety-bsah-03", 1254, 1254, "Over the door", "A bay Marwari with inward-curving ears looks over its stable half-door on a modern stable yard."),
+      f("safety-bsah-04", 1086, 1448, "The bridle", "A bay Marwari with a white star wears a plain brown snaffle bridle with a cavesson noseband."),
+      f("safety-bsah-05", 1086, 1448, "Tacked up", "A bay Marwari stands saddled and bridled while a groom in olive checks the girth."),
     ],
-    credit: `${PERMISSION} Including Gill Photography.`,
+    credit: "Generated studies of Marwari horses in working tack, not photographs of BSAH stock.",
   },
   tournaments: {
     id: "speed-band",
