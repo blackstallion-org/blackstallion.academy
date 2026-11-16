@@ -71,7 +71,7 @@ export function Doors() {
       <div className="gutter">
         <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-8">
           <div>
-            <p className="label text-brass">REEL 04 · THREE DOORS</p>
+            <p className="label text-brass">THREE DOORS</p>
             <h2 id="doors-h" className="t-voice mt-4 max-w-3xl text-[clamp(2.5rem,6vw,5.75rem)] leading-[.98] text-bone">
               Through the Gate
             </h2>

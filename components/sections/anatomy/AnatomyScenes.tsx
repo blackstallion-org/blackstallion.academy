@@ -4,53 +4,74 @@ import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
-import { FilmImage } from "@/components/film/FilmImage";
+import { TitleLoopVideo } from "@/components/film/TitleLoopVideo";
+import { asset } from "@/lib/content/asset";
 import { EditorialHeadline as Headline } from "@/components/motion/EditorialMotion";
 import { ReelMark } from "@/components/film/Marks";
 import { EarStudy } from "./EarStudy";
 import { r } from "@/components/film/range";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { reelNo } from "@/lib/content/site";
 
 /** Title card · T3 specimen plate. Signature: catalogue lines rule in around the horse like a museum mount. */
 const catalogue: [string, string][] = [
   ["Plate", "02 · Marwari"],
   ["Species", "Equus ferus caballus"],
   ["Subject", "Stallion"],
-  ["Coat", "Black, small star"],
+  ["Coat", "Black, white blaze"],
   ["Catalogue", "BSAH-0912"],
 ];
 
+/** The /anatomy hero film (the 10 s studio clip that was on the specimen plate until 17 Nov 2026). */
+const STUDIO = {
+  src: asset("/video/stallion-studio.mp4"),
+  phone: asset("/video/stallion-studio-mobile.mp4"),
+  poster: asset("/video/stallion-studio-poster.webp"),
+};
+
+function AnatomyTitleText() {
+  return (
+    <>
+      <p className="label text-brass">Plate 02 · The Marwari</p>
+      <Headline id="anatomy-h" as="h1" size="2" technique="lines" className="mt-5 whitespace-nowrap [&_.t-inscribe]:tracking-[0.32em]" inscription="The" voice="instrument." />
+      <p className="t-story mt-6 max-w-sm text-lg leading-relaxed text-sand">A black Marwari stallion, studied whole: the body a cadet learns to read.</p>
+    </>
+  );
+}
+
 /**
- * Title card · T3 specimen plate (rebuilt 16 Nov 2026, owner): the photorealistic black Marwari stands whole on its own
- * studio backdrop, never cropped by the fixed bar. The plate box has the still's exact proportions (so nothing is cut) and sits
- * below the 64/80 px nav; its side edges feather into a backdrop gradient sampled from the photograph. The title takes the
- * empty studio to the right on wide screens and sits under the horse on phones. Catalogue lines follow on the page ground.
+ * Title card · T3 specimen plate (17 Nov 2026, owner: "keep it full screen", no background effect): the black Marwari studio film
+ * plays edge to edge at its own proportions, so the whole horse shows and nothing is cropped, below the 64/80 px nav. The title
+ * takes the dark studio above the horse's back on wide screens (held by shade-r) and sits under the film on phones and tablets.
+ * Reduced motion and Data Saver show the poster still (TitleLoopVideo). Catalogue lines follow on the page ground.
  */
 export function AnatomyTitle() {
   const reduced = useReducedMotion();
   return (
     <section aria-labelledby="anatomy-h" className="editorial-scene">
-      <div className="tone-photo relative overflow-hidden bg-night [background-image:radial-gradient(ellipse_78%_92%_at_36%_50%,color-mix(in_oklab,var(--color-ember)_86%,var(--color-copper)_14%)_0%,color-mix(in_oklab,var(--color-ember)_70%,var(--color-night))_45%,var(--color-night)_88%)]">
-        <div className="gutter grid min-h-[100svh] content-center items-center gap-8 pb-14 pt-24 md:pt-28 lg:grid-cols-12 lg:gap-6 lg:pb-16">
-          <motion.figure
-            className="relative mx-auto w-full lg:col-span-8 lg:max-w-[calc((100svh-9rem)*1663/946)]"
-            initial={reduced ? false : { opacity: 0, scale: 1.015 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+      {/* 17 Nov 2026 (owner): the 10 s studio film, edge to edge, no feathered edges or backdrop. The box has the film's own
+          proportions (1440 x 984) so the whole horse shows, ears to hooves, and it starts below the fixed bar. */}
+      <div className="tone-photo relative bg-night pt-16 md:pt-20">
+        <div className="relative aspect-[1440/984] w-full overflow-hidden">
+          <TitleLoopVideo src={STUDIO.src} phoneSrc={STUDIO.phone} poster={STUDIO.poster} />
+          <div aria-hidden className="shade-r absolute inset-0 hidden lg:block" />
+          <motion.div
+            className="gutter relative z-10 hidden h-full lg:grid lg:grid-cols-12"
+            initial={reduced ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           >
-            <div className="relative aspect-[1663/946] w-full [mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent_0,black_8%,black_92%,transparent_100%),linear-gradient(180deg,transparent_0,black_2.5%,black_96.5%,transparent_100%)]">
-              <FilmImage name="anatomyProfile" priority sizes="(min-width: 1024px) 66vw, 100vw" grade="none" />
+            <div className="col-span-4 col-start-9 pt-[6%]">
+              <AnatomyTitleText />
             </div>
-          </motion.figure>
-          <div className="relative lg:col-span-4 lg:pl-4">
-            <p className="label text-brass">Plate 02 · The Marwari</p>
-            <Headline id="anatomy-h" as="h1" size="2" technique="lines" className="mt-5 whitespace-nowrap [&_.t-inscribe]:tracking-[0.32em]" inscription="The" voice="instrument." />
-            <p className="t-story mt-6 max-w-sm text-lg leading-relaxed text-sand">A black Marwari stallion, studied whole: the body a cadet learns to read.</p>
-          </div>
+          </motion.div>
+        </div>
+        <div className="gutter py-10 lg:hidden">
+          <AnatomyTitleText />
         </div>
       </div>
       <div className="tone-light editorial-details gutter">
-        <ReelMark n={2} act="legend" />
+        <ReelMark n={reelNo("/anatomy")} act="legend" />
         <ScrollRevealText className="t-story text-bone">Several hundred kilograms of muscle and nerve that notices your breathing before you do.</ScrollRevealText>
         <dl className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-5">
           {catalogue.map(([k, v]) => <div key={k} className="border-t border-line py-4">

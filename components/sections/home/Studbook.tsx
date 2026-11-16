@@ -9,6 +9,7 @@ import { fleet, FLEET_TOTAL, statusLabel } from "@/lib/content/fleet";
 import { studbook } from "@/lib/content/home";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
+import { reelNo } from "@/lib/content/site";
 
 /**
  * §8 Fleet preview · S08 studbook hover list.
@@ -21,7 +22,7 @@ export function Studbook() {
   return (
     <section aria-labelledby="studbook-h" className="relative py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter">
-        <Label reel={7}>The Studbook</Label>
+        <Label reel={reelNo("/fleet")}>The Studbook</Label>
         <Headline id="studbook-h" className="mt-4" inscription={studbook.inscription} voice={studbook.voice} />
       </div>
 

@@ -7,6 +7,7 @@ import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
 import { SomaticMap } from "./SomaticMap";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { asset } from "@/lib/content/asset";
+import { reelNo } from "@/lib/content/site";
 
 export type AnatomicalPart = "brain" | "spine" | "muscle" | "heart";
 
@@ -460,7 +461,7 @@ export function Matrix({ initialPart }: { initialPart?: AnatomicalPart } = {}) {
   return (
     <section
       id="matrix-h"
-      aria-label="Reel 04 · The Matrix"
+      aria-label={`Reel ${String(reelNo("/science")).padStart(2, "0")} · The Matrix`}
       ref={containerRef}
       className="relative w-full overflow-hidden bg-[#EBE5D7] text-[#3B291D] py-6 sm:py-10 transition-colors duration-300 font-sans"
     >

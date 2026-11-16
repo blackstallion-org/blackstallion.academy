@@ -122,7 +122,7 @@ export function MarwariPortrait() {
   return (
     <section aria-labelledby="marwari-portrait-h" className="relative bg-night" data-parallax-skip>
       <div className="gutter pb-10 pt-[clamp(5rem,12vh,9rem)] md:pb-14">
-        <p className="label text-brass">Reel 07A · Studbook visual study</p>
+        <p className="label text-brass">Studbook visual study</p>
         <h2 id="marwari-portrait-h" className="t-voice mt-4 text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.02] text-bone">
           The Sovereign Marwari
         </h2>

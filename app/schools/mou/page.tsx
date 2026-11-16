@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { MouGenerator } from "@/components/sections/schools/MouGenerator";
+import { reelNo } from "@/lib/content/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/schools/mou" },
@@ -18,7 +19,7 @@ export default function MouPage() {
         ← The Citadel
       </Link>
       <div className="no-print mt-8">
-        <Label reel={11}>For trustees</Label>
+        <Label reel={reelNo("/schools")}>For trustees</Label>
         <Headline id="mou-h" as="h1" size="1" animate="mount" className="mt-4" inscription="Draft the" voice="memorandum." />
         <ScrollRevealText className="t-story mt-6 max-w-2xl text-sand">Type on the left; the draft writes itself on the right. Print it for your board, or send it to us and we&rsquo;ll prepare the full model.</ScrollRevealText>
       </div>

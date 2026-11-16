@@ -1169,7 +1169,7 @@ heroDust · rearing · gallop · eye · riderLance · duneSilhouette · bgFort �
 | --- | --- | --- | --- |
 | pegApproach | peg-approach.png | 16:9 | Side-on tracking shot, cadet galloping a dark bay Marwari down a tent-pegging lane, lance upright, peg far ahead |
 | pegAlign | peg-align.png | 16:9 | Three-quarter front, cadet at full gallop lowering the lance toward an angled peg |
-| pegLift | peg-lift.png | 16:9 | Ground-level close: lance tip lifting a wooden peg out of packed sand, burst of sand |
+| pegLift | peg-lift.png | 16:9 | Replaced 17 Nov 2026 by bsah-2026-masters/tournament-03-carry.png (school arena, peg on the lance tip). Was: ground-level close, lance tip lifting a wooden peg out of packed sand |
 | pegCarry | peg-carry.png | 16:9 | Cadet galloping past a white line marker, peg carried high on the lance |
 | dayTack | day-tack.png | 3:4 | Girl cadet tightening a girth in a stable at dawn, light through slats |
 | dayWalk | day-walk.png | 3:4 | Four cadets leading horses in single file to the arena, early morning |

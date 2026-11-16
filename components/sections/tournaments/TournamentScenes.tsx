@@ -16,6 +16,7 @@ import { champions, standings, tournaments } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
+import { reelNo } from "@/lib/content/site";
 
 /**
  * Title card (14 Nov 2026, owner): the council's bronze medal is the hero, large and centred on the dark ground with a warm rim
@@ -50,7 +51,7 @@ export function CircuitTitle() {
       </div>
       <div className="editorial-details gutter flex flex-wrap items-center justify-between gap-x-12 gap-y-8 pb-16">
         <div className="min-w-0 max-w-2xl">
-          <ReelMark n={15} act="ledger" />
+          <ReelMark n={reelNo("/tournaments")} act="ledger" />
           <ScrollRevealText className="t-story mt-6 text-sand">The STPCI interscholastic circuit: tent pegging, barrel racing and mounted archery between India&rsquo;s schools.</ScrollRevealText>
         </div>
       </div>

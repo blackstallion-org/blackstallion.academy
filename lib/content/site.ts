@@ -24,30 +24,38 @@ export type Reel = {
   image: MediaKey;
 };
 
+/**
+ * The numbered pages, in film order (re-ordered 17 Nov 2026, owner: "place Rani Lakshmibai as 20th" and arrange each act from first
+ * principles). Act I is the horse. Act II answers a parent's questions in the order they come: the problem, the method, the
+ * programme, who leads it, the horses, safety, the cadets, the parent's view, then the Motion Lab (12, in `tools`). Act III is the
+ * decision (school offer, operations, competition, the passport seal, the gate) and then the archive: the land (Marwar), the
+ * people (Pratap, Rani, India, the world, Alexander) and the folklore. /worlds (The Opening) left the menus the same day; the
+ * page stays at its address. The Director became a reel (07).
+ */
 export const reels: Reel[] = [
   { n: 1, href: "/legend", act: "legend", title: "The Marwari", inscription: "The land", voice: "of death.", blurb: "Eight hundred years of the horse that would not leave the field.", image: "duneSilhouette" },
   { n: 2, href: "/anatomy", act: "legend", title: "The Instrument", inscription: "The", voice: "instrument.", blurb: "Several hundred kilograms that read you first.", image: "anatomyProfile" },
   { n: 3, href: "/statue", act: "legend", title: "The 3D Monument", inscription: "Cast in bronze.", voice: "Built to endure.", blurb: "Six chapters around the academy's bronze of a cadet and a Marwari.", image: "curriculumHeroStatue" },
-  { n: 4, href: "/worlds", act: "legend", title: "The Opening", inscription: "One horse.", voice: "One lineage.", blurb: "A thirty-second film: one black Marwari, from a Marwar village across the Thar to the citadel gate.", image: "duneSilhouette" },
+  { n: 4, href: "/why", act: "citadel", title: "Crisis & Cure", inscription: "Digital fragility", voice: "is a choice.", blurb: "Character is forged in the arena.", image: "whyCure" },
   { n: 5, href: "/science", act: "citadel", title: "The Matrix", inscription: "What the saddle", voice: "does to a child.", blurb: "Four systems, one twenty-minute session.", image: "scienceRider" },
-  { n: 6, href: "/why", act: "citadel", title: "Crisis & Cure", inscription: "Digital fragility", voice: "is a choice.", blurb: "Character is forged in the arena.", image: "whyCure" },
-  { n: 7, href: "/curriculum", act: "citadel", title: "The Ledger", inscription: "Four ranks.", voice: "Thirteen pillars.", blurb: "An athletic curriculum that builds character.", image: "currLedger" },
+  { n: 6, href: "/curriculum", act: "citadel", title: "The Ledger", inscription: "Four ranks.", voice: "Thirteen pillars.", blurb: "An athletic curriculum that builds character.", image: "currLedger" },
+  { n: 7, href: "/director", act: "citadel", title: "The Director", inscription: "The", voice: "director.", blurb: "Saef Ullah Khan, Founder & Executive Chairman, and the letter that sets the academy's mandate.", image: "contactGate" },
   { n: 8, href: "/fleet", act: "citadel", title: "The Studbook", inscription: "Twenty-one", voice: "stallions.", blurb: "Every one has a name.", image: "bgStable" },
-  { n: 9, href: "/cadets", act: "citadel", title: "The Hall of Valour", inscription: "The hall", voice: "of valour.", blurb: "Hour by hour, rank by rank, sealed in brass.", image: "cadetZayd" },
-  { n: 10, href: "/parents", act: "citadel", title: "The Guardian", inscription: "The guardian", voice: "sees every stride.", blurb: "The Guardian App, admissions and fees.", image: "parentsRail" },
-  { n: 11, href: "/safety", act: "citadel", title: "The Shield", inscription: "Safety", voice: "before speed.", blurb: "Ex-cavalry faculty, daily vet care, insurance.", image: "safetyKit" },
+  { n: 9, href: "/safety", act: "citadel", title: "The Shield", inscription: "Safety", voice: "before speed.", blurb: "Ex-cavalry faculty, daily vet care, insurance.", image: "safetyKit" },
+  { n: 10, href: "/cadets", act: "citadel", title: "The Hall of Valour", inscription: "The hall", voice: "of valour.", blurb: "Hour by hour, rank by rank, sealed in brass.", image: "cadetZayd" },
+  { n: 11, href: "/parents", act: "citadel", title: "The Guardian", inscription: "The guardian", voice: "sees every stride.", blurb: "The Guardian App, admissions and fees.", image: "parentsRail" },
   { n: 13, href: "/schools", act: "ledger", title: "The Citadel", inscription: "Your campus", voice: "becomes a citadel.", blurb: "Tiers, returns and the draft MOU for school boards.", image: "schoolAerial" },
-  { n: 14, href: "/verify", act: "ledger", title: "The Seal", inscription: "Every hour", voice: "sealed in brass.", blurb: "Verify a cadet's passport.", image: "bgPassport" },
+  { n: 14, href: "/command", act: "ledger", title: "The Command", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
   { n: 15, href: "/tournaments", act: "ledger", title: "The Circuit", inscription: "Lances down.", voice: "Zones on the circuit.", blurb: "STPCI standings and fixtures.", image: "bgCharge" },
-  { n: 16, href: "/command", act: "ledger", title: "The Command", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
-  { n: 17, href: "/journal", act: "ledger", title: "The Traditional Lore", inscription: "The traditional", voice: "lore.", blurb: "The black horse, the whorls, the Nukra and the dancers: Marwar's folklore, told as folklore.", image: "journalReins" },
-  { n: 18, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
+  { n: 16, href: "/verify", act: "ledger", title: "The Seal", inscription: "Every hour", voice: "sealed in brass.", blurb: "Verify a cadet's passport.", image: "bgPassport" },
+  { n: 17, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
+  { n: 18, href: "/history/marwar", act: "ledger", title: "Marwar", inscription: "The horse,", voice: "the crown & the empire.", blurb: "Seven chapters: the Rathore horsemen, the 1818 treaty, the Jodhpur Lancers at Haifa, and the horse that outlived the Empire.", image: "duneSilhouette" },
   { n: 19, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
-  { n: 20, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
-  { n: 21, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
-  { n: 22, href: "/story/rani-lakshmibai", act: "ledger", title: "Rani Lakshmibai", inscription: "Jhansi will not", voice: "be surrendered.", blurb: "Four chapters, painted: the queen who rode out of a besieged fort.", image: "bgCharge" },
+  { n: 20, href: "/story/rani-lakshmibai", act: "ledger", title: "Rani Lakshmibai", inscription: "Jhansi will not", voice: "be surrendered.", blurb: "Four chapters, painted: the queen who rode out of a besieged fort.", image: "bgCharge" },
+  { n: 21, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
+  { n: 22, href: "/history/world", act: "ledger", title: "Horses of the World", inscription: "Silk roads.", voice: "Iron roads.", blurb: "Xenophon to the Western Front: the horse beside every civilisation.", image: "bgCharge" },
   { n: 23, href: "/story/alexander-bucephalus", act: "ledger", title: "Alexander & Bucephalus", inscription: "The shadow.", voice: "The boy.", blurb: "Twelve mosaic rooms: a boy, a horse no one could ride, and a city named for it on the Hydaspes.", image: "duneSilhouette" },
-  { n: 24, href: "/history/marwar", act: "ledger", title: "Marwar", inscription: "The horse,", voice: "the crown & the empire.", blurb: "Seven chapters: the Rathore horsemen, the 1818 treaty, the Jodhpur Lancers at Haifa, and the horse that outlived the Empire.", image: "duneSilhouette" },
+  { n: 24, href: "/journal", act: "ledger", title: "The Traditional Lore", inscription: "The traditional", voice: "lore.", blurb: "The black horse, the whorls, the Nukra and the dancers: Marwar's folklore, told as folklore.", image: "journalReins" },
 ];
 
 /**
@@ -75,6 +83,13 @@ export function reelByHref(href: string): Reel {
   const r = reels.find((x) => x.href === href);
   if (!r) throw new Error(`Unknown reel ${href}`);
   return r;
+}
+
+/** A numbered page's number, looked up by address, so no page ever types its own reel number (17 Nov 2026). */
+export function reelNo(href: string): number {
+  const page = [...reels, ...tools].find((p) => p.href === href);
+  if (!page) throw new Error(`Unknown numbered page ${href}`);
+  return page.n;
 }
 
 /** A numbered page (a reel or a working page): the one number and the one title every menu shows for it. */
@@ -112,7 +127,7 @@ function menuLink(entry: MenuEntry): NavMenuLink {
 
 const links = (entries: MenuEntry[]) => entries.map(menuLink);
 
-export const primaryNav: NavMenuLink[] = links(["/legend", "/worlds", "/curriculum", "/parents", "/schools", "/tournaments", "/verify"]);
+export const primaryNav: NavMenuLink[] = links(["/legend", "/curriculum", "/parents", "/schools", "/tournaments", "/verify"]);
 
 export const navCta = { label: "Enrol a cadet", href: "/contact?gate=parents" };
 
@@ -131,7 +146,8 @@ const column = (heading: string, entries: MenuEntry[]): NavMenuColumn => ({ head
 /**
  * The header's full-screen mega menus: one per header word, three columns each. A numbered page shows its own number and
  * title (from `reels` / `tools`), the same as in the Reels menu and the footer; the menus never number their links 01, 02,
- * 03 themselves. Every public page appears at least once. Left out on purpose: /stills and /worlds/credits (production pages,
+ * 03 themselves. Every public page appears at least once. Left out on purpose: /worlds (The Opening film page; owner, 17 Nov
+ * 2026: out of the menus, the film itself stays on the home page), /stills and /worlds/credits (production pages,
  * noindex), /schools/access (a private invitation), /sovereign (the school dashboard behind sign-in), /login, /lithos (the
  * same monument as /statue, its canonical address), /lore (merged into /journal, 16 Nov 2026, and redirected there), and the
  * detail pages under /journal, /schools, /tournaments and /verify.
@@ -141,7 +157,7 @@ export const navMenus: NavMenu[] = [
     label: "Academy",
     lead: "Who we are, why the saddle, and how a child is kept safe.",
     columns: [
-      column("The Mandate", [{ label: "The Mandate", href: "/about" }, { label: "Director", href: "/director" }, "/science", "/why"]),
+      column("The Mandate", [{ label: "The Mandate", href: "/about" }, "/director", "/science", "/why"]),
       column("Safeguards", ["/safety", "/command", { label: "Privacy notice", href: "/privacy" }]),
       column("The Record", ["/contact", { label: "Gallery", href: "/gallery" }]),
     ],
@@ -181,8 +197,8 @@ export const navMenus: NavMenu[] = [
     label: "Heritage",
     lead: "Eight hundred years of the Marwari, and the riders who made it a legend.",
     columns: [
-      column("The Marwari", ["/legend", "/statue", "/worlds"]),
-      // Owner's order (16 Nov 2026): Pratap & Chetak, Rani Lakshmibai, Horses of India, Horses of the World, Alexander & Bucephalus.
+      column("The Marwari", ["/legend", "/anatomy", "/statue"]),
+      // Owner's order (16 Nov 2026), which the reel numbers follow since 17 Nov: Pratap & Chetak, Rani Lakshmibai (20), India, World, Alexander.
       column("Histories", ["/story/pratap-chetak", "/story/rani-lakshmibai", "/history/india", "/history/world", "/story/alexander-bucephalus"]),
       column("The Archive", ["/history/marwar", "/journal"]),
     ],
@@ -204,6 +220,7 @@ export const footerNav: NavMenuLink[] = links([
   "/why",
   "/curriculum",
   "/fleet",
+  "/director",
   "/cadets",
   "/parents",
   "/motion-lab",
@@ -234,7 +251,6 @@ export const corridors = [
 /** The footer's small print: pages outside the reels (numbered pages belong in `footerNav`). */
 export const legalNav: NavMenuLink[] = links([
   { label: "About", href: "/about" },
-  { label: "Director", href: "/director" },
   { label: "Privacy", href: "/privacy" },
   { label: "Film credits", href: "/worlds/credits" },
 ]);

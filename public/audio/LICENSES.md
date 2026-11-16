@@ -52,6 +52,9 @@ Mixed with ffmpeg on 15 Nov 2026 (music loudnorm to -18 LUFS, 0.6 s fade in, 2 s
 at 22.9 s; limiter), AAC 160 kb/s, about -16.6 LUFS, remuxed onto both cuts (picture not re-encoded). It replaces the earlier bed built
 on "Open Range", whose licence is unverified.
 
+17 Nov 2026: the film's picture was replaced (desert, palace, BSAH gate; `video/marwar-journey-v2*.mp4`). The same mix was carried over,
+trimmed to 28.83 s with a 1.5 s fade out; no new audio source.
+
 ## Horse palette (seven sounds, `interactions/`)
 
 | File | Role | Source | Licence |

@@ -6,7 +6,7 @@ export function SafetyKineticStage() {
   return (
     <MaskedLineKineticStage
       id="safety-kinetic-stage"
-      label="REEL 10B · CAVALRY SHIELD DOCTRINE"
+      label="CAVALRY SHIELD DOCTRINE"
       headline="Safety is never the absence of challenge. It is the presence of absolute composure in the saddle."
       /*
        * Plain wording, and nothing that is not already approved copy (Blueprint Part 9 and R09; the same lines are in

@@ -10,6 +10,7 @@ import { Label, ReelMark } from "@/components/film/Marks";
 import { CountUp } from "@/components/motion/CountUp";
 import { kitLabels, orders, people, record, shields } from "@/lib/content/academy";
 import { ease } from "@/lib/motion/tokens";
+import { reelNo } from "@/lib/content/site";
 
 /** Title card · T10 still life. Signature: numbered labels pin themselves to each piece of kit. */
 export function SafetyTitle() {
@@ -25,7 +26,7 @@ export function SafetyTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={11} act="citadel" />
+<div className="tone-light editorial-details gutter"><ReelMark n={reelNo("/safety")} act="citadel" />
 <ScrollRevealText className="t-story mt-6 max-w-xl text-sand">No lance is lowered until the basics are second nature.</ScrollRevealText>      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {kitLabels.map((k, i) => (
           <motion.li

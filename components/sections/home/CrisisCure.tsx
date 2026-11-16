@@ -8,6 +8,7 @@ import { Cta, Label } from "@/components/film/Marks";
 import { CompareSlider } from "@/components/sections/shared/CompareSlider";
 import { crisis } from "@/lib/content/home";
 import { cn } from "@/lib/utils";
+import { reelNo } from "@/lib/content/site";
 
 /**
  * §5 Crisis & cure · S05 before/after slider.
@@ -22,7 +23,7 @@ export function CrisisCure() {
     <section aria-labelledby="crisis-h" className="relative py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter mb-10 grid gap-6 md:grid-cols-[1fr_minmax(0,26rem)] md:items-end">
         <div>
-          <Label reel={5}>Crisis &amp; Cure</Label>
+          <Label reel={reelNo("/why")}>Crisis &amp; Cure</Label>
           <Headline id="crisis-h" className="mt-4" inscription={crisis.inscription} voice={crisis.voice} />
         </div>
         <ScrollRevealText data-home-detail className="text-sand">{crisis.body}</ScrollRevealText>

@@ -60,7 +60,7 @@ export function SpecimenPlate({ only, mode = "compact", className }: Props) {
 
       <div className="grid gap-10">
         {/* The stage has the film's own shape on a phone (so the film fills it) and is 16:9 from sm, with the film centred and its edges feathered. */}
-        <div className="tone-photo relative aspect-[1440/984] w-full overflow-hidden border border-line bg-black sm:aspect-[16/9]">
+        <div className="tone-photo relative aspect-[1136/768] w-full overflow-hidden border border-line bg-black sm:aspect-[16/9]">
           {nearViewport ? (
             <StudioFilm
               activeId={armed ? activeId : "overview"}

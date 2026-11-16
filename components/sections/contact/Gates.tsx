@@ -10,6 +10,7 @@ import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { inr, priceLabel, total } from "@/lib/content/pricing";
 import { network } from "@/lib/content/schools";
+import { reelNo } from "@/lib/content/site";
 
 /** Title card · T16 gate. Signature: two gate halves part to reveal the page. */
 export function GateTitle() {
@@ -22,7 +23,7 @@ export function GateTitle() {
       <motion.div aria-hidden className="absolute inset-y-0 left-0 w-1/2 border-r border-line bg-[linear-gradient(90deg,#2a1d15,#493126)]" initial={{ x: "0%" }} animate={{ x: "-100%" }} transition={{ duration: 2.25, ease: ease.inOut, delay: 0.45 }} />
       <motion.div aria-hidden className="absolute inset-y-0 right-0 w-1/2 border-l border-line bg-[linear-gradient(270deg,#2a1d15,#493126)]" initial={{ x: "0%" }} animate={{ x: "100%" }} transition={{ duration: 2.25, ease: ease.inOut, delay: 0.45 }} />
       <div className="gutter relative flex min-h-[92svh] flex-col justify-end pb-[10vh]">
-        <ReelMark n={18} act="ledger" />
+        <ReelMark n={reelNo("/contact")} act="ledger" />
         {/* R13 (2 Nov 2026): the title reads as one large, bold line on the dark gate (it was dark ink on a dark photograph). */}
         <Headline
           id="gate-h"

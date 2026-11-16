@@ -127,22 +127,7 @@ export const editorialGalleries = {
     ],
     credit: "Generated studies of Marwari horses in working tack, not photographs of BSAH stock.",
   },
-  tournaments: {
-    id: "speed-band",
-    layout: "band",
-    label: "Speed",
-    inscription: "Ground",
-    voice: "covered at a gallop.",
-    lede: "Tent pegging asks for the gallop at its truest: balanced, straight and unafraid. The breed was made for it.",
-    photos: [
-      f("legend-07-original", 1300, 867, "Dust at dusk", "A dark Marwari plunges forward through a cloud of golden dust.", undefined, "50% 45%"),
-      f("tournaments-02", 1350, 1800, "Full stride", "A bay Marwari gallops across a dusty field, light behind it."),
-      f("tournaments-03", 1350, 1800, "Spotted", "A spotted Marwari gallops across a green field."),
-      f("tournaments-04", 1350, 1800, "Through the mustard", "A black Marwari bounds through yellow flowers."),
-      f("tournaments-05-original", 1350, 1800, "White at speed", "A white Marwari canters across a field, mane up."),
-    ],
-    credit: PERMISSION,
-  },
+  /* /tournaments "Ground covered at a gallop" (speed band) removed 17 Nov 2026 (owner). Two of its photographs now open the /about desert plate. */
   curriculum: {
     id: "training-ground",
     layout: "cascade",
@@ -177,21 +162,23 @@ export const editorialGalleries = {
     ],
     credit: PERMISSION,
   },
+  /* 17 Nov 2026 (owner: "wedding horse, put the desert horse images; this text doesn't suit here, make it light"): the jewellery
+     and wedding-finery photographs are gone; the plate is now the Marwari in its own country, the Thar, in plain words. */
   about: {
-    id: "adornment-plate",
+    id: "desert-plate",
     layout: "plate",
-    label: "The keepers",
-    inscription: "Dressed",
-    voice: "like a prince.",
-    lede: "In Marwar a good horse wears silver: coin necklaces, tasselled bridles, embroidered cloths. The men who keep the breed alive keep that craft too.",
+    label: "The Thar",
+    inscription: "Born",
+    voice: "of the desert.",
+    lede: "The Marwari comes from the sand country of Rajasthan. Heat and distance shaped a light-footed, hardy horse.",
     photos: [
-      f("about-01-original", 1300, 1040, "Coin necklace", "A black Marwari in a gold coin necklace and red tassels arches its neck before a fresco."),
-      f("about-02", 1350, 1800, "Silver and red", "A close view of a Marwari's chest hung with layered silver coin ornaments and red cord."),
-      f("about-03", 1112, 1300, "The headpiece", "A close view of a Marwari's head in a silver and red jewelled headpiece."),
-      f("about-04", 1350, 1800, "Bridle work", "A dark Marwari in a beaded leather bridle, a field of yellow mustard behind."),
-      f("about-05-original", 1099, 1300, "A keeper of the breed", "A man in a saffron turban holds a black Marwari in a colourful halter."),
+      f("legend-07-original", 1300, 867, "Dust at dusk", "A dark Marwari plunges forward through a cloud of golden dust at sunset."),
+      f("tournaments-02", 1350, 1800, "Through the haze", "A bay Marwari gallops across a dusty field, light behind it."),
+      f("about-desert-03", 1024, 688, "The dunes", "A bay Marwari walks along a dune crest in the Thar at sunset."),
+      f("about-desert-04", 1350, 896, "Evening", "A bay Marwari stands in desert scrub, the sun low behind it."),
+      f("about-05-original", 1099, 1300, "A keeper of the breed", "A man in a saffron turban holds a black Marwari on a red rope halter in the desert at dusk."),
     ],
-    credit: `${PERMISSION} Including Ekaterina Druz.`,
+    credit: "I, II and V are photographs of Marwari horses, used with the photographers' permission; III and IV are generated studies.",
   },
 } satisfies Record<string, EditorialGallery>;
 

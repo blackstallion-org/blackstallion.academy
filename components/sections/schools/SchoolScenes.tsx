@@ -19,6 +19,7 @@ import { r3 } from "@/lib/round";
 import { StaticImageReel, type StaticImageReelItem } from "@/components/sections/shared/StaticImageReel";
 import { useNearViewport } from "@/lib/motion/use-near-viewport";
 import { hubCoordinates, type HubId } from "@/lib/content/satellite-map";
+import { reelNo } from "@/lib/content/site";
 
 // The satellite map (MapLibre GL JS and its stylesheet) loads in a chunk of its own, three screens ahead of its section.
 const SatelliteZoneMap = dynamic(() => import("./SatelliteZoneMap").then((m) => m.SatelliteZoneMap), { ssr: false });
@@ -32,7 +33,7 @@ export function SchoolsTitle() {
         <SatelliteZoneMap variant="hero" initialMode="india" className="absolute inset-0" />
       </div>
       <div className="tone-light editorial-details gutter">
-        <ReelMark n={13} act="ledger" />
+        <ReelMark n={reelNo("/schools")} act="ledger" />
         <Headline id="schools-title" as="h1" size="1" animate="mount" inscription="Your campus" voice="becomes a citadel." />
         <ScrollRevealText className="t-story text-sand">Your school builds the arena; BSAH brings the programme, the training and the management, and returns 25–30% of tuition to your institution.</ScrollRevealText>
         <div className="flex flex-wrap items-center gap-4">
@@ -87,7 +88,7 @@ export function ConfiguratorAndSimulator() {
 
         <div className="gutter relative grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:items-center">
           <div>
-            <Label reel={11}>For school boards</Label>
+            <Label reel={reelNo("/schools")}>For school boards</Label>
             <Headline id="tiers-h" className="mt-4" inscription={schoolsTeaser.inscription} voice={schoolsTeaser.voice} />
             <p className="mt-6 max-w-md text-sand">{schoolsTeaser.body}</p>
 
@@ -243,7 +244,7 @@ export function SchoolArenaShowcase() {
   return (
     <StaticImageReel
       id="arena-showcase"
-      label="REEL 09 · CAMPUS ARCHITECTURAL REEL"
+      label="CAMPUS ARCHITECTURAL REEL"
       title="Campus, in six views."
       intro="Six existing Higgsfield studies, shown as undistorted stills with their captions kept clear of the image."
       items={arenaImages}

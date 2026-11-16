@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/worlds" },
   title: "The Opening",
   description:
-    "One horse, one lineage: a thirty-second film that follows a black Marwari from a Marwar village across the Thar to the citadel gate.",
+    "One horse, one lineage: a thirty-second film that follows a black Marwari across the Thar desert and through a palace to the citadel gate.",
 };
 
 export default function WorldsPage() {

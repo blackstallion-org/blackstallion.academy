@@ -9,7 +9,7 @@ import { Arrow, Cta, Label } from "@/components/film/Marks";
 import { CommandTeaser } from "@/components/sections/command/CommandExperience";
 import { chronicle, finale } from "@/lib/content/home";
 import { posts } from "@/lib/content/journal";
-import { entity } from "@/lib/content/site";
+import { entity, reelNo } from "@/lib/content/site";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
 import { BrassBorder } from "@/components/motion/fx/BrassBorder";
@@ -28,7 +28,7 @@ export function HomeChronicle() {
   return (
     <section aria-labelledby="chronicle-h" className="relative py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter">
-        <Label reel={17}>The Traditional Lore</Label>
+        <Label reel={reelNo("/journal")}>The Traditional Lore</Label>
         <Headline id="chronicle-h" className="mt-4" inscription={chronicle.inscription} voice={chronicle.voice} />
       </div>
       <div className="gutter mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">

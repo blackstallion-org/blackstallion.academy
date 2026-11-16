@@ -3,6 +3,7 @@ import { HomeHeadline as Headline } from "./HomeTypography";
 import { Cta, Label } from "@/components/film/Marks";
 import { SpecimenPlate } from "@/components/sections/anatomy/SpecimenPlate";
 import { instrument } from "@/lib/content/home";
+import { reelNo } from "@/lib/content/site";
 
 /** §3 The instrument · S03 specimen hotspots (compact). */
 export function Instrument() {
@@ -10,7 +11,7 @@ export function Instrument() {
     <section aria-labelledby="instrument-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <div className="mb-12 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
         <div>
-          <Label reel={2}>The Instrument</Label>
+          <Label reel={reelNo("/anatomy")}>The Instrument</Label>
           <Headline id="instrument-h" className="mt-4" inscription={instrument.inscription} voice={instrument.voice} />
         </div>
         <ScrollRevealText data-home-detail className="max-w-sm text-sand">{instrument.body}</ScrollRevealText>

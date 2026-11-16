@@ -5,6 +5,7 @@ import { knowledge } from "@/lib/content/command";
 import { command } from "@/lib/content/home";
 import styles from "./CommandExperience.module.css";
 import { FilmImage } from "@/components/film/FilmImage";
+import { reelNo } from "@/lib/content/site";
 
 export function CommandExperience() {
   return (
@@ -30,7 +31,7 @@ export function CommandTeaser() {
       </div>
     </figure>
     <div className={styles.teaserIntro}>
-      <p className={styles.eyebrow}>Reel 14 / The Command</p>
+      <p className={styles.eyebrow}>Reel {reelNo("/command")} / The Command</p>
       <h2 id="command-h">{command.inscription}<br /><span>{command.voice}</span></h2>
       <p>For principals and trustees: returns, insurance, safety and curriculum, answered on the spot.</p>
       <Link href="/command">Find an answer <ArrowRight size={20} strokeWidth={1} /></Link>

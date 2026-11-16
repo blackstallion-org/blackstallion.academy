@@ -1468,3 +1468,36 @@ progress in another session. Not tested: Safari and a real phone.
     callouts, focus rings, masks and the two thumbnails updated.
   - **Checks:** lint (0 errors), typecheck, 348/348 tests, `npm run build`; 9 routes + /contact at 1440×900 and 390×844 on the production
     build with the nav-clearance check clean; section close-ups of every change; spine/heart at 1440, 768, 390; reduced motion on /anatomy.
+- [x] **17 Nov 2026 (second pass) · Owner's corrections: journey film, studio films, menus, galleries, images** (branch `owner-corrections-1116`).
+  - **Marwar Journey film (home + /worlds):** the village opening is gone. The owner's three Google Flow clips in order: desert, palace,
+    BSAH gate (~/Downloads `Horse_running_in_desert_dba904b1_1080p`, `Horse_running_in_palaces_and_a2b0a7c5_1080p`,
+    `Black_stallion_approaching_acade…_a6d51dae`). Each cropped to x 6–1694 / y 65–1015 (gate: same share) to clear the generator's
+    sparkle mark, scaled to 1920 × 1080 / 24 fps, 0.6 s dissolves (no black frames), charcoal fade in 0.5 s / out 0.7 s; 28.83 s.
+    `public/video/marwar-journey-v2{,-mobile}.mp4` + posters (new names: no cached village cut). Same licensed score, trimmed.
+    Chapters I The desert 0 / II The palace 9.7 / III The gate 19.1; "From the desert / to the citadel gate." There is no Skip button
+    to preserve: the owner removed it on 15 Nov (sound and play/pause remain). Old cuts archived in output/video-archive/1117.
+  - **Studio films:** the home (and /anatomy) specimen plate plays the 5 s loop again (`stallion-loop*`, from
+    horse_natural_movement_no_tack, cropped x 104–1240 to drop the dark side strips, 0.75 s blend loop, 4.42 s, no sound); hotspots
+    re-measured. The /anatomy hero "THE instrument." is now the 10 s studio film (`stallion-studio*`) edge to edge at its own
+    proportions, no feathered mask or backdrop gradient; title over the dark studio on desktop (shade-r), under the film on phones;
+    poster only under reduced motion (TitleLoopVideo, now with an optional phone file). Catalogue coat: "Black, white blaze".
+  - **Menus:** reels re-ordered from first principles with Rani Lakshmibai at 20: I Marwari, Instrument, 3D Monument; II Crisis & Cure,
+    Matrix, Ledger, **Director (07, new reel)**, Studbook, Shield, Hall of Valour, Guardian, Motion Lab (12); III Citadel, Command,
+    Circuit, Seal, Gate, Marwar, Pratap & Chetak, Rani Lakshmibai, Horses of India, Horses of the World, Alexander & Bucephalus,
+    Traditional Lore. /worlds (The Opening) is out of every menu (page and home film stay). `reelNo(href)` in site.ts: every reel mark
+    and section label now looks its number up (fixed the stale ones on home, Command, MOU); stray "REEL 04/09/10B/02B/07A" labels removed.
+  - **/journal chapter bar:** solid ground; moves to the top edge while the site bar hides (html[data-nav-hidden], set by SiteNav);
+    sticks only while the four chapters scroll (no longer rides over the vow).
+  - **/tournaments:** "Ground covered at a gallop" gallery removed. Lift stage: `peg-lift-arena` (bsah-2026-masters/tournament-03-carry,
+    the same school arena as the other stages; the sepia close-up is backed up in originals/1117b).
+  - **/about:** "Dressed like a prince" (wedding finery) → "Born / of the desert." with desert photographs (legend-07, tournaments-02,
+    about-05 by permission; 1_desert and 0_hero as generated studies); creed made light: "Master yourself first. Then the horse.",
+    plain principles, no "-360°", no false "Reel 14" (copy in lib/content/creed.ts).
+  - **/schools:** standard-tier photo → `hub-campus` (bsah-2026-masters/schools-01-master-plan: modern Indian campus), line "A sand arena
+    and stables, beside the classrooms."; the caption gradient now uses the dark photo ground (it was ivory under light text).
+  - Higgsfield had no credits (0.25), so no new images were generated; GPT prompts for a ground-level Lift shot and a desert set were
+    given to the owner instead.
+  - **Checks:** lint (0 errors), typecheck, tests, `npm run build`; production build at 1440×900 and 390×844 for /, /anatomy (and reduced
+    motion), /worlds, /about, /tournaments, /schools, /journal (scrolled), /director, /history/marwar, Alexander, /safety, /command: nav
+    clear, no overflow, no console errors; Reels menu shows Director 07, Rani 20, no Opening. Next.js printed a security-upgrade notice
+    on build (not run; owner to decide).

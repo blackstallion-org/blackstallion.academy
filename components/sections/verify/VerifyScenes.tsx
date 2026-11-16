@@ -10,6 +10,7 @@ import { FilmImage } from "@/components/film/FilmImage";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "motion/react";
 import { AcademyStamp } from "@/components/brand/AcademyStamp";
+import { reelNo } from "@/lib/content/site";
 
 /** Title card · T12 seal. Signature: a brass seal stamps down over the title. */
 export function VerifyTitle() {
@@ -32,7 +33,7 @@ export function VerifyTitle() {
         </div>
       </div>
       <div className="tone-light editorial-details gutter">
-        <ReelMark n={14} act="ledger" />
+        <ReelMark n={reelNo("/verify")} act="ledger" />
         <ScrollRevealText className="t-story pointer-events-auto mt-6 max-w-xl text-sand">A public record of every cadet&rsquo;s rank and hours. Nothing private, nothing editable.</ScrollRevealText>
       </div>
     </section>

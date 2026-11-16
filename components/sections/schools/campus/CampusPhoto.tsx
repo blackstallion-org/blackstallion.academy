@@ -4,7 +4,7 @@ import type { TierId } from "@/lib/content/schools";
 import { cn } from "@/lib/utils";
 
 const PHOTO: Record<TierId, { image: MediaKey; line: string }> = {
-  standard: { image: "hubStandard", line: "Four stables, a sand arena, a few lanterns." },
+  standard: { image: "hubStandard", line: "A sand arena and stables, beside the classrooms." },
   signature: { image: "hubSignature", line: "The arena under a roof, whatever the weather." },
   royal: { image: "hubRoyal", line: "Carved stone, an arch for every horse." },
 };
@@ -23,8 +23,9 @@ export function CampusPhoto({ tierId, className }: { tierId: TierId; className?:
       ))}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
-        style={{ background: "linear-gradient(to top, color-mix(in srgb, var(--color-night) 70%, transparent), transparent)" }}
+        // tone-photo so --color-night is the dark photo ground here, not the page's ivory (the light caption needs a dark foot).
+        className="tone-photo pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
+        style={{ background: "linear-gradient(to top, color-mix(in srgb, var(--color-night) 72%, transparent), transparent)" }}
       />
       <figcaption className="tone-photo absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-x-6 gap-y-1 px-4 pb-4 sm:px-6 sm:pb-5">
         <span className="t-voice text-xl leading-tight text-bone sm:text-2xl">{PHOTO[tierId].line}</span>

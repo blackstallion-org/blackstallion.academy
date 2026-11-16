@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: page.description,
 };
 
-/** Reel 24 · Marwar: the horse, the crown & the empire. Painted reconstructions beside genuine archive photographs. */
+/** Reel 18 (17 Nov 2026 order) · Marwar: the horse, the crown & the empire. Painted reconstructions beside genuine archive photographs. */
 export default function Page() {
   return <MarwarStory />;
 }

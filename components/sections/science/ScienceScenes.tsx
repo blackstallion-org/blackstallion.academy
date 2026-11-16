@@ -10,6 +10,7 @@ import { Headline } from "@/components/film/Headline";
 import { Label, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { ease } from "@/lib/motion/tokens";
+import { reelNo } from "@/lib/content/site";
 
 
 /** Title card · T4 line drawing. Signature: motion-capture lines draw over the rider, then the photograph fades up. */
@@ -47,7 +48,7 @@ export function ScienceTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={5} act="citadel" />
+<div className="tone-light editorial-details gutter"><ReelMark n={reelNo("/science")} act="citadel" />
 <ScrollRevealText className="t-story mt-6 max-w-xl text-sand">Four systems, one twenty-minute session. Here is what we can show, and how sure we are.</ScrollRevealText><p className="label text-dust">Axis 0.0° · Pelvis ≈100/min · Stride</p></div>
 </section>
   );

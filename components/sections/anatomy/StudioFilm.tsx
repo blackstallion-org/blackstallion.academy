@@ -8,9 +8,10 @@ import { cn } from "@/lib/utils";
 /**
  * The specimen plate's living view (15 Nov 2026, owner): a studio film of a standing black Marwari replaces the 3D model.
  *
- * public/video/stallion-studio.mp4 (16 Nov 2026, the owner's chosen clip "Stallion_video_generation_prompt"): a black Marwari with a
- * white blaze standing in a brown studio, 1440 x 984, no sound. Cropped to x 100–1680 of the 1920 x 1080 source to clear the
- * generator's mark; the last 0.8 s is cross-faded into the first so the loop never pauses or jumps (first/last frame SSIM 0.97).
+ * public/video/stallion-loop.mp4 (17 Nov 2026, owner: the 5-second loop goes back on the plate; the 10 s studio film moved to the
+ * /anatomy hero): the owner's clip horse_natural_movement_no_tack, cropped to x 104–1240 of its 1344 x 768 frame to drop the dark side strips
+ * (1136 x 768), no sound. The first 0.75 s is cut and
+ * the last 0.75 s cross-fades into it, so the file ends on the frame before its own first frame and the loop never jumps (4.42 s).
  * The film sits in the middle of a black stage and its side edges fade into it. Points are placed in % of the film.
  *
  * Choosing a point moves the camera in: the film box is translated and scaled (it keeps playing), clamped so it always fills the
@@ -21,11 +22,11 @@ import { cn } from "@/lib/utils";
 
 export type FilmPoint = { id: string; name: string; title: string; x: number; y: number };
 
-const SRC = asset("/video/stallion-studio.mp4");
-const SRC_PHONE = asset("/video/stallion-studio-mobile.mp4");
-const POSTER = asset("/video/stallion-studio-poster.webp");
-/** The film is shown whole (1440 x 984), so its box has the film's own proportions. */
-export const FILM_ASPECT = 1440 / 984;
+const SRC = asset("/video/stallion-loop.mp4");
+const SRC_PHONE = asset("/video/stallion-loop-mobile.mp4");
+const POSTER = asset("/video/stallion-loop-poster.webp");
+/** The film is shown whole (1136 x 768), so its box has the film's own proportions. */
+export const FILM_ASPECT = 1136 / 768;
 const ASPECT = FILM_ASPECT;
 const ZOOM = 2.2;
 const MOVE = "transform 0.95s cubic-bezier(0.16, 1, 0.3, 1)";

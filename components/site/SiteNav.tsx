@@ -42,6 +42,12 @@ function PublicNav() {
     setHidden(y > 240 && y > prev && !open && mega === null);
   });
 
+  // Sticky bars below the nav (the /journal chapter index) follow it up when it hides: html[data-nav-hidden] (globals.css).
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-nav-hidden", hidden);
+    return () => document.documentElement.removeAttribute("data-nav-hidden");
+  }, [hidden]);
+
   // A new page closes whatever was open.
   const [lastPath, setLastPath] = useState(pathname);
   if (lastPath !== pathname) {

@@ -10,7 +10,7 @@ import { Headline } from "@/components/film/Headline";
 import { Hoof, Label, ReelMark } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { CompareSlider } from "@/components/sections/shared/CompareSlider";
-import { entity } from "@/lib/content/site";
+import { entity, reelNo } from "@/lib/content/site";
 import { crucible, why } from "@/lib/content/science";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -92,7 +92,7 @@ export function WhyTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={6} act="citadel" className="justify-center " />
+<div className="tone-light editorial-details gutter"><ReelMark n={reelNo("/why")} act="citadel" className="justify-center " />
 <motion.p
           className="t-story mt-3 text-sm sm:text-base text-bone/90 max-w-lg mx-auto "
           initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}

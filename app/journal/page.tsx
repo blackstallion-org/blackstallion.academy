@@ -8,6 +8,7 @@ import { LoreIndex } from "@/components/sections/journal/LoreIndex";
 import { posts } from "@/lib/content/journal";
 import { lore } from "@/lib/content/legend";
 import type { MediaKey } from "@/lib/content/media";
+import { reelNo } from "@/lib/content/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/journal" },
@@ -27,7 +28,7 @@ const plates: { image: MediaKey; numeral: string; position?: string }[] = [
 const chapters = lore.items.map((item, i) => ({ ...item, id: `lore-${i + 1}`, plate: plates[i] }));
 
 /**
- * Reel 17 · The Traditional Lore (16 Nov 2026, owner's brief). It replaces "The Chronicle" and absorbs /lore (which now
+ * Reel 24 (since 17 Nov 2026) · The Traditional Lore (16 Nov 2026, owner's brief). It replaces "The Chronicle" and absorbs /lore (which now
  * redirects here): one page for Marwar's folklore, kept apart from the history (/legend) and the science (/anatomy, /science).
  * Every chapter separates what the bards said from how the academy reads it, and the page says plainly that none of it is a
  * scientific claim. The story index at the foot follows the editorial index the owner chose: a hairline, the title, a line in
@@ -38,7 +39,7 @@ export default function TraditionalLorePage() {
     <>
       {/* Title card */}
       <header className="gutter relative pb-[clamp(3.5rem,8vh,6rem)] pt-[clamp(7rem,14vh,10rem)]">
-        <ReelMark n={17} act="ledger" />
+        <ReelMark n={reelNo("/journal")} act="ledger" />
         <Headline id="lore-title" as="h1" size="1" animate="mount" className="mt-8" inscription="The traditional" voice="lore." />
         <div className="mt-10 grid gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:gap-16">
           <p className="t-story max-w-xl text-xl leading-relaxed text-sand">
@@ -48,6 +49,8 @@ export default function TraditionalLorePage() {
         </div>
       </header>
 
+      {/* The index sticks only while the four chapters scroll past (its containing block ends with chapter IV). */}
+      <div>
       <LoreIndex chapters={chapters.map((c) => ({ id: c.id, name: c.name }))} />
 
       {/* Four chapters */}
@@ -77,6 +80,7 @@ export default function TraditionalLorePage() {
           </section>
         );
       })}
+      </div>
 
       {/* The vow */}
       <section aria-labelledby="vow-h" className="tone-dark surface-leather relative py-[clamp(6rem,14vh,11rem)]">

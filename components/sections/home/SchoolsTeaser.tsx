@@ -10,6 +10,7 @@ import { BlueprintPlan } from "@/components/sections/schools/BlueprintPlan";
 import { schoolsTeaser } from "@/lib/content/home";
 import { tiers } from "@/lib/content/schools";
 import { cn } from "@/lib/utils";
+import { reelNo } from "@/lib/content/site";
 
 /**
  * §9 Schools teaser · S09 blueprint (compact).
@@ -25,7 +26,7 @@ export function SchoolsTeaser() {
 
       <div className="gutter relative grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:items-center">
         <div>
-          <Label reel={11}>For school boards</Label>
+          <Label reel={reelNo("/schools")}>For school boards</Label>
           <Headline id="schools-h" className="mt-4" inscription={schoolsTeaser.inscription} voice={schoolsTeaser.voice} />
           <ScrollRevealText data-home-detail className="mt-6 max-w-md text-sand">{schoolsTeaser.body}</ScrollRevealText>
 

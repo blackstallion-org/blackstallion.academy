@@ -122,7 +122,9 @@ export const media = {
      then swap `cdnOnly(...)` for `m("<file>.png", ...)` so deployments ship the WebP copy. */
   pegApproach: m("peg-approach.webp", null, "A cadet gallops a black Marwari down the tent-pegging lane, lance upright, the peg ahead"),
   pegAlign: m("peg-align.webp", null, "At the gallop, a cadet lowers the lance point to the peg", "55% 50%"),
-  pegLift: m("peg-lift.webp", "hf_20261023_203028_999c71d9-6310-441e-8b1f-0612814875d5.png", "A lance point lifts a wooden peg out of the sand in a burst of dust"),
+  // 17 Nov 2026 (owner: the sepia close-up did not match the other three stages): bsah-2026-masters/tournament-03-carry.png, the
+  // same school arena and light as Approach, Align and Carry; the peg rides the lance tip as sand falls from it.
+  pegLift: m("peg-lift-arena.png", null, "A cadet in a helmet and white shirt gallops a bay Marwari past a school stand, the lifted peg on the tip of his lance and sand falling from it", "40% 40%"),
   pegCarry: m("peg-carry.webp", null, "A cadet rides past the line with the peg carried high on the lance", "60% 50%"),
   dayTack: cdnOnly("hf_20261023_203352_a7760386-3847-4ed6-bc9f-3d7efe70d9da.png", "A girl cadet tightens the girth on a bay Marwari at dawn", "55% 40%"),
   dayWalk: cdnOnly("hf_20261023_203351_4fc9f9c0-0a42-440b-aa8b-4af5cc6777cc.png", "Cadets lead their horses along a sandy path to the arena in the early morning"),
@@ -144,7 +146,8 @@ export const media = {
   covenantTouch: m("covenant-touch.png", "hf_20261028_165411_9837d093-a560-4da8-a991-06b702a718b8.png", "A cadet's hand rests on a bay Marwari stallion's muzzle, the sleeve of a black riding jacket and a brass button at the wrist", "58% 45%"),
   covenantProfile: m("covenant-profile.png", "hf_20261028_165202_b503b969-ec7b-4546-8554-4c9909647898.png", "A young cadet in a velvet riding helmet rests his face against a black stallion's muzzle, eyes closed", "45% 50%"),
   covenantEye: m("covenant-eye.png", "hf_20261028_165311_6e109eee-9e49-4762-a1d4-8ee31ce8c952.png", "Close on a black Marwari stallion's eye and the curved tips of its ears, lit gold from behind, dust in the air", "62% 45%"),
-  hubStandard: m("hub-standard.png", "hf_20261028_165411_55984b98-0b32-41f7-80e5-d540f29580d7.png", "A compact school riding hub at dusk: four timber stables, a fenced sand arena and brass lanterns, the school building behind", "50% 50%"),
+  // 17 Nov 2026 (owner: "replace this image with new school generated one"): bsah-2026-masters/schools-01-master-plan.png.
+  hubStandard: m("hub-campus.png", null, "A modern Indian school campus: a fenced sand arena with a cadet riding, timber stables, students on the path and the school buildings behind", "50% 55%"),
   hubRoyal: m("hub-royal.png", "hf_20261028_165411_bea08e4f-3833-4673-b3a2-a16739c2b55e.png", "Horses look out from carved sandstone arches around a sand courtyard on a Rajasthan estate", "62% 50%"),
   nightField: m("night-field.png", "hf_20261030_161740_399cc8d2-f3ce-492d-9d13-42f540684205.png", "A black Marwari stallion in a dark field at night, rim-lit gold along the mane by a glow on the horizon", "70% 45%"),
   hubSignature: m("hub-signature.png", "hf_20261028_165203_8c685475-6c10-4e1e-8d1f-d4a7752ab2f6.png", "Riders working in a large covered timber-roofed arena on a school campus", "50% 60%"),

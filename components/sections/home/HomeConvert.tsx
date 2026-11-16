@@ -13,6 +13,7 @@ import { Verifier } from "@/components/sections/verify/Verifier";
 import { circuit, shield, verifier } from "@/lib/content/home";
 import { standings } from "@/lib/content/records";
 import { ease } from "@/lib/motion/tokens";
+import { reelNo } from "@/lib/content/site";
 
 /** The riding-gear 3D stage is fetched only when the shield section nears the viewport (three.js, R3F and the 5 MB model stay out of the home bundle). */
 const RidingGearStage = dynamic(() => import("@/components/sections/equipment/RidingGearStage").then((mod) => mod.RidingGearStage), { ssr: false });
@@ -27,7 +28,7 @@ export function HomeVerifier() {
       />
       <div className="gutter relative grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
-          <Label reel={12}>The Seal</Label>
+          <Label reel={reelNo("/verify")}>The Seal</Label>
           <Headline id="verify-h" className="mt-4" inscription={verifier.inscription} voice={verifier.voice} />
           <ScrollRevealText data-home-detail className="mt-5 max-w-lg text-sand leading-relaxed">
             {verifier.body}
@@ -86,7 +87,7 @@ export function HomeStandings() {
     <section aria-labelledby="circuit-h" className="relative py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
         <div className="relative">
-          <Label reel={13}>The Circuit</Label>
+          <Label reel={reelNo("/tournaments")}>The Circuit</Label>
           <Headline id="circuit-h" className="mt-4" inscription={circuit.inscription} voice={circuit.voice} />
         </div>
         <p className="label text-sand">
@@ -155,7 +156,7 @@ export function HomeShield() {
     <section aria-labelledby="shield-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
         <div>
-          <Label reel={10}>The Shield</Label>
+          <Label reel={reelNo("/safety")}>The Shield</Label>
           <Headline id="shield-h" className="mt-4" inscription={shield.inscription} voice={shield.voice} />
           <p className="mt-6 max-w-md text-sand leading-relaxed">
             Before a cadet rides, the kit is checked: a fitted helmet, tested tack and boots made for the stirrup. Turn it over and look closely.

@@ -55,7 +55,7 @@ export function EquipmentCrispHeader() {
   return (
     <CrispHeaderSlideshow
       id="equipment-crisp-header"
-      label="REEL 02B · THE ARMOURY & TACK"
+      label="THE ARMOURY & TACK"
       headlineInscription="The Sovereign"
       headlineVoice="Armoury & Tack."
       tagline="HAND-FORGED SADDLERY · ARCHIVAL TACK · DESERT SPECS"

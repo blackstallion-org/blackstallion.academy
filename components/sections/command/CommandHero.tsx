@@ -1,5 +1,6 @@
 import { Headline } from "@/components/film/Headline";
 import { CursorScrubVideo } from "./CursorScrubVideo";
+import { reelNo } from "@/lib/content/site";
 
 /**
  * Title scene · The Command. The academy's guide is a cowboy and his horse (the owner's own clip, 3 Nov 2026), and the film is
@@ -18,7 +19,7 @@ export function CommandHero() {
     >
       <div className="gutter relative z-10 flex flex-col justify-center pb-4 pt-6 lg:min-h-[calc(100svh-clamp(5.5rem,9vh,7.5rem))] lg:pb-0 lg:pt-0">
         <div className="max-w-xl lg:max-w-[min(34rem,38vw)]">
-          <p className="label text-brass">Reel 14 · Act III</p>
+          <p className="label text-brass">Reel {reelNo("/command")} · Act III</p>
           <Headline id="command-title" as="h1" animate="mount" className="mt-5" inscription="The Command." voice="Questions, answered." />
           <p className="t-story mt-6 max-w-md text-sand lg:max-w-[22rem]">
             Fees, safety, curriculum and campus partnerships, answered from what the academy has published.

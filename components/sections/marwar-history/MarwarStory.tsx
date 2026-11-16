@@ -10,13 +10,13 @@ import { Cta, ReelMark } from "@/components/film/Marks";
 import { r } from "@/components/film/range";
 import { archive, archiveGaps, reconstructions, type ArchiveItem } from "@/lib/content/history/marwar-archive";
 import { archiveSrc, chapters, hotspots, page, pratapDates, scenes, sources, treaty, type ChapterId, type PlateScene } from "@/lib/content/history/marwar";
-import { nextReel } from "@/lib/content/site";
+import { nextReel, reelNo } from "@/lib/content/site";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
 import { ArchiveViewer } from "./ArchiveViewer";
 import "./marwar.css";
 
-const REEL = 24;
+const REEL = reelNo("/history/marwar");
 
 /** Plates shown on the page, in date order, numbered without gaps (003 is a near-duplicate kept only in the archive). */
 const shown = archive.filter((a) => a.show !== false).sort((a, b) => a.plate - b.plate);
