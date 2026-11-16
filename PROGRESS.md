@@ -1355,3 +1355,26 @@ progress in another session. Not tested: Safari and a real phone.
     cross-links from `/history/india` and `/story/rani-lakshmibai`. Media paths written out in `asset()`; manifest: this page's files.
   - Checked: typecheck, lint, 347/347 tests, production build, 1440 px title and chapter 01. Chapter rail fixed after review (it
     overlapped the chapter numbers and sat on paintings). Open: BnF plates 008–011 and IWM 006 shown with credits pending clearance.
+- [x] **16 Nov 2026 · Opening film: 37.5 s of ink and parchment, from Marwar to the black stallion (owner's brief), in place of the painted trailer.**
+  - Three generated clips (map of Marwar, the cavalry, the parchment court) cut into one film by `scripts/build-intro-film.mjs`
+    (sources stay in ~/Downloads, not committed): order Marwar → Rajput horsemen → British-era Jodhpur → the Jodhpur Lancers → the royal
+    stables → the lone black stallion. Each clip is cut into beats with its own speed (average ~78 %); gallops and the lancer's sweep
+    play at real speed, the map, court and stallion carry the stretch, motion-interpolated (minterpolate MCI, no repeated frames:
+    checked by a frame-difference scan). Two 0.625 s dissolves. The generator's sparkle mark (bottom right, x 0.887–0.925) is cropped
+    out (owner's choice): a left-anchored 16:9 window 87 % wide, ~1.15× zoom. Light grade per clip, restrained grain, light vignette.
+  - Score: the owner's "Sovereign of the Marwar" (88.8 s master; the brief said 35 s). Owner's choice: its first 37.5 s, faded over the
+    last 4 s, −16.0 LUFS, muxed into the video (sound always in sync). 90 BPM: the entrance (~3.5–4 s) lands as the map rises into
+    horsemen, the full percussion (20.02 s) on the lancer sweeping past the lens (20.00 s), the stallion settles on the bar at 33.36 s.
+  - Files: `public/video/intro-film.mp4` (1920 × 1080, 4 Mb/s two-pass, 18.9 MB), `intro-film-mobile.mp4` (1280 × 720, 1.8 Mb/s,
+    8.9 MB), `intro-film-poster.webp` (18 KB); 900 frames at 24 fps, faststart. The raw MP3 was taken out of `public/`.
+  - `components/opening/IntroFilm.tsx` + `intro-film.module.css` (rebuilt from the 15 Nov video intro), data in
+    `lib/content/intro-film.ts`. Light parchment frame (ink controls, no dark overlays); landscape fills the screen, portrait phones show
+    the whole picture full width on the parchment field (owner's choice). Skip / Escape, Sound, Play/Pause, big Play when autoplay is
+    refused, hidden tab pauses, 12 s load limit, sound fades with the picture. Same boot rules (`lib/opening/intro-boot.ts`).
+  - Removed: `PaintedTrailer.tsx` + CSS, `lib/content/opening-trailer.ts`, `tests/opening-trailer.test.mjs`,
+    `public/audio/music/opening-trailer.mp3` (licence note and footer credit updated). New `tests/intro-film.test.mjs` (runtime read
+    from the MP4 header, faststart, size budgets, trailer gone). Media manifest: only this change's delta applied.
+  - Verified in a production build (Playwright, 1440 × 900 and 390 × 844): autoplays muted, Sound/Pause/Play, the end, Skip (click and
+    keyboard) and Escape all dissolve into the home page with focus on `#doctrine` and `#main` no longer inert; second visit, reduced
+    motion: no film; refused autoplay: big Play. No mark in any corner frame. Known: two sources are 720p, so the desktop file is
+    slightly soft on large screens; the score ends on a fade, not a cadence. Owner to give the sound one listen.

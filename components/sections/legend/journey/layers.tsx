@@ -8,9 +8,8 @@ import type { Ambient, Idle, Motion } from "@/lib/content/marwari-journey";
 import s from "./journey.module.css";
 
 /**
- * The painted-journey building blocks shared by /legend (MarwariJourney) and the home page's opening trailer
- * (components/opening/PaintedTrailer): the idle-rigged subject cut-out, the looping atmosphere, and the motion-recipe timeline
- * builder. Loops run only where an ancestor sets --mj-play: running (see journey.module.css).
+ * The painted-journey building blocks for /legend (MarwariJourney; until 16 Nov 2026 also the home page's painted opening
+ * trailer): the idle-rigged subject cut-out, the looping atmosphere, and the motion-recipe timeline builder. Loops run only where an ancestor sets --mj-play: running (see journey.module.css).
  */
 export type Load = ({ loading: "eager"; fetchPriority?: "high" } | { loading: "lazy" }) & { unoptimized?: boolean };
 
