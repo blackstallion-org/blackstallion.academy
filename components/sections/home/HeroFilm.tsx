@@ -86,7 +86,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     const failure = () => { failed.current = true; if (!disposed) setState("failed"); };
     // Source errors can happen before hydration and do not bubble from <source>.
     // Inspect the native state too, including the all-sources-failed browser case.
-    // The 12 s "no picture" limit counts from the first time the film is actually asked to play, not from mount: behind the
+    // The 12 s "no picture" limit counts from the time the film is actually asked to play (and the browser agrees), not from mount: behind the
     // 37.5 s opening film (or off screen, or with preload="metadata" on Safari) the file is not fetched, and the old clock
     // marked a healthy film as failed before it was ever started (17 Nov 2026 audit).
     let playRequested: number | null = null;
@@ -103,7 +103,8 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
       else {
         prime();
         playRequested ??= performance.now();
-        video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); });
+        // refused (autoplay blocked, iOS Low Power Mode): the film is waiting for the visitor's Play, not failing, so the clock stops
+        video.play().catch(() => { playRequested = null; if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); });
       }
     };
     const observer = new IntersectionObserver(([entry]) => { inView.current = entry.isIntersecting; sync(); }, { threshold: 0.05 });

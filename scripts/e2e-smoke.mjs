@@ -202,7 +202,9 @@ try {
   // ---- homepage film (HeroFilm.tsx). 9 Nov 2026: the opening film is the owner's Marwar film, a true 2:1 picture, so its band has that
   // shape and the picture fills it edge to edge (no mask, no crop); the controls sit on the foot of the band, nothing in the top 80 px.
   // The original opening film (scope picture, masked wide frame) is kept lower on the page as its own section, without "Skip intro".
-  await check("hero: the Marwar film follows the doctrine screen; the older original film is gone (owner, 11 Nov 2026)", async () => {
+  // The home hero has been the rider-lesson film since commit 0678965 (lib/content/hero-films.ts); the Marwar cut (11 Nov) and the
+  // original opening film before it are both retired, and are left out of deployments (.vercelignore, 17 Nov 2026 audit).
+  await check("hero: the rider-lesson film follows the doctrine screen; the retired Marwar and original films are gone", async () => {
     const { page, context } = await newPage({ width: 1440, height: 900 });
     await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(800);
@@ -213,13 +215,13 @@ try {
       return {
         film: Boolean(film && film.querySelector("video")),
         order: film && doctrine ? doctrine.getBoundingClientRect().top < film.getBoundingClientRect().top : false,
-        marwar: srcs.some((x) => /hero-marwar-desktop\.mp4/.test(x)),
-        old: Boolean(document.querySelector("section#first-film")) || srcs.some((x) => /hero-main-/.test(x)),
+        current: srcs.some((x) => /hero-rider-lesson\.mp4/.test(x)),
+        old: Boolean(document.querySelector("section#first-film")) || srcs.some((x) => /hero-main-|hero-marwar-/.test(x)),
       };
     });
-    assert.ok(m.film && m.marwar, "the Marwar opening film is on the page");
+    assert.ok(m.film && m.current, "the rider-lesson hero film is on the page");
     assert.ok(m.order, "it comes after the doctrine screen");
-    assert.ok(!m.old, "the older original film is no longer on the page");
+    assert.ok(!m.old, "neither retired film is on the page");
     await context.close();
   });
 
