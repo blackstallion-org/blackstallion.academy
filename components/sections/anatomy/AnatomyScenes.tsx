@@ -41,13 +41,13 @@ function AnatomyTitleText() {
 export function AnatomyTitle() {
   const reduced = useReducedMotion();
   return (
-    <section aria-labelledby="anatomy-h" className="editorial-scene">
+    <section aria-labelledby="anatomy-h" data-parallax-skip className="editorial-scene">
       {/* 17 Nov 2026 (owner): one still of the black stallion (not the film), edge to edge, no feathered edges or backdrop. The box
           has the photograph's own proportions (1663 x 946) so the whole horse shows, ears to hooves, below the fixed bar. */}
-      {/* 17 Nov 2026 (owner: "the ears are cropped"): the photo's ears sit 3% below its top edge, which put them against the bar. A dark
-            band of studio ground (4.5vw) sits above the photo and the photo's top 5% blends into it, so the ears clear the bar. */}
-      <div className="tone-photo relative bg-night pt-[calc(4rem+4.5vw)] md:pt-[calc(5rem+4.5vw)]">
-        <div className="relative aspect-[1663/946] w-full overflow-hidden [mask-image:linear-gradient(180deg,transparent_0,black_5%)]">
+      {/* 17 Nov 2026 (owner: "the ears are cropped", then "remove the fade"): the site-wide parallax (SiteParallax) enlarged the photo 10% and shifted it up,
+          cutting the ears and the top edge; data-parallax-skip keeps it still, so the whole photograph shows, edge to edge, no band, no fade. */}
+      <div className="tone-photo relative bg-night pt-16 md:pt-20">
+        <div className="relative aspect-[1663/946] w-full overflow-hidden">
           <FilmImage name="anatomyProfile" priority sizes="100vw" grade="none" />
           <div aria-hidden className="shade-r absolute inset-0 hidden lg:block" />
           <motion.div

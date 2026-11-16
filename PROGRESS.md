@@ -1506,3 +1506,6 @@ progress in another session. Not tested: Safari and a real phone.
   sits above the photo, blending into its top 5%; the line under the title steps right of the croup. Reels: The Traditional Lore moved
   beside Marwar (18 Marwar, **19 The Traditional Lore**, 20 Rani Lakshmibai, 21 Pratap & Chetak, 22 India, 23 World, 24 Alexander); numbers
   come from `reelNo()`, so every mark follows. The Heritage mega menu keeps the owner's order of histories (titles only).
+  - **/anatomy hero, root cause of the cropped ears (17 Nov, later):** `SiteParallax` was enlarging the photo 10% and shifting it up. The hero
+    section now carries `data-parallax-skip`, so the whole photograph shows (ears, hooves) edge to edge with no band and no fade; the earlier
+    dark band and top blend were removed.
