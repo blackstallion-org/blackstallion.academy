@@ -80,6 +80,8 @@ export async function updatePassword(_prev: FormState, data: FormData): Promise<
   if (!pw.success) return { error: pw.error.issues[0]?.message ?? "Choose a stronger password." };
   if (pw.data !== data.get("confirm")) return { error: "The two passwords do not match." };
   const { error } = await supabase.auth.updateUser({ password: pw.data });
+  // an account with an authenticator needs this session confirmed with a code first (Auth refuses an AAL1 password change)
+  if (error && (error as { code?: string }).code === "insufficient_aal") return { error: "Your account uses an authenticator app: confirm a code at /admin/mfa first, then come back to this page." };
   if (error) return { error: "The password could not be changed. Request a new link and try again." };
   redirect("/account"); // staff without a member profile are passed on to the console from there
 }

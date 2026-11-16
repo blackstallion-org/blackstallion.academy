@@ -11,7 +11,11 @@
 export function siteOrigin(host: string, proto: string): string {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (configured) return configured.replace(/\/+$/, "");
-  const vercel = process.env.VERCEL_ENV === "production" ? process.env.VERCEL_PROJECT_PRODUCTION_URL : process.env.VERCEL_URL;
-  if (vercel) return `https://${vercel.replace(/^https?:\/\//, "").replace(/\/+$/, "")}`;
+  const vercel = (process.env.VERCEL_ENV === "production" && process.env.VERCEL_PROJECT_PRODUCTION_URL) || process.env.VERCEL_URL;
+  if (vercel) {
+    const hostname = vercel.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+    // `vercel dev` sets VERCEL_URL to localhost, which is served over plain http
+    return `${/^(localhost|127\.0\.0\.1)(:|$)/.test(hostname) ? "http" : "https"}://${hostname}`;
+  }
   return host ? `${proto === "http" ? "http" : "https"}://${host}` : "";
 }

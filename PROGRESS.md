@@ -1468,3 +1468,28 @@ progress in another session. Not tested: Safari and a real phone.
     callouts, focus rings, masks and the two thumbnails updated.
   - **Checks:** lint (0 errors), typecheck, 348/348 tests, `npm run build`; 9 routes + /contact at 1440×900 and 390×844 on the production
     build with the nav-clearance check clean; section close-ups of every change; spine/heart at 1440, 768, 390; reduced motion on /anatomy.
+- **17 Nov 2026 · technical audit (branch `audit-1117`, worktree `../blackstallion-website-audit`; other sessions were editing the
+  main checkout, so the work was isolated there; nothing deployed or pushed, the live database untouched).**
+  - **Runtime:** the home hero film could mark itself "failed" behind the 37.5 s opening film (its 12 s first-frame limit ran from
+    mount) or when a skipped phone `<source>` reported an error; and a refused `play()` (iOS Low Power Mode) ended on "film unavailable"
+    with Play disabled. The limit now runs only while the browser is actually playing; refused play waits for the visitor's Play.
+    Opening-film timers cancel on unmount; the boot failsafe announces itself; a press on the opening film's Play/Sound/Skip no longer
+    starts the 28 MB site score under the film's own soundtrack. Hydration mismatches fixed: the lead form's date `min` (build-day UTC at
+    prerender; now the visitor's local date, in the browser) and `/statue?ch=` (chapter read during render). FilmImage retries when its
+    `name` changes. The loader silhouette is preloaded in CORS mode (used as a CSS mask, it downloaded twice).
+  - **Security (code):** staff MFA on by default in production (`STAFF_MFA_REQUIRED=0` opts out); a new password needs a reset link or
+    sign-in within 10 minutes (verified `amr` claims) and is rate-limited per account; e-mail links use `NEXT_PUBLIC_SITE_URL` or the
+    Vercel-set URL, never a forwarded header; the rate limiter, lead action and verify lookup read the one `supabaseConfig()`;
+    `/dev/rigs` 404s in production; `lib/supabase/admin.ts` is `server-only`.
+  - **Security (database, NOT applied):** `supabase/live/migrations/20261117001800_authenticated_read_hardening.sql` closes the open
+    signed-in reads (achievements, session skills, horses with microchip and stall CCTV, hub revenue share and contact). Apply after
+    001200; rollback and replica tests included (`tests/run.sh`: 439 passed, 0 failed). See `supabase/live/HARDENING_NOTES.md`.
+  - **Dependencies and deployment:** Next 16.4.2 → 16.4.6 (GHSA-mfr8-8qww-v76h); `npm audit`: 0 vulnerabilities. ~190 MB of tracked
+    models and films that nothing requests are left out of deployments (`.vercelignore`, files kept). The 7.3 MB legend-sand PNG is
+    served as its 0.5 MB WebP. A Vercel build with `NEXT_PUBLIC_LOCAL_MEDIA=1` now fails instead of shipping 404 stills. `/gallery` in
+    the sitemap; `.playwright-mcp/` ignored. The e2e hero check now expects the rider-lesson film (the Marwar cut was retired in 0678965).
+  - **Checks:** lint 0 errors (16 warnings: QA scripts and two `<img>`), typecheck, 352/352 tests, production build;
+    `scripts/e2e-smoke.mjs` 19/19 (46 routes, no page errors or CSP violations); `scripts/e2e-media.mjs` 60 page views, 459 media files,
+    0 problems, none of them excluded from deployment; 19 Chrome checks (opening film, Sound, Skip, Escape, 14 s hold, autoplay refused,
+    reduced motion, `?nointro`, hydration on 8 views, date min, `/statue?ch=3`, `/fleet` and `/statue` WebGL models at 1440 and 390,
+    phone menu lockup, keyboard focus). Playwright: the npx 1.66 alpha matches the cached Chromium 1254; films need Google Chrome.

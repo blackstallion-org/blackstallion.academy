@@ -3,19 +3,29 @@
  * A session that is merely still signed in (a laptop left open, a stolen cookie) is not enough to replace the password; the
  * person must have signed in, opened a reset link, or passed a second-factor check within the last few minutes.
  *
- * Supabase access tokens carry `amr`: one entry per method used in this session, each with the time it was used (seconds). A
- * token refresh keeps those times, so the newest entry is the last real proof of identity. Entries without times (the plain
- * RFC 8176 string form) prove nothing about recency and count as "not recent".
+ * Supabase access tokens carry `amr`: one entry per method used in this session, each with the time it was used (seconds). The
+ * newest identity-proving entry is the last real proof of identity. Entries without times (the plain RFC 8176 string form)
+ * prove nothing about recency and count as "not recent".
  */
 export const RECENT_AUTH_SECONDS = 10 * 60;
 
 type AmrEntry = { method?: unknown; timestamp?: unknown } | string;
+
+/**
+ * Methods that prove who the person is. Anything else does not count: a token refresh (some Auth versions record one), an
+ * anonymous sign-in, or a method this list does not know yet (fail closed: the person opens a reset link instead).
+ */
+const PROOF_METHODS = new Set([
+  "password", "otp", "recovery", "magiclink", "invite", "email/signup", "email_change", "oauth", "sso/saml", "web3",
+  "totp", "mfa/totp", "mfa/phone", "mfa/webauthn", "mfa/recovery_code",
+]);
 
 export function lastAuthenticatedAt(amr: unknown): number | null {
   if (!Array.isArray(amr)) return null;
   let newest: number | null = null;
   for (const entry of amr as AmrEntry[]) {
     if (typeof entry !== "object" || entry === null) continue;
+    if (typeof entry.method !== "string" || !PROOF_METHODS.has(entry.method)) continue;
     const t = entry.timestamp;
     if (typeof t === "number" && Number.isFinite(t) && (newest === null || t > newest)) newest = t;
   }

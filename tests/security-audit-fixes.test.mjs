@@ -105,7 +105,11 @@ test("M2: a new password needs a reset link or sign-in from the last ten minutes
   assert.equal(authenticatedRecently(["password", "otp"], now), false, "times are needed to judge recency");
   assert.equal(authenticatedRecently(undefined, now), false);
   assert.equal(authenticatedRecently([{ method: "password", timestamp: now + 3600 }], now), false, "a time in the future is not trusted");
-  assert.equal(lastAuthenticatedAt([{ timestamp: 5 }, { timestamp: 9 }, "x", null]), 9);
+  assert.equal(lastAuthenticatedAt([{ method: "password", timestamp: 5 }, { method: "otp", timestamp: 9 }, "x", null]), 9);
+  assert.equal(authenticatedRecently([{ method: "password", timestamp: now - 7200 }, { method: "token_refresh", timestamp: now - 5 }], now), false, "a token refresh proves nothing");
+  assert.equal(authenticatedRecently([{ method: "anonymous", timestamp: now - 5 }], now), false, "an anonymous sign-in proves nothing");
+  assert.equal(authenticatedRecently([{ method: "something_new", timestamp: now - 5 }], now), false, "an unknown method fails closed");
+  assert.equal(authenticatedRecently([{ timestamp: now - 5 }], now), false, "an entry without a method fails closed");
   const claims = (amr, error = null) => ({ auth: { getClaims: async () => (error ? { data: null, error } : { data: { claims: { amr } }, error: null }) } });
   const fresh = Math.floor(Date.now() / 1000) - 10;
   assert.equal(await sessionAuthenticatedRecently(claims([{ method: "recovery", timestamp: fresh }])), true);
@@ -114,7 +118,10 @@ test("M2: a new password needs a reset link or sign-in from the last ten minutes
   // the action and the page both use it, after getUser(), with a per-account limit
   const actions = read("app/admin/actions.ts");
   assert.match(actions, /export async function updatePassword[\s\S]*?getUser\(\)[\s\S]*?consumeRateLimit\("login", `pw:\$\{auth\.user\.id\}`\)[\s\S]*?sessionAuthenticatedRecently\(supabase\)[\s\S]*?updateUser\(\{ password/);
-  assert.match(read("app/admin/reset/page.tsx"), /sessionAuthenticatedRecently\(supabase\)\) return <NewPasswordForm \/>/);
+  const reset = read("app/admin/reset/page.tsx");
+  assert.match(reset, /sessionAuthenticatedRecently\(supabase\)\)/);
+  assert.match(reset, /nextLevel === "aal2" && aal\.currentLevel !== "aal2"[\s\S]*?href="\/admin\/mfa"[\s\S]*?return <NewPasswordForm \/>/, "an authenticator account confirms a code first");
+  assert.match(actions, /code === "insufficient_aal"/);
 });
 
 test("L2: e-mail links use the configured or platform address, never a forwarded header on Vercel", async () => {
@@ -130,6 +137,10 @@ test("L2: e-mail links use the configured or platform address, never a forwarded
     process.env.VERCEL_ENV = "preview";
     process.env.VERCEL_URL = "bsah-git-x.vercel.app";
     assert.equal(siteOrigin("evil.example", "https"), "https://bsah-git-x.vercel.app");
+    process.env.VERCEL_ENV = "production"; delete process.env.VERCEL_PROJECT_PRODUCTION_URL;
+    assert.equal(siteOrigin("evil.example", "https"), "https://bsah-git-x.vercel.app", "production without its domain variable: the deployment URL, still not the header");
+    process.env.VERCEL_ENV = "development"; process.env.VERCEL_URL = "localhost:3000";
+    assert.equal(siteOrigin("evil.example", "https"), "http://localhost:3000", "vercel dev serves plain http");
     process.env.NEXT_PUBLIC_SITE_URL = "https://blackstallion.academy/";
     assert.equal(siteOrigin("evil.example", "https"), "https://blackstallion.academy", "the configured address wins");
   } finally {

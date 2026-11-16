@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { EntryHeader } from "../EntryHeader";
 import { Suspense } from "react";
 import { connection } from "next/server";
@@ -29,7 +30,18 @@ async function ResetStep() {
   const { data } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
   if (!data.user || !supabase) return <ResetRequestForm />;
   // only a session opened from the reset link (or a sign-in) in the last ten minutes may choose a new password (audit M2)
-  if (await sessionAuthenticatedRecently(supabase)) return <NewPasswordForm />;
+  if (await sessionAuthenticatedRecently(supabase)) {
+    // an account with an authenticator must confirm a code before Auth accepts a new password (AAL2): send them there first
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal?.nextLevel === "aal2" && aal.currentLevel !== "aal2") {
+      return (
+        <p className="t-ui text-sm text-sand">
+          Your account uses an authenticator app. <Link href="/admin/mfa" className="text-gold underline underline-offset-4">Confirm a code</Link>, then open this page again to choose a new password.
+        </p>
+      );
+    }
+    return <NewPasswordForm />;
+  }
   return (
     <>
       <p className="t-ui mb-8 text-sm text-sand">For your security, a new password needs a fresh reset link. Request one below; it arrives by e-mail.</p>

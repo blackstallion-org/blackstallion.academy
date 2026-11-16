@@ -98,8 +98,9 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     // hold while the running-horse loader is up or the opening trailer is still playing over the page ("reveal" = it is fading out)
     const holding = () => !!document.querySelector(".bsah-loader") || document.documentElement.dataset.bsahIntro === "1";
     const sync = () => {
-      if (holding()) video.pause();
-      else if (finished.current || document.hidden || !inView.current || userPaused.current || preference.matches || saveData) video.pause();
+      // paused (held, off screen, hidden tab, reduced motion...): nothing is loading, so the no-picture clock stops too
+      if (holding()) { playRequested = null; video.pause(); }
+      else if (finished.current || document.hidden || !inView.current || userPaused.current || preference.matches || saveData) { playRequested = null; video.pause(); }
       else {
         prime();
         playRequested ??= performance.now();
