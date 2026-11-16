@@ -312,3 +312,33 @@ limit fails open (LOG line above), and the privacy part and the checks keep work
    not cover TRUNCATE, but PostgREST cannot reach it. Defense in depth: revoke them.
 4. Fixed windows allow a burst of up to twice the limit across a window boundary. Clients behind one address (school
    Wi-Fi, carrier NAT, a server using the anon key) share a bucket.
+
+---
+
+# Signed-in read hardening (20261117001800): notes for the owner
+
+**Status: written 17 Nov 2026 (technical audit), NOT applied anywhere.** It closes security audit S7 / H1 for signed-in users:
+001200 only closes the open reads for anon, and anyone can create an account (every new account is a PARENT).
+
+**Apply order:** `20261023001200_anon_privacy_hardening.sql` first, then `20261117001800_authenticated_read_hardening.sql`.
+The second file refuses to run while anon can still read `equine_fleet.microchip_iso_id`.
+
+| File | Role |
+| --- | --- |
+| `migrations/20261117001800_authenticated_read_hardening.sql` | the migration (one transaction, re-runnable, checks itself) |
+| `rollback/20261117001800_authenticated_read_hardening_rollback.sql` | puts the 23 Oct signed-in reads back (re-runnable) |
+| `tests/90_authenticated_read_tests.sql` | behaviour after the migration (twice) and after the rollback (twice) |
+
+Replica run (`PG_BIN=/opt/homebrew/opt/postgresql@18/bin bash supabase/live/tests/run.sh`, 17 Nov 2026): **439 passed, 0 failed**.
+
+| Table | A signed-in account sees, after |
+| --- | --- |
+| achievements | its own children's; SCHOOL_ADMIN / INSTRUCTOR: their hub's; SUPER_ADMIN: all |
+| session_skills | those of training sessions it can already see |
+| equine_fleet | PARENT: only horses assigned to their children (with the stall camera); hub staff incl. GROOM: their hub's; SUPER_ADMIN: all |
+| school_hubs | every row, but not `revenue_share_percentage` or `contact_email` (dashboard / service role only) |
+
+Not changed: `site_settings` (review the live values first) and `consent_records` (L3, needs a decision on consent withdrawal).
+
+**Pre-flight:** confirm no signed-in client (mobile app, ops tool) reads the two hub columns or other children's horses and
+achievements. The website needs none of them (checked in code, 17 Nov 2026).

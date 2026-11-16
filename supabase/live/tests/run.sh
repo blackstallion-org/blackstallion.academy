@@ -84,5 +84,14 @@ tst "$HERE/30_rollback_tests.sql"
 tst "$HERE/50_anon_hardening_after_layer_rollback_tests.sql"
 echo "the media library rollback is harmless after the layer rollback (no media_assets left)"
 run "$LIVE/rollback/20261029001300_bsah_media_library_rollback.sql"
+echo "apply 20261117001800_authenticated_read_hardening.sql (twice); it must refuse to run before 001200"
+run "$LIVE/migrations/20261117001800_authenticated_read_hardening.sql"; run "$LIVE/migrations/20261117001800_authenticated_read_hardening.sql"
+$PS -v ON_ERROR_STOP=1 -v phase=after -t -A -f "$HERE/90_authenticated_read_tests.sql" | tee -a "$D/out.txt"
+echo "apply rollback of the signed-in read hardening (twice)"
+run "$LIVE/rollback/20261117001800_authenticated_read_hardening_rollback.sql"; run "$LIVE/rollback/20261117001800_authenticated_read_hardening_rollback.sql"
+$PS -v ON_ERROR_STOP=1 -v phase=rolled-back -t -A -f "$HERE/90_authenticated_read_tests.sql" | tee -a "$D/out.txt"
+echo "with 001200 rolled back, the signed-in hardening refuses to run"
+run "$LIVE/rollback/20261023001200_anon_privacy_hardening_rollback.sql"
+if $PS -v ON_ERROR_STOP=1 -f "$LIVE/migrations/20261117001800_authenticated_read_hardening.sql" >/dev/null 2>&1; then echo "FAIL  signed-in hardening ran before 001200" | tee -a "$D/out.txt"; else echo "PASS  signed-in hardening refuses to run before 001200" | tee -a "$D/out.txt"; fi
 P=$(grep -c '^PASS' "$D/out.txt" || true); F=$(grep -c '^FAIL' "$D/out.txt" || true)
 echo "---- $P passed, $F failed"; [ "$F" = 0 ]
