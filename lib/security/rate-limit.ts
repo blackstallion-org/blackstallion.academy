@@ -1,5 +1,5 @@
 import { createHash, randomBytes } from "node:crypto";
-import { restHeaders } from "@/lib/supabase/rest";
+import { restHeaders, supabaseConfig } from "@/lib/supabase/rest";
 
 /**
  * Server-side rate limiting for public endpoints (lead forms, trustee unlock, credential lookups).
@@ -86,8 +86,12 @@ export async function consumeRateLimit(kind: RateKind, clientKey: string, db: Db
   const rule = RATE_RULES[kind];
   const bucket = bucketFor(kind, clientKey);
   if (!consumeMemory(bucket, rule)) return { allowed: false, layer: "memory" };
-  const url = db.url ?? process.env.SUPABASE_URL;
-  const key = db.key ?? process.env.SUPABASE_PUBLISHABLE_KEY;
+  // Same settings as every other Supabase call (lib/supabase/rest.ts), including the NEXT_PUBLIC_ names; reading only
+  // SUPABASE_URL here silently dropped to the per-instance memory limit when the project used the other names (17 Nov 2026 audit).
+  // A database error still falls back to the memory limit (fail open): the in-memory counter above is always the backstop.
+  const config = supabaseConfig();
+  const url = db.url ?? config?.url;
+  const key = db.key ?? config?.publishable;
   if (!url || !key) return { allowed: true, layer: "memory" };
   try {
     const res = await (db.fetchImpl ?? fetch)(`${url}/rest/v1/rpc/consume_rate_limit`, {

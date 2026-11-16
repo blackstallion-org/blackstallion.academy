@@ -5,7 +5,9 @@ import { fileURLToPath } from "node:url";
 import { createJiti } from "jiti";
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const jiti = createJiti(import.meta.url, { alias: { "@": root }, moduleCache: false, fsCache: false });
+// "server-only" is a build-time marker that Next resolves itself; under plain Node it points at an empty stand-in.
+const serverOnly = path.join(root, "tests/helpers/server-only.mjs");
+const jiti = createJiti(import.meta.url, { alias: { "server-only": serverOnly, "@": root }, moduleCache: false, fsCache: false });
 
 /** Fresh import each call (module-level state such as in-memory limiters starts empty). */
 export function loadTs(relativePath) {
@@ -18,7 +20,7 @@ export function loadTs(relativePath) {
  */
 export function loadTsWith(relativePath, aliases) {
   const swapped = Object.fromEntries(Object.entries(aliases).map(([id, file]) => [id, path.join(root, file)]));
-  const scoped = createJiti(import.meta.url, { alias: { ...swapped, "@": root }, moduleCache: false, fsCache: false });
+  const scoped = createJiti(import.meta.url, { alias: { "server-only": serverOnly, ...swapped, "@": root }, moduleCache: false, fsCache: false });
   return scoped.import(path.join(root, relativePath));
 }
 

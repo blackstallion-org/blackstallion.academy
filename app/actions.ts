@@ -4,7 +4,7 @@ import { z } from "zod";
 import { isIdempotencyKey, sanitizeAttribution } from "@/lib/leads/attribution";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
 import { verifyTurnstile } from "@/lib/security/turnstile";
-import { restHeaders } from "@/lib/supabase/rest";
+import { restHeaders, supabaseConfig } from "@/lib/supabase/rest";
 import { emailConfigured, sendEmail } from "@/lib/email/resend";
 import { gateTitle, leadNotification, leadReceipt } from "@/lib/email/templates";
 import { forwardToFormspree } from "@/lib/leads/formspree";
@@ -152,8 +152,9 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
   }
 
   const ip = await clientKey();
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_PUBLISHABLE_KEY;
+  const supabase = supabaseConfig();
+  const supabaseUrl = supabase?.url;
+  const supabaseKey = supabase?.publishable;
   const hook = process.env.LEAD_WEBHOOK_URL;
   const formspree = process.env.FORMSPREE_ENDPOINT;
   const mail = emailConfigured() && Boolean(process.env.LEAD_NOTIFY_EMAIL);

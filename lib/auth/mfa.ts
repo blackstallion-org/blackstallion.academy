@@ -1,13 +1,18 @@
 /**
- * Second factor for staff and admissions (security audit S16, 4 Nov 2026).
+ * Second factor for staff and admissions (security audit S16, 4 Nov 2026; on by default in production since the 17 Nov 2026 audit).
  *
- * Off until STAFF_MFA_REQUIRED=1. With it on, the staff console and the admissions desk accept only a session that has
- * passed an authenticator-app code (Supabase AAL2), whichever way the person signed in (password, Google, phone code); a
- * signed-in staff member without a verified authenticator is sent to /admin/mfa to add one. Switch it on only after
- * every staff account has enrolled there, or those accounts cannot open the console until they do.
+ * With it on, the staff console and the admissions desk accept only a session that has passed an authenticator-app code
+ * (Supabase AAL2), whichever way the person signed in (password, Google, phone code); a signed-in staff member without a
+ * verified authenticator is sent to /admin/mfa to add one first (nobody is locked out: enrolment needs only the signed-in session).
+ *
+ * - production (NODE_ENV=production): on, unless STAFF_MFA_REQUIRED=0 is set deliberately
+ * - development and tests: off, unless STAFF_MFA_REQUIRED=1
  */
 export function staffMfaRequired(): boolean {
-  return process.env.STAFF_MFA_REQUIRED === "1";
+  const flag = process.env.STAFF_MFA_REQUIRED;
+  if (flag === "1") return true;
+  if (flag === "0") return false;
+  return process.env.NODE_ENV === "production";
 }
 
 export type AssuranceClient = {

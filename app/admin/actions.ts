@@ -11,6 +11,8 @@ import { requireStaff } from "@/lib/auth/admin";
 import { destinationAfterSignIn } from "@/lib/auth/destination";
 import { classifyAuthError } from "@/lib/auth/errors";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { sessionAuthenticatedRecently } from "@/lib/auth/recent-auth";
+import { siteOrigin } from "@/lib/site-origin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { objectPath, validateUpload } from "@/lib/storage/validate";
 
@@ -58,7 +60,7 @@ export async function requestPasswordReset(_prev: FormState, data: FormData): Pr
   if (!email.success) return { error: "Enter a valid e-mail address." };
   const supabase = await createSupabaseServerClient();
   if (!supabase) return { error: "Password reset is not configured yet." };
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || (host ? `${proto}://${host}` : "");
+  const origin = siteOrigin(host, proto);
   await supabase.auth.resetPasswordForEmail(email.data, { redirectTo: `${origin}/auth/confirm?next=/admin/reset` });
   return { notice: "If that address belongs to an account, a reset link is on its way. It expires in one hour." };
 }
@@ -70,6 +72,10 @@ export async function updatePassword(_prev: FormState, data: FormData): Promise<
   if (!supabase) return { error: "Not configured." };
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return { error: "Your reset link has expired. Request a new one." };
+  // A signed-in session alone may not replace the password: it needs a reset link opened, or a sign-in, in the last ten
+  // minutes (security audit M2, 17 Nov 2026), and attempts are limited per account.
+  if (!(await consumeRateLimit("login", `pw:${auth.user.id}`)).allowed) return { error: "Too many attempts. Please wait fifteen minutes." };
+  if (!(await sessionAuthenticatedRecently(supabase))) return { error: "For your security, open a fresh reset link (or sign in again) before choosing a new password." };
   const pw = strongPassword.safeParse(data.get("password"));
   if (!pw.success) return { error: pw.error.issues[0]?.message ?? "Choose a stronger password." };
   if (pw.data !== data.get("confirm")) return { error: "The two passwords do not match." };

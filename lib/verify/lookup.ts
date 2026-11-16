@@ -1,6 +1,6 @@
 import { credentialByCode, type Credential } from "@/lib/content/records";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
-import { restHeaders } from "@/lib/supabase/rest";
+import { restHeaders, supabaseConfig } from "@/lib/supabase/rest";
 
 /**
  * Passport credential lookup used by /verify.
@@ -27,9 +27,9 @@ export async function lookupCredentialCore(rawCode: unknown, clientKey: string, 
   const sample = credentialByCode(code);
   if (sample) return { kind: "sample", record: sample };
 
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !key) return { kind: "unavailable", reason: "not_configured" };
+  const config = supabaseConfig();
+  if (!config) return { kind: "unavailable", reason: "not_configured" };
+  const { url, publishable: key } = config;
   try {
     const res = await fetchImpl(`${url}/rest/v1/rpc/verify_passport`, {
       method: "POST",
