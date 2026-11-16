@@ -28,6 +28,10 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
   const [muted, setMuted] = useState(true);
   const [veil, setVeil] = useState(false);
   const [reveal, setReveal] = useState(false);
+  /** the fade, hand-off and sound-fade timers, cancelled if the film unmounts before they run */
+  const timers = useRef<number[]>([]);
+  const fadeFrame = useRef(0);
+  useEffect(() => () => { timers.current.forEach((t) => window.clearTimeout(t)); cancelAnimationFrame(fadeFrame.current); }, []);
 
   const finish = useCallback(() => {
     if (finished.current) return;
@@ -39,19 +43,19 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
       const step = (now: number) => {
         const k = Math.max(0, 1 - (now - start) / 1400);
         v.volume = k;
-        if (k > 0) requestAnimationFrame(step);
+        if (k > 0) fadeFrame.current = requestAnimationFrame(step);
         else v.pause();
       };
-      requestAnimationFrame(step);
+      fadeFrame.current = requestAnimationFrame(step);
     } else v?.pause();
     setReveal(true);
     onReveal?.();
-    window.setTimeout(onDone, 2100);
+    timers.current.push(window.setTimeout(onDone, 2100));
   }, [onDone, onReveal]);
   const skip = useCallback(() => {
     if (finished.current) return;
     setVeil(true);
-    window.setTimeout(finish, 500);
+    timers.current.push(window.setTimeout(finish, 500));
   }, [finish]);
 
   useEffect(() => {

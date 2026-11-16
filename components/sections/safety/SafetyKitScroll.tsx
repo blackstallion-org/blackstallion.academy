@@ -3,14 +3,12 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { Label } from "@/components/film/Marks";
-import { asset } from "@/lib/content/asset";
 import { useNearViewport } from "@/lib/motion/use-near-viewport";
 
 /**
  * The riding kit on /safety, one piece at a time: as the page scrolls, each piece joins the scene and the camera turns to it,
  * and its details sit beside the model. The pieces already shown stay in the scene, dimmed, while the current one is lit.
  */
-const TACK_URL = asset("/models/tack-parts.glb");
 
 export const KIT_PARTS = [
   { node: "helmet", name: "Riding helmet", note: "A certified helmet is fastened before every mount. It guards the head in the fall that nobody plans for." },

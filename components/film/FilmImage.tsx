@@ -60,9 +60,12 @@ export function FilmImage({
   className,
   imgClassName,
 }: FilmImageProps) {
-  const [state, setState] = useState<"loading" | "ok" | "missing">("loading");
   const item = media[name];
   const src = mediaSrc(name);
+  // The file that failed, not a flag: a frame whose `name` changes (a slideshow, a tab) tries the new still instead of staying on
+  // the placeholder for good (17 Nov 2026 audit). next/image replays an error that happened before hydration, so none is lost.
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const missing = src !== null && failedSrc === src;
   const isLayer = blend === "screen";
   // Shipped stills have an AVIF copy at the same size (about a third of the bytes); browsers that cannot read it keep the WebP.
   // A `priority` still would preload its WebP while the picture loads the AVIF, so with a copy it is marked eager and high priority.
@@ -77,8 +80,7 @@ export function FilmImage({
       sizes={sizes}
       quality={95}
       {...hints}
-      onLoad={() => setState("ok")}
-      onError={() => setState("missing")}
+      onError={() => setFailedSrc(src)}
       className={cn(
         "object-cover transition-opacity duration-200 ease-out opacity-100",
         !isLayer && grades[grade],
@@ -94,7 +96,7 @@ export function FilmImage({
       className={cn("absolute inset-0 overflow-hidden", !isLayer && "film-placeholder", className)}
       style={{ opacity, clipPath, mixBlendMode: isLayer ? "screen" : undefined }}
     >
-      {src && state !== "missing" && (
+      {src && !missing && (
         <motion.div
           className={cn("absolute will-change-transform", bleed ? "-inset-[7%]" : "inset-0")}
           style={{ scale, y, x, filter }}

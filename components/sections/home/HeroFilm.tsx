@@ -86,9 +86,12 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     const failure = () => { failed.current = true; if (!disposed) setState("failed"); };
     // Source errors can happen before hydration and do not bubble from <source>.
     // Inspect the native state too, including the all-sources-failed browser case.
-    const mediaStarted = performance.now();
+    // The 12 s "no picture" limit counts from the first time the film is actually asked to play, not from mount: behind the
+    // 37.5 s opening film (or off screen, or with preload="metadata" on Safari) the file is not fetched, and the old clock
+    // marked a healthy film as failed before it was ever started (17 Nov 2026 audit).
+    let playRequested: number | null = null;
     const watchdog = window.setInterval(() => {
-      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (!preference.matches && !saveData && video.readyState < 2 && performance.now() - mediaStarted > 12000)) failure();
+      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (playRequested !== null && video.readyState < 2 && performance.now() - playRequested > 12000)) failure();
       if (video.readyState >= 2 || failed.current) window.clearInterval(watchdog);
     }, 200);
     // The film starts when the loader (and the opening zoom) has gone, so none of it plays unseen behind the overlay.
@@ -97,7 +100,11 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     const sync = () => {
       if (holding()) video.pause();
       else if (finished.current || document.hidden || !inView.current || userPaused.current || preference.matches || saveData) video.pause();
-      else { prime(); video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); }); }
+      else {
+        prime();
+        playRequested ??= performance.now();
+        video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); });
+      }
     };
     const observer = new IntersectionObserver(([entry]) => { inView.current = entry.isIntersecting; sync(); }, { threshold: 0.05 });
     observer.observe(video);
@@ -216,7 +223,12 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
       onLoadedMetadata={() => { const video = videoRef.current; if (video && finished.current) holdLastFrame(video); else if (video && !video.paused) prime(); updateProgress(); }}
       onPlaying={() => { failed.current = false; setHasFrame(true); setState("playing"); }} onPause={() => setState((previous) => previous === "skipped" || previous === "failed" || previous === "ended" ? previous : "paused")}
       onWaiting={() => setState((previous) => failed.current || previous === "failed" ? "failed" : "buffering")} onStalled={() => setState((previous) => previous === "playing" ? "buffering" : previous)} onEnded={onEnded}
-      onError={() => { failed.current = true; setState("failed"); }} onTimeUpdate={() => { updateProgress(); watchClose(); }} onProgress={updateProgress} onVolumeChange={(event) => setMuted(event.currentTarget.muted)}>
+      onError={(event) => {
+        // React also reports a skipped <source> (the phone cut on a desktop) as an error on the video: only a real media error,
+        // or every source refused, marks the film as failed (same guard as IntroFilm and JourneyFilm).
+        const video = event.currentTarget;
+        if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) { failed.current = true; setState("failed"); }
+      }} onTimeUpdate={() => { updateProgress(); watchClose(); }} onProgress={updateProgress} onVolumeChange={(event) => setMuted(event.currentTarget.muted)}>
       {/* No onError on <source>: a source whose media query does not match fires "error" when it is skipped, which
           wrongly marked the film as failed on wide screens. Real failures are caught by the video's own error
           event and by the NETWORK_NO_SOURCE watchdog above. */}
