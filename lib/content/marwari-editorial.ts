@@ -6,13 +6,13 @@ import { asset } from "./asset";
  * distributed by theme across ten pages, one composition per page (the /legend strip was removed on 14 Nov 2026 at the owner's request), no photograph used twice.
  *
  * Audit, by environment and subject:
- * - palaces, havelis and carved doors (Rajasthan architecture): home, schools, about
+ * - palaces, havelis and carved doors (Rajasthan architecture): home, about (the /schools arcade was removed on 16 Nov 2026;
+ *   its files stay because the home page's HomeThresholds still shows five of them)
  * - studio portraits on carpets and painted backdrops: fleet
  * - movement: gallop, trot, rearing in dust: science (the body at work), tournaments (speed)
  * - training ground, horses on the lead in fields: curriculum
  * - stable, tack and saddlery: safety
- * - quiet pairs, mare and foal, the elder and his horse: parents
- * - black-and-white head studies, the curved ears: why
+ * - quiet pairs, mare and foal, the elder and his horse: legend (moved from parents, 16 Nov 2026)
  * - adornment and the horsemen of Marwar: about
  * Left out: three collages, two screen captures with app icons, one exact duplicate, and frames already close to a chosen one.
  *
@@ -23,7 +23,7 @@ import { asset } from "./asset";
  */
 export type EditorialPhoto = { src: string; width: number; height: number; alt: string; title: string; note?: string; focus?: string };
 
-export type EditorialLayout = "folio" | "studbook" | "anatomy" | "ledger" | "band" | "cascade" | "pair" | "arcade" | "contact" | "plate";
+export type EditorialLayout = "folio" | "studbook" | "anatomy" | "ledger" | "band" | "cascade" | "pair" | "plate";
 
 export type EditorialGallery = {
   id: string;
@@ -158,7 +158,8 @@ export const editorialGalleries = {
     ],
     credit: PERMISSION,
   },
-  parents: {
+  /* Moved from /parents on 16 Nov 2026 (owner): breed storytelling belongs on the Marwari page, not the Guardian page. */
+  legend: {
     id: "quiet-pairs",
     layout: "pair",
     label: "Trust",
@@ -171,40 +172,6 @@ export const editorialGalleries = {
       f("parents-04", 1300, 1300, "An old friend", "An elderly man in a pink turban rests his cheek against his black Marwari."),
       f("parents-03-original", 896, 1300, "Stillness", "A white Marwari stands on rocks at the edge of a misty lake."),
       f("parents-05-original", 1269, 846, "Evening", "A Marwari stands still on open ground, the sun breaking behind its shoulder."),
-    ],
-    credit: PERMISSION,
-  },
-  schools: {
-    id: "heritage-arcade",
-    layout: "arcade",
-    label: "Heritage",
-    inscription: "Arches",
-    voice: "and open doors.",
-    lede: "The breed belongs to Rajasthan's courtyards and gateways. A school that brings it home brings that heritage with it.",
-    photos: [
-      f("schools-01", 922, 1152, "Indigo", "A dark Marwari in jewellery stands before a blue-painted carved doorway."),
-      f("schools-02-original", 1040, 1300, "Marble", "A chestnut Marwari with a blaze stands between white carved marble columns."),
-      f("schools-03-original", 1350, 1800, "The gateway", "A black Marwari stands at the top of steps in a carved sandstone gateway."),
-      f("schools-04-original", 895, 1300, "Painted haveli", "A black Marwari stands in the painted doorway of a haveli."),
-      f("schools-05-original", 913, 1300, "Bougainvillea", "A dark Marwari stands beneath bougainvillea at an old doorway."),
-      f("schools-06", 1350, 1800, "The steps", "A chestnut Marwari stands at the foot of white steps before a painted arch."),
-    ],
-    credit: `${PERMISSION} Including Ekaterina Druz.`,
-  },
-  why: {
-    id: "ears-contact",
-    layout: "contact",
-    label: "Attention",
-    inscription: "Ears that",
-    voice: "never stop listening.",
-    lede: "A Marwari's curved ears turn toward every sound. Riding asks a child for that same attention, with no screen to hide behind.",
-    photos: [
-      f("why-01", 1320, 1760, "Listening", "A black-and-white portrait of a Marwari head, ears curved to touch."),
-      f("why-02", 975, 1300, "White", "A black-and-white portrait of a white Marwari against black."),
-      f("why-03", 1320, 1760, "Alert", "A black-and-white portrait of a dark Marwari by a fence."),
-      f("why-04", 1350, 1800, "Grey", "A black-and-white portrait of a grey Marwari in a bridle before a building."),
-      f("why-05", 1066, 1421, "Forward", "A dark Marwari with a white blaze faces the camera, ears meeting at the tips."),
-      f("why-06", 1144, 1525, "Turned", "A dark Marwari with a white blaze on a lead turns toward a sound."),
     ],
     credit: PERMISSION,
   },

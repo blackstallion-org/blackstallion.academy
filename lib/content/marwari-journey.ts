@@ -268,9 +268,9 @@ export const SCENES: JourneyScene[] = [
     kicker: "The bards",
     title: "The oral histories of Marwar were sung, not written.",
     body: [
-      "Folklore is kept in a reel of its own, apart from this history and from the science: Kala, the hair whorls, the Nukra lineage and the Nachni heritage.",
+      "Folklore is kept in a reel of its own, apart from this history and from the science: Kaal the black horse, the hair whorls, the Nukra lineage and the horses born to dance.",
     ],
-    link: { href: "/lore", label: "Enter the lore of the bards" },
+    link: { href: "/journal", label: "Enter the traditional lore" },
     status: "folklore",
     alt: "A bard plays a string instrument by a campfire for a seated listener, a black horse standing behind them.",
     motion: { f: { x: [3, -3], y: [0, -2] }, fx: "embers" },

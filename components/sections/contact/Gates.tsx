@@ -8,7 +8,7 @@ import { ReelMark } from "@/components/film/Marks";
 import { LeadForm, type Field } from "@/components/sections/shared/LeadForm";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
-import { priceLabel } from "@/lib/content/pricing";
+import { inr, priceLabel, total } from "@/lib/content/pricing";
 import { network } from "@/lib/content/schools";
 
 /** Title card · T16 gate. Signature: two gate halves part to reveal the page. */
@@ -57,14 +57,13 @@ const gates: { id: GateId; title: string; header: string; sub: string; line: str
     header: "Enrol a Cadet",
     sub: "Sovereign Character Academy",
     line: "Cadet enrolment portal for parents and guardians.",
-    pricing: [`Core Cadets: ${priceLabel.core} per month`, `Sovereign Elite: ${priceLabel.elite} per month`, `One-Time Kit: ${priceLabel.kit}`],
+    pricing: [`Core Cadets: ${priceLabel.core} per month (${inr(total.monthly)})`, `Onboarding kit, paid once: ${priceLabel.kit} (${inr(total.kit)})`, `First month with kit: ${inr(total.firstMonth)}`],
     email: "parents@blackstallion.academy",
     submit: "SUBMIT CADET APPLICATION",
     fields: [
       { name: "name", label: "Parent / Guardian Name", required: true, autoComplete: "name" },
       { name: "student", label: "Student Name & Age", required: true, hint: "e.g. Aarav, 11" },
       { name: "zone", label: "Target Regional Zone", type: "select", groups: zoneGroups, required: true, wide: true },
-      { name: "tier", label: "Preferred Tier", type: "select", required: true, wide: true, options: [`Core Cadets · ${priceLabel.core} / month`, `Sovereign Elite · ${priceLabel.elite} / month`] },
       { name: "email", label: "Email", type: "email", autoComplete: "email", hint: "Email or phone required" },
       { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
       { name: "message", label: "Questions", type: "textarea" },
@@ -74,8 +73,8 @@ const gates: { id: GateId; title: string; header: string; sub: string; line: str
     id: "schools",
     title: "Partner your campus",
     header: "Partner Your Campus",
-    sub: "Zero CapEx Infrastructure",
-    line: "Campus partnership portal. Proposed model: BSAH funds, builds and operates; the school earns 25–30% under a signed agreement.",
+    sub: "Equestrian programme partnership",
+    line: "Campus partnership portal. Proposed model: the school finances and builds the arena; BSAH runs the programme; the school earns 25–30% under a signed agreement.",
     email: "boards@blackstallion.academy",
     submit: "REQUEST CAMPUS BLUEPRINT",
     fields: [

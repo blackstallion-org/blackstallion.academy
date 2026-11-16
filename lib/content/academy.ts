@@ -1,5 +1,5 @@
 import type { MediaKey } from "./media";
-import { price, priceLabel } from "./pricing";
+import { inr, price, priceLabel, total } from "./pricing";
 
 /** Reels 07–09 and the credits page. Blueprint Part 6 (R07 Cadets, R08 Parents, R09 Safety, About). */
 
@@ -49,9 +49,10 @@ export const uniform = [
   { item: "Insignia & accents", spec: "Gold embroidered chest crest and sleeve chevrons, with a braided shoulder cord on the ceremonial tunic. Black belt with a brass buckle for training." },
 ];
 
-export const reels: { title: string; who: string; image: MediaKey }[] = [
+/** `track: false` shows the photograph clean, without the posture-tracking overlay (owner, 16 Nov 2026: the tent-peg card). */
+export const reels: { title: string; who: string; image: MediaKey; track?: boolean }[] = [
   { title: "First canter", who: "Charlie, 13", image: "cadetRohan" },
-  { title: "First peg carried", who: "Alpha, 15", image: "currTentpeg" },
+  { title: "First peg carried", who: "Alpha, 15", image: "currTentpeg", track: false },
   { title: "Archery at the canter", who: "Bravo, 14", image: "currArchery" },
   { title: "Riding without reins", who: "Knight squad", image: "currFormation" },
 ];
@@ -59,7 +60,7 @@ export const reels: { title: string; who: string; image: MediaKey }[] = [
 /* ------------------------------------------------------------------ R08 · Parents */
 
 export const phoneSteps = [
-  { id: "cam", label: "Stall-cam", title: "Watch Chetak IX at night feed, live.", text: "Planned for the parent app (in development): a camera in every stall, so you can see your child's stallion rest, eat and sleep." },
+  { id: "log", label: "Session log", title: "Tuesday · 45 min · rising trot and two-point.", text: "Every session is written up the same day: what was ridden, what was learned, and any safety observation from the instructor." },
   { id: "gate", label: "Gate alert", title: "Bravo checked in at 15:52 · Zone 01A Hub.", text: "The moment the passport is scanned at the stable gate, you know your child has arrived." },
   { id: "reel", label: "Milestone reel", title: "Today: first canter without stirrups · 0:10.", text: "After each milestone, a ten-second reel lands on your phone, with a posture overlay." },
   { id: "passport", label: "Passport", title: "Cadet Rider · 24 hrs · next seal at 30 hrs.", text: "Rank, hours and the next seal, the same record a university can verify." },
@@ -75,19 +76,18 @@ export const admissions = [
 
 /** Institutional pricing (Master Refinement §9.1). GST added at billing. */
 export const fees = [
-  { item: "Core Cadets (monthly)", detail: `Two sessions a week · ${priceLabel.core.replace("+ GST", "+ 18% GST")}, billed monthly (online payment not yet live)`, amount: price.core },
-  { item: "Sovereign Elite (monthly)", detail: `Three sessions a week + skill-at-arms + STPCI registration + 24/7 stall-cam (planned) · ${priceLabel.elite.replace("+ GST", "+ 18% GST")}`, amount: price.elite },
-  { item: "Onboarding kit (one-time)", detail: `Bandhgala tunic, helmet, boots, handcrafted Sovereign Passport · ${priceLabel.kit}`, amount: price.kit },
+  { item: "Core Cadets (monthly)", detail: `Three sessions a week + skill-at-arms + STPCI registration · ${priceLabel.core.replace("+ GST", "+ 18% GST")} (${inr(total.monthly)}), billed monthly (online payment not yet live)`, amount: price.core },
+  { item: "Onboarding kit (one-time)", detail: `Bandhgala tunic, helmet, boots, handcrafted Sovereign Passport · ${priceLabel.kit.replace("+ GST", "+ 18% GST")} (${inr(total.kit)}), paid once`, amount: price.kit },
 ];
 
 export const faq = [
   { q: "What age can my child start?", a: "From 8, in the Junior batch. Everyone starts at Cadet Squire, on the ground. (Minimum age to be confirmed per hub.)" },
   { q: "Does my child need riding experience?", a: "No. Experience moves a cadet faster, never past the rules." },
-  { q: "Is it safe?", a: "Safety is the first promise: ex-cavalry instructors, a spotter on every mounted drill, certified helmets and vests, daily vet checks. Accident-insurance terms are being confirmed. See the Shield for the full protocol." },
+  { q: "Is it safe?", a: "Safety is the first promise: ex-cavalry instructors, a spotter on every mounted drill, certified helmets, daily vet checks. Accident-insurance terms are being confirmed. See the Shield for the full protocol." },
   { q: "Will it clash with school?", a: "Sessions run on your child's own campus, before or after school hours." },
-  { q: "What if my child falls?", a: "Falls are part of riding. Cadets wear certified helmets and vests, and learn how to fall before they canter. Accident-insurance terms are being confirmed and will be published." },
-  { q: "Can I watch?", a: "From the rail during sessions. A stall-cam in the parent app is planned." },
-  { q: "How do I pay?", a: "Monthly, with the onboarding kit paid once. Online payment (including UPI Autopay) is being set up; no payment is taken on this website yet." },
+  { q: "What if my child falls?", a: "Falls are part of riding. Cadets wear certified helmets and learn how to fall before they canter. Accident-insurance terms are being confirmed and will be published." },
+  { q: "Can I watch?", a: "From the rail during sessions. After every session, the BSAH app shares what was ridden and how your child is progressing, the same day." },
+  { q: "How do I pay?", a: `Monthly. Core Cadets is ${priceLabel.core.replace("+ GST", "+ 18% GST")} (${inr(total.monthly)}) a month; the onboarding kit is ${priceLabel.kit} (${inr(total.kit)}), paid once with the first month (${inr(total.firstMonth)} in all). Online payment (including UPI Autopay) is being set up; no payment is taken on this website yet.` },
   { q: "Can we pause?", a: "Yes, with 30 days' notice. (Sample policy; final terms at enrolment.)" },
 ];
 
@@ -96,8 +96,6 @@ export const faq = [
 export const kitLabels = [
   { n: "01", name: "Certified helmet", x: 30, y: 38 },
   { n: "02", name: "Riding gloves", x: 52, y: 62 },
-  { n: "03", name: "Body protector", x: 66, y: 36 },
-  { n: "04", name: "Leather chaps", x: 80, y: 66 },
 ];
 
 export const shields = [
@@ -114,7 +112,7 @@ export const orders = [
   "Horses are checked before cadets: hooves, temperature, tack.",
   "Heat protocol: sessions move to cooler hours; water every session.",
   "Every stallion gets rest days.",
-  "Incidents are logged the same day and reported to parents.",
+  "Every training session, safety observation, and cadet progress update is documented and shared with parents through the BSAH app on the same day.",
 ];
 
 /** SAMPLE until live data. */

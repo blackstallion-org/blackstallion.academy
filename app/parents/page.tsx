@@ -6,12 +6,11 @@ import { HoofPath, ParentsTitle, ParentVantageGallery, PinnedPhone, Receipt, Sta
 import { CadetAdmissionPortal } from "@/components/sections/parents/CadetAdmissionPortal";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
 import { ParentRingVisit } from "@/components/sections/campaign/CampaignSections";
-import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/parents" },
   title: "The Guardian",
-  description: "For parents: admissions in five steps, fees and answers, and the planned parent app (stall-cam, gate alerts, milestone reels).",
+  description: "For parents and guardians: the BSAH Guardian App (progress, attendance, milestones and same-day session notes), safety, fees and admissions in five steps.",
 };
 
 export default function ParentsPage() {
@@ -22,7 +21,6 @@ export default function ParentsPage() {
       <ParentVantageGallery />
       {/* 14 Nov 2026: parents at the riding ring (AI illustrations of the concept). */}
       <ParentRingVisit />
-      <EditorialGallery page="parents" />
       <MorningCurtain />
       <HoofPath />
       <Receipt />

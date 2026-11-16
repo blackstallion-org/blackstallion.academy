@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { ArrowUp, RotateCcw } from "lucide-react";
 import { answer, fallback, knowledge, type Entry } from "@/lib/content/command";
 import { cn } from "@/lib/utils";
-import { priceLabel } from "@/lib/content/pricing";
+import { inr, priceLabel, total } from "@/lib/content/pricing";
 import styles from "./Terminal.module.css";
 
 type Line = { who: "sys" | "you" | "ai"; text: string; entryId?: string };
@@ -149,7 +149,7 @@ export function Terminal({ chips, opening, tall = false, className, variant = "e
                   <span className={styles.deskSpeaker}>{line.who === "you" ? "You asked" : "The academy"}</span>
                   {line.entryId === "fees" && (
                     <dl className={styles.fees}>
-                      {[["Core Cadets", `${priceLabel.core} / month`], ["Sovereign Elite", `${priceLabel.elite} / month`], ["One-time kit", priceLabel.kit]].map(([label, amount]) => (
+                      {[["Core Cadets", `${priceLabel.core} / month (${inr(total.monthly)})`], ["Onboarding kit, once", `${priceLabel.kit} (${inr(total.kit)})`], ["First month with kit", inr(total.firstMonth)]].map(([label, amount]) => (
                         <div key={label}><dt>{label}</dt><dd>{amount}</dd></div>
                       ))}
                     </dl>

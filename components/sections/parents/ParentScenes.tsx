@@ -6,13 +6,13 @@ import { AnimatePresence, motion, useInView, useMotionValueEvent, useScroll, use
 import { useId, useRef, useState } from "react";
 import { FilmImage } from "@/components/film/FilmImage";
 import { Headline } from "@/components/film/Headline";
-import { Hoof, Label, ReelMark, StatusDot } from "@/components/film/Marks";
+import { Hoof, Label, StatusDot } from "@/components/film/Marks";
 import { PinnedScene } from "@/components/film/PinnedScene";
 import { r } from "@/components/film/range";
 import { admissions, faq, fees, phoneSteps } from "@/lib/content/academy";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
-import { inr, price, withGst } from "@/lib/content/pricing";
+import { inr, total } from "@/lib/content/pricing";
 import { CinematicStoryReel, type ReelSlide } from "@/components/film/CinematicStoryReel";
 
 
@@ -37,8 +37,8 @@ export function ParentsTitle() {
         
       </div>
     </div>
-<div className="tone-light editorial-details gutter"><ReelMark n={10} act="citadel" />
-<ScrollRevealText className="t-story mt-6 max-w-xl text-sand">You can&rsquo;t be in the arena every day. You can see everything that happens there.</ScrollRevealText></div>
+<div className="tone-light editorial-details gutter">
+<ScrollRevealText className="t-story max-w-xl text-sand">The BSAH Guardian App keeps you beside your child&rsquo;s training: progress, attendance, milestones and session notes, shared the same day, and a direct line to the academy.</ScrollRevealText></div>
 </section>
   );
 }
@@ -59,16 +59,24 @@ function PhoneDriver({ progress }: { progress: MotionValue<number> }) {
 }
 
 function Screen({ id }: { id: string }) {
-  if (id === "cam")
+  if (id === "log")
     return (
-      <div className="relative h-full">
-        <FilmImage name="fleetStallcam" grade="none" />
-        <div className="font-mono absolute inset-x-0 top-0 flex justify-between p-3 text-[0.6rem] text-[#D9D5CD]">
-          <span>CHETAK IX · STALL 3</span>
-          <span className="flex items-center gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#FFFFFF]" /> LIVE
-          </span>
+      <div className="flex h-full flex-col gap-3 p-4">
+        <p className="label text-dust">Today · session log</p>
+        <div className="rounded-2xl bg-umber p-4">
+          <p className="label text-brass">Tuesday · 45 min</p>
+          <p className="t-ui mt-1 text-sm text-bone">Rising trot, two-point, halts on the line</p>
+          <p className="t-ui mt-2 text-xs text-dust">Instructor: steady hands; heels down on the left rein.</p>
         </div>
+        <div className="rounded-2xl bg-umber/70 p-4">
+          <p className="label text-brass">Safety observation</p>
+          <p className="t-ui mt-1 text-xs text-sand">None recorded</p>
+        </div>
+        <div className="rounded-2xl bg-umber/50 p-4">
+          <p className="label text-brass">Attendance</p>
+          <p className="t-ui mt-1 text-xs text-sand">11 of 12 sessions this month</p>
+        </div>
+        <p className="font-mono mt-auto text-[0.55rem] tracking-[0.12em] text-dust">SAMPLE DATA</p>
       </div>
     );
   if (id === "gate")
@@ -162,13 +170,13 @@ export function ParentVantageGallery() {
       align: "left",
     },
     {
-      id: "stallcam",
-      imageKey: "fleetStallcam",
-      subtitle: "REEL 02 · PLANNED · 24/7 NIGHT-VISION",
-      titleLine1: "LIVE STALL",
-      titleLine2: "OPTICS",
-      alt: "Night-vision stall camera feed of Marwari resting in stall",
-      caption: "Planned for the parent app (in development): night-vision optics into the stall, with resting cycles, feed times and quiet nocturnal wellness.",
+      id: "instruction",
+      imageKey: "safetyInstructor",
+      subtitle: "REEL 02 · THE SESSION, WRITTEN UP",
+      titleLine1: "SAME-DAY",
+      titleLine2: "NOTES",
+      alt: "A former cavalry instructor fastening a cadet's helmet",
+      caption: "Every session, safety observation and progress note is documented by the instructor and shared with you in the BSAH app the same day.",
       align: "right",
     },
     {
@@ -194,11 +202,11 @@ export function ParentVantageGallery() {
     {
       id: "safety",
       imageKey: "safetyKit",
-      subtitle: "REEL 05 · CE LEVEL-2 TACK",
-      titleLine1: "MILITARY",
-      titleLine2: "SAFETY",
-      alt: "Riding helmet, gloves, vest and chaps on a wooden bench",
-      caption: "CE Level-2 body protectors, Kevlar-reinforced gloves, and custom-fitted helmets inspected before every mount.",
+      subtitle: "REEL 05 · KIT BEFORE THE SADDLE",
+      titleLine1: "HELMET",
+      titleLine2: "FIRST",
+      alt: "A riding helmet and leather riding gloves on a wooden bench under a lantern",
+      caption: "A certified, properly fitted helmet and riding gloves, checked by an instructor before every mount.",
       align: "left",
     },
   ];
@@ -266,14 +274,13 @@ export function HoofPath() {
 export function Receipt() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.3 });
-  const firstMonthCore = withGst(price.core + price.kit);
   return (
     <section id="fees" aria-labelledby="fees-h" className="relative overflow-hidden bg-umber/40 py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-center">
         <div>
           <Label>Fees</Label>
           <Headline id="fees-h" className="mt-4" inscription="Fees," voice="plainly." />
-          <p className="mt-6 max-w-sm text-sand">No hidden costs. Choose Core Cadets or Sovereign Elite; tuition is billed monthly and the onboarding kit is paid once. Online payment is being set up; no payment is taken on this website yet.</p>
+          <p className="mt-6 max-w-sm text-sand">No hidden costs. One plan, Core Cadets, billed monthly; the onboarding kit is paid once. Online payment is being set up; no payment is taken on this website yet.</p>
         </div>
         <div ref={ref} className="overflow-hidden">
           <motion.div
@@ -298,16 +305,12 @@ export function Receipt() {
             </ul>
             <div className="my-5 border-t border-dashed border-[#8a6a2c]/60" />
             <p className="font-mono flex justify-between text-sm font-semibold text-ink">
-              <span>First month · Core, with kit & GST</span>
-              <span>{inr(firstMonthCore)}</span>
+              <span>First month · with kit & 18% GST</span>
+              <span>{inr(total.firstMonth)}</span>
             </p>
             <p className="font-mono mt-2 flex justify-between text-sm text-ink">
-              <span>Each month after · Core</span>
-              <span>{inr(withGst(price.core))}</span>
-            </p>
-            <p className="font-mono mt-2 flex justify-between text-sm text-ink">
-              <span>Each month after · Sovereign Elite</span>
-              <span>{inr(withGst(price.elite))}</span>
+              <span>Each month after · with 18% GST</span>
+              <span>{inr(total.monthly)}</span>
             </p>
             <p className="font-mono mt-6 text-center text-[0.6rem] text-[#6b5130]">ONLINE PAYMENT NOT YET LIVE · NO PAYMENT IS TAKEN ON THIS SITE</p>
           </motion.div>

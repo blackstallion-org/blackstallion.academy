@@ -352,7 +352,7 @@ Every session evaluates three pillars:
 
 ### Daily Range Orders (Standing Protocols)
 1. *Helmet strapped on before passing the stable doorway.*
-2. *Body protector vests mandatory for jumping courses and lance runs.*
+2. *Vests for jumping and lance work.*
 3. *A spotter stationed on every mounted drill.*
 4. *Cadets are taught how to tuck and roll in a fall before learning to canter.*
 5. *Horses inspected before riders: hooves picked, temperature checked, girth examined.*

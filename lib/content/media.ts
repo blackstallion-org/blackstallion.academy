@@ -48,9 +48,10 @@ export const media = {
   bgArena: m("bg-arena.png", "hf_20261009_002435_e0aa5fef-e93d-4950-a155-e4c8a2883ae4.png", "An empty riding arena at dusk with tent-pegging pegs and a lance"),
   /* 2 Nov 2026 (R27): the European barn of non-Marwari horses was replaced by a Rajasthan stable row. */
   bgStable: m("stable-rajasthan.png", "hf_20261101_232018_8fe17b4f-b3cb-49a0-a0fa-4cd2bc445a25.png", "Black, bay and grey Marwari horses look out over the half-doors of a red sandstone stable row at dusk, lanterns lit", "35% 45%"),
-  bgPavilion: m("bg-pavilion.png", "hf_20261009_002640_8d4143ab-a4d7-479b-86d6-aaa3edfc9947.png", "A sandstone pavilion beside a riding arena at dusk"),
+  // 16 Nov 2026 image-only replacement (output/imagegen/school-campus-v2, indian-horsemanship): local files only, no CDN copy.
+  bgPavilion: m("bg-pavilion.png", null, "Families watch a riding lesson from a shaded pavilion beside a school arena", "40% 55%"),
   bgPassport: m("bg-passport.png", "hf_20261009_002640_5e132524-4ec5-4185-8dc4-76b49caab8e4.png", "A leather passport and a brass seal on dark wood"),
-  bgCharge: m("bg-charge.png", "hf_20261009_002640_5b5f28cc-654a-499d-8b0e-35093d96acb5.png", "Three riders charging with lances lowered through dust"),
+  bgCharge: m("bg-charge.png", null, "At the gallop a cadet lowers the lance to the peg, schoolchildren watching from a covered stand behind", "55% 12%"),
   dustPlume: m("dust-plume.png", "hf_20261009_002905_56886768-0acc-459c-ae40-a8356254a871.png", ""),
   dustWall: m("dust-wall.png", "hf_20261009_002905_226a4699-2319-45c7-ac8d-3d48708a5a42.png", ""),
 
@@ -71,7 +72,8 @@ export const media = {
   legendFall: m("legend-fall.png", "hf_20261009_134450_fded19b4-ef5f-47e2-ad72-61dfcc13a8d8.png", "A thin Marwari harnessed to a village cart, 1950s"),
   legendRevival: m("legend-revival.png", "hf_20261009_134452_071b671c-3a71-467c-b01b-41fdd53c797c.png", "A herd of Marwari horses galloping across Rajasthan at golden hour"),
   legendToday: m("legend-today.png", "hf_20261009_134451_6575fc93-f93a-4d03-91fc-2a48c3788c1e.png", "A young cadet touching the curled ear of a Marwari stallion at dawn"),
-  anatomyProfile: m("anatomy-profile.png", "hf_20261009_134210_77871ace-c329-40a8-947a-e2738b908277.png", "A dark bay Marwari stallion in full side profile on black, outlined in gold light", "50% 50%"),
+  /* 16 Nov 2026 (owner): the photorealistic black Marwari from the studio film replaces the dark bay plate (frame at 0.9 s, cropped to x 0–1680 to clear the generator mark). */
+  anatomyProfile: m("anatomy-black-stallion.webp", null, "A black Marwari stallion with a white blaze and white hind socks stands in side profile in a dark studio", "45% 50%"),
   scienceRider: m("science-rider.png", "hf_20261009_134843_2997d278-9f94-43e0-854d-6c3eb7a2a9dc.png", "A young rider at sitting trot with an upright, stacked spine"),
   whyCrisis: m("why-crisis.png", "hf_20261009_134843_16f45299-ccbc-40e7-96ca-4e98043950f5.png", "A boy hunched over a glowing phone in a dark room"),
   whyCure: m("why-cure.png", "hf_20261009_134844_7b2cb2d5-6500-480c-adde-9f8228400906.png", "A boy in cadet uniform sitting tall on a Marwari at golden hour", "32% 50%"),
@@ -91,16 +93,23 @@ export const media = {
   cadetAnanya: m("cadet-ananya.png", "hf_20261009_141028_766382f0-05ba-42d5-957b-b8622aa7aae8.png", "A teenage girl cadet holding a recurve bow", "50% 30%"),
   cadetRohan: m("cadet-rohan.png", "hf_20261009_141028_3f4df039-307f-4ce9-a666-0190a88bd61d.png", "A young cadet cantering a bay Marwari"),
   /* 14 Nov 2026 (owner): the instructor in the ring now wears the academy uniform; the campaign's ring-visit still replaces the old dusk rail. */
-  parentsRail: m("parents-rail-uniform.webp", null, "Parents at the arena rail watch their daughter, in the academy's navy riding uniform, ride a black horse while a uniformed instructor walks beside her", "40% 50%"),
-  safetyKit: m("safety-kit.png", "hf_20261009_141027_b1ce5c16-1801-4553-acc9-4f1ae667c666.png", "A riding helmet, gloves, vest and chaps on a wooden bench"),
+  parentsRail: m("parents-rail-uniform.webp", null, "Parents at the arena rail watch their daughter, in the academy's navy riding uniform, ride a black horse while a uniformed instructor walks beside her", "62% 50%"),
+  /* 16 Nov 2026 (owner's image): the brass stamp over the academy's leather-bound record; the words baked into the supplied
+     picture were removed so the live headline is the only text. */
+  verifySeal: m("verify-seal.webp", null, "A brass seal stamp lifts from a leather-bound book embossed with the Black Stallion Academy of Horsemanship crest", "60% 45%"),
+  /* 16 Nov 2026 (owner): the vest and chaps are cropped out; the academy does not promise body protectors or chaps. */
+  safetyKit: m("safety-helmet-gloves.webp", null, "A riding helmet and leather riding gloves on a wooden bench under a lantern", "40% 60%"),
   safetyInstructor: m("safety-instructor.png", "hf_20261009_141351_e69b0e16-1d9e-4dd5-85b0-15829cb72991.png", "A former cavalry instructor fastening a cadet's helmet"),
   safetyVet: m("safety-vet.png", "hf_20261009_141351_8460100f-8409-461f-83f6-b3cd555c58f1.png", "A veterinarian examining a Marwari's hoof"),
-  schoolAerial: m("school-aerial.png", "hf_20261009_141351_105fa634-2dcd-4313-902c-4720f60297d8.png", "Aerial view of a school campus with a new riding arena at dusk"),
-  schoolArenaNight: m("school-arena-night.png", "hf_20261009_141352_f3f0129a-4d73-4510-b78f-5eaef0041c8b.png", "A floodlit school riding arena at night"),
+  schoolAerial: m("school-aerial.png", null, "Aerial view of a school campus with a new riding arena at dusk"),
+  schoolArenaNight: m("school-arena-night.png", null, "Three cadets ride at a walk in a floodlit school arena at dusk while an instructor watches from the centre"),
+  schoolCircuitHub: m("school-circuit-hub.webp", null, "Aerial view of a school riding arena with a covered spectator stand, a warm-up track and horse trailers"),
+  schoolStables: m("school-stables.webp", null, "Horses look out over the half-doors of a stone and timber stable block on a school campus", "35% 50%"),
+  schoolTrainingGround: m("school-training-ground.webp", null, "A cadet rides a bay horse at a walk in a fenced sand arena beside a covered stand", "50% 55%"),
   tournCup: m("tourn-cup.png", "hf_20261009_141653_3ffd5740-6fa9-4d99-890c-edc64312a25c.png", "A silver and brass trophy with crossed lances beside gold medals"),
   /* 2 Nov 2026 (R17, R27): the Western crowd was replaced by Indian parents and schoolchildren at a school tent-pegging fixture. */
-  tournCrowd: m("tourn-crowd-india.png", "hf_20261101_232214_85ec01a0-1bf3-4848-b2e3-380b25a491b2.png", "A cadet gallops a bay Marwari down a tent-pegging lane, lance lowered, as Indian parents and schoolchildren cheer under a striped shamiana", "45% 45%"),
-  tournPodium: m("tourn-podium.png", "hf_20261009_141652_b40d5bb5-0add-4dbe-98fa-804b08055fa9.png", "Three cadets on a podium receiving medals"),
+  tournCrowd: m("tourn-crowd-india.png", null, "A cadet gallops a bay Marwari toward the peg, lance upright, past a covered stand of watching schoolchildren", "45% 45%"),
+  tournPodium: m("tourn-podium.png", null, "Three cadets in riding jackets and helmets receive medals on a low podium in a school arena"),
   journalReins: m("journal-reins.png", "hf_20261009_141653_ed15a453-da1c-4f1a-9507-25f09b028615.png", "Gloved hands holding leather reins lightly"),
   contactGate: m("contact-gate.png", "hf_20261009_142018_b4e92a4f-3602-4c04-85ce-1c80dfda6af5.png", "A studded Rajput fort gate at night between two lanterns"),
 
@@ -109,10 +118,10 @@ export const media = {
      Session 24 Oct 2026: peg-run stages and the academy day. CDN-only until localised: run
      `sh scripts/fetch-media.sh` on the Mac, convert to WebP (scripts/fetch-media.sh prints the command),
      then swap `cdnOnly(...)` for `m("<file>.png", ...)` so deployments ship the WebP copy. */
-  pegApproach: m("peg-approach.webp", "hf_20261023_203352_e8ba0198-d482-4933-a75b-6b1277dffe5f.png", "A cadet gallops a dark bay Marwari down the tent-pegging lane, lance upright, the peg far ahead"),
-  pegAlign: m("peg-align.webp", "hf_20261023_203028_a192fbb2-a4f6-4bcd-b77c-9c126cc488a4.png", "Cadets at the gallop lower their lances toward the peg", "55% 50%"),
+  pegApproach: m("peg-approach.webp", null, "A cadet gallops a black Marwari down the tent-pegging lane, lance upright, the peg ahead"),
+  pegAlign: m("peg-align.webp", null, "At the gallop, a cadet lowers the lance point to the peg", "55% 50%"),
   pegLift: m("peg-lift.webp", "hf_20261023_203028_999c71d9-6310-441e-8b1f-0612814875d5.png", "A lance point lifts a wooden peg out of the sand in a burst of dust"),
-  pegCarry: m("peg-carry.webp", "hf_20261023_203352_3ddac800-53eb-477e-b08b-e1e7de08d11f.png", "A cadet rides past the line with the peg carried high on the lance", "60% 50%"),
+  pegCarry: m("peg-carry.webp", null, "A cadet rides past the line with the peg carried high on the lance", "60% 50%"),
   dayTack: cdnOnly("hf_20261023_203352_a7760386-3847-4ed6-bc9f-3d7efe70d9da.png", "A girl cadet tightens the girth on a bay Marwari at dawn", "55% 40%"),
   dayWalk: cdnOnly("hf_20261023_203351_4fc9f9c0-0a42-440b-aa8b-4af5cc6777cc.png", "Cadets lead their horses along a sandy path to the arena in the early morning"),
   dayBrief: cdnOnly("hf_20261023_203029_e66b7be6-0324-4bc9-b409-5bc170280fea.png", "A former cavalry instructor points down the lane while cadets stand by their horses", "45% 40%"),

@@ -19,7 +19,7 @@ const u32 = (n) => [n & 255, (n >> 8) & 255, (n >> 16) & 255, (n >> 24) & 255];
 
 const GLB = "public/models/cadet-rider.glb";
 const AVIF = "public/media/bg-charge.avif";
-const MP4 = "public/video/footer-ambient-h264.mp4";
+const MP4 = "public/video/stallion-studio-mobile.mp4";
 const WEBM = "public/video/eye-intro-film.webm";
 
 // ------------------------------------------------------------------ what a file really is

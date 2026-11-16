@@ -51,7 +51,8 @@ const csp = [
   `connect-src 'self' blob: data: ${MEDIA.join(" ")} ${SPLINE.join(" ")} ${MAPTILER} https://challenges.cloudflare.com https://api.razorpay.com https://lumberjack.razorpay.com${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
   // Razorpay Checkout (the enrolment fee) loads its script from checkout.razorpay.com and opens its own frame.
-  "frame-src 'self' https://challenges.cloudflare.com https://api.razorpay.com https://checkout.razorpay.com",
+  // youtube-nocookie: the Marwari origins film on /legend, loaded only after the visitor presses play (16 Nov 2026).
+  "frame-src 'self' https://challenges.cloudflare.com https://api.razorpay.com https://checkout.razorpay.com https://www.youtube-nocookie.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -125,6 +126,9 @@ const nextConfig = {
       { source: "/mou-request", destination: "/schools/mou", permanent: true },
       { source: "/command-ai", destination: "/command", permanent: true },
       { source: "/pay", destination: "/parents#fees", permanent: false },
+      // 16 Nov 2026: the folklore page merged into The Traditional Lore; the pedagogy story left the lore.
+      { source: "/lore", destination: "/journal", permanent: true },
+      { source: "/journal/ten-grams-of-rein", destination: "/curriculum", permanent: true },
     ];
   },
 };

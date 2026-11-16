@@ -15,9 +15,7 @@ get dune-silhouette.png      "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32P
 get bg-fort.png              "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002435_531c9a37-9fa8-4152-ad47-e0d3d35105a4.png"
 get bg-arena.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002435_e0aa5fef-e93d-4950-a155-e4c8a2883ae4.png"
 get bg-stable.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002640_d9a4c4d4-d61a-4660-a63c-857a874f56aa.png"
-get bg-pavilion.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002640_8d4143ab-a4d7-479b-86d6-aaa3edfc9947.png"
 get bg-passport.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002640_5e132524-4ec5-4185-8dc4-76b49caab8e4.png"
-get bg-charge.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002640_5b5f28cc-654a-499d-8b0e-35093d96acb5.png"
 get dust-plume.png           "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002905_56886768-0acc-459c-ae40-a8356254a871.png"
 get dust-wall.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_002905_226a4699-2319-45c7-ac8d-3d48708a5a42.png"
 get legend-sand.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_133620_b9556c78-8c2d-482f-97cc-c5dc976e7787.png"
@@ -31,7 +29,6 @@ get legend-nachni.png        "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32P
 get legend-fall.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_134450_fded19b4-ef5f-47e2-ad72-61dfcc13a8d8.png"
 get legend-revival.png       "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_134452_071b671c-3a71-467c-b01b-41fdd53c797c.png"
 get legend-today.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_134451_6575fc93-f93a-4d03-91fc-2a48c3788c1e.png"
-get anatomy-profile.png      "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_134210_77871ace-c329-40a8-947a-e2738b908277.png"
 get science-rider.png        "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_134843_2997d278-9f94-43e0-854d-6c3eb7a2a9dc.png"
 get why-crisis.png           "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_134843_16f45299-ccbc-40e7-96ca-4e98043950f5.png"
 get why-cure.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_134844_7b2cb2d5-6500-480c-adde-9f8228400906.png"
@@ -51,23 +48,16 @@ get cadet-zayd.png           "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32P
 get cadet-ananya.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141028_766382f0-05ba-42d5-957b-b8622aa7aae8.png"
 get cadet-rohan.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141028_3f4df039-307f-4ce9-a666-0190a88bd61d.png"
 get parents-rail.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141028_a5ee9a0d-cae2-46a3-a5d5-f9de6fb56dde.png"
-get safety-kit.png           "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141027_b1ce5c16-1801-4553-acc9-4f1ae667c666.png"
 get safety-instructor.png    "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141351_e69b0e16-1d9e-4dd5-85b0-15829cb72991.png"
 get safety-vet.png           "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141351_8460100f-8409-461f-83f6-b3cd555c58f1.png"
-get school-aerial.png        "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141351_105fa634-2dcd-4313-902c-4720f60297d8.png"
-get school-arena-night.png   "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141352_f3f0129a-4d73-4510-b78f-5eaef0041c8b.png"
 get tourn-cup.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141653_3ffd5740-6fa9-4d99-890c-edc64312a25c.png"
 get tourn-crowd.png          "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261011_143142_68fdcc65-e301-4366-83a1-d74042dff88d.png"
-get tourn-podium.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141652_b40d5bb5-0add-4dbe-98fa-804b08055fa9.png"
 get journal-reins.png        "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_141653_ed15a453-da1c-4f1a-9507-25f09b028615.png"
 get contact-gate.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261009_142018_b4e92a4f-3602-4c04-85ce-1c80dfda6af5.png"
 get lore-kala.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261011_142335_cc424b5d-501a-4bc6-9af2-edce6dba169a.png"
 get lore-nukra.png           "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261011_142423_18de8c55-e9b9-4415-970e-a1d04f0176ce.png"
 # Session 24 Oct 2026 (peg run + academy day). Shipped WebP copies: see the loop at the end.
-get peg-approach.png         "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203352_e8ba0198-d482-4933-a75b-6b1277dffe5f.png"
-get peg-align.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203028_a192fbb2-a4f6-4bcd-b77c-9c126cc488a4.png"
 get peg-lift.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203028_999c71d9-6310-441e-8b1f-0612814875d5.png"
-get peg-carry.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203352_3ddac800-53eb-477e-b08b-e1e7de08d11f.png"
 get day-tack.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203352_a7760386-3847-4ed6-bc9f-3d7efe70d9da.png"
 get day-walk.png             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203351_4fc9f9c0-0a42-440b-aa8b-4af5cc6777cc.png"
 get day-brief.png            "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32PLtCsaNMEkJTP0HHT06X/hf_20261023_203029_e66b7be6-0324-4bc9-b409-5bc170280fea.png"
@@ -88,7 +78,7 @@ get hero-loop.mp4             "https://d8j0ntlcm91z4.cloudfront.net/user_3KHOl32
 echo "Done: $(ls -1 | grep -c -E '\.(png|mp4)$') files. Restart npm run dev if it is running."
 
 # WebP copies for deployment (PNG masters stay git-ignored). Needs cwebp (brew install webp) or Python Pillow.
-for f in peg-approach peg-align peg-lift peg-carry day-tack day-walk day-brief day-groom covenant-stillness covenant-eye covenant-touch covenant-profile bond-field-cadet hub-standard hub-signature hub-royal; do
+for f in peg-lift day-tack day-walk day-brief day-groom covenant-stillness covenant-eye covenant-touch covenant-profile bond-field-cadet hub-standard hub-signature hub-royal; do
   [ -s "$f.png" ] || continue; [ -s "$f.webp" ] && continue
   if command -v cwebp >/dev/null; then cwebp -quiet -q 82 -resize 2048 0 "$f.png" -o "$f.webp";
   else python3 -c "from PIL import Image;import sys;i=Image.open(sys.argv[1]).convert('RGB');i.thumbnail((2048,2048));i.save(sys.argv[2],'WEBP',quality=82)" "$f.png" "$f.webp"; fi

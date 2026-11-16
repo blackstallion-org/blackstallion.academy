@@ -4,7 +4,6 @@ import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
-import { EditorialImage } from "@/components/motion/EditorialMotion";
 import { FilmImage } from "@/components/film/FilmImage";
 import { EditorialHeadline as Headline } from "@/components/motion/EditorialMotion";
 import { ReelMark } from "@/components/film/Marks";
@@ -16,22 +15,38 @@ import { useReducedMotion } from "@/lib/motion/reduced";
 const catalogue: [string, string][] = [
   ["Plate", "02 · Marwari"],
   ["Species", "Equus ferus caballus"],
-  ["Subject", "Stallion · 15.2 hh"],
-  ["Coat", "Dark bay"],
+  ["Subject", "Stallion"],
+  ["Coat", "Black, white blaze"],
   ["Catalogue", "BSAH-0912"],
 ];
 
 /**
- * Title card · T3 specimen plate, laid out like a museum catalogue page: the title runs the full width,
- * the plate hangs beneath it (sized so title and plate share one screen) with its label card to the left.
+ * Title card · T3 specimen plate (rebuilt 16 Nov 2026, owner): the photorealistic black Marwari stands whole on its own
+ * studio backdrop, never cropped by the fixed bar. The plate box has the still's exact proportions (so nothing is cut) and sits
+ * below the 64/80 px nav; its side edges feather into a backdrop gradient sampled from the photograph. The title takes the
+ * empty studio to the right on wide screens and sits under the horse on phones. Catalogue lines follow on the page ground.
  */
 export function AnatomyTitle() {
+  const reduced = useReducedMotion();
   return (
     <section aria-labelledby="anatomy-h" className="editorial-scene">
-      <div className="tone-photo relative min-h-[90svh] overflow-hidden bg-night [--anatomy-focus:62%_50%] lg:[--anatomy-focus:50%_50%]">
-        <EditorialImage depth={false}><FilmImage name="anatomyProfile" priority sizes="100vw" position="var(--anatomy-focus)" grade="none" /></EditorialImage>
-        <div className="gutter relative z-10 flex min-h-[90svh] flex-col justify-end pb-12 pt-28">
-          <Headline id="anatomy-h" as="h1" size="1" technique="lines" className="max-w-[12ch]" inscription="The" voice="instrument." />
+      <div className="tone-photo relative overflow-hidden bg-night [background-image:radial-gradient(ellipse_78%_92%_at_36%_50%,color-mix(in_oklab,var(--color-ember)_86%,var(--color-copper)_14%)_0%,color-mix(in_oklab,var(--color-ember)_70%,var(--color-night))_45%,var(--color-night)_88%)]">
+        <div className="gutter grid min-h-[100svh] content-center items-center gap-8 pb-14 pt-24 md:pt-28 lg:grid-cols-12 lg:gap-6 lg:pb-16">
+          <motion.figure
+            className="relative mx-auto w-full lg:col-span-8 lg:max-w-[calc((100svh-9rem)*1680/1080)]"
+            initial={reduced ? false : { opacity: 0, scale: 1.015 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="relative aspect-[1680/1080] w-full [mask-composite:intersect] [mask-image:linear-gradient(90deg,transparent_0,black_8%,black_92%,transparent_100%),linear-gradient(180deg,transparent_0,black_2.5%,black_96.5%,transparent_100%)]">
+              <FilmImage name="anatomyProfile" priority sizes="(min-width: 1024px) 66vw, 100vw" grade="none" />
+            </div>
+          </motion.figure>
+          <div className="relative lg:col-span-4 lg:pl-4">
+            <p className="label text-brass">Plate 02 · The Marwari</p>
+            <Headline id="anatomy-h" as="h1" size="2" technique="lines" className="mt-5 whitespace-nowrap [&_.t-inscribe]:tracking-[0.32em]" inscription="The" voice="instrument." />
+            <p className="t-story mt-6 max-w-sm text-lg leading-relaxed text-sand">A black Marwari stallion, studied whole: the body a cadet learns to read.</p>
+          </div>
         </div>
       </div>
       <div className="tone-light editorial-details gutter">
@@ -43,7 +58,7 @@ export function AnatomyTitle() {
             <dd className="mt-2 text-base text-sand">{v}</dd>
           </div>)}
         </dl>
-        <p className="label text-dust">PLATE 02 · MARWARI · 15.2 HH</p>
+        <p className="label text-dust">PLATE 02 · MARWARI · BLACK STALLION</p>
       </div>
     </section>
   );

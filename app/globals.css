@@ -560,25 +560,26 @@
 }
 
 /*
- * The footer film is a full 16:9 frame: a stagecoach crosses a stone viaduct from the left edge to the right. It is shown
- * whole, edge to edge, and never cropped. The top ~38% of the frame is blank paper, so the footer text sits over that
- * (the negative margin is 30% of the frame height; percentages resolve against the width, and 56.25% of the width is the
- * frame height). The coach, the dust and the viaduct all stay clear of the text.
+ * The heritage band (16 Nov 2026) replaced the stone-bridge film. It sits on the footer's own ivory, so the page above runs
+ * straight into it; a brass hairline closes it. The ground is a soft shadow under the hooves so the cut-out stands, not floats.
  */
-.footer-meridian__video {
-  order: 2;
-  flex: none;
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  margin-top: -16.9%;
-  object-fit: contain;
-  mix-blend-mode: multiply;
+.footer-meridian__heritage {
+  order: 0;
   position: relative;
-  z-index: 0;
-  pointer-events: none;
-  user-select: none;
+  padding-top: clamp(3.5rem, 8vw, 7rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  border-bottom: 1px solid color-mix(in oklab, var(--color-brass) 35%, transparent);
+}
+
+.footer-meridian__ground {
+  position: absolute;
+  left: 12%;
+  right: 8%;
+  bottom: 1%;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--color-bone) 22%, transparent), transparent);
+  filter: blur(6px);
 }
 
 .footer-meridian__content {
@@ -2321,6 +2322,6 @@ html.theme-switching, html.theme-switching * {
   html.theme-switching, html.theme-switching * { transition: none !important; }
 }
 html[data-theme="dark"] :is(.bg-\[\#f3ede2\], .bg-\[\#f4eee3\]) { background-color: var(--color-night); }
-/* The footer film is ink drawn on paper (multiplied onto the cream); on the dark page it is inverted to light lines. */
-html[data-theme="dark"] .footer-meridian__video { filter: invert(1) hue-rotate(180deg); mix-blend-mode: screen; }
+/* On the dark page the black horse needs a little warm light behind it. */
+html[data-theme="dark"] .footer-meridian__heritage figure { background: radial-gradient(ellipse 60% 55% at 50% 55%, color-mix(in oklab, var(--color-gold) 16%, transparent), transparent 70%); }
 html[data-theme="dark"] .footer-meridian { border-top-color: var(--color-line); }

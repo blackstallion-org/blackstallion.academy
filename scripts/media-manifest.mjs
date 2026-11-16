@@ -17,6 +17,8 @@ export const manifestPath = path.join(here, "media-manifest.json");
 /** Names the code uses on purpose although no file exists in git. Anything else that is named but missing is an error. */
 export const KNOWN_ABSENT = {
   "/media/hero-loop.mp4": "heroVideo.file in lib/content/media.ts; no component uses it and .vercelignore keeps public/media/*.mp4 out of deployments",
+  "/video/lab/lab-behind.webp": "CAMERA_MEDIA.behind in lib/content/movement-lab.ts: reserved for the Behind view, which stays disabled (available: false) until the footage exists",
+  "/video/lab/lab-behind-mobile.webp": "CAMERA_MEDIA.behind in lib/content/movement-lab.ts: reserved for the Behind view, which stays disabled (available: false) until the footage exists",
 };
 
 const sha256 = (file) => createHash("sha256").update(readFileSync(file)).digest("hex");

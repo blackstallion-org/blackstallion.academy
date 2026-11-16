@@ -1,22 +1,15 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { HorseRiderStudy } from "./HorseRiderStudy";
 
 /**
- * "One conversation. Two bodies." — the single shared anatomy exhibit (homepage + /anatomy).
- * The light three.js exhibit lives in a same-origin iframe (public/anatomy/dual-body.html) so its
- * scripts and styles stay isolated from the site's animation and CSS systems. The frame reports its
- * content height; this wrapper tells it when it is on screen so it can stop rendering offscreen.
+ * "One conversation. Two bodies." — the shared horse-and-rider study (/anatomy, and SomaticMap if it returns).
+ * Since 16 Nov 2026 it is a native React exhibit (HorseRiderStudy: one static 2D plate in coat, muscle and skeleton
+ * views with points that open short notes), replacing the iframe to public/anatomy/dual-body.html. The name is kept so
+ * existing imports keep working.
  */
 export function DualBody() {
-  return (
-    <AnatomyFrame
-      src="/anatomy/dual-body.html"
-      id="horse-rider-study"
-      label="One conversation. Two bodies."
-      title="One conversation. Two bodies. Interactive Marwari horse and cadet rider anatomy"
-      className="relative bg-umber pt-24 md:pt-28"
-    />
-  );
+  return <HorseRiderStudy />;
 }
 
 /**

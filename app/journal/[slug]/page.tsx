@@ -38,7 +38,7 @@ export default async function PostPage({ params }: PageProps<"/journal/[slug]">)
         <div aria-hidden className="absolute inset-0 shade-b" />
         <div className="gutter relative flex min-h-[88svh] flex-col justify-end pb-14">
           <Link href="/journal" className="label text-sand hover:text-gold">
-            ← The Chronicle
+            ← The Traditional Lore
           </Link>
 
           <h1 className="mt-4 max-w-5xl text-display-1">

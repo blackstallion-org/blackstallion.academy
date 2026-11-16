@@ -16,7 +16,7 @@ const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
  * TrainerUniformGallery): label, two-voice headline and lede on the page ground, figures with a serif italic caption, one
  * attribution line at the foot. Each page gets its own composition (`layout` in lib/content/marwari-editorial.ts) so no two
  * galleries repeat. Photographs keep their natural proportions except where a composition frames them on purpose (the
- * arcade's arches, the contact sheet, the speed band). Figures rise in as they enter; reduced motion shows them still.
+ * speed band). Figures rise in as they enter; reduced motion shows them still.
  */
 export function EditorialGallery({ page, className }: { page: EditorialPage; className?: string }) {
   const g = editorialGalleries[page];
@@ -133,7 +133,7 @@ function compose(layout: string, photos: EditorialPhoto[]): ReactNode {
       );
     }
     case "pair":
-      // parents: two pictures that belong together, then three quieter ones
+      // legend: two pictures that belong together, then three quieter ones
       return (
         <div className="grid gap-x-6 gap-y-12 md:grid-cols-12">
           {fig(0, "md:col-span-5", "(min-width: 768px) 42vw, 100vw")}
@@ -141,24 +141,6 @@ function compose(layout: string, photos: EditorialPhoto[]): ReactNode {
           {fig(2, "md:col-span-4 md:col-start-2", "(min-width: 768px) 33vw, 100vw")}
           {fig(3, "md:col-span-3 md:mt-20", "(min-width: 768px) 25vw, 100vw")}
           {fig(4, "md:col-span-4 md:self-center", "(min-width: 768px) 33vw, 100vw")}
-        </div>
-      );
-    case "arcade":
-      // schools: a colonnade of arches, every other one set lower
-      return (
-        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 lg:grid-cols-6">
-          {photos.map((p, i) => (
-            <Figure key={p.src} photo={p} n={i} frame="arch" sizes="(min-width: 1024px) 16vw, (min-width: 768px) 31vw, 46vw" className={cn(i % 2 === 1 && "mt-10 lg:mt-16")} />
-          ))}
-        </div>
-      );
-    case "contact":
-      // why: a contact sheet of heads, in black and white; colour returns on hover
-      return (
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-          {photos.map((p, i) => (
-            <Figure key={p.src} photo={p} n={i} frame="contact" sizes="(min-width: 768px) 31vw, 46vw" />
-          ))}
         </div>
       );
     case "plate":
@@ -176,7 +158,7 @@ function compose(layout: string, photos: EditorialPhoto[]): ReactNode {
   }
 }
 
-type Frame = "band" | "arch" | "contact";
+type Frame = "band";
 
 function Figure({ photo, n, className, sizes, frame }: { photo: EditorialPhoto; n: number; className?: string; sizes: string; frame?: Frame }) {
   const reduced = useReducedMotion();
@@ -190,16 +172,15 @@ function Figure({ photo, n, className, sizes, frame }: { photo: EditorialPhoto; 
   };
 
   let picture: ReactNode;
-  if (frame === "band" || frame === "arch" || frame === "contact") {
-    const shape = frame === "band" ? "aspect-[4/3] md:aspect-[21/9]" : frame === "arch" ? "aspect-[3/4] rounded-t-[999px]" : "aspect-[3/4]";
+  if (frame === "band") {
     picture = (
-      <div className={cn("relative overflow-hidden bg-umber", shape)}>
+      <div className="relative aspect-[4/3] overflow-hidden bg-umber md:aspect-[21/9]">
         <Image
           src={photo.src}
           alt={photo.alt}
           fill
           sizes={sizes}
-          className={cn("object-cover transition-[filter,transform] duration-700", frame === "contact" && "grayscale group-hover:grayscale-0", frame !== "band" && "group-hover:scale-[1.03]")}
+          className="object-cover transition-[filter,transform] duration-700"
           style={{ objectPosition: photo.focus ?? "50% 45%" }}
         />
       </div>

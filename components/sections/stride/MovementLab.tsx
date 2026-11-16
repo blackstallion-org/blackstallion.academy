@@ -1,53 +1,61 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Pause, Play, SlidersHorizontal } from "lucide-react";
 import { Headline } from "@/components/film/Headline";
 import {
-  LAB_CAVEAT, LAB_FILM as FILM, LAB_LANDINGS, LAB_LANDMARKS as L, LAB_PARTS, LAB_PLANTED, LAB_STANCE, LAB_TABLE, LAB_TEMPO,
-  type PartId,
+  CAMERA_MEDIA, CAMERA_ORDER, LAB_CAVEAT, LAB_CONTACT, LAB_FILM as FILM, LAB_JOINT_NOTE, LAB_LANDINGS, LAB_LANDMARKS as L, LAB_PARTS,
+  LAB_STANCE, LAB_STRIDES_PER_MIN, LAB_SUPPORT, LAB_TABLE, LAB_TEMPO,
+  type Camera, type PartId,
 } from "@/lib/content/movement-lab";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { cn } from "@/lib/utils";
 
 type Show = "both" | "horse" | "rider" | "skeleton";
-type Camera = "side" | "three-quarter" | "behind" | "front" | "above";
 type Hoof = keyof typeof LAB_STANCE;
+type Option<T extends string> = { id: T; label: string; disabled?: boolean; note?: string };
 
-const SHOWS: { id: Show; label: string }[] = [
+const SHOWS: Option<Show>[] = [
   { id: "both", label: "Horse and rider" }, { id: "horse", label: "Horse" }, { id: "rider", label: "Rider" }, { id: "skeleton", label: "Skeleton" },
 ];
-const CAMERAS: { id: Camera; label: string }[] = [
-  { id: "side", label: "Side" }, { id: "three-quarter", label: "Three-quarter" }, { id: "behind", label: "Behind" }, { id: "front", label: "Front" }, { id: "above", label: "Above" },
-];
+const CAMERAS: Option<Camera>[] = CAMERA_ORDER.map((id) => ({
+  id, label: CAMERA_MEDIA[id].label, disabled: !CAMERA_MEDIA[id].available, note: CAMERA_MEDIA[id].pendingNote,
+}));
 const SPEEDS = [0.25, 0.5, 1] as const;
-const STEPS = 24; // frame steps per stride
-const REF_PHASE = 0.48; // the canonical pose: elbow 102°, knee 108°
+const REF_PHASE = 0.5; // the held pose: half a stride, as the right hind lands (by the stride convention)
 const TAU = Math.PI * 2;
+const FADE = "transition-opacity duration-[400ms] ease-out motion-reduce:transition-none";
 
 const RING = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 const KICKER = "label flex items-center justify-between gap-3 border-b border-line pb-2 text-[0.68rem] text-brass";
 
-/** Where the film is in the stride, 0..1. */
-function phaseOf(v: HTMLVideoElement | null) {
+/** Where the side film is in its stride, 0..1: the film's own clock over its measured period (the one measured quantity). */
+function phaseOf(v: HTMLVideoElement | null | undefined) {
   return v ? (((v.currentTime % FILM.period) + FILM.period) % FILM.period) / FILM.period : REF_PHASE;
 }
 
-/** The model's numbers at a point in the stride (phase 0..1); the reference pose is exact. */
-function bio(phase: number, locked: boolean) {
-  if (locked) return { elbow: 102, knee: 108, pitch: "+1.18", lat: "+3.0", frame: 12, hooves: "2 hooves down: LH LF" };
-  const norm = (1 - Math.cos((phase - REF_PHASE) * TAU)) / 2;
-  const pitch = Math.sin(phase * TAU * 2) * 1.23;
-  const lat = Math.cos((phase - REF_PHASE) * TAU) * 3;
+/** A hoof in its own cycle: in stance (k 0..1 from landing to lift-off) or in the swing (k 0..1 from lift-off to landing). */
+function limb(h: Hoof, phase: number) {
+  const { on, off } = LAB_CONTACT[h];
+  const stanceLen = (((off - on) % 1) + 1) % 1;
+  const t = (((phase - on) % 1) + 1) % 1;
+  return t < stanceLen ? { stance: true, k: t / stanceLen } : { stance: false, k: (t - stanceLen) / (1 - stanceLen) };
+}
+
+/** The limb's angle from vertical (radians; + = back): it sweeps back while the hoof is planted and swings forward in the air. */
+function limbAngle(h: Hoof, phase: number, amp: number) {
+  const { stance, k } = limb(h, phase);
+  return stance ? amp * (2 * k - 1) : amp * Math.cos(k * Math.PI);
+}
+
+/**
+ * The educational simulation at a point in the stride (phase 0..1), from the typical walk (LAB_STANCE): which hooves are down,
+ * and how far the near foreleg's elbow and carpus are folded (0 straight under load .. 1 mid-swing). Nothing here is measured.
+ */
+function sim(phase: number) {
   const hooves = (Object.keys(LAB_STANCE) as Hoof[]).filter((h) => stance(h, phase) > 0);
-  return {
-    elbow: Math.round(102 + norm * 35),
-    knee: Math.round(108 + norm * 72),
-    pitch: `${pitch >= 0 ? "+" : ""}${pitch.toFixed(2)}`,
-    lat: `${lat >= 0 ? "+" : ""}${lat.toFixed(1)}`,
-    frame: Math.min(STEPS, Math.floor(phase * STEPS) + 1),
-    hooves: `${hooves.length} hooves down: ${hooves.join(" ")}`,
-  };
+  const lf = limb("LF", phase);
+  return { hooves, fold: lf.stance ? 0 : Math.sin(lf.k * Math.PI) };
 }
 
 /** 0 when the hoof is in the air, rising to 1 mid-stance (for the ripple's strength). */
@@ -59,15 +67,17 @@ function stance(hoof: Hoof, phase: number) {
 }
 
 /**
- * The Movement Laboratory: the owner's film of a horse and rider walking, in the middle, with the stride drawn over it (the spine's
- * wave, the rider's seat, the forelimb pendulum and its joint angles, hoof-contact ripples, six numbered parts) and the controls and
- * figures around it. The overlay reads the film's own clock, so play, pause, speed, frame steps and the timeline all move both.
- * Reduced motion: the film waits on its first frame until the visitor presses play; the overlay is drawn, still.
+ * The Movement Laboratory: five camera views of a horse and rider walking (side, three-quarter, behind, front, above), the stride
+ * drawn over the side film (the topline's wave, the rider's seat, the limb pendulums, hoof-contact ripples, six numbered parts),
+ * and the controls and figures around it. Only the stride period is measured from the film; the drawing is an educational
+ * simulation timed to it, the footfall timing is the typical walk, and the figures beneath are published findings (sources in
+ * lib/content/movement-lab.ts and docs/BIOMECHANICS_AUDIT.md). Switching views crossfades in 400 ms (instantly under reduced
+ * motion). Reduced motion: no film plays until the visitor presses play; the posters show.
  */
 export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   const reduced = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videos = useRef<Partial<Record<Camera, HTMLVideoElement | null>>>({});
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
@@ -77,38 +87,44 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   const [show, setShow] = useState<Show>("both");
   const [camera, setCamera] = useState<Camera>("side");
   const [part, setPart] = useState<PartId>("03");
-  const [yaw, setYaw] = useState(0);
+  const [hint, setHint] = useState<Camera | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuFit, setMenuFit] = useState({ up: true, max: 480 });
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const hintTimer = useRef<number | undefined>(undefined);
   const userPaused = useRef(false);
+  const inView = useRef(false);
   const state = useRef({ locked, show, camera, part });
   useEffect(() => { state.current = { locked, show, camera, part }; }, [locked, show, camera, part]);
 
   const seekPhase = useCallback((phase: number) => {
-    const v = videoRef.current;
+    const v = videos.current.side;
     if (!v) return;
     const base = Math.floor(v.currentTime / FILM.period) * FILM.period;
     const duration = Number.isFinite(v.duration) ? v.duration : 6 * FILM.period;
     v.currentTime = Math.min(duration - 0.01, base + Math.min(0.999, Math.max(0, phase)) * FILM.period);
   }, []);
 
-  // autoplay while on screen (not under reduced motion, not after the visitor paused)
+  // the view's film plays while on screen (not under reduced motion, not after the visitor paused); every film pauses off screen
   useEffect(() => {
-    const v = videoRef.current;
     const section = sectionRef.current;
-    if (!v || !section) return;
+    if (!section) return;
     const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !reduced && !userPaused.current && !state.current.locked) v.play().catch(() => {});
-      else if (!e.isIntersecting) v.pause();
+      inView.current = e.isIntersecting;
+      const v = videos.current[state.current.camera];
+      if (e.isIntersecting && v && !reduced && !userPaused.current && !state.current.locked) v.play().catch(() => {});
+      else if (!e.isIntersecting) Object.values(videos.current).forEach((x) => x?.pause());
     }, { threshold: 0.2 });
     io.observe(section);
     return () => io.disconnect();
   }, [reduced]);
-  useEffect(() => { if (videoRef.current) videoRef.current.playbackRate = speed; }, [speed]);
+  // a film that loads later resets its rate to the default, so both are set
+  useEffect(() => {
+    Object.values(videos.current).forEach((v) => { if (v) { v.defaultPlaybackRate = speed; v.playbackRate = speed; } });
+  }, [speed]);
 
-  // the overlay and every live number, once a frame while the section is on screen
+  // the overlay and every live readout, once a frame while the section is on screen
   useEffect(() => {
     const canvas = canvasRef.current;
     const section = sectionRef.current;
@@ -135,7 +151,7 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
     ro.observe(canvas);
     size();
 
-    // every live readout, collected once (they are plain DOM nodes; React renders them once and leaves them alone)
+    // every live readout, collected once (plain DOM nodes; React renders them once and leaves them alone)
     const out: Record<string, Element | undefined> = {};
     section.querySelectorAll("[data-lab]").forEach((el) => { out[el.getAttribute("data-lab") ?? ""] = el; });
     const text = (key: string, value: string) => { const el = out[key]; if (el && el.textContent !== value) el.textContent = value; };
@@ -143,34 +159,36 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
     const frame = () => {
       raf = visible ? requestAnimationFrame(frame) : 0;
       const { locked: lock, show: mode, camera: cam, part: active } = state.current;
-      const phase = lock ? REF_PHASE : phaseOf(videoRef.current);
-      const b = bio(phase, lock);
 
-      // live numbers (the DOM, not React state: no re-render each frame)
-      text("frame", `Frame ${b.frame} of ${STEPS} · ${b.hooves}`);
-      text("elbow", `${b.elbow}°`); text("knee", `${b.knee}°`); text("pitch", `${b.pitch}°`); text("lat", `${b.lat} mm`);
-      text("cardElbow", `${b.elbow}°`); text("cardKnee", `${b.knee}°`); text("svgElbow", `${b.elbow}°`); text("svgKnee", `${b.knee}°`);
+      // the stride clock and footfall timeline belong to the side film; the other views are separate footage
+      if (cam !== "side") {
+        text("pct", CAMERA_MEDIA[cam].kind === "video" ? "Looping footage" : "Still photograph");
+        text("support", "The stride timeline follows the side film.");
+        return;
+      }
+      const phase = lock ? REF_PHASE : phaseOf(videos.current.side);
+      const b = sim(phase);
+
+      // live readouts (the DOM, not React state: no re-render each frame)
       const pct = Math.round(phase * 100);
       text("pct", `${pct}% of the stride`);
+      text("support", `Typical walk: ${b.hooves.length} hooves down · ${b.hooves.join(" ")}`);
       const slider = out.slider as HTMLInputElement | null;
       if (slider && document.activeElement !== slider) { slider.value = String(phase * 100); slider.setAttribute("aria-valuetext", `${pct}% of the stride`); }
       const playhead = out.playhead as HTMLElement | null;
       if (playhead) playhead.style.left = `${phase * 100}%`;
-      const en = (b.elbow - 102) / 35;
-      out.svgElbowLine?.setAttribute("x2", (105 - en * 16).toFixed(1)); out.svgElbowLine?.setAttribute("y2", (54 + en * 22).toFixed(1));
-      out.svgElbowTip?.setAttribute("cx", (105 - en * 16).toFixed(1)); out.svgElbowTip?.setAttribute("cy", (54 + en * 22).toFixed(1));
-      const kn = (b.knee - 108) / 72;
-      out.svgKneeLine?.setAttribute("x2", (64 + kn * 50).toFixed(1)); out.svgKneeLine?.setAttribute("y2", (73 - kn * 28).toFixed(1));
-      out.svgKneeTip?.setAttribute("cx", (64 + kn * 50).toFixed(1)); out.svgKneeTip?.setAttribute("cy", (73 - kn * 28).toFixed(1));
+      const open = 1 - b.fold; // the joint diagrams: 1 straight, 0 folded
+      out.svgElbowLine?.setAttribute("x2", (105 - open * 16).toFixed(1)); out.svgElbowLine?.setAttribute("y2", (54 + open * 22).toFixed(1));
+      out.svgElbowTip?.setAttribute("cx", (105 - open * 16).toFixed(1)); out.svgElbowTip?.setAttribute("cy", (54 + open * 22).toFixed(1));
+      out.svgKneeLine?.setAttribute("x2", (64 + open * 50).toFixed(1)); out.svgKneeLine?.setAttribute("y2", (73 - open * 28).toFixed(1));
+      out.svgKneeTip?.setAttribute("cx", (64 + open * 50).toFixed(1)); out.svgKneeTip?.setAttribute("cy", (73 - open * 28).toFixed(1));
 
-      // the overlay, in film pixels
+      // the overlay, in film pixels (an educational simulation: drawn at the landmarks, timed to the measured stride, not tracked)
       const s = canvas.width / FILM.width;
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.setTransform(s, 0, 0, s, 0, 0);
       ctx.lineCap = "round"; ctx.lineJoin = "round";
-
-      if (cam === "behind" || cam === "front" || cam === "above") { drawSchematic(ctx, cam, phase, C, mono); return; }
 
       // show modes: spotlights over the film
       if (mode === "horse") {
@@ -186,22 +204,23 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
         }
       }
       const strong = mode === "skeleton";
-      const bob = lock ? 0 : Math.sin(phase * TAU * 2) * 4;
+      // the trunk rises and falls twice a stride at the walk (Faber et al. 2000); the amplitude is a drawing value
+      const bob = Math.sin(phase * TAU * 2) * 4;
 
-      // 1 · the spine's wave: croup → back → withers → crest → poll, riding up and down twice a stride
+      // 1 · the topline: tail head → croup → loin → over the saddle → withers → crest → poll
       ctx.save();
       ctx.shadowColor = C.gold; ctx.shadowBlur = 14;
       ctx.strokeStyle = active === "01" ? C.bone : C.gold; ctx.lineWidth = (active === "01" || strong ? 5 : 3.4) * C.u;
-      ctx.beginPath();
-      ctx.moveTo(L.croup.x, L.croup.y + bob);
-      ctx.bezierCurveTo(680, 380 + bob, 880, 410 + bob, L.withers.x, L.withers.y + bob);
-      ctx.bezierCurveTo(1160, 320 + bob, 1200, 268 + bob, L.poll.x, L.poll.y + bob);
+      const P = L.topline;
+      ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1] + bob);
+      for (let i = 1; i < P.length - 1; i++) ctx.quadraticCurveTo(P[i][0], P[i][1] + bob, (P[i][0] + P[i + 1][0]) / 2, (P[i][1] + P[i + 1][1]) / 2 + bob);
+      ctx.lineTo(P[P.length - 1][0], P[P.length - 1][1] + bob);
       ctx.stroke();
       ctx.shadowBlur = 0; ctx.fillStyle = C.gold;
-      [[640, 410], [700, 396], [760, 392], [830, 398], [900, 402], [980, 392], [1040, 372], [1120, 330], [1190, 280], [1260, 232]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(x, y + bob, 4.5 * C.u, 0, TAU); ctx.fill(); });
+      P.forEach(([x, y], i) => { if (i % 2 === 0) { ctx.beginPath(); ctx.arc(x, y + bob, 4.5 * C.u, 0, TAU); ctx.fill(); } });
       ctx.restore();
 
-      // 2 · the rider's seat: a phase-lagged trace through the pelvis
+      // 2 · the rider's seat: a trace through the pelvis, two rises a stride
       if (mode !== "horse") {
         ctx.save();
         ctx.strokeStyle = active === "05" ? C.bone : C.copper; ctx.lineWidth = (active === "05" ? 4.5 : 3) * C.u;
@@ -211,7 +230,7 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
           if (dx === -120) ctx.moveTo(L.riderPelvis.x + dx, y); else ctx.lineTo(L.riderPelvis.x + dx, y);
         }
         ctx.stroke();
-        // posture line: head, shoulder, pelvis, knee, heel
+        // posture line: head, shoulder, pelvis, knee, heel (shoulder, hip and heel stack in this film)
         ctx.setLineDash(strong ? [] : [8, 8]); ctx.strokeStyle = C.bone; ctx.globalAlpha = strong ? 0.9 : 0.5; ctx.lineWidth = (strong ? 3.4 : 2.2) * C.u;
         ctx.beginPath();
         ctx.moveTo(L.riderHead.x, L.riderHead.y); ctx.lineTo(L.riderShoulder.x, L.riderShoulder.y); ctx.lineTo(L.riderPelvis.x, L.riderPelvis.y);
@@ -219,34 +238,29 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
         ctx.stroke(); ctx.restore();
       }
 
-      // 3 · hindquarters: croup → hip, and the hind leg's pendulum under the hip
+      // 3 · pelvis and hindquarters: croup → hip, and the near hind's pendulum (back while planted, forward in the swing)
       ctx.save();
-      ctx.strokeStyle = C.gold; ctx.globalAlpha = active === "04" || strong ? 0.95 : 0.6; ctx.lineWidth = (active === "04" || strong ? 3.6 : 2.4) * C.u;
+      const hind = active === "02" || active === "04" || strong;
+      ctx.strokeStyle = C.gold; ctx.globalAlpha = hind ? 0.95 : 0.6; ctx.lineWidth = (hind ? 3.6 : 2.4) * C.u;
       ctx.setLineDash(strong ? [] : [8, 8]);
       ctx.beginPath(); ctx.moveTo(L.croup.x, L.croup.y + bob); ctx.lineTo(L.hip.x, L.hip.y); ctx.stroke();
-      pendulum(ctx, L.hip.x, L.hip.y, 330, Math.sin(phase * TAU) * 0.32, C, false);
+      pendulum(ctx, L.hip.x, L.hip.y, 440, limbAngle("LH", phase, 0.26), C);
       ctx.restore();
 
-      // 4 · the forelimb from the shoulder: withers → shoulder point → elbow, the goniometer, the pendulum to the hoof
+      // 4 · the forelimb from the shoulder: withers → shoulder → elbow, an arc at the elbow, and the near fore folding at the carpus
       ctx.save();
       const hot = active === "03" || strong;
       ctx.shadowColor = C.gold; ctx.shadowBlur = hot ? 12 : 4;
       ctx.strokeStyle = C.gold; ctx.lineWidth = (hot ? 5 : 3.2) * C.u;
       ctx.beginPath(); ctx.moveTo(L.withers.x, L.withers.y + bob); ctx.lineTo(L.shoulder.x, L.shoulder.y); ctx.lineTo(L.elbow.x, L.elbow.y); ctx.stroke();
       ctx.shadowBlur = 0;
-      ctx.strokeStyle = C.copper; ctx.lineWidth = (3.4) * C.u;
-      ctx.beginPath(); ctx.arc(L.elbow.x, L.elbow.y, 40, -1.9, -1.9 + (b.elbow / 180) * Math.PI); ctx.stroke();
-      const swing = lock ? 0 : Math.sin((phase - REF_PHASE) * TAU) * 0.3;
-      const tip = pendulum(ctx, L.elbow.x, L.elbow.y, 300, swing, C, true);
-      [L.shoulder, L.elbow, L.hip].forEach((p) => { ctx.fillStyle = C.night; ctx.beginPath(); ctx.arc(p.x, p.y, 8 * C.u, 0, TAU); ctx.fill(); ctx.strokeStyle = C.gold; ctx.lineWidth = (3) * C.u; ctx.stroke(); });
-      // the angle tags need room: on a small stage the numbers are in the readout and the cards beside it instead
-      if (C.u < 1.8) {
-        badge(ctx, L.elbow.x - 150 - 90 * C.u, L.elbow.y + 6, `ELBOW ${b.elbow}°`, C, mono);
-        badge(ctx, tip.x + 26, tip.y - 70, `KNEE ${b.knee}°`, C, mono);
-      }
+      ctx.strokeStyle = C.copper; ctx.lineWidth = 3.4 * C.u;
+      ctx.beginPath(); ctx.arc(L.elbow.x, L.elbow.y, 40, -1.9, -1.9 + (0.62 - 0.14 * b.fold) * Math.PI); ctx.stroke();
+      foreleg(ctx, L.elbow.x, L.elbow.y, limbAngle("LF", phase, 0.28), b.fold, C, hot);
+      [L.shoulder, L.elbow, L.hip].forEach((p) => { ctx.fillStyle = C.night; ctx.beginPath(); ctx.arc(p.x, p.y, 8 * C.u, 0, TAU); ctx.fill(); ctx.strokeStyle = C.gold; ctx.lineWidth = 3 * C.u; ctx.stroke(); });
       ctx.restore();
 
-      // 5 · hoof contact: a ripple under every planted hoof, strongest mid-stance
+      // 5 · hoof contact: a ripple for every hoof the typical walk has down, strongest mid-stance (schematic spacing)
       ctx.save();
       (Object.keys(L.hoofX) as Hoof[]).forEach((h) => {
         const k = stance(h, phase);
@@ -289,22 +303,23 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
     setMenuOpen((open) => !open);
   };
 
+  const activeVideo = () => videos.current[state.current.camera] ?? null;
   const togglePlay = () => {
-    const v = videoRef.current;
+    const v = activeVideo();
     if (!v) return;
     setLocked(false);
     if (v.paused) { userPaused.current = false; v.play().catch(() => {}); }
     else { userPaused.current = true; v.pause(); }
   };
   const step = (dir: 1 | -1) => {
-    const v = videoRef.current;
+    const v = activeVideo();
     if (!v) return;
     userPaused.current = true; setLocked(false); v.pause();
     const duration = Number.isFinite(v.duration) ? v.duration : 6 * FILM.period;
-    v.currentTime = (v.currentTime + dir * (FILM.period / STEPS) + duration) % duration;
+    v.currentTime = (v.currentTime + dir / FILM.fps + duration) % duration;
   };
   const refPose = () => {
-    const v = videoRef.current;
+    const v = videos.current.side;
     const next = !locked;
     setLocked(next);
     if (!v) return;
@@ -313,20 +328,28 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   };
   const scrub = (pct: number) => { setLocked(false); seekPhase(pct / 100); };
 
-  // drag the stage to turn the view a little (side and three-quarter only); the wheel never zooms
-  const drag = useRef<number | null>(null);
-  const onPointerDown = (e: ReactPointerEvent) => { if ((e.target as HTMLElement).closest("button")) return; drag.current = e.clientX; (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); };
-  const onPointerMove = (e: ReactPointerEvent) => {
-    if (drag.current === null || reduced) return;
-    const dx = e.clientX - drag.current; drag.current = e.clientX;
-    setYaw((y) => Math.max(-28, Math.min(28, y + dx * 0.25)));
+  // switch the view: the old film pauses and fades out, the new one fades in and plays if the lab is playing
+  const chooseCamera = (next: Camera) => {
+    if (!CAMERA_MEDIA[next].available || next === state.current.camera) return;
+    state.current = { ...state.current, camera: next, locked: false };
+    setCamera(next); setLocked(false); setPlaying(false);
+    Object.entries(videos.current).forEach(([id, v]) => { if (v && id !== next) v.pause(); });
+    const v = videos.current[next];
+    if (v && inView.current && !reduced && !userPaused.current) v.play().catch(() => {});
   };
-  const onPointerUp = () => { drag.current = null; };
-  const turn = camera === "three-quarter" ? -18 + yaw : camera === "side" ? yaw : 0;
-  const schematic = camera === "behind" || camera === "front" || camera === "above";
+  // a disabled view (no footage yet) says so on hover or tap, and to screen readers through its description
+  useEffect(() => () => window.clearTimeout(hintTimer.current), []);
+  const peek = (id: Camera | null) => {
+    window.clearTimeout(hintTimer.current);
+    setHint(id);
+    if (id) hintTimer.current = window.setTimeout(() => setHint(null), 2600);
+  };
+
+  const view = CAMERA_MEDIA[camera];
+  const side = camera === "side";
   const info = LAB_PARTS.find((p) => p.id === part) ?? LAB_PARTS[2];
-  const camLabel = CAMERAS.find((c) => c.id === camera)?.label ?? "Side";
   const showLabel = SHOWS.find((x) => x.id === show)?.label ?? "Horse and rider";
+  const menuNote = hint ? `${CAMERA_MEDIA[hint].label}: ${CAMERA_MEDIA[hint].pendingNote ?? "not available yet"}.` : !side ? "Show, the drawn stride and the timeline apply to the side film." : "";
 
   return (
     <section ref={sectionRef} id="movement-lab" aria-labelledby="movement-lab-h" data-parallax-skip className="bg-night pb-[clamp(4rem,10vh,7rem)] pt-24 text-bone md:pt-28">
@@ -338,51 +361,74 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
             <Headline id="movement-lab-h" as={headingAs} size="3" className="mt-2" inscription="Movement laboratory" voice="horse and rider biomechanics." />
           </div>
           <p className="font-mono text-[0.7rem] uppercase leading-relaxed tracking-[0.08em] text-dust md:text-right md:tracking-[0.14em]">
-            <span className="block">Four-beat walk · about 48 strides a minute</span>
-            <span className="block">Rider&apos;s seat: about 95 cycles a minute</span>
+            <span className="block">Four-beat walk · one stride every {FILM.period.toFixed(2)} s</span>
+            <span className="block">About {Math.round(LAB_STRIDES_PER_MIN)} a minute, measured from the side film</span>
           </p>
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] xl:grid-cols-[minmax(0,1fr)_24rem]">
-          {/* the film, with the stride drawn over it, and one quiet control strip under it */}
+          {/* the views, crossfading; the side film carries the drawn stride; one quiet control strip under it */}
           <figure className="plate flex min-w-0 flex-col self-start">
-            <div
-              ref={stageRef}
-              className={cn("tone-photo relative aspect-video w-full touch-pan-y select-none overflow-hidden bg-night", !reduced && "cursor-grab active:cursor-grabbing")}
-              style={{ perspective: "1600px" }}
-              onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
-            >
-              <div className="absolute inset-0 transition-transform duration-700 ease-out" style={{ transform: schematic ? undefined : `rotateY(${turn}deg)`, transformStyle: "preserve-3d" }}>
-                <video
-                  ref={videoRef}
-                  className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-700", schematic && "opacity-20")}
-                  muted loop playsInline preload="metadata" poster={FILM.poster}
-                  aria-label={FILM.alt}
-                  onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
-                >
-                  <source media="(max-width: 767px)" src={FILM.mobile} type="video/mp4" />
-                  <source src={FILM.desktop} type="video/mp4" />
-                </video>
-                <canvas ref={canvasRef} aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" />
-                {!schematic && LAB_PARTS.map((p) => (
-                  <button
-                    key={p.id} type="button" onClick={() => setPart(p.id)} aria-pressed={part === p.id} aria-label={`${p.id} ${p.name}`}
-                    className={cn("absolute grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border font-mono text-[0.62rem] transition-colors before:absolute sm:h-8 sm:w-8 before:-inset-2 before:content-['']", part === p.id ? "border-bone bg-gold text-night" : "border-gold/80 bg-night/70 text-gold hover:bg-gold/20", RING)}
-                    style={{ left: `${(p.at.x / FILM.width) * 100}%`, top: `${(p.at.y / FILM.height) * 100}%` }}
-                  >{p.id}</button>
-                ))}
-              </div>
+            <div ref={stageRef} className="tone-photo relative aspect-video w-full select-none overflow-hidden bg-night">
+              {CAMERA_ORDER.filter((id) => CAMERA_MEDIA[id].available).map((id) => {
+                const m = CAMERA_MEDIA[id];
+                const on = id === camera;
+                return (
+                  <div key={id} inert={!on} className={cn("absolute inset-0", FADE, reduced && "transition-none", on ? "opacity-100" : "pointer-events-none opacity-0")}>
+                    {m.kind === "video" ? (
+                      <video
+                        ref={(el) => { videos.current[id] = el; }}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        style={{ objectPosition: m.objectPosition }}
+                        muted loop playsInline preload={id === "side" ? "metadata" : "none"} poster={m.poster}
+                        aria-label={m.alt}
+                        onPlay={() => { if (state.current.camera === id) setPlaying(true); }}
+                        onPause={() => { if (state.current.camera === id) setPlaying(false); }}
+                      >
+                        <source media="(max-width: 767px)" src={m.src.mobile} type="video/mp4" />
+                        <source src={m.src.desktop} type="video/mp4" />
+                      </video>
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element -- a fixed 16:9 plate inside the stage; srcSet covers phone and desktop
+                      <img
+                        src={m.src.desktop} srcSet={`${m.src.mobile} 1280w, ${m.src.desktop} 1920w`} sizes="(min-width: 1024px) 70vw, 100vw"
+                        alt={m.alt} loading="lazy" decoding="async" draggable={false}
+                        className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: m.objectPosition }}
+                      />
+                    )}
+                    {id === "side" && (
+                      <>
+                        <canvas ref={canvasRef} aria-hidden className="pointer-events-none absolute inset-0 h-full w-full" />
+                        <span className="pointer-events-none absolute left-[2.5%] top-[4%] bg-night/70 px-2 py-1 font-mono text-[0.58rem] uppercase tracking-[0.12em] text-sand sm:text-[0.62rem]">
+                          Simulation<span className="hidden sm:inline"> · not tracked</span>
+                        </span>
+                        {LAB_PARTS.map((p) => (
+                          <button
+                            key={p.id} type="button" onClick={() => setPart(p.id)} aria-pressed={part === p.id} aria-label={`${p.id} ${p.name}`}
+                            className={cn("absolute grid h-7 w-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border font-mono text-[0.62rem] transition-colors before:absolute sm:h-8 sm:w-8 before:-inset-2 before:content-['']", part === p.id ? "border-bone bg-gold text-night" : "border-gold/80 bg-night/70 text-gold hover:bg-gold/20", RING)}
+                            style={{ left: `${(p.at.x / FILM.width) * 100}%`, top: `${(p.at.y / FILM.height) * 100}%` }}
+                          >{p.id}</button>
+                        ))}
+                      </>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             <div className="flex flex-col gap-5 px-4 pb-5 pt-4 md:px-6">
               {/* one row: play, where we are in the stride, and the one View menu */}
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                <button type="button" onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"} className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/60 text-bone transition-colors hover:border-gold hover:text-gold", RING)}>
+                <button
+                  type="button" onClick={togglePlay} disabled={view.kind !== "video"}
+                  aria-label={view.kind !== "video" ? "A still photograph: nothing to play" : playing ? "Pause the film" : "Play the film"}
+                  className={cn("grid h-11 w-11 shrink-0 place-items-center rounded-full border border-gold/60 text-bone transition-colors hover:border-gold hover:text-gold disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-gold/60 disabled:hover:text-bone", RING)}
+                >
                   {playing ? <Pause size={17} strokeWidth={1.5} aria-hidden /> : <Play size={17} strokeWidth={1.5} aria-hidden className="translate-x-[1px]" />}
                 </button>
                 <div className="min-w-0 flex-1 font-mono text-[0.7rem] leading-snug">
-                  <p data-lab="pct" className="font-semibold text-gold">48% of the stride</p>
-                  <p data-lab="frame" className="text-sand">Frame 12 of 24 · 2 hooves down: LH LF</p>
+                  <p data-lab="pct" className="font-semibold text-gold">50% of the stride</p>
+                  <p data-lab="support" className="text-sand">Typical walk: 3 hooves down · LH LF RH</p>
                 </div>
                 <div ref={menuRef} className="relative">
                   <button
@@ -390,36 +436,36 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
                     className={cn("inline-flex min-h-11 items-center gap-2 px-1 font-mono text-[0.72rem] text-sand transition-colors hover:text-gold aria-expanded:text-gold", RING)}
                   >
                     <SlidersHorizontal size={16} strokeWidth={1.5} aria-hidden /> View
-                    <span className="hidden text-dust md:inline">· {camLabel} · {showLabel} · {speed === 1 ? "1.0" : speed}×</span>
+                    <span className="hidden text-dust md:inline">· {view.label} · {showLabel} · {speed === 1 ? "1.0" : speed}×</span>
                   </button>
                   {menuOpen && (
                     <div id="lab-view-menu" role="group" aria-label="View and playback settings" className={cn("plate absolute right-0 z-20 flex w-[min(26rem,calc(100vw-4.5rem))] flex-col gap-3 overflow-y-auto overscroll-contain bg-ember p-4", menuFit.up ? "bottom-full mb-2" : "top-full mt-2")} style={{ maxHeight: menuFit.max }}>
                       <Choice inline legend="Show" name="lab-show" value={show} options={SHOWS} onChange={setShow} />
-                      <Choice inline legend="Camera" name="lab-camera" value={camera} options={CAMERAS} onChange={(c) => { setCamera(c); setYaw(0); }} />
+                      <Choice inline legend="Camera" name="lab-camera" value={camera} options={CAMERAS} onChange={chooseCamera} onPeek={peek} />
+                      <p aria-live="polite" className="min-h-[1rem] pl-[4.7rem] font-mono text-[0.64rem] text-dust">{menuNote}</p>
                       <Choice inline legend="Speed" name="lab-speed" value={String(speed)} options={SPEEDS.map((v) => ({ id: String(v), label: `${v === 1 ? "1.0" : v}×` }))} onChange={(v) => setSpeed(Number(v) as (typeof SPEEDS)[number])} />
                       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-3 font-mono text-[0.74rem]">
-                        <button type="button" onClick={() => step(-1)} className={cn("min-h-9 text-sand hover:text-gold", RING)}>‹ Back a frame</button>
-                        <button type="button" onClick={() => step(1)} className={cn("min-h-9 text-sand hover:text-gold", RING)}>Forward a frame ›</button>
-                        <label className="flex min-h-9 cursor-pointer items-center gap-2 text-sand">
-                          <input type="checkbox" checked={locked} onChange={refPose} className="h-4 w-4 accent-[var(--color-gold)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" />
-                          Hold the 102° / 108° pose
+                        <button type="button" disabled={view.kind !== "video"} onClick={() => step(-1)} className={cn("min-h-9 text-sand hover:text-gold disabled:cursor-not-allowed disabled:opacity-40", RING)}>‹ Back a frame</button>
+                        <button type="button" disabled={view.kind !== "video"} onClick={() => step(1)} className={cn("min-h-9 text-sand hover:text-gold disabled:cursor-not-allowed disabled:opacity-40", RING)}>Forward a frame ›</button>
+                        <label className={cn("flex min-h-9 items-center gap-2 text-sand", side ? "cursor-pointer" : "cursor-not-allowed opacity-40")}>
+                          <input type="checkbox" checked={locked} disabled={!side} onChange={refPose} className="h-4 w-4 accent-[var(--color-gold)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold" />
+                          Hold at half a stride
                         </label>
                       </div>
-                      {!reduced && <p className="font-mono text-[0.66rem] text-dust">Drag the film to turn the view. The wheel never zooms.</p>}
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* the footfall chart is also the scrubber: press or drag anywhere on it */}
-              <div className="grid grid-cols-[2rem_1fr] gap-x-3">
+              {/* the footfall chart is also the scrubber (side film): press or drag anywhere on it */}
+              <div className={cn("grid grid-cols-[2rem_1fr] gap-x-3 transition-opacity", !side && "opacity-40")}>
                 <div aria-hidden className="flex flex-col gap-2 self-start text-right font-mono text-[0.66rem] font-semibold text-gold">
                   {(Object.keys(LAB_STANCE) as Hoof[]).map((h) => <span key={h} className="flex h-2.5 items-center justify-end">{h}</span>)}
                 </div>
                 <div>
                   <div
                     className="relative has-[input:focus-visible]:outline has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-4 has-[input:focus-visible]:outline-gold"
-                    role="img" aria-label="Footfall bars: left hind on the ground from 0 to 62% of the stride, left fore from 25 to 87%, right hind from 50% to 12% of the next, right fore from 75% to 37% of the next."
+                    role="img" aria-label="Typical walk footfall bars, timed to the side film's measured stride: left hind on the ground from 0 to 62% of the stride, left fore from 25 to 87%, right hind from 50% to 12% of the next, right fore from 75% to 37% of the next."
                   >
                     <div className="flex flex-col gap-2">
                       {(Object.keys(LAB_STANCE) as Hoof[]).map((h) => (
@@ -428,15 +474,15 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
                         </span>
                       ))}
                     </div>
-                    <span data-lab="playhead" aria-hidden className="pointer-events-none absolute -inset-y-1.5 w-0.5 -translate-x-1/2 bg-bone" style={{ left: "48%" }}>
+                    <span data-lab="playhead" aria-hidden className="pointer-events-none absolute -inset-y-1.5 w-0.5 -translate-x-1/2 bg-bone" style={{ left: "50%" }}>
                       <span className="absolute -top-1 left-1/2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-bone" />
                     </span>
                     <input
-                      data-lab="slider" type="range" min={0} max={100} step={0.5} defaultValue={48}
-                      aria-label="Point in the stride"
+                      data-lab="slider" type="range" min={0} max={100} step={0.5} defaultValue={50} disabled={!side}
+                      aria-label="Point in the stride (side film)"
                       onChange={(e) => scrub(Number(e.currentTarget.value))}
-                      onPointerDown={() => { userPaused.current = true; videoRef.current?.pause(); }}
-                      className="absolute -inset-y-3 left-0 h-[calc(100%+1.5rem)] w-full cursor-ew-resize opacity-0"
+                      onPointerDown={() => { userPaused.current = true; videos.current.side?.pause(); }}
+                      className="absolute -inset-y-3 left-0 h-[calc(100%+1.5rem)] w-full cursor-ew-resize opacity-0 disabled:cursor-not-allowed"
                     />
                   </div>
                   <p aria-hidden className="mt-2 flex justify-between font-mono text-[0.6rem] uppercase tracking-[0.06em] text-dust">
@@ -445,12 +491,10 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
                 </div>
               </div>
 
-              <dl className="flex flex-wrap gap-x-6 gap-y-1 border-t border-line pt-3 font-mono text-[0.68rem] text-dust">
-                {[["Elbow", "elbow", "102°"], ["Knee", "knee", "108°"], ["Back pitch", "pitch", "+1.18°"], ["Seat lateral", "lat", "+3.0 mm"]].map(([k, key, v]) => (
-                  <div key={key} className="flex gap-1.5"><dt>{k}</dt><dd data-lab={key} className="font-semibold text-gold">{v}</dd></div>
-                ))}
-                <p className="basis-full text-[0.64rem] italic">{LAB_CAVEAT}</p>
-              </dl>
+              <p className="flex flex-col gap-1 border-t border-line pt-3">
+                <span className="font-mono text-[0.68rem] text-sand">{view.caption}</span>
+                {side && <span className="text-[0.66rem] italic leading-snug text-dust">{LAB_CAVEAT}</span>}
+              </p>
             </div>
           </figure>
 
@@ -464,35 +508,34 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
             <p className="t-voice text-[1.15rem] leading-snug text-gold">{info.lead}</p>
             {info.body.map((t) => <p key={t} className="t-story text-[0.92rem] leading-relaxed text-sand">{t}</p>)}
             <div className="grid grid-cols-2 gap-3">
-              <AngleCard name="Elbow angle" range="Range: 102° to 137°" lab="cardElbow" value="102°">
+              <AngleCard name="Elbow" note="Folds in the swing">
                 <svg viewBox="0 0 140 86" className="h-full w-full" aria-hidden>
                   <path d="M 52 46 L 106 54 A 54 54 0 0 1 88 78 Z" fill="color-mix(in srgb, var(--color-gold) 14%, transparent)" stroke="var(--color-gold)" strokeOpacity="0.4" strokeDasharray="2 2" />
                   <line x1="74" y1="12" x2="36" y2="28" stroke="var(--color-bone)" strokeOpacity="0.3" strokeWidth="2" strokeLinecap="round" />
                   <line x1="36" y1="28" x2="52" y2="46" stroke="var(--color-caramel)" strokeWidth="3.2" strokeLinecap="round" />
-                  <line data-lab="svgElbowLine" x1="52" y1="46" x2="105" y2="54" stroke="var(--color-gold)" strokeWidth="3.2" strokeLinecap="round" />
+                  <line data-lab="svgElbowLine" x1="52" y1="46" x2="89" y2="76" stroke="var(--color-gold)" strokeWidth="3.2" strokeLinecap="round" />
                   <path d="M 43 36 A 14 14 0 0 1 66 48" fill="none" stroke="var(--color-caramel)" strokeWidth="1.8" />
                   <circle cx="36" cy="28" r="3" fill="var(--color-caramel)" />
                   <circle cx="52" cy="46" r="4.2" fill="var(--color-gold)" stroke="var(--color-night)" strokeWidth="1.5" />
-                  <circle data-lab="svgElbowTip" cx="105" cy="54" r="3" fill="var(--color-caramel)" />
+                  <circle data-lab="svgElbowTip" cx="89" cy="76" r="3" fill="var(--color-caramel)" />
                   <text x="10" y="80" fill="var(--color-dust)" fontFamily="var(--font-mono)" fontSize="8">Humerus → radius</text>
-                  <text data-lab="svgElbow" x="64" y="38" fill="var(--color-gold)" fontFamily="var(--font-mono)" fontSize="9.5" fontWeight="600">102°</text>
                 </svg>
               </AngleCard>
-              <AngleCard name="Knee angle" range="Range: 107° to 180°" lab="cardKnee" value="108°">
+              <AngleCard name="Carpus (knee)" note="Straight under load">
                 <svg viewBox="0 0 140 86" className="h-full w-full" aria-hidden>
                   <path d="M 78 36 L 62 74 A 40 40 0 0 0 116 44 Z" fill="color-mix(in srgb, var(--color-caramel) 14%, transparent)" stroke="var(--color-caramel)" strokeOpacity="0.4" strokeDasharray="2 2" />
                   <line x1="30" y1="26" x2="78" y2="36" stroke="var(--color-caramel)" strokeWidth="3.2" strokeLinecap="round" />
-                  <line data-lab="svgKneeLine" x1="78" y1="36" x2="64" y2="73" stroke="var(--color-gold)" strokeWidth="3.2" strokeLinecap="round" />
+                  <line data-lab="svgKneeLine" x1="78" y1="36" x2="114" y2="45" stroke="var(--color-gold)" strokeWidth="3.2" strokeLinecap="round" />
                   <line x1="78" y1="36" x2="116" y2="44" stroke="var(--color-gold)" strokeOpacity="0.3" strokeWidth="1.5" strokeDasharray="3 3" />
                   <path d="M 63 33 A 15 15 0 0 0 72 50" fill="none" stroke="var(--color-caramel)" strokeWidth="1.8" />
                   <circle cx="30" cy="26" r="3" fill="var(--color-caramel)" />
                   <circle cx="78" cy="36" r="4.2" fill="var(--color-gold)" stroke="var(--color-night)" strokeWidth="1.5" />
-                  <circle data-lab="svgKneeTip" cx="64" cy="73" r="3" fill="var(--color-caramel)" />
-                  <text x="10" y="80" fill="var(--color-dust)" fontFamily="var(--font-mono)" fontSize="8">Carpal fold 107°–180°</text>
-                  <text data-lab="svgKnee" x="86" y="30" fill="var(--color-gold)" fontFamily="var(--font-mono)" fontSize="9.5" fontWeight="600">108°</text>
+                  <circle data-lab="svgKneeTip" cx="114" cy="45" r="3" fill="var(--color-caramel)" />
+                  <text x="10" y="80" fill="var(--color-dust)" fontFamily="var(--font-mono)" fontSize="8">Radius → cannon</text>
                 </svg>
               </AngleCard>
             </div>
+            <p className="font-mono text-[0.62rem] italic leading-snug text-dust">{LAB_JOINT_NOTE}</p>
             <p className="border-l-2 border-gold pl-3 text-[0.86rem] leading-relaxed text-sand">{info.focus}</p>
           </aside>
         </div>
@@ -501,26 +544,26 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
         <div className="grid gap-6 lg:grid-cols-[1.35fr_0.75fr_1fr]">
           <div className="plate min-w-0 p-5">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="t-voice text-[1.35rem] text-bone">Numbers from the stride model</h3>
-              <p className="font-mono text-[0.64rem] text-brass">{LAB_TABLE.caption}</p>
+              <h3 className="t-voice text-[1.35rem] text-bone">What moves in each stride</h3>
+              <p className="font-mono text-[0.64rem] text-brass">{LAB_TABLE.sources}</p>
             </div>
-            <p className="mt-1 text-[0.8rem] italic text-dust">{LAB_CAVEAT}</p>
+            <p className="mt-1 text-[0.8rem] italic text-dust">{LAB_TABLE.caption}.</p>
             <div className="mt-3 overflow-x-auto">
               <table className="w-full min-w-[30rem] border-collapse text-[0.84rem]">
                 <thead>
                   <tr className="border-b border-line font-mono text-[0.62rem] uppercase tracking-[0.1em] text-dust">
-                    <th scope="col" className="py-2 pr-2 text-left font-normal">Movement over one stride</th>
-                    <th scope="col" className="px-2 py-2 text-right font-normal">Horse&apos;s back</th>
-                    <th scope="col" className="px-2 py-2 text-right font-normal">Rider&apos;s pelvis</th>
+                    <th scope="col" className="py-2 pr-2 text-left font-normal">Movement</th>
+                    <th scope="col" className="px-2 py-2 text-left font-normal">Horse&apos;s back</th>
+                    <th scope="col" className="px-2 py-2 text-left font-normal">Rider</th>
                     <th scope="col" className="py-2 pl-2 text-right font-normal">Cycles a stride</th>
                   </tr>
                 </thead>
                 <tbody>
                   {LAB_TABLE.rows.map((r) => (
-                    <tr key={r.metric} className="border-b border-line/60">
+                    <tr key={r.metric} className="border-b border-line/60 align-top">
                       <th scope="row" className="py-2 pr-2 text-left font-normal text-bone">{r.metric}</th>
-                      <td className="px-2 py-2 text-right font-mono text-gold">{r.horse}</td>
-                      <td className="px-2 py-2 text-right font-mono text-caramel">{r.rider}</td>
+                      <td className="px-2 py-2 text-left text-gold">{r.horse}</td>
+                      <td className="px-2 py-2 text-left text-sand">{r.rider}</td>
                       <td className="py-2 pl-2 text-right font-mono text-sand">{r.cycles}</td>
                     </tr>
                   ))}
@@ -540,7 +583,7 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
           </div>
           <div className="plate flex flex-col gap-3 p-5">
             <p className={KICKER}><span>Hoof and stride mechanics</span><span className="shrink-0 whitespace-nowrap font-mono">Ground contact</span></p>
-            <p className="label text-[0.62rem] text-dust">Landing order · a quarter of a stride apart</p>
+            <p className="label text-[0.62rem] text-dust">Landing order · typical walk, about a quarter-stride apart</p>
             <ol className="grid grid-cols-4 gap-1.5">
               {LAB_LANDINGS.map((h, i) => (
                 <li key={h.code} className="border border-line px-1 py-2 text-center">
@@ -551,11 +594,11 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
               ))}
             </ol>
             <div className="grid grid-cols-2 gap-2">
-              {LAB_PLANTED.map((p) => (
+              {LAB_SUPPORT.map((p) => (
                 <div key={p.label} className="border border-line p-2.5">
                   <p className="text-[0.72rem] leading-snug text-sand">{p.label}</p>
-                  <p className="mt-1 font-mono text-[0.86rem] font-semibold text-gold">{p.value}</p>
-                  <p className="font-mono text-[0.6rem] text-dust">({p.authored})</p>
+                  <p className="mt-1 text-[0.84rem] font-semibold leading-snug text-gold">{p.value}</p>
+                  <p className="font-mono text-[0.6rem] text-dust">{p.note}</p>
                 </div>
               ))}
             </div>
@@ -566,16 +609,30 @@ export function MovementLab({ headingAs = "h2" }: { headingAs?: "h1" | "h2" }) {
   );
 }
 
-/** A group of choices drawn as plain words (the chosen one underlined in gold): real radio buttons underneath, so the arrow keys work. */
-function Choice<T extends string>({ legend, name, value, options, onChange, compact, inline }: { legend: string; name: string; value: T; options: { id: T; label: string }[]; onChange: (v: T) => void; compact?: boolean; inline?: boolean }) {
+/**
+ * A group of choices drawn as plain words (the chosen one underlined in gold): real radio buttons underneath, so the arrow keys
+ * work. A disabled option stays visible, is skipped by the arrow keys, carries its note as its description, and reports a hover
+ * or tap through `onPeek` so the group can show the note.
+ */
+function Choice<T extends string>({ legend, name, value, options, onChange, onPeek, compact, inline }: { legend: string; name: string; value: T; options: Option<T>[]; onChange: (v: T) => void; onPeek?: (v: T | null) => void; compact?: boolean; inline?: boolean }) {
   return (
     <fieldset className={cn(compact && "flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-line pb-3", inline && "grid grid-cols-[4.2rem_1fr] items-start gap-x-2")}>
       <legend className={cn("label text-[0.62rem] text-dust", compact ? "float-left mr-1" : inline ? "float-left w-[4.2rem] pt-2.5" : "mb-1")}>{legend}</legend>
       <div className={cn("flex flex-wrap gap-x-1 gap-y-0.5", inline && "col-start-2")}>
         {options.map((o) => (
-          <label key={o.id} className="relative cursor-pointer">
-            <input type="radio" name={name} value={o.id} checked={value === o.id} onChange={() => onChange(o.id)} className="peer sr-only" />
-            <span className="block min-h-9 border-b-2 border-transparent px-2 py-1.5 font-mono text-[0.78rem] text-sand transition-colors hover:text-bone peer-checked:border-gold peer-checked:text-gold peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold">{o.label}</span>
+          <label
+            key={o.id}
+            className={cn("relative", o.disabled ? "cursor-not-allowed" : "cursor-pointer")}
+            onClick={o.disabled ? () => onPeek?.(o.id) : undefined}
+            onPointerEnter={o.disabled ? () => onPeek?.(o.id) : undefined}
+            onPointerLeave={o.disabled ? () => onPeek?.(null) : undefined}
+          >
+            <input
+              type="radio" name={name} value={o.id} checked={value === o.id} disabled={o.disabled} onChange={() => onChange(o.id)}
+              aria-describedby={o.note ? `${name}-${o.id}-note` : undefined} className="peer sr-only"
+            />
+            <span className={cn("block min-h-9 border-b-2 border-transparent px-2 py-1.5 font-mono text-[0.78rem] transition-colors peer-checked:border-gold peer-checked:text-gold peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold", o.disabled ? "text-dust/60 line-through decoration-dust/40" : "text-sand hover:text-bone")}>{o.label}</span>
+            {o.note && <span id={`${name}-${o.id}-note`} hidden>{o.note}</span>}
           </label>
         ))}
       </div>
@@ -583,14 +640,11 @@ function Choice<T extends string>({ legend, name, value, options, onChange, comp
   );
 }
 
-function AngleCard({ name, range, value, lab, children }: { name: string; range: string; value: string; lab: string; children: ReactNode }) {
+function AngleCard({ name, note, children }: { name: string; note: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5 border border-line p-2.5">
-      <p className="flex items-baseline justify-between gap-2">
-        <span className="font-mono text-[0.6rem] uppercase tracking-[0.08em] text-sand">{name}</span>
-        <span data-lab={lab} className="font-mono text-[1.15rem] font-semibold text-gold">{value}</span>
-      </p>
-      <p className="font-mono text-[0.6rem] text-caramel">{range}</p>
+      <p className="font-mono text-[0.6rem] uppercase tracking-[0.08em] text-sand">{name}</p>
+      <p className="font-mono text-[0.6rem] text-caramel">{note}</p>
       <div className="h-[5.5rem] border border-line/60">{children}</div>
     </div>
   );
@@ -598,54 +652,31 @@ function AngleCard({ name, range, value, lab, children }: { name: string; range:
 
 type Palette = { gold: string; brass: string; bone: string; sand: string; night: string; copper: string; shade: (alpha: number) => string; u: number };
 
-/** A swinging limb: a dashed arc for its range, a line to where it is now, a dot at its end. Returns that end point. */
-function pendulum(ctx: CanvasRenderingContext2D, x: number, y: number, length: number, angle: number, C: Palette, solid: boolean) {
+/** A swinging limb: a dashed arc for its range, a line to where it is now, a dot at its end. */
+function pendulum(ctx: CanvasRenderingContext2D, x: number, y: number, length: number, angle: number, C: Palette) {
   ctx.save();
-  ctx.setLineDash([6, 10]); ctx.strokeStyle = C.gold; ctx.globalAlpha = 0.45; ctx.lineWidth = (2) * C.u;
+  ctx.setLineDash([6, 10]); ctx.strokeStyle = C.gold; ctx.globalAlpha = 0.45; ctx.lineWidth = 2 * C.u;
   ctx.beginPath(); ctx.arc(x, y, length, Math.PI / 2 - 0.34, Math.PI / 2 + 0.34); ctx.stroke();
-  ctx.setLineDash(solid ? [] : [8, 8]); ctx.globalAlpha = solid ? 0.85 : 0.6; ctx.lineWidth = (solid ? 3 : 2.4) * C.u;
+  ctx.setLineDash([8, 8]); ctx.globalAlpha = 0.6; ctx.lineWidth = 2.4 * C.u;
   const tx = x - Math.sin(angle) * length, ty = y + Math.cos(angle) * length;
   ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(tx, ty); ctx.stroke();
   ctx.globalAlpha = 1; ctx.fillStyle = C.gold; ctx.beginPath(); ctx.arc(tx, ty, 7 * C.u, 0, TAU); ctx.fill();
   ctx.restore();
-  return { x: tx, y: ty };
 }
 
-function badge(ctx: CanvasRenderingContext2D, x: number, y: number, label: string, C: Palette, mono: string) {
+/** The near foreleg from the elbow: forearm to the carpus, then the cannon to the hoof, folding back at the carpus in the swing. */
+function foreleg(ctx: CanvasRenderingContext2D, x: number, y: number, angle: number, fold: number, C: Palette, hot: boolean) {
   ctx.save();
-  ctx.font = `600 ${Math.round(20 * C.u)}px ${mono}`;
-  const w = ctx.measureText(label).width + 26 * C.u, h = 38 * C.u;
-  ctx.fillStyle = C.shade(0.86); ctx.strokeStyle = C.gold; ctx.globalAlpha = 1; ctx.lineWidth = (1.5) * C.u;
-  ctx.beginPath(); ctx.rect(x, y - h / 2, w, h); ctx.fill(); ctx.stroke();
-  ctx.fillStyle = C.gold; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(label, x + 13 * C.u, y + 1);
-  ctx.restore();
-}
-
-/** Behind, front and above: a drawn plan of the same stride over the dimmed film. */
-function drawSchematic(ctx: CanvasRenderingContext2D, cam: "behind" | "front" | "above", phase: number, C: Palette, mono: string) {
-  const cx = 960, cy = 590;
-  const rock = Math.sin(phase * TAU) * 26, bounce = Math.sin(phase * TAU * 2) * 9;
-  ctx.save();
-  ctx.strokeStyle = C.gold; ctx.globalAlpha = 0.3; ctx.lineWidth = (2) * C.u;
-  ctx.beginPath(); ctx.moveTo(cx - 420, cy + 300); ctx.lineTo(cx + 420, cy + 300); ctx.moveTo(cx, cy - 360); ctx.lineTo(cx, cy + 330); ctx.stroke();
-  ctx.globalAlpha = 1; ctx.font = `600 24px ${mono}`; ctx.fillStyle = C.gold; ctx.textAlign = "center";
-  if (cam === "above") {
-    ctx.fillText("ABOVE · THE SPINE'S SIDEWAYS WAVE AND THE NECK AS A BALANCING POLE", cx, 110);
-    ctx.lineWidth = (8) * C.u; ctx.strokeStyle = C.gold; ctx.beginPath();
-    for (let x = cx - 460; x <= cx + 460; x += 12) { const u = (x - (cx - 460)) / 920; const y = cy + Math.sin(u * TAU * 1.5 - phase * TAU) * 34; if (x === cx - 460) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
-    ctx.stroke();
-    ctx.fillStyle = C.copper; ctx.beginPath(); ctx.ellipse(cx - 20, cy + Math.sin(phase * TAU) * 26, 72, 50, 0, 0, TAU); ctx.fill();
-  } else {
-    ctx.fillText(cam === "behind" ? "BEHIND · CROUP AND RIDER'S PELVIS, SIDE TO SIDE (14.0 / 15.7 mm)" : "FRONT · SHOULDER AND FORELIMB PENDULUM (ELBOW 102° / KNEE 108°)", cx, 110);
-    ctx.fillStyle = C.shade(0.35); ctx.strokeStyle = C.gold; ctx.lineWidth = (4.5) * C.u;
-    ctx.beginPath(); ctx.ellipse(cx + rock * 0.6, cy + 20 + bounce, 128, 148, rock * 0.008, 0, TAU); ctx.fill(); ctx.stroke();
-    ctx.strokeStyle = C.copper; ctx.lineWidth = (7) * C.u;
-    ctx.beginPath(); ctx.moveTo(cx - 110 + rock, cy - 34 + bounce - rock * 0.35); ctx.lineTo(cx + 110 + rock, cy - 34 + bounce + rock * 0.35); ctx.stroke();
-    ctx.strokeStyle = C.bone; ctx.lineWidth = (5) * C.u;
-    ctx.beginPath(); ctx.arc(cx + rock * 0.85, cy - 255 + bounce, 26, 0, TAU);
-    ctx.moveTo(cx + rock * 0.85, cy - 228 + bounce); ctx.lineTo(cx + rock * 0.75, cy - 85 + bounce); ctx.stroke();
-    ctx.strokeStyle = C.gold;
-    ctx.beginPath(); ctx.moveTo(cx - 80 + rock * 0.4, cy + 122); ctx.lineTo(cx - 80, cy + 300); ctx.moveTo(cx + 80 + rock * 0.4, cy + 122); ctx.lineTo(cx + 80, cy + 268); ctx.stroke();
-  }
+  ctx.setLineDash([6, 10]); ctx.strokeStyle = C.gold; ctx.globalAlpha = 0.45; ctx.lineWidth = 2 * C.u;
+  ctx.beginPath(); ctx.arc(x, y, 300, Math.PI / 2 - 0.34, Math.PI / 2 + 0.34); ctx.stroke();
+  const kx = x - Math.sin(angle) * 152, ky = y + Math.cos(angle) * 152;
+  const lower = angle + fold * 1.2;
+  const hx = kx - Math.sin(lower) * 148, hy = ky + Math.cos(lower) * 148;
+  ctx.setLineDash([]); ctx.globalAlpha = 0.85; ctx.lineWidth = (hot ? 3.6 : 3) * C.u;
+  ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(kx, ky); ctx.lineTo(hx, hy); ctx.stroke();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = C.night; ctx.strokeStyle = C.copper; ctx.lineWidth = 2.6 * C.u;
+  ctx.beginPath(); ctx.arc(kx, ky, 7 * C.u, 0, TAU); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = C.gold; ctx.beginPath(); ctx.arc(hx, hy, 7 * C.u, 0, TAU); ctx.fill();
   ctx.restore();
 }

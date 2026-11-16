@@ -57,7 +57,7 @@ const pageList = [
   { id: 15, route: "/journal", title: "Reel 14 · The Chronicle", type: "Core Page" },
   { id: 16, route: "/contact", title: "Reel 15 · The Gate", type: "Core Page" },
   { id: 17, route: "/about", title: "The Mandate", type: "Secondary Page" },
-  { id: 18, route: "/lore", title: "The Traditional Lore of the Bards", type: "Secondary Page" },
+  { id: 18, route: "/journal", title: "The Traditional Lore", type: "Reel 17 (absorbed /lore, 16 Nov 2026)" },
   { id: 19, route: "/schools/mou", title: "Draft Memorandum of Understanding", type: "Secondary Page" },
   { id: 20, route: "/privacy", title: "Privacy Notice", type: "Secondary Page" },
   { id: 21, route: "/schools/[slug]", title: "Campus Hub Portal (Zone 01A, 01B, 01C)", type: "Dynamic Route" },
@@ -92,6 +92,7 @@ const exportData = {
   pricing_and_fees: sanitize({
     gst_rate: pricing.GST_RATE,
     prices: pricing.price,
+    totals_with_gst: pricing.total,
     price_labels: pricing.priceLabel,
     fees_breakdown: academy.fees,
   }),

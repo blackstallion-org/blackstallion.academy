@@ -4,8 +4,9 @@ import { price } from "./pricing";
 
 /**
  * Reel 10 · The Citadel (school boards). Blueprint R10, revised per the
- * Pan-India Regional Architecture Directive and Directive 04 (Zero-CapEx model):
- * BSAH funds, builds and operates; the school provides land and earns 25–30%.
+ * Pan-India Regional Architecture Directive. Funding model corrected by the owner on 16 Nov 2026:
+ * the SCHOOL finances, builds and provides the arena and its infrastructure; BSAH provides the equestrian programme,
+ * training expertise, operational guidance and programme management under the partnership agreement; the school earns 25–30%.
  * No claims of signed contracts with named schools anywhere in this file.
  */
 
@@ -22,7 +23,7 @@ export type Tier = {
   includes: string[];
 };
 
-/** Capital figures are BSAH's investment in the campus arena, not the school's. */
+/** Indicative infrastructure cost for the school to finance and build, to BSAH's specification (not BSAH's investment). */
 export const tiers: Tier[] = [
   { id: "standard", name: "Standard Hub", stables: 4, acres: "0.5 acre", cadets: "100–150", capexLakh: 8.2, capexLabel: "₹8.20 L", includes: ["4 stables", "Sand arena", "Fencing", "Tack room"] },
   { id: "signature", name: "Signature Hub", stables: 8, acres: "1 acre", cadets: "200–300", capexLakh: 15, capexLabel: "₹15.00 L", includes: ["8 stables", "Full arena", "AC lounge", "Floodlights"] },
@@ -31,7 +32,7 @@ export const tiers: Tier[] = [
 
 export const TUITION_PER_MONTH = price.core; // ₹ per cadet (Core tier), before GST
 
-/** School income at a given enrolment and revenue share. The school carries no capital. */
+/** School income at a given enrolment and revenue share (before the school's own infrastructure cost). */
 export function simulate(cadets: number, sharePct: number) {
   const annualTuition = cadets * TUITION_PER_MONTH * 12;
   const schoolYear = annualTuition * (sharePct / 100);
@@ -47,8 +48,8 @@ export function formatINR(n: number) {
 }
 
 export const model = [
-  { n: "01", title: "BSAH funds and builds the arena", line: "Zero capital expenditure to the school board. The school provides land, access and utilities." },
-  { n: "02", title: "BSAH operates everything", line: "Horses, ex-cavalry faculty, vets, insurance, admissions and billing are ours." },
+  { n: "01", title: "The school builds the arena", line: "The school finances, builds and provides the equestrian arena and its infrastructure (stables, fencing, utilities, access) to BSAH's specification." },
+  { n: "02", title: "BSAH runs the programme", line: "The equestrian programme, ex-cavalry training expertise, operational guidance and programme management, as set out in the partnership agreement." },
   { n: "03", title: "The school earns 25–30%", line: "Of gross cadet tuition, returned directly to the institution, settled quarterly." },
 ];
 
@@ -123,7 +124,7 @@ export const network: Zone[] = [
 export const benchmark = {
   lines: [
     "Equestrian excellence has historically been the sole privilege of select, century-old heritage academies.",
-    "BSAH democratizes and elevates this sovereign infrastructure: turnkey, ex-cavalry managed arenas, STPCI-sanctioned national competition and zero-CapEx revenue-sharing models, brought directly to prospective premier campuses across India's leading educational corridors.",
+    "BSAH democratizes and elevates this sovereign infrastructure: ex-cavalry managed programmes on school-built arenas, STPCI-sanctioned national competition and revenue-sharing partnerships, brought directly to prospective premier campuses across India's leading educational corridors.",
   ],
 };
 

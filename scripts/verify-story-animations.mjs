@@ -167,13 +167,13 @@ async function run() {
   }
 
   // -------------------------------------------------------------
-  // TEST 4: The Lore Page (Folklore Plates Scroll Distortion)
+  // TEST 4: The Traditional Lore (/journal; /lore now redirects here)
   // -------------------------------------------------------------
-  console.log("=== 4. Testing /lore (Folklore Plates with Velocity Distortion) ===");
+  console.log("=== 4. Testing /journal (The Traditional Lore: first chapter) ===");
   {
     const page = await desktopContext.newPage();
-    captureErrors(page, "/lore (desktop)");
-    await page.goto(`${BASE}/lore?noload`, { waitUntil: "domcontentloaded" });
+    captureErrors(page, "/journal (desktop)");
+    await page.goto(`${BASE}/journal?noload`, { waitUntil: "domcontentloaded" });
 
     const plate1 = page.locator("#lore-1");
     await assert.ok(await plate1.count() > 0, "Lore Plate 1 must be present in DOM");
@@ -182,8 +182,8 @@ async function run() {
     await page.screenshot({ path: `${outputDir}/lore_desktop_plate1.png` });
 
     const mobilePage = await mobileContext.newPage();
-    captureErrors(mobilePage, "/lore (mobile)");
-    await mobilePage.goto(`${BASE}/lore?noload`, { waitUntil: "domcontentloaded" });
+    captureErrors(mobilePage, "/journal (mobile)");
+    await mobilePage.goto(`${BASE}/journal?noload`, { waitUntil: "domcontentloaded" });
     const mobilePlate = mobilePage.locator("#lore-1");
     await mobilePlate.scrollIntoViewIfNeeded();
     await mobilePage.waitForTimeout(800);

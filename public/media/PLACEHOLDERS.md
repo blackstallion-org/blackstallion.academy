@@ -32,7 +32,7 @@ Fetch them with `sh scripts/fetch-media.sh` on the Mac, then set `NEXT_PUBLIC_LO
 | legendFall | legend-fall.png | A thin Marwari harnessed to a village cart, 1950s |
 | legendRevival | legend-revival.png | A herd of Marwari horses galloping across Rajasthan at golden hour |
 | legendToday | legend-today.png | A young cadet touching the curled ear of a Marwari stallion at dawn |
-| anatomyProfile | anatomy-profile.png | A dark bay Marwari stallion in full side profile on black, outlined in gold light |
+| anatomyProfile | anatomy-black-stallion.webp | A black Marwari stallion with a white blaze in side profile, from the studio film (16 Nov 2026) |
 | scienceRider | science-rider.png | A young rider at sitting trot with an upright, stacked spine |
 | whyCrisis | why-crisis.png | A boy hunched over a glowing phone in a dark room |
 | whyCure | why-cure.png | A boy in cadet uniform sitting tall on a Marwari at golden hour |
@@ -52,7 +52,7 @@ Fetch them with `sh scripts/fetch-media.sh` on the Mac, then set `NEXT_PUBLIC_LO
 | cadetAnanya | cadet-ananya.png | A teenage girl cadet holding a recurve bow |
 | cadetRohan | cadet-rohan.png | A young cadet cantering a bay Marwari |
 | parentsRail | parents-rail.png | Parents at an arena rail watching their child ride at dusk |
-| safetyKit | safety-kit.png | A riding helmet, gloves, vest and chaps on a wooden bench |
+| safetyKit | safety-helmet-gloves.webp | A riding helmet and leather riding gloves on a wooden bench under a lantern (cropped from the former safety-kit still, 16 Nov 2026) |
 | safetyInstructor | safety-instructor.png | A former cavalry instructor fastening a cadet's helmet |
 | safetyVet | safety-vet.png | A veterinarian examining a Marwari's hoof |
 | schoolAerial | school-aerial.png | Aerial view of a school campus with a new riding arena at dusk |

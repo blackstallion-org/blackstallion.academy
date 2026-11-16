@@ -4,8 +4,7 @@ import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
 import { Reveal } from "@/components/film/Reveal";
 import { ComparisonLedger, ScienceTitle } from "@/components/sections/science/ScienceScenes";
-import { claims, comparison, statusColor } from "@/lib/content/science";
-import { cn } from "@/lib/utils";
+import { claims, comparison } from "@/lib/content/science";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { EditorialGallery } from "@/components/film/EditorialGallery";
 
@@ -40,15 +39,15 @@ export default function SciencePage() {
           <div className="lg:sticky motion-reduce:lg:static lg:top-28 lg:self-start">
             <Label>The honest part</Label>
             <Headline id="claims-h" className="mt-4" inscription="What we can" voice="stand behind." />
-            <p className="mt-6 max-w-sm text-sand">Every health claim on this site is listed here with its status. If we cannot source it, we do not say it.</p>
+            <p className="mt-6 max-w-sm text-sand">Every health claim on this site is listed here with its source. Where the evidence is still being gathered, the claim says so. If we cannot source it, we do not say it.</p>
           </div>
           <ol className="border-t border-line">
             {claims.map((c, i) => (
-              <Reveal as="li" key={c.claim} delay={i * 0.04} className="grid gap-3 border-b border-line py-6 sm:grid-cols-[2.5rem_1fr_9rem] sm:gap-6">
-                <span className="font-mono text-xs text-dust">[{i + 1}]</span>
-                <div>
-                  <p className={cn("text-lg", c.status === "Not yet published" ? "text-sand/60 line-through decoration-1" : "text-bone")}>{c.claim}</p>
-                  <p className="t-ui mt-2 text-sm text-dust">
+              <Reveal as="li" key={c.claim} delay={i * 0.04} className="grid gap-2 border-b border-line py-7 sm:grid-cols-[3rem_1fr] sm:gap-6 md:py-8">
+                <span className="font-mono pt-1 text-xs text-brass">[{i + 1}]</span>
+                <div className="max-w-2xl">
+                  <p className="t-voice text-xl leading-snug text-bone md:text-2xl">{c.claim}</p>
+                  <p className="t-ui mt-3 text-sm leading-relaxed text-dust">
                     {c.href ? (
                       <a href={c.href} target="_blank" rel="noreferrer" className="underline decoration-brass/40 underline-offset-4 hover:text-gold">
                         {c.source}
@@ -58,7 +57,6 @@ export default function SciencePage() {
                     )}
                   </p>
                 </div>
-                <span className={cn("label sm:text-right", statusColor[c.status])}>{c.status}</span>
               </Reveal>
             ))}
           </ol>

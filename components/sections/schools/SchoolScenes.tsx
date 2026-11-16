@@ -34,7 +34,7 @@ export function SchoolsTitle() {
       <div className="tone-light editorial-details gutter">
         <ReelMark n={13} act="ledger" />
         <Headline id="schools-title" as="h1" size="1" animate="mount" inscription="Your campus" voice="becomes a citadel." />
-        <ScrollRevealText className="t-story text-sand">A turnkey equestrian hub, funded, built and run by BSAH at zero capital expenditure to the school board, returning 25–30% of tuition to your institution.</ScrollRevealText>
+        <ScrollRevealText className="t-story text-sand">Your school builds the arena; BSAH brings the programme, the training and the management, and returns 25–30% of tuition to your institution.</ScrollRevealText>
         <div className="flex flex-wrap items-center gap-4">
           <Cta href="/schools/mou" variant="solid">Request a draft MOU</Cta>
           <Cta href="#simulator">Run the numbers</Cta>
@@ -53,7 +53,7 @@ export function ModelFlow() {
   return (
     <section aria-labelledby="model-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
       <Label>The model</Label>
-      <Headline id="model-h" className="mt-4" inscription="Zero CapEx." voice="We build. You earn." />
+      <Headline id="model-h" className="mt-4" inscription="You build." voice="We run it. You earn." />
       <div ref={ref} className="relative mt-16 grid gap-12 md:grid-cols-3 md:gap-0">
         <svg aria-hidden viewBox="0 0 1000 20" preserveAspectRatio="none" className="absolute left-[16%] right-[16%] top-8 hidden h-5 w-[68%] md:block">
           <motion.path d="M0 10 H1000" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="6 8" initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 1.8, ease: ease.citadel, delay: 0.3 }} />
@@ -151,7 +151,7 @@ export function ConfiguratorAndSimulator() {
               </div>
             </div>
             <p className="t-ui text-sm text-dust">
-              Tier: <span className="text-sand">{tier.name}</span> (BSAH invests {tier.capexLabel}) · change it above.
+              Tier: <span className="text-sand">{tier.name}</span> (indicative build cost {tier.capexLabel}, financed by the school) · change it above.
             </p>
             <dl className="grid grid-cols-2 gap-6 border-t border-line pt-8">
               <div>
@@ -167,8 +167,8 @@ export function ConfiguratorAndSimulator() {
                 <dd className="font-mono mt-2 text-xl text-sand">{formatINR(sim.schoolMonth)}</dd>
               </div>
               <div>
-                <dt className="label text-dust">Your capital</dt>
-                <dd className="font-mono mt-2 text-xl text-sand">₹0 · BSAH-funded</dd>
+                <dt className="label text-dust">Arena build</dt>
+                <dd className="font-mono mt-2 text-xl text-sand">{tier.capexLabel} · school-funded</dd>
               </div>
             </dl>
           </div>
@@ -205,13 +205,13 @@ export function ConfiguratorAndSimulator() {
   );
 }
 
-/** §3b · Six existing Higgsfield architectural studies, kept static and fully framed. */
+/** §3b · Six architectural studies, kept static and fully framed (16 Nov 2026: the campus set in output/imagegen/school-campus-v2; the circuit hub, stables and training ground have keys of their own so /tournaments, /fleet and /curriculum keep theirs). */
 export function SchoolArenaShowcase() {
   const arenaImages: StaticImageReelItem[] = [
     {
       image: "schoolAerial",
       title: "Campus Master Plan",
-      copy: "Turnkey 1.5–3.0 acre layout, funded, built and operated by BSAH.",
+      copy: "A 1.5–3.0 acre layout to BSAH's specification: built by the school, run by BSAH.",
       cta: "Campus specifications",
       href: "/schools/mou",
     },
@@ -223,21 +223,21 @@ export function SchoolArenaShowcase() {
       href: "/schools/access",
     },
     {
-      image: "tournCrowd",
+      image: "schoolCircuitHub",
       title: "National Circuit Hub",
       copy: "A competition-ready arena with spectator railings and a scoring pavilion.",
       cta: "Circuit calendar",
       href: "/tournaments",
     },
     {
-      image: "bgStable",
+      image: "schoolStables",
       title: "Biometric Equine Stalls",
       copy: "Timber stabling, automated watering and round-the-clock care for the horses.",
       cta: "Studbook registry",
       href: "/fleet",
     },
     { image: "bgPavilion", title: "Arrival pavilion", copy: "A clear threshold from campus life to the riding ground." },
-    { image: "currFormation", title: "Training ground", copy: "A considered arena where each group has room to learn." },
+    { image: "schoolTrainingGround", title: "Training ground", copy: "A considered arena where each group has room to learn." },
   ];
 
   return (

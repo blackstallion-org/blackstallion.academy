@@ -194,7 +194,7 @@ export function CreedCard() {
   );
 }
 
-/** §5 · S02 film strip (second use, native horizontal scroll). Ten-second milestone reels with a posture overlay. */
+/** §5 · S02 film strip (second use, native horizontal scroll). Ten-second milestone reels with a posture overlay (not on the tent-peg card, `track: false`). */
 export function MilestoneReels() {
   const reduced = useReducedMotion();
   return (
@@ -208,7 +208,7 @@ export function MilestoneReels() {
           <li key={rl.title} className="relative w-[80vw] shrink-0 snap-start border-x-8 border-ember/80 sm:w-[46vw] lg:w-[30vw]">
             <div className="relative aspect-[9/12] overflow-hidden">
               <FilmImage name={rl.image} sizes="(min-width: 1024px) 30vw, 80vw" priority />
-              <svg viewBox="0 0 100 133" className="absolute inset-0 h-full w-full" aria-hidden>
+              {rl.track !== false && <svg viewBox="0 0 100 133" className="absolute inset-0 h-full w-full" aria-hidden>
                 <motion.path
                   d="M50 30 L50 62 M50 40 L40 56 M50 40 L60 54 M50 62 L42 86 M50 62 L58 84"
                   fill="none"
@@ -230,7 +230,7 @@ export function MilestoneReels() {
                 ].map(([x, y], k) => (
                   <circle key={k} cx={x} cy={y} r="1.1" fill="var(--color-gold)" />
                 ))}
-              </svg>
+              </svg>}
               <span className="font-mono absolute right-3 top-3 text-[0.65rem] text-ivory/90 [text-shadow:0_1px_10px_rgb(23_21_19/0.55)]">0:10</span>
               <div aria-hidden className="absolute inset-0 shade-b" />
               <div className="absolute inset-x-0 bottom-0 p-4">

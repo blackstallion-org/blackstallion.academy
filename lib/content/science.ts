@@ -2,7 +2,6 @@
 
 export type Evidence = "Supported" | "Emerging" | "Not yet published";
 
-export const statusColor: Record<Evidence, string> = { Supported: "text-gold", Emerging: "text-sand", "Not yet published": "text-blood" };
 
 export const systems = [
   {
@@ -62,13 +61,14 @@ export const comparison = {
   note: "This compares what each activity demands, not measured outcomes. BSAH is collecting session data to measure outcomes.",
 };
 
+/** `status` is an internal note for editors; the page shows each claim with its source and qualification, not a label (owner, 16 Nov 2026). */
 export const claims: { claim: string; status: Evidence; source: string; href?: string }[] = [
   { claim: "Horse programmes can lower children's stress hormones", status: "Supported", source: "Pendry, Smith & Roeter, Human-Animal Interaction Bulletin, 2014 (randomised, 12 weeks, grades 5–8)", href: "https://www.sciencedaily.com/releases/2014/04/140424170556.htm" },
   { claim: "A horse's walk moves the rider's pelvis about a hundred times a minute, like human gait", status: "Supported", source: "American Hippotherapy Association", href: "https://www.americanhippotherapyassociation.org/" },
   { claim: "Riding demands an upright, stacked posture and continuous core work", status: "Supported", source: "Rider biomechanics literature" },
-  { claim: "Riding is low impact on knees and ankles compared with court sports", status: "Emerging", source: "Activity comparison; BSAH data collection under way" },
-  { claim: "Heart rate reaches a training zone during trot and canter", status: "Emerging", source: "BSAH session heart-rate logging (in progress)" },
-  { claim: "Precise percentage drops in cortisol or counts of muscles activated", status: "Not yet published", source: "No source we can stand behind yet; not used on this site" },
+  { claim: "Riding may be lower impact on knees and ankles than court sports", status: "Emerging", source: "An activity comparison, not a measured result; BSAH data collection is under way and nothing is published yet" },
+  { claim: "Trot and canter may raise a rider's heart rate into a training zone", status: "Emerging", source: "Being measured: BSAH session heart-rate logging is in progress, with no published result yet" },
+  { claim: "We do not quote percentage drops in cortisol or counts of muscles activated", status: "Not yet published", source: "No source we can stand behind yet, so those figures are not used anywhere on this site" },
 ];
 
 export const why = {

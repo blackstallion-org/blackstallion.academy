@@ -28,6 +28,19 @@ trailer the same day.
 A third Pixabay-licensed candidate was downloaded and not used: "Indian - Epic Indian" (HitsLab, 540948). "India Epic Cinematic
 Music" (414595) became the Marwar Journey film's soundtrack (below).
 
+## Home hero film (`video/hero-rider-lesson*.mp4`, the film under the doctrine screen)
+
+The owner's edit ("From the beginning of 12 century… the Marwars… known for their… courage and bravery"), committed on 15 Nov 2026 with no
+source page, licence file or credit for its picture or its soundtrack. **Not verified**: the owner should confirm the right to
+publish the footage and the music (and any credit the providers require) before a public launch. No credit or watermark appears in
+the film (frames checked every 1.5 s), so cutting its end card removed no attribution.
+
+16 Nov 2026 (owner): the film's own end card ("BLACK STALLION" on smoke, 58.04 to 61.0 s) and its black tail (to 63.30 s) were cut.
+Both files now end on the last frame of the white-horse close-up (frame 1390, 57.958 s): the desktop picture is stream-copied
+(no re-encode), the phone cut is re-encoded with x264 from the desktop file (960×480, CRF 23); the sound is faded out over the last
+1.4 s (AAC 128/96 kb/s). The removed card carried only the academy's name, which the site now sets as a title over the held frame
+(`components/sections/home/HeroFilm.tsx`). Originals are in git history.
+
 ## Marwar Journey film soundtrack (`video/marwar-journey*.mp4`, home page and /worlds)
 
 | Part | Source | Licence |

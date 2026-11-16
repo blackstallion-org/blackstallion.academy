@@ -3,7 +3,6 @@ import { HorsePlate } from "@/components/sections/why/HorsePlate";
 import { BreathCue } from "@/components/film/BreathCue";
 import { BigSlider, Glass, SovereignCrucible, TrainList, WhyTitle } from "@/components/sections/why/WhyScenes";
 import { ReplayHeadline } from "@/components/motion/ReplayHeadline";
-import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/why" },
@@ -17,7 +16,6 @@ export default function WhyPage() {
       <WhyTitle />
       <Glass />
       <HorsePlate />
-      <EditorialGallery page="why" />
       <BreathCue />
       <SovereignCrucible />
       <BigSlider />

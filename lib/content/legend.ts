@@ -93,25 +93,25 @@ export const lore = {
   note: "What the bards attributed to fate, and how BSAH reads it today. This is folklore, kept apart from the history and the science; it varies by breeder and region, and a horse's colour or markings do not predict its temperament.",
   items: [
     {
-      name: "Kala, the black horse",
+      name: "Kaal — The Black Horse",
       tag: "The omen vs. the vow",
-      lore: "Bards and traveling traders historically viewed solid black horses (Kala) with superstition, associating dark coats with night, death and unpredictable temperaments.",
+      lore: "Bards and travelling traders viewed the solid black horse (kala, “black”) with superstition: in the telling, its dark coat belonged to night and to kaal, the hour of death, and to an unpredictable temper.",
       insight: "We reject superstition in favour of character. To us, the black coat represents the Vow of Absolute Loyalty: in Marwar tradition, a Marwari leaves the battlefield in three ways — in victory, in death, or carrying its wounded rider to safety. The black coat is a visual reminder of unwavering commitment when conditions are at their worst.",
     },
     {
-      name: "Hair whorls",
+      name: "Hair Whorls",
       tag: "Devman vs. Anusudhal",
       lore: "Traditional horsemen read a horse's destiny in the whorls (bhanwar) of its coat. A long whorl running down the neck (Devman) was cherished as a sign of good fortune and divine protection; a whorl beneath the eye (Anusudhal) was viewed as an ill omen, making the horse difficult to sell.",
       insight: "While we honour the rich observational lore of ancient breeders, modern horsemanship looks deeper than coat patterns. Some researchers have explored possible links between whorl position and temperament, but the evidence is limited and no definitive relationship is established. What decides how a horse responds is its handling: a true rider builds trust through consistent pressure-and-release training, regardless of physical whorls.",
     },
     {
-      name: "The Nukra lineage",
+      name: "The Nukra Lineage",
       tag: "Ceremonial durbars vs. institutional protocol",
       lore: "Pure white horses (Nukra) were reserved for royal durbars, high ceremonial processions and spiritual gatherings, revered as embodiments of light and prestige.",
       insight: "In institutional horsemanship, coat colour is secondary to structural soundness and training. Nukra is not a separate breed, but the revered white-coat lineage of Marwar representing the excellence of ceremony and protocol. It teaches cadets high-presentation standards, meticulous grooming and ceremonial precision — skills that translate directly into professional executive presence.",
     },
     {
-      name: "Born to dance",
+      name: "Born to Dance",
       tag: "The Nachni heritage",
       lore: "Beyond war, the Marwari was celebrated for its natural cadence during regional celebrations. Certain rare lines, known as Nachni (“born to dance”), were trained to step, prance and rise to music with high knee action.",
       insight: "We view the Nachni tradition through the lens of neuromuscular coordination and collection. The Marwari possesses an innate cadence; certain legendary lines exhibit a natural affinity for rhythmic footfall — a living reminder that physical discipline, core strength and grace can be cultivated in horse and rider alike.",

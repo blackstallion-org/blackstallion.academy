@@ -1378,3 +1378,74 @@ progress in another session. Not tested: Safari and a real phone.
     keyboard) and Escape all dissolve into the home page with focus on `#doctrine` and `#main` no longer inert; second visit, reduced
     motion: no film; refused autoplay: big Play. No mark in any corner frame. Known: two sources are 720p, so the desktop file is
     slightly soft on large screens; the score ends on a fade, not a cadence. Owner to give the sound one listen.
+- [x] **16 Nov 2026 · Studio film on the home Instrument plate and `/anatomy`: the owner's new clip (horse_natural_movement_no_tack) replaces `specimen-stallion`.**
+  - Source `public/video/stills/horse_natural_movement_no_tack.mp4`: 1344 × 768, 5.17 s (not the 10 s in the brief), with an audio track. Shown whole,
+    **not cropped** (owner: the clip has no mark and is low quality, so keep it as it is); the film box is now 7:4 (`ASPECT` in `StudioFilm.tsx`),
+    and the phone stage is 7:4 so the film fills it. The black bars in the source edges are hidden by the stage's existing edge fade.
+  - Loop seam: the first and last frames differed (low-res frame difference 0.54 against a largest normal step of 0.46). The last 0.75 s is now
+    blended into the first 0.75 s (ffmpeg `blend`), so the file ends on the frame just before its own first frame: wrap difference 0.28, inside
+    the normal range (max 0.44). 106 frames, 4.42 s at 24 fps, sound removed. Files: `public/video/stallion-loop.mp4` (614 KB),
+    `stallion-loop-mobile.mp4` (896 × 512, 152 KB), `stallion-loop-poster.webp`. `specimen-stallion*` is no longer used.
+  - Hotspots kept (Ears, Neck, Saddle spine, Flank, Fetlock & hoof; Reins on `/anatomy`): same ids, text and behaviour; only their `film` x/y in
+    `lib/content/anatomy.ts` were re-measured for the new framing. Checked all four zoom in on the point and open their detail.
+  - Checked (Playwright, 1440 × 900 and 390 × 844, home and `/anatomy`): plays and loops, desktop and phone files chosen, no console errors, no
+    horizontal overflow; reduced motion: paused on the first frame, no zoom. `lint`, `typecheck` pass; manifest updated (this change's delta only).
+    Open: `gallop.webp/avif` edits already in the working tree fail two manifest/AVIF tests; not part of this change.
+- [x] **16 Nov 2026 (later) · Owner's corrections, twenty requests in one pass** (branch `owner-corrections-1116`). Supersedes the
+  `stallion-loop` entry above the same day: the owner chose a different clip.
+  - **Fees:** one plan. Core Cadets ₹12,000 + 18% GST = ₹14,160 / month; onboarding kit ₹5,000 + GST = ₹5,900, once (not a tier); first
+    month ₹20,060. "Sovereign Elite" and the ₹8,500 plan are gone from `pricing.ts`, the receipt, `/contact` (Preferred Tier dropdown removed;
+    `tier` optional in `app/actions.ts`), the admission portal, the Terminal, `command.ts`, `lib/payments/core.ts` (+ tests) and the Blueprint.
+    The schools simulator now starts at the Core fee (₹1,44,000 / year).
+  - **Equipment:** body protector and leather chaps removed from the kit list, captions, alt text and docs; the `safetyKit` still is now
+    `safety-helmet-gloves.webp` (vest and chaps cropped and retouched out of the original). /safety item 08 reads exactly as the owner wrote it.
+  - **Schools funding:** the school finances and builds the arena; BSAH runs the programme. "You build. / We run it. You earn." Every
+    "Zero CapEx / BSAH funds" claim rewritten (schools, configurator, MOU, home, Gates, Terminal, metadata). Heritage arches gallery removed.
+  - **Guardian (/parents):** reel mark and old line removed; Guardian App lede; stall-cam screen → same-day session log; stall-cam reel slide →
+    instructor slide; "Gentle by nature" gallery moved to `/legend`. Parent-app stall-cam promises removed site-wide (fleet's camera page stays).
+  - **/cadets:** tracking overlay removed from the tent-peg card only (`track: false`). **/why:** "Ears that never stop listening" gallery and
+    its six files removed. **/science:** status labels and strike-through removed; unproven claims reworded with their qualification.
+  - **Navigation:** Heritage order Pratap & Chetak, Rani Lakshmibai, Horses of India, Horses of the World, Alexander & Bucephalus; Director
+    added under Academy and in the footer small print; reel 17 is "The Traditional Lore".
+  - **New pages:** `/director` (Saef Ullah Khan, verified facts only, empty portrait frame, the founder's letter as a draft); `/journal`
+    rebuilt as The Traditional Lore (sticky four-part index Kaal / Hair Whorls / Nukra / Born to Dance, folklore vs "how we read it today",
+    story index in the owner's editorial style). `/lore` and `/journal/ten-grams-of-rein` redirect (308). StallionPortrait, the unused
+    CurriculumPhaseReel and `app/lore` deleted.
+  - **/legend opening:** `MarwariOrigins`: title on the key painting, the owner's YouTube film (krzoNYH1Xbk) behind a click-to-load
+    youtube-nocookie facade (CSP `frame-src` widened for it only), five dated moments checked against the record (the film's 1990 / American /
+    "5,000 remain" errors corrected), and the academy's commitment. Sources in `lib/content/marwari-origins.ts`.
+  - **Home hero film:** end card and black tail cut (ends 57.958 s, sound faded), plays once into a smoke-and-light title "The Black Stallion /
+    Academy of Horsemanship" over the held frame; Replay; Skip goes to the title; reduced motion fades only. Source not recorded anywhere:
+    noted in `public/audio/LICENSES.md` for the owner to confirm.
+  - **Stallion film (home Instrument + /anatomy specimen plate):** the owner's "Stallion_video_generation_prompt" clip, cropped clear of the
+    generator mark, 0.8 s cross-fade loop (first/last SSIM 0.97): `stallion-studio*`. Old `stallion-loop*` and `specimen-stallion*` deleted.
+    Archive Plate toggle and 2D plate removed; hotspots re-measured.
+  - **/anatomy hero:** the black stallion whole (ears to hooves) below the nav on a backdrop sampled from the photograph; "The / instrument."
+    refined; catalogue says Black. `anatomyProfile` → `anatomy-black-stallion.webp` (the brown plate is deleted).
+  - **/anatomy exhibits:** Horse & Rider study rebuilt natively (see the study notes); Movement Lab camera views (Side film, Front and Above
+    loops from the owner's clips, Three-quarter still from `navy-mounted.webp`, Behind disabled "Footage to follow") and the biomechanics
+    honesty audit (`docs/BIOMECHANICS_AUDIT.md`: only the stride period is measured; all joint degrees, pitch, mm and frame counts removed);
+    rider plate spine re-registered C1→sacrum with a feathered curved mask, heart moved to mid-chest and resized.
+  - **/verify:** the owner's seal photograph (baked-in words removed locally) behind the live headline; the duplicate SealStamp badge removed.
+  - **Footer:** the stone-bridge film replaced by a heritage band on the ivory (black Marwari cut-out, motto, brass hairline); `footer-ambient*`
+    deleted; tests adjusted.
+  - **Blocked:** the /curriculum bridle edit and the generated Behind / Three-quarter views need Higgsfield credits (0.25 left; 2.75 per job).
+    **Disk:** the Mac had under 1 GB free during this session; a production build may fail until space is freed.
+- **16 Nov 2026 (evening) · review pass and the image-only replacement for /schools, /parents and /tournaments.**
+  - **Checks:** lint (0 errors), typecheck, 348/348 tests and `npm run build` pass; every touched route screenshotted at 1440×900 and
+    390×844 on the production server; an automated nav-clearance check found nothing overlapping the fixed bar on 18 routes.
+  - **Review fixes:** focus moves into the YouTube player after Play; a click on the Horse & Rider plate no longer pulls focus back to the
+    point; MovementLab clears its hint timer on unmount; "/lore" removed from the browser test scripts; /fleet's stall-cam button no longer
+    promises the parent app; Behind-view files listed as knowingly absent in `scripts/media-manifest.mjs`.
+  - **Images (output/imagegen/school-campus-v2, indian-horsemanship, instructor-uniform-v2, bsah-2026-masters):** three pairs of keys were
+    serving byte-identical files (schoolAerial/bgPavilion, schoolArenaNight/currFormation, tournCrowd/pegAlign) and six instructor files
+    repeated three compositions. Now: schoolAerial ← reel-01 aerial dusk; schoolArenaNight ← reel-02 evening session; bgPavilion ← reel-03
+    pavilion; tournPodium ← reel-04 medals; new keys schoolCircuitHub (03), schoolStables (04), schoolTrainingGround (02) for the /schools
+    showcase; peg run ← indian-horsemanship 01–03; bgCharge ← masters tournament-02; tournCrowd ← masters tournament-01; instructor courtyard
+    and ring ← the olive-khaki v2 edits; school ring lesson ← 05 school integration. Replaced keys have no CDN id (fetch-media.sh no longer
+    downloads the old pictures). Alt text updated to describe each new picture; visible captions unchanged.
+  - **Restored from git** (the earlier pass had leaked campus/tent-peg frames into them, contradicting their captions and portrait slots):
+    the home "Five doors" photos, the /safety and /tournaments editorial galleries, bgStable (/fleet reel card), currFormation (/curriculum)
+    and the two navy instructor portraits on /cadets. Backups of every overwritten file: scratchpad `backup-images-1116`.
+  - **Open:** no olive edit exists of the two /cadets portraits or of school-horse-care (Higgsfield 0.25 credits); /cadets copy still
+    describes the navy uniform; parentsRail and the ring background keep palace arcades; pegLift is the older dark frame.

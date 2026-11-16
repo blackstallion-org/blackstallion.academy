@@ -7,19 +7,21 @@ const p = await loadTs("lib/payments/core.ts");
 const fresh = (amount) => ({ status: "created", amount, refunded: 0, processedEventIds: [] });
 
 test("quote: integer paise with 18% GST from the single price source", () => {
-  assert.deepEqual(p.quote("core_monthly"), { base: 850000, gst: 153000, total: 1003000, currency: "INR" });
+  assert.deepEqual(p.quote("core_monthly"), { base: 1200000, gst: 216000, total: 1416000, currency: "INR" });
   assert.deepEqual(p.quote("onboarding_kit"), { base: 500000, gst: 90000, total: 590000, currency: "INR" });
-  assert.equal(p.quote("elite_monthly", 3).total, 3 * 1475000);
+  assert.equal(p.quote("core_monthly").total + p.quote("onboarding_kit").total, 2006000, "first month with kit is ₹20,060");
+  assert.equal(p.quote("core_monthly", 3).total, 3 * 1416000);
+  assert.throws(() => p.quote("elite_monthly"), "the retired Elite tier no longer prices");
   assert.throws(() => p.quote("free_ride"));
   assert.throws(() => p.quote("core_monthly", 0));
   assert.throws(() => p.quote("core_monthly", 1.5));
 });
 
 test("webhook signature: valid accepted; tampered body, wrong secret, missing or malformed signature refused", () => {
-  const body = JSON.stringify({ event: "payment.captured", payload: { amount: 1003000 } });
+  const body = JSON.stringify({ event: "payment.captured", payload: { amount: 1416000 } });
   const sig = createHmac("sha256", "whsec_test").update(body).digest("hex");
   assert.equal(p.verifyWebhookSignature(body, sig, "whsec_test"), true);
-  assert.equal(p.verifyWebhookSignature(body.replace("1003000", "1"), sig, "whsec_test"), false);
+  assert.equal(p.verifyWebhookSignature(body.replace("1416000", "1"), sig, "whsec_test"), false);
   assert.equal(p.verifyWebhookSignature(body, sig, "other"), false);
   assert.equal(p.verifyWebhookSignature(body, null, "whsec_test"), false);
   assert.equal(p.verifyWebhookSignature(body, "nothex", "whsec_test"), false);

@@ -60,7 +60,8 @@ test("Data Saver and 2G links count as saving data; a normal connection and a br
 });
 
 test("the heavy films and the 3D prefetch honour that rule", () => {
-  for (const file of ["components/sections/home/HeroFilm.tsx", "components/site/Footer.tsx", "components/sections/equipment/HorseEquipmentSection.tsx"]) {
+  // The footer film was replaced by one lazy still on 16 Nov 2026, so the footer has nothing heavy left to hold back.
+  for (const file of ["components/sections/home/HeroFilm.tsx", "components/sections/equipment/HorseEquipmentSection.tsx"]) {
     assert.match(readFileSync(new URL(`../${file}`, import.meta.url), "utf8"), /saveDataMode\(\)/, `${file} checks Data Saver`);
   }
 });

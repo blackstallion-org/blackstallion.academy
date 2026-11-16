@@ -10,12 +10,11 @@ import { SealedInvitation } from "@/components/sections/schools/SealedInvitation
 import { seals } from "@/lib/content/schools";
 import { PageCurtain } from "@/components/sections/shared/PageCurtain";
 import { SchoolRingProgramme } from "@/components/sections/campaign/CampaignSections";
-import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/schools" },
   title: "The Citadel · For school boards",
-  description: "A zero-CapEx equestrian hub on your campus: BSAH funds, builds and operates; your school earns 25–30% of tuition. Three tiers, the Pan-India network and a draft MOU.",
+  description: "An equestrian programme on your campus: your school builds the arena, BSAH runs the programme, and your school earns 25–30% of tuition. Three tiers, the Pan-India network and a draft MOU.",
 };
 
 export default function SchoolsPage() {
@@ -23,7 +22,6 @@ export default function SchoolsPage() {
     <>
       <SchoolsTitle />
       <ModelFlow />
-      <EditorialGallery page="schools" />
       {/* 14 Nov 2026: the riding ring on campus, the programme's main image (AI illustrations of the concept). */}
       <SchoolRingProgramme />
       <CitadelConfigurator />

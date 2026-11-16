@@ -4,7 +4,6 @@ import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 
 import { Headline } from "@/components/film/Headline";
 import { Label, ReelMark } from "@/components/film/Marks";
-import { SealStamp } from "@/components/motion/SealStamp";
 import { TextAnimate } from "@/components/motion/TextAnimate";
 
 import { FilmImage } from "@/components/film/FilmImage";
@@ -17,19 +16,18 @@ export function VerifyTitle() {
   return (
     <section aria-labelledby="verify-title" className="editorial-scene">
       <div className="tone-photo editorial-visual relative min-h-[100svh] overflow-hidden bg-night">
-        {/* The title card's own picture again (4 Nov 2026): the leather passport and brass seal, in place of the turning statue. */}
-        <FilmImage name="bgPassport" priority grade="deep" />
+        {/* 16 Nov 2026 (owner): the brass stamp over the academy's leather-bound record. The real stamp is in the picture, so
+            the animated seal badge that used to sit beside the title is gone. */}
+        <FilmImage name="verifySeal" priority grade="none" />
+        <div aria-hidden className="absolute inset-0 shade-l" />
         <div aria-hidden className="absolute inset-0 shade-b" />
 
         {/* Bottom gradient to ground the title copy */}
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-48 bg-gradient-to-t from-night via-night/60 to-transparent" />
 
         <div className="gutter pointer-events-none relative z-20 flex min-h-[100svh] flex-col justify-end pb-[10vh]">
-          <div className="flex items-end justify-between gap-6">
-            <div className="pointer-events-auto">
-              <Headline id="verify-title" as="h1" size="poster" animate="mount" className="mt-6" inscription="Every hour" voice="sealed in brass." />
-            </div>
-            <SealStamp label="SEALED" trigger="inView" className="pointer-events-auto hidden h-40 w-40 shrink-0 md:inline-grid" />
+          <div className="pointer-events-auto">
+            <Headline id="verify-title" as="h1" size="poster" animate="mount" className="mt-6" inscription="Every hour" voice="sealed in brass." />
           </div>
         </div>
       </div>

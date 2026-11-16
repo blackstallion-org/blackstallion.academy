@@ -65,7 +65,7 @@ const schemas = {
       name: req("Enter the parent or guardian's name"),
       student: req("Enter the student's name and age"),
       zone: req("Choose a target regional zone"),
-      tier: req("Choose a preferred tier"),
+      tier: opt(), // single plan since 16 Nov 2026; kept optional for older cached forms
       email: email.optional().or(z.literal("")),
       phone: phone.optional().or(z.literal("")),
       message: opt(),

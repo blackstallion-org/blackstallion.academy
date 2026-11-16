@@ -180,7 +180,7 @@ export function TournamentActionGallery() {
       subtitle: "REEL 01 · TENT-PEGGING",
       titleLine1: "LANCES",
       titleLine2: "DOWN",
-      alt: "Cavalry line charge down the course with lowered steel-point lances",
+      alt: "A cadet at the gallop lowers the lance to the peg, schoolchildren watching from a covered stand",
       caption: "Thunder down the lane at the gallop. Hand-eye calibration to strike a wooden peg a few centimetres wide.",
       align: "left",
     },

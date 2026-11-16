@@ -4,7 +4,7 @@ import { useId, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 import { LeadForm, type Field } from "@/components/sections/shared/LeadForm";
-import { priceLabel } from "@/lib/content/pricing";
+import { inr, priceLabel, total } from "@/lib/content/pricing";
 import { network } from "@/lib/content/schools";
 import { ease } from "@/lib/motion/tokens";
 import { Label } from "@/components/film/Marks";
@@ -18,17 +18,6 @@ const cadetFields: Field[] = [
   { name: "name", label: "Parent / Guardian Name", required: true, autoComplete: "name" },
   { name: "student", label: "Student Name & Age", required: true, hint: "e.g. Aarav, 11" },
   { name: "zone", label: "Target Regional Zone", type: "select", groups: zoneGroups, required: true, wide: true },
-  {
-    name: "tier",
-    label: "Preferred Tier",
-    type: "select",
-    required: true,
-    wide: true,
-    options: [
-      `Core Cadets · ${priceLabel.core} / month`,
-      `Sovereign Elite · ${priceLabel.elite} / month`,
-    ],
-  },
   { name: "email", label: "Email", type: "email", autoComplete: "email", hint: "Email or phone required" },
   { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
   { name: "message", label: "Questions / Notes", type: "textarea" },
@@ -42,8 +31,8 @@ const cadetSteps = [
   },
   {
     title: "Find your starting point.",
-    description: "Choose your preferred programme and target regional zone.",
-    fields: ["zone", "tier", "message"],
+    description: "Choose the regional zone nearest your child. Every cadet joins Core Cadets.",
+    fields: ["zone", "message"],
   },
   {
     title: "Review your application.",
@@ -103,15 +92,15 @@ export function CadetAdmissionPortal() {
         <div className="mt-8 grid grid-cols-1 gap-3 border-t border-line/60 pt-6 sm:grid-cols-3">
           <div className="flex items-center gap-3 text-xs text-sand">
             <CheckCircle2 size={16} className="text-gold shrink-0" aria-hidden />
-            <span>Core Cadets: {priceLabel.core} / mo</span>
-          </div>
-          <div className="flex items-center gap-3 text-xs text-sand">
-            <CheckCircle2 size={16} className="text-gold shrink-0" aria-hidden />
-            <span>Sovereign Elite: {priceLabel.elite} / mo</span>
+            <span>Core Cadets: {priceLabel.core} / month ({inr(total.monthly)})</span>
           </div>
           <div className="flex items-center gap-3 text-xs text-sand">
             <ShieldCheck size={16} className="text-gold shrink-0" aria-hidden />
-            <span>One-Time Onboarding Kit: {priceLabel.kit}</span>
+            <span>Onboarding kit, once: {priceLabel.kit} ({inr(total.kit)})</span>
+          </div>
+          <div className="flex items-center gap-3 text-xs text-sand">
+            <CheckCircle2 size={16} className="text-gold shrink-0" aria-hidden />
+            <span>First month with kit: {inr(total.firstMonth)}</span>
           </div>
         </div>
 

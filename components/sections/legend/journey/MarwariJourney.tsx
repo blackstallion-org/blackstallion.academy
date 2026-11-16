@@ -165,8 +165,8 @@ export function MarwariJourney({ afterPoster = false }: { afterPoster?: boolean 
         <p className="label text-brass">The story continues</p>
         <p className="t-voice mt-3 max-w-2xl text-display-3 text-bone">The story stays with the horse.</p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/lore" className="label inline-flex min-h-11 items-center rounded-full border border-brass/60 px-5 text-bone hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
-            The lore of the bards →
+          <Link href="/journal" className="label inline-flex min-h-11 items-center rounded-full border border-brass/60 px-5 text-bone hover:border-gold hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
+            The traditional lore →
           </Link>
         </div>
         <p className="t-ui mt-10 max-w-3xl text-xs text-dust">{SOURCES}</p>

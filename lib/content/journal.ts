@@ -1,8 +1,9 @@
 import type { MediaKey } from "./media";
 
 /**
- * Reel 14 · The Chronicle. Original articles written from the breed history in
- * Blueprint Part 9. Folklore is labelled as such in the text.
+ * Reel 17 · The Traditional Lore (formerly "The Chronicle", rebuilt on 16 Nov 2026). Original stories written from the breed
+ * history in Blueprint Part 9 and the oral tradition of Marwar. Folklore is labelled as folklore in the text, never as science.
+ * "Ten grams of rein" (pedagogy, not lore) was retired; its address redirects to /curriculum (next.config.mjs).
  */
 
 export type Block = { t: "p" | "h" | "quote" | "note"; text: string };
@@ -15,6 +16,8 @@ export type Post = {
   minutes: number;
   date: string;
   cover: MediaKey;
+  /** The index line, set in caps under the title: when and where the story sits. */
+  meta: string;
   body: Block[];
 };
 
@@ -27,6 +30,7 @@ export const posts: Post[] = [
     minutes: 5,
     date: "2026-10-01",
     cover: "journalStream",
+    meta: "1576 AD · HALDIGHATI",
     body: [
       { t: "p", text: "The horsemen of Marwar held a simple belief about their horses. A Marwari, they said, leaves a battlefield in only three ways: in victory, in death, or carrying its wounded rider to safety. It is the kind of line that sounds like poetry until you read how often the old ballads put it to the test." },
       { t: "p", text: "Their horses had been shaped by centuries of desert life and strict breeding: slim, hard-legged, enduring, and famous for a courage that bordered on stubbornness. The bards tell of Marwaris rearing over fallen riders, crossing rivers wounded, and refusing to turn until a hand on the rein told them to." },
@@ -49,6 +53,7 @@ export const posts: Post[] = [
     minutes: 4,
     date: "2026-09-24",
     cover: "journalEarTouch",
+    meta: "THE LYRE EAR · MARWAR",
     body: [
       { t: "p", text: "You can pick out a Marwari across a crowded fairground by its ears. They rise, curve inward, and meet at the tips, like the two arms of a lyre or a pair of hands about to touch. Only one other breed in the world shares the shape: its neighbour, the Kathiawari of Gujarat." },
       { t: "h", text: "Two ears, two directions" },
@@ -68,6 +73,7 @@ export const posts: Post[] = [
     minutes: 4,
     date: "2026-09-17",
     cover: "journalWhorl",
+    meta: "COATS & WHORLS · THE STABLE",
     body: [
       { t: "p", text: "In old Marwar, buying a horse was part horsemanship and part astrology. Breeders read a horse's colour and the whorls in its coat as a forecast of the luck it would bring its rider, and much of that folklore is still alive in Rajasthan's stables today." },
       { t: "h", text: "The favoured colours" },
@@ -90,6 +96,7 @@ export const posts: Post[] = [
     minutes: 6,
     date: "2026-09-10",
     cover: "journalLane",
+    meta: "1947 TO TODAY · RAJASTHAN",
     body: [
       { t: "p", text: "For most of its history the Marwari was a royal horse in the most literal sense. Only royal and Rajput warrior families could own one, and the old saying held that a Marwari stood above a prince. Its fall, when it came, was fast." },
       { t: "h", text: "The colonial years" },
@@ -114,6 +121,7 @@ export const posts: Post[] = [
     minutes: 3,
     date: "2026-09-03",
     cover: "journalDance",
+    meta: "NACHNI · THE WEDDING SEASON",
     body: [
       { t: "p", text: "For a horse remembered for war, the Marwari has a surprisingly gentle second life. Walk through a Rajasthani town during wedding season and you may see one at the head of a procession, decked in mirror-work and tassels, stepping in time to the drums." },
       { t: "h", text: "Nachni: born to dance" },
@@ -122,25 +130,6 @@ export const posts: Post[] = [
       { t: "h", text: "The revaal" },
       { t: "p", text: "Even without music, many Marwaris move differently from other breeds. They often have a natural ambling gait, close to a pace, known as the revaal. It is smooth and easy for a rider to sit for hours, which made it valuable on long desert journeys and makes it comfortable for young riders today." },
       { t: "p", text: "There is a lesson in the contrast. Strength and grace are not opposites. The same horse that would not leave a battlefield can be calm enough, and responsive enough, to dance. We look for both in a cadet." },
-    ],
-  },
-  {
-    slug: "ten-grams-of-rein",
-    title: ["Ten grams", "of rein."],
-    category: "Academy",
-    dek: "What a child learns when shouting does nothing and the lightest touch turns a horse of several hundred kilograms.",
-    minutes: 4,
-    date: "2026-08-27",
-    cover: "journalRein",
-    body: [
-      { t: "p", text: "Every new cadet tries it once. The horse wanders toward the gate, and the child pulls harder on the reins. The horse braces, lifts its head and keeps going. Then an instructor says something that sounds impossible: let go a little, and ask again." },
-      { t: "h", text: "Force fails, clarity works" },
-      { t: "p", text: "A well-schooled horse answers a few grams of pressure on the rein, together with the rider's seat and legs. Hard, sudden pulling does the opposite of what the rider wants: it causes discomfort and resistance. The horse is not being stubborn. It is answering exactly what it was told." },
-      { t: "p", text: "Children learn this in their hands before they can explain it. Quiet, consistent signals get results; loud, inconsistent ones do not. Hands, seat and legs have to agree. Both sides of the body have to coordinate. And none of it works if the rider is tense, because a horse can feel tension long before it feels a rein." },
-      { t: "quote", text: "You cannot shout a horse into trusting you." },
-      { t: "h", text: "The lesson outside the arena" },
-      { t: "p", text: "It is a skill that travels. Getting a response from someone by being calm and precise rather than loud works at home, in a classroom and on a team, and it is much easier to learn from a horse, which never pretends to be convinced." },
-      { t: "p", text: "That is why reins sit beside the ears and the saddle on our anatomy plate. Each part of the horse teaches something. The reins teach the oldest lesson of leadership: authority is quiet, and the lightest touch, given clearly, can move a horse of several hundred kilograms." },
     ],
   },
 ];

@@ -851,10 +851,11 @@ Content: `lib/content/parents.ts`.
 
 **§3 Fees, plainly** · S49 receipt
 
-- Onboarding (one-time) · ₹2,000 — handcrafted Sovereign Passport, brass seal stamping, uniform badges, welcome box
-- Monthly tuition · ₹8,000 + 18% GST (₹1,440) = **₹9,440 / month**, by UPI Autopay on the 1st
-- Riding safety kit (optional) · ₹3,000 — certified helmet, riding gloves, protective chaps
-- First month with kit · ₹14,440
+_Updated 16 Nov 2026 (owner): one plan only; the ₹8,500 plan and the "Sovereign Elite" name are retired. Source of truth: `lib/content/pricing.ts`._
+
+- Core Cadets (monthly) · ₹12,000 + 18% GST (₹2,160) = **₹14,160 / month**
+- Onboarding kit (one-time) · ₹5,000 + 18% GST = **₹5,900** — tunic, helmet, boots, Sovereign Passport (not a tier)
+- First month with kit · **₹20,060**; each month after · ₹14,160
 
 **§4 Standing orders (FAQ)** · S50
 
@@ -862,9 +863,9 @@ Content: `lib/content/parents.ts`.
 - *Does my child need riding experience?* No. Experience moves a cadet faster, never past the rules.
 - *Is it safe?* Safety is the first promise. See the Shield.
 - *Will it clash with school?* Sessions run on your child's own campus, before or after school hours.
-- *What if my child falls?* Falls are part of riding. Cadets wear certified helmets and vests, learn how to fall before they canter, and are covered by ₹10 lakh group accident insurance.
-- *Can I watch?* From the rail during sessions, and any time on the stall-cam.
-- *How do I pay?* Monthly UPI Autopay on the 1st. Onboarding and the kit are paid once.
+- *What if my child falls?* Falls are part of riding. Cadets wear certified helmets and learn how to fall before they canter. Accident-insurance terms are being confirmed.
+- *Can I watch?* From the rail during sessions; session notes and progress reach parents through the BSAH app the same day (no stall-cam, owner 16 Nov 2026).
+- *How do I pay?* Monthly; the onboarding kit is paid once, with the first month.
 - *Can we pause?* Yes, with 30 days' notice. (SAMPLE)
 
 **§5 CTA** · `ENROL / a cadet.` → `/contact?gate=parents`
@@ -1214,7 +1215,7 @@ These are CDN-only until `scripts/fetch-media.sh` is run on the Mac (it now also
 | cadetAnanya | cadet-ananya.png | 3:4 | PHOTO | Portrait of a 14-year-old Indian girl cadet in uniform with a braid holding a recurve bow, arena behind |
 | cadetRohan | cadet-rohan.png | 3:4 | PHOTO | A 13-year-old Indian boy cadet cantering a bay Marwari horse, upright, dust, side view |
 | parentsRail | parents-rail.png | 16:9 | PHOTO | A mother and father at a wooden arena rail at dusk watching their child ride, seen from behind |
-| safetyKit | safety-kit.png | 16:9 | PHOTO | Still life of a black velvet riding helmet, leather gloves, a protective vest and chaps on a dark wooden bench, lamp light |
+| safetyKit | safety-helmet-gloves.webp | 15:16 | PHOTO | Still life of a black velvet riding helmet and leather riding gloves on a dark wooden bench, lamp light (vest and chaps cropped out, 16 Nov 2026) |
 | safetyInstructor | safety-instructor.png | 16:9 | PHOTO | A grey-moustached former Indian Army cavalry instructor in a khaki shirt adjusting the chin strap of a young cadet's helmet in an arena |
 | safetyVet | safety-vet.png | 3:4 | PHOTO | A veterinarian in a dark apron examining a Marwari horse's hoof in a stable, lamp light |
 | schoolAerial | school-aerial.png | 21:9 | PHOTO | Aerial drone view at dusk of a large Indian school campus with red-brick buildings, a new sand riding arena with white fencing and a row of stables beside the playing fields, warm lights |
@@ -1259,7 +1260,7 @@ All images are AI placeholders and must be replaced with commissioned photograph
 
 ## 10. Conflicts and open questions for the client
 
-1. **Who funds the arena?** The Technical Directive says "100% BSAH-funded, zero CapEx"; the Master System Blueprint (7 Oct, final) says the school funds construction and receives 25–30%. **The site follows the Blueprint.** Confirm.
+1. **Who funds the arena?** RESOLVED 16 Nov 2026 (owner): the partner school finances, builds and provides the arena and its infrastructure; BSAH provides the programme, training expertise, operational guidance and programme management; the school receives 25–30%. Every page now says so.
 2. **Revenue share base.** The client's tier table computes the share on ₹9,440 (GST-inclusive). GST is not revenue, so the simulator uses ₹8,000. Confirm.
 3. **Payback.** The directive quotes 6–8 months; the formula gives ~2.7 months for 150 cadets on a Standard Hub at full enrolment. Either enrolment ramp or costs are missing from the model. The simulator shows the formula and a ramp-up footnote until confirmed.
 4. **Real schools.** DPS Hyderabad, Oakridge and HPS are used as written in the client docs. Confirm signed partnerships before launch, or the names must be replaced.

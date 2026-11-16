@@ -234,7 +234,7 @@ function Drawer({ s, onClose }: { s: Stallion; onClose: () => void }) {
             </g>
           </svg>
           <button type="button" disabled className="label mt-8 w-full border border-line py-3 text-dust">
-            Stall-cam · planned for the parent app
+            Stall-cam · planned
           </button>
         </div>
       </motion.aside>

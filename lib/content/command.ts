@@ -1,4 +1,4 @@
-import { priceLabel } from "./pricing";
+import { inr, priceLabel, total } from "./pricing";
 import { tiers } from "./schools";
 
 /**
@@ -16,7 +16,7 @@ export const knowledge: Entry[] = [
     query: "What is the financial model for partner school boards?",
     keywords: ["roi", "payback", "return", "revenue", "share", "earn", "income", "capex", "financial", "model", "fund"],
     answer:
-      "Proposed model: BSAH funds, constructs and operates a turnkey arena with ex-cavalry faculty at zero capital expenditure to the school board, and 25% to 30% of cadet tuition is returned to the partner institution, settled quarterly. This is an offer, not an existing arrangement: it applies only under a signed agreement, and the MOU sets the final terms. See the model at /schools.",
+      "Proposed model: the partner school finances and builds the equestrian arena and the infrastructure it needs, to BSAH's specification. BSAH runs the programme: ex-cavalry faculty, training, operations and programme management, and 25% to 30% of cadet tuition is returned to the partner institution, settled quarterly. This is an offer, not an existing arrangement: it applies only under a signed agreement, and the MOU sets the final terms. See the model at /schools.",
   },
   {
     id: "insurance",
@@ -52,15 +52,15 @@ export const knowledge: Entry[] = [
   {
     id: "fees",
     ask: "What does it cost a parent?",
-    keywords: ["fee", "fees", "cost", "price", "tuition", "pay", "gst", "upi", "elite", "kit"],
+    keywords: ["fee", "fees", "cost", "price", "tuition", "pay", "gst", "upi", "plan", "kit"],
     answer:
-      `Core Cadets: ${priceLabel.core} a month, two sessions a week. Sovereign Elite: ${priceLabel.elite} a month, three sessions a week plus skill-at-arms, STPCI registration and, once the parent app launches, the 24/7 stall-cam. The one-time onboarding kit is ${priceLabel.kit} (tunic, helmet, boots, Sovereign Passport). Online payment, including UPI Autopay, is being set up; no payment is taken on this website yet.`,
+      `One plan, Core Cadets: ${priceLabel.core} a month (${inr(total.monthly)} with 18% GST), three sessions a week plus skill-at-arms and STPCI registration. The onboarding kit is ${priceLabel.kit} (${inr(total.kit)}), paid once: tunic, helmet, boots and the Sovereign Passport. The first month with the kit comes to ${inr(total.firstMonth)}. Online payment, including UPI Autopay, is being set up; no payment is taken on this website yet.`,
   },
   {
     id: "tiers",
     ask: "What do the three hub tiers include?",
     keywords: ["tier", "tiers", "standard", "signature", "royal", "pavilion", "stables", "acre", "land", "build"],
-    answer: tiers.map((t) => `${t.name}: ${t.includes.join(", ")}, ${t.acres}, ${t.cadets} cadets, BSAH-funded (${t.capexLabel} invested).`).join(" "),
+    answer: tiers.map((t) => `${t.name}: ${t.includes.join(", ")}, ${t.acres}, ${t.cadets} cadets; the school funds and builds it (indicative ${t.capexLabel}).`).join(" "),
   },
   {
     id: "curriculum",
@@ -74,7 +74,7 @@ export const knowledge: Entry[] = [
     ask: "Which horses do cadets ride?",
     keywords: ["horse", "horses", "marwari", "kathiawari", "stallion", "fleet", "breed"],
     answer:
-      "The planned fleet: indigenous Marwari and Kathiawari stallions, each microchipped (ISO 11784), vet-checked daily, with a 24/7 stall camera planned, with each cadet assigned a stallion for the long term. Fleet numbers on the site are sample figures.",
+      "The planned fleet: indigenous Marwari and Kathiawari stallions, each microchipped (ISO 11784), vet-checked daily, with each cadet assigned a stallion for the long term. Fleet numbers on the site are sample figures.",
   },
   {
     id: "tournaments",

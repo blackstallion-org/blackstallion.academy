@@ -1,0 +1,346 @@
+/*
+ * The opening film's closing title (16 Nov 2026, owner). The film's own end card ("BLACK STALLION" on smoke, then black) was cut
+ * from the files; in its place the last frame is held, dimmed and slowly pushed in, and the academy's title resolves over it in
+ * smoke and warm light. Colours are the section's role tokens (the section is `.tone-photo`: warm black, ivory, antique gold).
+ * Every moving layer animates transform or opacity only (the letters also clear a blur once); the one sheen moves a gradient.
+ */
+
+.film {
+  --house: cubic-bezier(0.16, 1, 0.3, 1);
+  --in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Fine grain and coarse weathering for the letters (grey noise, blended into the metal gradient). */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --weather: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='220'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .07' numOctaves='4' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.2' intercept='-.6'/%3E%3CfeFuncG type='linear' slope='2.2' intercept='-.6'/%3E%3CfeFuncB type='linear' slope='2.2' intercept='-.6'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
+  /* Erosion: the letters are almost solid, with fine pitting where the noise is darkest (like the film's weathered card). */
+  --pitting: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 9 0 0 0 -2.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  /* Wisps: alpha taken from fractal noise, so a soft radial glow breaks up like smoke. */
+  --wisp: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='320'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 .017' numOctaves='4' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 2.4 0 0 0 -.78'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+}
+
+/* ---- the picture settles: dims toward the warm black and pushes in, never cuts ---- */
+.picture {
+  transform-origin: 50% 46%;
+  transition: opacity 0.9s var(--in-out), transform 1.2s var(--house);
+}
+.film[data-settle] .picture {
+  opacity: 0.32;
+  transform: scale(1.04);
+  transition: opacity 1.9s var(--in-out), transform 9s var(--house);
+}
+
+.wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s var(--in-out);
+  background:
+    radial-gradient(58% 52% at 50% 54%, color-mix(in srgb, var(--color-copper) 17%, transparent), transparent 72%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-night) 72%, transparent) 0%,
+      color-mix(in srgb, var(--color-night) 28%, transparent) 36%,
+      color-mix(in srgb, var(--color-night) 32%, transparent) 64%,
+      color-mix(in srgb, var(--color-night) 88%, transparent) 100%
+    );
+}
+.film[data-settle] .wash {
+  opacity: 1;
+  transition: opacity 2.1s var(--in-out);
+}
+
+/* ---- the title layer ---- */
+.title {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.55s var(--in-out);
+}
+.title[data-leaving] {
+  opacity: 0;
+}
+
+.smoke {
+  position: absolute;
+  inset: -12%;
+  opacity: 0;
+  mix-blend-mode: screen;
+  animation: smokeIn 3.8s var(--in-out) 0.15s forwards;
+}
+.puff {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-gold) 52%, transparent),
+    color-mix(in srgb, var(--color-copper) 22%, transparent) 58%,
+    transparent
+  );
+  -webkit-mask-image: var(--wisp);
+  mask-image: var(--wisp);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  will-change: transform;
+}
+.puff:nth-child(1) {
+  left: 4%;
+  top: 30%;
+  width: 60%;
+  height: 64%;
+  -webkit-mask-size: 150% 150%;
+  mask-size: 150% 150%;
+  -webkit-mask-position: 0% 30%;
+  mask-position: 0% 30%;
+  animation: driftA 28s ease-in-out infinite alternate;
+}
+.puff:nth-child(2) {
+  right: 2%;
+  top: 14%;
+  width: 58%;
+  height: 62%;
+  -webkit-mask-size: 170% 140%;
+  mask-size: 170% 140%;
+  -webkit-mask-position: 100% 70%;
+  mask-position: 100% 70%;
+  animation: driftB 34s ease-in-out infinite alternate;
+}
+.puff:nth-child(3) {
+  left: 26%;
+  top: 46%;
+  width: 52%;
+  height: 54%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-dust) 44%, transparent),
+    color-mix(in srgb, var(--color-copper) 16%, transparent) 60%,
+    transparent
+  );
+  -webkit-mask-size: 130% 180%;
+  mask-size: 130% 180%;
+  -webkit-mask-position: 50% 0%;
+  mask-position: 50% 0%;
+  animation: driftC 24s ease-in-out infinite alternate;
+}
+
+.lockup {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.55rem, 1.6vw, 1.6rem);
+  /* Below the fixed nav even when the band's top meets the top of the screen (AGENTS.md). */
+  padding: clamp(1.25rem, 6vw, 5rem) 1rem 0;
+  text-align: center;
+}
+
+.film .lockup .name {
+  position: relative;
+  margin: 0;
+  font-size: clamp(1.35rem, 6.1vw, 3rem);
+  font-weight: 380;
+  line-height: 1.04;
+  letter-spacing: 0.1em;
+  /* Letters are separate boxes, so the sheen copy below uses the same unkerned spacing to sit exactly on them. */
+  font-kerning: none;
+  white-space: nowrap;
+  /* Trailing tracking would push the line off centre. */
+  margin-right: -0.1em;
+}
+@media (min-width: 768px) {
+  .film .lockup .name {
+    font-size: clamp(3rem, 4.9vw, 5.6rem);
+  }
+}
+/* Small letters: a finer tile, so the pitting stays a texture and does not eat the serifs. */
+@media (max-width: 767px) {
+  .char {
+    -webkit-mask-size: 120px 120px;
+    mask-size: 120px 120px;
+  }
+}
+
+.char {
+  display: inline-block;
+  background-image:
+    var(--grain),
+    var(--weather),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-bone) 92%, var(--color-gold)) 6%,
+      color-mix(in srgb, var(--color-gold) 74%, var(--color-bone)) 50%,
+      color-mix(in srgb, var(--color-copper) 86%, var(--color-night)) 100%
+    );
+  background-size: 160px 160px, 420px 220px, 100% 100%;
+  background-blend-mode: soft-light, overlay, normal;
+  -webkit-mask-image: var(--pitting);
+  mask-image: var(--pitting);
+  -webkit-mask-size: 200px 200px;
+  mask-size: 200px 200px;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  transform: translate3d(0, 0.34em, 0);
+  filter: blur(0.16em);
+  animation: charIn 1.7s var(--house) forwards;
+  animation-delay: calc(0.45s + var(--i) * 55ms);
+}
+
+/* One slow warm light across the letters, once, after they have resolved. */
+.sheen {
+  position: absolute;
+  inset: 0;
+  white-space: nowrap;
+  background-image: linear-gradient(
+    104deg,
+    transparent 0 40%,
+    color-mix(in srgb, var(--color-bone) 72%, transparent) 49%,
+    color-mix(in srgb, var(--color-gold) 55%, transparent) 52%,
+    transparent 61% 100%
+  );
+  background-size: 280% 100%;
+  background-position: 135% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  mix-blend-mode: screen;
+  animation: sheen 3.4s var(--in-out) 2.9s forwards;
+}
+
+.subline {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.6rem, 1.6vw, 1.4rem);
+  margin: 0;
+  opacity: 0;
+  transform: translate3d(0, 0.6em, 0);
+  filter: blur(6px);
+  animation: lineIn 1.6s var(--house) 1.55s forwards;
+}
+.sub {
+  font-size: clamp(0.5rem, 2.05vw, 0.72rem);
+  letter-spacing: 0.4em;
+  margin-right: -0.4em;
+  color: color-mix(in srgb, var(--color-bone) 80%, var(--color-gold));
+  white-space: nowrap;
+}
+@media (min-width: 768px) {
+  .sub {
+    font-size: clamp(0.72rem, 1.05vw, 0.98rem);
+  }
+}
+.rule {
+  display: block;
+  width: clamp(1.25rem, 6vw, 5.5rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-brass));
+  transform: scaleX(0);
+  transform-origin: right center;
+  animation: ruleIn 1.8s var(--house) 1.75s forwards;
+}
+.rule:last-child {
+  background: linear-gradient(90deg, var(--color-brass), transparent);
+  transform-origin: left center;
+}
+
+/* ---- the controls give the frame to the title, and the quiet replay arrives ---- */
+.controls {
+  transition: opacity 0.6s var(--in-out);
+}
+.film[data-titled] .controls {
+  opacity: 0;
+  pointer-events: none;
+}
+.replay {
+  opacity: 0;
+  animation: replayIn 0.9s var(--in-out) 1.6s forwards;
+}
+
+@keyframes charIn {
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes lineIn {
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes ruleIn {
+  to { transform: scaleX(1); }
+}
+@keyframes sheen {
+  to { background-position: -35% 0; }
+}
+@keyframes smokeIn {
+  to { opacity: 1; }
+}
+@keyframes replayIn {
+  to { opacity: 1; }
+}
+@keyframes driftA {
+  from { transform: translate3d(-3%, 2%, 0) scale(1); }
+  to { transform: translate3d(6%, -4%, 0) scale(1.14) rotate(3deg); }
+}
+@keyframes driftB {
+  from { transform: translate3d(4%, -2%, 0) scale(1.08) rotate(-2deg); }
+  to { transform: translate3d(-7%, 5%, 0) scale(0.96); }
+}
+@keyframes driftC {
+  from { transform: translate3d(0, 4%, 0) scale(0.95); }
+  to { transform: translate3d(-4%, -6%, 0) scale(1.12) rotate(-4deg); }
+}
+
+/* Reduced motion: no smoke drift, no sweep, no zoom. The picture dims and the title simply fades in over it.
+   (globals.css shortens every animation and transition under this preference; the fades here are restored on purpose.) */
+@media (prefers-reduced-motion: reduce) {
+  .film .picture,
+  .film[data-settle] .picture {
+    transform: none !important;
+    transition: opacity 0.8s ease !important;
+  }
+  .film .wash,
+  .film[data-settle] .wash {
+    transition: opacity 0.8s ease !important;
+  }
+  .film .title {
+    animation: fadeIn 0.9s ease both !important;
+    transition: opacity 0.4s ease !important;
+  }
+  .film .title[data-leaving] {
+    animation: none !important;
+  }
+  .film .smoke {
+    animation: none !important;
+    opacity: 0.7;
+  }
+  .film .puff {
+    animation: none !important;
+    will-change: auto;
+  }
+  .film .sheen {
+    display: none;
+  }
+  .film .char,
+  .film .subline {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .film .rule {
+    animation: none !important;
+    transform: none;
+  }
+  .film .controls {
+    transition: opacity 0.4s ease !important;
+  }
+  .film .replay {
+    animation: fadeIn 0.6s ease 0.6s both !important;
+  }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

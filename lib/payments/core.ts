@@ -13,11 +13,10 @@ import { GST_RATE, price } from "@/lib/content/pricing";
  * The fuller ledger design (fee schedule, invoices, refunds, event ingestion) lives in bsah-platform/supabase.
  */
 
-export type FeeCode = "core_monthly" | "elite_monthly" | "onboarding_kit";
+export type FeeCode = "core_monthly" | "onboarding_kit";
 
 const BASE_RUPEES: Record<FeeCode, number> = {
   core_monthly: price.core,
-  elite_monthly: price.elite,
   onboarding_kit: price.kit,
 };
 

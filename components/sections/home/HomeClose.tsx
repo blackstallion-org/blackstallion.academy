@@ -19,7 +19,7 @@ export function HomeCommand() {
   return <CommandTeaser />;
 }
 
-/** §14 The Chronicle · S14 editorial index. Signature: the cover swaps as you move down the headlines. */
+/** §14 The Traditional Lore · S14 editorial index. Signature: the cover swaps as you move down the headlines. */
 export function HomeChronicle() {
   const list = posts.slice(0, 4);
   const [i, setI] = useState(0);
@@ -28,7 +28,7 @@ export function HomeChronicle() {
   return (
     <section aria-labelledby="chronicle-h" className="relative py-[clamp(6rem,14vh,12rem)]">
       <div className="gutter">
-        <Label reel={15}>The Chronicle</Label>
+        <Label reel={17}>The Traditional Lore</Label>
         <Headline id="chronicle-h" className="mt-4" inscription={chronicle.inscription} voice={chronicle.voice} />
       </div>
       <div className="gutter mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
@@ -42,7 +42,7 @@ export function HomeChronicle() {
           </div>
           <div className="relative py-6">
             <p className="label text-brass">
-              {p.category} · {p.minutes} min read
+              {p.meta} · {p.minutes} min read
             </p>
             <p className="t-voice mt-2 text-display-3 text-bone">{p.title.join(" ")}</p>
           </div>
@@ -68,7 +68,7 @@ export function HomeChronicle() {
           ))}
           <li className="pt-8">
             <Cta href="/journal" variant="link">
-              Read the Chronicle
+              Read the lore
             </Cta>
           </li>
         </ol>

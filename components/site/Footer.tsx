@@ -1,26 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { motion, useInView } from "motion/react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { corridors, entity, footerNav, hidesFooter, legalNav, LOGO } from "@/lib/content/site";
-import { whenNearViewport } from "@/lib/motion/near-viewport";
-import { saveDataMode } from "@/lib/motion/save-data";
+import { useReducedMotion } from "@/lib/motion/reduced";
+import { ease } from "@/lib/motion/tokens";
 import { asset } from "@/lib/content/asset";
 import { MUSIC } from "@/lib/audio/mixer";
 import { introFilm } from "@/lib/content/intro-film";
 import { journeyFilm } from "@/lib/content/journey-film";
 
-/** A 76 kB still that only matters once the footer is about to be seen (it sits ~23,000 px down the home page). */
-const FOOTER_POSTER = asset("/video/footer-ambient-poster.webp");
-
 const COPYRIGHT_YEAR = 2026;
 
 /**
- * Meridian-style cinematic video footer adapted for BSAH.
- * 70% warm natural editorial palette with atmospheric equine footage blend.
+ * The site footer (16 Nov 2026, owner's brief: the stone-bridge film felt unrelated and was replaced). It opens with a quiet
+ * heritage band printed on the page's own ivory, so the section above runs straight into it: a black Marwari stallion in
+ * profile (a transparent cut-out, no box), the academy's motto in the two-voice headline, a brass hairline. Restrained motion:
+ * the horse and the words settle in once as the band enters view; reduced motion shows them at rest. Then the seals, the one
+ * lockup, the numbered pages, the three corridors and the small print, unchanged.
  */
 export function Footer() {
   // The staff console (sign-in, dashboard, every /admin page) and the member account are applications, not pages of the film: no public footer.
@@ -29,71 +30,44 @@ export function Footer() {
 }
 
 function PublicFooter() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const footerRef = useRef<HTMLElement>(null);
-
-  // Poster: set a screen and a half ahead of the footer instead of fetching it at load. Same picture, same place; the
-  // video has preload="none", so nothing else of it is requested until it plays.
-  useEffect(() => {
-    const footer = footerRef.current;
-    const video = videoRef.current;
-    if (!footer || !video) return;
-    return whenNearViewport(footer, () => { video.poster = FOOTER_POSTER; }, "150% 0px");
-  }, []);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || saveDataMode()) {
-      video.removeAttribute("autoplay");
-      video.pause();
-      return;
-    }
-
-    if (!("IntersectionObserver" in window)) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-              playPromise.catch(() => {});
-            }
-          } else {
-            video.pause();
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
+  const band = useRef<HTMLDivElement>(null);
+  const seen = useInView(band, { once: true, amount: 0.35 });
+  const reduced = useReducedMotion();
+  const settle = (delay: number) => ({
+    initial: reduced ? false : ({ opacity: 0, y: 14 } as const),
+    animate: seen || reduced ? { opacity: 1, y: 0 } : undefined,
+    transition: { duration: 1.6, ease: ease.citadel, delay },
+  });
 
   return (
-    <footer ref={footerRef} className="footer-meridian no-print" aria-label="Site Footer">
-      {/* Background ambient video (rendered first in DOM, visually placed lower via CSS flex order) */}
-      <video
-        ref={videoRef}
-        className="footer-meridian__video"
-        muted
-        loop
-        playsInline
-        preload="none"
-        aria-hidden="true"
-        tabIndex={-1}
-        disablePictureInPicture
-      >
-        <source src={asset("/video/footer-ambient-h264.mp4")} type="video/mp4" />
-        <source src={asset("/video/footer-ambient.mp4")} type="video/mp4" />
-        <source
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260928_144832_2b6b23aa-4416-4fcb-9df4-132349c59edc.mp4"
-          type="video/mp4"
-        />
-      </video>
+    <footer className="footer-meridian no-print" aria-label="Site Footer">
+      {/* Heritage band: the horse and the motto, on the page's own ground. */}
+      <div ref={band} className="footer-meridian__heritage gutter">
+        <div className="mx-auto grid max-w-6xl items-end gap-6 md:grid-cols-12 md:gap-10">
+          <motion.figure {...settle(0)} className="relative md:col-span-7">
+            <div aria-hidden className="footer-meridian__ground" />
+            <Image
+              src={asset("/images/fleet/stallion-facing-left.webp")}
+              alt="A black Marwari stallion with a white blaze, standing in profile"
+              width={1536}
+              height={1024}
+              sizes="(min-width: 768px) 56vw, 92vw"
+              loading="lazy"
+              className="relative h-auto w-full"
+            />
+          </motion.figure>
+          <div className="pb-[clamp(1rem,5vw,4rem)] text-center md:col-span-5 md:text-left">
+            <motion.p {...settle(0.25)} className="label text-brass">{entity.motto}</motion.p>
+            <motion.p {...settle(0.4)} className="mt-4 text-[clamp(1.9rem,3.6vw,3.1rem)] leading-[1.08]">
+              <span className="t-inscribe block text-[0.62em] tracking-[0.2em] text-bone">Master of oneself,</span>
+              <span className="t-voice block text-gold">master of the horse.</span>
+            </motion.p>
+            <motion.p {...settle(0.55)} className="t-story mx-auto mt-5 max-w-sm text-sand md:mx-0">
+              Eight hundred years of the Marwari, handed to your child.
+            </motion.p>
+          </div>
+        </div>
+      </div>
 
       {/* Content block: brand emblem, wordmark, tagline, nav and legal copy */}
       <div className="footer-meridian__content">
@@ -119,7 +93,7 @@ function PublicFooter() {
         </p>
 
         <p className="footer-meridian__tagline">
-          <em>{entity.motto}.</em> {entity.mottoEn}. The interscholastic equestrian leadership academy and national circuit.
+          The interscholastic equestrian leadership academy and national circuit.
         </p>
 
         {/* The main pages with their own reel numbers and titles (lib/content/site.ts → footerNav), the same as every menu. */}

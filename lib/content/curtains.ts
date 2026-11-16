@@ -68,7 +68,7 @@ export const curtains = {
   safety: {
     label: "Safety, in four frames",
     chapters: [
-      { image: "safetyKit", time: "I", title: "Kit first.", line: "A helmet, gloves, vest and chaps, laid out before anyone mounts." },
+      { image: "safetyKit", time: "I", title: "Kit first.", line: "A certified helmet and riding gloves, laid out before anyone mounts." },
       { image: "safetyInstructor", time: "II", title: "Checked by an instructor.", line: "A former cavalry instructor fastens a cadet's helmet." },
       { image: "safetyVet", time: "III", title: "A vet's eye.", line: "A veterinarian examines a Marwari's hoof." },
       { image: "fleetStallcam", time: "IV", title: "Watched at night.", line: "A night-vision view of a horse resting in its stall." },

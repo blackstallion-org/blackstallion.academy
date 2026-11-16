@@ -32,7 +32,7 @@ const VIEWPORTS = [{ name: "1440", width: 1440, height: 900 }, { name: "390", wi
 // Phone width changes which file a page asks for (smaller crops, no hover-only media), so the routes that carry the most media are
 // checked at both widths. Every route is always checked at 1440.
 const MOBILE_ROUTES = new Set([
-  "/", "/legend", "/lore", "/anatomy", "/statue", "/science", "/why", "/curriculum", "/fleet", "/cadets", "/safety",
+  "/", "/legend", "/anatomy", "/statue", "/science", "/why", "/curriculum", "/fleet", "/cadets", "/safety",
   "/schools", "/tournaments", "/command", "/journal",
 ]);
 

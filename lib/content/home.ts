@@ -18,7 +18,7 @@ export const hero = {
   stats: [
     { value: "13", label: "pillars of character, drilled in the saddle" },
     { value: "25–30%", label: "of tuition back to partner schools" },
-    { value: "24/7", label: "stall-cam planned for every parent" },
+    { value: "Same day", label: "session notes shared with parents in the BSAH app" },
   ],
   /** SAMPLE live figures. */
   ticker: ["BSAH National Command (demo data)", "Hours logged 14,800 (sample)", "Canter transitions passed 342 (sample)", "Active stallions 21 (sample)", "Hubs live 3 (sample)", "Next: Governor's Cup · 14 Nov"],
@@ -72,15 +72,15 @@ export const doors = {
   items: [
     {
       who: "Parents", title: "The Guardian", image: "parentsRail" as MediaKey, href: "/parents", cta: "For parents",
-      points: ["Planned for the parent app: your child's stallion on a 24/7 stall-cam", "An alert when their passport is scanned at the gate (planned)", "A 10-second milestone reel after every session (planned)"],
+      points: ["Every session written up in the BSAH app the same day", "An alert when their passport is scanned at the gate (planned)", "Progress, attendance and milestones in one place"],
     },
     {
       who: "Cadets", title: "The Hall of Valour", image: "cadetZayd" as MediaKey, href: "/cadets", cta: "For cadets",
       points: ["A leather Sovereign Passport, sealed in brass", "Your own Marwari, for years", "The STPCI national circuit"],
     },
     {
-      who: "Schools", title: "The Zero-CapEx Engine", image: "schoolAerial" as MediaKey, href: "/schools", cta: "For schools",
-      points: ["A turnkey arena, funded, built and run by BSAH", "25–30% of tuition back to the school, settled quarterly", "Ex-cavalry faculty, no burden on your staff"],
+      who: "Schools", title: "The Campus Partnership", image: "schoolAerial" as MediaKey, href: "/schools", cta: "For schools",
+      points: ["The school builds the arena; BSAH runs the programme", "25–30% of tuition back to the school, settled quarterly", "Ex-cavalry training and programme management by BSAH"],
     },
   ],
 };
@@ -96,7 +96,7 @@ export const studbook = { inscription: "Twenty-one stallions.", voice: "Every on
 export const schoolsTeaser = {
   inscription: "Your campus",
   voice: "becomes a citadel.",
-  body: "Zero capital expenditure to the school board. BSAH funds, builds and operates the arena, and returns 25–30% of tuition to the school.",
+  body: "The school finances and builds the arena; BSAH brings the programme, the training and the management, and returns 25–30% of tuition to the school.",
 };
 
 export const verifier = {
@@ -125,7 +125,7 @@ export const command = {
   chips: ["CapEx & revenue share", "STPCI accreditation", "Curriculum & class timings"],
 };
 
-export const chronicle = { inscription: "Stories", voice: "from the stable." };
+export const chronicle = { inscription: "The traditional", voice: "lore." };
 
 export const finale = {
   inscription: "The arena is open.",

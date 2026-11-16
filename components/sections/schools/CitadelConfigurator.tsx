@@ -5,6 +5,10 @@ import { submitLead } from "@/app/actions";
 import { clearLeadKey, LeadFormExtras } from "@/components/sections/shared/LeadFormExtras";
 import { useDialogFocus } from "@/lib/motion/use-dialog-focus";
 import { HUB_DATA } from "./citadel/citadelData";
+import { inr, price } from "@/lib/content/pricing";
+
+/** Core Cadets tuition for a year, before GST (₹12,000 × 12 = ₹1,44,000), from the single price source. */
+const CORE_YEAR = price.core * 12;
 
 /**
  * "Run the numbers": the tuition-return simulator and the draft-MOU request for school boards.
@@ -14,7 +18,7 @@ import { HUB_DATA } from "./citadel/citadelData";
 export function CitadelConfigurator() {
   const [currentHub, setCurrentHub] = useState<"standard" | "signature" | "royal">("standard");
   const [cadets, setCadets] = useState(140);
-  const [tuition, setTuition] = useState(36000);
+  const [tuition, setTuition] = useState(CORE_YEAR);
   const [share, setShare] = useState(27.5);
   const [mouModalOpen, setMouModalOpen] = useState(false);
   const [mouState, mouAction, mouPending] = useActionState(submitLead, null);
@@ -55,7 +59,7 @@ export function CitadelConfigurator() {
             </div>
             <h2 className="mb-4 text-bone"><span className="t-inscribe block text-3xl">Run the numbers</span><span className="t-voice block text-3xl text-gold">tuition and return.</span></h2>
             <p className="text-xs text-dust mb-6">
-              Simulate your institution’s annual tuition share and 5-year endowment accumulation under the zero-CapEx BSAH Citadel model.
+              Simulate your institution’s annual tuition share and 5-year accumulation. The school finances and builds the arena; BSAH runs the programme.
             </p>
 
             {/* Hub Selector Pills */}
@@ -124,17 +128,17 @@ export function CitadelConfigurator() {
               <input
                 type="range"
                 aria-label="Annual programme fee per cadet"
-                min={24000}
-                max={72000}
-                step={2000}
+                min={72000}
+                max={CORE_YEAR}
+                step={6000}
                 value={tuition}
                 onChange={(e) => setTuition(Number(e.target.value))}
                 className="w-full accent-gold"
               />
               <div className="flex justify-between text-[10px] text-dust mt-1">
-                <span>₹24,000 (₹2,000/mo)</span>
-                <span>₹48,000 (₹4,000/mo)</span>
-                <span>₹72,000 (Championship)</span>
+                <span>{inr(72000)} (₹6,000/mo)</span>
+                <span>{inr(108000)} (₹9,000/mo)</span>
+                <span>{inr(CORE_YEAR)} (Core Cadets)</span>
               </div>
             </div>
 
@@ -173,7 +177,7 @@ export function CitadelConfigurator() {
                   <div className="t-voice text-xl text-bone">{hubInfo.name} · {hubInfo.landLabel.replace('SITE - ', '')}</div>
                 </div>
                 <span className="px-2.5 py-1 border border-line text-brass text-[10px] font-semibold tracking-widest uppercase">
-                  ZERO CAPEX
+                  School-built arena
                 </span>
               </div>
 
@@ -186,7 +190,7 @@ export function CitadelConfigurator() {
                     ₹{schoolAnnualLakhs.toFixed(2)} L
                   </div>
                   <div className="text-[11px] text-dust mt-1">
-                    Direct recurring revenue with zero operational overhead
+                    Recurring tuition share; BSAH runs the programme day to day
                   </div>
                 </div>
 
@@ -198,7 +202,7 @@ export function CitadelConfigurator() {
                     </div>
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase tracking-wider text-dust">BSAH Funded CapEx</div>
+                    <div className="text-[10px] uppercase tracking-wider text-dust">School infrastructure (indicative)</div>
                     <div className="font-display text-2xl text-brass mt-0.5">{hubInfo.price}</div>
                   </div>
                 </div>
@@ -209,12 +213,12 @@ export function CitadelConfigurator() {
                     <span className="font-semibold text-bone">₹{grossLakhs.toFixed(2)} L</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-dust">School Board Capital Outlay:</span>
-                    <span className="font-semibold text-gold">₹0 (100% BSAH Funded)</span>
+                    <span className="text-dust">Arena &amp; infrastructure:</span>
+                    <span className="font-semibold text-gold">Financed and built by the school</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-dust">Grooms, Horses, Vet & Coaches:</span>
-                    <span className="font-semibold text-bone">Included by BSAH</span>
+                    <span className="text-dust">Programme, training &amp; management:</span>
+                    <span className="font-semibold text-bone">Provided by BSAH</span>
                   </div>
                 </div>
               </div>

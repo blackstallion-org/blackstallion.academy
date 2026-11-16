@@ -34,13 +34,13 @@ export const reels: Reel[] = [
   { n: 7, href: "/curriculum", act: "citadel", title: "The Ledger", inscription: "Four ranks.", voice: "Thirteen pillars.", blurb: "An athletic curriculum that builds character.", image: "currLedger" },
   { n: 8, href: "/fleet", act: "citadel", title: "The Studbook", inscription: "Twenty-one", voice: "stallions.", blurb: "Every one has a name.", image: "bgStable" },
   { n: 9, href: "/cadets", act: "citadel", title: "The Hall of Valour", inscription: "The hall", voice: "of valour.", blurb: "Hour by hour, rank by rank, sealed in brass.", image: "cadetZayd" },
-  { n: 10, href: "/parents", act: "citadel", title: "The Guardian", inscription: "The guardian", voice: "sees every stride.", blurb: "Admissions, fees and the parent app.", image: "parentsRail" },
+  { n: 10, href: "/parents", act: "citadel", title: "The Guardian", inscription: "The guardian", voice: "sees every stride.", blurb: "The Guardian App, admissions and fees.", image: "parentsRail" },
   { n: 11, href: "/safety", act: "citadel", title: "The Shield", inscription: "Safety", voice: "before speed.", blurb: "Ex-cavalry faculty, daily vet care, insurance.", image: "safetyKit" },
   { n: 13, href: "/schools", act: "ledger", title: "The Citadel", inscription: "Your campus", voice: "becomes a citadel.", blurb: "Tiers, returns and the draft MOU for school boards.", image: "schoolAerial" },
   { n: 14, href: "/verify", act: "ledger", title: "The Seal", inscription: "Every hour", voice: "sealed in brass.", blurb: "Verify a cadet's passport.", image: "bgPassport" },
   { n: 15, href: "/tournaments", act: "ledger", title: "The Circuit", inscription: "Lances down.", voice: "Zones on the circuit.", blurb: "STPCI standings and fixtures.", image: "bgCharge" },
   { n: 16, href: "/command", act: "ledger", title: "The Command", inscription: "Questions,", voice: "answered.", blurb: "Fees, safety, curriculum and campus information.", image: "bgArena" },
-  { n: 17, href: "/journal", act: "ledger", title: "The Chronicle", inscription: "Stories", voice: "from the stable.", blurb: "Legends, science and the circuit.", image: "journalReins" },
+  { n: 17, href: "/journal", act: "ledger", title: "The Traditional Lore", inscription: "The traditional", voice: "lore.", blurb: "The black horse, the whorls, the Nukra and the dancers: Marwar's folklore, told as folklore.", image: "journalReins" },
   { n: 18, href: "/contact", act: "ledger", title: "The Gate", inscription: "The arena", voice: "is open.", blurb: "Enrol, partner, or book a board audit.", image: "contactGate" },
   { n: 19, href: "/story/pratap-chetak", act: "ledger", title: "Pratap & Chetak", inscription: "A bond", voice: "through the storm.", blurb: "Six chapters, painted: the bond, Haldighati in 1576, and the legend of one final leap.", image: "bgCharge" },
   { n: 20, href: "/history/india", act: "ledger", title: "Horses of India", inscription: "Eight centuries.", voice: "One lineage.", blurb: "From Shalihotra to Haifa: the horses that carried a subcontinent.", image: "duneSilhouette" },
@@ -133,16 +133,17 @@ const column = (heading: string, entries: MenuEntry[]): NavMenuColumn => ({ head
  * title (from `reels` / `tools`), the same as in the Reels menu and the footer; the menus never number their links 01, 02,
  * 03 themselves. Every public page appears at least once. Left out on purpose: /stills and /worlds/credits (production pages,
  * noindex), /schools/access (a private invitation), /sovereign (the school dashboard behind sign-in), /login, /lithos (the
- * same monument as /statue, its canonical address), and the detail pages under /journal, /schools, /tournaments and /verify.
+ * same monument as /statue, its canonical address), /lore (merged into /journal, 16 Nov 2026, and redirected there), and the
+ * detail pages under /journal, /schools, /tournaments and /verify.
  */
 export const navMenus: NavMenu[] = [
   {
     label: "Academy",
     lead: "Who we are, why the saddle, and how a child is kept safe.",
     columns: [
-      column("The Mandate", [{ label: "The Mandate", href: "/about" }, "/science", "/why"]),
+      column("The Mandate", [{ label: "The Mandate", href: "/about" }, { label: "Director", href: "/director" }, "/science", "/why"]),
       column("Safeguards", ["/safety", "/command", { label: "Privacy notice", href: "/privacy" }]),
-      column("The Record", ["/journal", "/contact", { label: "Gallery", href: "/gallery" }]),
+      column("The Record", ["/contact", { label: "Gallery", href: "/gallery" }]),
     ],
   },
   {
@@ -181,8 +182,9 @@ export const navMenus: NavMenu[] = [
     lead: "Eight hundred years of the Marwari, and the riders who made it a legend.",
     columns: [
       column("The Marwari", ["/legend", "/statue", "/worlds"]),
-      column("Painted Histories", ["/story/pratap-chetak", "/story/rani-lakshmibai", "/story/alexander-bucephalus"]),
-      column("The Archive", ["/history/marwar", "/history/india", "/history/world", { label: "Lore of the Bards", href: "/lore" }]),
+      // Owner's order (16 Nov 2026): Pratap & Chetak, Rani Lakshmibai, Horses of India, Horses of the World, Alexander & Bucephalus.
+      column("Histories", ["/story/pratap-chetak", "/story/rani-lakshmibai", "/history/india", "/history/world", "/story/alexander-bucephalus"]),
+      column("The Archive", ["/history/marwar", "/journal"]),
     ],
   },
 ];
@@ -232,7 +234,7 @@ export const corridors = [
 /** The footer's small print: pages outside the reels (numbered pages belong in `footerNav`). */
 export const legalNav: NavMenuLink[] = links([
   { label: "About", href: "/about" },
-  { label: "Lore of the Bards", href: "/lore" },
+  { label: "Director", href: "/director" },
   { label: "Privacy", href: "/privacy" },
   { label: "Film credits", href: "/worlds/credits" },
 ]);

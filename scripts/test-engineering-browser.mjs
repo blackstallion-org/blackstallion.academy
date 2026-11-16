@@ -82,7 +82,7 @@ try {
       await p.getByRole("button", { name: "Sound OFF — Unmute video sound", exact: true }).click(); assert.equal(await video.evaluate((element) => element.muted), false);
       await p.getByRole("button", { name: "Play video", exact: true }).click(); await p.waitForTimeout(400); assert.equal(await video.evaluate((element) => element.paused), false);
       const progress = await p.locator('#top > div[aria-hidden="true"] span').last().getAttribute("style"); assert.ok(progress?.includes("scaleX"));
-      await snap(p, `hero-${width}`); await p.getByRole("button", { name: "Skip Intro", exact: true }).click(); await p.waitForTimeout(250);
+      await snap(p, `hero-${width}`); await p.getByRole("button", { name: "Skip intro", exact: true }).click(); await p.waitForTimeout(250);
       const top = await p.locator("#doctrine").evaluate((element) => element.getBoundingClientRect().top); assert.ok(Math.abs(top) < 120, `doctrine top ${top}`); assert.ok(await video.evaluate((element) => element.paused));
       await fit(p); await p.context().close(); return { selectedSource: src.split("/").at(-1), skipTargetTop: top, controls: true, progress };
     });
@@ -168,14 +168,6 @@ try {
   });
 
   if (selected("extras")) {
-    await test("footer film stays deferred until visible and retains its poster", async () => {
-      const p = await page({ viewport: { width: 390, height: 844 } }); const requests = [];
-      p.on("request", (request) => { if (request.url().includes("footer-ambient") && request.url().includes(".mp4")) requests.push(request.url()); });
-      await open(p, "/"); await p.waitForTimeout(300); assert.equal(requests.length, 0);
-      const video = p.locator("footer video"); assert.ok(await video.getAttribute("poster")); await video.scrollIntoViewIfNeeded();
-      await p.waitForFunction(() => document.querySelector("footer video")?.readyState >= 2, { timeout: 20000 }); assert.ok(requests.length > 0); await p.context().close();
-      return { deferredWhileOffscreen: true, playbackLoadsWhenVisible: true, posterRetained: true };
-    });
     await test("loader releases without JavaScript and when horse engine fails", async () => {
       const plain = await page({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
       await plain.goto(base, { waitUntil: "load" }); await plain.locator(".bsah-loader").waitFor({ state: "hidden", timeout: 10000 }); assert.ok(await plain.locator("main h1").innerText()); await plain.context().close();
@@ -232,7 +224,7 @@ try {
     });
   }
 
-  if (selected("final-layout")) for (const route of ["/about", "/cadets", "/command", "/curriculum", "/fleet", "/journal", "/legend", "/lore", "/science", "/tournaments", "/verify", "/why"]) for (const width of [320, 390, 768, 1440]) await test(`final layout ${route} ${width}`, async () => {
+  if (selected("final-layout")) for (const route of ["/about", "/cadets", "/command", "/curriculum", "/fleet", "/journal", "/legend", "/science", "/tournaments", "/verify", "/why"]) for (const width of [320, 390, 768, 1440]) await test(`final layout ${route} ${width}`, async () => {
     const p = await page({ viewport: { width, height: 900 }, reducedMotion: "reduce" }); await open(p, route); await fit(p);
     for (const section of await p.locator("#main section").all()) { if (await section.isVisible()) { await section.scrollIntoViewIfNeeded(); await fit(p); } }
     await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(200);
