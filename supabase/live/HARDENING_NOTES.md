@@ -342,3 +342,29 @@ Not changed: `site_settings` (review the live values first) and `consent_records
 
 **Pre-flight:** confirm no signed-in client (mobile app, ops tool) reads the two hub columns or other children's horses and
 achievements. The website needs none of them (checked in code, 17 Nov 2026).
+
+---
+
+# Payment order guard (20261118001900): notes for the owner
+
+**Status: written 18 Nov 2026 (technical audit, finding S20 / M4), NOT applied anywhere.** Apply before online payment is
+switched on (the Razorpay keys), after `20261104001400_registration_admissions.sql`.
+
+| File | Role |
+| --- | --- |
+| `migrations/20261118001900_payment_order_guard.sql` | the migration (one transaction, re-runnable, refuses to run while an application has two PENDING orders) |
+| `rollback/20261118001900_payment_order_guard_rollback.sql` | drops the index and restores the 001400 `ingest_payment_event` (re-runnable) |
+| `tests/78_payment_guard_tests.sql` | behaviour after the migration and after the rollback |
+
+Replica run (`PG_BIN=/opt/homebrew/opt/postgresql@18/bin bash supabase/live/tests/run.sh`, 18 Nov 2026): **454 passed, 0 failed**
+(15 new checks).
+
+What changes: at most one PENDING payment record per application; a verified capture on an application that another order
+already paid is still recorded (the money was taken) but returns `paid_duplicate`, leaves the application alone and writes
+`payment.paid_duplicate` to the audit trail; the webhook also logs `payment.paid_duplicate`, so staff refund it. Refunding that
+duplicate leaves the application paid. Everything else in the function is unchanged.
+
+**Pre-flight:** `select application_id, count(*) from public.payment_records where status = 'PENDING' and application_id is not null group by 1 having count(*) > 1;` must return no rows.
+
+Not changed (S25): the dedupe key is still Razorpay's event-id header; deduping refunds on the refund id from the signed body
+is a further step.

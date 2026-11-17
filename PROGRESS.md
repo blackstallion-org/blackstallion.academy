@@ -1585,3 +1585,21 @@ progress in another session. Not tested: Safari and a real phone.
     0 problems, none of them excluded from deployment; 19 Chrome checks (opening film, Sound, Skip, Escape, 14 s hold, autoplay refused,
     reduced motion, `?nointro`, hydration on 8 views, date min, `/statue?ch=3`, `/fleet` and `/statue` WebGL models at 1440 and 390,
     phone menu lockup, keyboard focus). Playwright: the npx 1.66 alpha matches the cached Chromium 1254; films need Google Chrome.
+
+- **18 Nov 2026 · technical audit, second pass (branch `audit-1118`, from `owner-corrections-1116`; nothing pushed, deployed or
+  applied to the live database).**
+  - **Merged `audit-1117`** (the 17 Nov audit had never reached this branch): staff MFA on in production, recent sign-in before a new
+    password, platform origin for e-mail links, Next 16.4.6, hydration and film fixes, signed-in read hardening (not applied).
+    Conflicts kept The Lineage intro and its sound hook; sitemap lists `/film` and `/gallery`; media manifest regenerated.
+  - **Security and backend fixes** (`docs/SECURITY_AUDIT.md` S19–S23): media delete checks every step and never touches the media
+    library; one pending payment order per application, stale orders retired, a race reuses the winner, and migration
+    `20261118001900_payment_order_guard.sql` (NOT applied; replica-tested) flags a second paid order as `paid_duplicate`; webhook
+    refuses oversized bodies before reading; MFA enrolment needs AAL2 once an authenticator exists; activation reports a failed
+    role copy; `.invalid` sign-up addresses refused; proxy keeps refreshed cookies on its redirect and matches public paths
+    exactly; the deep health check reads the `NEXT_PUBLIC_` Supabase names too.
+  - **Accessibility:** one visible `h1` and unique ids on `/anatomy`, `/gallery` and the sign-in page (no visual change).
+  - **Checks:** lint 0 errors, typecheck, 364/364 tests, build, e2e 19/19 (installed Chrome via `BSAH_E2E_CHANNEL=chrome`),
+    104-run route sweep at 1440/390, replica 454/454 and 214/214, `npm audit --omit=dev` 0. Details in `docs/TEST_RESULTS.md` §0.
+  - **Open, owner:** apply 001200, 001800 and 001900 (approval); enable TOTP in Supabase Auth; S8 seed accounts, S9 key rotation,
+    S11 Turnstile, S13 backups, S24 direct `submit_lead_v2` calls, S25 refund dedupe; a signed-in admin test against a
+    non-production database. Unused owner-supplied components keep `ogl` and `@splinetool/react-spline` installed (not removed).

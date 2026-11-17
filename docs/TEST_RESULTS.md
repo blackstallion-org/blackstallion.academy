@@ -1,5 +1,25 @@
 # Test results (24 Oct 2026, final code)
 
+## 0. 18 Nov 2026 technical audit (branch `audit-1118`, local Mac, Node 26, Postgres 18, Google Chrome)
+
+Observed this session on `audit-1118` (`5e7d131` + the 17 Nov audit merged + the 18 Nov fixes). No live database, deployment or
+push: browser runs used a `next start` with every Supabase, webhook and e-mail variable blank.
+
+| Suite | Command | Result |
+| --- | --- | --- |
+| Lint | `npm run lint` | 0 errors; 16 warnings (QA scripts in `tools/`, three `<img>` in `Matrix.tsx`, one unused variable) |
+| Types | `npm run typecheck` | pass |
+| Unit + server | `npm test` | trustee crypto script pass; **364/364** (12 new in `tests/audit-1118.test.mjs`) |
+| Production build | `npm run build` | pass |
+| Browser smoke | `BSAH_E2E_CHANNEL=chrome BSAH_PLAYWRIGHT_MODULE=<npx playwright> npm run test:e2e` | **19/19** (47 routes, no page errors or CSP violations) |
+| Route sweep | ad-hoc Playwright script, 52 routes × 1440/390 | 104 runs: all 200, no page errors, no failed local requests, no broken images, no horizontal overflow, one `main`, no unnamed controls; one visible `h1` everywhere after the fixes (`/anatomy` keeps a CSS-hidden second copy for the other breakpoint). `/register` logs `ERR_SSL_PROTOCOL_ERROR` locally only: CSP `upgrade-insecure-requests` upgrades the prefetch of sign-in-protected links on plain-http localhost |
+| Database, live replica | `PG_BIN=/opt/homebrew/opt/postgresql@18/bin bash supabase/live/tests/run.sh` | **454/454** (15 new: payment order guard, stage 78) |
+| Database, website schema | `PG_BIN=… bash supabase/tests/run.sh` | **214/214** |
+| Dependencies | `npm audit --omit=dev` | 0 vulnerabilities (Next 16.4.6); full `npm audit`: 14 high in ESLint's tree (`picomatch`, no fixed version; dev only) |
+
+Not executed: Lighthouse and axe (not installed; no dependency added), real devices, any signed-in staff or member flow
+(needs an owner account and a non-production database), live payments (no keys), e-mail delivery.
+
 Every number below was observed in this session on the code that is on GitHub (branch
 `session/2026-10-24-final-completion`, code head `561c8c8`; the commits after it change documents only).
 "Local" = the production build run in the cloud sandbox (Linux, Node 22, Postgres 16, Chromium, no GPU). "Preview" =
