@@ -1,4 +1,4 @@
-import { asset } from "./asset";
+import { lineageFilm } from "./lineage-film";
 
 /**
  * The two films the home page plays in HeroFilm. Every path is already wrapped in asset(), so the player uses them as they are.
@@ -17,8 +17,15 @@ export type HeroFilmSpec = {
   desktop: string;
   mobile: string;
   posterAlt: string;
-  /** "full": the picture fills the band. "scope": the 16:9 file with baked bars, cropped by a mask (the original film). */
-  layout: "full" | "scope";
+  /**
+   * "full": a 2:1 picture fills a 2:1 band. "wide": a 16:9 picture fills a 16:9 band, uncropped (The Lineage).
+   * "scope": the 16:9 file with baked bars, cropped by a mask (the original film).
+   */
+  layout: "full" | "wide" | "scope";
+  /** Play once and hold the last frame under a quiet "Replay film" (a film with an `endTitle` does this too). Without it, a film loops. */
+  once?: boolean;
+  /** The Replay button's words when the film has no `endTitle`. */
+  replayLabel?: string;
   /** Seconds to jump to before the first playback (the title card), 0 for none. */
   startAt: number;
   /**
@@ -28,18 +35,22 @@ export type HeroFilmSpec = {
   endTitle?: { name: string; line: string; replay: string };
 };
 
+/**
+ * 17 Nov 2026 (owner): "add this as the website intro and remove the current one". The opening film is "The Lineage" (the one-minute
+ * film built in video/, with its Rajasthani score and horse sounds), in place of the 16 Nov rider-lesson film, whose files stay in
+ * public/video, unused. It plays once, uncropped, and holds its own end card (crest, BLACK STALLION, the motto), so it has no
+ * `endTitle` over it. The file names live in lineageFilm (lib/content/lineage-film.ts), the same film that /film plays.
+ */
 export const OPENING_FILM: HeroFilmSpec = {
   id: "top",
-  label: "Opening Film",
-  poster: asset("/video/hero-rider-lesson-poster.jpg"),
-  posterMobile: asset("/video/hero-rider-lesson-poster-mobile.jpg"),
-  desktop: asset("/video/hero-rider-lesson.mp4"),
-  mobile: asset("/video/hero-rider-lesson-mobile.mp4"),
-  posterAlt: "A black horse in silhouette against a warm sunlit background",
-  layout: "full",
+  label: "The Lineage, the opening film",
+  poster: lineageFilm.poster,
+  posterMobile: lineageFilm.posterMobile,
+  desktop: lineageFilm.desktop,
+  mobile: lineageFilm.mobile,
+  posterAlt: lineageFilm.posterAlt,
+  layout: "wide",
   startAt: 0,
-  // 16 Nov 2026 (owner): the film's own end card ("BLACK STALLION" on smoke, then 2.3 s of black, 58.04 s to 63.30 s) was cut
-  // from both files. They now end on the last frame of the white-horse close-up (frame 1390, 57.958 s), with the sound faded out
-  // over the last 1.4 s; originals are in git history. The academy's title is drawn by the player over that held frame instead.
-  endTitle: { name: "The Black Stallion", line: "Academy of Horsemanship", replay: "Replay film" },
+  once: true,
+  replayLabel: "Replay film",
 };

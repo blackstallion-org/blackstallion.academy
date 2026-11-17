@@ -28,7 +28,7 @@ trailer the same day.
 A third Pixabay-licensed candidate was downloaded and not used: "Indian - Epic Indian" (HitsLab, 540948). "India Epic Cinematic
 Music" (414595) became the Marwar Journey film's soundtrack (below).
 
-## Home hero film (`video/hero-rider-lesson*.mp4`, the film under the doctrine screen)
+## Former home hero film (`video/hero-rider-lesson*.mp4`; replaced on the home page by "The Lineage" on 17 Nov 2026 and no longer used, files kept)
 
 The owner's edit ("From the beginning of 12 century… the Marwars… known for their… courage and bravery"), committed on 15 Nov 2026 with no
 source page, licence file or credit for its picture or its soundtrack. **Not verified**: the owner should confirm the right to

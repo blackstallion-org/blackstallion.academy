@@ -1531,3 +1531,9 @@ progress in another session. Not tested: Safari and a real phone.
   nose to nose, an old friend, stillness, evening) is gone from the foot of /legend: usage in `app/legend/page.tsx` and the `legend`
   entry in `lib/content/marwari-editorial.ts`. The files `public/images/marwari-editorial/parents-01..05` stay on disk, unused.
   Checked at 1440 and 390 (the page now ends with the Traditional Lore link and sources, then the footer; no overflow, no console errors).
+- [x] **17 Nov 2026 (later) · The Lineage is the home-page intro (owner: "add this as website intro and remove the current one"); CI smoke test fixed.**
+  `OPENING_FILM` (lib/content/hero-films.ts) is now "The Lineage" (`the-lineage*.mp4`, 20 MB desktop / 6.8 MB phone, against 32.5 / 16.8 MB for
+  the rider-lesson film it replaces, whose files stay in public/video, unused). It plays once, uncropped (`layout: "wide"`, 16:9), muted until the
+  visitor turns sound on, and holds its own end card under a quiet "Replay film" (`once`, no `endTitle` over it). The browser smoke check
+  "hero: the opening film follows the doctrine screen" was failing in CI because it still named `hero-marwar-desktop.mp4`; it now names the-lineage.
+  Checked: lint (0 errors), typecheck, build, 348 tests, 19/19 browser smoke tests; screenshots at 1440 and 390 (playing and held end card).
