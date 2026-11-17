@@ -1545,3 +1545,10 @@ progress in another session. Not tested: Safari and a real phone.
     first view); posters are WebP (`/film` 319 KB to 99 KB, home band 255 KB to 110 KB). Tried and dropped: a `preload` hint for the statue model (no measurable gain, 1 MB wasted for
     visitors who do not use the 3D view). Not done: responsive image sizes for the 97 stills (all 1792 px; a larger job).
   - Checked: lint (0 errors), typecheck, build, 348 tests, 19/19 browser smoke tests; screenshots at 1440 and 390.
+- [x] **17 Nov 2026 (later) · Owner corrections: the illustrated film is back (on /about), the hero band no longer says "unavailable".**
+  - The Lineage stays the first-visit opening. The 37.5 s illustrated film "From Marwar to the black stallion, in ink" (and its score
+    "Sovereign of the Marwar") was restored and now plays on /about after the letter (`components/sections/about/IllustratedFilm.tsx`,
+    `illustratedFilm` in lib/content/intro-film.ts); the footer credits both scores.
+  - The black-horse film in the band under "Who we are" stays. Its bug: the 12 s load watchdog in `HeroFilm.tsx` started at mount, so while the
+    first-visit intro held the band paused (preload="metadata" never reaches HAVE_CURRENT_DATA), it marked a healthy film "The film is
+    unavailable". The clock now starts at the first play attempt. New browser smoke check: intro held over 12 s, skip, the band is not failed.

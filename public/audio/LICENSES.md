@@ -20,10 +20,10 @@ in the same sense as the Higgsfield imagery. The previous track, "Windswept" (Ke
 ## Opening film (home page, first visit of a session): "The Lineage" since 17 Nov 2026
 
 The first-visit intro is "The Lineage" (`public/video/the-lineage*.mp4`, one minute): its music and horse sounds are in the
-"Intro film soundtrack" table below. It replaced the 37.5 s film described next, whose files were removed the same day; the
-owner's score "Sovereign of the Marwar" (88.8 s master) is no longer used or credited on the site.
+"Intro film soundtrack" table below. It replaced the 37.5 s film described next as the opening; that film now plays on /about
+(owner, 17 Nov 2026), so its score stays in use and is credited in the footer.
 
-### Former opening film score (16 Nov 2026, replaced 17 Nov 2026)
+### Illustrated film score (the opening film 16 to 17 Nov 2026, on /about since 17 Nov 2026)
 
 Since 16 Nov 2026 the opening film (`public/video/intro-film*.mp4`) carries "Sovereign of the Marwar", an original score the
 owner supplied for the site (88.8 s master, kept out of the web build). The film uses its first 37.5 s, faded out over the last

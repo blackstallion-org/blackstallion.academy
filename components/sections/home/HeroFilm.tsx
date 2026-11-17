@@ -86,9 +86,12 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     const failure = () => { failed.current = true; if (!disposed) setState("failed"); };
     // Source errors can happen before hydration and do not bubble from <source>.
     // Inspect the native state too, including the all-sources-failed browser case.
-    const mediaStarted = performance.now();
+    // 17 Nov 2026: the 12 s "no picture yet" clock starts at the first real play attempt, not at mount. On a first visit the intro
+    // overlay holds this film paused for up to a minute, and with preload="metadata" it never reaches HAVE_CURRENT_DATA while held,
+    // so a clock started at mount marked a healthy film "unavailable" before it was ever asked to play.
+    let attemptAt = 0;
     const watchdog = window.setInterval(() => {
-      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (!preference.matches && !saveData && video.readyState < 2 && performance.now() - mediaStarted > 12000)) failure();
+      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE || (attemptAt > 0 && video.readyState < 2 && performance.now() - attemptAt > 12000)) failure();
       if (video.readyState >= 2 || failed.current) window.clearInterval(watchdog);
     }, 200);
     // The film starts when the loader (and the opening zoom) has gone, so none of it plays unseen behind the overlay.
@@ -97,7 +100,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     const sync = () => {
       if (holding()) video.pause();
       else if (finished.current || document.hidden || !inView.current || userPaused.current || preference.matches || saveData) video.pause();
-      else { prime(); video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); }); }
+      else { if (!attemptAt) attemptAt = performance.now(); prime(); video.play().catch(() => { if (!disposed) setState((previous) => failed.current || previous === "failed" ? "failed" : "blocked"); }); }
     };
     const observer = new IntersectionObserver(([entry]) => { inView.current = entry.isIntersecting; sync(); }, { threshold: 0.05 });
     observer.observe(video);

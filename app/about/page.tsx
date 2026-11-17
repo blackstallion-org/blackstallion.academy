@@ -11,6 +11,7 @@ import { Truths } from "@/components/sections/about/Truths";
 import { MandateKineticStage } from "@/components/sections/about/MandateKineticStage";
 import { house, letter, truths } from "@/lib/content/academy";
 import { entity } from "@/lib/content/site";
+import { IllustratedFilm } from "@/components/sections/about/IllustratedFilm";
 import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
@@ -65,6 +66,9 @@ export default function AboutPage() {
           <p className="label mt-1 text-[#6b5130]">{letter.title}</p>
         </Reveal>
       </section>
+
+      {/* 17 Nov 2026 (owner): the illustrated film, the website's first opening film, lives here now */}
+      <IllustratedFilm />
 
       {/* §2 · S32 six truths (second use) */}
       <Truths label="Six truths we stand behind" lines={truths} />
