@@ -1,0 +1,26 @@
+{
+  "name": "bsah-intro-film",
+  "private": true,
+  "version": "0.1.0",
+  "description": "The Lineage: the one-minute BSAH intro film (Remotion). Kept apart from the website's own dependencies.",
+  "scripts": {
+    "studio": "remotion studio src/index.ts --public-dir ../public",
+    "stills": "node scripts/stills.mjs",
+    "render": "remotion render src/index.ts Lineage out/bsah-lineage-1080p-picture.mp4 --public-dir ../public --browser-executable /opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --codec h264 --crf 18",
+    "draft": "remotion render src/index.ts Lineage out/bsah-lineage-draft-720p.mp4 --public-dir ../public --browser-executable /opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell --codec h264 --crf 22 --scale 0.6666666666666666",
+    "mix": "sh scripts/mix-audio.sh",
+    "finish": "sh scripts/finish.sh"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.544",
+    "@remotion/renderer": "4.0.544",
+    "@remotion/bundler": "4.0.544",
+    "remotion": "4.0.544",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.6.0"
+  }
+}

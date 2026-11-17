@@ -38,3 +38,5 @@ _to_delete
 .playwright-cli
 public/media/*.png
 public/media/*.jpg
+# The Remotion intro film builds on its own (video/README.md); the site never imports it.
+video

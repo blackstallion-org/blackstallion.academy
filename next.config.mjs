@@ -71,7 +71,9 @@ const securityHeaders = [
 ];
 
 /** Directories of static files under public/ that pages load (media, video, models, brand art, audio, decoders). */
-const assetDirs = ["animations", "audio", "brand", "draco", "images", "media", "models", "textures", "video"];
+// "opening" holds the loader's running-rider mask and its six story paintings (about 530 KB, fetched on every page's first paint): until
+// 17 Nov 2026 it was missing here, so the platform default (max-age=0, must-revalidate) made every page view ask for all seven again.
+const assetDirs = ["animations", "audio", "brand", "draco", "images", "media", "models", "opening", "textures", "video"];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

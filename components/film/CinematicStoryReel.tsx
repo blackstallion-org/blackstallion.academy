@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { Arrow, Label } from "@/components/film/Marks";
-import { mediaSrc, type MediaKey } from "@/lib/content/media";
+import { avifTwin, mediaSrc, type MediaKey } from "@/lib/content/media";
 import { whenNearViewport } from "@/lib/motion/near-viewport";
 import { asset } from "@/lib/content/asset";
 
@@ -403,15 +403,29 @@ export function CinematicStoryReel({
               }}
             >
               {/* Drifting Background Image - Full screen clear with zero fade */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={idx === 0 || armed ? resolvedSrc : undefined}
-                alt={slide.alt}
-                loading="lazy"
-                decoding="async"
-                className="slide-bg absolute inset-0 w-full h-full object-cover will-change-transform"
-                style={{ transform: "scale(1.0)" }}
-              />
+              {(() => {
+                const live = idx === 0 || armed;
+                // Shipped stills have an AVIF copy at the same size (about a third of the bytes). Its <source> is only present once the
+                // slide is live, so a slide that is not armed yet still fetches nothing.
+                const twin = live ? avifTwin(resolvedSrc) : null;
+                const bg = (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={live ? resolvedSrc : undefined}
+                    alt={slide.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="slide-bg absolute inset-0 w-full h-full object-cover will-change-transform"
+                    style={{ transform: "scale(1.0)" }}
+                  />
+                );
+                return twin ? (
+                  <picture className="contents">
+                    <source srcSet={twin} type="image/avif" />
+                    {bg}
+                  </picture>
+                ) : bg;
+              })()}
 
               {slide.shade && <div aria-hidden className={`absolute inset-0 z-[1] pointer-events-none ${isLeft ? "shade-l" : "shade-r"}`} />}
 

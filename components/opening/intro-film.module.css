@@ -14,6 +14,13 @@
 .stage { position: absolute; inset: 0; }
 .video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--color-parch); }
 
+/* 17 Nov 2026: "The Lineage" is a 16:9 picture whose titles sit close to the sides. On landscape screens that are narrower than 16:9
+   (most laptops: 16:10 and the like) filling the screen would crop its sides, so the whole picture is shown, centred, with thin parchment
+   bars above and below (the field is the same parchment the film is made on). 16:9 and wider screens still fill. */
+@media (min-aspect-ratio: 1/1) and (max-aspect-ratio: 16/9) {
+  .video { object-fit: contain; }
+}
+
 /* a parchment wash under the controls, so the ink reads on the busiest painting */
 .foot {
   position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--foot) + 2.5rem); pointer-events: none;

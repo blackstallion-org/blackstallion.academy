@@ -12,7 +12,7 @@ import { asset } from "./asset";
  * - movement: gallop, trot, rearing in dust: science (the body at work), tournaments (speed)
  * - training ground, horses on the lead in fields: curriculum
  * - stable, tack and saddlery: safety
- * - quiet pairs, mare and foal, the elder and his horse: legend (moved from parents, 16 Nov 2026)
+ * - quiet pairs, mare and foal, the elder and his horse: formerly legend (removed 17 Nov 2026, owner)
  * - adornment and the horsemen of Marwar: about
  * Left out: three collages, two screen captures with app icons, one exact duplicate, and frames already close to a chosen one.
  *
@@ -145,23 +145,8 @@ export const editorialGalleries = {
     ],
     credit: PERMISSION,
   },
-  /* Moved from /parents on 16 Nov 2026 (owner): breed storytelling belongs on the Marwari page, not the Guardian page. */
-  legend: {
-    id: "quiet-pairs",
-    layout: "pair",
-    label: "Trust",
-    inscription: "Gentle",
-    voice: "by nature.",
-    lede: "The Marwari is spirited, and gentle with the people it knows. Trust is what a child brings home.",
-    photos: [
-      f("parents-01", 1440, 1788, "Mare and foal", "A black Marwari mare and her foal stand together in a sandstone courtyard."),
-      f("parents-02-original", 1300, 838, "Nose to nose", "Two Marwari horses touch noses in silhouette, the sun setting between them."),
-      f("parents-04", 1300, 1300, "An old friend", "An elderly man in a pink turban rests his cheek against his black Marwari."),
-      f("parents-03-original", 896, 1300, "Stillness", "A white Marwari stands on rocks at the edge of a misty lake."),
-      f("parents-05-original", 1269, 846, "Evening", "A Marwari stands still on open ground, the sun breaking behind its shoulder."),
-    ],
-    credit: PERMISSION,
-  },
+  /* /legend "Trust · Gentle by nature" (the quiet pairs: mare and foal, nose to nose, an old friend, stillness, evening) removed
+     17 Nov 2026 (owner). Its five files, public/images/marwari-editorial/parents-01..05, stay on disk, unused. */
   /* 17 Nov 2026 (owner: "wedding horse, put the desert horse images; this text doesn't suit here, make it light"): the jewellery
      and wedding-finery photographs are gone; the plate is now the Marwari in its own country, the Thar, in plain words. */
   about: {

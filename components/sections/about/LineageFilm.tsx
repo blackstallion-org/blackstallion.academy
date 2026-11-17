@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { Headline } from "@/components/film/Headline";
 import { Label } from "@/components/film/Marks";
-import { introFilm as film } from "@/lib/content/intro-film";
+import { introFilm } from "@/lib/content/intro-film";
+import { lineageFilm as film } from "@/lib/content/lineage-film";
 import { saveDataMode } from "@/lib/motion/save-data";
 
 type Playback = "idle" | "playing" | "paused" | "failed";
@@ -82,7 +83,7 @@ export function LineageFilm() {
               playsInline
               preload="metadata"
               poster={film.poster}
-              aria-label={film.description}
+              aria-label={introFilm.description}
               onPlaying={() => setState("playing")}
               onPause={() => setState((s) => (s === "failed" ? s : "paused"))}
               onError={(e) => { const v = e.currentTarget; if (v.error || v.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) setState("failed"); }}
@@ -97,7 +98,7 @@ export function LineageFilm() {
           </div>
           <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
             <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-dust">
-              {state === "failed" ? "The film could not load. Please try again." : film.note}
+              {state === "failed" ? "The film could not load. Please try again." : introFilm.note}
             </span>
             <span className="flex items-center gap-3">
               <button type="button" className={BUTTON} onClick={toggleSound} aria-pressed={!muted} aria-label="Film sound">

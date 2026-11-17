@@ -17,7 +17,13 @@ The original is kept outside the repo.
 Before a public launch the owner should obtain written permission or a licence file from the channel; until then this is a placeholder
 in the same sense as the Higgsfield imagery. The previous track, "Windswept" (Kevin MacLeod, CC BY 4.0), was removed on 3 Nov 2026.
 
-## Opening film score (home page, first visit of a session)
+## Opening film (home page, first visit of a session): "The Lineage" since 17 Nov 2026
+
+The first-visit intro is "The Lineage" (`public/video/the-lineage*.mp4`, one minute): its music and horse sounds are in the
+"Intro film soundtrack" table below. It replaced the 37.5 s film described next, whose files were removed the same day; the
+owner's score "Sovereign of the Marwar" (88.8 s master) is no longer used or credited on the site.
+
+### Former opening film score (16 Nov 2026, replaced 17 Nov 2026)
 
 Since 16 Nov 2026 the opening film (`public/video/intro-film*.mp4`) carries "Sovereign of the Marwar", an original score the
 owner supplied for the site (88.8 s master, kept out of the web build). The film uses its first 37.5 s, faded out over the last
@@ -54,6 +60,16 @@ on "Open Range", whose licence is unverified.
 
 17 Nov 2026: the film's picture was replaced (desert, palace, BSAH gate; `video/marwar-journey-v2*.mp4`). The same mix was carried over,
 trimmed to 28.83 s with a 1.5 s fade out; no new audio source.
+
+## Intro film soundtrack (`video/the-lineage*.mp4`, /film)
+
+| Part | Source | Licence |
+| --- | --- | --- |
+| Music | "Desert Rajasthan Folk Music" by alex-morgan, https://pixabay.com/music/folk-desert-rajasthan-folk-music-583283/ (downloaded 17 Nov 2026), 0:00 to 1:00 | Pixabay Content License: free for commercial use, no attribution required |
+| Horse sounds | `interactions/walk.mp3`, `ambience/cavalry-gallop.mp3`, `interactions/horse-call.mp3`, `interactions/snort.mp3` | as listed below |
+
+Mixed with ffmpeg on 17 Nov 2026 (`video/scripts/mix-audio.sh`: score loudnorm, 4.5 s fade out; walk at 4.7 s; gallop at 16.3 s and
+24.3 s; horse call at 16.9 s; snorts at 31.6 s and 50.2 s; limiter), about -14.6 LUFS. The 61 s score excerpt is kept in `video/audio/`.
 
 ## Horse palette (seven sounds, `interactions/`)
 

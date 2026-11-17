@@ -1,5 +1,5 @@
-// The opening film (components/opening/IntroFilm.tsx, lib/content/intro-film.ts, built by scripts/build-intro-film.mjs): the files
-// exist, both cuts run 59-61 s (read from the MP4's own movie header, so no ffprobe is needed), the moov box comes first
+// The opening film (components/opening/IntroFilm.tsx, lib/content/intro-film.ts; since 17 Nov 2026 "The Lineage", built in video/): the files
+// exist, both cuts run 60 s (read from the MP4's own movie header, so no ffprobe is needed), the moov box comes first
 // (faststart: playback starts before the download ends), the files stay within their weight budgets, and the painted trailer it
 // replaced is gone everywhere. How the film looks and sounds is checked in a browser (PROGRESS.md).
 import { test } from "node:test";
@@ -27,11 +27,11 @@ test("both cuts and the poster are on disk", () => {
   for (const src of [introFilm.desktop, introFilm.mobile, introFilm.poster]) assert.ok(existsSync(local(src)), `${local(src)} is missing`);
 });
 
-test("the film runs 59-61 s, and the content file says the same", () => {
-  assert.ok(introFilm.length >= 59 && introFilm.length <= 61, `length ${introFilm.length}`);
+test("the film runs 60 s, and the content file says the same", () => {
+  assert.ok(introFilm.length >= 59.5 && introFilm.length <= 60.5, `length ${introFilm.length}`);
   for (const src of [introFilm.desktop, introFilm.mobile]) {
     const { seconds, faststart } = mp4(local(src));
-    assert.ok(seconds >= 59.5 && seconds <= 60.5, `${src}: ${seconds.toFixed(2)} s`);
+    assert.ok(seconds >= 59.8 && seconds <= 60.2, `${src}: ${seconds.toFixed(2)} s`);
     assert.ok(Math.abs(seconds - introFilm.length) < 0.25, `${src}: ${seconds.toFixed(2)} s against ${introFilm.length}`);
     assert.ok(faststart, `${src}: the movie header must come before the media (faststart)`);
   }
@@ -44,7 +44,8 @@ test("weight budgets: desktop 22 MB, phones 10 MB, poster 150 KB", () => {
   assert.ok(statSync(local(introFilm.poster)).size <= 150 * 1024, "poster over 150 KB");
 });
 
-test("the painted trailer it replaced is gone, and the raw score is not served", () => {
+test("the earlier intro films are gone, and the raw score is not served", () => {
+  for (const f of ["intro-film.mp4", "intro-film-mobile.mp4", "intro-film-poster.webp"]) assert.ok(!existsSync(join("public/video", f)), `public/video/${f} (the 37.5 s film) was removed on 17 Nov 2026`);
   assert.ok(!existsSync("components/opening/PaintedTrailer.tsx"));
   assert.ok(!existsSync("lib/content/opening-trailer.ts"));
   assert.ok(!existsSync("public/audio/music/opening-trailer.mp3"));

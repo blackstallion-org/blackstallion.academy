@@ -1514,13 +1514,42 @@ progress in another session. Not tested: Safari and a real phone.
   words "From the desert / to the citadel gate." no longer show over the film (screen-reader heading only); chapter label stays.
   Home ledger band (the herd image slot): the owner's painting of a rider resting his face on his horse (`ledgerBond`, `ledger-bond.*`);
   the sunset herd (`gallop`) stays on disk and in media.ts, unused.
-- [x] **17 Nov 2026 (evening) · The Lineage becomes the opening film; it also sits in About.** The owner's 60 s film
-  (`public/video/stills/the-lineage.mp4`) replaces the 37.5 s ink journey as the first-visit intro (`lib/content/intro-film.ts`; web cuts
-  `the-lineage.mp4` = source as is, `the-lineage-mobile.mp4` 1280 x 720 CRF 26, `the-lineage-poster.jpg` 1600 px; the old `intro-film*` files
-  left the manifest; `tests/intro-film.test.mjs` now expects 59–61 s). New `components/sections/about/LineageFilm.tsx` plays the same file on
-  `/about` between the title card and the Mandate letter: muted autoplay in view, pause off screen, controls under the picture, poster only
-  under reduced motion or Data Saver. Loader: the running-horse mask image was preloaded without `crossorigin`, so the browser fetched it
-  twice (console warning); `lib/opening/boot.ts` now preloads it in CORS mode. Checked at 1440 and 390: intro plays and hands over to the home
-  hero; the home loader horse, hero film, "Before the saddle, the horse" photo and all 39 home images load locally. **Open:** the owner's
-  report that "the horse" on the home intro does not load could not be reproduced here; needs the exact section or a production URL.
-  Credit line in the footer (`introFilm.music`) still names the earlier score; confirm the Lineage film's music credit.
+- [x] **17 Nov 2026 · Intro film "The Lineage" (Remotion, `video/`), storyboard and 720p draft.** Own `package.json` (Remotion
+  4.0.544), so the site's dependencies are unchanged. 60 s, 1920×1080, 30 fps, ten scenes built only from the site's approved
+  artwork (history b/s/f layers, the Pratap painted bands, sh01 parchment, the official stamp crest, the bondField photo) and the
+  site's own headlines and place labels. Techniques: depth layers on one camera per scene, turbulence-torn ink-bleed reveals,
+  two-voice titles on an arc, silhouette occluder wipes, the world scene shrinking into its medallion on the map, paper and film
+  grain, vignette. `npm run stills` / `npm run render`; see `video/README.md`. No sound yet: a licensed score is needed.
+- [x] **17 Nov 2026 (later) · Intro film finished, /film page, "Intro film" in the navigation (owner).** Score: "Desert Rajasthan Folk
+  Music" (alex-morgan, Pixabay Content License) with CC0/licensed horse sounds, about -14.6 LUFS (`video/scripts/mix-audio.sh`).
+  Final 1080p render with sound; web cuts `public/video/the-lineage.mp4` (20 MB) and `-mobile.mp4` (6.8 MB, 720p) and posters.
+  New page `/film` (16:9 frame, native controls, never autoplays; chapter list that jumps the film and links each scene's page;
+  the film stays in view beside the chapters on wide screens). One `introFilm` entry in site.ts, shown in the Academy and Heritage
+  menus, the menus' foot, the Reels menu (from 640 px; phones have it in the groups) and the footer; sitemap updated. Checked at
+  1440 and 390: menus, reduced motion (paused until pressed), keyboard focus, no console errors; lint, typecheck, build, 348 tests.
+- [x] **17 Nov 2026 (later) · /legend: "Trust · Gentle by nature" gallery removed (owner).** The five-photograph section (mare and foal,
+  nose to nose, an old friend, stillness, evening) is gone from the foot of /legend: usage in `app/legend/page.tsx` and the `legend`
+  entry in `lib/content/marwari-editorial.ts`. The files `public/images/marwari-editorial/parents-01..05` stay on disk, unused.
+  Checked at 1440 and 390 (the page now ends with the Traditional Lore link and sources, then the footer; no overflow, no console errors).
+- [x] **17 Nov 2026 (later) · The Lineage is the website's first-visit intro (owner: "add this as website intro and remove the current one"); CI smoke test fixed; images and 3D load lighter.**
+  - **Intro:** `lib/content/intro-film.ts` now points at `the-lineage.mp4` (20 MB, 1080p) and `the-lineage-mobile.mp4` (6.8 MB, 720p), 60 s, with a plain-parchment poster
+    `the-lineage-intro-poster.webp` (22 KB). It replaced the 37.5 s "From Marwar to the black stallion, in ink" film, whose three files (29 MB) were removed;
+    `tests/intro-film.test.mjs` now expects 60 s. The footer credit follows `introFilm.music` ("Desert Rajasthan Folk Music", alex-morgan, Pixabay Content License).
+    On landscape screens narrower than 16:9 (laptops) the overlay now shows the whole picture with thin parchment bars instead of cropping its sides (`intro-film.module.css`).
+    I first swapped the *hero band* film under the doctrine screen by mistake; that was reverted (the band is the owner-supplied rider-lesson film again, `OPENING_FILM`).
+  - **CI:** the browser smoke check "hero: the opening film follows the doctrine screen" named `hero-marwar-desktop.mp4`, which the home page stopped using on 16 Nov; it now
+    checks the rider-lesson film (`scripts/e2e-smoke.mjs`). 19/19 pass.
+  - **Speed** (measured on a cold cache with Playwright, 10 Mbps / 100 ms): `/opening/*` (the loader mask and six paintings, about 530 KB on every first view) had no
+    cache header (max-age=0), now a day like the other media folders (`next.config.mjs`); the home story strip loads the AVIF twin (214 KB, was 514 KB WebP);
+    `/cadets` no longer downloads the 1.1 MB uniform model and the 3D library at page load (they start 1.5 screens before the viewer; `UniformViewer.tsx`; 4.5 MB to 3.1 MB on
+    first view); posters are WebP (`/film` 319 KB to 99 KB, home band 255 KB to 110 KB). Tried and dropped: a `preload` hint for the statue model (no measurable gain, 1 MB wasted for
+    visitors who do not use the 3D view). Not done: responsive image sizes for the 97 stills (all 1792 px; a larger job).
+  - Checked: lint (0 errors), typecheck, build, 348 tests, 19/19 browser smoke tests; screenshots at 1440 and 390.
+- [x] **17 Nov 2026 (evening) · The Lineage also plays in About; loader preload fix** (branch `owner-corrections-1116`, merged with `main`, which
+  had already made The Lineage the first-visit intro; this branch's duplicate intro swap was dropped in favour of main's). New
+  `components/sections/about/LineageFilm.tsx` on `/about` between the title card and the Mandate letter: the same 60 s film, muted autoplay in
+  view, pause off screen, controls under the picture, poster only under reduced motion or Data Saver. Loader: the running-horse mask image was
+  preloaded without `crossorigin`, so the browser fetched it twice (console warning); `lib/opening/boot.ts` now preloads it in CORS mode.
+  Checked at 1440 and 390: intro plays and hands over to the home hero; the loader horse, hero film, "Before the saddle, the horse" photo and
+  all 39 home images load locally. **Open:** the owner's report that "the horse" on the home intro does not load could not be reproduced
+  here; needs the exact section or a production URL.

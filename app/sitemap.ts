@@ -12,7 +12,7 @@ const BASE = "https://blackstallion.academy";
 const STATIC_ROUTES = [
   "/", "/legend", "/worlds", "/anatomy", "/director", "/statue", "/science", "/stride", "/why", "/curriculum", "/fleet", "/cadets",
   "/parents", "/safety", "/equipment", "/schools", "/schools/mou", "/verify", "/tournaments", "/command", "/journal",
-  "/about", "/contact", "/privacy",
+  "/about", "/contact", "/privacy", "/film",
   "/story/pratap-chetak", "/story/rani-lakshmibai", "/story/alexander-bucephalus", "/history/marwar", "/history/india", "/history/world",
 ];
 
