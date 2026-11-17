@@ -1,26 +1,26 @@
 import { asset } from "./asset";
 
 /**
- * The opening film (16 Nov 2026, owner's brief): 37.5 s, one continuous historical journey cut from three generated parchment
- * animations and set to the owner's score. Marwar on the map → Rajput horsemen → British-era Jodhpur → the Jodhpur Lancers →
- * the royal stables → the lone black stallion. Shown once per session over the home page (components/opening/IntroFilm.tsx).
- *
- * Built by scripts/build-intro-film.mjs (the edit, per-beat speeds, the crop past the generator's corner mark, grain, the score's
- * fade and loudness are all documented there). H.264 + AAC in one file, so sound is always in sync: desktop 1920 × 1080, phones
- * 1280 × 720, faststart. The picture is illustration, and the frame says so (`note`).
+ * The opening film (17 Nov 2026, owner's brief): "The Lineage", 60 s, 1920 x 1080 H.264 + AAC with its own sound, so picture and
+ * score are always in sync. Parchment opens on the horse, the crown and the storm, then the lineage runs Marwar, Mughal India, the
+ * Silk Roads, and closes on the BSAH crest and "Dominus sui, dominus equi". It replaced the 37.5 s ink-and-parchment journey
+ * (scripts/build-intro-film.mjs, kept for history). The same file plays in the About reel (components/sections/about/LineageFilm.tsx).
+ * Source: public/video/stills/the-lineage.mp4. Web cuts (ffmpeg, faststart): desktop = the source as is; phones = 1280 x 720, CRF 26,
+ * AAC 96 kb/s. Shown once per session over the home page (components/opening/IntroFilm.tsx). The picture is illustration, and the
+ * frame says so (`note`).
  */
 export const introFilm = {
-  label: "From Marwar to the black stallion, in ink",
-  desktop: asset("/video/intro-film.mp4"),
-  mobile: asset("/video/intro-film-mobile.mp4"),
-  poster: asset("/video/intro-film-poster.webp"),
+  label: "The Lineage",
+  desktop: asset("/video/the-lineage.mp4"),
+  mobile: asset("/video/the-lineage-mobile.mp4"),
+  poster: asset("/video/the-lineage-poster.jpg"),
   /** running time in seconds (the film's own end hands over to the page) */
-  length: 37.5,
+  length: 60,
   note: "Illustrated film",
   music: { title: "Sovereign of the Marwar", credit: "original score" },
   /** what the film shows, for screen readers */
   description:
-    "An illustrated film on parchment: the map of Marwar draws itself in ink and rises into Rajput horsemen before their forts; " +
-    "British-era Jodhpur; the Jodhpur Lancers charge across the desert; the Maharaja among his Marwari horses; and a lone black " +
-    "stallion standing on the map of the world.",
+    "An illustrated film on parchment: a Marwari horse and rider cross the desert below a fort, and a bond holds through the storm at " +
+    "Haldighati; the lineage then runs from Marwar through Mughal India and the Silk Roads, and ends on the Black Stallion Academy " +
+    "of Horsemanship crest and its motto, Dominus sui, dominus equi.",
 } as const;

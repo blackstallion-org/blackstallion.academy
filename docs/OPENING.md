@@ -1,3 +1,6 @@
+> **17 Nov 2026 (owner):** the intro film is now **The Lineage** (60 s, `public/video/the-lineage*.mp4`, `lib/content/intro-film.ts`); it also
+> plays in full on `/about` (`components/sections/about/LineageFilm.tsx`). The 37.5 s ink journey it replaced is history.
+
 # The first-visit opening and the running-horse loader (updated 15 Nov 2026)
 
 > **15 Nov 2026 (owner):** the 3D Four Worlds intro is gone (code in `components/worlds` and assets in `public/worlds` deleted). The intro

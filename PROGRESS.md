@@ -1514,3 +1514,13 @@ progress in another session. Not tested: Safari and a real phone.
   words "From the desert / to the citadel gate." no longer show over the film (screen-reader heading only); chapter label stays.
   Home ledger band (the herd image slot): the owner's painting of a rider resting his face on his horse (`ledgerBond`, `ledger-bond.*`);
   the sunset herd (`gallop`) stays on disk and in media.ts, unused.
+- [x] **17 Nov 2026 (evening) · The Lineage becomes the opening film; it also sits in About.** The owner's 60 s film
+  (`public/video/stills/the-lineage.mp4`) replaces the 37.5 s ink journey as the first-visit intro (`lib/content/intro-film.ts`; web cuts
+  `the-lineage.mp4` = source as is, `the-lineage-mobile.mp4` 1280 x 720 CRF 26, `the-lineage-poster.jpg` 1600 px; the old `intro-film*` files
+  left the manifest; `tests/intro-film.test.mjs` now expects 59–61 s). New `components/sections/about/LineageFilm.tsx` plays the same file on
+  `/about` between the title card and the Mandate letter: muted autoplay in view, pause off screen, controls under the picture, poster only
+  under reduced motion or Data Saver. Loader: the running-horse mask image was preloaded without `crossorigin`, so the browser fetched it
+  twice (console warning); `lib/opening/boot.ts` now preloads it in CORS mode. Checked at 1440 and 390: intro plays and hands over to the home
+  hero; the home loader horse, hero film, "Before the saddle, the horse" photo and all 39 home images load locally. **Open:** the owner's
+  report that "the horse" on the home intro does not load could not be reproduced here; needs the exact section or a production URL.
+  Credit line in the footer (`introFilm.music`) still names the earlier score; confirm the Lineage film's music credit.

@@ -8,6 +8,7 @@ import { CrestMark } from "@/components/brand/CrestMark";
 import { ModelPlate } from "@/components/3d/ModelPlate";
 import { asset } from "@/lib/content/asset";
 import { Truths } from "@/components/sections/about/Truths";
+import { LineageFilm } from "@/components/sections/about/LineageFilm";
 import { MandateKineticStage } from "@/components/sections/about/MandateKineticStage";
 import { house, letter, truths } from "@/lib/content/academy";
 import { entity } from "@/lib/content/site";
@@ -37,6 +38,9 @@ export default function AboutPage() {
         <Headline id="about-h" as="h1" size="1" animate="mount" delay={0.8} className="mx-auto mt-4" inscription="Dominus Sui," voice="dominus equi." />
         <ScrollRevealText className="t-story mt-6 text-sand">{entity.mottoEn}.</ScrollRevealText>
       </section>
+
+      {/* 17 Nov 2026 (owner): the opening film, The Lineage, in full */}
+      <LineageFilm />
 
       {/* §1 · S61 letter */}
       <section aria-labelledby="letter-h" className="gutter relative py-[clamp(6rem,14vh,12rem)]">
