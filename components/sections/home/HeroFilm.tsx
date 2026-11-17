@@ -19,15 +19,10 @@ const CLOSE_LEAD = 1.2;
  * 16 Nov 2026 (owner): a film with an `endTitle` plays once. In its last 1.2 s the picture dims toward the warm black and pushes in
  * slowly, its last frame is held (never a cut to black) and the academy's title resolves over it in smoke and warm light; the
  * controls give way to a quiet "Replay film". "Skip intro" goes straight to that closing state, then on to the story below.
- *
- * 17 Nov 2026 (owner): the opening film is now "The Lineage" (16:9, `layout: "wide"`), which carries its own end card, so it uses
- * `once` (play once, hold the last frame, quiet "Replay film") without an `endTitle` over it.
  */
 export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) {
   const archive = film.id !== OPENING_FILM.id;
   const endTitle = film.endTitle;
-  // A film plays once (and holds its last frame) if it has a closing title or says so itself; otherwise it loops.
-  const once = Boolean(endTitle) || film.once === true;
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
   const bufferedRef = useRef<HTMLSpanElement>(null);
@@ -70,7 +65,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
   const reduced = useReducedMotion();
   const lenis = useLenis();
 
-  const titled = once && (state === "ended" || state === "skipped");
+  const titled = Boolean(endTitle) && (state === "ended" || state === "skipped");
   const settle = Boolean(endTitle) && (titled || closing);
 
   // Keyboard focus follows the controls: into "Replay film" if the film ended while focus was on a control (they become inert),
@@ -159,7 +154,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     const video = videoRef.current;
     video?.pause();
     // Straight to the closing title (scrolling back up finds it, not a paused frame), then on to the story below.
-    if (once) { finished.current = true; if (video) holdLastFrame(video); }
+    if (endTitle) { finished.current = true; if (video) holdLastFrame(video); }
     setState("skipped");
     // Skipping lands on the story that follows the film.
     const target = document.querySelector<HTMLElement>("[data-home-story]") ?? document.getElementById("doctrine");
@@ -182,7 +177,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
     video.play().catch(() => setState((previous) => previous === "failed" ? previous : "blocked"));
   };
   const onEnded = () => {
-    if (once) {
+    if (endTitle) {
       finished.current = true;
       const active = document.activeElement;
       if (active && (controlsRef.current?.contains(active) || seekRef.current === active)) focusAfter.current = "replay";
@@ -217,7 +212,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
       {/* Native picture is deliberately available before JS and video decoding. */}
       <img data-hero-poster src={film.poster} alt={film.posterAlt} fetchPriority={archive ? "low" : "high"} loading={archive ? "lazy" : undefined} className="h-full w-full object-cover" />
     </picture>
-    <video ref={videoRef} className={`absolute inset-0 h-full w-full object-cover ${state !== "failed" && (hasFrame || !seeked) ? "opacity-100" : "opacity-0"}`} muted loop={!once} playsInline preload="metadata" poster={film.poster} aria-label={`${film.label}`}
+    <video ref={videoRef} className={`absolute inset-0 h-full w-full object-cover ${state !== "failed" && (hasFrame || !seeked) ? "opacity-100" : "opacity-0"}`} muted loop={!endTitle} playsInline preload="metadata" poster={film.poster} aria-label={`${film.label}`}
       onLoadedMetadata={() => { const video = videoRef.current; if (video && finished.current) holdLastFrame(video); else if (video && !video.paused) prime(); updateProgress(); }}
       onPlaying={() => { failed.current = false; setHasFrame(true); setState("playing"); }} onPause={() => setState((previous) => previous === "skipped" || previous === "failed" || previous === "ended" ? previous : "paused")}
       onWaiting={() => setState((previous) => failed.current || previous === "failed" ? "failed" : "buffering")} onStalled={() => setState((previous) => previous === "playing" ? "buffering" : previous)} onEnded={onEnded}
@@ -229,7 +224,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
       <source src={film.desktop} type="video/mp4" />
     </video>
   </>;
-  return <section id={film.id} aria-label={film.label} data-playback={state} data-settle={settle ? "" : undefined} data-titled={titled ? "" : undefined} className={`tone-photo relative w-full overflow-hidden bg-night ${styles.film} ${scope ? "aspect-[1.95/1]" : film.layout === "wide" ? "aspect-video" : "aspect-[2/1]"}`}>
+  return <section id={film.id} aria-label={film.label} data-playback={state} data-settle={settle ? "" : undefined} data-titled={titled ? "" : undefined} className={`tone-photo relative w-full overflow-hidden bg-night ${styles.film} ${scope ? "aspect-[1.95/1]" : "aspect-[2/1]"}`}>
     {/* 31 Oct 2026 (owner's request): no picture behind the film. Around a scope frame the screen is plain black on phone and desktop. */}
     {scope
       ? <div className="absolute left-1/2 top-1/2 w-[130vw] -translate-x-1/2 -translate-y-1/2 md:w-[128%]" style={{ aspectRatio: FRAME_ASPECT, maskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 14.6%, black 14.6%, black 85.4%, transparent 85.4%)" }}>{picture}</div>
@@ -295,8 +290,8 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
       </div>
     </div>
     {/* After the film: one quiet way back into it, where the controls were. */}
-    {once && titled ? <div className="no-print gutter pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-end pb-3 md:pb-7">
-      <button ref={replayRef} type="button" onClick={replay} className={`label pointer-events-auto min-h-9 rounded-full border border-brass/40 bg-night/30 px-4 text-[0.6rem] text-sand backdrop-blur-[2px] hover:border-brass hover:text-gold sm:min-h-11 sm:text-[inherit] ${styles.replay}`}>{endTitle?.replay ?? film.replayLabel ?? "Replay film"}</button>
+    {endTitle && titled ? <div className="no-print gutter pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-end pb-3 md:pb-7">
+      <button ref={replayRef} type="button" onClick={replay} className={`label pointer-events-auto min-h-9 rounded-full border border-brass/40 bg-night/30 px-4 text-[0.6rem] text-sand backdrop-blur-[2px] hover:border-brass hover:text-gold sm:min-h-11 sm:text-[inherit] ${styles.replay}`}>{endTitle.replay}</button>
     </div> : null}
   </section>;
 }

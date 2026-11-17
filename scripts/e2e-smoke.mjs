@@ -201,8 +201,9 @@ try {
 
   // ---- homepage film (HeroFilm.tsx). The opening film is the owner's current hero film, a true 2:1 picture, so its band has that
   // shape and the picture fills it edge to edge (no mask, no crop); the controls sit on the foot of the band, nothing in the top 80 px.
-  // 17 Nov 2026: the file is `OPENING_FILM` in lib/content/hero-films.ts ("The Lineage", `the-lineage*.mp4`; before it the 16 Nov
-  // rider-lesson film, and before that the Marwar film `hero-marwar-*`); the check names that file, so change both together. The older original film (white horse) is gone (owner, 11 Nov 2026).
+  // 17 Nov 2026: the file is `OPENING_FILM` in lib/content/hero-films.ts (since 16 Nov the rider-lesson film, formerly the Marwar film
+  // `hero-marwar-*`); the check names that file, so change both together. (The first-visit intro that plays over the page is a different
+  // film, lib/content/intro-film.ts: "The Lineage" since 17 Nov.) The older original film (white horse) is gone (owner, 11 Nov 2026).
   await check("hero: the opening film follows the doctrine screen; the older original film is gone (owner, 11 Nov 2026)", async () => {
     const { page, context } = await newPage({ width: 1440, height: 900 });
     await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });
@@ -214,7 +215,7 @@ try {
       return {
         film: Boolean(film && film.querySelector("video")),
         order: film && doctrine ? doctrine.getBoundingClientRect().top < film.getBoundingClientRect().top : false,
-        opening: srcs.some((x) => /the-lineage(-mobile)?\.mp4/.test(x)),
+        opening: srcs.some((x) => /hero-rider-lesson(-mobile)?\.mp4/.test(x)),
         old: Boolean(document.querySelector("section#first-film")) || srcs.some((x) => /hero-main-/.test(x)),
       };
     });

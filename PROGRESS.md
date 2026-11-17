@@ -1531,9 +1531,17 @@ progress in another session. Not tested: Safari and a real phone.
   nose to nose, an old friend, stillness, evening) is gone from the foot of /legend: usage in `app/legend/page.tsx` and the `legend`
   entry in `lib/content/marwari-editorial.ts`. The files `public/images/marwari-editorial/parents-01..05` stay on disk, unused.
   Checked at 1440 and 390 (the page now ends with the Traditional Lore link and sources, then the footer; no overflow, no console errors).
-- [x] **17 Nov 2026 (later) · The Lineage is the home-page intro (owner: "add this as website intro and remove the current one"); CI smoke test fixed.**
-  `OPENING_FILM` (lib/content/hero-films.ts) is now "The Lineage" (`the-lineage*.mp4`, 20 MB desktop / 6.8 MB phone, against 32.5 / 16.8 MB for
-  the rider-lesson film it replaces, whose files stay in public/video, unused). It plays once, uncropped (`layout: "wide"`, 16:9), muted until the
-  visitor turns sound on, and holds its own end card under a quiet "Replay film" (`once`, no `endTitle` over it). The browser smoke check
-  "hero: the opening film follows the doctrine screen" was failing in CI because it still named `hero-marwar-desktop.mp4`; it now names the-lineage.
-  Checked: lint (0 errors), typecheck, build, 348 tests, 19/19 browser smoke tests; screenshots at 1440 and 390 (playing and held end card).
+- [x] **17 Nov 2026 (later) · The Lineage is the website's first-visit intro (owner: "add this as website intro and remove the current one"); CI smoke test fixed; images and 3D load lighter.**
+  - **Intro:** `lib/content/intro-film.ts` now points at `the-lineage.mp4` (20 MB, 1080p) and `the-lineage-mobile.mp4` (6.8 MB, 720p), 60 s, with a plain-parchment poster
+    `the-lineage-intro-poster.webp` (22 KB). It replaced the 37.5 s "From Marwar to the black stallion, in ink" film, whose three files (29 MB) were removed;
+    `tests/intro-film.test.mjs` now expects 60 s. The footer credit follows `introFilm.music` ("Desert Rajasthan Folk Music", alex-morgan, Pixabay Content License).
+    On landscape screens narrower than 16:9 (laptops) the overlay now shows the whole picture with thin parchment bars instead of cropping its sides (`intro-film.module.css`).
+    I first swapped the *hero band* film under the doctrine screen by mistake; that was reverted (the band is the owner-supplied rider-lesson film again, `OPENING_FILM`).
+  - **CI:** the browser smoke check "hero: the opening film follows the doctrine screen" named `hero-marwar-desktop.mp4`, which the home page stopped using on 16 Nov; it now
+    checks the rider-lesson film (`scripts/e2e-smoke.mjs`). 19/19 pass.
+  - **Speed** (measured on a cold cache with Playwright, 10 Mbps / 100 ms): `/opening/*` (the loader mask and six paintings, about 530 KB on every first view) had no
+    cache header (max-age=0), now a day like the other media folders (`next.config.mjs`); the home story strip loads the AVIF twin (214 KB, was 514 KB WebP);
+    `/cadets` no longer downloads the 1.1 MB uniform model and the 3D library at page load (they start 1.5 screens before the viewer; `UniformViewer.tsx`; 4.5 MB to 3.1 MB on
+    first view); posters are WebP (`/film` 319 KB to 99 KB, home band 255 KB to 110 KB). Tried and dropped: a `preload` hint for the statue model (no measurable gain, 1 MB wasted for
+    visitors who do not use the 3D view). Not done: responsive image sizes for the 97 stills (all 1792 px; a larger job).
+  - Checked: lint (0 errors), typecheck, build, 348 tests, 19/19 browser smoke tests; screenshots at 1440 and 390.
