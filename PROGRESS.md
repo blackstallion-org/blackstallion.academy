@@ -1598,8 +1598,12 @@ progress in another session. Not tested: Safari and a real phone.
     role copy; `.invalid` sign-up addresses refused; proxy keeps refreshed cookies on its redirect and matches public paths
     exactly; the deep health check reads the `NEXT_PUBLIC_` Supabase names too.
   - **Accessibility:** one visible `h1` and unique ids on `/anatomy`, `/gallery` and the sign-in page (no visual change).
-  - **Checks:** lint 0 errors, typecheck, 364/364 tests, build, e2e 19/19 (installed Chrome via `BSAH_E2E_CHANNEL=chrome`),
-    104-run route sweep at 1440/390, replica 454/454 and 214/214, `npm audit --omit=dev` 0. Details in `docs/TEST_RESULTS.md` §0.
+  - **Checks:** lint 0 errors, typecheck, 369/369 tests, build, e2e 19/19 (installed Chrome via `BSAH_E2E_CHANNEL=chrome`),
+    104-run route sweep at 1440/390, media crawl 382 files 0 problems, opening film cold (skip, Escape, natural end, reduced motion),
+    replica 456/456 and 214/214, `npm audit --omit=dev` 0. Details in `docs/TEST_RESULTS.md` §0.
+  - **Deploy prerequisite:** this branch requires an authenticator code for staff in production. Enable TOTP in Supabase Auth
+    before deploying it, or set `STAFF_MFA_REQUIRED=0`, or the console cannot be opened. Canonical findings table:
+    `docs/SECURITY_AUDIT.md` (S1–S26); `docs/security/SECURITY-AUDIT.md` is the 4 Nov F-series record.
   - **Open, owner:** apply 001200, 001800 and 001900 (approval); enable TOTP in Supabase Auth; S8 seed accounts, S9 key rotation,
     S11 Turnstile, S13 backups, S24 direct `submit_lead_v2` calls, S25 refund dedupe; a signed-in admin test against a
     non-production database. Unused owner-supplied components keep `ogl` and `@splinetool/react-spline` installed (not removed).

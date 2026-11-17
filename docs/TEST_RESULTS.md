@@ -9,11 +9,13 @@ push: browser runs used a `next start` with every Supabase, webhook and e-mail v
 | --- | --- | --- |
 | Lint | `npm run lint` | 0 errors; 16 warnings (QA scripts in `tools/`, three `<img>` in `Matrix.tsx`, one unused variable) |
 | Types | `npm run typecheck` | pass |
-| Unit + server | `npm test` | trustee crypto script pass; **364/364** (12 new in `tests/audit-1118.test.mjs`) |
+| Unit + server | `npm test` | trustee crypto script pass; **369/369** (17 new in `tests/audit-1118.test.mjs`, incl. `startPayment` run against stand-ins) |
 | Production build | `npm run build` | pass |
 | Browser smoke | `BSAH_E2E_CHANNEL=chrome BSAH_PLAYWRIGHT_MODULE=<npx playwright> npm run test:e2e` | **19/19** (47 routes, no page errors or CSP violations) |
 | Route sweep | ad-hoc Playwright script, 52 routes × 1440/390 | 104 runs: all 200, no page errors, no failed local requests, no broken images, no horizontal overflow, one `main`, no unnamed controls; one visible `h1` everywhere after the fixes (`/anatomy` keeps a CSS-hidden second copy for the other breakpoint). `/register` logs `ERR_SSL_PROTOCOL_ERROR` locally only: CSP `upgrade-insecure-requests` upgrades the prefetch of sign-in-protected links on plain-http localhost |
-| Database, live replica | `PG_BIN=/opt/homebrew/opt/postgresql@18/bin bash supabase/live/tests/run.sh` | **454/454** (15 new: payment order guard, stage 78) |
+| Database, live replica | `PG_BIN=/opt/homebrew/opt/postgresql@18/bin bash supabase/live/tests/run.sh` | **456/456** (17 new: payment order guard, stage 78) |
+| Media crawl | `BSAH_E2E_CHANNEL=chrome node scripts/e2e-media.mjs --label baseline` | 61 page views, 382 media files, 0 problems; the 326 real files are all tracked in git and none is excluded by `.vercelignore`; the other 56 are the git-ignored placeholder stills used only with `NEXT_PUBLIC_LOCAL_MEDIA=1` (production loads them from the CDN, S18). The tracked `output/media-proof/baseline.json` was restored afterwards |
+| Opening film | Chrome, cold `/` with fresh storage | Skip (1440), Escape (390) and the film's own end after 60 s (1440, 390) all reveal the page, mark the intro seen and start the hero film; no console errors; reduced motion: no intro, hero on its poster (by design) |
 | Database, website schema | `PG_BIN=… bash supabase/tests/run.sh` | **214/214** |
 | Dependencies | `npm audit --omit=dev` | 0 vulnerabilities (Next 16.4.6); full `npm audit`: 14 high in ESLint's tree (`picomatch`, no fixed version; dev only) |
 

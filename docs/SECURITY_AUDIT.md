@@ -1,4 +1,6 @@
-# Security audit (website + shared Supabase project, 24 Oct 2026)
+# Security audit (website + shared Supabase project, 24 Oct 2026; updated 18 Nov 2026)
+
+This is the canonical findings table (S1–S26). `docs/security/SECURITY-AUDIT.md` is the 4 Nov 2026 F-series audit record.
 
 Scope: the Next.js website, its Vercel deployment and the Supabase project it shares with the operations apps.
 Method: code review, automated tests (unit, server-action, SQL replica, browser), live read-only and rolled-back checks
