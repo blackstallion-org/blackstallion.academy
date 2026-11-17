@@ -17,7 +17,13 @@ The original is kept outside the repo.
 Before a public launch the owner should obtain written permission or a licence file from the channel; until then this is a placeholder
 in the same sense as the Higgsfield imagery. The previous track, "Windswept" (Kevin MacLeod, CC BY 4.0), was removed on 3 Nov 2026.
 
-## Opening film score (home page, first visit of a session)
+## Opening film (home page, first visit of a session): "The Lineage" since 17 Nov 2026
+
+The first-visit intro is "The Lineage" (`public/video/the-lineage*.mp4`, one minute): its music and horse sounds are in the
+"Intro film soundtrack" table below. It replaced the 37.5 s film described next, whose files were removed the same day; the
+owner's score "Sovereign of the Marwar" (88.8 s master) is no longer used or credited on the site.
+
+### Former opening film score (16 Nov 2026, replaced 17 Nov 2026)
 
 Since 16 Nov 2026 the opening film (`public/video/intro-film*.mp4`) carries "Sovereign of the Marwar", an original score the
 owner supplied for the site (88.8 s master, kept out of the web build). The film uses its first 37.5 s, faded out over the last

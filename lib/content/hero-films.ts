@@ -31,8 +31,8 @@ export type HeroFilmSpec = {
 export const OPENING_FILM: HeroFilmSpec = {
   id: "top",
   label: "Opening Film",
-  poster: asset("/video/hero-rider-lesson-poster.jpg"),
-  posterMobile: asset("/video/hero-rider-lesson-poster-mobile.jpg"),
+  poster: asset("/video/hero-rider-lesson-poster.webp"),
+  posterMobile: asset("/video/hero-rider-lesson-poster-mobile.webp"),
   desktop: asset("/video/hero-rider-lesson.mp4"),
   mobile: asset("/video/hero-rider-lesson-mobile.mp4"),
   posterAlt: "A black horse in silhouette against a warm sunlit background",

@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Headline } from "@/components/film/Headline";
 import { useReducedMotion } from "@/lib/motion/reduced";
+import { useNearViewport } from "@/lib/motion/use-near-viewport";
 import type { UniformControl } from "./UniformCanvas";
 import { asset } from "@/lib/content/asset";
 
@@ -33,6 +34,11 @@ export function UniformViewer() {
   const [failed, setFailed] = useState(false);
   const control = useRef<UniformControl>({ yaw: 0.35, pausedUntil: 0 });
   const drag = useRef<{ x: number; yaw: number } | null>(null);
+  // 17 Nov 2026: the viewer sits well down the page, but its canvas (three.js, the Draco decoder) and the 1.1 MB model used to start
+  // downloading as soon as the page loaded. They now start about a screen and a half before the viewer is reached; the studio photograph
+  // holds the frame until then (it is the placeholder already).
+  const stage = useRef<HTMLDivElement>(null);
+  const near = useNearViewport(stage, "150% 0px");
 
   const hold = () => {
     control.current.pausedUntil = performance.now() + 2500;
@@ -86,6 +92,7 @@ export function UniformViewer() {
         </div>
 
         <div
+          ref={stage}
           role="group"
           aria-label="3D model of the navy ceremonial uniform. Drag sideways or use the left and right arrow keys to turn it."
           tabIndex={0}
@@ -101,7 +108,7 @@ export function UniformViewer() {
           {(!ready || failed) && (
             <Image src={asset("/images/academy-uniforms/uniform-mannequin.webp")} alt="The navy ceremonial uniform on a mannequin" fill sizes="(min-width: 1024px) 36rem, 100vw" className="object-contain" />
           )}
-          {!failed && (
+          {!failed && near && (
             <ViewerBoundary onFailure={() => setFailed(true)}>
               <div className={ready ? "absolute inset-0 opacity-100 transition-opacity duration-700" : "absolute inset-0 opacity-0"}>
                 <UniformCanvas control={control} idleTurn={!reduced} onReady={onReady} />
