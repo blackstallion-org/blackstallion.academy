@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { MarwariJourney } from "@/components/sections/legend/journey/MarwariJourney";
 import { MarwariOrigins } from "@/components/sections/legend/MarwariOrigins";
-import { EditorialGallery } from "@/components/film/EditorialGallery";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/legend" },
@@ -20,8 +19,7 @@ export default function LegendPage() {
     <>
       <MarwariOrigins />
       <MarwariJourney afterPoster />
-      {/* 16 Nov 2026: the quiet pairs moved here from /parents (breed storytelling belongs with the breed). */}
-      <EditorialGallery page="legend" />
+      {/* 17 Nov 2026 (owner): the "Gentle by nature" photograph gallery (mare and foal, nose to nose, an old friend) was removed from this page. */}
     </>
   );
 }

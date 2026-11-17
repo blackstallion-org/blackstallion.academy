@@ -1527,3 +1527,7 @@ progress in another session. Not tested: Safari and a real phone.
   the film stays in view beside the chapters on wide screens). One `introFilm` entry in site.ts, shown in the Academy and Heritage
   menus, the menus' foot, the Reels menu (from 640 px; phones have it in the groups) and the footer; sitemap updated. Checked at
   1440 and 390: menus, reduced motion (paused until pressed), keyboard focus, no console errors; lint, typecheck, build, 348 tests.
+- [x] **17 Nov 2026 (later) · /legend: "Trust · Gentle by nature" gallery removed (owner).** The five-photograph section (mare and foal,
+  nose to nose, an old friend, stillness, evening) is gone from the foot of /legend: usage in `app/legend/page.tsx` and the `legend`
+  entry in `lib/content/marwari-editorial.ts`. The files `public/images/marwari-editorial/parents-01..05` stay on disk, unused.
+  Checked at 1440 and 390 (the page now ends with the Traditional Lore link and sources, then the footer; no overflow, no console errors).
