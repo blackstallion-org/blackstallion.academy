@@ -8,8 +8,10 @@ A 60-second, 1920×1080, 30 fps film built only from the website's own approved 
 npm install
 npm run studio          # live preview in the browser
 npm run stills          # storyboard stills → out/stills/
-npm run draft           # 720p review draft → out/bsah-lineage-draft-720p.mp4
-npm run render          # final 1080p MP4 → out/bsah-lineage-1080p.mp4
+npm run draft           # 720p review draft (picture only) → out/bsah-lineage-draft-720p.mp4
+npm run render          # final 1080p picture → out/bsah-lineage-1080p-picture.mp4
+npm run mix             # the soundtrack → out/lineage-mix.m4a
+npm run finish          # master with sound (out/bsah-lineage-1080p.mp4), web cuts and posters in public/video/the-lineage*
 ```
 On a Mac, drop the `--browser-executable …` flag from the `render` script (it points at this cloud machine's Chrome);
 Remotion downloads its own browser. The same applies to `scripts/stills.mjs`.
@@ -39,5 +41,14 @@ rocks as blurred silhouettes passing the lens), and the world scene shrinking as
 - `src/scenes/scenes.tsx` — the ten scenes. `src/Film.tsx` — the timeline.
 
 ## Sound
-Not added yet. `public/audio/music/open-range.mp3` is unlicensed and must not be used. A licensed score is needed
-before publishing.
+- **Score:** "Desert Rajasthan Folk Music", alex-morgan, https://pixabay.com/music/folk-desert-rajasthan-folk-music-583283/
+  (Pixabay Content License: free for commercial use, no attribution required; downloaded 17 Nov 2026). The first 61 s are kept
+  in `audio/`; the mix uses 0–60 s, loudness-normalised, with a 4.5 s fade out.
+- **Horse sounds** (all already licensed in `public/audio/LICENSES.md`): `walk.mp3` under the Marwar rider (swiftoid, CC0),
+  `cavalry-gallop.mp3` under Haldighati and Jhansi (craigsmith, CC0), `horse-call.mp3` at the charge (Pixabay licence),
+  `snort.mp3` at Alexander and at the cadet (Mixkit free licence).
+- The mix is about −14.6 LUFS (social level). No voice.
+
+## On the website
+`/film` (`app/film/page.tsx`, `components/sections/film/LineageFilm.tsx`, `lib/content/lineage-film.ts`) plays the web cut with
+a chapter list; every chapter links to the page its scene comes from. The menu entry is `introFilm` in `lib/content/site.ts`.

@@ -55,6 +55,16 @@ on "Open Range", whose licence is unverified.
 17 Nov 2026: the film's picture was replaced (desert, palace, BSAH gate; `video/marwar-journey-v2*.mp4`). The same mix was carried over,
 trimmed to 28.83 s with a 1.5 s fade out; no new audio source.
 
+## Intro film soundtrack (`video/the-lineage*.mp4`, /film)
+
+| Part | Source | Licence |
+| --- | --- | --- |
+| Music | "Desert Rajasthan Folk Music" by alex-morgan, https://pixabay.com/music/folk-desert-rajasthan-folk-music-583283/ (downloaded 17 Nov 2026), 0:00 to 1:00 | Pixabay Content License: free for commercial use, no attribution required |
+| Horse sounds | `interactions/walk.mp3`, `ambience/cavalry-gallop.mp3`, `interactions/horse-call.mp3`, `interactions/snort.mp3` | as listed below |
+
+Mixed with ffmpeg on 17 Nov 2026 (`video/scripts/mix-audio.sh`: score loudnorm, 4.5 s fade out; walk at 4.7 s; gallop at 16.3 s and
+24.3 s; horse call at 16.9 s; snorts at 31.6 s and 50.2 s; limiter), about -14.6 LUFS. The 61 s score excerpt is kept in `video/audio/`.
+
 ## Horse palette (seven sounds, `interactions/`)
 
 | File | Role | Source | Licence |

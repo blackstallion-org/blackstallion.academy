@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ChevronDown, Search, UserRound } from "lucide-react";
+import { ArrowRight, ChevronDown, Play, Search, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useLenis } from "lenis/react";
@@ -11,7 +11,7 @@ import { Wordmark } from "@/components/brand/Wordmark";
 import { SoundToggle } from "@/components/site/SoundToggle";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { AnimatedMenuText } from "@/components/ui/animated-menu";
-import { acts, corridors, isConsolePath, menuHolds, navCta, navMenus, reels, tools, type Act, type NavMenu } from "@/lib/content/site";
+import { acts, corridors, introFilm, isConsolePath, menuHolds, navCta, navMenus, reels, tools, type Act, type NavMenu } from "@/lib/content/site";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { ease } from "@/lib/motion/tokens";
 import { cn } from "@/lib/utils";
@@ -298,9 +298,15 @@ function MegaMenu({ menu, index, focusFirst, onClose }: { menu: NavMenu; index: 
           </div>
 
           <div className="mt-12 flex flex-wrap items-center justify-between gap-x-10 gap-y-4 border-t border-line pt-6">
-            <Link href="/command" onClick={() => onClose(false)} className="label inline-flex min-h-11 items-center gap-2 text-dust transition-colors hover:text-bone">
-              <Search size={14} strokeWidth={1.6} aria-hidden /> Ask the Command
-            </Link>
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
+              <Link href={introFilm.href} onClick={() => onClose(false)} className="label inline-flex min-h-11 items-center gap-2 text-dust transition-colors hover:text-bone">
+                <Play size={13} strokeWidth={1.6} aria-hidden /> {introFilm.label}
+                <span className="t-ui normal-case tracking-normal text-dust/80">· {introFilm.line}</span>
+              </Link>
+              <Link href="/command" onClick={() => onClose(false)} className="label inline-flex min-h-11 items-center gap-2 text-dust transition-colors hover:text-bone">
+                <Search size={14} strokeWidth={1.6} aria-hidden /> Ask the Command
+              </Link>
+            </div>
             <Link href={navCta.href} onClick={() => onClose(false)} className="label inline-flex min-h-11 items-center text-gold transition-colors hover:text-bone">
               {navCta.label} →
             </Link>
@@ -425,9 +431,14 @@ function Menu({ onClose }: { onClose: () => void }) {
           <CrestMark className="h-[3.25rem] w-[3.25rem] md:h-[3.75rem] md:w-[3.75rem]" decorative />
           <Wordmark layout="inline" />
         </Link>
-        <Link href="/about" onClick={onClose} className="label hidden text-dust transition-colors hover:text-bone sm:inline">
-          [ About the academy ]
-        </Link>
+        <div className="flex items-center gap-6">
+          <Link href={introFilm.href} onClick={onClose} className="label inline-flex min-h-11 items-center gap-2 text-dust transition-colors hover:text-bone">
+            <Play size={13} strokeWidth={1.6} aria-hidden /> {introFilm.label}
+          </Link>
+          <Link href="/about" onClick={onClose} className="label hidden text-dust transition-colors hover:text-bone lg:inline">
+            [ About the academy ]
+          </Link>
+        </div>
         <button ref={closeRef} type="button" onClick={onClose} className="label px-2 py-2.5 text-bone hover:text-gold">
           Close ✕
         </button>
