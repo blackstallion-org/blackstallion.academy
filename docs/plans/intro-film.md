@@ -1,6 +1,6 @@
 # Plan: "The Lineage", a one-minute intro film
 
-Status: planned 17 Nov 2026, not built. Owner's choices: Remotion in this repo, 16:9 (1920×1080), music and horse sounds
+Status: storyboard stills and a 720p draft built 17 Nov 2026 (`video/`); awaiting owner review, music licence pending. Owner's choices: Remotion in this repo, 16:9 (1920×1080), music and horse sounds
 with no voice, and used on the home page as well as for social and pitch use.
 
 ## Idea

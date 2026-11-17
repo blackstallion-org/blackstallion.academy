@@ -1514,3 +1514,9 @@ progress in another session. Not tested: Safari and a real phone.
   words "From the desert / to the citadel gate." no longer show over the film (screen-reader heading only); chapter label stays.
   Home ledger band (the herd image slot): the owner's painting of a rider resting his face on his horse (`ledgerBond`, `ledger-bond.*`);
   the sunset herd (`gallop`) stays on disk and in media.ts, unused.
+- [x] **17 Nov 2026 · Intro film "The Lineage" (Remotion, `video/`), storyboard and 720p draft.** Own `package.json` (Remotion
+  4.0.544), so the site's dependencies are unchanged. 60 s, 1920×1080, 30 fps, ten scenes built only from the site's approved
+  artwork (history b/s/f layers, the Pratap painted bands, sh01 parchment, the official stamp crest, the bondField photo) and the
+  site's own headlines and place labels. Techniques: depth layers on one camera per scene, turbulence-torn ink-bleed reveals,
+  two-voice titles on an arc, silhouette occluder wipes, the world scene shrinking into its medallion on the map, paper and film
+  grain, vignette. `npm run stills` / `npm run render`; see `video/README.md`. No sound yet: a licensed score is needed.
