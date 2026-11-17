@@ -432,7 +432,8 @@ function Menu({ onClose }: { onClose: () => void }) {
           <Wordmark layout="inline" />
         </Link>
         <div className="flex items-center gap-6">
-          <Link href={introFilm.href} onClick={onClose} className="label inline-flex min-h-11 items-center gap-2 text-dust transition-colors hover:text-bone">
+          {/* From 640 px: on a phone the brand lockup needs the row, and the film is in the Academy and Heritage groups below. */}
+          <Link href={introFilm.href} onClick={onClose} className="label hidden min-h-11 items-center gap-2 text-dust transition-colors hover:text-bone sm:inline-flex">
             <Play size={13} strokeWidth={1.6} aria-hidden /> {introFilm.label}
           </Link>
           <Link href="/about" onClick={onClose} className="label hidden text-dust transition-colors hover:text-bone lg:inline">

@@ -31,9 +31,10 @@ export function LineageFilm() {
   };
 
   return (
-    <section aria-label="The film" className="tone-dark bg-night">
+    <section aria-label="The film" className="bg-night">
       <div className="gutter grid gap-10 py-14 md:py-20 xl:grid-cols-[minmax(0,1fr)_22rem] xl:gap-12">
-        <div>
+        {/* On wide screens the film stays in view while the chapter list beside it scrolls. */}
+        <div className="xl:sticky xl:top-28 xl:self-start">
           <div className="relative aspect-video w-full overflow-hidden border border-gold/25 bg-[rgb(var(--shade-rgb))]">
             <video
               ref={video}
@@ -55,7 +56,7 @@ export function LineageFilm() {
                 onClick={() => seek(0)}
                 aria-label={`Play ${film.label}`}
                 className={cn(
-                  "absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-gold/50 bg-[rgb(var(--shade-rgb)/0.6)] text-bone transition-colors hover:border-gold hover:text-gold md:h-20 md:w-20",
+                  "absolute left-1/2 top-1/2 hidden h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-gold/50 bg-[rgb(var(--shade-rgb)/0.6)] text-bone transition-colors hover:border-gold hover:text-gold md:grid md:h-20 md:w-20",
                   RING,
                 )}
               >
