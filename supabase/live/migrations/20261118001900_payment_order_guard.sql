@@ -45,6 +45,8 @@ begin
       update public.payment_records set status = 'PAID', gateway_payment_id = coalesce(p_payment_id, gateway_payment_id), paid_at = now(),
         invoice_number = coalesce(invoice_number, 'BSAH/' || to_char(now(), 'YYYY') || '/' || upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 8)))
        where id = r.id;
+      -- two captures on different orders of one application, processed at once: the second waits here for the first
+      if r.application_id is not null then perform 1 from public.applications where id = r.application_id for update; end if;
       if r.application_id is not null and exists (select 1 from public.payment_records
           where application_id = r.application_id and id <> r.id and status in ('PAID', 'REFUNDED')) then
         outcome := 'paid_duplicate'; -- a second order for an application that is already paid: staff refund it

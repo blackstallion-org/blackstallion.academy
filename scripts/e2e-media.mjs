@@ -150,7 +150,8 @@ function classify(rawUrl) {
   return null;
 }
 
-const browser = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist", "--autoplay-policy=no-user-gesture-required"] });
+// BSAH_E2E_CHANNEL=chrome drives the installed Google Chrome when Playwright's own Chromium is not downloaded
+const browser = await chromium.launch({ ...(process.env.BSAH_E2E_CHANNEL ? { channel: process.env.BSAH_E2E_CHANNEL } : {}), args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist", "--autoplay-policy=no-user-gesture-required"] });
 
 async function visit(route, viewport) {
   const reduced = flag("--shots");

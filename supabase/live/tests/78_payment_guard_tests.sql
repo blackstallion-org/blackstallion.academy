@@ -14,6 +14,14 @@ begin
   select application_id into app from public.payment_records where gateway_order_id = 'order_TEST1';
   if after then
     perform t.eq('guard: the one-pending-order index exists', (select count(*)::text from pg_indexes where indexname = 'payment_records_one_pending_per_application'), '1');
+    -- the main path under the new function: an application's first capture is 'paid' and marks the application paid
+    -- (the 70 tests already paid order_TEST1, so it is set aside for this check and restored below)
+    update public.payment_records set status = 'FAILED' where gateway_order_id = 'order_TEST1';
+    update public.applications set payment_status = 'pending' where id = app;
+    insert into public.payment_records (parent_id, gateway_order_id, amount_paid, gst_amount, payment_type, status, application_id, amount_paise)
+    values (g, 'order_G0', 2950.00, 450.00, 'ONBOARDING', 'PENDING', app, 295000);
+    perform t.eq('guard: an application''s first capture is paid', public.ingest_payment_event('evt_g0', 'order_G0', 'payment.captured', 'pay_g0', 295000), 'paid');
+    perform t.eq('guard: and the application shows paid', (select payment_status from public.applications where id = app), 'paid');
     select payment_status into before_status from public.applications where id = app;
     insert into public.payment_records (parent_id, gateway_order_id, amount_paid, gst_amount, payment_type, status, application_id, amount_paise)
     values (g, 'order_G1', 2950.00, 450.00, 'ONBOARDING', 'PENDING', app, 295000);
@@ -36,7 +44,8 @@ begin
     values (g, 'order_G3', 10.00, 0, 'ONBOARDING', 'PENDING', null, 1000);
     perform t.eq('guard: an order without an application is paid as before', public.ingest_payment_event('evt_g3', 'order_G3', 'payment.captured', 'pay_g3', 1000), 'paid');
     perform t.eq('guard: a signed-in user still cannot ingest gateway events', t.scalar(g, 'authenticated', $q$select public.ingest_payment_event('evt_g4', 'order_G3', 'payment.captured', 'pay_g3', 1000)$q$), 'ERR:42501');
-    delete from public.payment_records where gateway_order_id in ('order_G1', 'order_G2', 'order_G3');
+    delete from public.payment_records where gateway_order_id in ('order_G0', 'order_G1', 'order_G2', 'order_G3');
+    update public.payment_records set status = 'PAID' where gateway_order_id = 'order_TEST1';
   else
     perform t.eq('guard rollback: the index is gone', (select count(*)::text from pg_indexes where indexname = 'payment_records_one_pending_per_application'), '0');
     perform t.eq('guard rollback: the original ingest function is back', (select (position('paid_duplicate' in prosrc) = 0)::text from pg_proc where proname = 'ingest_payment_event'), 'true');

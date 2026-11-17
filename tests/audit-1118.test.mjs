@@ -171,3 +171,85 @@ test("M4 enrolment: one pending order per application, a stale price is retired,
   assert.match(sql, /'paid_duplicate'/);
   assert.match(read("supabase/live/tests/run.sh"), /78_payment_guard_tests\.sql/);
 });
+
+// ------------------------------------------------------------------ M4: startPayment, run for real against stand-ins
+const APP_ID = "0f8fad5b-d9cb-469f-a165-70867728950e";
+const PAY_SWAPS = {
+  "next/cache": "tests/helpers/fake-next-cache.mjs",
+  "next/headers": "tests/helpers/fake-next-headers.mjs",
+  "@/lib/registration/server": "tests/helpers/fake-registration-server.mjs",
+  "@/lib/supabase/admin": "tests/helpers/fake-supabase-admin.mjs",
+  "@/lib/registration/razorpay": "tests/helpers/fake-razorpay.mjs",
+};
+let ipSeq = 0;
+/** fee 250000 paise + 18 % GST = 295000 */
+function installPayment({ pending = [], pendingError = null, insertError = null, afterRace = [], updateError = null }) {
+  const log = [];
+  let reads = 0;
+  const userClient = {
+    from: (table) => {
+      const b = { select: () => b, eq: () => b,
+        maybeSingle: async () => ({ data: { id: APP_ID, reference: "BSAH-APP-1", kind: "cadet", status: "approved", fee_paise: 250000, payment_status: "pending", program_id: "p1", applicant_id: "acct-1" }, error: null }),
+        single: async () => ({ data: { gst_rate: 0.18 }, error: null }) };
+      log.push(["user.from", table]);
+      return b;
+    },
+  };
+  const admin = {
+    from: () => {
+      const b = {
+        select: () => b, eq: () => b, order: () => b,
+        limit: async () => { reads += 1; log.push(["read"]); return reads === 1 ? { data: pending, error: pendingError } : { data: afterRace, error: null }; },
+        update: (v) => { log.push(["update", v]); return { eq: () => ({ eq: async () => ({ error: updateError }) }) }; },
+        insert: async (v) => { log.push(["insert", v.gateway_order_id, v.amount_paise]); return { error: insertError }; },
+      };
+      return b;
+    },
+  };
+  ipSeq += 1;
+  globalThis.__bsahTest = { orders: [], headers: { "x-forwarded-for": `198.51.100.${ipSeq}` }, admin,
+    requireAccount: async () => ({ supabase: userClient, account: { id: "acct-1", full_name: "Parent", email: "p@example.test" } }) };
+  process.env.RAZORPAY_KEY_ID = "rzp_test_x";
+  return log;
+}
+async function pay(opts) {
+  const log = installPayment(opts);
+  const { startPayment } = await loadTsWith("app/enroll/actions.ts", PAY_SWAPS);
+  const fd = new FormData(); fd.set("application_id", APP_ID);
+  const out = await startPayment(null, fd);
+  delete process.env.RAZORPAY_KEY_ID;
+  return { out, log, orders: globalThis.__bsahTest.orders };
+}
+
+test("M4 startPayment: a pending order at the right amount is reused, with no new Razorpay order", async () => {
+  const { out, log, orders } = await pay({ pending: [{ id: "r1", gateway_order_id: "order_OLD", amount_paise: 295000 }] });
+  assert.equal(out.order?.id, "order_OLD");
+  assert.equal(out.order?.amount, 295000);
+  assert.equal(orders.length, 0);
+  assert.ok(!log.some((e) => e[0] === "insert" || e[0] === "update"));
+});
+
+test("M4 startPayment: a pending order at a stale price is retired (FAILED) before its replacement is created", async () => {
+  const { out, log, orders } = await pay({ pending: [{ id: "r1", gateway_order_id: "order_OLD", amount_paise: 250000 }] });
+  assert.equal(out.order?.id, "order_NEW1");
+  assert.equal(orders.length, 1);
+  const kinds = log.filter((e) => e[0] === "update" || e[0] === "insert");
+  assert.deepEqual(kinds, [["update", { status: "FAILED" }], ["insert", "order_NEW1", 295000]]);
+});
+
+test("M4 startPayment: a lost race (unique violation) reuses the order the other click recorded", async () => {
+  const { out } = await pay({ insertError: { code: "23505" }, afterRace: [{ id: "r2", gateway_order_id: "order_WINNER", amount_paise: 295000 }] });
+  assert.equal(out.order?.id, "order_WINNER");
+});
+
+test("M4 startPayment: an unreadable pending list stops before any order is created", async () => {
+  const { out, orders } = await pay({ pendingError: { code: "57014" } });
+  assert.match(out.error, /could not be started/);
+  assert.equal(orders.length, 0);
+});
+
+test("M4 startPayment: a failed retirement stops before a second live order exists", async () => {
+  const { out, orders } = await pay({ pending: [{ id: "r1", gateway_order_id: "order_OLD", amount_paise: 1000 }], updateError: { code: "42501" } });
+  assert.match(out.error, /could not be started/);
+  assert.equal(orders.length, 0);
+});
