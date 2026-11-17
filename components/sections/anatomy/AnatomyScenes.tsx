@@ -21,11 +21,12 @@ const catalogue: [string, string][] = [
   ["Catalogue", "BSAH-0912"],
 ];
 
-function AnatomyTitleText() {
+/** Rendered twice (wide-screen overlay and phone block, one hidden by CSS at any width), so each copy has its own heading id. */
+function AnatomyTitleText({ id }: { id: string }) {
   return (
     <>
       <p className="label text-brass">Plate 02 · The Marwari</p>
-      <Headline id="anatomy-h" as="h1" size="2" technique="lines" className="mt-5 whitespace-nowrap [&_.t-inscribe]:tracking-[0.32em]" inscription="The" voice="instrument." />
+      <Headline id={id} as="h1" size="2" technique="lines" className="mt-5 whitespace-nowrap [&_.t-inscribe]:tracking-[0.32em]" inscription="The" voice="instrument." />
       {/* on wide screens the line steps right of the croup and tail, into the empty studio */}
       <p className="t-story mt-6 max-w-sm text-lg leading-relaxed text-sand lg:ml-[42%] lg:max-w-[16rem]">A black Marwari stallion, studied whole: the body a cadet learns to read.</p>
     </>
@@ -41,7 +42,7 @@ function AnatomyTitleText() {
 export function AnatomyTitle() {
   const reduced = useReducedMotion();
   return (
-    <section aria-labelledby="anatomy-h" data-parallax-skip className="editorial-scene">
+    <section aria-label="The instrument" data-parallax-skip className="editorial-scene">
       {/* 17 Nov 2026 (owner): one still of the black stallion (not the film), edge to edge, no feathered edges or backdrop. The box
           has the photograph's own proportions (1663 x 946) so the whole horse shows, ears to hooves, below the fixed bar. */}
       {/* 17 Nov 2026 (owner: "the ears are cropped", then "remove the fade"): the site-wide parallax (SiteParallax) enlarged the photo 10% and shifted it up,
@@ -57,12 +58,12 @@ export function AnatomyTitle() {
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           >
             <div className="col-span-4 col-start-9 pt-[4%]">
-              <AnatomyTitleText />
+              <AnatomyTitleText id="anatomy-h" />
             </div>
           </motion.div>
         </div>
         <div className="gutter py-10 lg:hidden">
-          <AnatomyTitleText />
+          <AnatomyTitleText id="anatomy-h-phone" />
         </div>
       </div>
       <div className="tone-light editorial-details gutter">

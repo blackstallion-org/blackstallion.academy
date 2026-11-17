@@ -10,7 +10,7 @@ export function GalleryTitle({ count }: { count: number }) {
   return (
     <section aria-labelledby="gallery-h" className="gutter relative pb-[clamp(3rem,8vh,6rem)] pt-[clamp(7.5rem,16vh,11rem)]">
       <Label>Gallery</Label>
-      <Headline id="gallery-h" className="mt-4" inscription="The academy" voice="in pictures." />
+      <Headline id="gallery-h" as="h1" className="mt-4" inscription="The academy" voice="in pictures." />
       <p className="mt-6 max-w-xl text-sand leading-relaxed">
         {count > 0
           ? "Photographs, films and 3D studies added by the academy. Each file is checked by its contents before it appears here."

@@ -55,7 +55,8 @@ const results = [];
 const record = (name, pass, detail = "") => { results.push({ name, pass, detail }); console.log(`${pass ? "PASS" : "FAIL"}  ${name}${detail ? `  [${detail}]` : ""}`); };
 const check = async (name, fn) => { try { const d = await fn(); record(name, true, typeof d === "string" ? d : ""); } catch (e) { record(name, false, e.message.split("\n")[0]); } };
 
-const browser = await chromium.launch();
+// BSAH_E2E_CHANNEL=chrome drives the installed Google Chrome when Playwright's own Chromium is not downloaded (a Mac without it)
+const browser = await chromium.launch(process.env.BSAH_E2E_CHANNEL ? { channel: process.env.BSAH_E2E_CHANNEL } : {});
 const newPage = async (viewport = { width: 1440, height: 900 }, reducedMotion = "no-preference") => {
   const context = await browser.newContext({ viewport, reducedMotion });
   // The home page is tested as a returning visitor: neither the loader nor the first-visit intro film (tests/intro.test.mjs) covers it.
