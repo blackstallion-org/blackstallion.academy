@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { logAdminError } from "@/lib/admin/server";
 import { isMemberKind, parseProfileUpdate, parseSignUp } from "@/lib/accounts/kinds";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { siteOrigin } from "@/lib/site-origin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type AccountFormState = { error?: string; notice?: string } | null;
@@ -36,7 +37,7 @@ export async function createAccount(_prev: AccountFormState, data: FormData): Pr
   const { value } = parsed;
   const supabase = await createSupabaseServerClient();
   if (!supabase) return { error: "Account creation is not switched on yet. Please check back soon." };
-  const origin = process.env.NEXT_PUBLIC_SITE_URL || (host ? `${proto}://${host}` : "");
+  const origin = siteOrigin(host, proto);
   const { data: result, error } = await supabase.auth.signUp({
     email: value.email,
     password: value.password,

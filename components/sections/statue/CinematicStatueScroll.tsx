@@ -139,8 +139,9 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false, m
     return 0;
   }, []);
 
-  const initChapter = getInitialChapter();
-  const [activeIdx, setActiveIdx] = useState(initChapter);
+  // Chapter 0 on the server and on the first client render alike: the ?ch= / #hash deep link is applied by the effect below once
+  // hydrated (reading the URL here made the server and client render different chapters, a hydration mismatch; 17 Nov 2026 audit).
+  const [activeIdx, setActiveIdx] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
   // Sync initial index if hydrated
@@ -415,7 +416,7 @@ export function CinematicStatueScroll({ editorial: requestedEditorial = false, m
       ctx.revert();
       scrollTriggerRef.current = null;
     };
-  }, [cinematic]);
+  }, [cinematic, getInitialChapter]);
 
   // Centered monument in fullscreen composition
   const statueX = 0;

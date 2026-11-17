@@ -9,6 +9,7 @@ import { destinationAfterSignIn } from "@/lib/auth/destination";
 import { maskPhone, normalizeOtp, normalizePhone } from "@/lib/auth/phone";
 import { safeNext } from "@/lib/registration/model";
 import { consumeRateLimit } from "@/lib/security/rate-limit";
+import { siteOrigin } from "@/lib/site-origin";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type AuthFormState = { error?: string; notice?: string; step?: "code"; phone?: string } | null;
@@ -19,7 +20,7 @@ async function client() {
   const proto = h.get("x-forwarded-proto") || "https";
   return {
     ip: (h.get("x-forwarded-for")?.split(",")[0] || h.get("x-real-ip") || "unknown").trim().slice(0, 64),
-    origin: process.env.NEXT_PUBLIC_SITE_URL || (host ? `${proto}://${host}` : ""),
+    origin: siteOrigin(host, proto),
   };
 }
 

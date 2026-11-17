@@ -241,6 +241,7 @@ export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(fu
   useEffect(() => {
     const container = mountRef.current;
     if (!container) return;
+    const cam = camState.current;
 
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || window.innerHeight;
@@ -884,7 +885,7 @@ export const CitadelScene = forwardRef<CitadelSceneHandle, CitadelSceneProps>(fu
       if (rendererRef.current?.domElement && container.contains(rendererRef.current.domElement)) {
         container.removeChild(rendererRef.current.domElement);
       }
-      gsap.killTweensOf(camState.current);
+      gsap.killTweensOf(cam);
       scene.traverse((object) => { gsap.killTweensOf(object.position); gsap.killTweensOf(object.scale); });
       disposeThreeScene(scene);
       animatedHorsesRef.current = [];

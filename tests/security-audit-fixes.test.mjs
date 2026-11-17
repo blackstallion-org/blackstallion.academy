@@ -62,26 +62,116 @@ test("F-11: without RATE_LIMIT_SALT every instance still hashes a visitor to the
   }
 });
 
-test("S16: the second factor is enforced only when STAFF_MFA_REQUIRED=1, and then needs AAL2", async () => {
-  const { needsSecondFactor } = await loadTs("lib/auth/mfa.ts");
+test("S16: the second factor is on by default in production (opt out with 0), off in development, and needs AAL2", async () => {
+  const { needsSecondFactor, staffMfaRequired } = await loadTs("lib/auth/mfa.ts");
   const client = (level, error = null) => {
     const calls = { n: 0 };
     return { calls, auth: { mfa: { getAuthenticatorAssuranceLevel: async () => { calls.n++; return { data: level ? { currentLevel: level } : null, error }; } } } };
   };
-  const before = process.env.STAFF_MFA_REQUIRED;
+  const before = { flag: process.env.STAFF_MFA_REQUIRED, env: process.env.NODE_ENV };
   try {
     delete process.env.STAFF_MFA_REQUIRED;
+    process.env.NODE_ENV = "development";
     const off = client("aal1");
-    assert.equal(await needsSecondFactor(off), false, "off by default: nobody is locked out");
+    assert.equal(await needsSecondFactor(off), false, "development: off unless asked for");
     assert.equal(off.calls.n, 0, "off means no extra Auth call either");
-    process.env.STAFF_MFA_REQUIRED = "1";
+    process.env.NODE_ENV = "production";
+    assert.equal(staffMfaRequired(), true, "production: on without any setting (17 Nov 2026 audit)");
     assert.equal(await needsSecondFactor(client("aal1")), true, "a password-only session is not enough");
     assert.equal(await needsSecondFactor(client("aal2")), false);
     assert.equal(await needsSecondFactor(client(null, { status: 500 })), true, "an unreadable level counts as not yet");
+    process.env.STAFF_MFA_REQUIRED = "0";
+    assert.equal(staffMfaRequired(), false, "production: switched off only by the explicit value 0");
     process.env.STAFF_MFA_REQUIRED = "true";
-    assert.equal(await needsSecondFactor(client("aal1")), false, "only the exact value 1 switches it on");
+    assert.equal(staffMfaRequired(), true, "an unrecognised value keeps the production default (on)");
+    process.env.NODE_ENV = "development";
+    assert.equal(staffMfaRequired(), false, "development: an unrecognised value keeps it off");
+    process.env.STAFF_MFA_REQUIRED = "1";
+    assert.equal(staffMfaRequired(), true, "development: 1 switches it on");
   } finally {
-    if (before === undefined) delete process.env.STAFF_MFA_REQUIRED; else process.env.STAFF_MFA_REQUIRED = before;
+    if (before.flag === undefined) delete process.env.STAFF_MFA_REQUIRED; else process.env.STAFF_MFA_REQUIRED = before.flag;
+    if (before.env === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = before.env;
+  }
+});
+
+test("M2: a new password needs a reset link or sign-in from the last ten minutes, read from the verified token", async () => {
+  const { authenticatedRecently, lastAuthenticatedAt, sessionAuthenticatedRecently, RECENT_AUTH_SECONDS } = await loadTs("lib/auth/recent-auth.ts");
+  const now = 1_800_000_000;
+  assert.equal(RECENT_AUTH_SECONDS, 600);
+  assert.equal(authenticatedRecently([{ method: "recovery", timestamp: now - 30 }], now), true, "reset link just opened");
+  assert.equal(authenticatedRecently([{ method: "password", timestamp: now - 599 }], now), true);
+  assert.equal(authenticatedRecently([{ method: "password", timestamp: now - 601 }], now), false, "a session left open is not enough");
+  assert.equal(authenticatedRecently([{ method: "password", timestamp: now - 7200 }, { method: "totp", timestamp: now - 60 }], now), true, "the newest proof counts");
+  assert.equal(authenticatedRecently(["password", "otp"], now), false, "times are needed to judge recency");
+  assert.equal(authenticatedRecently(undefined, now), false);
+  assert.equal(authenticatedRecently([{ method: "password", timestamp: now + 3600 }], now), false, "a time in the future is not trusted");
+  assert.equal(lastAuthenticatedAt([{ method: "password", timestamp: 5 }, { method: "otp", timestamp: 9 }, "x", null]), 9);
+  assert.equal(authenticatedRecently([{ method: "password", timestamp: now - 7200 }, { method: "token_refresh", timestamp: now - 5 }], now), false, "a token refresh proves nothing");
+  assert.equal(authenticatedRecently([{ method: "anonymous", timestamp: now - 5 }], now), false, "an anonymous sign-in proves nothing");
+  assert.equal(authenticatedRecently([{ method: "something_new", timestamp: now - 5 }], now), false, "an unknown method fails closed");
+  assert.equal(authenticatedRecently([{ timestamp: now - 5 }], now), false, "an entry without a method fails closed");
+  const claims = (amr, error = null) => ({ auth: { getClaims: async () => (error ? { data: null, error } : { data: { claims: { amr } }, error: null }) } });
+  const fresh = Math.floor(Date.now() / 1000) - 10;
+  assert.equal(await sessionAuthenticatedRecently(claims([{ method: "recovery", timestamp: fresh }])), true);
+  assert.equal(await sessionAuthenticatedRecently(claims(null, { message: "invalid JWT" })), false, "an unverifiable token is not recent");
+  assert.equal(await sessionAuthenticatedRecently({ auth: { getClaims: async () => { throw new Error("network"); } } }), false);
+  // the action and the page both use it, after getUser(), with a per-account limit
+  const actions = read("app/admin/actions.ts");
+  assert.match(actions, /export async function updatePassword[\s\S]*?getUser\(\)[\s\S]*?consumeRateLimit\("login", `pw:\$\{auth\.user\.id\}`\)[\s\S]*?sessionAuthenticatedRecently\(supabase\)[\s\S]*?updateUser\(\{ password/);
+  const reset = read("app/admin/reset/page.tsx");
+  assert.match(reset, /sessionAuthenticatedRecently\(supabase\)\)/);
+  assert.match(reset, /nextLevel === "aal2" && aal\.currentLevel !== "aal2"[\s\S]*?href="\/admin\/mfa"[\s\S]*?return <NewPasswordForm \/>/, "an authenticator account confirms a code first");
+  assert.match(actions, /code === "insufficient_aal"/);
+});
+
+test("L2: e-mail links use the configured or platform address, never a forwarded header on Vercel", async () => {
+  const keep = { a: process.env.NEXT_PUBLIC_SITE_URL, b: process.env.VERCEL_ENV, c: process.env.VERCEL_PROJECT_PRODUCTION_URL, d: process.env.VERCEL_URL };
+  try {
+    for (const k of ["NEXT_PUBLIC_SITE_URL", "VERCEL_ENV", "VERCEL_PROJECT_PRODUCTION_URL", "VERCEL_URL"]) delete process.env[k];
+    const { siteOrigin } = await loadTs("lib/site-origin.ts");
+    assert.equal(siteOrigin("localhost:3000", "http"), "http://localhost:3000", "a local server keeps working");
+    assert.equal(siteOrigin("evil.example", "javascript"), "https://evil.example", "only http or https");
+    process.env.VERCEL_ENV = "production";
+    process.env.VERCEL_PROJECT_PRODUCTION_URL = "bsah.vercel.app";
+    assert.equal(siteOrigin("evil.example", "https"), "https://bsah.vercel.app", "production: the platform's address, not the header");
+    process.env.VERCEL_ENV = "preview";
+    process.env.VERCEL_URL = "bsah-git-x.vercel.app";
+    assert.equal(siteOrigin("evil.example", "https"), "https://bsah-git-x.vercel.app");
+    process.env.VERCEL_ENV = "production"; delete process.env.VERCEL_PROJECT_PRODUCTION_URL;
+    assert.equal(siteOrigin("evil.example", "https"), "https://bsah-git-x.vercel.app", "production without its domain variable: the deployment URL, still not the header");
+    process.env.VERCEL_ENV = "development"; process.env.VERCEL_URL = "localhost:3000";
+    assert.equal(siteOrigin("evil.example", "https"), "http://localhost:3000", "vercel dev serves plain http");
+    process.env.NEXT_PUBLIC_SITE_URL = "https://blackstallion.academy/";
+    assert.equal(siteOrigin("evil.example", "https"), "https://blackstallion.academy", "the configured address wins");
+  } finally {
+    for (const [k, v] of Object.entries({ NEXT_PUBLIC_SITE_URL: keep.a, VERCEL_ENV: keep.b, VERCEL_PROJECT_PRODUCTION_URL: keep.c, VERCEL_URL: keep.d })) if (v === undefined) delete process.env[k]; else process.env[k] = v;
+  }
+  for (const file of ["app/auth/actions.ts", "app/admin/actions.ts", "app/account/actions.ts"]) {
+    const src = read(file);
+    assert.match(src, /siteOrigin\(host, proto\)/, file);
+    assert.doesNotMatch(src, /NEXT_PUBLIC_SITE_URL \|\| \(host/, file);
+  }
+});
+
+test("17 Nov audit: dev rig bench is gone in production; the privileged client is marked server-only", () => {
+  assert.match(read("app/dev/rigs/page.tsx"), /if \(process\.env\.NODE_ENV === "production"\) notFound\(\);/);
+  assert.match(read("lib/supabase/admin.ts"), /^import "server-only";/);
+});
+
+test("M4: the database rate limiter reads the same Supabase settings as everything else, including NEXT_PUBLIC_ names", async () => {
+  const keep = { u: process.env.SUPABASE_URL, k: process.env.SUPABASE_PUBLISHABLE_KEY, nu: process.env.NEXT_PUBLIC_SUPABASE_URL, nk: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY };
+  try {
+    delete process.env.SUPABASE_URL; delete process.env.SUPABASE_PUBLISHABLE_KEY;
+    process.env.NEXT_PUBLIC_SUPABASE_URL = "http://127.0.0.1:9/";
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_test";
+    const { consumeRateLimit } = await loadTs("lib/security/rate-limit.ts");
+    const calls = [];
+    const fetchImpl = async (url) => { calls.push(String(url)); return new Response("false", { status: 200 }); };
+    const r = await consumeRateLimit("verify", "203.0.113.9", { fetchImpl });
+    assert.deepEqual(r, { allowed: false, layer: "database" }, "the database layer was consulted");
+    assert.equal(calls[0], "http://127.0.0.1:9/rest/v1/rpc/consume_rate_limit");
+  } finally {
+    for (const [k, v] of Object.entries({ SUPABASE_URL: keep.u, SUPABASE_PUBLISHABLE_KEY: keep.k, NEXT_PUBLIC_SUPABASE_URL: keep.nu, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: keep.nk })) if (v === undefined) delete process.env[k]; else process.env[k] = v;
   }
 });
 

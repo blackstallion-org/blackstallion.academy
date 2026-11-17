@@ -112,6 +112,9 @@ export function resumeSoundOnGesture(): () => void {
   function resume(event: Event) {
     const target = event.target;
     if (target instanceof Element && target.closest("[data-sound-toggle]")) return;
+    // the opening film carries its own score: a press on its Play, Sound or Skip must not start the site's music under it
+    // (17 Nov 2026 audit). The listener stays, so the first gesture after the film has gone starts the music as before.
+    if (document.documentElement.dataset.bsahIntro === "1") return;
     if (event instanceof KeyboardEvent && (event.key === "Escape" || event.key === "Tab" || event.metaKey || event.ctrlKey)) return;
     if (!soundEnabled()) return;
     unlocked = true;
@@ -184,6 +187,8 @@ export function playEffect(name: SoundEffect, volume = LEVELS[name], minGapMs = 
     if (!entry) {
       const el = new Audio();
       el.preload = "none";
+      // routed through Web Audio below: without CORS mode a file from the media bucket would play silent
+      el.crossOrigin = "anonymous";
       el.src = SOUND_FILES[name];
       el.dataset.bsahEffect = name;
       el.hidden = true;
@@ -237,6 +242,8 @@ export function playBackgroundHorse(index: number): boolean {
     if (!entry) {
       const el = new Audio();
       el.preload = "none";
+      // routed through Web Audio below: without CORS mode a file from the media bucket would play silent
+      el.crossOrigin = "anonymous";
       el.src = BACKGROUND_HORSE[i];
       el.dataset.bsahBackgroundHorse = String(i);
       el.hidden = true;

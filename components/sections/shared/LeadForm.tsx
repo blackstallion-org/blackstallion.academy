@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useEffect, useId, useRef, useState } from "react";
+import { useActionState, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { submitLead, type LeadState } from "@/app/actions";
 import { SealStamp } from "@/components/motion/SealStamp";
 import { clearLeadKey, LeadFormExtras } from "@/components/sections/shared/LeadFormExtras";
@@ -32,7 +32,18 @@ type Props = {
   steps?: { title: string; description: string; fields: string[] }[];
 };
 
-const todayISO = () => new Date().toISOString().slice(0, 10);
+/**
+ * Today's date in the visitor's own calendar (not UTC: before 05:30 IST the UTC date is still yesterday). Read only in the browser:
+ * the prerendered HTML would otherwise carry the build day and disagree with the client at hydration (17 Nov 2026 audit), so the
+ * server snapshot leaves `min` off and the browser adds it.
+ */
+const todayLocal = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+const noSubscribe = () => () => {};
+const noDate = () => undefined;
+const useToday = () => useSyncExternalStore(noSubscribe, todayLocal, noDate);
 
 /**
  * Every enquiry form on the site. Validated on the server (app/actions.ts) with inline errors.
@@ -41,6 +52,7 @@ const todayISO = () => new Date().toISOString().slice(0, 10);
  */
 export function LeadForm({ gate, fields, submitLabel = "Send", hidden, fallbackEmail, className, steps }: Props) {
   const id = useId();
+  const today = useToday();
   const [state, action, pending] = useActionState<LeadState, FormData>(submitLead, null);
   const formRef = useRef<HTMLFormElement>(null);
   const submitLock = useRef(false);
@@ -173,7 +185,7 @@ export function LeadForm({ gate, fields, submitLabel = "Send", hidden, fallbackE
                 ))}
               </select>
             ) : f.type === "date" ? (
-              <input {...common} type="date" min={todayISO()} />
+              <input {...common} type="date" min={today} />
             ) : (
               <input {...common} type={f.type ?? "text"} inputMode={f.type === "tel" ? "tel" : f.type === "email" ? "email" : undefined} />
             )}

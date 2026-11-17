@@ -490,6 +490,7 @@ export function India3DMap({
   useEffect(() => {
     const container = containerRef.current;
     if (!container || !nearViewport) return;
+    const cameraTarget = cameraTargetRef.current;
 
     const width = container.clientWidth;
     const height = container.clientHeight;
@@ -835,7 +836,7 @@ export function India3DMap({
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       observer.disconnect();
       gsap.killTweensOf(camera.position);
-      gsap.killTweensOf(cameraTargetRef.current);
+      gsap.killTweensOf(cameraTarget);
       scene.traverse((object) => { gsap.killTweensOf(object.position); gsap.killTweensOf(object.scale); });
       disposeThreeScene(scene);
       renderer.dispose();

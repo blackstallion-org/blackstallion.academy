@@ -29,7 +29,27 @@ scratch
 output
 bsah-platform
 public/models/rossbandiger (1).glb
-public/models/rossbandiger-1/rossbandiger.glb
+# 17 Nov 2026 audit: large files in git that no page, style, ledger or the media manifest names, and that the production crawl
+# (scripts/e2e-media.mjs) does not request. Kept in the repository (nothing deleted); only left out of deployments (~190 MB).
+# If a page starts using one of these again, remove its line here.
+public/models/rossbandiger-1
+public/models/rossbandiger.glb
+public/models/midnight_black_horse_3d_model_free.glb
+public/models/riding+gear+3d+model.glb
+public/models/riding-gear-draco.glb
+public/models/statue-mobile.glb
+public/video/hero-main.mp4
+public/video/hero-main-desktop.mp4
+public/video/hero-main-mobile.mp4
+public/video/hero-marwar-desktop.mp4
+public/video/hero-marwar-mobile.mp4
+public/video/portal-loop.mp4
+public/video/eye-intro-film.mp4
+public/video/marwari_horse_ear_biomechanics_loop.mp4
+public/video/Firefly*
+public/images/cinematic-images/*.mp4
+public/images/cinematic-images/*.jpg
+public/images/cinematic-images/*.png
 # never upload local secrets, snapshots or git-ignored placeholder stills (the site loads stills from the CDN copy)
 .env*
 !.env.example

@@ -12,6 +12,12 @@ import { readFileSync } from "node:fs";
 import { parseMediaBase } from "./lib/content/media-base.mjs";
 
 const isDev = process.env.NODE_ENV !== "production";
+// NEXT_PUBLIC_LOCAL_MEDIA=1 points every FilmImage at the PNG masters in public/media, which .gitignore and .vercelignore keep
+// out of deployments: a Vercel build (or `vercel build --prebuilt` on a machine with it in .env.local) would ship a site whose
+// stills all 404. Refuse that build instead (17 Nov 2026 audit).
+if (process.env.VERCEL === "1" && process.env.NEXT_PUBLIC_LOCAL_MEDIA === "1") {
+  throw new Error("NEXT_PUBLIC_LOCAL_MEDIA=1 is for local development only: the PNG masters it loads are not deployed. Unset it for Vercel builds.");
+}
 /**
  * Model versioning (Marwari cinematic pass, A6). In a production build the hero, mobile and anatomy GLBs are requested as
  * `/models/<name>.glb?v=<hash of the model files>`, and only a versioned URL is served `immutable`; the plain URL keeps its
