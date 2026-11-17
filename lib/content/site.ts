@@ -131,6 +131,14 @@ export const primaryNav: NavMenuLink[] = links(["/legend", "/curriculum", "/pare
 
 export const navCta = { label: "Enrol a cadet", href: "/contact?gate=parents" };
 
+/**
+ * The intro film of the whole website ("The Lineage", one minute, /film; owner 17 Nov 2026: "mention it in the navigation").
+ * Every menu that shows it (Academy and Heritage menus, the menus' foot, the Reels menu, the footer) uses this one entry, so its
+ * title is the same everywhere. `line` is the short description some menus set beside it.
+ */
+export const introFilm = { label: "Intro film", href: "/film", line: "The whole website in one minute" } as const;
+const introFilmEntry = { label: introFilm.label, href: introFilm.href };
+
 type NavMenuColumn = { heading: string; links: NavMenuLink[] };
 export type NavMenu = {
   /** The word in the header bar. */
@@ -159,7 +167,7 @@ export const navMenus: NavMenu[] = [
     columns: [
       column("The Mandate", [{ label: "The Mandate", href: "/about" }, "/director", "/science", "/why"]),
       column("Safeguards", ["/safety", "/command", { label: "Privacy notice", href: "/privacy" }]),
-      column("The Record", ["/contact", { label: "Gallery", href: "/gallery" }]),
+      column("The Record", [introFilmEntry, "/contact", { label: "Gallery", href: "/gallery" }]),
     ],
   },
   {
@@ -200,7 +208,7 @@ export const navMenus: NavMenu[] = [
       column("The Marwari", ["/legend", "/anatomy", "/statue"]),
       // Owner's order (16 Nov 2026), which the reel numbers follow since 17 Nov: Pratap & Chetak, Rani Lakshmibai (20), India, World, Alexander.
       column("Histories", ["/story/pratap-chetak", "/story/rani-lakshmibai", "/history/india", "/history/world", "/story/alexander-bucephalus"]),
-      column("The Archive", ["/history/marwar", "/journal"]),
+      column("The Archive", ["/history/marwar", "/journal", introFilmEntry]),
     ],
   },
 ];
@@ -250,6 +258,7 @@ export const corridors = [
 
 /** The footer's small print: pages outside the reels (numbered pages belong in `footerNav`). */
 export const legalNav: NavMenuLink[] = links([
+  introFilmEntry,
   { label: "About", href: "/about" },
   { label: "Privacy", href: "/privacy" },
   { label: "Film credits", href: "/worlds/credits" },

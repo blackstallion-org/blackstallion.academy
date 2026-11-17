@@ -1514,3 +1514,16 @@ progress in another session. Not tested: Safari and a real phone.
   words "From the desert / to the citadel gate." no longer show over the film (screen-reader heading only); chapter label stays.
   Home ledger band (the herd image slot): the owner's painting of a rider resting his face on his horse (`ledgerBond`, `ledger-bond.*`);
   the sunset herd (`gallop`) stays on disk and in media.ts, unused.
+- [x] **17 Nov 2026 · Intro film "The Lineage" (Remotion, `video/`), storyboard and 720p draft.** Own `package.json` (Remotion
+  4.0.544), so the site's dependencies are unchanged. 60 s, 1920×1080, 30 fps, ten scenes built only from the site's approved
+  artwork (history b/s/f layers, the Pratap painted bands, sh01 parchment, the official stamp crest, the bondField photo) and the
+  site's own headlines and place labels. Techniques: depth layers on one camera per scene, turbulence-torn ink-bleed reveals,
+  two-voice titles on an arc, silhouette occluder wipes, the world scene shrinking into its medallion on the map, paper and film
+  grain, vignette. `npm run stills` / `npm run render`; see `video/README.md`. No sound yet: a licensed score is needed.
+- [x] **17 Nov 2026 (later) · Intro film finished, /film page, "Intro film" in the navigation (owner).** Score: "Desert Rajasthan Folk
+  Music" (alex-morgan, Pixabay Content License) with CC0/licensed horse sounds, about -14.6 LUFS (`video/scripts/mix-audio.sh`).
+  Final 1080p render with sound; web cuts `public/video/the-lineage.mp4` (20 MB) and `-mobile.mp4` (6.8 MB, 720p) and posters.
+  New page `/film` (16:9 frame, native controls, never autoplays; chapter list that jumps the film and links each scene's page;
+  the film stays in view beside the chapters on wide screens). One `introFilm` entry in site.ts, shown in the Academy and Heritage
+  menus, the menus' foot, the Reels menu (from 640 px; phones have it in the groups) and the footer; sitemap updated. Checked at
+  1440 and 390: menus, reduced motion (paused until pressed), keyboard focus, no console errors; lint, typecheck, build, 348 tests.
