@@ -1553,3 +1553,9 @@ progress in another session. Not tested: Safari and a real phone.
   Checked at 1440 and 390: intro plays and hands over to the home hero; the loader horse, hero film, "Before the saddle, the horse" photo and
   all 39 home images load locally. **Open:** the owner's report that "the horse" on the home intro does not load could not be reproduced
   here; needs the exact section or a production URL.
+- [x] **17 Nov 2026 (late) · Films follow the sound switch; production redeployed** (owner). The opening film (intro) and the home hero
+  film now play with their sound when the site's sound switch is on and muted when it is off (`lib/audio/film-sound.ts`). Browsers
+  block sound before the first interaction, so on a first visit the film starts muted and its sound comes in at the first click,
+  tap or key press; the film's own Sound button still overrides. Intro fade-out volume clamped (it threw at 1.00014 on skip).
+  **Cause of the "missing" poster and Lineage film on the live site:** the Vercel project is not connected to GitHub, so pushes to
+  `main` never deploy; production was 16 h old and lacked those files. Deployed from a clean checkout of `main` with the CLI.

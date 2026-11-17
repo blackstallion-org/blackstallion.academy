@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { introFilm as film } from "@/lib/content/intro-film";
+import { useFilmSound } from "@/lib/audio/film-sound";
 import styles from "./intro-film.module.css";
 
 /** How long the visitor waits for the first frame before the page is shown instead (ms). */
@@ -28,6 +29,7 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
   const [muted, setMuted] = useState(true);
   const [veil, setVeil] = useState(false);
   const [reveal, setReveal] = useState(false);
+  useFilmSound(video);
 
   const finish = useCallback(() => {
     if (finished.current) return;
@@ -37,7 +39,8 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
     if (v && !v.muted && !v.paused) {
       const start = performance.now();
       const step = (now: number) => {
-        const k = Math.max(0, 1 - (now - start) / 1400);
+        // a frame's timestamp can fall a hair before `start`, which would put the volume above 1 and throw
+        const k = Math.min(1, Math.max(0, 1 - (now - start) / 1400));
         v.volume = k;
         if (k > 0) requestAnimationFrame(step);
         else v.pause();
@@ -134,7 +137,7 @@ export function IntroFilm({ onDone, onReveal }: { onDone: () => void; onReveal?:
           <span className={styles.note}>{film.note}</span>
         </div>
         <div className={styles.buttons}>
-          <button type="button" className={styles.round} onClick={toggleSound} aria-pressed={!muted} aria-label="Film sound">
+          <button type="button" className={styles.round} data-film-sound onClick={toggleSound} aria-pressed={!muted} aria-label="Film sound">
             {muted ? <VolumeX size={18} strokeWidth={1.4} aria-hidden /> : <Volume2 size={18} strokeWidth={1.4} aria-hidden />}
           </button>
           <button type="button" className={`${styles.round} ${styles.play}`} onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"}>

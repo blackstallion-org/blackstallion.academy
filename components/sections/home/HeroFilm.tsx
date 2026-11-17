@@ -5,6 +5,7 @@ import { useLenis } from "lenis/react";
 import { useReducedMotion } from "@/lib/motion/reduced";
 import { saveDataMode } from "@/lib/motion/save-data";
 import { OPENING_FILM, type HeroFilmSpec } from "@/lib/content/hero-films";
+import { useFilmSound } from "@/lib/audio/film-sound";
 import styles from "./HeroFilm.module.css";
 
 type Playback = "loading" | "buffering" | "playing" | "paused" | "blocked" | "failed" | "ended" | "skipped";
@@ -41,6 +42,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
   const leaveTimer = useRef(0);
   const [state, setState] = useState<Playback>("loading");
   const [muted, setMuted] = useState(true);
+  useFilmSound(videoRef);
   const [hasFrame, setHasFrame] = useState(false);
   // The last CLOSE_LEAD seconds of playback, and the title's short fade when it leaves (Replay, or a seek back out of the close).
   const [closing, setClosing] = useState(false);
@@ -262,7 +264,7 @@ export function HeroFilm({ film = OPENING_FILM }: { film?: HeroFilmSpec } = {}) 
       <div className="flex items-center gap-2">
         <button type="button" disabled={state === "failed"} onClick={() => seekBy(-10)} aria-label="Back 10 seconds" className="label hidden h-11 min-w-11 place-items-center sm:grid rounded-full border border-brass/50 bg-night/40 px-3 text-xs text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-40">-10s</button>
         <button type="button" disabled={state === "failed"} onClick={() => seekBy(10)} aria-label="Forward 10 seconds" className="label hidden h-11 min-w-11 place-items-center sm:grid rounded-full border border-brass/50 bg-night/40 px-3 text-xs text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-40">+10s</button>
-        <button type="button" disabled={state === "failed"} onClick={() => { if (videoRef.current) videoRef.current.muted = !videoRef.current.muted; }} aria-pressed={!muted} aria-label={muted ? "Sound off. Unmute the film" : "Sound on. Mute the film"} className="label min-h-9 rounded-full border border-brass/50 bg-night/40 px-3 text-[0.6rem] text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50 sm:min-h-11 sm:px-4 sm:text-[inherit]">Sound {muted ? "off" : "on"}</button>
+        <button type="button" data-film-sound disabled={state === "failed"} onClick={() => { if (videoRef.current) videoRef.current.muted = !videoRef.current.muted; }} aria-pressed={!muted} aria-label={muted ? "Sound off. Unmute the film" : "Sound on. Mute the film"} className="label min-h-9 rounded-full border border-brass/50 bg-night/40 px-3 text-[0.6rem] text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50 sm:min-h-11 sm:px-4 sm:text-[inherit]">Sound {muted ? "off" : "on"}</button>
         <button ref={playRef} type="button" disabled={state === "failed"} onClick={togglePlay} aria-label={playing ? "Pause the film" : "Play the film"} className="grid h-9 w-9 place-items-center rounded-full border border-brass/50 bg-night/40 sm:h-11 sm:w-11 text-sand backdrop-blur-[2px] hover:text-gold disabled:opacity-50"><span aria-hidden>{playing ? "Ⅱ" : "▶"}</span></button>
       </div>
     </div>
