@@ -8,7 +8,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { loadTs } from "./helpers/load-ts.mjs";
 
-const { introFilm } = await loadTs("lib/content/intro-film.ts");
+const { introFilm, illustratedFilm } = await loadTs("lib/content/intro-film.ts");
 const local = (src) => join("public", src.replace(/^.*?\/video\//, "video/"));
 
 /** Duration in seconds from the mvhd box, and whether moov precedes mdat. */
@@ -23,8 +23,8 @@ function mp4(file) {
   return { seconds: length / scale, faststart: moov > 0 && moov < mdat };
 }
 
-test("both cuts and the poster are on disk", () => {
-  for (const src of [introFilm.desktop, introFilm.mobile, introFilm.poster]) assert.ok(existsSync(local(src)), `${local(src)} is missing`);
+test("both cuts and the poster are on disk, for the opening film and the illustrated film on /about", () => {
+  for (const src of [introFilm.desktop, introFilm.mobile, introFilm.poster, illustratedFilm.desktop, illustratedFilm.mobile, illustratedFilm.poster]) assert.ok(existsSync(local(src)), `${local(src)} is missing`);
 });
 
 test("the film runs 60 s, and the content file says the same", () => {
@@ -37,15 +37,28 @@ test("the film runs 60 s, and the content file says the same", () => {
   }
 });
 
+test("the illustrated film on /about runs 37-38 s, and its content entry says the same", () => {
+  assert.ok(illustratedFilm.length >= 37 && illustratedFilm.length <= 38, `length ${illustratedFilm.length}`);
+  for (const src of [illustratedFilm.desktop, illustratedFilm.mobile]) {
+    const { seconds, faststart } = mp4(local(src));
+    assert.ok(seconds >= 37.3 && seconds <= 37.8, `${src}: ${seconds.toFixed(2)} s`);
+    assert.ok(faststart, `${src}: faststart`);
+  }
+  assert.match(readFileSync("app/about/page.tsx", "utf8"), /<IllustratedFilm \/>/);
+});
+
 test("weight budgets: desktop 22 MB, phones 10 MB, poster 150 KB", () => {
+  for (const f of [illustratedFilm]) {
+    const kb = (src) => statSync(local(src)).size / 1048576;
+    assert.ok(kb(f.desktop) <= 22 && kb(f.mobile) <= 10 && statSync(local(f.poster)).size <= 150 * 1024, "illustrated film over budget");
+  }
   const mb = (src) => statSync(local(src)).size / 1048576;
   assert.ok(mb(introFilm.desktop) <= 22, `desktop ${mb(introFilm.desktop).toFixed(1)} MB`);
   assert.ok(mb(introFilm.mobile) <= 10, `mobile ${mb(introFilm.mobile).toFixed(1)} MB`);
   assert.ok(statSync(local(introFilm.poster)).size <= 150 * 1024, "poster over 150 KB");
 });
 
-test("the earlier intro films are gone, and the raw score is not served", () => {
-  for (const f of ["intro-film.mp4", "intro-film-mobile.mp4", "intro-film-poster.webp"]) assert.ok(!existsSync(join("public/video", f)), `public/video/${f} (the 37.5 s film) was removed on 17 Nov 2026`);
+test("the painted trailer it replaced is gone, and the raw score is not served", () => {
   assert.ok(!existsSync("components/opening/PaintedTrailer.tsx"));
   assert.ok(!existsSync("lib/content/opening-trailer.ts"));
   assert.ok(!existsSync("public/audio/music/opening-trailer.mp3"));

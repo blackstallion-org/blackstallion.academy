@@ -1620,3 +1620,10 @@ progress in another session. Not tested: Safari and a real phone.
     `crossOrigin` on effect audio does not change behaviour (a non-CORS file routed through Web Audio was silent before too);
     `VERCEL_URL` fallback only applies if Vercel stops exposing `VERCEL_PROJECT_PRODUCTION_URL`. Residual low items: S30.
   - Checks: lint 0 errors, typecheck, build, `npm test` 372/372, replica 460/460.
+- [x] **17 Nov 2026 (later) · Owner corrections: the illustrated film is back (on /about), the hero band no longer says "unavailable".**
+  - The Lineage stays the first-visit opening. The 37.5 s illustrated film "From Marwar to the black stallion, in ink" (and its score
+    "Sovereign of the Marwar") was restored and now plays on /about after the letter (`components/sections/about/IllustratedFilm.tsx`,
+    `illustratedFilm` in lib/content/intro-film.ts); the footer credits both scores.
+  - The black-horse film in the band under "Who we are" stays. Its bug: the 12 s load watchdog in `HeroFilm.tsx` started at mount, so while the
+    first-visit intro held the band paused (preload="metadata" never reaches HAVE_CURRENT_DATA), it marked a healthy film "The film is
+    unavailable". The clock now starts at the first play attempt. New browser smoke check: intro held over 12 s, skip, the band is not failed.
