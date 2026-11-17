@@ -13,7 +13,8 @@ const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/reset"];
 export async function proxy(request: NextRequest) {
   const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  const isPublic = PUBLIC_ADMIN_PATHS.some((p) => request.nextUrl.pathname.startsWith(p));
+  const path = request.nextUrl.pathname;
+  const isPublic = PUBLIC_ADMIN_PATHS.some((p) => path === p || path.startsWith(`${p}/`));
   let response = NextResponse.next({ request });
   response.headers.set("x-robots-tag", "noindex, nofollow");
   response.headers.set("cache-control", "private, no-store");
@@ -38,9 +39,12 @@ export async function proxy(request: NextRequest) {
   const { data } = await supabase.auth.getUser();
   if (!data.user && !isPublic) {
     const login = new URL("/admin/login", request.url);
-    const path = request.nextUrl.pathname;
     if (!path.startsWith("/admin") && !path.startsWith("/account")) login.searchParams.set("next", path);
-    return NextResponse.redirect(login);
+    const redirect = NextResponse.redirect(login);
+    // keep the cookies the session refresh just set or cleared (an expired session is removed here, not left in the browser)
+    for (const cookie of response.cookies.getAll()) redirect.cookies.set(cookie);
+    redirect.headers.set("cache-control", "private, no-store");
+    return redirect;
   }
   return response;
 }

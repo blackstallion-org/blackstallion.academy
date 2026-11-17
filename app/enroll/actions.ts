@@ -166,17 +166,34 @@ export async function startPayment(_prev: CheckoutState, data: FormData): Promis
   const { data: program } = await supabase.from("programs").select("gst_rate").eq("id", app.program_id).single();
   const money = feeWithGst(app.fee_paise as number, Number(program?.gst_rate ?? 0.18));
 
-  const open = await admin.from("payment_records").select("gateway_order_id, amount_paise").eq("application_id", app.id).eq("status", "PENDING").maybeSingle();
-  let orderId = open.data?.gateway_order_id as string | undefined;
-  if (!orderId || open.data?.amount_paise !== money.total) {
+  // One pending order per application (database index from 20261118001900 once applied; the newest one is used before it).
+  // A pending order at an old price is retired (FAILED) before its replacement is made, so it can never be reused; if it is
+  // paid anyway, the webhook records it and flags a second payment on the same application for a refund.
+  const STARTED = "The payment could not be started. Please try again in a few minutes.";
+  const pending = () => admin.from("payment_records").select("id, gateway_order_id, amount_paise").eq("application_id", app.id).eq("status", "PENDING").order("created_at", { ascending: false }).limit(1);
+  const open = await pending();
+  if (open.error) return { error: STARTED };
+  const current = open.data?.[0];
+  let orderId = current && current.amount_paise === money.total ? (current.gateway_order_id as string) : undefined;
+  if (!orderId) {
+    if (current) {
+      const retired = await admin.from("payment_records").update({ status: "FAILED" }).eq("id", current.id).eq("status", "PENDING");
+      if (retired.error) return { error: STARTED };
+    }
     const order = await createRazorpayOrder({ amountPaise: money.total, receipt: app.reference, notes: { application: app.reference } });
-    if (!order.ok) return { error: "The payment could not be started. Please try again in a few minutes." };
+    if (!order.ok) return { error: STARTED };
     orderId = order.order.id;
     const { error } = await admin.from("payment_records").insert({
       parent_id: account.id, application_id: app.id, gateway_order_id: orderId, amount_paise: money.total,
       amount_paid: money.total / 100, gst_amount: money.gst / 100, payment_type: "ONBOARDING", status: "PENDING",
     });
-    if (error) return { error: "The payment could not be started. Please try again in a few minutes." };
+    if (error?.code === "23505") {
+      // a second click won the race: use the order it recorded (the one just created at Razorpay is never offered, so never paid)
+      const again = await pending();
+      const winner = again.data?.[0];
+      if (again.error || !winner || winner.amount_paise !== money.total) return { error: STARTED };
+      orderId = winner.gateway_order_id as string;
+    } else if (error) return { error: STARTED };
   }
   return { order: { id: orderId, amount: money.total, keyId: process.env.RAZORPAY_KEY_ID as string, reference: app.reference, name: account.full_name, email: account.email } };
 }

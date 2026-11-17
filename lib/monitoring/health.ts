@@ -30,8 +30,9 @@ export function resetHealthCache() {
 }
 
 async function probeDatabase(env: Env, fetchImpl: typeof fetch): Promise<{ db: DbState; dbMs: number }> {
-  const url = env.SUPABASE_URL;
-  const key = env.SUPABASE_PUBLISHABLE_KEY;
+  // the same names, in the same order, as supabaseConfig(): a project that sets only the NEXT_PUBLIC_ pair is still probed
+  const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = env.SUPABASE_PUBLISHABLE_KEY || env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) return { db: "not_configured", dbMs: 0 };
   const started = performance.now();
   try {

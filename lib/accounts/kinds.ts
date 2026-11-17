@@ -139,7 +139,9 @@ export function parseSignUp(input: Record<string, FormDataEntryValue | null>): {
   if (!isMemberKind(kind)) return { ok: false, error: "Choose who you are: student, parent, teacher or school." };
   const info = KINDS[kind];
   const shape: Record<string, z.ZodType<unknown>> = {
-    email: z.string().trim().toLowerCase().email("Enter a valid e-mail address.").max(160),
+    // .invalid addresses can never receive mail, and phone-<digits>@phone.invalid is reserved for phone sign-ups (taking it by
+    // e-mail first would block that number from ever signing up: 18 Nov 2026 audit)
+    email: z.string().trim().toLowerCase().email("Enter a valid e-mail address.").max(160).refine((e) => !e.endsWith(".invalid"), "Enter a valid e-mail address."),
     password: passwordSchema,
     confirm: z.string(),
     full_name: z.string().trim().min(2, `${info.nameLabel} is required.`).max(120, "That name is too long."),

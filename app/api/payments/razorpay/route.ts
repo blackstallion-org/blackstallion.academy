@@ -11,6 +11,8 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
  * also checks the amount against the order the server created. This is the only path that can mark an enrolment fee paid.
  */
 export async function POST(request: Request) {
+  // refuse an oversized body before reading it (Razorpay events are a few kilobytes), then check the real length too
+  if (Number(request.headers.get("content-length") ?? 0) > 100_000) return new Response("too large", { status: 413 });
   const raw = await request.text();
   if (raw.length > 100_000) return new Response("too large", { status: 413 });
   if (!verifyWebhookSignature(raw, request.headers.get("x-razorpay-signature"), process.env.RAZORPAY_WEBHOOK_SECRET)) {
@@ -32,6 +34,8 @@ export async function POST(request: Request) {
     return new Response("retry", { status: 500 }); // Razorpay retries; the event id makes the retry safe
   }
   console.info(JSON.stringify({ event: "payment.ingested", type: facts.type, outcome }));
+  // a second order paid for an application that was already paid (20261118001900): staff must refund it
+  if (outcome === "paid_duplicate") console.error(JSON.stringify({ event: "payment.paid_duplicate", order: facts.orderId }));
   if (outcome === "paid") {
     const { data: rec } = await admin.from("payment_records").select("application_id, amount_paise").eq("gateway_order_id", facts.orderId).maybeSingle();
     if (rec?.application_id) {

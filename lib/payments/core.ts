@@ -2,10 +2,10 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { GST_RATE, price } from "@/lib/content/pricing";
 
 /**
- * Payment core for the future Razorpay integration. STATUS: CODED + UNIT-TESTED, NOT CONNECTED.
- * Nothing in the site calls this yet and no gateway, route or button exists: merchant account, keys, GST registration
- * details and owner approval are BLOCKED_EXTERNAL (docs/IMPLEMENTATION_PROGRESS.md, B03). These pieces are the parts
- * that must be right regardless of the final wiring, so they are written and tested now:
+ * Payment core for the Razorpay integration. STATUS (18 Nov 2026 audit): the webhook route app/api/payments/razorpay uses
+ * verifyWebhookSignature, and the enrolment action (app/enroll/actions.ts startPayment) creates orders; both stay switched off
+ * until RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET and RAZORPAY_WEBHOOK_SECRET are set (merchant account, GST details and owner
+ * approval are external: docs/IMPLEMENTATION_PROGRESS.md, B03). The pieces below must be right regardless of the wiring:
  *   - authoritative server-side pricing in integer paise (never trust a client amount),
  *   - webhook signature verification (HMAC-SHA256 over the raw body) with constant-time comparison,
  *   - checkout signature verification (order_id|payment_id),

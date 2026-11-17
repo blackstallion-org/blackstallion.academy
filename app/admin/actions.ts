@@ -148,13 +148,27 @@ export async function uploadMedia(_prev: FormState, data: FormData): Promise<For
   return { notice: "Uploaded." };
 }
 
+/** A website image's object path, as `objectPath("site", ext)` writes it. */
+const SITE_IMAGE_PATH = /^site\/\d{4}\/\d{2}\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(png|jpg|webp)$/;
+
+/**
+ * Deletes one website image (bucket `website-assets`): the file first, then its record. If Storage refuses, the record
+ * stays so the delete can be tried again; a media-library row (bucket `bsah-media`) is never touched here
+ * (18 Nov 2026 audit: errors were ignored and a library row could lose its record while its file stayed public).
+ */
 export async function deleteMedia(data: FormData) {
   const { supabase } = await requireStaff();
   const id = z.string().uuid().safeParse(data.get("id"));
   if (!id.success) return;
-  const { data: row } = await supabase.from("media_assets").select("storage_path").eq("id", id.data).maybeSingle();
-  if (!row) return;
-  await supabase.storage.from("website-assets").remove([row.storage_path]);
-  await supabase.from("media_assets").delete().eq("id", id.data);
+  let found = await supabase.from("media_assets").select("storage_path, bucket").eq("id", id.data).maybeSingle();
+  // before the media-library migration the table has no bucket column, and every row is a website image
+  if (found.error?.code === "42703") found = (await supabase.from("media_assets").select("storage_path").eq("id", id.data).maybeSingle()) as unknown as typeof found;
+  if (found.error) return logAdminError("admin.media_delete_failed", found.error);
+  const row = found.data as { storage_path: string; bucket?: string } | null;
+  if (!row || (row.bucket && row.bucket !== "website-assets") || !SITE_IMAGE_PATH.test(row.storage_path)) return;
+  const removed = await supabase.storage.from("website-assets").remove([row.storage_path]);
+  if (removed.error) return logAdminError("admin.media_delete_failed", removed.error);
+  const deleted = await supabase.from("media_assets").delete().eq("id", id.data);
+  if (deleted.error) logAdminError("admin.media_delete_failed", deleted.error);
   revalidatePath("/admin/media");
 }

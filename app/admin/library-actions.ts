@@ -85,6 +85,7 @@ export async function deleteLibraryItem(data: FormData): Promise<void> {
     logAdminError("admin.library_delete_failed", error);
     return;
   }
-  await supabase.from("media_assets").delete().eq("id", id.data);
+  const deleted = await supabase.from("media_assets").delete().eq("id", id.data);
+  if (deleted.error) logAdminError("admin.library_delete_failed", deleted.error);
   refresh();
 }

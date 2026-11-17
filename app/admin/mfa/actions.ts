@@ -17,6 +17,12 @@ export type MfaState = { error?: string; factorId?: string; qr?: string; secret?
 export async function startEnrolment(): Promise<MfaState> {
   const { supabase } = await requirePrivilegedSession();
   const { data: list } = await supabase.auth.mfa.listFactors();
+  // An account that already has a working authenticator adds another only from a session confirmed with it (AAL2); a stolen
+  // password alone must not be able to enrol the attacker's own app (18 Nov 2026 audit; Auth enforces this too).
+  if ((list?.all ?? []).some((f) => f.status === "verified")) {
+    const { data: level } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (level?.currentLevel !== "aal2") return { error: "This account already has an authenticator app: enter a code from it to continue." };
+  }
   for (const factor of list?.all ?? []) {
     if (factor.factor_type === "totp" && factor.status !== "verified") await supabase.auth.mfa.unenroll({ factorId: factor.id });
   }
