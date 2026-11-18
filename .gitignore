@@ -83,3 +83,17 @@ next-env.d.ts
 /real marwari horse images/
 # Playwright MCP screenshots and console logs (local QA output, 17 Nov 2026 audit)
 /.playwright-mcp/
+
+# Owner's raw source clips (18 Nov 2026): the site plays edited cuts of these that are committed; kept local only
+/public/video/Black_horse_ears_animating_996bac38_1080p.mp4
+/public/video/Horse_and_rider_walking_video_c9663dac_1080p.mp4
+/public/video/Marwari_stallion_studio_portrait_e5af1963_1080p*.mp4
+/public/video/stills/Black_stallion_approaching_acade*_a6d51dae.mp4
+/public/video/stills/Horse_and_rider_top-down_view_9e02613f.mp4
+/public/video/stills/Horse_and_rider_walking_animation_08123068_1080p.mp4
+/public/video/stills/Stallion_video_generation_prompt_c2c3e118_1080p.mp4
+/public/video/stills/horse_natural_movement_no_tack.mp4
+/public/video/stills/the-lineage.mp4
+
+# Supabase CLI local cache (linked project, CLI version)
+/supabase/.temp/
