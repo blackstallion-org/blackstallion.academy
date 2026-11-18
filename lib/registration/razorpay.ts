@@ -38,7 +38,8 @@ export async function createRazorpayOrder(
   }
 }
 
-export type WebhookFacts = { type: string; orderId: string; paymentId: string | null; amountPaise: number };
+/** `refundId` is set for refund events only: the signed body's own refund id (the event-id header is not signed). */
+export type WebhookFacts = { type: string; orderId: string; paymentId: string | null; amountPaise: number; refundId?: string };
 
 /**
  * The facts the ledger needs from a Razorpay webhook body (already signature-verified). Returns null for events it does
@@ -57,5 +58,8 @@ export function readWebhook(body: unknown): WebhookFacts | null {
   const amount = Number(type === "refund.processed" ? refund.amount : (payment.amount ?? order.amount_paid ?? order.amount));
   if (!Number.isInteger(amount) || amount < 0) return null;
   const paymentId = typeof payment.id === "string" ? payment.id : typeof refund.payment_id === "string" ? refund.payment_id : null;
-  return { type, orderId, paymentId, amountPaise: amount };
+  if (type !== "refund.processed") return { type, orderId, paymentId, amountPaise: amount };
+  const refundId = typeof refund.id === "string" && /^rfnd_[A-Za-z0-9]{6,40}$/.test(refund.id) ? refund.id : null;
+  if (!refundId) return null; // a refund without its id cannot be applied exactly once
+  return { type, orderId, paymentId, amountPaise: amount, refundId };
 }

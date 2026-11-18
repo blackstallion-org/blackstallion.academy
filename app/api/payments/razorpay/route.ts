@@ -26,8 +26,12 @@ export async function POST(request: Request) {
   if (!facts) return Response.json({ ok: true, outcome: "ignored" });
   const admin = createSupabaseAdminClient();
   if (!admin) return new Response("not configured", { status: 503 });
+  // The event-id header is outside the signature, so a captured signed refund could be replayed under fresh ids and add up
+  // to a full refund (18 Nov 2026 review). A refund is applied once per Razorpay refund id, which the signature covers;
+  // a capture replay is already harmless (the record is PAID).
+  const ledgerKey = facts.refundId ? `refund:${facts.refundId}` : eventId;
   const { data: outcome, error } = await admin.rpc("ingest_payment_event", {
-    p_event_id: eventId, p_order_id: facts.orderId, p_event_type: facts.type, p_payment_id: facts.paymentId, p_amount_paise: facts.amountPaise,
+    p_event_id: ledgerKey, p_order_id: facts.orderId, p_event_type: facts.type, p_payment_id: facts.paymentId, p_amount_paise: facts.amountPaise,
   });
   if (error) {
     console.error(JSON.stringify({ event: "payment.ingest_failed", code: error.code }));

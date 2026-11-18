@@ -1607,3 +1607,16 @@ progress in another session. Not tested: Safari and a real phone.
   - **Open, owner:** apply 001200, 001800 and 001900 (approval); enable TOTP in Supabase Auth; S8 seed accounts, S9 key rotation,
     S11 Turnstile, S13 backups, S24 direct `submit_lead_v2` calls, S25 refund dedupe; a signed-in admin test against a
     non-production database. Unused owner-supplied components keep `ogl` and `@splinetool/react-spline` installed (not removed).
+- **18 Nov 2026 · merged to `main`, pushed and deployed (owner's go-ahead), then independently reviewed.** `main` was
+  fast-forwarded to `audit-1118` (`aa00f50`), pushed, and Vercel deployed it; the live site was probed (headers, admin
+  redirects, webhook refusals, open-redirect, secret scan of the public JS). Two independent reviewers (security, correctness)
+  then read `5e7d131..991203e`; each finding was checked against the code first.
+  - **Fixed:** refunds are applied once per signed refund id, not per unsigned event-id header (S25); a capture after a full
+    refund is the live payment, not a duplicate (S28, migration 001900, still not applied); account activation and MFA
+    enrolment no longer fail open (S29); stale MFA comments; a dead heading ternary on `/admin/login`.
+  - **Corrected:** S16 is *partly* fixed: the second factor guards the console only. RLS does not check `aal`, so a stolen
+    staff password still works against PostgREST directly (**S27, High, open**: needs a decision with the operations apps).
+  - **Rejected with evidence:** re-activation is not blocked (the RPC only sets the role, so activating again retries);
+    `crossOrigin` on effect audio does not change behaviour (a non-CORS file routed through Web Audio was silent before too);
+    `VERCEL_URL` fallback only applies if Vercel stops exposing `VERCEL_PROJECT_PRODUCTION_URL`. Residual low items: S30.
+  - Checks: lint 0 errors, typecheck, build, `npm test` 372/372, replica 460/460.

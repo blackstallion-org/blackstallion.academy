@@ -119,13 +119,13 @@ test("L4 proxy: only the exact public paths skip the sign-in (a look-alike such 
 });
 
 // ------------------------------------------------------------------ M3: MFA enrolment needs AAL2 once an authenticator exists
-async function enrol({ factors, level }) {
+async function enrol({ factors, level, listResult }) {
   const log = [];
   globalThis.__bsahTest = {
     requirePrivilegedSession: async () => ({
       home: "/admin",
       supabase: { auth: { mfa: {
-        listFactors: async () => ({ data: { all: factors } }),
+        listFactors: async () => listResult ?? ({ data: { all: factors } }),
         getAuthenticatorAssuranceLevel: async () => ({ data: { currentLevel: level }, error: null }),
         unenroll: async (x) => { log.push(["unenroll", x.factorId]); return { error: null }; },
         enroll: async () => { log.push(["enroll"]); return { data: { id: "f-new", type: "totp", totp: { qr_code: "qr", secret: "s" } }, error: null }; },
@@ -252,4 +252,64 @@ test("M4 startPayment: a failed retirement stops before a second live order exis
   const { out, orders } = await pay({ pending: [{ id: "r1", gateway_order_id: "order_OLD", amount_paise: 1000 }], updateError: { code: "42501" } });
   assert.match(out.error, /could not be started/);
   assert.equal(orders.length, 0);
+});
+
+// ------------------------------------------------------------------ 18 Nov review: findings fixed after the independent review
+test("review: MFA enrolment refuses when the account's factors cannot be read (no fail-open past the AAL2 check)", async () => {
+  console.error = () => {};
+  const { out, log } = await enrol({ factors: [], level: "aal1", listResult: { data: null, error: { message: "auth down" } } });
+  assert.match(out.error, /could not be read/);
+  assert.deepEqual(log, [], "nothing enrolled or removed");
+});
+
+async function activate({ admin, appRow }) {
+  const calls = [];
+  const supabase = {
+    rpc: async (name) => { calls.push(name); return { error: null }; },
+    from: () => ({ select: () => ({ eq: () => ({ single: async () => ({ data: appRow }) }) }) }),
+  };
+  globalThis.__bsahTest = { requireAdmissions: async () => ({ supabase }), admin };
+  const actions = await loadTsWith("app/admin/applications/actions.ts", {
+    "@/lib/registration/server": "tests/helpers/fake-registration-server.mjs",
+    "@/lib/supabase/admin": "tests/helpers/fake-supabase-admin.mjs",
+    "next/cache": "tests/helpers/fake-next-cache.mjs",
+  });
+  const fd = new FormData();
+  fd.set("id", "11111111-1111-4111-8111-111111111111");
+  fd.set("role", "INSTRUCTOR");
+  return { out: await actions.activateAccount(null, fd), calls };
+}
+
+test("review: activating an account without the secret key says the role was not copied (no false success)", async () => {
+  console.error = () => {};
+  const row = { id: "11111111-1111-4111-8111-111111111111", reference: "BSAH-1", kind: "staff", applicant_id: "22222222-2222-4222-8222-222222222222", applicant_email: null, applicant_name: null };
+  const none = await activate({ admin: null, appRow: row });
+  assert.match(none.out.error, /could not be copied/);
+  assert.deepEqual(none.calls, ["application_activate_account"]);
+  const meta = [];
+  const ok = await activate({ admin: { auth: { admin: { updateUserById: async (id, attrs) => { meta.push([id, attrs]); return { error: null }; } } } }, appRow: row });
+  assert.match(ok.out.notice, /^Activated as instructor/);
+  assert.deepEqual(meta, [[row.applicant_id, { app_metadata: { role: "INSTRUCTOR" } }]]);
+});
+
+test("review: a signed refund replayed under fresh event ids is keyed on its refund id, so it applies once", async () => {
+  const { createHmac } = await import("node:crypto");
+  const secret = "whsec_test_review";
+  const prev = process.env.RAZORPAY_WEBHOOK_SECRET;
+  process.env.RAZORPAY_WEBHOOK_SECRET = secret;
+  try {
+    const keys = [];
+    globalThis.__bsahTest = { admin: { rpc: async (_n, args) => { keys.push(args.p_event_id); return { data: keys.length === 1 ? "refunded" : "duplicate", error: null }; } } };
+    const route = await loadTsWith("app/api/payments/razorpay/route.ts", { "@/lib/supabase/admin": "tests/helpers/fake-supabase-admin.mjs" });
+    const body = JSON.stringify({ event: "refund.processed", payload: { refund: { entity: { id: "rfnd_Replay1234", payment_id: "pay_ABC123", amount: 50000 } }, payment: { entity: { id: "pay_ABC123", order_id: "order_XYZ789abc", amount: 295000 } } } });
+    const sig = createHmac("sha256", secret).update(body, "utf8").digest("hex");
+    const send = (eventId) => route.POST(new Request("https://bsah.test/api/payments/razorpay", { method: "POST", headers: { "x-razorpay-signature": sig, "x-razorpay-event-id": eventId }, body }));
+    const first = await (await send("evt_original01")).json();
+    const replay = await (await send("evt_forged0002")).json();
+    assert.deepEqual(keys, ["refund:rfnd_Replay1234", "refund:rfnd_Replay1234"], "both deliveries use the signed refund id, not the header");
+    assert.equal(first.outcome, "refunded");
+    assert.equal(replay.outcome, "duplicate");
+  } finally {
+    if (prev === undefined) delete process.env.RAZORPAY_WEBHOOK_SECRET; else process.env.RAZORPAY_WEBHOOK_SECRET = prev;
+  }
 });

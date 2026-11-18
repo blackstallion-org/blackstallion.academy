@@ -40,11 +40,17 @@ begin
     perform t.eq('guard: refunding the duplicate works', public.ingest_payment_event('evt_g2', 'order_G1', 'refund.processed', 'pay_g1', 295000), 'refunded');
     perform t.eq('guard: refunding the duplicate leaves the application paid (its first order still stands)', (select payment_status from public.applications where id = app), before_status);
     perform t.eq('guard: a replayed event is still a duplicate', public.ingest_payment_event('evt_g1', 'order_G1', 'payment.captured', 'pay_g1', 295000), 'duplicate');
+    perform t.eq('guard: refunding the first order in full', public.ingest_payment_event('evt_g5', 'order_G0', 'refund.processed', 'pay_g0', 295000), 'refunded');
+    perform t.eq('guard: with every order refunded the application shows refunded', (select payment_status from public.applications where id = app), 'refunded');
+    insert into public.payment_records (parent_id, gateway_order_id, amount_paid, gst_amount, payment_type, status, application_id, amount_paise)
+    values (g, 'order_G5', 2950.00, 450.00, 'ONBOARDING', 'PENDING', app, 295000);
+    perform t.eq('guard: a capture after a full refund is the live payment, not a duplicate', public.ingest_payment_event('evt_g6', 'order_G5', 'payment.captured', 'pay_g5', 295000), 'paid');
+    perform t.eq('guard: and the application is paid again', (select payment_status from public.applications where id = app), 'paid');
     insert into public.payment_records (parent_id, gateway_order_id, amount_paid, gst_amount, payment_type, status, application_id, amount_paise)
     values (g, 'order_G3', 10.00, 0, 'ONBOARDING', 'PENDING', null, 1000);
     perform t.eq('guard: an order without an application is paid as before', public.ingest_payment_event('evt_g3', 'order_G3', 'payment.captured', 'pay_g3', 1000), 'paid');
     perform t.eq('guard: a signed-in user still cannot ingest gateway events', t.scalar(g, 'authenticated', $q$select public.ingest_payment_event('evt_g4', 'order_G3', 'payment.captured', 'pay_g3', 1000)$q$), 'ERR:42501');
-    delete from public.payment_records where gateway_order_id in ('order_G0', 'order_G1', 'order_G2', 'order_G3');
+    delete from public.payment_records where gateway_order_id in ('order_G0', 'order_G1', 'order_G2', 'order_G3', 'order_G5');
     update public.payment_records set status = 'PAID' where gateway_order_id = 'order_TEST1';
   else
     perform t.eq('guard rollback: the index is gone', (select count(*)::text from pg_indexes where indexname = 'payment_records_one_pending_per_application'), '0');

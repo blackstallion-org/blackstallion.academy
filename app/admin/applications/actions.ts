@@ -62,15 +62,14 @@ export async function activateAccount(_prev: ReviewState, data: FormData): Promi
   if (error) return { error: friendlyDbError(error) };
   const app = await load(supabase, parsed.data.id);
   const admin = createSupabaseAdminClient();
-  if (admin && app) {
-    const res = await admin.auth.admin.updateUserById(app.applicant_id, { app_metadata: { role: parsed.data.role } });
-    if (res.error) {
-      console.error(JSON.stringify({ event: "registration.app_metadata_failed", status: res.error.status }));
-      revalidatePath(`/admin/applications/${parsed.data.id}`);
-      // the database role is saved, but the sign-in account does not carry it yet: say so instead of reporting full success
-      return { error: `Activated as ${parsed.data.role.replace("_", " ").toLowerCase()} in the database, but the role could not be copied to their sign-in account, so the field apps will not see it yet. Please report this to the developer.` };
-    }
-  }
+  const res = admin && app ? await admin.auth.admin.updateUserById(app.applicant_id, { app_metadata: { role: parsed.data.role } }) : null;
   revalidatePath(`/admin/applications/${parsed.data.id}`);
+  if (!res || res.error) {
+    // no secret key on this deployment, the application could not be re-read, or Auth refused: the database role is saved,
+    // but the sign-in account does not carry it yet, so say so instead of reporting full success. Activating again is
+    // safe (application_activate_account only sets the role) and retries the copy.
+    console.error(JSON.stringify({ event: "registration.app_metadata_failed", reason: !admin ? "no_admin_client" : !app ? "no_application" : "auth_error", status: res?.error?.status }));
+    return { error: `Activated as ${parsed.data.role.replace("_", " ").toLowerCase()} in the database, but the role could not be copied to their sign-in account, so the field apps will not see it yet. Activate again to retry; if it keeps failing, report it to the developer.` };
+  }
   return { notice: `Activated as ${parsed.data.role.replace("_", " ").toLowerCase()}. They see it the next time they sign in.` };
 }

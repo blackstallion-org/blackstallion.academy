@@ -1,5 +1,18 @@
 # Test results (24 Oct 2026, final code)
 
+## 0a. 18 Nov 2026 independent review (after the merge to `main`)
+
+Two reviewers that had not seen the audit's reasoning (one security, one correctness) read `5e7d131..991203e`. Findings were
+checked against the code before anything changed; fixed items are S25, S28, S29 in `SECURITY_AUDIT.md`. The review also
+showed that S16 had been marked fixed too broadly: the second factor guards the console only, not the database (S27, open).
+
+| Check | Result |
+| --- | --- |
+| Lint / types / build | 0 errors (16 warnings, unchanged) / pass / pass |
+| `npm test` | **372/372** (3 new review tests; all 4 new assertions fail on the pre-fix code, checked by stashing the fix) |
+| Replica (`supabase/live/tests/run.sh`) | **460/460** (4 new in stage 78: full refund, then a capture is the live payment) |
+| Live site (`project-t9r95.vercel.app`, `aa00f50`) | headers (HSTS, CSP, XFO DENY, nosniff, COOP); every `/admin/*` and `/account` 307 to sign-in with `private, no-store`; webhook: unsigned 401, 150 KB body 413, GET 405; `next=//evil.example` not used in any link or input; `/dev*` 404; no server secrets in the 26 public JS chunks |
+
 ## 0. 18 Nov 2026 technical audit (branch `audit-1118`, local Mac, Node 26, Postgres 18, Google Chrome)
 
 Observed this session on `audit-1118` (`5e7d131` + the 17 Nov audit merged + the 18 Nov fixes). No live database, deployment or

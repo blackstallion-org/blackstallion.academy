@@ -112,8 +112,10 @@ test("the return path after sign-in stays on this site", () => {
 test("Razorpay webhook facts: payments, refunds, and nothing else", () => {
   const captured = { event: "payment.captured", payload: { payment: { entity: { id: "pay_ABC123", order_id: "order_XYZ789abc", amount: 295000 } } } };
   assert.deepEqual(rz.readWebhook(captured), { type: "payment.captured", orderId: "order_XYZ789abc", paymentId: "pay_ABC123", amountPaise: 295000 });
-  const refund = { event: "refund.processed", payload: { refund: { entity: { id: "rfnd_1", payment_id: "pay_ABC123", amount: 50000 } }, payment: { entity: { id: "pay_ABC123", order_id: "order_XYZ789abc", amount: 295000 } } } };
+  const refund = { event: "refund.processed", payload: { refund: { entity: { id: "rfnd_Ab12Cd34", payment_id: "pay_ABC123", amount: 50000 } }, payment: { entity: { id: "pay_ABC123", order_id: "order_XYZ789abc", amount: 295000 } } } };
   assert.equal(rz.readWebhook(refund).amountPaise, 50000, "a refund carries the refunded amount, not the payment's");
+  assert.equal(rz.readWebhook(refund).refundId, "rfnd_Ab12Cd34", "a refund carries its own (signed) refund id");
+  assert.equal(rz.readWebhook({ ...refund, payload: { ...refund.payload, refund: { entity: { payment_id: "pay_ABC123", amount: 50000 } } } }), null, "a refund without its id is not applied");
   assert.equal(rz.readWebhook({ event: "subscription.charged", payload: {} }), null);
   assert.equal(rz.readWebhook({ event: "payment.captured", payload: { payment: { entity: { order_id: "'; drop table", amount: 1 } } } }), null);
   assert.equal(rz.readWebhook({ event: "payment.captured", payload: { payment: { entity: { order_id: "order_XYZ789abc", amount: -5 } } } }), null);

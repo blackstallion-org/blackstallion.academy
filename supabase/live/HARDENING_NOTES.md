@@ -357,14 +357,16 @@ switched on (the Razorpay keys), after `20261104001400_registration_admissions.s
 | `tests/78_payment_guard_tests.sql` | behaviour after the migration and after the rollback |
 
 Replica run (`PG_BIN=/opt/homebrew/opt/postgresql@18/bin bash supabase/live/tests/run.sh`, 18 Nov 2026): **454 passed, 0 failed**
-(15 new checks).
+(21 new checks).
 
 What changes: at most one PENDING payment record per application; a verified capture on an application that another order
 already paid is still recorded (the money was taken) but returns `paid_duplicate`, leaves the application alone and writes
 `payment.paid_duplicate` to the audit trail; the webhook also logs `payment.paid_duplicate`, so staff refund it. Refunding that
-duplicate leaves the application paid. Everything else in the function is unchanged.
+duplicate leaves the application paid. Only a sibling order that is still PAID makes a capture a duplicate: after an earlier
+order was refunded in full, the next capture is the live payment and marks the application paid (S28, 18 Nov review).
+Everything else in the function is unchanged.
 
 **Pre-flight:** `select application_id, count(*) from public.payment_records where status = 'PENDING' and application_id is not null group by 1 having count(*) > 1;` must return no rows.
 
-Not changed (S25): the dedupe key is still Razorpay's event-id header; deduping refunds on the refund id from the signed body
-is a further step.
+S25 is fixed in the webhook route, not here: a refund's ledger key is `refund:<rfnd_…>` from the signed body instead of the
+unsigned event-id header, so the function is unchanged for it (the key column already allows 4–120 characters).

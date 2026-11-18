@@ -6,5 +6,9 @@ export async function requireAccount() {
   if (!hook) throw new Error("fake-registration-server: the test did not install requireAccount");
   return hook();
 }
-export async function requireAdmissions() { throw new Error("fake-registration-server: requireAdmissions is not faked"); }
+export async function requireAdmissions() {
+  const hook = globalThis.__bsahTest?.requireAdmissions;
+  if (!hook) throw new Error("fake-registration-server: requireAdmissions is not faked");
+  return hook();
+}
 export const friendlyDbError = () => "database error";

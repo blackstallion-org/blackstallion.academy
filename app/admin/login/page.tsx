@@ -60,8 +60,8 @@ async function Doors({ searchParams }: { searchParams: Promise<Search> }) {
   const initial = MEMBER_KINDS.find((k) => k === kind) ?? "student";
   const tab = (active: boolean) =>
     `label flex-1 border-b-2 py-3 text-center ${active ? "border-gold text-gold" : "border-line text-sand hover:text-bone"}`;
-  // The door this address opens is the page's h1 (on phones the other door is hidden, so it must not hold the only h1).
-  const JoinHeading = create ? "h1" : "h2";
+  // The door this address opens is the page's h1 (on phones the other door is hidden, so it must not hold the only h1):
+  // "Create your account" in the join branch, otherwise "Already a member? Sign in".
   const SignInHeading = create ? "h2" : "h1";
   return (
     <>
@@ -87,7 +87,7 @@ async function Doors({ searchParams }: { searchParams: Promise<Search> }) {
             </>
           ) : (
             <>
-              <JoinHeading id="join-title" className="t-inscribe text-center text-[clamp(1.1rem,2vw,1.5rem)] uppercase tracking-[0.2em] text-bone">Not a member? Join now</JoinHeading>
+              <h2 id="join-title" className="t-inscribe text-center text-[clamp(1.1rem,2vw,1.5rem)] uppercase tracking-[0.2em] text-bone">Not a member? Join now</h2>
               <p className="label mt-8 text-center text-brass">Who is joining</p>
               <ul className="mt-6 grid grid-cols-2 gap-x-5 gap-y-8">
                 {MEMBER_KINDS.map((k) => (

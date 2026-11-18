@@ -38,7 +38,8 @@ export async function fetchStaffProfile(supabase: RowQuery, userId: string): Pro
 /**
  * Resolve the signed-in staff member, or redirect. `getUser()` re-validates the session with Supabase Auth on every
  * call (a forged or expired cookie fails). The role comes from the database under RLS, never from the client.
- * With STAFF_MFA_REQUIRED=1 a session that has not passed an authenticator code goes to /admin/mfa (lib/auth/mfa.ts).
+ * In production (unless STAFF_MFA_REQUIRED=0) a session that has not passed an authenticator code goes to /admin/mfa
+ * (lib/auth/mfa.ts). This guards the console only: database policies do not check the code yet (SECURITY_AUDIT S27).
  */
 export async function requireStaff() {
   const supabase = await createSupabaseServerClient();

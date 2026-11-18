@@ -48,8 +48,10 @@ begin
       -- two captures on different orders of one application, processed at once: the second waits here for the first
       if r.application_id is not null then perform 1 from public.applications where id = r.application_id for update; end if;
       if r.application_id is not null and exists (select 1 from public.payment_records
-          where application_id = r.application_id and id <> r.id and status in ('PAID', 'REFUNDED')) then
-        outcome := 'paid_duplicate'; -- a second order for an application that is already paid: staff refund it
+          where application_id = r.application_id and id <> r.id and status = 'PAID') then
+        -- a second order for an application that is already paid: staff refund it. A fully refunded earlier order does not
+        -- count: then this capture is the only money held, and the application is paid by it.
+        outcome := 'paid_duplicate';
       else
         update public.applications set payment_status = 'paid' where id = r.application_id;
         outcome := 'paid';

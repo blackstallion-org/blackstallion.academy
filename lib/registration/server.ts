@@ -42,7 +42,7 @@ export async function requireAdmissions() {
   if (!supabase) redirect("/admin/login?e=unconfigured");
   if (!account) redirect("/admin/login");
   if (!isAdmissionsRole(account.role)) redirect("/admin/login?e=forbidden");
-  if (await needsSecondFactor(supabase)) redirect("/admin/mfa"); // STAFF_MFA_REQUIRED=1 (lib/auth/mfa.ts)
+  if (await needsSecondFactor(supabase)) redirect("/admin/mfa"); // on in production unless STAFF_MFA_REQUIRED=0 (lib/auth/mfa.ts)
   return { supabase, account, profile: { display_name: account.full_name, role: account.role } };
 }
 
