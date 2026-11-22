@@ -102,3 +102,9 @@ Retired on 2 Nov 2026 and no longer requested by the site: `chariot.mp3`, `herd.
 ## Four Worlds soundtrack (6 Nov 2026)
 
 `music/four-worlds.mp3` is the track the owner supplied for the `/worlds` film (original file name `1793984615100_copy_3AAA2FC6-A982-417A-8272-F4FDEE8A00D4.mp3`, 149 s, 226 kbps). Re-encoded for the web: loudness normalised to -18 LUFS, short fade at both ends, 128 kbps, 2.4 MB. It plays on the music bus in place of the open-range recording while `/worlds` is open (`setMusicSource` in `lib/audio/mixer.ts`). The origin and licence of the recording have not been independently verified: the owner should confirm the right to publish it.
+
+## Opening black-horse film (`video/intro-horse*.mp4`, the first 10 s of the intro, 22 Nov 2026)
+
+The 10 s clip of a black Marwari stallion in a dark studio, silent: the film that was chapter 07 of /history/marwar until 17 Nov 2026
+(AI-generated, supplied by the owner; labelled "AI-generated film"). Cropped to 1120 x 720 to remove the generator's corner mark
+(`ffmpeg -vf crop=1120:720:0:0`), re-encoded H.264 without audio; the phone cut is 840 x 540. It has no soundtrack to credit.

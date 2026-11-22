@@ -1627,3 +1627,14 @@ progress in another session. Not tested: Safari and a real phone.
   - The black-horse film in the band under "Who we are" stays. Its bug: the 12 s load watchdog in `HeroFilm.tsx` started at mount, so while the
     first-visit intro held the band paused (preload="metadata" never reaches HAVE_CURRENT_DATA), it marked a healthy film "The film is
     unavailable". The clock now starts at the first play attempt. New browser smoke check: intro held over 12 s, skip, the band is not failed.
+- [x] **22 Nov 2026 · The intro opens with the 10 s black-horse film and cuts straight to The Lineage (owner: "put back the old horse, 10 seconds,
+  black, and cut it fast so it won't be like a fade animation"; asked: the 10 s black horse video, before the intro).**
+  The clip is the 10.0 s black Marwari stallion film that was chapter 07 of /history/marwar until 17 Nov (recovered from `083bacb^`), cropped to
+  1120 x 720 to drop the generator's corner mark, silent: `public/video/intro-horse.mp4` (0.6 MB), `-mobile.mp4` (0.2 MB), `-poster.webp`
+  (`openingHorse` in lib/content/intro-film.ts). `components/opening/IntroFilm.tsx` stacks two videos: the horse plays on a black stage while
+  The Lineage loads (paused) underneath; when the horse ends the second video is made visible in the same frame (`.video[data-hidden]` has no
+  transition). Measured frame by frame at 1440 and 390: exactly two states, horse visible then The Lineage visible at 0.01 s, overlay opacity 1
+  throughout. Skip, Esc, Sound and Play/Pause work in both parts (sound choice carries over); one progress bar spans the 70 s. The end of the
+  intro still dissolves into the page (not asked to change). Fixed on the way: React reports a skipped `<source>` as a video error, so the
+  horse's error handler checks for a real failure before cutting. Tests: intro-film.test.mjs (clip 10 s, faststart, budgets, no transition rule),
+  new smoke check (horse first, then film phase with no transition). `/history/marwar` is not changed.
