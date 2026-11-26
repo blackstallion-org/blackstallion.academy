@@ -13,14 +13,14 @@ export type Hotspot = {
   metric: string;
   x: number;
   y: number;
-  /** Position on the plate film (public/video/stallion-loop.mp4, 1136 x 768, horse facing left; measured 17 Nov 2026): % of its width and height. */
+  /** Position on the plate film (public/video/stallion-loop.mp4, 1064 x 720, horse facing left; re-measured 26 Nov 2026 for the owner's new stallion film): % of its width and height. */
   film: { x: number; y: number };
   layers: { equine: string; rider: string; builds: string; legend: string };
 };
 
 export const hotspots: Hotspot[] = [
   {
-    id: "ears", name: "Ears", title: "180° of Attention", x: 71, y: 10, film: { x: 32.8, y: 12.5 }, metric: "180° Independent Acoustic Swivel",
+    id: "ears", name: "Ears", title: "180° of Attention", x: 71, y: 10, film: { x: 27.7, y: 6.3 }, metric: "180° Independent Acoustic Swivel",
     short: "The lyre-shaped ears swivel independently toward sound and movement. A horse that is listening is a horse that is paying attention, and its ears show it first.", trains: "Composure & Active Environmental Reading",
     layers: {
       equine: "Lyre-shaped ears turn through 180° and track sound independently.",
@@ -30,7 +30,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "neck", name: "Neck", title: "The Crest", x: 62, y: 19, film: { x: 38.8, y: 27 }, metric: "Cervical Biomechanical Lever",
+    id: "neck", name: "Neck", title: "The Crest", x: 62, y: 19, film: { x: 39.9, y: 25.0 }, metric: "Cervical Biomechanical Lever",
     short: "High-carried and muscularly dense, the neck is a dynamic counterweight across shifting sand, teaching subtle balance shifts over brute force.", trains: "Poise & Dynamic Weight Distribution",
     layers: {
       equine: "High-carried, arching and muscularly dense: a dynamic counterweight engineered for rapid weight shifts across shifting dunes.",
@@ -40,7 +40,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "saddle", name: "Saddle", title: "The Moving Floor", x: 47, y: 29, film: { x: 55.9, y: 41 }, metric: "Pelvic Kinematics: 3D Core Realignment",
+    id: "saddle", name: "Saddle", title: "The Moving Floor", x: 47, y: 29, film: { x: 56.3, y: 33.3 }, metric: "Pelvic Kinematics: 3D Core Realignment",
     short: "At a walk the horse moves your pelvis in three dimensions, close to the pattern of human walking.", trains: "Core and balance",
     layers: {
       equine: "The back carries the stride straight into the rider's seat.",
@@ -50,7 +50,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "flank", name: "Flank", title: "Legs that steer", x: 39, y: 46, film: { x: 63, y: 53 }, metric: "MICRO-PRESSURE STEERING INTERFACE",
+    id: "flank", name: "Flank", title: "Legs that steer", x: 39, y: 46, film: { x: 65.7, y: 51.4 }, metric: "MICRO-PRESSURE STEERING INTERFACE",
     short: "The lightest leg pressure turns the horse. Hands stay free for the lance.", trains: "Precision without force",
     layers: {
       equine: "Sensitive skin and muscle answer the lightest leg pressure.",
@@ -60,7 +60,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "reins", name: "Reins", title: "Ten Grams", x: 74, y: 30, film: { x: 25.8, y: 30 }, metric: "LIGHT-CONTACT INTERFACE",
+    id: "reins", name: "Reins", title: "Ten Grams", x: 74, y: 30, film: { x: 26.0, y: 31.0 }, metric: "LIGHT-CONTACT INTERFACE",
     short: "The lightest steady contact is the whole conversation with a horse of several hundred kilograms. Shouting does nothing.", trains: "Precise communication",
     layers: {
       equine: "A mouth that answers very light, steady contact.",
@@ -70,7 +70,7 @@ export const hotspots: Hotspot[] = [
     },
   },
   {
-    id: "hoof", name: "Hoof", title: "Desert Feet", x: 58, y: 89, film: { x: 41.1, y: 92.5 }, metric: "DESERT-BRED SUSPENSION & CADENCE",
+    id: "hoof", name: "Hoof", title: "Desert Feet", x: 58, y: 89, film: { x: 40.2, y: 93.3 }, metric: "DESERT-BRED SUSPENSION & CADENCE",
     short: "Hard, upright hooves bred to lift clean out of sand.", trains: "Rhythm and timing",
     layers: {
       equine: "The fetlock flexes like a spring; desert hooves are hard and upright.",
