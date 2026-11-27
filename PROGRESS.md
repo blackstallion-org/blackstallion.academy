@@ -1646,3 +1646,9 @@ progress in another session. Not tested: Safari and a real phone.
   - **The Lineage, last scene** (`video/src/scenes/scenes.tsx`): the bondField photo is replaced by the cadets with their black Marwari (`images/academy-uniforms/stable-care.webp`),
     and the line "From ancient saddle to modern character" sits under "Eight hundred years, handed to your child." Re-rendered at 1080p; the soundtrack is unchanged;
     `public/video/the-lineage*.mp4` and posters rebuilt with `video/scripts/finish.sh` (still 60 s, 20 MB / 7 MB). Checked: lint (0 errors), typecheck, build, 350 tests, 21/21 browser checks.
+- [x] **27 Nov 2026 · Home hero copy replaced (owner's text, same format).** The first section (crest) now reads: the quote "Five hundred kilograms of living power teaches
+  what no classroom can: stillness commands strength." above the unchanged doctrine headline; two paragraphs ("A structured, syllabus-driven equestrian and character academy…"
+  and "Built for ambitious young cadets…"); the buttons "Watch the Legend" and "Find Your Campus"; then the three pillars (01 The Horse, 02 The Riding, 03 The Self) and one
+  line each For cadets, For parents, For schools. Copy in `hero` in lib/content/home.ts (`quote`, `sub`, `audience`, `pillars`, `forWhom`; `stats` is kept because
+  AcademyStats still reads it), markup in `components/sections/home/Hero.tsx`, styles in `Hero.module.css` (light and dark). Checked at 1440 and 390: no overflow, h1 unchanged.
+  Claims to confirm before launch (owner's wording, kept as given): "Certified safety gear", "ex-cavalry supervision", "zero operational headache", "STPCI/EFI competitive pathways".

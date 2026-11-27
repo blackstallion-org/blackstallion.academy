@@ -10,15 +10,31 @@ export const hero = {
   ],
   /** The doctrine as one statement (two sentences, read together). */
   statement: ["We do not teach children to ride.", "We forge them to lead."],
-  sub: "The interscholastic equestrian leadership academy and national tent pegging circuit for India's schools. Indigenous Marwari stallions, ex-cavalry instructors and a ledger of every hour, on your child's own campus.",
+  /** The line over the doctrine (owner's hero copy, 27 Nov 2026). */
+  quote: "Five hundred kilograms of living power teaches what no classroom can: stillness commands strength.",
+  sub: "A structured, syllabus-driven equestrian and character academy for premier schools—combining horsemanship, ex-cavalry discipline, and STPCI/EFI competitive pathways.",
+  /** The second paragraph under the doctrine. */
+  audience: "Built for ambitious young cadets, reassuring for safety-first parents, and engineered as a turnkey leadership and sporting asset for partner schools—where every session turns nervous energy into calm authority.",
   ctas: [
-    { label: "Watch the legend", href: "/legend" },
-    { label: "Find your campus", href: "/schools#hubs" },
+    { label: "Watch the Legend", href: "/legend" },
+    { label: "Find Your Campus", href: "/schools#hubs" },
   ],
   stats: [
     { value: "13", label: "pillars of character, drilled in the saddle" },
     { value: "25–30%", label: "of tuition back to partner schools" },
     { value: "Same day", label: "session notes shared with parents in the BSAH app" },
+  ],
+  /** The three pillars under the buttons (owner's hero copy, 27 Nov 2026). `stats` above stays for the figures on other pages. */
+  pillars: [
+    { n: "01", title: "The Horse", text: "Trained school-masters, Marwari heritage, and ethical welfare at every step." },
+    { n: "02", title: "The Riding", text: "Four progressive cadet ranks from first balance to interscholastic tent pegging." },
+    { n: "03", title: "The Self", text: "Composure under pressure, breath control, and accountability that carry beyond the arena." },
+  ],
+  /** One line for each of the three audiences. */
+  forWhom: [
+    { who: "For cadets", text: "Earn your rank, master your balance, and carry a calm head into every arena." },
+    { who: "For parents", text: "Certified safety gear, trained school mounts, ex-cavalry supervision, and clear progress tracking." },
+    { who: "For schools", text: "A prestigious on-campus leadership program with zero operational headache and competitive STPCI/EFI pathways." },
   ],
   /** SAMPLE live figures. */
   ticker: ["BSAH National Command (demo data)", "Hours logged 14,800 (sample)", "Canter transitions passed 342 (sample)", "Active stallions 21 (sample)", "Hubs live 3 (sample)", "Next: Governor's Cup · 14 Nov"],
