@@ -27,7 +27,7 @@ Remotion downloads its own browser. The same applies to `scripts/stills.mjs`.
 | 0:30 | Alexander and Bucephalus | `al02` b/s/f, sun bloom | Macedon, Alexander's boyhood · THE SHADOW. *The boy.* (/story/alexander-bucephalus) |
 | 0:35 | Silk Roads and the steppe | `wo02` b/s/f, `wo05-s`, route line | THE SILK ROADS · SILK ROADS. *Iron roads.* (/history/world) |
 | 0:41 | The whole lineage on the map | six inked medallions of the scenes, route drawn on | place labels |
-| 0:48 | Today | `media/bond-field-cadet.webp` | EIGHT HUNDRED YEARS, *handed to your child.* (/legend, Marwari origins) |
+| 0:48 | Today | `images/academy-uniforms/stable-care.webp` (cadets with their black Marwari; since 26 Nov 2026) | EIGHT HUNDRED YEARS, *handed to your child.* (/legend, Marwari origins), then the line "From ancient saddle to modern character" |
 | 0:55 | End card | crest, brand lockup, motto | BLACK STALLION · ACADEMY OF HORSEMANSHIP · *Dominus sui, dominus equi* · blackstallion.academy |
 
 Transitions: ink-bleed mattes (turbulence-torn growing circle), occluder wipes (the rider, the Pratap banners and the

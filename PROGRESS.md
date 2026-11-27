@@ -1638,3 +1638,11 @@ progress in another session. Not tested: Safari and a real phone.
   intro still dissolves into the page (not asked to change). Fixed on the way: React reports a skipped `<source>` as a video error, so the
   horse's error handler checks for a real failure before cutting. Tests: intro-film.test.mjs (clip 10 s, faststart, budgets, no transition rule),
   new smoke check (horse first, then film phase with no transition). `/history/marwar` is not changed.
+- [x] **26 Nov 2026 · New stallion film on the home Instrument plate; the Lineage's last scene changed (owner).**
+  - **Plate film** (home "The Instrument" and the /anatomy specimen plate, `StudioFilm`): the owner's new clip (`marwari_stallion_loop_720p`, 10 s) replaces
+    `stallion-loop*`: cropped to 1064 x 720 (x 120 to 1184) to frame the horse, sound removed, last 0.6 s cross-faded into the first (9.46 s; loop seam 0.89 against
+    0.3 between normal frames), phone cut 798 x 540, poster. The six hotspot points were re-measured for the new horse (`film` coordinates in `lib/content/anatomy.ts`)
+    and `FILM_ASPECT` is 1064/720. Checked on a production build at 1440 and 390: the film plays and loops, and every point sits on its part of the horse.
+  - **The Lineage, last scene** (`video/src/scenes/scenes.tsx`): the bondField photo is replaced by the cadets with their black Marwari (`images/academy-uniforms/stable-care.webp`),
+    and the line "From ancient saddle to modern character" sits under "Eight hundred years, handed to your child." Re-rendered at 1080p; the soundtrack is unchanged;
+    `public/video/the-lineage*.mp4` and posters rebuilt with `video/scripts/finish.sh` (still 60 s, 20 MB / 7 MB). Checked: lint (0 errors), typecheck, build, 350 tests, 21/21 browser checks.
