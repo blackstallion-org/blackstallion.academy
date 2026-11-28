@@ -74,22 +74,9 @@ test("the intro mounts the film", () => {
   assert.match(src, /<IntroFilm /);
 });
 
-test("the black-horse film that opens the intro: 10 s, silent, light, and the player cuts (no fade) from it to The Lineage", () => {
-  for (const src of [openingHorse.desktop, openingHorse.mobile, openingHorse.poster]) assert.ok(existsSync(local(src)), `${local(src)} is missing`);
-  for (const src of [openingHorse.desktop, openingHorse.mobile]) {
-    const { seconds, faststart } = mp4(local(src));
-    assert.ok(seconds >= 9.8 && seconds <= 10.2, `${src}: ${seconds.toFixed(2)} s`);
-    assert.ok(faststart, `${src}: faststart`);
-  }
-  const mb = (src) => statSync(local(src)).size / 1048576;
-  assert.ok(mb(openingHorse.desktop) <= 1 && mb(openingHorse.mobile) <= 0.5, "horse film over budget");
-  assert.ok(statSync(local(openingHorse.poster)).size <= 40 * 1024, "horse poster over 40 KB");
-  assert.equal(openingHorse.length, 10);
-  // the swap is one render: nothing animates the hidden/visible change between the two videos
-  const css = readFileSync("components/opening/intro-film.module.css", "utf8");
-  const rule = css.match(/\.video\[data-hidden\]\s*\{[^}]*\}/)?.[0] ?? "";
-  assert.match(rule, /visibility:\s*hidden/);
-  assert.doesNotMatch(rule, /transition|opacity|animation/);
+test("the intro starts on The Lineage itself: no horse preface (owner, 28 Nov 2026)", () => {
+  assert.equal(openingHorse, undefined);
   const player = readFileSync("components/opening/IntroFilm.tsx", "utf8");
-  assert.match(player, /onEnded=\{cut\}/);
+  assert.equal((player.match(/<video\b/g) ?? []).length, 1, "one film only");
+  assert.doesNotMatch(player, /intro-horse|horseFilm/);
 });

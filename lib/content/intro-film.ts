@@ -44,19 +44,4 @@ export const illustratedFilm = {
     "stallion standing on the map of the world.",
 } as const;
 
-/**
- * The black-horse film that opens the intro (owner, 22 Nov 2026: "put back the old horse, 10 seconds, black, and cut it fast so it won't
- * be like a fade animation"). The 10 s clip of a black Marwari stallion in a dark studio that used to be chapter 07 of /history/marwar
- * (removed 17 Nov 2026), cropped to 1120 x 720 to drop the generator's corner mark, silent. It plays first on a black stage and the intro
- * cuts straight to "The Lineage" (`introFilm`) the instant it ends, with no fade. AI-generated, and labelled so.
- */
-export const openingHorse = {
-  label: "A black Marwari stallion, in a dark studio",
-  desktop: asset("/video/intro-horse.mp4"),
-  mobile: asset("/video/intro-horse-mobile.mp4"),
-  poster: asset("/video/intro-horse-poster.webp"),
-  /** running time in seconds */
-  length: 10,
-  note: "AI-generated film",
-  description: "A black Marwari stallion stands in a dark studio, turning its head; its inward-curving ears catch the light.",
-} as const;
+// 28 Nov 2026 (owner): the 10 s black-horse film that opened the intro (22 Nov) is removed; the intro starts on "The Lineage".

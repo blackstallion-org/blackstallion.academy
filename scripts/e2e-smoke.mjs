@@ -244,24 +244,18 @@ try {
     await context.close();
   });
 
-  // 22 Nov 2026: the first-visit intro opens with the 10 s black-horse film and cuts (no fade) to The Lineage.
-  await check("intro: the black-horse film plays first, then the picture cuts straight to The Lineage", async () => {
+  // 28 Nov 2026 (owner): the 10 s black-horse preface is gone; the first-visit intro is The Lineage from its first frame.
+  await check("intro: The Lineage plays at once, with no horse film before it", async () => {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const page = await context.newPage();
     await page.goto(`${BASE}/?intro`, { waitUntil: "domcontentloaded" });
     const h264 = await page.evaluate(() => document.createElement("video").canPlayType('video/mp4; codecs="avc1.640028"') !== "");
     if (!h264) { await context.close(); return; } // a browser build without H.264 cannot play the film
     await page.waitForSelector("[data-intro-film]", { timeout: 20000 });
-    assert.equal(await page.locator("[data-intro-film]").getAttribute("data-phase"), "horse");
-    await page.waitForFunction(() => document.querySelector("[data-intro-film]")?.getAttribute("data-phase") === "film", null, { timeout: 25000 });
-    const cut = await page.evaluate(() => {
-      const [lineage, horse] = [...document.querySelectorAll("[data-intro-film] video")];
-      const cs = (v) => getComputedStyle(v);
-      return { lineageVisible: cs(lineage).visibility, horseVisible: cs(horse).visibility, trans: cs(lineage).transitionDuration + "|" + cs(horse).transitionDuration };
-    });
-    assert.equal(cut.lineageVisible, "visible");
-    assert.equal(cut.horseVisible, "hidden");
-    assert.match(cut.trans, /^0s\|0s$/, "no transition between the two films");
+    await page.waitForFunction(() => { const v = document.querySelector("[data-intro-film] video"); return v && !v.paused && v.currentTime > 0.3; }, null, { timeout: 20000 });
+    const r = await page.evaluate(() => [...document.querySelectorAll("[data-intro-film] video")].map((v) => v.currentSrc.split("/").pop()));
+    assert.equal(r.length, 1, `videos: ${r.join(", ")}`);
+    assert.match(r[0], /^the-lineage/);
     await context.close();
   });
 
