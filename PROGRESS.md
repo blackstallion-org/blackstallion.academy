@@ -49,6 +49,16 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - [ ] **Payments** (`/pay`, Razorpay) and the parent app.
 - [ ] **Commissioned photography** replaces every placeholder one-for-one.
 
+## Session 28 Nov 2026 · Intro starts on The Lineage; plate film loops on a hard cut
+
+- Owner: the 10 s black-horse preface hid the intro. Removed: `IntroFilm` is one video again (The Lineage from its first frame);
+  `openingHorse`, its CSS and `public/video/intro-horse*` are gone. Unit test and e2e check rewritten ("The Lineage plays at once").
+- Owner: the plate film's cross-fade every ~10 s read as a loop. Re-encoded from the owner's clip with no cross-fade: the whole 10 s,
+  same crop (so hotspots are unchanged), and the loop is a straight cut back to frame 1 (first and last frames are almost the same pose).
+  New names `stallion-plate-2811*` (no cache can serve the faded cut).
+- Checked: typecheck, lint, 374 tests, build, 21 e2e checks; `/?intro` plays `the-lineage-2611*` at once at 1440 and 390; /anatomy plays
+  `stallion-plate-2811*`.
+
 ## Session 28 Nov 2026 · New film names so the live site cannot show the old horse
 
 - Owner saw the old brown horse on Specimen plate 02 (home Instrument, /anatomy) after PR #24 merged. The new stallion clip had replaced
