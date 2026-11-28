@@ -8,6 +8,10 @@ import { cn } from "@/lib/utils";
 /**
  * The specimen plate's living view (15 Nov 2026, owner): a studio film of a standing black Marwari replaces the 3D model.
  *
+ * 26 Nov 2026 (owner): the plate film is now the owner's new black-stallion clip (marwari_stallion_loop_720p, 10 s), cropped to x 120–1184 of its
+ * 1280 x 720 frame (1064 x 720, no sound), its last 0.6 s cross-faded into its first (9.46 s), hotspots re-measured in lib/content/anatomy.ts.
+ * The notes below describe the previous clip.
+ *
  * public/video/stallion-loop.mp4 (17 Nov 2026, owner: the 5-second loop goes back on the plate; the 10 s studio film moved to the
  * /anatomy hero): the owner's clip horse_natural_movement_no_tack, cropped to x 104–1240 of its 1344 x 768 frame to drop the dark side strips
  * (1136 x 768), no sound. The first 0.75 s is cut and
@@ -25,8 +29,8 @@ export type FilmPoint = { id: string; name: string; title: string; x: number; y:
 const SRC = asset("/video/stallion-loop.mp4");
 const SRC_PHONE = asset("/video/stallion-loop-mobile.mp4");
 const POSTER = asset("/video/stallion-loop-poster.webp");
-/** The film is shown whole (1136 x 768), so its box has the film's own proportions. */
-export const FILM_ASPECT = 1136 / 768;
+/** The film is shown whole (1064 x 720), so its box has the film's own proportions. */
+export const FILM_ASPECT = 1064 / 720;
 const ASPECT = FILM_ASPECT;
 const ZOOM = 2.2;
 const MOVE = "transform 0.95s cubic-bezier(0.16, 1, 0.3, 1)";

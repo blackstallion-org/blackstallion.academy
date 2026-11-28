@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { corridors, entity, footerNav, hidesFooter, legalNav, LOGO } from "@/lib/content/site";
 import { MUSIC } from "@/lib/audio/mixer";
-import { introFilm } from "@/lib/content/intro-film";
+import { illustratedFilm, introFilm } from "@/lib/content/intro-film";
 import { journeyFilm } from "@/lib/content/journey-film";
 
 const COPYRIGHT_YEAR = 2026;
@@ -85,7 +85,7 @@ function PublicFooter() {
           </p>
           {/* Music credit (public/audio/LICENSES.md). */}
           <p className="mt-2 opacity-80">
-            Music: “{MUSIC.title}” by {MUSIC.author}. Opening film: “{introFilm.music.title}”, {introFilm.music.credit}. {journeyFilm.label}: “{journeyFilm.music.title}” by {journeyFilm.music.author} ({journeyFilm.music.licence}). Field recordings: Freesound contributors (CC0).
+            Music: “{MUSIC.title}” by {MUSIC.author}. Opening film: “{introFilm.music.title}”, {introFilm.music.credit}. Illustrated film: “{illustratedFilm.music.title}”, {illustratedFilm.music.credit}. {journeyFilm.label}: “{journeyFilm.music.title}” by {journeyFilm.music.author} ({journeyFilm.music.licence}). Field recordings: Freesound contributors (CC0).
           </p>
           <div className="footer-meridian__legal">
             {legalNav.map((l) => (

@@ -37,6 +37,7 @@ function HeroContentSection() {
           fetchPriority="high"
           className={styles.crest}
         />
+        <p className={styles.quote}>{hero.quote}</p>
         <h1 className={styles.statement}>
           {hero.statement.map((sentence, index) => {
             const words = sentence.split(" ");
@@ -53,15 +54,25 @@ function HeroContentSection() {
           })}
         </h1>
         <p className={styles.intro}>{hero.sub}</p>
+        <p className={styles.intro}>{hero.audience}</p>
         <div className={styles.actions}>
           <Cta href={hero.ctas[0].href} variant="solid" className={styles.primary}>{hero.ctas[0].label}</Cta>
           <Cta href={hero.ctas[1].href} className={styles.secondary}>{hero.ctas[1].label}</Cta>
         </div>
-        <dl className={styles.stats} aria-label="Academy at a glance">
-          {hero.stats.map((stat) => (
-            <div key={stat.value}>
-              <dt>{stat.label}</dt>
-              <dd>{stat.value}</dd>
+        <ol className={styles.pillars} aria-label="The three pillars">
+          {hero.pillars.map((pillar) => (
+            <li key={pillar.n}>
+              <span className={styles.pillarNo}>{pillar.n}.</span>
+              <span className={styles.pillarTitle}>{pillar.title}</span>
+              <span className={styles.pillarText}>{pillar.text}</span>
+            </li>
+          ))}
+        </ol>
+        <dl className={styles.forWhom} aria-label="Who the academy is for">
+          {hero.forWhom.map((row) => (
+            <div key={row.who}>
+              <dt>{row.who}</dt>
+              <dd>{row.text}</dd>
             </div>
           ))}
         </dl>

@@ -226,6 +226,45 @@ try {
     await context.close();
   });
 
+  // 17 Nov 2026: on a first visit the intro overlay holds the hero film paused for up to a minute; the film's 12 s load watchdog used
+  // to run during that hold and showed "The film is unavailable" on a healthy film. It now starts at the first play attempt.
+  await check("hero: the opening film still plays after a first-visit intro held it for over 12 s", async () => {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(`${BASE}/?intro`, { waitUntil: "domcontentloaded" });
+    const overlay = await page.waitForSelector("[data-intro-film]", { timeout: 20000 }).then(() => true, () => false);
+    await page.waitForTimeout(13500);
+    if (overlay) await page.getByRole("button", { name: /Skip intro/ }).click().catch(() => {});
+    await page.waitForFunction(() => !document.querySelector("[data-intro-film]"), null, { timeout: 15000 }).catch(() => {});
+    await page.locator("section#top").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(2500);
+    const { state, h264 } = await page.evaluate(() => ({ state: document.querySelector("section#top")?.dataset.playback, h264: document.createElement("video").canPlayType('video/mp4; codecs="avc1.640028"') !== "" }));
+    // A browser build without H.264 cannot play the film at all; only a browser that can play it must not report it unavailable.
+    if (h264) assert.notEqual(state, "failed", `hero state ${state} (overlay shown: ${overlay})`);
+    await context.close();
+  });
+
+  // 22 Nov 2026: the first-visit intro opens with the 10 s black-horse film and cuts (no fade) to The Lineage.
+  await check("intro: the black-horse film plays first, then the picture cuts straight to The Lineage", async () => {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(`${BASE}/?intro`, { waitUntil: "domcontentloaded" });
+    const h264 = await page.evaluate(() => document.createElement("video").canPlayType('video/mp4; codecs="avc1.640028"') !== "");
+    if (!h264) { await context.close(); return; } // a browser build without H.264 cannot play the film
+    await page.waitForSelector("[data-intro-film]", { timeout: 20000 });
+    assert.equal(await page.locator("[data-intro-film]").getAttribute("data-phase"), "horse");
+    await page.waitForFunction(() => document.querySelector("[data-intro-film]")?.getAttribute("data-phase") === "film", null, { timeout: 25000 });
+    const cut = await page.evaluate(() => {
+      const [lineage, horse] = [...document.querySelectorAll("[data-intro-film] video")];
+      const cs = (v) => getComputedStyle(v);
+      return { lineageVisible: cs(lineage).visibility, horseVisible: cs(horse).visibility, trans: cs(lineage).transitionDuration + "|" + cs(horse).transitionDuration };
+    });
+    assert.equal(cut.lineageVisible, "visible");
+    assert.equal(cut.horseVisible, "hidden");
+    assert.match(cut.trans, /^0s\|0s$/, "no transition between the two films");
+    await context.close();
+  });
+
   await check("doctrine: one statement in the editorial serif, two non-overlapping sentences", async () => {
     const { page, context } = await newPage({ width: 390, height: 844 });
     await page.goto(`${BASE}/`, { waitUntil: "domcontentloaded" });

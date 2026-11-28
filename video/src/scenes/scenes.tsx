@@ -19,7 +19,8 @@ const WO = "images/history/world/";
 const PR = "images/story/pratap/";
 const PAPER = "images/history/shared/sh01.webp";
 const STAMP = "brand/bsah-stamp-mark.webp";
-const BOND = "media/bond-field-cadet.webp";
+// 26 Nov 2026 (owner): the "today" scene shows the cadets and their black Marwari (the academy-uniforms stable-care still), in place of the bondField photograph.
+const BOND = "images/academy-uniforms/stable-care.webp";
 
 export const ARTWORK = [
   PAPER, STAMP, BOND,
@@ -318,10 +319,10 @@ function Medallion({ id, m, amount, labelIn }: { id: string; m: Medal; amount: n
 /* ───────────── S8 · 0:48 today: a cadet and a horse (the bondField photograph) ───────────── */
 export function S8Today({ f }: { f: number }) {
   const t = prog(f, 1440, 1665);
-  const pw = 1100;
-  const ph = (pw * 1340) / 2400;
-  const px = 790;
-  const py = (H - ph) / 2 + 10;
+  const pw = 1060;
+  const ph = (pw * 1024) / 1536; // stable-care is 1536 x 1024
+  const px = 820;
+  const py = (H - ph) / 2;
   const s = 1 + 0.05 * t;
   const cx = px + pw / 2;
   const cy = py + ph / 2;
@@ -331,16 +332,20 @@ export function S8Today({ f }: { f: number }) {
       <InkDefs id="s8-photo" amount={1} radius={interpolate(prog(f, 1450, 1525, house), [0, 1], [1, 560])} cx={cx} cy={cy} tear={150} grain={0.009} seed={8} />
       <defs>
         <filter id="s8-grade" colorInterpolationFilters="sRGB">
-          {/* warm the photograph toward the paper: a gentle sepia mix, held contrast */}
-          <feColorMatrix type="matrix" values="0.86 0.2 0.04 0 0.02  0.12 0.82 0.06 0 0.01  0.08 0.16 0.66 0 0  0 0 0 1 0" />
+          {/* a gentle warm grade toward the paper, contrast held */}
+          <feColorMatrix type="matrix" values="0.92 0.14 0.03 0 0.015  0.08 0.9 0.05 0 0.008  0.05 0.12 0.76 0 0  0 0 0 1 0" />
         </filter>
       </defs>
       <g mask="url(#s8-photo)" style={{ mixBlendMode: "multiply" }}>
         <g transform={`translate(${cx} ${cy}) scale(${s}) translate(${-cx} ${-cy})`}>
-          <image href={img(BOND)} x={px - 60} y={py - 34} width={pw + 120} height={ph + 68} preserveAspectRatio="xMidYMid slice" filter="url(#s8-grade)" />
+          <image href={img(BOND)} x={px - 50} y={py - 34} width={pw + 100} height={ph + 68} preserveAspectRatio="xMidYMid slice" filter="url(#s8-grade)" />
         </g>
       </g>
-      <PathTitle id="s8-t" inscription="Eight hundred years," voice="handed to your child." x0={96} x1={720} y={600} bend={16} size={60} ink={LEATHER} gold={CHESTNUT} inAmt={prog(f, 1490, 1545)} />
+      <PathTitle id="s8-t" inscription="Eight hundred years," voice="handed to your child." x0={96} x1={720} y={560} bend={16} size={60} ink={LEATHER} gold={CHESTNUT} inAmt={prog(f, 1490, 1545)} />
+      {/* the description line under the headline (owner, 26 Nov 2026) */}
+      <text x={102} y={640} fontFamily={DISPLAY} fontWeight={400} fontSize={29} letterSpacing={1.2} fill={LEATHER} opacity={prog(f, 1540, 1580)}>
+        From ancient saddle to modern character
+      </text>
     </g>
   );
 }

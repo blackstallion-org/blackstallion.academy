@@ -1620,3 +1620,35 @@ progress in another session. Not tested: Safari and a real phone.
     `crossOrigin` on effect audio does not change behaviour (a non-CORS file routed through Web Audio was silent before too);
     `VERCEL_URL` fallback only applies if Vercel stops exposing `VERCEL_PROJECT_PRODUCTION_URL`. Residual low items: S30.
   - Checks: lint 0 errors, typecheck, build, `npm test` 372/372, replica 460/460.
+- [x] **17 Nov 2026 (later) · Owner corrections: the illustrated film is back (on /about), the hero band no longer says "unavailable".**
+  - The Lineage stays the first-visit opening. The 37.5 s illustrated film "From Marwar to the black stallion, in ink" (and its score
+    "Sovereign of the Marwar") was restored and now plays on /about after the letter (`components/sections/about/IllustratedFilm.tsx`,
+    `illustratedFilm` in lib/content/intro-film.ts); the footer credits both scores.
+  - The black-horse film in the band under "Who we are" stays. Its bug: the 12 s load watchdog in `HeroFilm.tsx` started at mount, so while the
+    first-visit intro held the band paused (preload="metadata" never reaches HAVE_CURRENT_DATA), it marked a healthy film "The film is
+    unavailable". The clock now starts at the first play attempt. New browser smoke check: intro held over 12 s, skip, the band is not failed.
+- [x] **22 Nov 2026 · The intro opens with the 10 s black-horse film and cuts straight to The Lineage (owner: "put back the old horse, 10 seconds,
+  black, and cut it fast so it won't be like a fade animation"; asked: the 10 s black horse video, before the intro).**
+  The clip is the 10.0 s black Marwari stallion film that was chapter 07 of /history/marwar until 17 Nov (recovered from `083bacb^`), cropped to
+  1120 x 720 to drop the generator's corner mark, silent: `public/video/intro-horse.mp4` (0.6 MB), `-mobile.mp4` (0.2 MB), `-poster.webp`
+  (`openingHorse` in lib/content/intro-film.ts). `components/opening/IntroFilm.tsx` stacks two videos: the horse plays on a black stage while
+  The Lineage loads (paused) underneath; when the horse ends the second video is made visible in the same frame (`.video[data-hidden]` has no
+  transition). Measured frame by frame at 1440 and 390: exactly two states, horse visible then The Lineage visible at 0.01 s, overlay opacity 1
+  throughout. Skip, Esc, Sound and Play/Pause work in both parts (sound choice carries over); one progress bar spans the 70 s. The end of the
+  intro still dissolves into the page (not asked to change). Fixed on the way: React reports a skipped `<source>` as a video error, so the
+  horse's error handler checks for a real failure before cutting. Tests: intro-film.test.mjs (clip 10 s, faststart, budgets, no transition rule),
+  new smoke check (horse first, then film phase with no transition). `/history/marwar` is not changed.
+- [x] **26 Nov 2026 · New stallion film on the home Instrument plate; the Lineage's last scene changed (owner).**
+  - **Plate film** (home "The Instrument" and the /anatomy specimen plate, `StudioFilm`): the owner's new clip (`marwari_stallion_loop_720p`, 10 s) replaces
+    `stallion-loop*`: cropped to 1064 x 720 (x 120 to 1184) to frame the horse, sound removed, last 0.6 s cross-faded into the first (9.46 s; loop seam 0.89 against
+    0.3 between normal frames), phone cut 798 x 540, poster. The six hotspot points were re-measured for the new horse (`film` coordinates in `lib/content/anatomy.ts`)
+    and `FILM_ASPECT` is 1064/720. Checked on a production build at 1440 and 390: the film plays and loops, and every point sits on its part of the horse.
+  - **The Lineage, last scene** (`video/src/scenes/scenes.tsx`): the bondField photo is replaced by the cadets with their black Marwari (`images/academy-uniforms/stable-care.webp`),
+    and the line "From ancient saddle to modern character" sits under "Eight hundred years, handed to your child." Re-rendered at 1080p; the soundtrack is unchanged;
+    `public/video/the-lineage*.mp4` and posters rebuilt with `video/scripts/finish.sh` (still 60 s, 20 MB / 7 MB). Checked: lint (0 errors), typecheck, build, 350 tests, 21/21 browser checks.
+- [x] **27 Nov 2026 · Home hero copy replaced (owner's text, same format).** The first section (crest) now reads: the quote "Five hundred kilograms of living power teaches
+  what no classroom can: stillness commands strength." above the unchanged doctrine headline; two paragraphs ("A structured, syllabus-driven equestrian and character academy…"
+  and "Built for ambitious young cadets…"); the buttons "Watch the Legend" and "Find Your Campus"; then the three pillars (01 The Horse, 02 The Riding, 03 The Self) and one
+  line each For cadets, For parents, For schools. Copy in `hero` in lib/content/home.ts (`quote`, `sub`, `audience`, `pillars`, `forWhom`; `stats` is kept because
+  AcademyStats still reads it), markup in `components/sections/home/Hero.tsx`, styles in `Hero.module.css` (light and dark). Checked at 1440 and 390: no overflow, h1 unchanged.
+  Claims to confirm before launch (owner's wording, kept as given): "Certified safety gear", "ex-cavalry supervision", "zero operational headache", "STPCI/EFI competitive pathways".

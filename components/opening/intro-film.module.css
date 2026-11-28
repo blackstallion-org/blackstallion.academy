@@ -13,6 +13,17 @@
 /* landscape: the film fills the screen */
 .stage { position: absolute; inset: 0; }
 .video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--color-parch); }
+/* The cut (22 Nov 2026): the two films swap in one frame. No transition on anything here, by design. */
+.video[data-hidden] { visibility: hidden; }
+
+/* The black-horse film opens the intro on a black stage. It is 1120 x 720 (10:6.4), shown whole at every screen shape, its side edges
+   feathered into the black. The controls, which sit on parchment for The Lineage, turn light on black. */
+.root[data-phase="horse"] { background: #000; }
+.root[data-phase="horse"] .foot { display: none; }
+.horse { object-fit: contain; background: #000; mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%); }
+.root[data-phase="horse"] .skip, .root[data-phase="horse"] .note { color: color-mix(in srgb, #fff 82%, transparent); }
+.root[data-phase="horse"] .skip:hover { color: var(--color-gold); }
+.root[data-phase="horse"] .track { background: color-mix(in srgb, #fff 22%, transparent); }
 
 /* 17 Nov 2026: "The Lineage" is a 16:9 picture whose titles sit close to the sides. On landscape screens that are narrower than 16:9
    (most laptops: 16:10 and the like) filling the screen would crop its sides, so the whole picture is shown, centred, with thin parchment
