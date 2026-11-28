@@ -9,8 +9,8 @@ import { asset } from "./asset";
  */
 export const introFilm = {
   label: "The Lineage",
-  desktop: asset("/video/the-lineage.mp4"),
-  mobile: asset("/video/the-lineage-mobile.mp4"),
+  desktop: asset("/video/the-lineage-2611.mp4"),
+  mobile: asset("/video/the-lineage-2611-mobile.mp4"),
   /** the film's first frame (plain parchment), so the picture does not jump when the video starts */
   poster: asset("/video/the-lineage-intro-poster.webp"),
   /** running time in seconds (the film's own end hands over to the page) */

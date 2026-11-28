@@ -10,9 +10,10 @@ import { cn } from "@/lib/utils";
  *
  * 26 Nov 2026 (owner): the plate film is now the owner's new black-stallion clip (marwari_stallion_loop_720p, 10 s), cropped to x 120–1184 of its
  * 1280 x 720 frame (1064 x 720, no sound), its last 0.6 s cross-faded into its first (9.46 s), hotspots re-measured in lib/content/anatomy.ts.
+ * 28 Nov 2026: renamed stallion-plate-2611* (was stallion-loop*) so no browser or CDN can keep serving the old brown horse from cache.
  * The notes below describe the previous clip.
  *
- * public/video/stallion-loop.mp4 (17 Nov 2026, owner: the 5-second loop goes back on the plate; the 10 s studio film moved to the
+ * public/video/stallion-plate-2611.mp4 (17 Nov 2026, owner: the 5-second loop goes back on the plate; the 10 s studio film moved to the
  * /anatomy hero): the owner's clip horse_natural_movement_no_tack, cropped to x 104–1240 of its 1344 x 768 frame to drop the dark side strips
  * (1136 x 768), no sound. The first 0.75 s is cut and
  * the last 0.75 s cross-fades into it, so the file ends on the frame before its own first frame and the loop never jumps (4.42 s).
@@ -26,9 +27,9 @@ import { cn } from "@/lib/utils";
 
 export type FilmPoint = { id: string; name: string; title: string; x: number; y: number };
 
-const SRC = asset("/video/stallion-loop.mp4");
-const SRC_PHONE = asset("/video/stallion-loop-mobile.mp4");
-const POSTER = asset("/video/stallion-loop-poster.webp");
+const SRC = asset("/video/stallion-plate-2611.mp4");
+const SRC_PHONE = asset("/video/stallion-plate-2611-mobile.mp4");
+const POSTER = asset("/video/stallion-plate-2611-poster.webp");
 /** The film is shown whole (1064 x 720), so its box has the film's own proportions. */
 export const FILM_ASPECT = 1064 / 720;
 const ASPECT = FILM_ASPECT;

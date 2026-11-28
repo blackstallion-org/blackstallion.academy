@@ -3341,19 +3341,19 @@
       "type": "video/mp4"
     },
     {
-      "path": "video/stallion-loop-mobile.mp4",
+      "path": "video/stallion-plate-2611-mobile.mp4",
       "bytes": 182356,
       "sha256": "834697c28ebc537980ecd90176bb08d3194cb89d7cfd550203b172e11f5f40f6",
       "type": "video/mp4"
     },
     {
-      "path": "video/stallion-loop-poster.webp",
+      "path": "video/stallion-plate-2611-poster.webp",
       "bytes": 12304,
       "sha256": "5a682bbd4dd572a9bcb68a47b5d0d9fe751601a0ee0f461284981d673b553bf1",
       "type": "image/webp"
     },
     {
-      "path": "video/stallion-loop.mp4",
+      "path": "video/stallion-plate-2611.mp4",
       "bytes": 648768,
       "sha256": "10cb53f683ad5cd173f351818ed55a08da3bd3317a13bc7dca0d2c8ff7dc9311",
       "type": "video/mp4"
@@ -3401,34 +3401,34 @@
       "type": "video/mp4"
     },
     {
-      "path": "video/the-lineage-intro-poster.webp",
-      "bytes": 22142,
-      "sha256": "3f044dbd77037204f1e7808a31f7a9c43c1b9f21eec18511a6bc806491ce7e41",
-      "type": "image/webp"
-    },
-    {
-      "path": "video/the-lineage-mobile.mp4",
+      "path": "video/the-lineage-2611-mobile.mp4",
       "bytes": 7050415,
       "sha256": "d90f13eeca5043d521d641dc9b0830a67d05385936eac5c985f59188c097aad0",
       "type": "video/mp4"
     },
     {
-      "path": "video/the-lineage-poster-mobile.webp",
+      "path": "video/the-lineage-2611-poster-mobile.webp",
       "bytes": 64114,
       "sha256": "40968f412dea5ac9c93912d70ac6a9d2eb9c6050f1eda2e1bbfadf89b2f206d3",
       "type": "image/webp"
     },
     {
-      "path": "video/the-lineage-poster.webp",
+      "path": "video/the-lineage-2611-poster.webp",
       "bytes": 108488,
       "sha256": "90d5f4d3e84595091d80f8349bb0f532aee6c52ca48dda636a3e271f685be721",
       "type": "image/webp"
     },
     {
-      "path": "video/the-lineage.mp4",
+      "path": "video/the-lineage-2611.mp4",
       "bytes": 20423934,
       "sha256": "9e11706ed1c1570e6172c2564799c18b723c5c8716337abf0d9099fd1b57ad4a",
       "type": "video/mp4"
+    },
+    {
+      "path": "video/the-lineage-intro-poster.webp",
+      "bytes": 22142,
+      "sha256": "3f044dbd77037204f1e7808a31f7a9c43c1b9f21eec18511a6bc806491ce7e41",
+      "type": "image/webp"
     }
   ]
 }
