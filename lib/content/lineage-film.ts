@@ -8,10 +8,10 @@ import { navMenus, numberedPage } from "./site";
  */
 export const lineageFilm = {
   label: "The Lineage",
-  poster: asset("/video/the-lineage-poster.webp"),
-  posterMobile: asset("/video/the-lineage-poster-mobile.webp"),
-  desktop: asset("/video/the-lineage.mp4"),
-  mobile: asset("/video/the-lineage-mobile.mp4"),
+  poster: asset("/video/the-lineage-2611-poster.webp"),
+  posterMobile: asset("/video/the-lineage-2611-poster-mobile.webp"),
+  desktop: asset("/video/the-lineage-2611.mp4"),
+  mobile: asset("/video/the-lineage-2611-mobile.mp4"),
   posterAlt: "Maharana Pratap on Chetak leads the charge at Haldighati, painted in the miniature style, with the title A bond through the storm",
   duration: 60,
 };

@@ -49,6 +49,15 @@ Single source of truth: `docs/BLUEPRINT.md`. Each session ends with lint, typech
 - [ ] **Payments** (`/pay`, Razorpay) and the parent app.
 - [ ] **Commissioned photography** replaces every placeholder one-for-one.
 
+## Session 28 Nov 2026 · New film names so the live site cannot show the old horse
+
+- Owner saw the old brown horse on Specimen plate 02 (home Instrument, /anatomy) after PR #24 merged. The new stallion clip had replaced
+  the old file under the SAME name, and `/video/*` is cached for a day (plus a week stale-while-revalidate), so browsers and the CDN kept
+  the old copy. Renamed `stallion-loop*` → `stallion-plate-2611*` and `the-lineage*` → `the-lineage-2611*` (the intro and /film), with
+  references, `video/scripts/finish.sh` and the media manifest updated. Rule: when a film or image is replaced, give it a new name.
+- Checked: typecheck, lint, 374 tests, build, 21 e2e checks; /anatomy plate at 1440 and 390 plays `stallion-plate-2611*` with the six markers
+  on the stallion; `/?intro` plays the black-horse film, then The Lineage.
+
 ## Session 10 Nov 2026 · Living motion on the four history pages
 
 - `/history/india`, `/history/world`, `/story/rani-lakshmibai` and `/story/alexander-bucephalus` now move as you scroll. The code is in `components/history-scroll/HistoryScrollRoot.tsx`, with settings in `lib/content/history/motion.ts`.

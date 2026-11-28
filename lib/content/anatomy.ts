@@ -13,7 +13,7 @@ export type Hotspot = {
   metric: string;
   x: number;
   y: number;
-  /** Position on the plate film (public/video/stallion-loop.mp4, 1064 x 720, horse facing left; re-measured 26 Nov 2026 for the owner's new stallion film): % of its width and height. */
+  /** Position on the plate film (public/video/stallion-plate-2611.mp4, 1064 x 720, horse facing left; re-measured 26 Nov 2026 for the owner's new stallion film): % of its width and height. */
   film: { x: number; y: number };
   layers: { equine: string; rider: string; builds: string; legend: string };
 };
